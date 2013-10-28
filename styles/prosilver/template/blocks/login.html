@@ -1,0 +1,17 @@
+<form action="{S_LOGIN_ACTION}" method="post">
+    <div style="text-align: center">
+    <span class="genmed">{L_USERNAME}:</span><br /><input type="text" name="username" class="inputbox autowidth" tabindex="1" size="16" /><br />
+    <span class="genmed">{L_PASSWORD}:</span><br /><input type="password" name="password" class="inputbox autowidth" tabindex="2" size="16" /><br />
+    <!-- IF S_AUTOLOGIN_ENABLED -->
+        <br /><input type="checkbox" class="radio" name="autologin" tabindex="3" /> <span class="gensmall">{L_LOG_ME_IN}</span><br />
+    <!-- ENDIF -->
+    <!-- IF S_SHOW_HIDE_ME -->
+        <input type="checkbox" class="radio" name="viewonline" tabindex="4" /> <span class="gensmall">{L_HIDE_ME}</span><br />
+    <!-- ENDIF -->
+    <fieldset class="submit-buttons">
+        <input type="hidden" name="redirect" value="{U_REDIRECT}" />
+        <input type="submit" name="login" value="{L_LOGIN}" class="btnmain" tabindex="5" />
+    </fieldset>
+    </div>
+</form>
+<a href="{U_REGISTER}">{L_REGISTER}</a>

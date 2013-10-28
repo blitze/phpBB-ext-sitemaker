@@ -1,0 +1,23 @@
+{
+	"name": "primetime/primetime",
+    "type": "phpbb-extension",
+	"description": "A CMS for phpBB3.1x.",
+	"homepage": "http://www.mylatterdays.com",
+	"version": "1.0.0",
+	"time": "2012-02-15 01:01:01",
+	"licence": "GPL-2.0",
+	"authors": [{
+			"name": "Daniel A.",
+			"username": "Blitze",
+			"email": "shizzah@hotmail.com",
+			"homepage": "http://www.mylatterdays.com",
+			"role": "Developer"
+		}],
+	"require": {
+		"php": ">=5.3",
+		"phpbb/phpbb": "3.1.*@dev"
+	},
+	"extra": {
+		"display-name": "phpBB Primetime"
+	}
+}

@@ -1,0 +1,6 @@
+primetime.blocks.admin:
+    pattern: /blocks/{action}/{id}/{block}
+    defaults: { _controller: primetime.blocks.admin:handle, id: 0, block: '', _format: json }
+    requirements:
+        id: \d+
+        _format: json

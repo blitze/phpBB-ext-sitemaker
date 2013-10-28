@@ -1,0 +1,127 @@
+				</div>
+			<!-- IF .boxes -->
+				<!-- IF (S_BOXES_COUNT % 3) eq 0 -->
+					<!-- DEFINE $DIV = 3 -->
+				<!-- ELSEIF (S_BOXES_COUNT % 2) eq 0 -->
+					<!-- DEFINE $DIV = 2 -->
+				<!-- ELSEIF S_BOXES_COUNT > 3 -->
+					<!-- DEFINE $DIV = 3 -->
+				<!-- ELSE -->
+					<!-- DEFINE $DIV = 1 -->
+				<!-- ENDIF -->
+				<div class="line">
+					<!-- BEGIN boxes -->
+					<div class="unit size1of{$DIV}<!-- IF (boxes.S_ROW_COUNT % $DIV + 1) eq $DIV --> lastUnit<!-- ENDIF -->">
+					<!-- IF not boxes.NO_WRAP -->
+						<div class="panel post{boxes.CLASS} cms-block-spacing">
+							<div class="inner">
+								<span class="corners-top"><span></span></span>
+								<!-- IF boxes.TITLE --><h3><i class="{boxes.ICON}"></i> {boxes.TITLE}</h3><!-- ENDIF -->
+									<div class="cms-block-content">
+										{boxes.CONTENT}
+									</div>
+								<span class="corners-bottom"><span></span></span>
+							</div>
+						</div>
+					<!-- ELSE -->
+						<div class="post{boxes.CLASS} cms-block-spacing">{boxes.CONTENT}</div>
+					<!-- ENDIF -->
+					</div>
+			<!-- IF (boxes.S_ROW_COUNT % $DIV + 1) eq $DIV -->
+				</div>
+				<div class="line">
+			<!-- ENDIF -->
+					<!-- END boxes -->
+				</div>
+				<!-- UNDEFINE $DIV -->
+			<!-- ENDIF -->
+
+			<!-- BEGIN bottom -->
+			<!-- IF not bottom.NO_WRAP -->
+				<div class="panel post cms-block-container{bottom.CLASS} cms-block-spacing">
+					<div class="inner">
+						<span class="corners-top"><span></span></span>
+						<!-- IF bottom.TITLE --><h3><i class="{bottom.ICON}"></i> {bottom.TITLE}</h3><!-- ENDIF -->
+							<div class="cms-block-content">
+								{bottom.CONTENT}
+							</div>
+						<span class="corners-bottom"><span></span></span>
+					</div>
+				</div>
+			<!-- ELSE -->
+				<div class="post{bottom.CLASS} cms-block-spacing">{bottom.CONTENT}</div>
+			<!-- ENDIF -->
+			<!-- END bottom -->
+			</div>
+
+			<!-- IF .subcontent -->
+			<div class="unit size1of4 lastUnit nrs">
+			<!-- BEGIN subcontent -->
+			<!-- IF not subcontent.NO_WRAP -->
+				<div class="panel post cms-block-container{subcontent.CLASS} cms-block-spacing">
+					<div class="inner">
+						<span class="corners-top"><span></span></span>
+						<!-- IF subcontent.TITLE --><h3><i class="{subcontent.ICON}"></i> {subcontent.TITLE}</h3><!-- ENDIF -->
+							<div class="cms-block-content">
+								{subcontent.CONTENT}
+							</div>
+						<span class="corners-bottom"><span></span></span>
+					</div>
+				</div>
+			<!-- ELSE -->
+				<div class="post{subcontent.CLASS} cms-block-spacing">{subcontent.CONTENT}</div>
+			<!-- ENDIF -->
+			<!-- END subcontent -->
+			</div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+</div>
+
+<!-- IF .footer -->
+<div id="pt-footer">
+	<div class="panel bg3">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+				<!-- DEFINE $COUNT = 1 -->
+				<div class="line">
+					<!-- BEGIN footer -->
+						<!-- IF $COUNT eq 1 -->
+							<!-- IF (S_FOOTER_COUNT - footer.S_ROW_COUNT) % 3 eq 0 -->
+								<!-- DEFINE $DIV = 3 -->
+							<!-- ELSEIF (S_FOOTER_COUNT - footer.S_ROW_COUNT) % 2 eq 0 -->
+								<!-- DEFINE $DIV = 2 -->
+							<!-- ELSEIF (S_FOOTER_COUNT - footer.S_ROW_COUNT) > 3 -->
+								<!-- DEFINE $DIV = 3 -->
+							<!-- ELSE -->
+								<!-- DEFINE $DIV = 1 -->
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+					<div class="unit size1of{$DIV}<!-- IF $COUNT eq $DIV or footer.S_LAST_ROW --> lastUnit<!-- ENDIF -->">
+					<!-- IF not footer.NO_WRAP -->
+						<div class="panel post {footer.CLASS} bg3 cms-block-spacing">
+							<!-- IF footer.TITLE --><h3><i class="{footer.ICON}"></i> {footer.TITLE}</h3><!-- ENDIF -->
+							<div class="cms-block-content">
+								{footer.CONTENT}
+							</div>
+						</div>
+					<!-- ELSE -->
+						<div class="post{footer.CLASS} bg3 cms-block-spacing">{footer.CONTENT}</div>
+					<!-- ENDIF -->
+					</div>
+			<!-- IF $COUNT eq $DIV and not footer.S_LAST_ROW -->
+				<!-- DEFINE $COUNT = 1 -->
+				</div>
+				<div class="line">
+			<!-- ELSE -->
+				<!-- DEFINE $COUNT = '{$COUNT} + 1' -->
+			<!-- ENDIF -->
+					<!-- END footer -->
+				</div>
+				<!-- UNDEFINE $COUNT -->
+				<!-- UNDEFINE $DIV -->
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+</div>
+<!-- ENDIF -->
