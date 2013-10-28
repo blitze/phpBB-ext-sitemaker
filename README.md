@@ -1,4 +1,4 @@
-primetime_core
+phpBB primetime
 ==============
 
-Provides core classes/functions for phpBB Primetime
+CMS extension for phpBB
