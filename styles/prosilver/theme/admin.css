@@ -116,7 +116,7 @@
 }
 
 .editable_block_title {
-	width: 25%;
+	width: auto;
 	max-width: 90%;
 	overflow: visible;
 }
