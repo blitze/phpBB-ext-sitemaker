@@ -49,11 +49,11 @@ class login implements \primetime\primetime\core\iblock
 	/**
 	* Constructor
 	*
-	* @param \phpbb\template\template			$template				Template object
-	* @param \phpbb\user                		$user       			User object
+	* @param \phpbb\template\template				$template				Template object
+	* @param \phpbb\user                			$user       			User object
 	* @param \primetime\primetime\core\primetime	$primetime				Primetime helper object
-	* @param string 							$phpbb_root_path		Relative path to phpBB root
-	* @param string 							$php_ext				PHP extension (php)
+	* @param string 								$phpbb_root_path		Relative path to phpBB root
+	* @param string 								$php_ext				PHP extension (php)
 	*/
 	public function __construct(\phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, $phpbb_root_path, $php_ext)
 	{

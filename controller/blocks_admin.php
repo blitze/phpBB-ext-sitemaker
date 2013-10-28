@@ -199,7 +199,11 @@ class blocks_admin
 
 		foreach ($bconfig as $key => $settings)
 		{
-			$block_data['settings'][$key] = $settings['default'];
+			if (!is_array($settings))
+			{
+				continue;
+			}
+			$block_data['settings'][$key] =& $settings['default'];
 		}
 
 		$this->return_data = array_merge($this->return_data,
@@ -517,7 +521,12 @@ class blocks_admin
 			
 			foreach ($df_settings as $key => $settings)
 			{
-				$row['settings'][$key] = (isset($sql_blocks_config_ary[$bid][$key])) ? $db_settsql_blocks_config_aryings[$bid][$key] : $settings['default'];
+				if (!is_array($settings))
+				{
+					continue;
+				}
+				$default =& $settings['default'];
+				$row['settings'][$key] = (isset($sql_blocks_config_ary[$bid][$key])) ? $db_settsql_blocks_config_aryings[$bid][$key] : $default;
 			}
 			$block = $b->display($row, true);
 

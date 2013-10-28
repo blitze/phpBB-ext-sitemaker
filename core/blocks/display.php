@@ -162,7 +162,12 @@ class display
 
 				foreach ($df_settings as $key => $settings)
 				{
-					$blocks[$i]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
+					if (!is_array($settings))
+					{
+						continue;
+					}
+					$default =& $settings['default'];
+					$blocks[$i]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
 				}
 			}
 
