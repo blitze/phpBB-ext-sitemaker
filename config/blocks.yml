@@ -1,0 +1,30 @@
+services:
+    primetime.block.login:
+        class: primetime\primetime\blocks\login
+        arguments:
+            - @user
+            - %core.root_path%
+            - .%core.php_ext%
+        calls:
+            - [set_name, [primetime.block.login]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.blocks.stats:
+        class: primetime\primetime\blocks\stats
+        arguments:
+            - @user
+        calls:
+            - [set_name, [primetime.block.stats]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.blocks.whois:
+        class: primetime\primetime\blocks\whois
+        arguments:
+            - @config
+            - @user
+        calls:
+            - [set_name, [primetime.block.whois]]
+        tags:
+            - { name: primetime.block }

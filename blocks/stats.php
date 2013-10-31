@@ -20,7 +20,7 @@ if (!defined('IN_PHPBB'))
 /**
 * Stats Block
 */
-class stats implements \primetime\primetime\core\iblock
+class stats extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
 	 * Constructor method
@@ -28,11 +28,6 @@ class stats implements \primetime\primetime\core\iblock
 	public function __construct(\phpbb\user $user)
 	{
 		$this->user = $user;
-	}
-
-	public function config()
-	{
-		return array();
 	}
 
 	public function display($settings, $edit_mode = false)

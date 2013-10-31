@@ -53,6 +53,12 @@ class display
 	protected $template;
 
 	/**
+	* Blocks template object
+	* @var \phpbb\template\template
+	*/
+	protected $btemplate;
+
+	/**
 	* User object
 	* @var \phpbb\user
 	*/
@@ -95,7 +101,7 @@ class display
 	* @param string								$blocks_config_table	Name of the blocks_config database table
 	* @param string								$block_positions_table	Name of the block_positions database table
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, $blocks_table, $blocks_config_table, $block_positions_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\user $user, $blocks_table, $blocks_config_table, $block_positions_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -103,6 +109,7 @@ class display
 		$this->cache = $cache;
 		$this->request = $request;
 		$this->template = $template;
+		$this->btemplate = $btemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
 		$this->block_positions_table = $block_positions_table;
@@ -158,7 +165,7 @@ class display
 				}
 
 				$b = $phpbb_container->get($block_service);
-				$df_settings = $b->config();
+				$df_settings = $b->get_config();
 
 				foreach ($df_settings as $key => $settings)
 				{
@@ -230,6 +237,7 @@ class display
 			if ($phpbb_container->has($block_service))
 			{
 				$b = $phpbb_container->get($block_service);
+				$b->set_template($this->btemplate);
 				$block = $b->display($row, $edit_mode);
 
 				if (!trim($block['content']))

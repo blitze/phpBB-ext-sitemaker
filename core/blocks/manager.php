@@ -78,10 +78,10 @@ class manager
 	* @param \phpbb\request\request_interface	$request 				Request object
 	* @param \phpbb\template\template			$template				Template object
 	* @param \phpbb\user                		$user       			User object
-	* @param \primetime\primetime\core\icons		$icons					Primetime icons object
+	* @param \primetime\primetime\core\icons	$icons					Primetime icons object
 	* @param string								$blocks_table			Name of the blocks database table
 	*/
-	function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icons $icons, $blocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icons $icons, $blocks_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -92,7 +92,7 @@ class manager
 		$this->blocks_table = $blocks_table;
 	}
 
-	function handle($route)
+	public function handle($route)
 	{
 		global $phpbb_root_path, $phpEx;
 
@@ -124,26 +124,28 @@ class manager
 		return true;
 	}
 
-	function get_available_blocks()
+	public function get_available_blocks()
 	{
-		if (($blocks = $this->cache->get('_pt_blocks')) === false)
+		if (($blocks = $this->cache->get('_primetime_blocks')) === false)
 		{
 			global $phpbb_container;
 
-			$blocks = $phpbb_container->findTaggedServiceIds('primetime.block');
-			$this->cache->put('_pt_blocks', $blocks);
+			$factory = $phpbb_container->get('primetime.blocks.factory');
+			
+			$blocks = $factory->get_all_blocks();
+			$this->cache->put('_primetime_blocks', $blocks);
 		}
 
-		foreach ($blocks as $service => $details)
+		foreach ($blocks as $service => $name)
 		{
 			$this->template->assign_block_vars('block', array(
-				'NAME'		=> $details[0]['alias'],
+				'NAME'		=> $name,
 				'SERVICE'	=> $service)
 			);
 		}
 	}
 
-	function get_page_routes($route)
+	public function get_page_routes($route)
 	{
 		$sql_array = array(
 			'SELECT'	=> 'b.route',

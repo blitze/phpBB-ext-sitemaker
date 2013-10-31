@@ -23,10 +23,10 @@ if (!defined('IN_PHPBB'))
 class primetime
 {
 	/**
-	 * Database
-	 * @var phpbb_db_driver
-	 */
-	protected $db;
+	* User object
+	* @var \phpbb\user
+	*/
+	protected $user;
 
 	/**
 	* Template object
@@ -43,15 +43,15 @@ class primetime
 	/**
 	* Constructor
 	*
-	* @param \phpbb\template\template			$template				Template object
-	* @param \phpbb\user                		$user       			User object
-	* @param \primetime\primetime\core\primetime	$primetime				Primetime helper object
-	* @param string 							$phpbb_root_path		Relative path to phpBB root
-	* @param string 							$php_ext				PHP extension (php)
+	* @param \phpbb\user                $user       		User object
+	* @param \phpbb\template\template	$template			Template object
+	* @param \phpbb\template\template	$btemplate			Primetime template object
+	* @param string 					$phpbb_root_path	Relative path to phpBB root
+	* @param string 					$php_ext			PHP extension (php)
 	*/
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\template\template $template, \phpbb\template\template $btemplate)
+	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \phpbb\template\template $btemplate)
 	{
-		$this->db = $db;
+		$this->user = $user;
 		$this->template = $template;
 		$this->btemplate = $btemplate;
 		$this->scripts = array(
@@ -102,24 +102,6 @@ class primetime
 		}
 
 		$this->scripts = array();
-	}
-	
-	/**
-	 * Render Primetime Block
-	 * 
-	 * @param string $namespace extension namespace
-	 * @param string $tpl_file	html template file
-	 * @param string $handle	template handle
-	 */
-	public function render_block($namespace, $tpl_file, $handle)
-	{
-		$this->btemplate->set_style(array("ext/$namespace/styles"));
-
-		$this->btemplate->set_filenames(array(
-			$handle	=> $tpl_file)
-		);
-	
-		return $this->btemplate->assign_display($handle);
 	}
 
 	/**

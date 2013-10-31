@@ -1,12 +1,13 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: blocks.yml }
 
 services:
 
     primetime:
         class: primetime\primetime\core\primetime
         arguments:
-            - @dbal.conn
+            - @user
             - @template
             - @primetime.template
 
@@ -24,6 +25,7 @@ services:
             - @dbal.conn
             - @request
             - @template
+            - @primetime.template
             - @user
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
@@ -37,6 +39,7 @@ services:
             - @dbal.conn
             - @request
             - @template
+            - @primetime.template
             - @user
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
@@ -53,38 +56,27 @@ services:
             - @primetime.icons
             - %tables.primetime.blocks%
 
+    primetime.block_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: primetime.block }
+
+    primetime.blocks.factory:
+        class: primetime\primetime\core\blocks\factory
+        arguments:
+            - @primetime.block_collection
+
+    primetime.template_context:
+        class: phpbb\template\context
+
     primetime.template:
-        class: phpbb\template\twig\twig
+        class: \primetime\primetime\core\blocks\template
         arguments:
             - @path_helper
             - @config
             - @user
-            - @template_context
+            - @primetime.template_context
             - @ext.manager
 
-# Blocks
-    primetime.blocks.login:
-        class: primetime\primetime\blocks\login
-        arguments:
-            - @primetime.template
-            - @user
-            - @primetime
-            - %core.root_path%
-            - .%core.php_ext%
-        tags:
-            - { name: primetime.block, alias: Login }
-
-    primetime.blocks.stats:
-        class: primetime\primetime\blocks\stats
-        arguments:
-            - @user
-        tags:
-            - { name: primetime.block, alias: Stats }
-
-    primetime.blocks.whois:
-        class: primetime\primetime\blocks\whois
-        arguments:
-            - @user
-            - @primetime
-        tags:
-            - { name: primetime.block, alias: Whois }

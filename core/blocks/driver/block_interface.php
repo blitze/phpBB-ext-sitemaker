@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core;
+namespace primetime\primetime\core\blocks\driver;
 
 /**
  * @ignore
@@ -20,9 +20,11 @@ if (!defined('IN_PHPBB'))
 /**
 *
 */
-interface iblock
+interface block_interface
 {
-	public function config();
+	public function get_name();
+
+	public function get_config();
 
 	public function display($bconfig);
 }

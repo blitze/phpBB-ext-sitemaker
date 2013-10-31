@@ -56,6 +56,12 @@ class blocks_admin
 	protected $template;
 
 	/**
+	* Template object for primetime blocks
+	* @var \primetime\primetime\core\block_template
+	*/
+	protected $btemplate;
+
+	/**
 	* User object
 	* @var \phpbb\user
 	*/
@@ -87,12 +93,13 @@ class blocks_admin
 	* @param \phpbb\db\driver\driver			$db						Database object
 	* @param \phpbb\request\request_interface	$request 				Request object
 	* @param \phpbb\template\template			$template				Template object
+	* @param \primetime\primetime\core\blocks\template	$btemplate				Primetime template object
 	* @param \phpbb\user                		$user       			User object
 	* @param string								$blocks_table			Name of the blocks database table
 	* @param string								$blocks_config_table	Name of the blocks_config database table
 	* @param string								$block_positions_table	Name of the block_positions database table
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, $blocks_table, $blocks_config_table, $block_positions_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\user $user, $blocks_table, $blocks_config_table, $block_positions_table)
 	{
 		$this->db = $db;
 		$this->auth = $auth;
@@ -100,6 +107,7 @@ class blocks_admin
 		$this->user = $user;
 		$this->request = $request;
 		$this->template = $template;
+		$this->btemplate = $btemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
 		$this->block_positions_table = $block_positions_table;
@@ -195,7 +203,8 @@ class blocks_admin
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
 		$b = $phpbb_container->get($service);
-		$bconfig = $b->config();
+		$bconfig = $b->get_config();
+		$b->set_template($this->btemplate);
 
 		foreach ($bconfig as $key => $settings)
 		{
@@ -244,7 +253,8 @@ class blocks_admin
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$default_settings = $b->config();
+		$default_settings = $b->get_config();
+		$b->set_template($this->btemplate);
 
 		// Output relevant settings
 		foreach ($default_settings as $config_key => $vars)
@@ -327,7 +337,8 @@ class blocks_admin
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$settings = $b->config($bdata);
+		$settings = $b->get_config($bdata);
+		$b->set_template($this->btemplate);
 
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($this->request->variable('config', array('' => ''), true)) : $bconfig;
 
@@ -517,7 +528,7 @@ class blocks_admin
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$b = $phpbb_container->get($row['name']);
-			$df_settings = $b->config();
+			$df_settings = $b->get_config();
 			
 			foreach ($df_settings as $key => $settings)
 			{
@@ -528,6 +539,8 @@ class blocks_admin
 				$default =& $settings['default'];
 				$row['settings'][$key] = (isset($sql_blocks_config_ary[$bid][$key])) ? $db_settsql_blocks_config_aryings[$bid][$key] : $default;
 			}
+			
+			$b->set_template($this->btemplate);
 			$block = $b->display($row, true);
 
 			$data[$row['pname']][] = array(
