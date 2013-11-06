@@ -1,0 +1,126 @@
+.tree-builder ol {
+    margin: 0;
+    padding: 0;
+    padding-left: 25px;
+    list-style-type: none;
+}
+
+.tree-builder ol ol {
+    margin: 0 0 0 4px;
+}
+
+.tree-builder ol {
+    margin: 4em 0;
+}
+
+.tree-builder li {
+    margin: 2px 0 0 0;
+    padding: 0;
+}
+
+.tree-builder li div {
+    font-weight: bold;
+    padding: 5px;
+    height: 20px;
+    margin: 0;
+    cursor: move;
+}
+
+.tree-builder li .editable,
+.tree-builder li input {
+	height: 16px;
+	display: inline-block;
+    cursor: pointer;
+	cursor: hand;
+}
+
+.tree-builder li .editable {
+    height: 20px;
+    padding-right: 4px;
+}
+
+.tree-builder li .editable:hover {
+    border: 1px solid #d5f8a0;
+}
+
+.tree-builder .icon img, #icon-prev img {
+    width: 15px;
+    max-width: 15px;
+    margin-right: 2px;
+    vertical-align: central;
+    height: auto;
+}
+
+#loading, #ajax-message {
+    display: none;
+    border: 2px solid #ccc;
+    background-color: #d5f8a0;
+    padding: 5px;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#ajax-message {
+    color: #e11414;
+    font-weight: bold;
+}
+
+#inline-form {
+    display: inline;
+}
+
+#icons {
+    display: none;
+    width: 155px;
+    height: 170px;
+    z-index: 1000;
+    border: 1px solid #ccc;
+}
+
+.inline-icon {
+    width: 20px;
+    height: 18px;
+    display: block;
+    margin-right: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.inline-icon img, .icons img {
+    width: 15px;
+    height: 15px;
+    margin: 4px;
+}
+
+.placeholder {
+    background-color: #cfcfcf;
+}
+
+.ui-nestedSortable-error {
+    background: #fbe3e4;
+    color: #8a1f11;
+}
+
+.error {
+    color: red;
+    font-weight: bolder;
+    font-size: 9px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.item-action {
+    cursor: auto;
+}
+
+.item-action span:hover {
+    border: 1px solid #ccc;
+}
