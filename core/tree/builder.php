@@ -495,7 +495,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$new_id++;
 
 			// Then we go through any children and update their left/right id's
-			$this->recalc_nested_sets($new_id, $row[$this->pk], $depth + 1);
+			$this->recalc_nestedset($new_id, $row[$this->pk], $depth + 1);
 
 			// Then we come back and update the right_id for this module
 			if ($row['right_id'] != $new_id)
@@ -529,7 +529,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	 *											4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
 	 *										)
 	 */
-	public function string_to_nestedset($structure, $table_fields)
+	public function string_to_nestedset($structure, $table_fields, $data = array())
 	{
 		$field_size = sizeof($table_fields);
 		$fields = array_keys($table_fields);
@@ -553,7 +553,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 
 			$key = $i + 1;
 			$field_values = array_intersect_key(array_map('trim', explode('|', trim($string))), $values);
-			$adj_tree[$key] = array_combine($fields, $field_values);
+			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
 			$adj_tree[$key][$this->pk] = $key;
 			$adj_tree[$key]['parent_id'] = $parent_id;
 
@@ -586,16 +586,6 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 
 		return $indexed[0]['children'];
-	}
-
-	/**
-	 * Return errors
-	 * 
-	 * @return array
-	 */
-	public function get_errors()
-	{
-		return $this->errors;
 	}
 
 	/**
