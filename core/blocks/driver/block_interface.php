@@ -24,7 +24,7 @@ interface block_interface
 {
 	public function get_name();
 
-	public function get_config();
+	public function get_config($db_data);
 
-	public function display($bconfig);
+	public function display($db_data);
 }

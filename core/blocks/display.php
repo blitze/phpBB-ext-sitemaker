@@ -165,7 +165,7 @@ class display
 				}
 
 				$b = $phpbb_container->get($block_service);
-				$df_settings = $b->get_config();
+				$df_settings = $b->get_config($db_settings);
 
 				foreach ($df_settings as $key => $settings)
 				{
@@ -240,7 +240,7 @@ class display
 				$b->set_template($this->btemplate);
 				$block = $b->display($row, $edit_mode);
 
-				if (!trim($block['content']))
+				if (empty($block['content']))
 				{
 					continue;
 				}

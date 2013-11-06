@@ -203,7 +203,7 @@ class blocks_admin
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
 		$b = $phpbb_container->get($service);
-		$bconfig = $b->get_config();
+		$bconfig = $b->get_config(array());
 		$b->set_template($this->btemplate);
 
 		foreach ($bconfig as $key => $settings)
@@ -226,7 +226,7 @@ class blocks_admin
 	*/
 	public function edit($bid)
 	{
-		global $phpbb_container, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $phpbb_root_path, $phpEx, $user;
 
 		include($phpbb_root_path . 'includes/functions_acp.' . $phpEx);
 
@@ -253,7 +253,7 @@ class blocks_admin
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$default_settings = $b->get_config();
+		$default_settings = $b->get_config($db_config);
 		$b->set_template($this->btemplate);
 
 		// Output relevant settings
@@ -284,6 +284,16 @@ class blocks_admin
 			else if ($vars['explain'])
 			{
 				$l_explain = (isset($user->lang[$vars['lang'] . '_EXPLAIN'])) ? $user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+			}
+
+			// this looks bad but its the only way without modifying phpbb code
+			if ($type[0] == 'select' && isset($vars['function']))
+			{
+				$options = $vars['params'][0];
+				foreach ($options as $key => $title)
+				{
+					$user->lang[$title] = $title;
+				}
 			}
 
 			$content = build_cfg_template($type, $config_key, $db_config, $config_key, $vars);
@@ -337,7 +347,7 @@ class blocks_admin
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$settings = $b->get_config($bdata);
+		$settings = $b->get_config(array());
 		$b->set_template($this->btemplate);
 
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($this->request->variable('config', array('' => ''), true)) : $bconfig;
@@ -477,7 +487,7 @@ class blocks_admin
 		for ($i = 0, $size = sizeof($new_blocks); $i < $size; $i++)
 		{
 			$row = $new_blocks[$i];
-			$mapped_ids[$row['bid']] = $bid++;
+			$mapped_ids[$row['bid']] = ++$bid;
 
 			$sql_blocks[] = array(
 				'bid'			=> $bid,
@@ -504,16 +514,18 @@ class blocks_admin
 		$sql = 'SELECT * FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', array_keys($mapped_ids));
 		$result = $this->db->sql_query($sql);
 
+		$sql_blocks_config_ary = $blocks_config = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$row['bid'] = (int) $mapped_ids[$row['bid']];
-			$sql_blocks_config_ary[$row['bid']] = $row;
+			$sql_blocks_config_ary[] = $row;
+			$blocks_config[$row['bid']][$row['bvar']] = $row['bval'];
 		}
 		$this->db->sql_freeresult($result);
 
 		if (sizeof($sql_blocks_config_ary))
 		{
-			$this->db->sql_multi_insert($this->blocks_config_table, array_values($sql_blocks_config_ary));
+			$this->db->sql_multi_insert($this->blocks_config_table, $sql_blocks_config_ary);
 		}
 
 		// Now let's select the new blocks and return data
@@ -528,18 +540,9 @@ class blocks_admin
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$b = $phpbb_container->get($row['name']);
-			$df_settings = $b->get_config();
-			
-			foreach ($df_settings as $key => $settings)
-			{
-				if (!is_array($settings))
-				{
-					continue;
-				}
-				$default =& $settings['default'];
-				$row['settings'][$key] = (isset($sql_blocks_config_ary[$bid][$key])) ? $db_settsql_blocks_config_aryings[$bid][$key] : $default;
-			}
-			
+
+			$row['settings'] = (isset($blocks_config[$row['bid']])) ? $blocks_config[$row['bid']] : array();
+
 			$b->set_template($this->btemplate);
 			$block = $b->display($row, true);
 
@@ -553,6 +556,7 @@ class blocks_admin
 				'content'		=> $block['content'],
 			);
 		}
+		$this->db->sql_freeresult($result);
 
 		$this->return_data['data'] = $data;
 	}

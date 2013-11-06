@@ -37,9 +37,9 @@ class login extends \primetime\primetime\core\blocks\driver\block
 	/**
 	* Constructor
 	*
-	* @param \phpbb\user                			$user       			User object
-	* @param string 								$phpbb_root_path		Relative path to phpBB root
-	* @param string 								$php_ext				PHP extension (php)
+	* @param \phpbb\user    $user       		User object
+	* @param string 		$phpbb_root_path	Relative path to phpBB root
+	* @param string 		$php_ext			PHP extension (php)
 	*/
 	public function __construct(\phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
@@ -48,7 +48,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 		$this->user = $user;
 	}
 
-	public function get_config()
+	public function get_config($data)
 	{
 		return array(
 			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),

@@ -64,7 +64,7 @@ abstract class block implements \primetime\primetime\core\blocks\driver\block_in
 	/**
 	* @inheritdoc
 	*/
-	public function get_config()
+	public function get_config($data)
 	{
 		return array();
 	}
