@@ -231,6 +231,16 @@ abstract class display
 		}
 	}
 
+	public function set_sql_condition($where)
+	{
+		$this->sql_where = $where;
+	}
+
+	/**
+	 * Return errors
+	 * 
+	 * @return array
+	 */
 	public function get_errors()
 	{
 		return $this->errors;
