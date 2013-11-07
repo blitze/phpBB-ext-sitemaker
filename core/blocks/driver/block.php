@@ -36,7 +36,7 @@ abstract class block implements \primetime\primetime\core\blocks\driver\block_in
 	protected $btemplate;
 
 	/**
-	* Construct a driver object
+	* Set block template object
 	*
 	* @param \phpbb\template\template	$btemplate	Template object
 	*/
