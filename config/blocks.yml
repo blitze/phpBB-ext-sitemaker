@@ -24,6 +24,7 @@ services:
         arguments:
             - @config
             - @user
+            - @template_context
         calls:
             - [set_name, [primetime.block.whois]]
         tags:
