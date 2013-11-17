@@ -130,7 +130,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	 * 										4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
 	 * 									);
 	 * @param	int		$parent_id  Parent id of the branch we're adding
-	 * @return	null
+	 * @return	array	newly added branch data
 	 */
 	public function add_branch($branch, $parent_id = 0, $retain_keys = false)
 	{
@@ -218,10 +218,12 @@ abstract class builder extends \primetime\primetime\core\tree\display
 				$this->update_right_side($sql_data, $right_id, $row['parent_id'], $branch);
 			}
 		}
+		$sql_data = array_values($sql_data);
 
-		$this->db->sql_multi_insert($this->table, array_values($sql_data));
-
+		$this->db->sql_multi_insert($this->table, $sql_data);
 		$this->reset_data();
+
+		return $sql_data;
 	}
 
 	/**
@@ -264,26 +266,15 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$item_ids = array_keys($items_data);
 		$tree_ids = array_keys($tree);
 
-		/** Are there any new nodes in the tree that did not exist before?
-		* The intent of this method is to update an existing tree, not add new nodes
-		*/
-		$added_items = array_diff($tree_ids, $item_ids);
-		foreach ($added_items as $id)
-		{
-			unset($tree[$id]);
-		}
-
-		// Were any items deleted from the list?
-		$deleted_items = array_diff($item_ids, $tree_ids);
-		foreach ($deleted_items as $id)
-		{
-			unset($items_data[$id]);
-		}
+		/** Remove any new nodes in the tree that did not exist before
+		 * The intent of this method is to update an existing tree, not add new nodes
+		 */
+		$tree = array_intersect_key($tree, $items_data);
 
 		// we do it this way because array_merge_recursive, would append numeric keys rather than overwrite them
 		foreach ($tree as $key => $data)
 		{
-			$items_data[$key] = array_merge($items_data[$key], $data);
+			$tree[$key] = array_merge($items_data[$key], $data);
 		}
 
 		// Rather than updating each item individually, we will just delete all items
@@ -291,7 +282,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$this->db->sql_query("DELETE FROM $this->table" . (($this->sql_where) ? ' WHERE ' . $this->sql_where : ''));
 
 		// Now we add it back
-		$this->add_branch($items_data, 0, true);
+		$this->add_branch($tree, 0, true);
 
 		$this->reset_data();
 	}
@@ -552,7 +543,8 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			}
 
 			$key = $i + 1;
-			$field_values = array_intersect_key(array_map('trim', explode('|', trim($string))), $values);
+			$field_values = array_map('trim', explode('|', trim($string))) + $values;
+
 			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
 			$adj_tree[$key][$this->pk] = $key;
 			$adj_tree[$key]['parent_id'] = $parent_id;
