@@ -202,7 +202,7 @@ abstract class display
 	
 	public function display_options($data, &$template, $handle = 'option', $selected_ids = array(), $pad_with = '|---')
 	{
-		$iteration = $right = 0;
+		$right = 0;
 		$options = $padding = '';
 		$padding_store = array('0' => '');
 
