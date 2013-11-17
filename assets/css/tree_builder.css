@@ -1,3 +1,7 @@
+.tree-builder {
+	min-height: 550px;
+}
+
 .tree-builder ol {
     margin: 0;
     padding: 0;
@@ -28,15 +32,12 @@
 
 .tree-builder li .editable,
 .tree-builder li input {
-	height: 16px;
 	display: inline-block;
+    margin-right: 4px;
+    height: 16px;
+    line-height: 16px;
     cursor: pointer;
 	cursor: hand;
-}
-
-.tree-builder li .editable {
-    height: 20px;
-    padding-right: 4px;
 }
 
 .tree-builder li .editable:hover {
@@ -51,7 +52,7 @@
     height: auto;
 }
 
-#loading, #ajax-message {
+.tree-builder #loading, .tree-builder #ajax-message {
     display: none;
     border: 2px solid #ccc;
     background-color: #d5f8a0;
@@ -62,16 +63,16 @@
     right: 0;
 }
 
-#ajax-message {
+.tree-builder #ajax-message {
     color: #e11414;
     font-weight: bold;
 }
 
-#inline-form {
-    display: inline;
+.tree-builder #inline-form {
+    display: inline-block;
 }
 
-#icons {
+.tree-builder #icons {
     display: none;
     width: 155px;
     height: 170px;
@@ -79,7 +80,13 @@
     border: 1px solid #ccc;
 }
 
-.inline-icon {
+.tree-builder #no-items {
+    margin: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tree-builder .inline-icon {
     width: 20px;
     height: 18px;
     display: block;
@@ -88,22 +95,22 @@
     border: 1px solid #ccc;
 }
 
-.inline-icon img, .icons img {
+.tree-builder .inline-icon img, .icons img {
     width: 15px;
     height: 15px;
     margin: 4px;
 }
 
-.placeholder {
+.tree-builder .placeholder {
     background-color: #cfcfcf;
 }
 
-.ui-nestedSortable-error {
+.tree-builder .ui-nestedSortable-error {
     background: #fbe3e4;
     color: #8a1f11;
 }
 
-.error {
+.tree-builder .error {
     color: red;
     font-weight: bolder;
     font-size: 9px;
@@ -117,10 +124,24 @@
     float: right;
 }
 
-.item-action {
+.tree-builder .item-action {
     cursor: auto;
 }
 
-.item-action span:hover {
+.tree-builder .item-action span:hover {
     border: 1px solid #ccc;
+}
+
+.tree-builder select, .tree-builder option {
+	width: 100%;
+	overflow: auto;
+}
+
+.tree-builder .dropped {
+	background: none;
+	background-color: #ffffff;
+	border-bottom: 0;
+	height: 35px;
+	margin-bottom: -5px;
+	z-index: 60000;
 }

@@ -1,333 +1,1 @@
-(function($) {
-
-	$.fn.treeBuilder = function(options) {
-		var addBtnOffset;
-		var itemsChanged = false, editing = false, dialogID = '', editorVal = '', itemID = 0;
-		var editForm = {}, eButtons = {}, dButtons = {}, editor = {}, nestedList = {}, noItems = {}, msgObj = {}, addBtn = {}, saveBtn = {};
-
-		var settings = $.extend({
-			ajaxUrl			: '',
-			icon			: '',
-
-			listType		: 'ol',
-			noNesting:		'.no-nest',
-
-			addBtn			: '#add-new',
-			addBulkBtn		: '#add-bulk',
-			saveBtn			: '#save',
-			loading			: '#loading',
-			ajaxMessage		: '#ajax-message',
-			nestedList		: '#sortable',
-			editForm		: '#edit-form',
-			noItems			: '#no-items',
-			editClass		: '.edit-item',
-			deleteClass		: '.delete-item',
-
-			dialogEdit		: '#dialog-edit',
-			dialogConfirm	: '#dialog-confirm'
-		}, options);
-
-		var addItem = function() {
-			saveItem('add', {});
-		};
-
-		var addHtmlItem = function(id, title) {
-			if (id) {
-				var del = '<a href="#" id="delete_' + id + '" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="' + LANG.deleteNode + '"><span class="ui-icon ui-icon-closethick">' + LANG.deleteNode + '</span></a>';
-				var edit = '<a href="#" id="edit_' + id + '" class="right item-action edit-item ui-dialog-titlebar-close ui-corner-all" title="' + LANG.editNode + '"><span class="ui-icon ui-icon-gear">' + LANG.editNode + '</span></a>';
-				var icon = '<a href="#" id="icon_' + id + '" class="left item-action icon-item ui-dialog-titlebar-close ui-corner-all"><span class="ui-icon inline-icon"></span></a>';
-
-				noItems.hide();
-				nestedList.append('<li id="item_' + id + '"><div class="ui-state-default ui-corner-all"><span class="left ui-icon ui-icon-arrowthick-2-n-s"></span>' + icon + '<span class="editable">' + title + '</span>' + del + edit + '</div></li>');
-
-				var element = $('#item_' + id);
-				makeEditable(element.find('.editable'));
-				scrollTo(element, addBtnOffset.top);
-			}
-		};
-
-		var getItem = function(id) {
-			$.get(settings.ajaxUrl + 'get/' + id, function(resp) {
-					showMessage(resp.message);
-					editForm.populate(resp);
-					$(dialogID).dialog({buttons: eButtons}).dialog('option', 'title', LANG.editNode).dialog('open');
-				},
-				'json'
-			);
-		};
-
-		var saveItem = function(mode, data) {
-			$.post(settings.ajaxUrl + mode, data,
-				function(resp){
-					if (!resp.error) {
-						if (mode === 'add') {
-							addHtmlItem(resp.id, resp.title);
-						} else if (mode === 'edit') {
-							undoEditable(resp.title);
-						}
-					} else {
-						showMessage(resp.error);
-
-						if (mode === 'edit') {
-							undoEditable(editorVal);
-						}
-					}
-				},
-				"json"
-			);
-		};
-
-		var updateItem = function() {
-			var data = editForm.serializeArray();
-			saveItem('update', data);
-		};
-
-		var saveTree = function() {
-			var data = nestedList.nestedSortable('toArray');
-			var itemsCount = data.length;
-
-			saveItem('save_tree', {'tree': data});
-
-			itemsChanged = false;
-			saveBtn.button('option', 'disabled', true);
-			if (itemsCount > 0) {
-				noItems.hide();
-			} else {
-				noItems.show();
-			}
-		};
-
-		var makeEditable = function(element) {
-			if (editing === true) {
-				editor.trigger('blur');
-				return;
-			}
-			editing = true;
-			editorVal = element.text();
-			element.replaceWith('<form id="inline-form"><input type="text" id="inline-edit" value="' + editorVal + '" /></form>');
-			editor = $('#inline-edit').focus().select();
-		};
-
-		var undoEditable = function(v) {
-			editorVal = '';
-			editing = false;
-			editor.parent().replaceWith('<span class="editable">' + v + '</span>');
-		};
-
-		var processInput = function(e) {
-			if (editing === false) {
-				return;
-			}
-
-			var id = $(e).parents().parents().parents().attr('id').substring('5');
-			var title = $(e).val();
-
-			if (id && title && title !== editorVal) {
-				saveItem('edit', {'id': id, 'title': title});
-			} else {
-				undoEditable(editorVal);
-			}
-			return false;
-		};
-
-		var scrollTo = function(element, fromHeight) {
-			var offset = element.offset();
-			var offsetTop = offset.top;
-			var totalScroll = offsetTop-fromHeight;
-
-			$('body,html').animate({
-				scrollTop: totalScroll
-			}, 1000);
-		};
-
-		var checkRequired = function() {
-			$(dialogID + ' .error').remove();
-
-			var response = true;
-			$(dialogID + ' .required').each(function() {
-				if (!$(this).val()) {
-					$('<div class="error">' + LANG.required + '</div>').insertAfter(this);
-					response = false;
-				}
-			});
-
-			return response;
-		};
-
-		var showMessage = function(message) {
-			if (message) {
-				msgObj.text(message);
-				msgObj.fadeIn().delay(3000).fadeOut();
-			}
-		};
-
-		var iconsDiv = $('#icons');
-
-		// Register events
-		nestedList = this.find(settings.nestedList).nestedSortable({
-			disableNesting: settings.noNesting,
-			forcePlaceholderSize: true,
-			listType: settings.listType,
-			handle: 'div',
-			helper:	'clone',
-			items: 'li',
-			opacity: 0.6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-			errorClass: settings.ajaxMessage,
-			update: function() {
-				itemsChanged = true;
-				if (saveBtn.button('option', 'disabled')) {
-					saveBtn.button('option', 'disabled', false);
-				}
-			}
-		});
-
-		$(document).on('click', '.editable', function() {
-			makeEditable($(this));
-		}).on('blur', '#inline-edit', function(e) {
-			processInput($(this));
-		}).on('submit', '#inline-form', function(e) {
-			e.preventDefault();
-			$(this).find('#inline-edit').trigger('blur');
-		}).on('click', settings.editClass, function() {
-			dialogID = settings.dialogEdit;
-			itemID = $(this).attr('id').substring('5');
-			getItem(itemID);
-		}).on('click', settings.deleteClass, function() {
-			var buttons = jQuery.extend({}, dButtons);
-
-			dialogID = settings.dialogConfirm;
-			itemID = $(this).attr('id').substring('7');
-
-			if ($('#item_'+itemID).children(settings.listType).children('li').length < 1) {
-				delete buttons[LANG.deleteChildNodes];
-			}
-			$(dialogID).dialog({buttons: buttons}).dialog('open');
-		}).on('click', '.icon-select', function(e) {
-			var pos = $(this).offset();
-			var height = $(this).height();
-			e.stopImmediatePropagation();
-
-			itemID = $(this).parents().parents().attr('id').substring('5');
-			iconsDiv.slideToggle().offset({
-				top: pos.top + height - 1,
-				left: pos.left
-			});
-			return false;
-		}).on('click', ':not(".inline-icon")', function() {
-			if (iconsDiv.is(':visible')) {
-				iconsDiv.slideUp();
-			}
-		}).on('click', '#icons img', function() {
-			var img = $(this).attr('src');
-			iconsDiv.slideUp();
-		});
-
-		// set button events
-		addBtn = $(settings.addBtn).button({
-			icons: {
-				primary: "ui-icon-plus"
-			}
-		}).click(function() {
-			addItem();
-			return false;
-		});
-		
-		var addBulkBtn = $(settings.addBulkBtn).button({
-			text: false,
-			icons: {
-				primary: "ui-icon-triangle-1-s"
-			}
-		}).click(function() {
-			var pos = $(this).offset();
-			var height = $(this).height();
-			$(this).parent().next().slideToggle().offset({
-				top: pos.top + height / 2,
-				left: pos.left
-			});
-			return false;
-		}).parent().buttonset().show().next().hide().find('#cancel').click(function() {
-			$(this).parent().parent().parent().parent().slideUp();
-		});
-
-		saveBtn = $(settings.saveBtn).button({
-			disabled: true,
-			icons: {
-				primary: "ui-icon-check"
-			}
-		}).click(function() {
-			if (itemsChanged === true) {
-				saveTree();
-			}
-			return false;
-		});
-
-		msgObj = $(settings.ajaxMessage).ajaxError(function() {
-			showMessage(LANG.errorMessage);
-			return false;
-		});
-
-		$(settings.loading).ajaxStart(function(){
-			$(this).fadeIn();
-		}).ajaxStop(function(){
-			$(this).fadeOut();
-		});
-
-		$(document).ajaxComplete(function(event, xhr, settings) {
-			var data = $.parseJSON(xhr.responseText);
-			if (data.errors) {
-				$(settings.ajaxMessage).html(data.errors).show().delay(3000).fadeOut();
-			}
-		});
-
-		eButtons[LANG.editNode] = function() {
-			if (checkRequired()) {
-				if (itemID) {
-					updateItem();
-				}
-				$(this).dialog('close');
-			}
-		};
-
-		eButtons[LANG.cancel] = function() {
-			$(this).dialog('close');
-		};
-
-		dButtons[LANG.deleteChildNodes] = function() {
-			$('li#item_'+itemID).remove();
-			$(this).dialog('close');
-			saveTree();
-		};
-
-		dButtons[LANG.deleteNode] = function() {
-			var o = $('#item_'+itemID);
-			o.parent(settings.listType).parent('li').append('<' + settings.listType + '>' + o.children(settings.listType).html() + '</' + settings.listType + '>');
-			o.remove();
-			$(this).dialog('close');
-			saveTree();
-		};
-
-		dButtons[LANG.cancel] = function() {
-			$(this).dialog('close');
-		};
-
-		var defDialog = {
-			autoOpen: false,
-			modal: true,
-			width: 'auto',
-			show: 'slide',
-			hide: 'slide'
-		};
-
-		var dialogAdd = $(settings.dialogEdit).dialog(defDialog);
-		var dialogConfirm = $(settings.dialogConfirm).dialog(defDialog);
-
-		noItems = $(settings.noItems);
-		editForm = $(settings.editForm);
-		addBtnOffset = addBtn.offset();
-
-	};
-})( jQuery );
+/*! * Primetime treeBuilder * Author: @blitze * Licensed under the GPL license */;(function($) {	$.widget("primetime.treeBuilder", {		options : {			ajaxUrl			: '',			primaryKey		: 'item_id',			listType		: 'ol',			noNesting		: '.no-nest',			nestedList		: '#sortable',			editForm		: '#edit-form',			noItems			: '#no-items',			addBtn			: '#add-new',			addBulkBtn		: '#add-bulk',			saveBtn			: '#save',			deleteSelBtn	: '#delete-selected',			rebuildBtn		: '#rebuild-tree',			icons			: '#icons',			selectAll		: '#select-all',			loading			: '#loading',			ajaxMessage		: '#ajax-message',			itemTemplate	: '#item-template',			editClass		: '.edit-item',			deleteClass		: '.delete-item',			selectItemClass	: '.select-item',			dialogEdit		: '#dialog-edit',			dialogConfirm	: '#dialog-confirm'		},		_create : function() {			var self = this, eventType = '', eButtons = {}, dButtons = {}, sButtons = {};			// call nested sortable			this.nestedList = this.element.addClass('tree-builder').find(this.options.nestedList).nestedSortable({				disableNesting: this.options.noNesting,				forcePlaceholderSize: true,				listType: this.options.listType,				handle: 'div',				helper:	'clone',				items: 'li',				opacity: 0.6,				placeholder: 'placeholder',				tabSize: 25,				tolerance: 'pointer',				toleranceElement: '> div',				errorClass: this.options.ajaxMessage,				update: function() {					self.itemsChanged = true;					if (self.saveBtn.button('option', 'disabled')) {						self.saveBtn.button('option', 'disabled', false);					}				}			});			// register dialogs			eButtons[LANG.editNode] = function(event) {				if (self._checkRequired()) {					if (self.itemID) {						self._updateItem();					}					$(this).dialog('close');				}			};				eButtons[LANG.cancel] = function() {				$(this).dialog('close');			};				dButtons[LANG.deleteChildNodes] = function() {				$('li#item-' + self.itemID).remove();				$(this).dialog('close');				self._saveTree();			};				dButtons[LANG.deleteNode] = function() {				var o = $('#item-' + self.itemID);				o.parent(self.options.listType).parent('li').append('<' + self.options.listType + '>' + o.children(self.options.listType).html() + '</' + self.options.listType + '>');				o.remove();				$(this).dialog('close');				self._saveTree();			};				dButtons[LANG.cancel] = function() {				$(this).dialog('close');			};				sButtons[LANG.deleteNode] = function() {				self.element.find(self.options.selectItemClass + ':checked').parentsUntil('li').parent().remove();				$(this).dialog('close');				self.deleteSelBtn.button('disable');				self._saveTree();			};				sButtons[LANG.cancel] = function() {				$(this).dialog('close');			};				var defDialog = {				autoOpen: false,				modal: true,				width: 'auto',				show: 'slide',				hide: 'slide'			};				$(this.options.dialogEdit).dialog(defDialog);			$(this.options.dialogConfirm).dialog(defDialog);			// register events			this.msgObj = this.element.find(this.options.ajaxMessage).ajaxError(function() {				self.showMessage(LANG.errorMessage);				return false;			});				this.element.find(this.options.loading).ajaxStart(function(){				$(this).fadeIn();			}).ajaxStop(function(){				$(this).fadeOut();			});			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {				self.nestedList.find(self.options.selectItemClass).prop('checked', this.checked);				this.checked ? self.deleteSelBtn.button('enable') : self.deleteSelBtn.button('disable');			});			var events = {};			events['click' + this.options.selectItemClass] = function(event) {				var numSelected = this.element.find(this.options.selectItemClass + ':checked').length;				(numSelected > 0) ? this.deleteSelBtn.button('enable') : this.deleteSelBtn.button('disable');				(numSelected === this.element.find(this.options.selectItemClass).length) ? this.selectAllObj.prop('checked', true) : this.selectAllObj.prop('checked', false);			};			events['click.editable'] = function(event) {				this._makeEditable($(event.target));			};			events['blur#inline-edit'] = function(event) {				this._processEditable($(event.target));			};			events['submit#inline-form'] = function(event) {				event.preventDefault();				$(event.target).find('#inline-edit').trigger('blur');			};			events['click' + this.options.editClass] = function(event) {				this.dialogID = this.options.dialogEdit; console.log(event);				this.itemID = $(event.currentTarget).attr('id').substring('5');				this._getItem(this.itemID);			};			events['click' + this.options.deleteClass] = function(event) {				var buttons = $.extend({}, dButtons);					this.dialogID = this.options.dialogConfirm;				this.itemID = $(event.currentTarget).attr('id').substring('7');					if ($('#item-' + this.itemID).children(this.options.listType).children('li').length < 1) {					delete buttons[LANG.deleteChildNodes];				}				$(this.dialogID).dialog({buttons: buttons}).dialog('open');			};			events['click.icon-select'] = function(event) {				var pos = $(event.target).offset();				var height = $(event.target).height();				event.stopImmediatePropagation();					this.itemID = $(event.currentTarget).parents().parents().attr('id').substring('5');				this.iconsDiv.slideToggle().offset({					top: pos.top + height - 1,					left: pos.left				});				return false;			};			events['click:not(".inline-icon")'] = function(event) {				if (this.iconsDiv.is(':visible')) {					this.iconsDiv.slideUp();				}			};			events['click#icons img'] = function(event) {				var img = $(event.target).attr('src');				this.iconsDiv.slideUp();			};			this._on(this.document, events);			// set button events			this.addBtn = this.element.find(this.options.addBtn).button({				icons: {					primary: "ui-icon-plus"				}			}).click(function(event) {				self._addItem();				return false;			});			this.addBulkBtn = this.element.find(this.options.addBulkBtn).button({				text: false,				icons: {					primary: "ui-icon-triangle-1-s"				}			}).click(function(event) {				var pos = $(event.target).offset();				var height = $(event.target).height();				var form = $(event.currentTarget).toggleClass('dropped').blur().parent().next().slideToggle().offset({					top: pos.top + height / 2,					left: pos.left - 165				});				if ($(event.currentTarget).hasClass('dropped') === true) {					form.find('select').html(self._get_options()).next().val();				}				return false;			});			this.addBulkBtn.parent().buttonset().show().next().hide().find('#cancel').click(function(event) {				self.addBulkBtn.trigger('click');			}).next().click(function(event) {				var form = $(event.target).parentsUntil('form').parent();				self._addBulk(form.serialize());				self.addBulkBtn.trigger('click');				form.find('textarea').val();				event.preventDefault();			});				this.rebuildBtn = this.element.find(this.options.rebuildBtn).button({				disabled: true,				icons: {					primary: "ui-icon-refresh"				}			}).click(function(event) {				self.rebuildTree();				return false;			});				this.deleteSelBtn = this.element.find(this.options.deleteSelBtn).button({				disabled: true,				icons: {					primary: "ui-icon-trash"				}			}).click(function(event) {				self.dialogID = self.options.dialogConfirm;				$(self.dialogID).dialog({buttons: sButtons}).dialog('open');				return false;			});				this.saveBtn = this.element.find(this.options.saveBtn).button({				disabled: true,				icons: {					primary: "ui-icon-check"				}			}).click(function(event) {				if (self.itemsChanged === true) {					self._saveTree();				}				return false;			});			this.addBtnOffset = this.addBtn.offset();			this.iconsDiv = this.element.find(this.options.icons);			this.noItems = this.element.find(this.options.noItems);			this.itemTemplate = this.element.find(this.options.itemTemplate).html();			this.editForm = $(this.options.editForm);			this.getItems();		},		_addItem : function() {			this._saveItem('add', {});		},		_addBulk : function(data) {			var self = this;			$.post(this.options.ajaxUrl + 'add_bulk', data,				function(resp){					if (!resp.error) {						self._addToTree(resp.items);					} else {						self.showMessage(resp.error);					}				},				"json"			);		},		_addToTree : function(items, i, callback) {			i = (i !== undefined) ? i : 0;			if (items[i] !== undefined) {				item = items[i++];				this.noItems.hide();				if (item.parent_id > 0) {					var parentObj = $('#item-' + item.parent_id);					var children = parentObj.children(this.options.listType);					if (children.length === 0) {						html = $('<' + this.options.listType + '>' + this._template(item, this.itemTemplate) + '</' + this.options.listType + '>').hide();						html.appendTo(parentObj);					} else {						html = $(this._template(item, this.itemTemplate)).hide();						html.appendTo(parentObj.children(this.options.listType));					}				} else {					html = $(this._template(item, this.itemTemplate)).hide();					html.appendTo(this.nestedList);				}				var self = this;				html.effect('slide', {'direction': 'right', 'mode': 'show'}, 300, function() {					self._addToTree(items, i, callback);				});			}			if (callback !== undefined) {				callback.apply(this, [items]);			}		},		_getItem : function(id) {			var self = this;			$.get(this.options.ajaxUrl + 'get_item/' + id, function(resp) {				self.showMessage(resp.message);				self.editForm.populate(resp);				$(self.dialogID).dialog({					buttons : self.eButtons				}).dialog('option', 'title', LANG.editNode).dialog('open');			}, 'json');		},		getItems : function() {			var self = this;			this.nestedList.empty().hide();			this.noItems.show();			this.addBulkBtn.parent().next().slideUp();			this.selectAllObj.parent().hide();			this.deleteSelBtn.button('disable').hide();			this.rebuildBtn.button('disable').hide();			this.saveBtn.button('disable').hide();			$.getJSON(this.options.ajaxUrl + 'get_all_items', function(data) {				if (data.items.length > 0) {					self._addToTree(data.items);					self.noItems.hide();					self.nestedList.show();					self.selectAllObj.parent().show();					self.deleteSelBtn.show();					self.saveBtn.show();					self.rebuildBtn.button('enable').show();				}			});		},		rebuildTree : function() {			var self = this;			this.nestedList.empty();			this.deleteSelBtn.button('disable');			this.saveBtn.button('disable');			this.addBulkBtn.parent().next().slideUp();			$.getJSON(ajaxUrl + 'rebuild_tree', function(data) {				self._addToTree(data.items);			});		},		showMessage : function(message) {			if (message) {				this.msgObj.text(message);				this.msgObj.fadeIn().delay(3000).fadeOut();			}		},		_saveItem : function(mode, data, id, field) {			var self = this;			$.post(this.options.ajaxUrl + mode + '/' + ((id !== undefined) ? id : 0), data,				function(resp){					if (!resp.error) {						if (mode === 'add') {							self._addToTree([resp], 0, function() {								var element = $('#item-' + resp[self.options.primaryKey]);								self._scrollTo(element, self.addBtnOffset.top, function() {									element.find('.editable').trigger('click');								});							});						} else if (mode === 'edit') {							self._undoEditable(resp[field]);						}					} else {						self.showMessage(resp.error);						if (mode === 'edit') {							self._undoEditable(self.editorVal);						}					}				},				"json"			);		},		_updateItem : function() {			this._saveItem('update', this.editForm.serializeArray());		},		_saveTree : function() {			var data = this.nestedList.nestedSortable('toArray');			var itemsCount = data.length;			this._saveItem('save_tree', {				'tree' : data			});			this.itemsChanged = false;			this.saveBtn.button('option', 'disabled', true);			if (itemsCount > 0) {				this.noItems.hide();			} else {				this.noItems.show();			}		},		_get_options : function() {			var titles = this.element.find('.editable');			var data = this.nestedList.nestedSortable('toArray');			var right = 0, padding = "", options = "";			var paddingStore = {};			options = '<option value="0">' + LANG.none + '</option>';			paddingStore['0'] = "";			$.each(data, function(i, row) {				var item_id = row.item_id;				var left_id = row.left - 1;				var right_id = row.right - 1;				var parent_id = (row.parent_id !== null) ? row.parent_id : 0;				if (item_id !== null) {						if (left_id < right) {						padding += "&nbsp;&nbsp;&nbsp;&nbsp;";						paddingStore[parent_id] = padding;					} else if (left_id > right + 1) {						padding = (paddingStore[parent_id] !== undefined) ? paddingStore[parent_id] : '';					}					right = right_id;					title = padding + '&#x251c;&#x2500; ' + titles.eq(i-1).text();					options += '<option value="' + item_id + '">' + title + '</option>';				}			});			return options;		},		_makeEditable : function(element) {			if (this.editing === true) {				this.editor.trigger('blur');				return;			}			this.editing = true;			this.editorVal = element.text();			element.replaceWith('<form id="inline-form"><input type="text" id="inline-edit" value="' + this.editorVal + '" /></form>');			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();		},		_undoEditable : function(v) {			this.editorVal = '';			this.editing = false;			this.editor.parent().replaceWith('<span class="editable" data-field="' + this.editor.data('field') + '">' + v + '</span>');		},		_processEditable : function(e) {			if (this.editing === false) {				return;			}			var id = $(e).parentsUntil('li').parent().attr('id').substring('5');			var field = $(e).data('field');			var val = $(e).val();			var data = {};			if (id && field && val && val !== this.editorVal) {				data[field] = val;				this._saveItem('edit', data, id, field);			} else {				this._undoEditable(this.editorVal);			}			return false;		},		_scrollTo : function(element, fromHeight, callback) {			var offset = element.offset();			var offsetTop = offset.top;			var totalScroll = offsetTop - fromHeight;			this.nestedList.animate({				scrollTop : totalScroll			}, 1000, callback);		},		_checkRequired : function() {			$(this.dialogID + ' .error').remove();			var response = true;			$(this.dialogID + ' .required').each(function() {				if (!$(this).val()) {					$('<div class="error">' + LANG.required + '</div>').insertAfter(this);					response = false;				}			});			return response;		},		_template : function(tokens, tpl) {			return tpl.replace(/<%=(.+?)%>/g, function(token, match) {				return (tokens[match] !== undefined) ? tokens[match] : '';			});		}	});})(jQuery);
