@@ -39,15 +39,14 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	/**
 	 * Adds a single node as the child of a given parent node
 	 * 
-	 * @param	int		$parent_id		The ID of the parent node.
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
 	 * @return	mixed	Returns the ID of the newly inserted node or FALSE upon error.
 	 */
-	public function add_node($parent_id, &$sql_data)
+	public function add_node(&$sql_data)
 	{
-		if ($parent_id)
+		if (isset($sql_data['parent_id']) && $sql_data['parent_id'] > 0)
 		{
-			$row = $this->get_row($parent_id);
+			$row = $this->get_row($sql_data['parent_id']);
 
 			if (!$row)
 			{
@@ -73,7 +72,6 @@ abstract class builder extends \primetime\primetime\core\tree\display
 
 			$sql_data['left_id']	= $parents_right_id;
 			$sql_data['right_id']	= $parents_right_id + 1;
-			$sql_data['parent_id']	= $parent_id;
 			$sql_data['depth']		= $parents_depth + 1;
 		}
 		else
@@ -104,10 +102,9 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	 * 
 	 * @param	int		$node_id	id of the node to be updated
 	 * @param	array	$sql_data	Other item attributes to insert in the database ex. array('title' => 'Item 1').
-	 * @param	int		$parent_id	id of the parent node (optional)
 	 * @return	null
 	 */
-	public function save_node($node_id, &$sql_data, $parent_id = 0)
+	public function save_node($node_id, &$sql_data)
 	{
 		if ($node_id)
 		{
@@ -115,7 +112,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 		else
 		{
-			$this->add_node($parent_id, $sql_data);
+			$this->add_node($sql_data);
 		}
 	}
 
@@ -235,7 +232,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	 */
 	public function update_node($node_id, &$sql_data)
 	{
-		if (isset($sql_data))
+		if (isset($sql_data['parent_id']))
 		{
 			$this->change_branch($node_id, $sql_data['parent_id']);
 
