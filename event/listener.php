@@ -24,28 +24,32 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class listener implements EventSubscriberInterface
 {
-	public function __construct()
+	/* @var \primetime\primetime\core\primetime */
+	protected $primetime;
+	
+	/* @var \primetime\primetime\core\blocks\display */
+	protected $blocks;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param \primetime\primetime\core\primetime		$primetim		Primetime helper object
+	 * @param \primetime\primetime\core\blocks\display	$blocks			Blocks display object
+	*/
+	public function __construct(\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks)
 	{
-		global $phpbb_container;
-
-		$this->primetime = $phpbb_container->get('primetime');
-		$this->blocks = $phpbb_container->get('primetime.blocks.display');
+		$this->primetime = $primetime;
+		$this->blocks = $blocks;
 	}
 
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.page_footer'		=> 'init_front',
-			'core.adm_page_footer'  => 'init_admin',
+			'core.page_footer'		=> 'init',
 		);
 	}
 
-	public function init_admin()
-	{
-		$this->primetime->set_assets();
-	}
-
-	public function init_front()
+	public function init($event)
 	{
 		$this->primetime->init();
 		$this->blocks->show();

@@ -68,6 +68,14 @@ services:
         arguments:
             - @primetime.block_collection
 
+    primetime.listener:
+        class: primetime\primetime\event\listener
+        arguments:
+            - @primetime
+            - @primetime.blocks.display
+        tags:
+            - { name: event.listener }
+
     primetime.template_context:
         class: phpbb\template\context
 
