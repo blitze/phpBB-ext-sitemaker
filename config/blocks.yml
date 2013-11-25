@@ -13,6 +13,7 @@ services:
     primetime.blocks.stats:
         class: primetime\primetime\blocks\stats
         arguments:
+            - @config
             - @user
         calls:
             - [set_name, [primetime.block.stats]]
@@ -23,7 +24,6 @@ services:
         class: primetime\primetime\blocks\whois
         arguments:
             - @config
-            - @user
             - @template_context
         calls:
             - [set_name, [primetime.block.whois]]

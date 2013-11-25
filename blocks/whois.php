@@ -29,21 +29,20 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 	protected $config;
 
 	/**
-	* User object
-	* @var \phpbb\user
+	* Template context
+	* @var \phpbb\template\context
 	*/
-	protected $user;
+	protected $context;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config	$config		phpBB configuration
-	* @param \phpbb\user			$user       User object
+	* @param \phpbb\config\config		$config		phpBB configuration
+	* @param \phpbb\template\context	$context    Template context
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\template\context $context)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\context $context)
 	{
 		$this->config = $config;
-		$this->user = $user;
 		$this->context = $context;
 	}
 
@@ -51,16 +50,21 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 	{
 		$data = $this->context->get_data_ref();
 
-		$this->btemplate->assign_vars(array(
-			'TOTAL_USERS_ONLINE'	=> $data['.'][0]['TOTAL_USERS_ONLINE'],
-			'LOGGED_IN_USER_LIST'	=> $data['.'][0]['LOGGED_IN_USER_LIST'],
-			'RECORD_USERS'			=> $data['.'][0]['RECORD_USERS'],
-		));
-		unset($data);
+		$content = '';
+		if (isset($data['.'][0]['TOTAL_USERS_ONLINE']))
+		{
+			$this->btemplate->assign_vars(array(
+				'TOTAL_USERS_ONLINE'	=> $data['.'][0]['TOTAL_USERS_ONLINE'],
+				'LOGGED_IN_USER_LIST'	=> $data['.'][0]['LOGGED_IN_USER_LIST'],
+				'RECORD_USERS'			=> $data['.'][0]['RECORD_USERS'],
+			));
+			unset($data);
+			$content = $this->render_block('primetime/primetime', 'blocks/whois.html', 'whois_block');
+		}
 
 		return array(
-			'title'		=> $this->user->lang['WHO_IS_ONLINE'],
-			'content'	=> $this->render_block('primetime/primetime', 'blocks/whois.html', 'whois_block')
+			'title'		=> 'WHO_IS_ONLINE',
+			'content'	=> $content
 		);
 	}
 }

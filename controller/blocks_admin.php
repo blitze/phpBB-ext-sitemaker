@@ -172,10 +172,8 @@ class blocks_admin
 	}
 
 	/**
-	* Add a primetime block
-	*
-	* @return array
-	*/
+	 * Add a primetime block
+	 */
 	public function add($service)
 	{
 		global $phpbb_container;
@@ -204,7 +202,6 @@ class blocks_admin
 
 		$b = $phpbb_container->get($service);
 		$bconfig = $b->get_config(array());
-		$b->set_template($this->btemplate);
 
 		foreach ($bconfig as $key => $settings)
 		{
@@ -217,13 +214,13 @@ class blocks_admin
 
 		$this->return_data = array_merge($this->return_data,
 			array('id' => $this->db->sql_nextid()),
-			$b->display($block_data, true)
+			$this->display($b, $block_data)
 		);
 	}
 
 	/**
-	* 
-	*/
+	 * Edit Block
+	 */
 	public function edit($bid)
 	{
 		global $phpbb_container, $phpbb_root_path, $phpEx, $user;
@@ -254,7 +251,6 @@ class blocks_admin
 
 		$b = $phpbb_container->get($bdata['name']);
 		$default_settings = $b->get_config($db_config);
-		$b->set_template($this->btemplate);
 
 		// Output relevant settings
 		foreach ($default_settings as $config_key => $vars)
@@ -323,13 +319,13 @@ class blocks_admin
 			'block_settings' => 'block_settings.html',
 		));
 
-		$block = $b->display($bdata, true);
-		$this->return_data = array_merge($this->return_data, $bdata, array(
-			'icon'		=> ($bdata['icon']) ? $bdata['icon'] : $this->def_icon,
-			'title'		=> ($bdata['title']) ? $bdata['title'] : $block['title'],
-			'form'		=> $this->template->assign_display('block_settings'),
-			'content'	=> $block['content'],
-		));
+		$this->return_data = array_merge($this->return_data, $bdata, 
+			array(
+				'icon'		=> ($bdata['icon']) ? $bdata['icon'] : $this->def_icon,
+				'form'		=> $this->template->assign_display('block_settings'),
+			),
+			$this->display($b, $bdata)
+		);
 	}
 
 	public function save($bid)
@@ -348,7 +344,6 @@ class blocks_admin
 
 		$b = $phpbb_container->get($bdata['name']);
 		$settings = $b->get_config(array());
-		$b->set_template($this->btemplate);
 
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($this->request->variable('config', array('' => ''), true)) : $bconfig;
 
@@ -393,11 +388,10 @@ class blocks_admin
 			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 		}
 
-		$block = $b->display($bdata, true);
-
-		$this->return_data['title']		= ($bdata['title']) ? $bdata['title'] : $block['title'];
-		$this->return_data['content']	= $block['content'];
-		$this->return_data['message']	= $this->user->lang['BLOCK_UPDATED'];
+		$this->return_data = array_merge($this->return_data, 
+			$this->display($b, $bdata),
+			array('message' => $this->user->lang['BLOCK_UPDATED'])
+		);
 	}
 
 	/**
@@ -543,17 +537,15 @@ class blocks_admin
 
 			$row['settings'] = (isset($blocks_config[$row['bid']])) ? $blocks_config[$row['bid']] : array();
 
-			$b->set_template($this->btemplate);
-			$block = $b->display($row, true);
-
-			$data[$row['pname']][] = array(
-				'id'			=> $row['bid'],
-				'icon'			=> ($row['icon']) ? $row['icon'] : $this->def_icon,
-				'title'			=> ($row['title']) ? $row['title'] : $block['title'],
-				'class'			=> $row['class'],
-				'no_wrap'		=> $row['no_wrap'],
-				'hide_title'	=> $row['hide_title'],
-				'content'		=> $block['content'],
+			$data[$row['pname']][] = array_merge(
+				array(
+					'id'			=> $row['bid'],
+					'icon'			=> ($row['icon']) ? $row['icon'] : $this->def_icon,
+					'class'			=> $row['class'],
+					'no_wrap'		=> $row['no_wrap'],
+					'hide_title'	=> $row['hide_title'],
+				),
+				$this->display($b, $row)
 			);
 		}
 		$this->db->sql_freeresult($result);
@@ -667,6 +659,17 @@ class blocks_admin
 		// remove all block positions with no blocks
 		//$sql = 'DELETE FROM ' . $this->block_positions_table . ' p  LEFT JOIN ' . $this->blocks_table . ' b ON p.pid = b.position WHERE b.position IS NULL';
 		//$this->db->sql_query($sql);
+	}
+
+	private function display($block, $settings)
+	{
+		$block->set_template($this->btemplate);
+		$data = $block->display($settings, true);
+
+		return array(
+			'title'		=> (!empty($settings['title'])) ? $settings['title'] : ((isset($this->user->lang[$data['title']])) ? $this->user->lang[$data['title']] : $data['title']),
+			'content'	=> (!empty($data['content'])) ? $data['content'] : $this->user->lang['BLOCK_NO_DATA']
+		);
 	}
 
 	private function get_groups($mode = 'data', $selected = '')

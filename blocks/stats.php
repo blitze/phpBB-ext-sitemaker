@@ -23,25 +23,39 @@ if (!defined('IN_PHPBB'))
 class stats extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
-	 * Constructor method
+	* phpBB configuration
+	* @var \phpbb\config\config
+	*/
+	protected $config;
+
+	/**
+	* User object
+	* @var \phpbb\user
+	*/
+	protected $user;
+
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\config\config	$config		phpBB configuration
+	 * @param \phpbb\user			$user       User object
 	 */
-	public function __construct(\phpbb\user $user)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user)
 	{
+		$this->config = $config;
 		$this->user = $user;
 	}
 
 	public function display($settings, $edit_mode = false)
 	{
-		global $config;
-
 		$content = '';
-		$content .= $this->user->lang('TOTAL_POSTS_COUNT', (int) $config['num_posts']) . '<br />';
-		$content .= $this->user->lang('TOTAL_TOPICS', (int) $config['num_topics']) . '<br />';
-		$content .= $this->user->lang('TOTAL_USERS', (int) $config['num_users']) . '<br />';
-		$content .= $this->user->lang('NEWEST_USER', get_username_string('full', $config['newest_user_id'], $config['newest_username'], $config['newest_user_colour']));
+		$content .= $this->user->lang('TOTAL_POSTS_COUNT', (int) $this->config['num_posts']) . '<br />';
+		$content .= $this->user->lang('TOTAL_TOPICS', (int) $this->config['num_topics']) . '<br />';
+		$content .= $this->user->lang('TOTAL_USERS', (int) $this->config['num_users']) . '<br />';
+		$content .= $this->user->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour']));
 
 		return array(
-			'title'		=> $this->user->lang['STATISTICS'],
+			'title'		=> 'STATISTICS',
 			'content'	=> $content, 
 		);
 	}

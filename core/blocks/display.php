@@ -246,7 +246,7 @@ class display
 				}
 
 				$data = array_merge($row, array(
-						'TITLE'		=> ($row['title']) ? $row['title'] : $block['title'],
+						'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
 						'CONTENT'	=> $block['content'],
 					)
 				);

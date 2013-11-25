@@ -78,7 +78,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 		}
 
 		return array(
-			'title'		=> $this->user->lang['LOGIN'],
+			'title'		=> 'LOGIN',
 			'content'	=> $block,
 		);
 	}
