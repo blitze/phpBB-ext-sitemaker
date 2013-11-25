@@ -45,8 +45,19 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.user_setup'		=> 'load_language_on_setup',
 			'core.page_footer'		=> 'init',
 		);
+	}
+
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'primetime/primetime',
+			'lang_set' => 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	public function init($event)

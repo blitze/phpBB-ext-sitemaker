@@ -138,8 +138,9 @@ class manager
 
 		foreach ($blocks as $service => $name)
 		{
+			$lname = strtoupper($name);
 			$this->template->assign_block_vars('block', array(
-				'NAME'		=> $name,
+				'NAME'		=> (isset($this->user->lang[$lname])) ? $this->user->lang[$lname] : $name,
 				'SERVICE'	=> $service)
 			);
 		}
