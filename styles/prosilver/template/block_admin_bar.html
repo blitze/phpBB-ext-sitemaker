@@ -1,1 +1,47 @@
-<div id="fixed-bar" style="display: none;">	<a id="admin-control" href="{U_EDIT_MODE}"><div style="color: #ffffff; font-weight: bolder; text-align: center; height: 38px;">-----<br />-----<br />-----</div></a>	<div id="admin-options" style="display: none;">		<a id="add-page" class="button">{L_ADD_PAGE}</a>		<a id="add-block" class="button">{L_ADD_BLOCK}</a>		<a id="toggle-edit" class="button right-box" href="{U_DISP_MODE}">{L_EXIT_EDIT_MODE}</a>		<a id="save-changes" class="button right-box">{L_SAVE_CHANGES}</a>	</div>	<div id="add-block-panel" class="tabs-bottom">		<ul>			<li><a href="#available-blocks-content">Blocks</a></li>			<li><a href="#page-settings-content">Settings</a></li>		</ul>		<div class="tabs-spacer"></div>		<div id="available-blocks-content">			<div class="ui-state-default" style="width: auto; text-align: center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>			<div style="height: 160px; overflow: auto">			<!-- BEGIN block -->				<div data-block="{block.SERVICE}" class="primetime-block">{block.NAME}</div>			<!-- END block -->			</div>			<div class="ui-state-default" style="text-align: center">				<form id="copy-form">					<strong>{L_BLOCKS_COPY_FROM}:</strong> 					<select id="copy-from">						{S_ROUTE_OPS}					</select>					<input type="submit" class="button2" value="{L_GO}" />				</form>			</div>		</div>		<div id="page-settings-content">			settings		</div>    </div>	<div id="loading" class="flash-message"><i class="-icon-spinner -icon-spin"></i> {L_AJAX_PROCESSING}</div>	<div id="ajax-message" class="flash-message"></div></div>
+<div id="admin-bar">
+	<a id="admin-control" href="{U_EDIT_MODE}"><i class="-icon-reorder"></i></a>
+	<div id="admin-options" style="display: none">
+		<ul class="hmenu">
+			<li>
+				<a id="add-block" class="menu_item has_dropdown" href="#">{L_ADD_BLOCK}</a>
+				<div class="dropdown">
+					<div id="add-block-panel" class="tabs-bottom">
+						<ul>
+							<li><a href="#available-blocks-content">{L_BLOCKS}</a></li>
+							<li><a href="#layout-settings-content">{L_SETTINGS}</a></li>
+						</ul>
+						<div class="tabs-spacer"></div>
+						<div id="available-blocks-content" class="tab-content">
+							<div class="ui-state-default" style="width: auto; text-align: center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
+
+							<div style="height: 160px; overflow: auto">
+							<!-- BEGIN block -->
+								<div data-block="{block.SERVICE}" class="primetime-block">{block.NAME}</div>
+							<!-- END block -->
+							</div>
+
+							<div class="ui-state-default" style="text-align: center">
+								<form id="copy-form">
+									<strong>{L_BLOCKS_COPY_FROM}:</strong> 
+									<select id="copy-from">
+										{S_ROUTE_OPS}
+									</select>
+									<input type="submit" class="button2" value="{L_GO}" />
+								</form>
+							</div>
+						</div>
+						<div id="layout-settings-content" class="tab-content">
+							settings
+						</div>
+				    </div>
+			    </div>
+			</li>
+	        <li class="right"><a id="toggle-edit" class="button" href="{U_DISP_MODE}">{L_EXIT_EDIT_MODE}</a></li>
+	        <li class="right"><a id="save-changes" class="button" href="#">{L_SAVE_CHANGES}</a></li>
+			<!-- EVENT admin_bar_append -->
+		</ul>
+	</div>
+
+	<div id="loading" class="flash-message"><i class="-icon-spinner -icon-spin"></i> {L_AJAX_PROCESSING}</div>
+	<div id="ajax-message" class="flash-message"></div>
+</div>

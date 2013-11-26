@@ -52,6 +52,7 @@ $lang = array_merge($lang, array(
 	'BLOCK_HIDE_TITLE'		=> 'Hide block title?',
 	'BLOCK_NOT_FOUND'		=> 'Oops! The requested block service was not found',
 	'BLOCK_NO_ID'			=> 'Oops! Missing block id',
+	'BLOCK_NO_DATA'			=> 'No data to display',
 	'BLOCK_UPDATED'			=> 'Block settings successfully updated',
 	'LAYOUT_SAVED'			=> 'Layout successfully saved!',
 	'NOT_AUTHORIZED'		=> 'You are not authorized to perform this action',

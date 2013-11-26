@@ -37,7 +37,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ADD_PAGE'			=> 'Add Page',
 	'ADD_BLOCK'			=> 'Add Block',
 	'EDIT'				=> 'Edit',
 	'CANCEL'			=> 'Cancel',

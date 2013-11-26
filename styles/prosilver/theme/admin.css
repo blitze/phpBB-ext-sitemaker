@@ -1,43 +1,99 @@
-#fixed-bar {
+#admin-bar {
 	position: fixed;
 	top:0;
 	left: 0;
 	right: 0;
-	margin: 0 auto;
+	margin: 0;
 	z-index: 1000;
+	display: none;
 }
 
 #admin-options {
-	float: right;
-	display: block;
-	position: relative;
-	width: 97%;
-	height: 38px;
-	background-color: #c33;
-}
-
-#admin-options .button {
-	margin: 5px;
+    float: right;
+    display: block;
+    position: relative;
+    width: 97%;
+    height: 38px;
+    background-color: #c33;
 }
 
 #admin-control {
-	float: right;
-	width: 3%;
-	background-color: #c33;
+    float: right;
+    width: 3%;
+    background-color: #c33;
+    color: #ccc;
+    font-weight: bolder;
+    font-size: 18px;
+    text-align: center;
+    height: 38px;
+    line-height: 38px;
 }
 
-#add-block-panel {
-	display: none;
-	position: fixed;
+#admin-control:hover {
+	text-decoration: none;
 }
 
-#add-block-panel .inner {
-	width: 550px;
-	height: 200px;
+.hmenu {
+    margin: 0;
+	padding: 1px 10px 3px 10px;
+	float: left;
+	width: 98%;
+	list-style: none;
 }
 
-#add-block-panel .inner .primetime-block {
-	margin: 5px;
+.hmenu li {
+	float: left;
+	position: relative;
+}
+
+.hmenu li .menu_item {
+	float: left;
+	padding: 10px;
+	color: #ccc;
+	text-transform: uppercase;
+	font: bold 12px Arial, Helvetica;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #000;
+}
+
+.hmenu li .button {
+	margin: 5px 0 5px 5px;
+}
+
+.hmenu li .dropped,
+.hmenu li:hover > .menu_item {
+	color: #333;
+    background-color: #fff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.hmenu li .dropped,
+.hmenu li:hover > .dropped {
+    padding-bottom: 14px;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+    z-index: 1;
+}
+
+.hmenu li .dropdown {
+    display: none;
+    margin-top: 36px;
+    margin-left: -6px;
+    background-color: #fff;
+    border: 1px solid #c33;
+    border-top: 0;
+    top: 0;
+    -moz-border-radius: 5px;  
+    -webkit-border-radius: 5px;  
+    border-radius: 5px;
+}
+
+.hmenu .right {
+    float: right;
+    position: relative;
 }
 
 #pos-sidebar, #pos-subcontent {
@@ -245,9 +301,19 @@ ul.-icons-list li {
 	background: none;
 	background-color: #ffffff;
 	border-bottom: 0;
-	z-index: 1000;
+	z-index: 1000
 }
 
+#add-block-panel .tab-content {
+	width: 550px;
+	height: 200px;
+}
+
+#add-block-panel .inner .primetime-block {
+	margin: 5px;
+}
+
+#add-block-panel.ui-widget-content { border: 0; }
 #add-block-panel .tabs-spacer { float: left; height: 200px; }
   .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
   .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
