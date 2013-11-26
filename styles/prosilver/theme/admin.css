@@ -1,6 +1,6 @@
 #admin-bar {
 	position: fixed;
-	top:0;
+	top: 0;
 	left: 0;
 	right: 0;
 	margin: 0;
@@ -9,24 +9,26 @@
 }
 
 #admin-options {
-    float: right;
-    display: block;
-    position: relative;
-    width: 97%;
-    height: 38px;
-    background-color: #c33;
+	float: left;
+	display: block;
+	width: 100%;
+	height: 38px;
+	background-color: #c33;
 }
 
 #admin-control {
-    float: right;
-    width: 3%;
-    background-color: #c33;
-    color: #ccc;
-    font-weight: bolder;
-    font-size: 18px;
-    text-align: center;
-    height: 38px;
-    line-height: 38px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 35px;
+	height: 38px;
+	line-height: 38px;
+	background-color: #c33;
+	color: #ccc;
+	font-weight: bolder;
+	font-size: 18px;
+	text-align: center;
+	z-index: 5000;
 }
 
 #admin-control:hover {
@@ -34,10 +36,9 @@
 }
 
 .hmenu {
-    margin: 0;
-	padding: 1px 10px 3px 10px;
-	float: left;
-	width: 98%;
+	margin: 0;
+	padding: 1px 10px;
+	width: auto;
 	list-style: none;
 }
 
@@ -60,44 +61,46 @@
 	margin: 5px 0 5px 5px;
 }
 
-.hmenu li .dropped,
-.hmenu li:hover > .menu_item {
+.hmenu li .dropped, .hmenu li:hover > .menu_item {
 	color: #333;
-    background-color: #fff;
+	background-color: #fff;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 
-.hmenu li .dropped,
-.hmenu li:hover > .dropped {
-    padding-bottom: 14px;
+.hmenu li .dropped, .hmenu li:hover > .dropped {
+	padding-bottom: 14px;
 	-moz-border-radius: 5px 5px 0 0;
 	-webkit-border-radius: 5px 5px 0 0;
 	border-radius: 5px 5px 0 0;
-    z-index: 1;
+	z-index: 1;
 }
 
 .hmenu li .dropdown {
-    display: none;
-    margin-top: 36px;
-    margin-left: -6px;
-    background-color: #fff;
-    border: 1px solid #c33;
-    border-top: 0;
-    top: 0;
-    -moz-border-radius: 5px;  
-    -webkit-border-radius: 5px;  
-    border-radius: 5px;
+	display: none;
+	margin-top: 36px;
+	margin-left: -6px;
+	background-color: #fff;
+	border: 1px solid #c33;
+	border-top: 0;
+	top: 0;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .hmenu .right {
-    float: right;
-    position: relative;
+	float: right;
+	position: relative;
+}
+
+.hmenu .right .spacer {
+	width: 35px;
 }
 
 #pos-sidebar, #pos-subcontent {
-	margin-bottom: -5000px; 
+	margin-bottom: -5000px;
 	padding-bottom: 5000px;
 }
 
@@ -163,8 +166,7 @@
 	cursor: move;
 }
 
-.editable_block_title,
-.block-title input {
+.editable_block_title, .block-title input {
 	height: 16px;
 	display: inline-block;
 	cursor: pointer;
@@ -239,9 +241,9 @@
 	margin: 2px;
 	font-weight: bold;
 	background-color: #ccc;
-	-webkit-border-radius:6px;
-	-moz-border-radius:6px;
-	border-radius:6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 	position: relative;
 	display: inline-block;
 	width: auto;
@@ -251,25 +253,25 @@
 	width: 28px;
 	height: 32px;
 	line-height: 32px;
-	font-size:14px;
+	font-size: 14px;
 	text-align: center;
 	float: left;
 }
 
 #icons-list a:hover {
-	background-color:#fbf4f4;
+	background-color: #fbf4f4;
 	color: blue;
 }
 
 #icons-list a:hover {
-	*font-size:28px;
-	*vertical-align:middle;
+	*font-size: 28px;
+	*vertical-align: middle;
 	*color: blue;
 }
 
 #icons-list a:hover :before {
-	font-size:28px;
-	vertical-align:-5px;
+	font-size: 28px;
+	vertical-align: -5px;
 	color: blue;
 }
 
@@ -313,8 +315,25 @@ ul.-icons-list li {
 	margin: 5px;
 }
 
-#add-block-panel.ui-widget-content { border: 0; }
-#add-block-panel .tabs-spacer { float: left; height: 200px; }
-  .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
-  .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
-  .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
+#add-block-panel.ui-widget-content {
+	border: 0;
+}
+#add-block-panel .tabs-spacer {
+	float: left;
+	height: 200px;
+}
+.tabs-bottom .ui-tabs-nav {
+	clear: left;
+	padding: 0 .2em .2em .2em;
+}
+.tabs-bottom .ui-tabs-nav li {
+	top: auto;
+	bottom: 0;
+	margin: 0 .2em 1px 0;
+	border-bottom: auto;
+	border-top: 0;
+}
+.tabs-bottom .ui-tabs-nav li.ui-tabs-active {
+	margin-top: -1px;
+	padding-top: 1px;
+}

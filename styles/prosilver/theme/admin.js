@@ -326,7 +326,7 @@
 
 		$('#admin-bar').delay(500).slideDown().find('#admin-control').click(function() {
 			if (typeof editMode !== "undefined" && editMode) {
-				$(this).next().toggle();
+				$(this).prev().toggle();
 				return false;
 			}
 		});
