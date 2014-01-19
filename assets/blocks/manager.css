@@ -77,7 +77,7 @@
 	z-index: 1;
 }
 
-.hmenu li .dropdown {
+.hmenu li .adminbar_dropdown {
 	display: none;
 	margin-top: 36px;
 	margin-left: -6px;
@@ -106,13 +106,6 @@
 
 #inline-form {
 	display: inline;
-}
-
-#icons {
-	display: none;
-	width: 215px;
-	z-index: 500;
-	border: 1px solid #000;
 }
 
 #css-class-options {
@@ -231,72 +224,9 @@
 	border: 1px solid #ccc;
 }
 
-.icon-cat-ops {
-	position: relative;
-	clear: both;
-}
-
-.icon-cat-ops a {
-	padding: 4px;
-	margin: 2px;
-	font-weight: bold;
-	background-color: #ccc;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	position: relative;
-	display: inline-block;
-	width: auto;
-}
-
-#icons-list a {
-	width: 28px;
-	height: 32px;
-	line-height: 32px;
-	font-size: 14px;
-	text-align: center;
-	float: left;
-}
-
-#icons-list a:hover {
-	background-color: #fbf4f4;
-	color: blue;
-}
-
-#icons-list a:hover {
-	*font-size: 28px;
-	*vertical-align: middle;
-	*color: blue;
-}
-
-#icons-list a:hover :before {
-	font-size: 28px;
-	vertical-align: -5px;
-	color: blue;
-}
-
 #pos-footer .sortable .panel {
 	background-color: transparent;
 	border: 0;
-}
-
-ul.-icons-list {
-	margin-left: 0;
-	padding-left: 0;
-	display: block;
-}
-
-ul.-icons-list li {
-	margin: 3;
-	padding: 2px;
-	list-style: none;
-	display: block;
-	float: left;
-	line-height: 32px;
-	height: 32px;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
 }
 
 .block-admin-button-active {
@@ -306,34 +236,37 @@ ul.-icons-list li {
 	z-index: 1000
 }
 
+#add-block-panel {
+	position: relative;
+}
+
 #add-block-panel .tab-content {
 	width: 550px;
 	height: 200px;
 }
 
-#add-block-panel .inner .primetime-block {
-	margin: 5px;
-}
-
 #add-block-panel.ui-widget-content {
 	border: 0;
 }
-#add-block-panel .tabs-spacer {
+
+.block-tabs-spacer {
 	float: left;
-	height: 200px;
 }
-.tabs-bottom .ui-tabs-nav {
+
+.block-bottom-tabs .ui-tabs-nav {
 	clear: left;
 	padding: 0 .2em .2em .2em;
 }
-.tabs-bottom .ui-tabs-nav li {
+
+.block-bottom-tabs .ui-tabs-nav li {
 	top: auto;
 	bottom: 0;
 	margin: 0 .2em 1px 0;
 	border-bottom: auto;
 	border-top: 0;
 }
-.tabs-bottom .ui-tabs-nav li.ui-tabs-active {
+
+.block-bottom-tabs .ui-tabs-nav li.ui-tabs-active {
 	margin-top: -1px;
 	padding-top: 1px;
 }

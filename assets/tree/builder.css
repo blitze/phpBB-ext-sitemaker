@@ -72,33 +72,19 @@
     display: inline-block;
 }
 
-.tree-builder #icons {
-    display: none;
-    width: 155px;
-    height: 170px;
-    z-index: 1000;
-    border: 1px solid #ccc;
-}
-
 .tree-builder #no-items {
     margin: 10px;
     text-align: center;
     font-weight: bold;
 }
 
-.tree-builder .inline-icon {
+.tree-builder .icon-select {
     width: 20px;
     height: 18px;
     display: block;
     margin-right: 4px;
     text-align: center;
     border: 1px solid #ccc;
-}
-
-.tree-builder .inline-icon img, .icons img {
-    width: 15px;
-    height: 15px;
-    margin: 4px;
 }
 
 .tree-builder .placeholder {
@@ -135,13 +121,4 @@
 .tree-builder select, .tree-builder option {
 	width: 100%;
 	overflow: auto;
-}
-
-.tree-builder .dropped {
-	background: none;
-	background-color: #ffffff;
-	border-bottom: 0;
-	height: 35px;
-	margin-bottom: -5px;
-	z-index: 60000;
 }
