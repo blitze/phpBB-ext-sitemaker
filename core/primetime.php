@@ -40,6 +40,10 @@ class primetime
 	*/
 	protected $btemplate;
 
+	protected $scripts;
+
+	public $asset_path;
+
 	/**
 	* Constructor
 	*
@@ -49,11 +53,12 @@ class primetime
 	* @param string 					$phpbb_root_path	Relative path to phpBB root
 	* @param string 					$php_ext			PHP extension (php)
 	*/
-	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \phpbb\template\template $btemplate)
+	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \phpbb\template\template $btemplate, \phpbb\path_helper $path_helper)
 	{
 		$this->user = $user;
 		$this->template = $template;
 		$this->btemplate = $btemplate;
+		$this->asset_path = $path_helper->get_web_root_path();
 		$this->scripts = array(
 			'js'	=> array(),
 			'css'   => array(),
@@ -66,7 +71,7 @@ class primetime
 	public function init()
 	{
 		$this->template->assign_vars(array(
-			'L_INDEX'			=> 'Home', //$this->user->lang['PRIMETIME_HOME'],
+			'L_INDEX'			=> $this->user->lang['HOME'],
 			'S_CMS_ENABLED'		=> true)
 		);
 	}
@@ -77,7 +82,21 @@ class primetime
 	*/
 	public function add_assets($scripts)
 	{
-		$this->scripts = array_merge_recursive($this->scripts, $scripts);
+		foreach ($scripts as $type => $paths)
+		{
+			$count = (isset($this->scripts[$type])) ? count($this->scripts[$type]) : 0;
+			foreach ($paths as $key => $script)
+			{
+				if (isset($this->scripts[$type][$key]))
+				{
+					$this->scripts[$type][$count++] = $script;
+				}
+				else
+				{
+					$this->scripts[$type][$key] = $script;
+				}
+			}
+		}
 	}
 
 	/**
@@ -85,7 +104,8 @@ class primetime
 	 */
 	public function set_assets()
 	{
-		global $phpbb_root_path;
+		ksort($this->scripts['js']);
+		ksort($this->scripts['css']);
 
 		// lets clean it up
 		$this->scripts['js'] = (isset($this->scripts['js'])) ? array_filter(array_unique($this->scripts['js'])) : array();
