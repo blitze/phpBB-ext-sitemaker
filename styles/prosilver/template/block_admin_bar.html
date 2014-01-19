@@ -1,15 +1,15 @@
 <div id="admin-bar">
 	<div id="admin-options" style="display: none">
 		<ul class="hmenu">
-			<li>
+			<li class="hmenu-item ">
 				<a id="add-block" class="menu_item has_dropdown" href="#">{L_ADD_BLOCK}</a>
-				<div class="dropdown">
-					<div id="add-block-panel" class="tabs-bottom">
+				<div class="adminbar_dropdown">
+					<div id="add-block-panel" class="block-bottom-tabs">
 						<ul>
 							<li><a href="#available-blocks-content">{L_BLOCKS}</a></li>
 							<li><a href="#layout-settings-content">{L_SETTINGS}</a></li>
 						</ul>
-						<div class="tabs-spacer"></div>
+						<div class="block-tabs-spacer"></div>
 						<div id="available-blocks-content" class="tab-content">
 							<div class="ui-state-default" style="width: auto; text-align: center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
 
@@ -35,14 +35,14 @@
 				    </div>
 			    </div>
 			</li>
-			<li class="right"><div class="spacer">&nbsp;</div></li>
-	        <li class="right"><a id="toggle-edit" class="button" href="{U_DISP_MODE}">{L_EXIT_EDIT_MODE}</a></li>
-	        <li class="right"><a id="save-changes" class="button" href="#">{L_SAVE_CHANGES}</a></li>
+			<li class="hmenu-item right"><div class="spacer">&nbsp;</div></li>
+	        <li class="hmenu-item right"><a id="toggle-edit" class="button" href="{U_DISP_MODE}">{L_EXIT_EDIT_MODE}</a></li>
+	        <li class="hmenu-item right"><a id="save-changes" class="button" href="#">{L_SAVE_CHANGES}</a></li>
 			<!-- EVENT admin_bar_append -->
 		</ul>
 	</div>
-	<a id="admin-control" href="{U_EDIT_MODE}"><i class="-icon-reorder"></i></a>
+	<a id="admin-control" href="{U_EDIT_MODE}"><i class="fa fa-bars"></i></a>
 
-	<div id="loading" class="flash-message"><i class="-icon-spinner -icon-spin"></i> {L_AJAX_PROCESSING}</div>
+	<div id="loading" class="flash-message"><i class="fa fa-spinner fa-spin"></i> {L_AJAX_PROCESSING}</div>
 	<div id="ajax-message" class="flash-message"></div>
 </div>
