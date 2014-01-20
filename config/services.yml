@@ -10,12 +10,14 @@ services:
             - @user
             - @template
             - @primetime.template
+            - @path_helper
 
-    primetime.icons:
-        class: primetime\primetime\core\icons
+    primetime.icon_picker:
+        class: primetime\primetime\core\icon_picker
         arguments:
-            - @template
+            - @primetime.template
             - @user
+            - @primetime
 
     primetime.blocks.admin:
         class: primetime\primetime\controller\blocks_admin
@@ -41,6 +43,7 @@ services:
             - @template
             - @primetime.template
             - @user
+            - @primetime
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_positions%
@@ -53,7 +56,8 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.icons
+            - @primetime
+            - @primetime.icon_picker
             - %tables.primetime.blocks%
 
     primetime.block_collection:
@@ -71,6 +75,7 @@ services:
     primetime.listener:
         class: primetime\primetime\event\listener
         arguments:
+            - @request
             - @primetime
             - @primetime.blocks.display
         tags:
