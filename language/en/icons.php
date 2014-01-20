@@ -23,10 +23,23 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-    'DIRECTIONAL'           => 'Directional',
-    'MEDICAL'               => 'Medical',
-    'SOCIAL'                => 'Social',
-	'TEXT_EDITOR'			=> 'Text Editor',
-    'VIDEO_PLAYER'          => 'Video Player',
-	'WEB_APPLICATIONS'		=> 'Web Applications',
+	'ICON_BORDERED'			=> 'Bordered',
+	'ICON_COLOR'			=> 'Color',
+	'ICON_FIXED_WIDTH'		=> 'Fixed Width',
+	'ICON_FLOAT'			=> 'Float',
+	'ICON_FONT'				=> 'Font',
+	'ICON_IMAGE'			=> 'Image',
+	'ICON_LARGER'			=> 'Larger',
+	'ICON_SIZE'				=> 'Size',
+	'ICON_SPINNING'			=> 'Spinning',
+
+	'ICON_BRAND'			=> 'Brand',
+	'ICON_CURRENCY'			=> 'Currency',
+    'ICON_DIRECTIONAL'		=> 'Directional',
+    'ICON_FORM_CONTROL'		=> 'Form Control',
+    'ICON_MEDICAL'			=> 'Medical',
+    'ICON_SOCIAL'			=> 'Social',
+	'ICON_TEXT_EDITOR'		=> 'Text Editor',
+    'ICON_VIDEO_PLAYER'		=> 'Video Player',
+	'ICON_WEB_APPLICATION'	=> 'Web Application',
 ));

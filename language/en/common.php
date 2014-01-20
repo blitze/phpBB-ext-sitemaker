@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'AUTO_LOGIN'	=> 'Show Remember me?',
 
 	'PRIMETIME.BLOCK.LOGIN'		=> 'Login Box',
+	'PRIMETIME.BLOCK.MYBLOCK'	=> 'My Block',
 	'PRIMETIME.BLOCK.STATS'		=> 'Board Statistics',
 	'PRIMETIME.BLOCK.WHOIS'		=> 'Who is online',
 ));
