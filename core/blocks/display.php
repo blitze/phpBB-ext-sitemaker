@@ -65,6 +65,12 @@ class display
 	protected $user;
 
 	/**
+	 * Primetime object
+	 * @var \primetime\primetime\core\primetime
+	 */
+	protected $primetime;
+
+	/**
 	* Name of the blocks database table
 	* @var string
 	*/
@@ -90,18 +96,19 @@ class display
 
 	/**
 	* Constructor
-	*
-	* @param \phpbb\auth\auth					$auth					Auth object
-	* @param \phpbb\cache\service				$cache					Cache object
-	* @param \phpbb\db\driver\driver			$db						Database object
-	* @param \phpbb\request\request_interface	$request 				Request object
-	* @param \phpbb\template\template			$template				Template object
-	* @param \phpbb\user                		$user       			User object
-	* @param string								$blocks_table			Name of the blocks database table
-	* @param string								$blocks_config_table	Name of the blocks_config database table
-	* @param string								$block_positions_table	Name of the block_positions database table
-	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\user $user, $blocks_table, $blocks_config_table, $block_positions_table)
+	 *
+	 * @param \phpbb\auth\auth						$auth					Auth object
+	 * @param \phpbb\cache\service					$cache					Cache object
+	 * @param \phpbb\db\driver\driver				$db						Database object
+	 * @param \phpbb\request\request_interface		$request 				Request object
+	 * @param \phpbb\template\template				$template				Template object
+	 * @param \phpbb\user                			$user       			User object
+	 * @param \primetime\primetime\core\primetime	$primetime				Template object
+	 * @param string								$blocks_table			Name of the blocks database table
+	 * @param string								$blocks_config_table	Name of the blocks_config database table
+	 * @param string								$block_positions_table	Name of the block_positions database table
+	 */
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, $blocks_table, $blocks_config_table, $block_positions_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -110,6 +117,7 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->btemplate = $btemplate;
+    	$this->primetime = $primetime;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
 		$this->block_positions_table = $block_positions_table;
@@ -208,13 +216,20 @@ class display
 
 	public function show()
 	{
-		global $phpbb_container, $phpbb_root_path;
+		global $phpbb_container;
 
 		$offlimits = array('ucp.php', 'mcp.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
 		{
 			return;
 		}
+
+		$asset_path = $this->primetime->asset_path;
+		$this->primetime->add_assets(array(
+            'css'   => array(
+                $asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
+            )
+		));
 
 		$edit_mode = false;
 		$route = $this->user->page['page_name'];

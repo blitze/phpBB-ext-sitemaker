@@ -53,8 +53,14 @@ class manager
 	protected $user;
 
 	/**
+	 * Primetime object
+	 * @var \primetime\primetime\core\primetime
+	 */
+	protected $primetime;
+
+	/**
 	* Icons
-	* @var \primetime\primetime\core\icons
+	* @var \primetime\primetime\core\icon_picker
 	*/
 	protected $icons;
 
@@ -71,17 +77,18 @@ class manager
 	private $positions = array();
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\cache\service				$cache					Cache object
-	* @param \phpbb\db\driver\driver			$db						Database object
-	* @param \phpbb\request\request_interface	$request 				Request object
-	* @param \phpbb\template\template			$template				Template object
-	* @param \phpbb\user                		$user       			User object
-	* @param \primetime\primetime\core\icons	$icons					Primetime icons object
-	* @param string								$blocks_table			Name of the blocks database table
-	*/
-	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icons $icons, $blocks_table)
+	 * Constructor
+	 *
+	 * @param \phpbb\cache\service					$cache			Cache object
+	 * @param \phpbb\db\driver\driver				$db				Database object
+	 * @param \phpbb\request\request_interface		$request		Request object
+	 * @param \phpbb\template\template				$template		Template object
+	 * @param \phpbb\user							$user			User object
+	 * @param \primetime\primetime\core\primetime	$primetime		Template object
+	 * @param \primetime\primetime\core\icon_picker	$icons			Primetime icon picker object
+	 * @param string								$blocks_table	Name of the blocks database table
+	 */
+	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\icon_picker $icons, $blocks_table)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -89,22 +96,35 @@ class manager
 		$this->icons = $icons;
 		$this->request = $request;
 		$this->template = $template;
+		$this->primetime = $primetime;
 		$this->blocks_table = $blocks_table;
 	}
 
 	public function handle($route)
 	{
-		global $phpbb_root_path, $phpEx;
+		global $phpEx;
 
 		$edit_mode = $this->request->variable('edit_mode', false);
 
 		$page_url = str_replace('../', '', build_url(array('edit_mode')));
+		$asset_path = $this->primetime->asset_path;
+
+		$this->primetime->add_assets(array(
+			'js'		=> array(
+				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.js',
+			),
+			'css'   => array(
+				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css',
+				$asset_path . 'ext/primetime/primetime/assets/blocks/manager.css',
+			)
+		));
 
 		$this->template->assign_vars(array(
-			'S_EDIT_MODE'		=> $edit_mode,
 			'S_ADMIN_BLOCKS'	=> true,
+			'S_EDIT_MODE'		=> $edit_mode,
 			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
-			'U_DISP_MODE'		=> append_sid($page_url),
+			'U_DISP_MODE'		=> build_url('edit_mode'),
 			'UA_ROUTE'			=> $route,
 			'UA_AJAX_URL'		=> $this->user->page['root_script_path'] . 'app.' . $phpEx)
 		);
@@ -117,9 +137,11 @@ class manager
 		$this->user->add_lang_ext('primetime/primetime', 'manager');
 
 		$this->get_available_blocks();
-		$this->icons->display();
 
-		$this->template->assign_var('S_ROUTE_OPS', $this->get_page_routes($route));
+		$this->template->assign_vars(array(
+			'ICON_PICKER'	=> $this->icons->picker(),
+			'S_ROUTE_OPS'	=> $this->get_page_routes($route))
+		);
 
 		return true;
 	}
