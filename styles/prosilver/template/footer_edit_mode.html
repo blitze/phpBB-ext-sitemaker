@@ -164,26 +164,14 @@
 <div id="dialog-edit" class="dialog" title="{L_EDIT_BLOCK}" style="display: none;"></div>
 
 <div id="dialog-confirm" class="dialog" title="{L_DELETE_BLOCK}" style="display: none;">
-	<p><i class="-icon-warning-sign -icon-4x pull-left -icon-border" style="color: red"></i> {L_DELETE_BLOCK_CONFIRM}</p>
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_BLOCK_CONFIRM}</p>
 </div>
 
 <div id="dialog-copy" class="dialog" title="{L_COPY_BLOCKS}" style="display: none;">
-	<p><i class="-icon-warning-sign -icon-4x pull-left -icon-border" style="color: red"></i> {L_COPY_BLOCKS_CONFIRM}</p>
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_COPY_BLOCKS_CONFIRM}</p>
 </div>
 
-<div id="icons" class="ui-menu ui-widget ui-widget-content ui-state-default ui-corner-all" style="display: none">
-	<div id="icons-list" class="ui-state-active" style="margin: 3px; padding: 3px; height: 200px; overflow: auto;">
-		<!-- BEGIN icon_cat -->
-			<h3 id="cat_{icon_cat.NAME}">{icon_cat.TITLE}</h3>
-			<!-- BEGIN icon --><a href="#"><i class="{icon_cat.icon.NAME}"></i></a><!-- END icon -->
-			<div class="clear"></div>
-		<!-- END icon_cat -->
-	</div>
-	<div class="clear"></div>
-	<div class="icon-cat-ops">
-		<!-- BEGIN icon_cat --><a href="#cat_{icon_cat.NAME}">{icon_cat.TITLE}</a><!-- END icon_cat -->
-	</div>
-</div>
+{ICON_PICKER}
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
 	<div class="panel post cms-block-container <%=class%> cms-block-spacing">
