@@ -10,6 +10,15 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.blocks.myblock:
+        class: primetime\primetime\blocks\myblock
+        arguments:
+            - @user
+        calls:
+            - [set_name, [primetime.block.myblock]]
+        tags:
+            - { name: primetime.block }
+
     primetime.blocks.stats:
         class: primetime\primetime\blocks\stats
         arguments:
