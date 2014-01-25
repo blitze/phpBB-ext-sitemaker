@@ -117,6 +117,19 @@
 		);
 	};
 
+	var setDefaultLayout = function(set) {
+		$.post(ajaxUrl + '/blocks/set_default' + '?route=' + ((set === true) ? route : ''));
+	};
+
+	var setRoutePrefs = function(form) {
+		$.post(ajaxUrl + '/blocks/settings' + '?route=' + route, form.serialize(),
+			function(resp){
+				console.log(resp);
+			},
+			"json"
+		);
+	};
+
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
 		$.getJSON(ajaxUrl + '/blocks/copy', {copy: copyFrom, route: route}, function(resp) {
@@ -439,6 +452,22 @@
 					blocksPanel.trigger('click');
 					dialogCopy.dialog({buttons: cButtons}).dialog('open');
 				}
+			});
+
+			$('.default-layout').button().click(function() {
+				var setDefault = $(this).data('set');
+				setDefaultLayout(setDefault);
+				if (setDefault === true) {
+					$(this).parent().hide().next().hide().next().show();
+				} else {
+					$(this).parent().hide().prev().hide().prev().show();
+				}
+				return false;
+			});
+
+			$('#route-settings').submit(function(e) {
+				setRoutePrefs($(this));
+				e.preventDefault();
 			});
 
 			$('.editable-block').focusout(function() {

@@ -23,15 +23,9 @@ services:
         class: primetime\primetime\controller\blocks_admin
         arguments:
             - @auth
-            - @cache.driver
-            - @dbal.conn
             - @request
-            - @template
-            - @primetime.template
             - @user
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_positions%
+            - @primetime.blocks.manager
 
     primetime.blocks.display:
         class: primetime\primetime\core\blocks\display
@@ -41,12 +35,12 @@ services:
             - @dbal.conn
             - @request
             - @template
-            - @primetime.template
             - @user
+            - @primetime.template
             - @primetime
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
-            - %tables.primetime.block_positions%
+            - %tables.primetime.block_routes%
 
     primetime.blocks.manager:
         class: primetime\primetime\core\blocks\manager
@@ -56,9 +50,12 @@ services:
             - @request
             - @template
             - @user
-            - @primetime
+            - @primetime.template
             - @primetime.icon_picker
+            - @primetime
             - %tables.primetime.blocks%
+            - %tables.primetime.blocks_config%
+            - %tables.primetime.block_routes%
 
     primetime.block_collection:
         class: phpbb\di\service_collection

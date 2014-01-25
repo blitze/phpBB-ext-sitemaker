@@ -93,7 +93,7 @@
 	padding: 4px;
 	margin: 2px 0;
 	font-weight: bold;
-	font-size: 11px;
+	font-size: 10px;
 	background-color: #ccc;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -105,6 +105,7 @@
 
 #icon-customization fieldset {
 	border: 0;
+	margin: 8px;
 }
 
 #icon-customization fieldset dt {

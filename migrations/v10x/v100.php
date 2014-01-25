@@ -38,19 +38,16 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables'	=> array(
-				$this->table_prefix . 'block_positions'	=> array(
+				$this->table_prefix . 'block_routes'			=> array(
 					'COLUMNS'		=> array(
-						'pid'			=> array('USINT', NULL, 'auto_increment'),
-						'pname'			=> array('VCHAR:25', ''),
+						'route_id'			=> array('UINT', NULL, 'auto_increment'),
+						'route'			=> array('XSTEXT_UNI', ''),
 						'style'			=> array('USINT', 0),
-						'status'		=> array('BOOL', 1),
+						'hide_blocks'	=> array('BOOL', 0),
+						'ex_positions'	=> array('VCHAR:255', ''),
 					),
 
-					'PRIMARY_KEY'	=> 'pid',
-
-					'KEYS'			=> array(
-						'style'			=> array('INDEX', 'style'),
-					),
+					'PRIMARY_KEY'	=> 'route_id'
 				),
 
 				$this->table_prefix . 'blocks'			=> array(
@@ -59,8 +56,8 @@ class v100 extends \phpbb\db\migration\migration
 						'icon'			=> array('VCHAR:55', ''),
 						'name'			=> array('VCHAR:55', ''),
 						'title'			=> array('XSTEXT_UNI', ''),
-						'route'			=> array('XSTEXT_UNI', ''),
-						'position'		=> array('USINT', 0),
+						'route_id'		=> array('UINT', 0),
+						'position'		=> array('VCHAR:55', ''),
 						'weight'		=> array('USINT', 0),
 						'style'			=> array('USINT', 0),
 						'permission'	=> array('VCHAR:125', ''),
@@ -113,6 +110,7 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.add', array('primetime_version', '1.0.0')),
+			array('config.add', array('primetime_default_layout', '')),
 
 		 	array('permission.add', array('a_manage_blocks')),
 			array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_manage_blocks')),
@@ -140,6 +138,7 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.remove', array('primetime_version')),
+			array('config.remove', array('primetime_default_layout')),
 		 	array('permission.remove', array('a_manage_blocks')),
 		);
 	}

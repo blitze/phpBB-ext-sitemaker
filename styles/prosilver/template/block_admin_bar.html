@@ -30,7 +30,25 @@
 							</div>
 						</div>
 						<div id="layout-settings-content" class="tab-content">
-							settings
+							<h3>{L_LAYOUT_SETTINGS}</h3>
+							<p>{L_DEFAULT_LAYOUT_EXPLAIN}</p>
+							<div class="line">
+								<div class="unit size1of2">
+									<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true">{L_MAKE_DEFAULT_LAYOUT}</a></p>
+									<p<!-- IF not U_DEFAULT_LAYOUT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_DEFAULT_LAYOUT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
+									<p<!-- IF not S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="false">{L_REMOVE_DEFAULT_LAYOUT}</a></p>
+								</div>
+								<div class="unit size1of2 lastUnit">
+									<form id="route-settings">
+										<input type="checkbox" id="hide_blocks" name="hide_blocks"<!-- IF S_HIDE_BLOCKS --> checked="checked"<!-- ENDIF --> /> {L_HIDE_ALL_BLOCKS}<br /><br />
+										{L_HIDE_BLOCK_POSITIONS}:<br />
+										<select rows="5" id="ex_positions" name="ex_positions[]" multiple="multiple">
+											{S_POSITION_OPS}
+										</select>
+										<input type="submit" class="button2" value="{L_SAVE}" />
+									</form>
+								</div>
+							</div>
 						</div>
 				    </div>
 			    </div>

@@ -243,6 +243,7 @@
 #add-block-panel .tab-content {
 	width: 550px;
 	height: 200px;
+	overflow: auto;
 }
 
 #add-block-panel.ui-widget-content {

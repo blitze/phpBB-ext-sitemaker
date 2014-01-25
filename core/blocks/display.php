@@ -47,22 +47,22 @@ class display
 	protected $request;
 
 	/**
-	* Template object
-	* @var \phpbb\template\template
-	*/
+	 * Template object
+	 * @var \phpbb\template\template
+	 */
 	protected $template;
 
 	/**
-	* Blocks template object
-	* @var \phpbb\template\template
-	*/
-	protected $btemplate;
+	 * User object
+	 * @var \phpbb\user
+	 */
+	protected $user;
 
 	/**
-	* User object
-	* @var \phpbb\user
-	*/
-	protected $user;
+	 * Template object for primetime blocks
+	 * @var \primetime\primetime\core\block_template
+	 */
+	protected $btemplate;
 
 	/**
 	 * Primetime object
@@ -71,56 +71,80 @@ class display
 	protected $primetime;
 
 	/**
-	* Name of the blocks database table
-	* @var string
-	*/
+	 * Name of the blocks database table
+	 * @var string
+	 */
 	private $blocks_table;
 
 	/**
-	* Name of the blocks_config database table
-	* @var string
-	*/
+	 * Name of the blocks_config database table
+	 * @var string
+	 */
 	private $blocks_config_table;
 	
 	/**
-	* Name of the block_positions database table
-	* @var string
-	*/
-	private $block_positions_table;
-
-	/**
-	 * Block positions
-	 * @var array
+	 * Name of the block_routes database table
+	 * @var string
 	 */
-	private $positions = array();
+	private $block_routes_table;
 
 	/**
-	* Constructor
+	 * Default layout
+	 * @var string
+	 */
+	private $default_route;
+
+	/**
+	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth						$auth					Auth object
-	 * @param \phpbb\cache\service					$cache					Cache object
-	 * @param \phpbb\db\driver\driver				$db						Database object
-	 * @param \phpbb\request\request_interface		$request 				Request object
-	 * @param \phpbb\template\template				$template				Template object
-	 * @param \phpbb\user                			$user       			User object
-	 * @param \primetime\primetime\core\primetime	$primetime				Template object
-	 * @param string								$blocks_table			Name of the blocks database table
-	 * @param string								$blocks_config_table	Name of the blocks_config database table
-	 * @param string								$block_positions_table	Name of the block_positions database table
+	 * @param \phpbb\auth\auth							$auth					Auth object
+	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\db\driver\driver					$db						Database object
+	 * @param \phpbb\request\request_interface			$request				Request object
+	 * @param \phpbb\template\template					$template				Template object
+	 * @param \phpbb\user								$user					User object
+	 * @param \primetime\primetime\core\blocks\template	$btemplate				Primetime template object
+	 * @param \primetime\primetime\core\primetime		$primetime				Template object
+	 * @param string									$blocks_table			Name of the blocks database table
+	 * @param string									$blocks_config_table	Name of the blocks_config database table
+	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, $blocks_table, $blocks_config_table, $block_positions_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, 
+		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
+		\primetime\primetime\core\blocks\template $btemplate, \primetime\primetime\core\primetime $primetime, 
+		$blocks_table, $blocks_config_table, $block_routes_table)
 	{
-		$this->db = $db;
-		$this->user = $user;
 		$this->auth = $auth;
 		$this->cache = $cache;
+		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
+		$this->user = $user;
 		$this->btemplate = $btemplate;
     	$this->primetime = $primetime;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
-		$this->block_positions_table = $block_positions_table;
+		$this->block_routes_table = $block_routes_table;
+	}
+
+	public function get_route_info($route)
+	{
+		if (($routes = $this->cache->get('_block_routes')) === false)
+        {
+			$sql = 'SELECT * FROM ' . $this->block_routes_table;
+			$result = $this->db->sql_query($sql);
+
+			$routes = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$routes[$row['route']] = $row;
+			}
+			$this->db->sql_freeresult($result);
+
+            $this->cache->put('_block_routes', $routes);
+        }
+
+		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
 	}
 
 	public function get_blocks($route, $edit_mode)
@@ -130,42 +154,37 @@ class display
 			global $phpbb_container;
 
 			$sql_array = array(
-				'SELECT'	=> 'b.*, p.pname',
+				'SELECT'	=> 'b.*',
 
 				'FROM'	  => array(
-					$this->blocks_table	=> 'b'
+					$this->blocks_table			=> 'b',
+					$this->block_routes_table	=> 'r',
 				),
 
-				'LEFT_JOIN' => array(
-					array(
-						'FROM'  => array($this->block_positions_table => 'p'),
-						'ON'	=> 'b.position = p.pid',
-					)
-				),
+				'WHERE'	 => "b.route_id = r.route_id
+					AND r.route = '" . $this->db->sql_escape($route) . "'" . 
+					((!$edit_mode) ? ' AND b.status = 1' : ''),
 
-				'WHERE'	 => "route = '" . $this->db->sql_escape($route) . "'" . ((!$edit_mode) ? ' AND b.status = 1' : ''),
-
-				'ORDER_BY'  => 'b.weight ASC',
+				'ORDER_BY'  => 'b.position, b.weight ASC',
 			);
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
-			$blocks = array();
+			$blocks = $block_pos = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$blocks[$row['bid']] = $row;
-				$blocks[$row['bid']]['settings'] = array();
+				$block_pos[$row['bid']] = $row['position'];
+				$blocks[$row['position']][$row['bid']] = $row;
+				$blocks[$row['position']][$row['bid']]['settings'] = array();
 			}
 			$this->db->sql_freeresult($result);
 
-			$db_settings = $this->get_blocks_config(array_keys($blocks));
+			$db_settings = $this->get_blocks_config(array_keys($block_pos));
 
-			$blocks = array_values($blocks);
-			for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
+			foreach ($block_pos as $bid => $position)
 			{
-				$bid = $blocks[$i]['bid'];
-				$block_service = $blocks[$i]['name'];
+				$block_service = $blocks[$position][$bid]['name'];
 
 				if ($phpbb_container->has($block_service) === false)
 				{
@@ -182,7 +201,7 @@ class display
 						continue;
 					}
 					$default =& $settings['default'];
-					$blocks[$i]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
+					$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
 				}
 			}
 
@@ -216,7 +235,7 @@ class display
 
 	public function show()
 	{
-		global $phpbb_container;
+		global $phpbb_container, $config, $symfony_request;
 
 		$offlimits = array('ucp.php', 'mcp.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
@@ -233,6 +252,7 @@ class display
 
 		$edit_mode = false;
 		$route = $this->user->page['page_name'];
+		$this->default_route = $config['primetime_default_layout'];
 
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
@@ -240,33 +260,59 @@ class display
 			$edit_mode = $manager->handle($route);
 		}
 
+		$route_info = $this->get_route_info($route);
 		$blocks = $this->get_blocks($route, $edit_mode);
 
-		$blocks_per_position = array();
-		for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
+		if (empty($route_info))
 		{
-			$row = $blocks[$i];
-			$block_service = $row['name'];
-			$pos_count_key = 's_' . $row['pname'] . '_count';
+			$route_info = array(
+				'hide_blocks'	=> false,
+				'ex_positions'	=> '',
+			);
+		}
 
-			if ($phpbb_container->has($block_service))
+		if (!sizeof($blocks) && !$route_info['hide_blocks'] && $edit_mode === false)
+		{
+			$blocks = $this->get_blocks($this->default_route, false);
+		}
+
+		// remove unwanted positions for this route
+		if ($route_info['ex_positions'])
+		{
+			$blocks = array_diff_key($blocks, array_flip(explode(',', $route_info['ex_positions'])));
+		}
+
+		$blocks_per_position = array();
+		foreach ($blocks as $position => $blocks_ary)
+		{
+			$pos_count_key = 's_' . $position . '_count';
+			$blocks_per_position[$pos_count_key] = 0;
+
+			$blocks_ary = array_values($blocks_ary);
+			for ($i = 0, $size = sizeof($blocks_ary); $i < $size; $i++)
 			{
-				$b = $phpbb_container->get($block_service);
-				$b->set_template($this->btemplate);
-				$block = $b->display($row, $edit_mode);
-
-				if (empty($block['content']))
+				$row = $blocks_ary[$i];
+				$block_service = $row['name'];
+	
+				if ($phpbb_container->has($block_service))
 				{
-					continue;
+					$b = $phpbb_container->get($block_service);
+					$b->set_template($this->btemplate);
+					$block = $b->display($row, $edit_mode);
+	
+					if (empty($block['content']))
+					{
+						continue;
+					}
+	
+					$data = array_merge($row, array(
+							'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
+							'CONTENT'	=> $block['content'],
+						)
+					);
+					$this->template->assign_block_vars($position, array_change_key_case($data, CASE_UPPER));
+					$blocks_per_position[$pos_count_key]++;
 				}
-
-				$data = array_merge($row, array(
-						'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
-						'CONTENT'	=> $block['content'],
-					)
-				);
-				$this->template->assign_block_vars($row['pname'], array_change_key_case($data, CASE_UPPER));
-				$blocks_per_position[$pos_count_key] = (isset($blocks_per_position[$pos_count_key])) ? $blocks_per_position[$pos_count_key] + 1 : 0;
 			}
 		}
 
