@@ -233,9 +233,29 @@ class display
         return $data;
 	}
 
+	public function get_route()
+	{
+		global $phpbb_container, $symfony_request;
+
+		$controller_service = $symfony_request->attributes->get('_route');
+		$route = $this->user->page['page_name'];
+
+		if ($controller_service)
+		{
+			$controller = $phpbb_container->get($controller_service);
+			
+			if (method_exists($controller, 'get_blocks_route'))
+			{
+				$route = $controller->get_blocks_route();
+			}
+		}
+
+		return $route;
+	}
+
 	public function show()
 	{
-		global $phpbb_container, $config, $symfony_request;
+		global $phpbb_container, $config;
 
 		$offlimits = array('ucp.php', 'mcp.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
@@ -251,8 +271,8 @@ class display
 		));
 
 		$edit_mode = false;
-		$route = $this->user->page['page_name'];
 		$this->default_route = $config['primetime_default_layout'];
+		$route = $this->get_route();
 
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
