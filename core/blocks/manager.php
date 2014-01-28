@@ -188,10 +188,17 @@ class manager
 			$hide_blocks = $route_info['hide_blocks'];
 		}
 
+		// hardcoding here
+		$block_controls = '<div class="block-controls">';
+		$block_controls .= '<a href="#" class="item-action delete-block" title="' . $this->user->lang['DELETE'] . '"><span class="ui-icon ui-icon-closethick">' . $this->user->lang['DELETE'] . '</span></a>';
+		$block_controls .= '<a href="#" class="item-action edit-block" title="' . $this->user->lang['EDIT'] . '"><span class="ui-icon ui-icon-gear">' . $this->user->lang['EDIT'] . '</span></a>';
+		$block_controls .= '</div>';
+
 		$this->template->assign_vars(array(
 			'ICON_PICKER'		=> $this->icons->picker(),
 			'S_ROUTE_OPS'		=> $this->get_route_options($route),
 			'S_HIDE_BLOCKS'		=> $hide_blocks,
+			'S_BLOCK_CONTROLS'	=> $block_controls,
 			'S_POSITION_OPS'	=> $this->get_position_options($ex_positions))
 		);
 

@@ -4,11 +4,11 @@
     margin: 0 5px 10px 5px;
 }
 
-.nls > .cms-block-spacing {
+.nls .cms-block-spacing {
     margin-left: 0;
 }
 
-.nrs > .cms-block-spacing {
+.nrs .cms-block-spacing {
     margin-right: 0;
 }
 

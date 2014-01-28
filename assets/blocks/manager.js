@@ -1,6 +1,6 @@
 (function($){
 	var editing = false, updated = false;
-	var mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {};
+	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {};
 	var containerTemplate = '', chromelessTemplate = '', containerDefClass = '', chromelessDefClass = '';
 	var origin = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
 
@@ -38,13 +38,15 @@
 	};
 
 	var showAllPositions = function() {
+		blockPositions.addClass('show-positions');
 		mainContentObj.removeClass('lastUnit');
 		emptyPositionsObj.removeClass('empty-position');
 	};
 
 	var hideEmptyPositions = function() {
-		emptyPositionsObj = $(".block-position:not(:has('.sortable'))").addClass('empty-position');
-		if (!subcontentObj.find('.sortable').size()) {
+		blockPositions.removeClass('show-positions');
+		emptyPositionsObj = $(".block-position:not(:has('.block'))").addClass('empty-position');
+		if (!subcontentObj.find('.block').size()) {
 			mainContentObj.addClass('lastUnit');
 		}
 	};
@@ -57,7 +59,7 @@
 
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
-			.addClass('sortable unit size1of1')
+			.addClass('unit size1of1 block')
 			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="-icon-spinner -icon-spin"></i> ' + lang.ajaxLoading + '</div>');
 
 		$.getJSON(ajaxUrl + '/blocks/add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, position: posID}, function(data) {
@@ -68,7 +70,7 @@
 			}
 
 			var html = template(data, containerTemplate);
-			$(droppedElement).attr('id', 'block-' + data.id).html(html).children().show("scale", {percent: 100}, 1000);
+			$(droppedElement).attr('id', 'block-' + data.id).html(html).children().not('.block-controls').show("scale", {percent: 100}, 1000);
 			initIconPicker();
 		});
 	};
@@ -146,12 +148,12 @@
 					var tpl = (row.no_wrap > 0) ? chromelessTemplate : containerTemplate;
 					var html = template(row, tpl);
 
-					pos.append('<div id="block-' + row.id + '" class="sortable unit size1of1"></div>');
+					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
 					pos.find('#block-' + row.id).html(html);
 				});
 
 				if (pos.hasClass('horizontal')) {
-					sortHorizontal(pos.find('.sortable'));
+					sortHorizontal(pos.find('.block'));
 				}
 			});
 			hideEmptyPositions();
@@ -163,7 +165,7 @@
 		$('.block-position').each(function() {
 			var weight = 0;
 			var pos = $(this).attr('id');
-			$(this).find('.sortable').each(function(i, e) {
+			$(this).find('.block').each(function(i, e) {
 				var id = $(e).attr('id');
 				if (pos !== undefined && id !== undefined) {
 					blocks.push({
@@ -196,7 +198,7 @@
 	var undoEditable = function(v) {
 		editorVal = '';
 		editing = false;
-		editor.parent().replaceWith('<span class="editable_block_title">' + v + '</span>');
+		editor.parent().replaceWith('<span class="block-title">' + v + '</span>');
 	};
 
 	var processInput = function(e) {
@@ -204,7 +206,7 @@
 			return;
 		}
 
-		var id = $(e).parentsUntil('.sortable').parent().attr('id').substring('6');
+		var id = $(e).parentsUntil('.block').parent().attr('id').substring('6');
 		var title = $(e).val();
 
 		if (id && title && title !== editorVal) {
@@ -227,9 +229,9 @@
 	};
 	
 	var initIconPicker = function() {
-		$('.icon-select').iconPicker({
+		$('.block-icon').iconPicker({
 			onSelect: function(item, iconHtml, iconClass) {
-				var id = item.parentsUntil('.sortable').parent().attr('id').substring('6');
+				var id = item.parentsUntil('.block').parent().attr('id').substring('6');
 				updateBlock({'id': id, 'icon': iconClass});
 			}
 		});
@@ -273,12 +275,12 @@
 				}
 			});
 
-			$('.block-position').sortable({
+			blockPositions = $(".block-position").addClass('block-receiver').sortable({
 				revert: true,
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
 				forcePlaceholderSize: true,
-				items: '.sortable',
-				handle: '.block-title',
+				items: '.block',
+				//handle: '.block-title',
 				delay: 150,
 				dropOnEmpty: true,
 				tolerance: 'pointer',
@@ -300,7 +302,7 @@
 						saveBtn.button('enable');
 					}
 	
-					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.sortable');
+					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.block');
 					$(ui.item).parent().removeClass('empty-position');
 	
 					if (items.length > 0) {
@@ -310,14 +312,14 @@
 					}
 	
 					if (origin.attr('id') != $(ui.item).parent('.horizontal').attr('id')) {
-						sortHorizontal(origin.find('.sortable'));
+						sortHorizontal(origin.find('.block'));
 					}
 				},
 				stop: function(event, ui) {
 					$(ui.item).removeClass('dragging');
 					hideEmptyPositions();
 				}
-			}).on('click', '.editable_block_title', function() {
+			}).on('click', '.block-title', function() {
 				makeEditable($(this));
 			}).on('submit', '#inline-form', function(e) {
 				e.preventDefault();
@@ -325,11 +327,11 @@
 			}).on('focusout', '#inline-edit', function(e) {
 				processInput($(this));
 			}).on('click', '.edit-block', function() {
-				blockObj = $(this).parentsUntil('.sortable').parent();
+				blockObj = $(this).parentsUntil('.block').parent();
 				getEditForm(blockObj);
 				return false;
 			}).on('click', '.delete-block', function() {
-				blockObj = $(this).parentsUntil('.sortable').parent();
+				blockObj = $(this).parentsUntil('.block').parent();
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
 				return false;
 			});
@@ -354,7 +356,7 @@
 			$('#admin-options').show();
 			mainContentObj = $('#main-content');
 			subcontentObj = $('#pos-subcontent');
-			emptyPositionsObj = $(".block-position:not('.sortable')");
+			emptyPositionsObj = $(".block-position:not(:has('.block'))").addClass('empty-position');
 			containerTemplate = $("#block-template-container").html();
 			chromelessTemplate = $("#block-template-chromeless").html();
 
@@ -382,7 +384,7 @@
 				var p = blockObj.parent('.horizontal');
 				blockObj.hide("scale", {percent: 5}, 3000).parent().remove();
 
-				var items = p.find('.sortable');
+				var items = p.find('.block');
 				if (items.length > 0) {
 					sortHorizontal(items);
 				}
