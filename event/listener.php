@@ -51,6 +51,7 @@ class listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.user_setup'		=> 'load_language_on_setup',
+			'core.permissions'		=> 'load_permission_language',
 			'core.append_sid'		=> 'add_edit_mode',
 			'core.page_footer'		=> 'init',
 			'core.adm_page_footer'	=> 'set_assets',
@@ -65,6 +66,19 @@ class listener implements EventSubscriberInterface
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
+	}
+
+	public function load_permission_language($event)
+	{
+		$categories = $event['categories'];
+		$categories = array_merge($categories, array('primetime' => 'ACL_CAT_PRIMETIME'));
+		$event['categories'] = $categories;
+
+		$permissions = $event['permissions'];
+		$permissions = array_merge($permissions, array(
+			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'primetime'),
+		));
+		$event['permissions'] = $permissions;
 	}
 
 	public function add_edit_mode($event)
