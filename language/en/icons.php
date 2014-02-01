@@ -1,17 +1,15 @@
 <?php
 /**
- *
- * primetime [English]
- *
- * @package language
- * @copyright (c) 2013 Daniel A. (blitze)
- * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
- *
- */
+*
+* @package phpBB Primetime [English]
+* @copyright (c) 2012 Daniel A. (blitze)
+* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+*
+*/
 
 /**
- * DO NOT CHANGE
- */
+* @ignore
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
