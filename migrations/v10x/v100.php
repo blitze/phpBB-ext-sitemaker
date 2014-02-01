@@ -38,9 +38,10 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables'	=> array(
-				$this->table_prefix . 'block_routes'			=> array(
+				$this->table_prefix . 'block_routes'	=> array(
 					'COLUMNS'		=> array(
-						'route_id'			=> array('UINT', NULL, 'auto_increment'),
+						'route_id'		=> array('UINT', NULL, 'auto_increment'),
+						'ext_name'		=> array('VCHAR:255', ''),
 						'route'			=> array('XSTEXT_UNI', ''),
 						'style'			=> array('USINT', 0),
 						'hide_blocks'	=> array('BOOL', 0),
@@ -96,9 +97,9 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'drop_tables'	=> array(
-				$this->table_prefix . 'block_positions',
 				$this->table_prefix . 'blocks',
 				$this->table_prefix . 'blocks_config',
+				$this->table_prefix . 'block_routes',
 			),
 		);
 	}

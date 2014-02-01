@@ -34,10 +34,10 @@
 		<dl>
 			<dt><label for="block_class">{L_BLOCK_CLASS}</label></dt>
 			<dd>
-				<textarea id="block_class" name="class" style="width: 97%">{S_BLOCK_CLASS}</textarea>
+				<textarea id="block_class" class="block-preview" name="class" style="width: 97%">{S_BLOCK_CLASS}</textarea>
 				<div class="right-box small">
-					<a id="class-clear" href="#"><i class="-icon-reply"></i> {L_CLEAR}</a>&nbsp;&nbsp;
-					<a id="class-select" href="#"><i class="-icon-sort"></i> {L_SELECT}</a>
+					<a id="class-clear" href="#"><i class="fa fa-reply"></i> {L_CLEAR}</a>&nbsp;&nbsp;
+					<a id="class-select" href="#"><i class="fa fa-sort"></i> {L_SELECT}</a>
 				</div>
 			</dd>
 		</dl>
@@ -47,15 +47,15 @@
 		<dl>
 			<dt><label for="no-wrap">{L_BLOCK_HIDE_CONTAINER}</label></dt>
 			<dd>
-				<input class="show-container" type="radio" name="no_wrap" value="1"<!-- IF S_NO_WRAP --> checked="checked"<!-- ENDIF --> id="no-wrap" /> {L_YES}&nbsp;
-				<input class="show-container" type="radio" name="no_wrap" value="0"<!-- IF not S_NO_WRAP --> checked="checked"<!-- ENDIF --> /> {L_NO}
+				<input class="block-preview" type="radio" name="no_wrap" value="1"<!-- IF S_NO_WRAP --> checked="checked"<!-- ENDIF --> id="no-wrap" /> {L_YES}&nbsp;
+				<input class="block-preview" type="radio" name="no_wrap" value="0"<!-- IF not S_NO_WRAP --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 		</dl>
 		<dl>
 			<dt><label for="hide_title">{L_BLOCK_HIDE_TITLE}</label></dt>
 			<dd>
-				<input type="radio" name="hide_title" value="1"<!-- IF S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> id="hide_title" /> {L_YES}&nbsp;
-				<input type="radio" name="hide_title" value="0"<!-- IF not S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> /> {L_NO}
+				<input class="block-preview" type="radio" name="hide_title" value="1"<!-- IF S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> id="hide_title" /> {L_YES}&nbsp;
+				<input class="block-preview" type="radio" name="hide_title" value="0"<!-- IF not S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 		</dl>
 	<!-- BEGIN options -->
@@ -66,7 +66,7 @@
 		<fieldset>
 		<!-- ELSE -->	
 			<dl>
-				<dt><label for="{options.KEY}">{options.TITLE}{L_COLON}</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
+				<dt><label for="{options.KEY}">{options.TITLE}</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
 				<dd>{options.CONTENT}</dd>
 			</dl>	
 		<!-- ENDIF -->

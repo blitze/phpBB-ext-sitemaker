@@ -145,6 +145,7 @@ class manager
 		$this->primetime->add_assets(array(
 			'js'		=> array(
 				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/js/t.js',
 				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.js',
 			),
 			'css'   => array(
@@ -171,38 +172,43 @@ class manager
 			'UA_AJAX_URL'		=> $this->user->page['root_script_path'] . 'app.' . $phpEx)
 		);
 
-		if ($edit_mode === false)
+		if ($edit_mode !== false)
 		{
-			return false;
-		}
+			global $phpbb_container, $symfony_request;
 
-		$this->get_available_blocks();
-		$route_info = $this->get_route_info($route);
+			$controller_service = $symfony_request->attributes->get('_route');
 
-		$hide_blocks = false;
-		$ex_positions = array();
+			$ext_name = '';
+			if ($controller_service)
+			{
+				$controller = $phpbb_container->get($controller_service);
 
-		if (sizeof($route_info))
-		{
-			$ex_positions = explode(',', $route_info['ex_positions']);
-			$hide_blocks = $route_info['hide_blocks'];
-		}
+				list($namespace, $ext) = explode('\\', get_class($controller));
+				$ext_name = "$namespace/$ext";
+			}
 
-		// hardcoding here
-		$block_controls = '<div class="block-controls">';
-		$block_controls .= '<a href="#" class="item-action delete-block" title="' . $this->user->lang['DELETE'] . '"><span class="ui-icon ui-icon-closethick">' . $this->user->lang['DELETE'] . '</span></a>';
-		$block_controls .= '<a href="#" class="item-action edit-block" title="' . $this->user->lang['EDIT'] . '"><span class="ui-icon ui-icon-gear">' . $this->user->lang['EDIT'] . '</span></a>';
-		$block_controls .= '</div>';
+			$this->get_available_blocks();
+			$route_info = $this->get_route_info($route);
 
-		$this->template->assign_vars(array(
-			'ICON_PICKER'		=> $this->icons->picker(),
-			'S_ROUTE_OPS'		=> $this->get_route_options($route),
-			'S_HIDE_BLOCKS'		=> $hide_blocks,
-			'S_BLOCK_CONTROLS'	=> $block_controls,
-			'S_POSITION_OPS'	=> $this->get_position_options($ex_positions))
-		);
+			$hide_blocks = false;
+			$ex_positions = array();
 
-		return true;
+			if (sizeof($route_info))
+			{
+				$ex_positions = explode(',', $route_info['ex_positions']);
+				$hide_blocks = $route_info['hide_blocks'];
+			}
+
+			$this->template->assign_vars(array(
+				'ICON_PICKER'		=> $this->icons->picker(),
+				'UA_EXTENSION'		=> $ext_name,
+				'S_ROUTE_OPS'		=> $this->get_route_options($route),
+				'S_HIDE_BLOCKS'		=> $hide_blocks,
+				'S_POSITION_OPS'	=> $this->get_position_options($ex_positions))
+			);
+		};
+
+		return $edit_mode;
 	}
 
 	/**
@@ -298,8 +304,14 @@ class manager
 	 */
 	public function add_route($route)
 	{
+		$ext_name = $this->request->variable('ext', '');
+
 		$sql_data = array(
-			'route'		  => $route,
+			'ext_name'		=> $ext_name,
+			'route'			=> $route,
+			'style'			=> 0,
+			'hide_blocks'	=> false,
+			'ex_positions'	=> '',
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 
@@ -403,12 +415,14 @@ class manager
 		}
 
 		$block_data = array(
-			'icon'		=> '',
-			'title'		=> '',
-			'name'		=> $service,
-			'weight'	=> $weight,
-			'position'	=> $position,
-			'route_id'	=> $this->get_route_id($route),
+			'icon'			=> '',
+			'title'			=> '',
+			'name'			=> $service,
+			'weight'		=> $weight,
+			'position'		=> $position,
+			'route_id'		=> $this->get_route_id($route),
+			'hide_title'	=> false,
+			'no_wrap'		=> false,
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
@@ -501,7 +515,7 @@ class manager
 			{
 				$this->template->assign_block_vars('options', array(
 					'S_LEGEND'	=> $config_key,
-					'LEGEND'	=> (isset($user->lang[$vars])) ? $user->lang[$vars] : $vars)
+					'LEGEND'	=> (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
 				);
 
 				continue;
@@ -512,11 +526,11 @@ class manager
 			$l_explain = '';
 			if ($vars['explain'] && isset($vars['lang_explain']))
 			{
-				$l_explain = (isset($user->lang[$vars['lang_explain']])) ? $user->lang[$vars['lang_explain']] : $vars['lang_explain'];
+				$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
 			}
 			else if ($vars['explain'])
 			{
-				$l_explain = (isset($user->lang[$vars['lang'] . '_EXPLAIN'])) ? $user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
 			}
 
 			// this looks bad but its the only way without modifying phpbb code
@@ -525,7 +539,7 @@ class manager
 				$options = $vars['params'][0];
 				foreach ($options as $key => $title)
 				{
-					$user->lang[$title] = $title;
+					$this->user->lang[$title] = $title;
 				}
 			}
 
@@ -538,7 +552,7 @@ class manager
 
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $config_key,
-				'TITLE'			=> (isset($user->lang[$vars['lang']])) ? $user->lang[$vars['lang']] : $vars['lang'],
+				'TITLE'			=> (isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang'],
 				'S_EXPLAIN'		=> $vars['explain'],
 				'TITLE_EXPLAIN'	=> $l_explain,
 				'CONTENT'		=> $content)
@@ -698,7 +712,7 @@ class manager
 		$new_blocks = $this->get_blocks($copy_from, 'data');
 
 		// copy blocks config
-		$copied_blocks_config = array_values($this->get_block_config(array_keys($new_blocks)));
+		$copied_blocks_config = $this->get_block_config(array_keys($new_blocks), true);
 
 		// delete current blocks
 		$this->delete_blocks($old_blocks);
@@ -740,13 +754,13 @@ class manager
 			$this->db->sql_multi_insert($this->blocks_table, $sql_blocks);
 		}
 
-		$sql_blocks_config_ary = $blocks_config = array();
+		$sql_blocks_config_ary = $db_settings = array();
 		for ($i = 0, $size = sizeof($copied_blocks_config); $i < $size; $i++)
 		{
 			$row = $copied_blocks_config[$i];
 			$row['bid'] = (int) $mapped_ids[$row['bid']];
 			$sql_blocks_config_ary[] = $row;
-			$blocks_config[$row['bid']][$row['bvar']] = $row['bval'];
+			$db_settings[$row['bid']][$row['bvar']] = $row['bval'];
 		}
 
 		if (sizeof($sql_blocks_config_ary))
@@ -759,17 +773,28 @@ class manager
 		for ($i = 0, $size = sizeof($sql_blocks); $i < $size; $i++)
 		{
 			$row = $sql_blocks[$i];
-			$row['settings'] = (isset($blocks_config[$row['bid']])) ? $blocks_config[$row['bid']] : array();
+			$block_config = (isset($db_settings[$row['bid']])) ? $db_settings[$row['bid']] : array();
 
 			$b = $phpbb_container->get($row['name']);
+
+			$df_settings = $b->get_config($block_config);
+			foreach ($df_settings as $key => $settings)
+			{
+				if (!is_array($settings))
+				{
+					continue;
+				}
+				$row['settings'][$key] =& $settings['default'];
+			}
 
 			$data[$row['position']][] = array_merge(
 				array(
 					'id'			=> $row['bid'],
 					'icon'			=> ($row['icon']) ? $row['icon'] : $this->def_icon,
 					'class'			=> $row['class'],
-					'no_wrap'		=> $row['no_wrap'],
-					'hide_title'	=> $row['hide_title'],
+					'status'		=> (bool) $row['status'],
+					'no_wrap'		=> (bool) $row['no_wrap'],
+					'hide_title'	=> (bool) $row['hide_title'],
 				),
 				$this->display($b, $row)
 			);
@@ -815,6 +840,38 @@ class manager
 		return ($return == 'id') ? array_keys($blocks) : $blocks;
 	}
 
+	/**
+	 * Delete all blocks provided by a particular extension
+	 */
+	public function delete_ext_blocks($ext_name)
+	{
+		$sql_array = array(
+			'SELECT'	=> 'b.bid',
+
+			'FROM'	  => array(
+				$this->blocks_table			=> 'b',
+				$this->block_routes_table	=> 'r',
+			),
+
+			'WHERE'	 => "b.route_id = r.route_id
+				AND r.ext_name = '" . $this->db->sql_escape($ext_name) . "'",
+		);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+
+		$blocks = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$blocks[] = $row['bid'];
+		}
+		$this->db->sql_freeresult($result);
+
+		$this->delete_blocks($blocks);
+
+		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . " WHERE ext_name = '" . $this->db->sql_escape($ext_name) . "'");
+	}
+
 	private function get_block_data($bid)
 	{
 		$result = $this->db->sql_query('SELECT * FROM ' . $this->blocks_table . ' WHERE bid = ' . (int) $bid);
@@ -825,20 +882,21 @@ class manager
 		return $row;
 	}
 
-	private function get_block_config($bid)
+	private function get_block_config($bid, $raw = false)
 	{
 		$ids = (is_array($bid)) ? $bid : array($bid);
 
 		$result = $this->db->sql_query('SELECT * FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $ids));
 
-		$bconfig = array();
+		$bconfig = $raw = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			$raw[] = $row;
 			$bconfig[$row['bid']][$row['bvar']] = $row['bval'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return (!is_array($bid)) ? array_shift($bconfig) : $bconfig;
+		return ($raw === false) ? ((!is_array($bid)) ? array_shift($bconfig) : $bconfig) : $raw;
 	}
 
 	private function delete_block_config($bid)
@@ -865,11 +923,6 @@ class manager
 		{
 			return;
 		}
-
-		// did we delete all blocks for this route? If so, remove route
-		/**
-		 * to do
-		 */
 
 		$sql = 'DELETE FROM ' . $this->blocks_table . ' WHERE ' . $this->db->sql_in_set('bid', $block_ids);
 		$this->db->sql_query($sql);

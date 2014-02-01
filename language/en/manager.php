@@ -39,7 +39,6 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ALL'					=> 'All',
 	'NONE'					=> 'None',
-	'ADD_BLOCK'				=> 'Add Block',
 	'EDIT'					=> 'Edit',
 	'CANCEL'				=> 'Cancel',
 	'COPY'					=> 'Copy',
@@ -80,11 +79,13 @@ $lang = array_merge($lang, array(
 	'MAKE_DEFAULT_LAYOUT'	=> 'Set As Default Layout',
 	'VIEW_DEFAULT_LAYOUT'	=> 'View/Edit Default Layout',
 	'REMOVE_DEFAULT_LAYOUT'	=> 'Remove As Default Layout',
-	'DEFAULT_LAYOUT_EXPLAIN'	=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
-	'LAYOUT_SETTINGS_EXPLAIN'	=> '',
+	
+	'SHOW_HIDE_ME'			=> 'Allow hide online status?',
+	'AUTO_LOGIN'			=> 'Allow auto login?',
 
-	'AJAX_ERROR'			=> 'Oops! There was an error processing your request. Please try again.',
-	'COPY_BLOCKS_CONFIRM'	=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
-	'LEAVE_CONFIRM'			=> 'You have some unsaved changes to this page. Please save your work before moving on',
-	'DELETE_BLOCK_CONFIRM'	=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',
+	'AJAX_ERROR'				=> 'Oops! There was an error processing your request. Please try again.',
+	'COPY_BLOCKS_CONFIRM'		=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
+	'LEAVE_CONFIRM'				=> 'You have some unsaved changes to this page. Please save your work before moving on',
+	'DELETE_BLOCK_CONFIRM'		=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',
+	'DEFAULT_LAYOUT_EXPLAIN'	=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
 ));

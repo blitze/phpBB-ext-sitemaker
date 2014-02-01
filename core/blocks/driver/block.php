@@ -72,13 +72,13 @@ abstract class block implements \primetime\primetime\core\blocks\driver\block_in
 	/**
 	 * Render Primetime Block
 	 * 
-	 * @param string $namespace		extension namespace
+	 * @param string $ext_name		extension name in form namespace/extension
 	 * @param string $tpl_file		html template file
 	 * @param string $handle		template handle
 	 */
-	public function render_block($namespace, $tpl_file, $handle)
+	public function render_block($ext_name, $tpl_file, $handle)
 	{
-		$this->btemplate->set_style(array("ext/$namespace/styles"));
+		$this->btemplate->set_style(array("ext/$ext_name/styles"));
 
 		$this->btemplate->set_filenames(array(
 			$handle	=> $tpl_file)

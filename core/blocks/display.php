@@ -127,132 +127,6 @@ class display
 		$this->block_routes_table = $block_routes_table;
 	}
 
-	public function get_route_info($route)
-	{
-		if (($routes = $this->cache->get('_block_routes')) === false)
-        {
-			$sql = 'SELECT * FROM ' . $this->block_routes_table;
-			$result = $this->db->sql_query($sql);
-
-			$routes = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$routes[$row['route']] = $row;
-			}
-			$this->db->sql_freeresult($result);
-
-            $this->cache->put('_block_routes', $routes);
-        }
-
-		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
-	}
-
-	public function get_blocks($route, $edit_mode)
-	{
-        if (($blocks = $this->cache->get('_blocks_' . $route)) === false)
-        {
-			global $phpbb_container;
-
-			$sql_array = array(
-				'SELECT'	=> 'b.*',
-
-				'FROM'	  => array(
-					$this->blocks_table			=> 'b',
-					$this->block_routes_table	=> 'r',
-				),
-
-				'WHERE'	 => "b.route_id = r.route_id
-					AND r.route = '" . $this->db->sql_escape($route) . "'" . 
-					((!$edit_mode) ? ' AND b.status = 1' : ''),
-
-				'ORDER_BY'  => 'b.position, b.weight ASC',
-			);
-
-			$sql = $this->db->sql_build_query('SELECT', $sql_array);
-			$result = $this->db->sql_query($sql);
-
-			$blocks = $block_pos = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$block_pos[$row['bid']] = $row['position'];
-				$blocks[$row['position']][$row['bid']] = $row;
-				$blocks[$row['position']][$row['bid']]['settings'] = array();
-			}
-			$this->db->sql_freeresult($result);
-
-			$db_settings = $this->get_blocks_config(array_keys($block_pos));
-
-			foreach ($block_pos as $bid => $position)
-			{
-				$block_service = $blocks[$position][$bid]['name'];
-
-				if ($phpbb_container->has($block_service) === false)
-				{
-					continue;
-				}
-
-				$b = $phpbb_container->get($block_service);
-				$df_settings = $b->get_config($db_settings);
-
-				foreach ($df_settings as $key => $settings)
-				{
-					if (!is_array($settings))
-					{
-						continue;
-					}
-					$default =& $settings['default'];
-					$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
-				}
-			}
-
-            $this->cache->put('_blocks_' . $route, $blocks);
-        }
-
-		return $blocks;
-	}
-	
-	public function get_blocks_config($bids)
-	{
-		if (!sizeof($bids))
-		{
-			return array();
-		}
-
-        $sql = 'SELECT bid, bvar, bval
-            FROM ' . $this->blocks_config_table . '
-            WHERE ' . $this->db->sql_in_set('bid', $bids);
-        $result = $this->db->sql_query($sql);
-
-        $data = array();
-        while ($row = $this->db->sql_fetchrow($result))
-        {
-            $data[$row['bid']][$row['bvar']] = $row['bval'];
-        }
-        $this->db->sql_freeresult($result);
-    
-        return $data;
-	}
-
-	public function get_route()
-	{
-		global $phpbb_container, $symfony_request;
-
-		$controller_service = $symfony_request->attributes->get('_route');
-		$route = $this->user->page['page_name'];
-
-		if ($controller_service)
-		{
-			$controller = $phpbb_container->get($controller_service);
-			
-			if (method_exists($controller, 'get_blocks_route'))
-			{
-				$route = $controller->get_blocks_route();
-			}
-		}
-
-		return $route;
-	}
-
 	public function show()
 	{
 		global $phpbb_container, $config;
@@ -342,5 +216,135 @@ class display
 			),
 			array_change_key_case($blocks_per_position, CASE_UPPER))
 		);
+	}
+
+	public function get_route()
+	{
+		global $phpbb_container, $symfony_request;
+
+		$controller_service = $symfony_request->attributes->get('_route');
+		$route = $this->user->page['page_name'];
+
+		if ($controller_service)
+		{
+			$controller = $phpbb_container->get($controller_service);
+
+			/**
+			 * Let controller optionally specify route
+			 */
+			if (method_exists($controller, 'get_blocks_route'))
+			{
+				$route = $controller->get_blocks_route();
+			}
+		}
+
+		return $route;
+	}
+
+	public function get_route_info($route)
+	{
+		if (($routes = $this->cache->get('_block_routes')) === false)
+        {
+			$sql = 'SELECT * FROM ' . $this->block_routes_table;
+			$result = $this->db->sql_query($sql);
+
+			$routes = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$routes[$row['route']] = $row;
+			}
+			$this->db->sql_freeresult($result);
+
+            $this->cache->put('_block_routes', $routes);
+        }
+
+		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
+	}
+
+	public function get_blocks($route, $edit_mode)
+	{
+        if (($blocks = $this->cache->get('_blocks_' . $route)) === false)
+        {
+			global $phpbb_container;
+
+			$sql_array = array(
+				'SELECT'	=> 'b.*',
+
+				'FROM'	  => array(
+					$this->blocks_table			=> 'b',
+					$this->block_routes_table	=> 'r',
+				),
+
+				'WHERE'	 => "b.route_id = r.route_id
+					AND r.route = '" . $this->db->sql_escape($route) . "'" . 
+					((!$edit_mode) ? ' AND b.status = 1' : ''),
+
+				'ORDER_BY'  => 'b.position, b.weight ASC',
+			);
+
+			$sql = $this->db->sql_build_query('SELECT', $sql_array);
+			$result = $this->db->sql_query($sql);
+
+			$blocks = $block_pos = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$block_pos[$row['bid']] = $row['position'];
+				$blocks[$row['position']][$row['bid']] = $row;
+				$blocks[$row['position']][$row['bid']]['settings'] = array();
+			}
+			$this->db->sql_freeresult($result);
+
+			$db_settings = $this->get_blocks_config(array_keys($block_pos));
+
+			foreach ($block_pos as $bid => $position)
+			{
+				$block_service = $blocks[$position][$bid]['name'];
+				$block_config = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
+
+				if ($phpbb_container->has($block_service) === false)
+				{
+					continue;
+				}
+
+				$b = $phpbb_container->get($block_service);
+				$df_settings = $b->get_config($block_config);
+
+				foreach ($df_settings as $key => $settings)
+				{
+					if (!is_array($settings))
+					{
+						continue;
+					}
+					$default =& $settings['default'];
+					$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
+				}
+			}
+
+            $this->cache->put('_blocks_' . $route, $blocks);
+        }
+
+		return $blocks;
+	}
+	
+	public function get_blocks_config($bids)
+	{
+		if (!sizeof($bids))
+		{
+			return array();
+		}
+
+        $sql = 'SELECT bid, bvar, bval
+            FROM ' . $this->blocks_config_table . '
+            WHERE ' . $this->db->sql_in_set('bid', $bids);
+        $result = $this->db->sql_query($sql);
+
+        $data = array();
+        while ($row = $this->db->sql_fetchrow($result))
+        {
+            $data[$row['bid']][$row['bvar']] = $row['bval'];
+        }
+        $this->db->sql_freeresult($result);
+    
+        return $data;
 	}
 }

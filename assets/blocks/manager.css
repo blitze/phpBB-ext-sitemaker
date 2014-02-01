@@ -52,9 +52,14 @@
 	padding: 10px;
 	color: #ccc;
 	text-transform: uppercase;
-	font: bold 12px Arial, Helvetica;
+	font: bold 1.2em Arial, Helvetica;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #000;
+}
+
+#admin-bar .hmenu li .button,
+#admin-bar .hmenu li .menu_item {
+	font: bold 1.2em Arial, Helvetica;
 }
 
 #admin-bar .hmenu li .button {

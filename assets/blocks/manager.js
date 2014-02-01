@@ -1,7 +1,6 @@
 (function($){
 	var editing = false, updated = false;
-	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {};
-	var containerTemplate = '', chromelessTemplate = '', containerDefClass = '', chromelessDefClass = '';
+	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
 	var origin = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
 
 	var sortHorizontal = function(items) {
@@ -51,25 +50,25 @@
 		}
 	};
 
-	var template = function(tokens, tpl) {
+	/*var template = function(tokens, tpl) {
 		return tpl.replace(/<%=(.+?)%>/g, function(token, match) {
 			return (tokens[match] !== undefined) ? tokens[match] : '';
 		});
-	};
+	};*/
 
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('unit size1of1 block')
 			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="-icon-spinner -icon-spin"></i> ' + lang.ajaxLoading + '</div>');
 
-		$.getJSON(ajaxUrl + '/blocks/add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, position: posID}, function(data) {
+		$.getJSON(ajaxUrl + '/blocks/add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
 			updated = false;
 			if (data.id === null) {
 				$(droppedElement).remove();
 				return;
 			}
 
-			var html = template(data, containerTemplate);
+			var html = template.render(data);
 			$(droppedElement).attr('id', 'block-' + data.id).html(html).children().not('.block-controls').show("scale", {percent: 100}, 1000);
 			initIconPicker();
 		});
@@ -124,7 +123,7 @@
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(ajaxUrl + '/blocks/settings' + '?route=' + route, form.serialize(),
+		$.post(ajaxUrl + '/blocks/settings' + '?route=' + route + '&ext=' + ext, form.serialize(),
 			function(resp){
 				console.log(resp);
 			},
@@ -134,7 +133,7 @@
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(ajaxUrl + '/blocks/copy', {copy: copyFrom, route: route}, function(resp) {
+		$.getJSON(ajaxUrl + '/blocks/copy', {copy: copyFrom, route: route, ext: ext}, function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -145,8 +144,7 @@
 			$.each(resp.data, function(position, data) {
 				var pos = $('#pos-' + position);
 				$.each(data, function(idx, row) {
-					var tpl = (row.no_wrap > 0) ? chromelessTemplate : containerTemplate;
-					var html = template(row, tpl);
+					var html = template.render(row);
 
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
 					pos.find('#block-' + row.id).html(html);
@@ -217,15 +215,25 @@
 		return false;
 	};
 
-	var previewBlock = function(tpl) {
+	var previewBlock = function() {
+		// make a copy of block data
 		var data = jQuery.extend(true, {}, blockData);
-		data['class'] = dialogEdit.find('#block_class').val();
-		blockObj.html(template(data, tpl));
+		var form_data = dialogEdit.find('#edit_form').serializeArray();
+
+		$.each(form_data, function() {
+			data[this.name] = this.value;
+		});
+
+		data.no_wrap = (data.no_wrap > 0) ? true : false;
+		data.hide_title = (data.hide_title > 0) ? true : false;
+
+		blockObj.html(template.render(data));
 	};
 
 	var undoPreviewBlock = function() {
-		var tpl = (blockData.no_wrap > 0) ? chromelessTemplate : containerTemplate;
-		blockObj.html(template(blockData, tpl));
+		blockData.hide_title = (blockData.hide_title > 0) ? true : false;
+		blockData.no_wrap = (blockData.no_wrap > 0) ? true : false;
+		blockObj.html(template.render(blockData));
 	};
 	
 	var initIconPicker = function() {
@@ -357,8 +365,7 @@
 			mainContentObj = $('#main-content');
 			subcontentObj = $('#pos-subcontent');
 			emptyPositionsObj = $(".block-position:not(:has('.block'))").addClass('empty-position');
-			containerTemplate = $("#block-template-container").html();
-			chromelessTemplate = $("#block-template-chromeless").html();
+			template = new t($.trim($('#block-template-container').html()));
 
 			msgObj = $('#ajax-message').ajaxError(function() {
 				showMessage(lang.ajaxError);
@@ -414,7 +421,7 @@
 			}).on('click', '#class-select', function(e) {
 				dialogEdit.find('#css-class-options').slideToggle();
 				return false;
-			}).on('click', '.classes-control', function(e) {
+			}).on('click', '.class-cat', function(e) {
 				var id = $(this).attr('href');
 				var obj = $('#classes-scroller');
 				obj.animate({
@@ -427,12 +434,8 @@
 				classes = ((classes) ? classes + ' ' : '') + $(this).text();
 				classObj.val(classes).change();
 				return false;
-			}).on('change', '#block_class', function(e) {
-				var tpl = (dialogEdit.find('input[name=no_wrap]:checked').val() > 0) ? chromelessTemplate : containerTemplate;
-				previewBlock(tpl);
-			}).on('change', '.show-container', function(e) {
-				var tpl = ($(this).val() > 0) ? chromelessTemplate : containerTemplate;
-				previewBlock(tpl);
+			}).on('change', '.block-preview', function(e) {
+				previewBlock();
 			});
 
 			// Initiate dialog for block copy
