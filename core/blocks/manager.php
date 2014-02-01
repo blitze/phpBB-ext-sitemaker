@@ -260,21 +260,35 @@ class manager
 	}
 
 	/**
-	 * Get route options
+	 * Get routes with blocks
 	 */
 	public function get_route_options($ex_route = '')
 	{
-		$routes = $this->get_all_routes();
+		$sql_array = array(
+			'SELECT'	=> 'r.route',
 
-		unset($routes[$ex_route]);
-		$routes = array_values($routes);
+			'FROM'	  => array(
+				$this->blocks_table			=> 'b',
+				$this->block_routes_table	=> 'r',
+			),
+
+			'WHERE'	 => 'b.route_id = r.route_id' . 
+				(($ex_route) ? " AND r.route <> '" . $this->db->sql_escape($ex_route) . "'" : ''),
+
+			'GROUP_BY'  => 'r.route',
+
+			'ORDER_BY'  => 'r.route',
+		);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
 
 		$options = '<option value="">' . $this->user->lang['SELECT'] . '</option>';
-		for ($i = 0, $size = sizeof($routes); $i < $size; $i++)
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$row = $routes[$i];
 			$options .= '<option value="' . $row['route'] . '">' . $row['route'] . '</option>';
 		}
+		$this->db->sql_freeresult($result);
 
 		return $options;
 	}
