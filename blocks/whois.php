@@ -51,7 +51,7 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 		$data = $this->context->get_data_ref();
 
 		$content = '';
-		if (isset($data['.'][0]['TOTAL_USERS_ONLINE']))
+		if (!empty($data['.'][0]['TOTAL_USERS_ONLINE']))
 		{
 			$this->btemplate->assign_vars(array(
 				'TOTAL_USERS_ONLINE'	=> $data['.'][0]['TOTAL_USERS_ONLINE'],
