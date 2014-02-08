@@ -55,7 +55,7 @@ class myblock extends \primetime\primetime\core\blocks\driver\block
 			));
 
 			$bid = (isset($bdata['bid'])) ? $bdata['bid'] : 0;
-			$content = '<div id="block-' . $bid . '" class="editable-block" contenteditable="true">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
+			$content = '<div id="block_' . $bid . '" class="editable-block" contenteditable="true">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
 		}
 
 		return array(
