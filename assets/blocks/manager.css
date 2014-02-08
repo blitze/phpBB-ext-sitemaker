@@ -25,7 +25,6 @@
 	line-height: 38px;
 	background-color: #c33;
 	color: #ccc;
-	font-weight: bolder;
 	font-size: 18px;
 	text-align: center;
 	z-index: 5000;
@@ -33,6 +32,8 @@
 
 #admin-control:hover {
 	text-decoration: none;
+	font-weight: bolder;
+	color: #ddd;
 }
 
 #admin-bar .hmenu {
@@ -110,6 +111,13 @@
 
 #inline-form {
 	display: inline;
+	font-size: 0.8em;
+}
+
+#inline-form input {
+	width: 65%;
+	cursor: pointer;
+	cursor: hand;
 }
 
 #css-class-options {
@@ -223,14 +231,6 @@
 	overflow: visible;
 }
 
-.block-receiver .block-title input {
-	height: 16px;
-	max-width: 85%;
-	display: inline-block;
-	cursor: pointer;
-	cursor: hand;
-}
-
 .block-receiver .block-title:hover {
 	border: 1px solid #ccc;
 }
@@ -238,8 +238,8 @@
 .block-receiver .block .block-controls {
 	display: none;
 	position: absolute;
-	top: 5px;
-	right: 10px;
+	top: 15px;
+	right: 15px;
 	width: auto;
 }
 

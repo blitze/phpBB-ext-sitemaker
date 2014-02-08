@@ -5,7 +5,7 @@
 
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
-		var numCols = (items.parent().attr('data-columns') !== undefined) ? ((items.parent().attr('data-columns') <= 5) ? items.parent().attr('data-columns') : 5) : 3;
+		var numCols = (items.parent().data('columns') !== undefined) ? ((items.parent().data('columns') <= 5) ? items.parent().data('columns') : 5) : 3;
 		var itemsLeft = numItems % numCols;
 		var divisibleItems = numItems - itemsLeft;
 
@@ -25,14 +25,14 @@
 		}
 
 		var divClass = 'size1of' + numCols;
-		items.removeClass('size1of1 size1of2 size1of3 size1of4 size1of5');
+		items.removeClass('size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().children('.clear').remove();
 
 		if (divisibleItems > 0) {
-			items.slice(0, divisibleItems).addClass(divClass);
+			items.slice(0, divisibleItems).addClass(divClass).filter(':nth-child(' + numCols + ')').addClass('lastUnit').after('<div class="clear"></div>');
 		}
 
 		if (itemsLeft) {
-			items.slice(divisibleItems, numItems).addClass('size1of' + itemsLeft);
+			items.slice(divisibleItems, numItems).addClass('size1of' + itemsLeft).last().addClass('lastUnit');
 		}
 	};
 
@@ -77,6 +77,7 @@
 	var getEditForm = function(block) {
 		$.getJSON(ajaxUrl + '/blocks/edit', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
+			console.log(resp);
 			if (resp.form) {
 				dialogEdit.html(resp.form);
 				dialogEdit.find('#block-settings').tabs();
@@ -311,12 +312,10 @@
 					}
 	
 					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.block');
-					$(ui.item).parent().removeClass('empty-position');
-	
+					$(ui.item).removeClass('size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().removeClass('empty-position');
+
 					if (items.length > 0) {
 						sortHorizontal(items);
-					} else {
-						$(ui.item).removeClass('size1of2 size1of3').addClass('size1of1');
 					}
 	
 					if (origin.attr('id') != $(ui.item).parent('.horizontal').attr('id')) {

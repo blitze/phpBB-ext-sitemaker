@@ -1,14 +1,15 @@
 /* CMS blocks layout
 ------------------ */
 .cms-block-spacing, .unit .cms-block-spacing {
-    margin: 0 5px 10px 5px;
+	margin: 0;
+    margin-bottom: 10px;
 }
 
-.nls .cms-block-spacing {
-    margin-left: 0;
+.horizontal > .unit > .cms-block-spacing {
+    margin-right: 10px;
 }
 
-.nrs .cms-block-spacing {
+.horizontal > .lastUnit > .cms-block-spacing {
     margin-right: 0;
 }
 
@@ -40,63 +41,33 @@
     margin-left: 1.5em;
 }
 
+#pos-sidebar {
+	padding-right: 10px;
+}
+
+#pos-subcontent {
+	padding-left: 10px;
+}
+
 /* Footer */
-#pt-footer  .cms-block-spacing {
-    margin: 4em 2em;
-    padding-right: 2.7em;
+#pos-footer {
+	padding: 15px;
+}
+
+#pos-footer .panel {
+	background: transparent;
+}
+
+#pos-footer  .cms-block-spacing {
     border-right: 1px solid #ccc;
 }
 
-#pt-footer .lastUnit .cms-block-spacing {
+#pos-footer .lastUnit .cms-block-spacing {
     border: 0;
-}
-
-/* Members
-------------*/
-.members-box {
-    text-align: center !important;
-    padding: 5px;
-    height: 105px;
-}
-
-.members-box .inner {
-    width: 100%;
-    height: 70px;
-    line-height: 70px;
-}
-
-.members-box .inner img {
-    vertical-align: middle;
 }
 
 /* CMS Misc
 --------------- */
-h3 {
-    text-transform : capitalize;
-}
-
-.header {
-    font-weight: bold;
-    margin-bottom: 3px;
-}
-
-.heading1 {
-    font-size: 1.8em;
-}
-
-.heading2 {
-    font-size: 1.5em;
-}
-
-.read-more {
-    background: #cecece none repeat-x 0 0;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    padding: 0 5px;
-    margin: 0 10px;
-    clear: both;
-}
-
 .cms-block-container .postbody {
     width: 100%;
 }
