@@ -1,0 +1,18 @@
+<ul>
+<!-- BEGIN tree -->
+	<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
+	<ul class="flat-list block-ui clearfix">
+	<!-- ELSE -->
+	<!-- BEGIN close --></ul></li><!-- END close -->
+	<!-- ENDIF -->
+	<li>
+		<div class="inner-block-ui"><a href="{tree.ITEM_URL}"><i class="{tree.ITEM_ICON}"></i>{tree.ITEM_TITLE}</a></div>
+	<!-- IF tree.S_NUM_KIDS == 0 -->
+	</li>
+	<!-- ENDIF -->
+<!-- END tree -->
+    <!-- BEGIN close_tree -->
+    </ul>
+    </li>
+    <!-- END close_tree -->
+</ul>
