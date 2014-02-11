@@ -45,7 +45,7 @@ class icon_picker
 	 *
 	 * @param \phpbb\template\template				$template		Template object
 	 * @param \phpbb\user                			$user       	User object
-	 * @param \primetime\primetime\core\primetime	$primetime		Template object
+	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	 */
     function __construct(\primetime\primetime\core\blocks\template $template, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
 	{

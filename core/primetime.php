@@ -47,13 +47,12 @@ class primetime
 	/**
 	* Constructor
 	*
-	* @param \phpbb\user                $user       		User object
-	* @param \phpbb\template\template	$template			Template object
-	* @param \phpbb\template\template	$btemplate			Primetime template object
-	* @param string 					$phpbb_root_path	Relative path to phpBB root
-	* @param string 					$php_ext			PHP extension (php)
+	* @param \phpbb\user								$user			User object
+	* @param \phpbb\template\template					$template		Template object
+	* @param \primetime\primetime\core\blocks\template	$btemplate		Primetime template object
+	* @param \phpbb\path_helper							$path_helper	Path helper object
 	*/
-	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \phpbb\template\template $btemplate, \phpbb\path_helper $path_helper)
+	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\path_helper $path_helper)
 	{
 		$this->user = $user;
 		$this->template = $template;
@@ -263,7 +262,7 @@ class primetime
 	* Add a secret token to the form (requires the S_FORM_TOKEN template variable)
 	* @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
 	*/
-	public function mod_add_form_key($form_name)
+	public function ext_add_form_key($form_name)
 	{
 		add_form_key($form_name);
 		$s_form_token = $this->template->_tpldata['.']['0']['S_FORM_TOKEN'];
