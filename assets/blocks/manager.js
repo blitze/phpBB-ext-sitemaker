@@ -24,15 +24,20 @@
 			itemsLeft = 0;
 		}
 
-		var divClass = 'size1of' + numCols;
-		items.removeClass('size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().children('.clear').remove();
+		items.removeClass('unit size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().children('.clear').remove();
 
 		if (divisibleItems > 0) {
-			items.slice(0, divisibleItems).addClass(divClass).filter(':nth-child(' + numCols + ')').addClass('lastUnit').after('<div class="clear"></div>');
+			items.slice(0, divisibleItems).addClass('unit size1of' + numCols)
+				.filter(':nth-child(' + numCols + ')')
+					.addClass('lastUnit')
+					.after('<div class="clear"></div>');
 		}
 
 		if (itemsLeft) {
-			items.slice(divisibleItems, numItems).addClass('size1of' + itemsLeft).last().addClass('lastUnit');
+			items.slice(divisibleItems, numItems)
+				.addClass('unit size1of' + itemsLeft)
+				.last()
+					.addClass('lastUnit');
 		}
 	};
 
@@ -58,8 +63,8 @@
 
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
-			.addClass('unit size1of1 block')
-			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="-icon-spinner -icon-spin"></i> ' + lang.ajaxLoading + '</div>');
+			.addClass('block')
+			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="fa fa-spinner fa-lg fa-spin"></i> ' + lang.ajaxLoading + '</div>');
 
 		$.getJSON(ajaxUrl + '/blocks/add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
 			updated = false;
@@ -312,7 +317,7 @@
 					}
 	
 					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.block');
-					$(ui.item).removeClass('size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().removeClass('empty-position');
+					$(ui.item).removeClass('unit size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().removeClass('empty-position');
 
 					if (items.length > 0) {
 						sortHorizontal(items);
