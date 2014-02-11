@@ -4,3 +4,9 @@ primetime.blocks.admin:
     requirements:
         id: \d+
         _format: json
+
+primetime.menu.admin:
+    pattern: menu/admin/{action}/{item_id}
+    defaults: { _controller: primetime.menu.admin:handle, item_id: 0 }
+    requirements:
+        item_id: \d+

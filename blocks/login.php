@@ -51,6 +51,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 	public function get_config($data)
 	{
 		return array(
+			'legend1'			=> $this->user->lang['SETTINGS'],
 			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'allow_autologin'	=> array('lang' => 'AUTO_LOGIN', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 		);

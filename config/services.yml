@@ -57,6 +57,33 @@ services:
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
 
+    primetime.menu.admin:
+        class: primetime\primetime\controller\menu_admin
+        arguments:
+            - @dbal.conn
+            - @request
+            - @user
+            - @template
+            - @primetime.menu.builder
+            - %tables.primetime.menu%
+
+    primetime.menu.display:
+        class: primetime\primetime\core\menu\display
+        arguments:
+            - @dbal.conn
+            - @primetime
+            - %tables.primetime.menu_items%
+            - 'item_id'
+
+    primetime.menu.builder:
+        class: primetime\primetime\core\menu\builder
+        arguments:
+            - @dbal.conn
+            - @primetime
+            - %tables.primetime.menu%
+            - %tables.primetime.menu_items%
+            - 'item_id'
+
     primetime.block_collection:
         class: phpbb\di\service_collection
         arguments:
@@ -82,11 +109,10 @@ services:
         class: phpbb\template\context
 
     primetime.template:
-        class: \primetime\primetime\core\blocks\template
+        class: primetime\primetime\core\blocks\template
         arguments:
             - @path_helper
             - @config
             - @user
             - @primetime.template_context
             - @ext.manager
-

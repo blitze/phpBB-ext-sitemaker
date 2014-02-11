@@ -10,6 +10,18 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.block.menu:
+        class: primetime\primetime\blocks\menu
+        arguments:
+            - @dbal.conn
+            - @user
+            - @primetime.menu.display
+            - %tables.primetime.menu%
+        calls:
+            - [set_name, [primetime.block.menu]]
+        tags:
+            - { name: primetime.block }
+
     primetime.blocks.myblock:
         class: primetime\primetime\blocks\myblock
         arguments:

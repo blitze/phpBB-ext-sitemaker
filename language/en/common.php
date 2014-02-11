@@ -21,12 +21,14 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'SETTINGS'		=> 'Settings',
 	'EDIT_ME'		=> 'Please edit me',
 	'MY_BLOCK'		=> 'Block Title',
 	'SHOW_HIDE_ME'	=> 'Show Hide me?',
 	'AUTO_LOGIN'	=> 'Show Remember me?',
 
 	'PRIMETIME.BLOCK.LOGIN'		=> 'Login Box',
+	'PRIMETIME.BLOCK.MENU'		=> 'Menu',
 	'PRIMETIME.BLOCK.MYBLOCK'	=> 'My Block',
 	'PRIMETIME.BLOCK.STATS'		=> 'Board Statistics',
 	'PRIMETIME.BLOCK.WHOIS'		=> 'Who is online',
