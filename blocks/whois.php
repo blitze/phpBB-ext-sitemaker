@@ -18,28 +18,28 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-* Whois Block
-*/
+ * Whois Block
+ */
 class whois extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
-	* phpBB configuration
-	* @var \phpbb\config\config
-	*/
+	 * phpBB configuration
+	 * @var \phpbb\config\config
+	 */
 	protected $config;
 
 	/**
-	* Template context
-	* @var \phpbb\template\context
-	*/
+	 * Template context
+	 * @var \phpbb\template\context
+	 */
 	protected $context;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\config\config		$config		phpBB configuration
-	* @param \phpbb\template\context	$context    Template context
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\config\config		$config		phpBB configuration
+	 * @param \phpbb\template\context	$context    Template context
+	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\template\context $context)
 	{
 		$this->config = $config;
@@ -53,7 +53,7 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 		$content = '';
 		if (!empty($data['.'][0]['TOTAL_USERS_ONLINE']))
 		{
-			$this->btemplate->assign_vars(array(
+			$this->ptemplate->assign_vars(array(
 				'TOTAL_USERS_ONLINE'	=> $data['.'][0]['TOTAL_USERS_ONLINE'],
 				'LOGGED_IN_USER_LIST'	=> $data['.'][0]['LOGGED_IN_USER_LIST'],
 				'RECORD_USERS'			=> $data['.'][0]['RECORD_USERS'],

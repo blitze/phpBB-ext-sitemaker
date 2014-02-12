@@ -18,14 +18,11 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-* Login Block
-*/
+ * Login Block
+ */
 class login extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	* User object
-	* @var \phpbb\user
-	*/
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string */
@@ -35,12 +32,12 @@ class login extends \primetime\primetime\core\blocks\driver\block
 	protected $php_ext;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\user    $user       		User object
-	* @param string 		$phpbb_root_path	Relative path to phpBB root
-	* @param string 		$php_ext			PHP extension (php)
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\user	$user				User object
+	 * @param string 		$phpbb_root_path	Relative path to phpBB root
+	 * @param string 		$php_ext			PHP extension (php)
+	 */
 	public function __construct(\phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -66,7 +63,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 		{
 			$settings = $bdata['settings'];
 
-			$this->btemplate->assign_vars(array(
+			$this->ptemplate->assign_vars(array(
 				'S_SHOW_HIDE_ME'		=> ($settings['show_hide_me']) ? true : false,
 				'S_AUTOLOGIN_ENABLED'   => ($settings['allow_autologin']) ? true : false,
 				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=login'),

@@ -23,40 +23,40 @@ if (!defined('IN_PHPBB'))
 class primetime
 {
 	/**
-	* User object
-	* @var \phpbb\user
-	*/
-	protected $user;
-
-	/**
-	* Template object
-	* @var \phpbb\template\template
-	*/
+	 * Template object
+	 * @var \phpbb\template\template
+	 */
 	protected $template;
 
 	/**
-	* Utility Template object for blocks
-	* @var \phpbb\template\template
-	*/
-	protected $btemplate;
+	 * User object
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * Primetime template object
+	 * @var \primetime\primetime\core\template
+	 */
+	protected $ptemplate;
 
 	protected $scripts;
 
 	public $asset_path;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\user								$user			User object
-	* @param \phpbb\template\template					$template		Template object
-	* @param \primetime\primetime\core\blocks\template	$btemplate		Primetime template object
-	* @param \phpbb\path_helper							$path_helper	Path helper object
-	*/
-	public function __construct(\phpbb\user $user, \phpbb\template\template $template, \primetime\primetime\core\blocks\template $btemplate, \phpbb\path_helper $path_helper)
+	 * Constructor
+	 *
+	 * @param \phpbb\path_helper					$path_helper	Path helper object
+	 * @param \phpbb\template\template				$template		Template object
+	 * @param \phpbb\user							$user			User object
+	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
+	 */
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->user = $user;
 		$this->template = $template;
-		$this->btemplate = $btemplate;
+		$this->ptemplate = $ptemplate;
 		$this->asset_path = $path_helper->get_web_root_path();
 		$this->scripts = array(
 			'js'	=> array(),
@@ -259,21 +259,21 @@ class primetime
 	}
 
 	/**
-	* Add a secret token to the form (requires the S_FORM_TOKEN template variable)
-	* @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
-	*/
+	 * Add a secret token to the form (requires the S_FORM_TOKEN template variable)
+	 * @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
+	 */
 	public function ext_add_form_key($form_name)
 	{
 		add_form_key($form_name);
 		$s_form_token = $this->template->_tpldata['.']['0']['S_FORM_TOKEN'];
-		$this->btemplate->assign_var('S_FORM_TOKEN', $s_form_token);
+		$this->ptemplate->assign_var('S_FORM_TOKEN', $s_form_token);
 
 		return $s_form_token;
 	}
 
 	/**
 	 * Merge dbal query arrays
-	*/
+	 */
 	public function merge_dbal_arrays($sql_ary1, $sql_ary2)
 	{
 		if (sizeof($sql_ary2))

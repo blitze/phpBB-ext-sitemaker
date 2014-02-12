@@ -59,16 +59,16 @@ class display
 	protected $user;
 
 	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\block_template
-	 */
-	protected $btemplate;
-
-	/**
 	 * Primetime object
 	 * @var \primetime\primetime\core\primetime
 	 */
 	protected $primetime;
+
+	/**
+	 * Template object for primetime blocks
+	 * @var \primetime\primetime\core\template
+	 */
+	protected $ptemplate;
 
 	/**
 	 * Name of the blocks database table
@@ -103,15 +103,15 @@ class display
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\primetime\core\blocks\template	$btemplate				Primetime template object
-	 * @param \primetime\primetime\core\primetime		$primetime				Template object
+	 * @param \primetime\primetime\core\primetime		$primetime				Primetime object
+	 * @param \primetime\primetime\core\template		$ptemplate				Primetime template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, 
 		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
-		\primetime\primetime\core\blocks\template $btemplate, \primetime\primetime\core\primetime $primetime, 
+		\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, 
 		$blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
@@ -120,8 +120,8 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->btemplate = $btemplate;
     	$this->primetime = $primetime;
+		$this->ptemplate = $ptemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
 		$this->block_routes_table = $block_routes_table;
@@ -191,7 +191,7 @@ class display
 				if ($phpbb_container->has($block_service))
 				{
 					$b = $phpbb_container->get($block_service);
-					$b->set_template($this->btemplate);
+					$b->set_template($this->ptemplate);
 					$block = $b->display($row, $edit_mode);
 	
 					if (empty($block['content']))

@@ -31,18 +31,18 @@ abstract class block implements \primetime\primetime\core\blocks\driver\block_in
 
 	/**
 	* Template object for Primetime blocks
-	* @var \primetime\primetime\core\blocks\template
+	* @var \primetime\primetime\core\template
 	*/
-	protected $btemplate;
+	protected $ptemplate;
 
 	/**
 	* Set block template object
 	*
-	* @param \phpbb\template\template	$btemplate	Template object
+	* @param \phpbb\template\template	$ptemplate	Template object
 	*/
-	public function set_template(\primetime\primetime\core\blocks\template $btemplate)
+	public function set_template(\primetime\primetime\core\template $ptemplate)
 	{
-		$this->btemplate = $btemplate;
+		$this->ptemplate = $ptemplate;
 	}
 
 	/**
@@ -78,14 +78,14 @@ abstract class block implements \primetime\primetime\core\blocks\driver\block_in
 	 */
 	public function render_block($ext_name, $tpl_file, $handle)
 	{
-		$this->btemplate->set_style(array("ext/$ext_name/styles"));
+		$this->ptemplate->set_style(array("ext/$ext_name/styles"));
 
-		$this->btemplate->set_filenames(array(
+		$this->ptemplate->set_filenames(array(
 			$handle	=> $tpl_file)
 		);
 
-		$content = $this->btemplate->assign_display($handle);
-		$this->btemplate->clear();
+		$content = $this->ptemplate->assign_display($handle);
+		$this->ptemplate->clear();
 
 		return $content;
 	}

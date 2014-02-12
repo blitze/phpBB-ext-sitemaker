@@ -18,8 +18,8 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-* Login Block
-*/
+ * My Block
+ */
 class myblock extends \primetime\primetime\core\blocks\driver\block
 {
 	/**

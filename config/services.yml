@@ -7,17 +7,17 @@ services:
     primetime:
         class: primetime\primetime\core\primetime
         arguments:
-            - @user
-            - @template
-            - @primetime.template
             - @path_helper
+            - @template
+            - @user
+            - @primetime.template
 
     primetime.icon_picker:
         class: primetime\primetime\core\icon_picker
         arguments:
-            - @primetime.template
             - @user
             - @primetime
+            - @primetime.template
 
     primetime.blocks.admin:
         class: primetime\primetime\controller\blocks_admin
@@ -36,8 +36,8 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.template
             - @primetime
+            - @primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
@@ -50,12 +50,33 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.template
             - @primetime.icon_picker
             - @primetime
+            - @primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
+
+    primetime.block_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: primetime.block }
+
+    primetime.blocks.factory:
+        class: primetime\primetime\core\blocks\factory
+        arguments:
+            - @primetime.block_collection
+
+    primetime.listener:
+        class: primetime\primetime\event\listener
+        arguments:
+            - @request
+            - @primetime
+            - @primetime.blocks.display
+        tags:
+            - { name: event.listener }
 
     primetime.menu.admin:
         class: primetime\primetime\controller\menu_admin
@@ -84,32 +105,11 @@ services:
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.block_collection:
-        class: phpbb\di\service_collection
-        arguments:
-            - @service_container
-        tags:
-            - { name: service_collection, tag: primetime.block }
-
-    primetime.blocks.factory:
-        class: primetime\primetime\core\blocks\factory
-        arguments:
-            - @primetime.block_collection
-
-    primetime.listener:
-        class: primetime\primetime\event\listener
-        arguments:
-            - @request
-            - @primetime
-            - @primetime.blocks.display
-        tags:
-            - { name: event.listener }
-
     primetime.template_context:
         class: phpbb\template\context
 
     primetime.template:
-        class: primetime\primetime\core\blocks\template
+        class: primetime\primetime\core\template
         arguments:
             - @path_helper
             - @config

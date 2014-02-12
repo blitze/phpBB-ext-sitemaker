@@ -53,12 +53,6 @@ class manager
 	protected $user;
 
 	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\block_template
-	 */
-	protected $btemplate;
-
-	/**
 	 * Icons
 	 * @var \primetime\primetime\core\icon_picker
 	 */
@@ -69,6 +63,12 @@ class manager
 	 * @var \primetime\primetime\core\primetime
 	 */
 	protected $primetime;
+
+	/**
+	 * Template object for primetime blocks
+	 * @var \primetime\primetime\core\block_template
+	 */
+	protected $ptemplate;
 
 	/**
 	 * Name of the blocks database table
@@ -102,26 +102,26 @@ class manager
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\primetime\core\blocks\template	$btemplate				Primetime template object
 	 * @param \primetime\primetime\core\icon_picker		$icons					Primetime icon picker object
 	 * @param \primetime\primetime\core\primetime		$primetime				Template object
+	 * @param \primetime\primetime\core\template		$ptemplate				Primetime template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
 	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, 
 		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
-		\primetime\primetime\core\blocks\template $btemplate, \primetime\primetime\core\icon_picker $icons, 
-		\primetime\primetime\core\primetime $primetime, $blocks_table, $blocks_config_table, $block_routes_table)
+		\primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, 
+		\primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
-		$this->db = $db;
-		$this->user = $user;
 		$this->cache = $cache;
-		$this->icons = $icons;
+		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
-		$this->btemplate = $btemplate;
+		$this->user = $user;
+		$this->icons = $icons;
 		$this->primetime = $primetime;
+		$this->ptemplate = $ptemplate;
 		$this->blocks_table = $blocks_table;
 		$this->block_routes_table = $block_routes_table;
 		$this->blocks_config_table = $blocks_config_table;
@@ -949,7 +949,7 @@ class manager
 
 	private function display($block, $settings)
 	{
-		$block->set_template($this->btemplate);
+		$block->set_template($this->ptemplate);
 		$data = $block->display($settings, true);
 
 		return array(
