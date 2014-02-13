@@ -500,7 +500,7 @@ class manager
 		}
 
 		$bdata = $this->get_block_data($bid);
-		$db_config = $this->get_block_config($bid);
+		$db_settings = $this->get_block_config($bid);
 
 		$this->template->assign_vars(array(
 			'S_ACTIVE'		=> $bdata['status'],
@@ -515,7 +515,7 @@ class manager
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$default_settings = $b->get_config($db_config);
+		$default_settings = $b->get_config($db_settings);
 
 		// Output relevant settings
 		foreach ($default_settings as $config_key => $vars)
@@ -557,7 +557,7 @@ class manager
 				}
 			}
 
-			$content = build_cfg_template($type, $config_key, $db_config, $config_key, $vars);
+			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 
 			if (empty($content))
 			{
@@ -572,7 +572,7 @@ class manager
 				'CONTENT'		=> $content)
 			);
 
-			$bdata['settings'][$config_key] = (isset($db_config[$config_key])) ? $db_config[$config_key] : $vars['default'];
+			$bdata['settings'][$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 			unset($default_settings[$config_key]);
 		}
 
@@ -902,15 +902,15 @@ class manager
 
 		$result = $this->db->sql_query('SELECT * FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $ids));
 
-		$bconfig = $raw = array();
+		$bconfig = $data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$raw[] = $row;
+			$data[] = $row;
 			$bconfig[$row['bid']][$row['bvar']] = $row['bval'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return ($raw === false) ? ((!is_array($bid)) ? array_shift($bconfig) : $bconfig) : $raw;
+		return ($raw === false) ? ((!is_array($bid)) ? array_shift($bconfig) : $bconfig) : $data;
 	}
 
 	private function delete_block_config($bid)
