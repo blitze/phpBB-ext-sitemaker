@@ -59,7 +59,7 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 				'RECORD_USERS'			=> $data['.'][0]['RECORD_USERS'],
 			));
 			unset($data);
-			$content = $this->render_block('primetime/primetime', 'blocks/whois.html', 'whois_block');
+			$content = $this->ptemplate->render_view('primetime/primetime', 'blocks/whois.html', 'whois_block');
 		}
 
 		return array(

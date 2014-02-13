@@ -57,7 +57,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 		$this->menus_table = $menus_table;
 	}
 
-	public function get_config($data)
+	public function get_config($settings)
 	{
 		$sql = 'SELECT * FROM ' . $this->menus_table;
 		$result = $this->db->sql_query($sql);
@@ -69,16 +69,18 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
+		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : 0;
+
 		return array(
             'legend1'       => $this->user->lang['SETTINGS'],
             'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
-            'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'function' => 'build_select', 'params' => array($options, (isset($data['settings']['menu_id'])) ? $data['settings']['menu_id'] : 0), 'explain' => false),
+            'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'function' => 'build_select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
         );
 	}
 
 	public function display($db_data, $editing = false)
 	{
-		$title = 'Menu';
+		$title = $this->user->lang['MENU'];
 		$menu_id =& $db_data['settings']['menu_id'];
 
 		if (!$menu_id)
@@ -104,7 +106,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
             'title'     => $title,
-            'content'   => $this->render_block('primetime/primetime', 'blocks/menu.html', 'menu_block'),
+            'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/menu.html', 'menu_block'),
         );
 	}
 }

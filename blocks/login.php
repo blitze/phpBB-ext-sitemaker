@@ -72,7 +72,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 				'U_REDIRECT'	=> reapply_sid(htmlspecialchars($this->user->page['root_script_path'] . $this->user->page['page'])))
 			);
 		
-			$block = $this->render_block('primetime/primetime', 'blocks/login.html', 'login_block');
+			$block = $this->ptemplate->render_view('primetime/primetime', 'blocks/login.html', 'login_block');
 		}
 
 		return array(

@@ -18,8 +18,8 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-*
-*/
+ *
+ */
 class primetime
 {
 	/**
