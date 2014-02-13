@@ -80,7 +80,12 @@ class blocks_admin
 
 		if (!$this->auth->acl_get('a_manage_blocks') || $this->request->is_ajax() === false)
 		{
-			$json_data['message'] = $this->user->lang['NOT_AUTHORIZED'];
+			if ($this->request->is_ajax() === false)
+			{
+				trigger_error('NOT_AUTHORISED');
+			}
+
+			$json_data['message'] = $this->user->lang['NOT_AUTHORISED'];
 			return new Response(json_encode($json_data));
 		}
 
