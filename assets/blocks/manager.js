@@ -82,7 +82,6 @@
 	var getEditForm = function(block) {
 		$.getJSON(ajaxUrl + '/blocks/edit', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
-			console.log(resp);
 			if (resp.form) {
 				dialogEdit.html(resp.form);
 				dialogEdit.find('#block-settings').tabs();
@@ -99,7 +98,7 @@
 				return;
 			}
 
-			block.find('.cms-block-content').html(resp.content);
+			block.html(template.render(resp));
 			dialogEdit.dialog('close');
 		});
 	};
