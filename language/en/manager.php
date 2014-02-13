@@ -63,9 +63,47 @@ $lang = array_merge($lang, array(
 	'MAKE_DEFAULT_LAYOUT'	=> 'Set As Default Layout',
 	'VIEW_DEFAULT_LAYOUT'	=> 'View/Edit Default Layout',
 	'REMOVE_DEFAULT_LAYOUT'	=> 'Remove As Default Layout',
-	
+
+	'SETTINGS'				=> 'Settings',
+	'EDIT_ME'				=> 'Please edit me',
 	'SHOW_HIDE_ME'			=> 'Allow hide online status?',
 	'AUTO_LOGIN'			=> 'Allow auto login?',
+	
+	'MEMBERS_DISPLAY'		=> 'Display',
+	'DATE_RANGE'			=> 'Date Range',
+	'MAX_MEMBERS'			=> 'Max. Members',
+
+	'TODAY'					=> 'Today',
+	'THIS_WEEK'				=> 'This Week',
+	'THIS_MONTH'			=> 'This Month',
+	'THIS_YEAR'				=> 'This Year',
+
+	'ROTATE_PAGELOAD'		=> 'Page load',
+	'ROTATE_HOURLY'			=> 'Hourly',
+	'ROTATE_DAILY'			=> 'Daily',
+	'ROTATE_WEEKLY'			=> 'Weekly',
+	'ROTATE_MONTHLY'		=> 'Monthly',
+
+	'MEMBERS_DATE'			=> 'Date',
+	'LAST_VISITED'			=> 'Last Visited',
+	'RECENT_BOTS'			=> 'Recent Search Engines',
+	'RECENT_MEMBERS'		=> 'Recent Members',
+	'MOST_TENURED'			=> 'Most Tenured',
+	'TOP_POSTERS'			=> 'Top Posters',
+
+	// Block names
+	'PRIMETIME.BLOCK.BIRTHDAY'	=> 'Birthday',
+	'PRIMETIME.BLOCK.LOGIN'		=> 'Login Box',
+	'PRIMETIME.BLOCK.MENU'		=> 'Menu',
+	'PRIMETIME.BLOCK.MEMBERS'	=> 'Members',
+	'PRIMETIME.BLOCK.MYBLOCK'	=> 'My Block',
+	'PRIMETIME.BLOCK.STATS'		=> 'Board Statistics',
+	'PRIMETIME.BLOCK.WHOIS'		=> 'Who is online',
+
+	'SETTING_TOO_LOW'			=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
+	'SETTING_TOO_BIG'			=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
+	'SETTING_TOO_LONG'			=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
+	'SETTING_TOO_SHORT'			=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
 
 	'AJAX_ERROR'				=> 'Oops! There was an error processing your request. Please try again.',
 	'COPY_BLOCKS_CONFIRM'		=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',

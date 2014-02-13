@@ -1,0 +1,20 @@
+<div class="header clearfix">
+	<span>{L_USER}</span>
+	<span class="right-box">{L_INFO}</span>
+</div>
+<ul class="flat-list block-ui clearfix">
+<!-- IF S_LIST == 'bots' -->
+	<!-- BEGIN member -->
+	<li><span class="inner-block-ui">{member.USERNAME} - {member.USER_INFO}</span></li>
+	<!-- END member -->
+<!-- ELSE -->
+	<!-- BEGIN member -->
+	<li>
+		<div class="inner-block-ui clearfix">
+			<span class="tiny-avatar genmed">{member.USER_AVATAR} {member.USERNAME}</span>
+			<span class="right-box gensmall">{member.USER_INFO}</span>
+		</div>
+	</li>
+	<!-- END member -->
+<!-- ENDIF -->
+</ul>

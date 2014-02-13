@@ -1,4 +1,14 @@
 services:
+    primetime.block.birthday:
+        class: primetime\primetime\blocks\birthday
+        arguments:
+            - @dbal.conn
+            - @user
+        calls:
+            - [set_name, [primetime.block.birthday]]
+        tags:
+            - { name: primetime.block }
+
     primetime.block.login:
         class: primetime\primetime\blocks\login
         arguments:
@@ -7,6 +17,16 @@ services:
             - .%core.php_ext%
         calls:
             - [set_name, [primetime.block.login]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.block.members:
+        class: primetime\primetime\blocks\members
+        arguments:
+            - @user
+            - @primetime.members
+        calls:
+            - [set_name, [primetime.block.members]]
         tags:
             - { name: primetime.block }
 
