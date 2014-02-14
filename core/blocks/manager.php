@@ -463,22 +463,35 @@ class manager
 	/**
 	 * Update block data
 	 */
-	public function update($id, $sql_data, $route)
+	public function update($bid, $sql_data, $route)
 	{
-		if (!$id)
+		global $phpbb_container;
+
+		if (!$bid)
 		{
 			return array();
 		}
 
-		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $id);
+		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
 		$this->cache->destroy('_blocks_' . $route);
 
+		$bdata = $this->get_block_data($bid);
+		$db_settings = $this->get_block_config($bid);
+
+		if (!$phpbb_container->has($bdata['name']))
+		{
+			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
+		}
+
+		$b = $phpbb_container->get($bdata['name']);
+		$bdata['settings'] = $db_settings;
+
 		return array_merge(
-			$sql_data,
 			array('message' => $this->user->lang['BLOCK_UPDATED']),
 			array(
-				'id' => $id,
-			)
+				'id' => $bid,
+			),
+			$this->display($b, $bdata)
 		);
 	}
 

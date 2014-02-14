@@ -201,6 +201,7 @@
 		var element = inlineForm.parent();
 		
 		editing = false;
+		editorVal = '';
 		element.addClass('block-title').text(v);
 		inlineForm.hide().appendTo($('body'));
 	};
@@ -213,8 +214,8 @@
 		var id = $(e).parentsUntil('.block').parent().attr('id').substring('6');
 		var title = $(e).val();
 
-		if (id && title && title !== editorVal) {
-			updateBlock({'id': id, 'title': title});
+		if (id && title !== editorVal) {
+			updateBlock({'id': id, 'field': 'title', 'title': title});
 		} else {
 			undoEditable(editorVal);
 		}

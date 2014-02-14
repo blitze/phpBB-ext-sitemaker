@@ -105,11 +105,18 @@ class blocks_admin
 				$return_data = $this->blocks->save($id, $route);
 			break;
 			case 'update':
-				$data = array(
-					'title'	=> ucwords(trim($this->request->variable('title', ''))),
-					'icon'	=> $this->request->variable('icon', ''),
-				);
-				$return_data = $this->blocks->update($id, array_filter($data), $route);
+				$field = $this->request->variable('field', 'icon');
+
+				$data = array();
+				if ($field == 'title')
+				{
+					$data['title'] = ucwords(trim($this->request->variable('title', '')));
+				}
+				else
+				{
+					$data['icon'] = $this->request->variable('icon', '');
+				}
+				$return_data = $this->blocks->update($id, $data, $route);
 			break;
 			case 'save_layout':
 				$return_data = $this->blocks->save_layout($route);
