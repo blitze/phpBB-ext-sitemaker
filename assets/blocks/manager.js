@@ -1,7 +1,7 @@
 (function($){
 	var editing = false, updated = false;
 	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
-	var origin = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
+	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
 
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
@@ -189,19 +189,20 @@
 
 	var makeEditable = function(element) {
 		if (editing === true) {
-			editor.trigger('blur');
+			inlineForm.children(':input').trigger('blur');
 			return;
 		}
 		editing = true;
-		editorVal = element.text();
-		element.replaceWith('<form id="inline-form"><input type="text" id="inline-edit" value="' + editorVal + '" /></form>');
-		editor = $('#inline-edit').focus().select();
+		editorVal = element.removeClass('block-title').text();
+		inlineForm.show().appendTo(element.text('')).children(':input').val(editorVal).focus().select().end();
 	};
 
 	var undoEditable = function(v) {
-		editorVal = '';
+		var element = inlineForm.parent();
+		
 		editing = false;
-		editor.parent().replaceWith('<span class="block-title">' + v + '</span>');
+		element.addClass('block-title').text(v);
+		inlineForm.hide().appendTo($('body'));
 	};
 
 	var processInput = function(e) {
@@ -270,6 +271,8 @@
 
 		if (typeof editMode !== "undefined" && editMode) {
 			initIconPicker();
+
+			inlineForm = $('<form id="inline-form"><input type="text" id="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
 			$('#add-block-panel').find('.primetime-block').button().draggable({
 				scroll: true,
