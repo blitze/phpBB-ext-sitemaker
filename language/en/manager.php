@@ -84,6 +84,7 @@ $lang = array_merge($lang, array(
 	'DATE_RANGE'			=> 'Date Range',
 	'MAX_MEMBERS'			=> 'Max. Members',
 	'FEATURED_MEMBER_IDS'	=> 'User IDs',
+	'SHOW_MEMBER_MENU'		=> 'Show user menu?',
 
 	'TODAY'					=> 'Today',
 	'THIS_WEEK'				=> 'This Week',
@@ -114,4 +115,5 @@ $lang = array_merge($lang, array(
 	'DELETE_BLOCK_CONFIRM'			=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',
 	'DEFAULT_LAYOUT_EXPLAIN'		=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
 	'FEATURED_MEMBER_IDS_EXPLAIN'	=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
+	'SHOW_MEMBER_MENU_EXPLAIN'		=> 'Replace login box with user menu if user is logged in',
 ));

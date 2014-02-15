@@ -51,33 +51,37 @@ class login extends \primetime\primetime\core\blocks\driver\block
 			'legend1'			=> $this->user->lang['SETTINGS'],
 			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'allow_autologin'	=> array('lang' => 'AUTO_LOGIN', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
+			'show_member_menu'	=> array('lang' => 'SHOW_MEMBER_MENU', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => false),
 		);
 	}
 
 	public function display($bdata, $edit_mode = false)
 	{
-		global $config;
+		$content = $title = '';
+		$settings = $bdata['settings'];
 
-		$block = '';
 		if (!$this->user->data['is_registered'] || $edit_mode === true)
 		{
-			$settings = $bdata['settings'];
-
 			$this->ptemplate->assign_vars(array(
 				'S_SHOW_HIDE_ME'		=> ($settings['show_hide_me']) ? true : false,
 				'S_AUTOLOGIN_ENABLED'   => ($settings['allow_autologin']) ? true : false,
 				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=login'),
-				
-				'U_REGISTER'	=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=register'),
-				'U_REDIRECT'	=> reapply_sid(htmlspecialchars($this->user->page['root_script_path'] . $this->user->page['page'])))
+				'U_REGISTER'			=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=register'),
+				'U_SEND_PASSWORD'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=sendpassword'),
+				'U_REDIRECT'			=> reapply_sid(htmlspecialchars($this->user->page['root_script_path'] . $this->user->page['page'])))
 			);
-		
-			$block = $this->ptemplate->render_view('primetime/primetime', 'blocks/login.html', 'login_block');
-		}
 
-		return array(
-			'title'		=> 'LOGIN',
-			'content'	=> $block,
-		);
+			return array(
+				'title'		=> 'LOGIN',
+				'content'	=> $this->ptemplate->render_view('primetime/primetime', 'blocks/login.html', 'login_block')
+			);
+		}
+		else if ($settings['show_member_menu'])
+		{
+			global $phpbb_container;
+			$block = $phpbb_container->get('primetime.block.member_menu');
+			$block->set_template($this->ptemplate);
+			return $block->display(array(), $edit_mode);
+		}
 	}
 }
