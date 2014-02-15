@@ -84,6 +84,8 @@ services:
             - @dbal.conn
             - @user
             - @primetime.template
+            - %core.root_path%
+            - %core.php_ext%
 
     primetime.menu.admin:
         class: primetime\primetime\controller\menu_admin

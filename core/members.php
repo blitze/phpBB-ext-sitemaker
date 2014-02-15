@@ -40,18 +40,28 @@ class members
 	 */
 	protected $ptemplate;
 
+	/** @var string */
+	protected $phpbb_root_path = null;
+
+	/** @var string */
+	protected $php_ext = null;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver				$db     		Database connection
-	 * @param \phpbb\template\template				$user			User object
-	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
+	 * @param \phpbb\db\driver\driver				$db     			Database connection
+	 * @param \phpbb\template\template				$user				User object
+	 * @param \primetime\primetime\core\template	$ptemplate			Primetime template object
+	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
 		$this->ptemplate = $ptemplate;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -113,7 +123,7 @@ class members
 				$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
 				$sql_ary['FROM'] += array(TOPICS_TABLE => 't');
 				$sql_ary['FROM'] += array(POSTS_TABLE => 'p');
-				$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = 1 AND p.poster_id = u.user_id';
+				$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = ' . ITEM_APPROVED . ' AND p.poster_id = u.user_id';
 				$sql_ary['GROUP_BY'] = 'p.poster_id';
 				$sql_ary['ORDER_BY'] = 'user_posts DESC';
 			break;
@@ -199,9 +209,7 @@ class members
 
 	protected function member_posts($row, $append)
 	{
-		global $phpbb_root_path, $phpEx;
-
-		$u_posts = append_sid("{$phpbb_root_path}search.$phpEx", "author_id={$row['user_id']}&amp;sr=posts" . $append);
+		$u_posts = append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts" . $append);
 		$user_posts = '<a href="' . $u_posts . '">' . $row['user_posts'] . '</a>';
 	
 		return array(
