@@ -439,6 +439,7 @@ class manager
 			'no_wrap'		=> false,
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
+		$block_data['bid'] = $this->db->sql_nextid();
 
 		$b = $phpbb_container->get($service);
 		$bconfig = $b->get_config(array());
@@ -455,7 +456,7 @@ class manager
 		$this->cache->destroy('_blocks_' . $route);
 
 		return array_merge(
-			array('id' => $this->db->sql_nextid()),
+			array('id' => $block_data['bid']),
 			$this->display($b, $block_data)
 		);
 	}
