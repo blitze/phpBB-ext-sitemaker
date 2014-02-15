@@ -21,20 +21,26 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'MENU'			=> 'Menu',
-	'MY_BLOCK'		=> 'Block Title',
+	'MENU'					=> 'Menu',
+	'WELCOME'				=> 'Welcome',
+	'BLOCK_TITLE'			=> 'Block Title',
+	'MEMBERS_DATE'			=> 'Date',
 
-	'FEATURED_MEMBER'	=> 'Featured Member',
-	'RECENT_MEMBER'		=> 'Recent Member',
-	'RANDOM_MEMBER'		=> 'Random Member',
-	'POSTS_MEMBER'		=> 'Top Poster',
-	'LAST_VISITED'		=> 'Last Visited',
-	'VIEW_USER_PROFILE'	=> 'All about %s',
+	'FEATURED_MEMBER'		=> 'Featured Member',
+	'RECENT_MEMBER'			=> 'Recent Member',
+	'RANDOM_MEMBER'			=> 'Random Member',
+	'POSTS_MEMBER'			=> 'Top Poster',
+	'LAST_VISITED'			=> 'Last Visited',
+	'VIEW_USER_PROFILE'		=> 'All about %s',
 
-	'HOURLY_MEMBER'		=> 'Member of the hour',
-	'DAILY_MEMBER'		=> 'Member of the day',
-	'WEEKLY_MEMBER'		=> 'Member of the week',
-	'MONTHLY_MEMBER'	=> 'Member of the month',
+	'HOURLY_MEMBER'			=> 'Member of the hour',
+	'DAILY_MEMBER'			=> 'Member of the day',
+	'WEEKLY_MEMBER'			=> 'Member of the week',
+	'MONTHLY_MEMBER'		=> 'Member of the month',
+	'FEATURED_MEMBER'		=> 'Featured Member',
+	'RECENT_MEMBER'			=> 'Recent Member',
+	'RANDOM_MEMBER'			=> 'Random Member',
+	'POSTS_MEMBER'			=> 'Top Poster',
 
 	'LAST_VISITED_ALL'		=> 'Last Visited',
 	'RECENT_BOTS_ALL'		=> 'Recent Bots',

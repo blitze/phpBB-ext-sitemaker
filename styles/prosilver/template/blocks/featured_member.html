@@ -1,0 +1,33 @@
+<!-- IF QTYPE_EXPLAIN -->
+<div class="align-center">{QTYPE_EXPLAIN}</div>
+<!-- ENDIF -->
+<ul class="flat-list block-ui clearfix">
+	<li>
+		<div class="inner-block-ui">
+			<div class="align-center" style="padding: 0 5px; display: block;">
+				<h2>
+					<a href="{U_PROFILE}">
+						<strong>{USERNAME}</strong><br />
+						<!-- IF AVATAR_IMG -->{AVATAR_IMG}<!-- ELSE --><i class="fa fa-user" style="font-size: 10em; color: #ccc;"></i><!-- ENDIF -->
+					</a>
+					<!-- IF RANK_TITLE --><br /><span class="small">{RANK_TITLE}</span><!-- ENDIF -->
+					<!-- IF RANK_IMG --><br />{RANK_IMG}<!-- ENDIF -->
+				</h2>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div class="inner-block-ui">
+			<!-- IF not AVATAR_IMG --><span><b>{L_USERNAME}:</b> <a href="{U_PROFILE}">{USERNAME}</a></span><br /><hr class="divider" /><!-- ENDIF -->
+			<!-- IF AGE --><span><b>{L_AGE}:</b> {AGE}</span><br /><hr class="divider" /><!-- ENDIF -->
+			<!-- IF LOCATION --><span><b>{L_LOCATION}:</b> {LOCATION}</span><br /><hr class="divider" /><!-- ENDIF -->
+			<span><b>{L_JOINED}:</b> {JOINED}</span><br /><hr class="divider" />
+			<span><b>{L_LAST_VISITED}:</b> {VISITED}</span><br /><hr class="divider" />
+			<span><b>{L_TOTAL_POSTS}:</b> <!-- IF POSTS > '0' --><a href="{U_SEARCH_USER}">{POSTS}</a><!-- ELSE -->{POSTS}<!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT} / {POSTS_DAY}]<!-- ENDIF --></span>
+		</div>
+	</li>
+</ul>
+<!-- IF ROTATION -->
+<br /><hr class="divider">
+<span class="gensmall">{ROTATION}</span>
+<!-- ENDIF -->

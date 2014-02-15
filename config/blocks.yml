@@ -9,6 +9,43 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.blocks.custom:
+        class: primetime\primetime\blocks\custom
+        arguments:
+            - @user
+        calls:
+            - [set_name, [primetime.block.custom]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.block.featured_member:
+        class: primetime\primetime\blocks\featured_member
+        arguments:
+            - @cache.driver
+            - @config
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.primetime.blocks_config%
+        calls:
+            - [set_name, [primetime.block.featured_member]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.block.member_menu:
+        class: primetime\primetime\blocks\member_menu
+        arguments:
+            - @auth
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.member_menu]]
+        tags:
+            - { name: primetime.block }
+
     primetime.block.login:
         class: primetime\primetime\blocks\login
         arguments:
@@ -39,15 +76,6 @@ services:
             - %tables.primetime.menu%
         calls:
             - [set_name, [primetime.block.menu]]
-        tags:
-            - { name: primetime.block }
-
-    primetime.blocks.myblock:
-        class: primetime\primetime\blocks\myblock
-        arguments:
-            - @user
-        calls:
-            - [set_name, [primetime.block.myblock]]
         tags:
             - { name: primetime.block }
 

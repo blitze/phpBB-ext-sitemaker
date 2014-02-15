@@ -1,0 +1,27 @@
+<ul class="flat-list block-ui clearfix">
+	<li>
+		<div class="inner-block-ui">
+			<div class="align-center" style="padding: 0 5px;">
+				<h2>
+					<a href="{U_PROFILE}">
+						<strong>{USERNAME}</strong><br />
+						<!-- IF USER_AVATAR -->{USER_AVATAR}<!-- ELSE --><i class="fa fa-user" style="font-size: 5em; color: #ccc;"></i><!-- ENDIF -->
+					</a>
+				</h2>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div class="inner-block-ui">
+			<a class="nav" href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a><br />
+			<a class="nav" href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a><br />
+
+			<!-- IF U_MCP or U_ACP -->
+				<br />
+				<!-- IF U_MCP --><a class="nav" href="{U_MCP}">{L_MCP} ({PENDING})</a><br /><!-- ENDIF -->
+				<!-- IF U_ACP --><a class="nav" href="{U_ACP}">{L_ACP}</a><br /><!-- ENDIF -->
+			<!-- ENDIF -->
+			<br /><div class="align-center"><a href="{U_LOGOUT}" class="button2">{L_LOGOUT}</a></div>
+		</div>
+	</li>
+</ul>

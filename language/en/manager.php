@@ -21,6 +21,17 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	// Block names
+	'PRIMETIME.BLOCK.BIRTHDAY'			=> 'Birthday',
+	'PRIMETIME.BLOCK.CUSTOM'			=> 'Custom Block',
+	'PRIMETIME.BLOCK.FEATURED_MEMBER'	=> 'Featured Member',
+	'PRIMETIME.BLOCK.LOGIN'				=> 'Login Box',
+	'PRIMETIME.BLOCK.MENU'				=> 'Menu',
+	'PRIMETIME.BLOCK.MEMBERS'			=> 'Members',
+	'PRIMETIME.BLOCK.MEMBER_MENU'		=> 'Member Memu',
+	'PRIMETIME.BLOCK.STATS'				=> 'Statistics',
+	'PRIMETIME.BLOCK.WHOIS'				=> 'Who is online',
+
 	'ALL'					=> 'All',
 	'NONE'					=> 'None',
 	'EDIT'					=> 'Edit',
@@ -68,10 +79,11 @@ $lang = array_merge($lang, array(
 	'EDIT_ME'				=> 'Please edit me',
 	'SHOW_HIDE_ME'			=> 'Allow hide online status?',
 	'AUTO_LOGIN'			=> 'Allow auto login?',
-	
-	'MEMBERS_DISPLAY'		=> 'Display',
+	'QUERY_TYPE'			=> 'Display Mode',
+	'FREQUENCY'				=> 'Frequency',
 	'DATE_RANGE'			=> 'Date Range',
 	'MAX_MEMBERS'			=> 'Max. Members',
+	'FEATURED_MEMBER_IDS'	=> 'User IDs',
 
 	'TODAY'					=> 'Today',
 	'THIS_WEEK'				=> 'This Week',
@@ -91,23 +103,15 @@ $lang = array_merge($lang, array(
 	'MOST_TENURED'			=> 'Most Tenured',
 	'TOP_POSTERS'			=> 'Top Posters',
 
-	// Block names
-	'PRIMETIME.BLOCK.BIRTHDAY'	=> 'Birthday',
-	'PRIMETIME.BLOCK.LOGIN'		=> 'Login Box',
-	'PRIMETIME.BLOCK.MENU'		=> 'Menu',
-	'PRIMETIME.BLOCK.MEMBERS'	=> 'Members',
-	'PRIMETIME.BLOCK.MYBLOCK'	=> 'My Block',
-	'PRIMETIME.BLOCK.STATS'		=> 'Board Statistics',
-	'PRIMETIME.BLOCK.WHOIS'		=> 'Who is online',
+	'SETTING_TOO_LOW'		=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
+	'SETTING_TOO_BIG'		=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
+	'SETTING_TOO_LONG'		=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
+	'SETTING_TOO_SHORT'		=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
 
-	'SETTING_TOO_LOW'			=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
-	'SETTING_TOO_BIG'			=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
-	'SETTING_TOO_LONG'			=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
-	'SETTING_TOO_SHORT'			=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
-
-	'AJAX_ERROR'				=> 'Oops! There was an error processing your request. Please try again.',
-	'COPY_BLOCKS_CONFIRM'		=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
-	'LEAVE_CONFIRM'				=> 'You have some unsaved changes to this page. Please save your work before moving on',
-	'DELETE_BLOCK_CONFIRM'		=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',
-	'DEFAULT_LAYOUT_EXPLAIN'	=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
+	'AJAX_ERROR'					=> 'Oops! There was an error processing your request. Please try again.',
+	'COPY_BLOCKS_CONFIRM'			=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
+	'LEAVE_CONFIRM'					=> 'You have some unsaved changes to this page. Please save your work before moving on',
+	'DELETE_BLOCK_CONFIRM'			=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',
+	'DEFAULT_LAYOUT_EXPLAIN'		=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
+	'FEATURED_MEMBER_IDS_EXPLAIN'	=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
 ));
