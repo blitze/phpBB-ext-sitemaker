@@ -29,9 +29,9 @@ class display
 	protected $auth;
 
 	/**
-	* Cache
-	* @var \phpbb\cache\service
-	*/
+	 * Cache
+	 * @var \phpbb\cache\service
+	 */
 	protected $cache;
 
 	/**
@@ -93,6 +93,12 @@ class display
 	 * @var string
 	 */
 	private $default_route;
+
+	/**
+	 * Current block route
+	 * @var string
+	 */
+	public $route;
 
 	/**
 	 * Constructor
@@ -223,7 +229,7 @@ class display
 		global $phpbb_container, $symfony_request;
 
 		$controller_service = $symfony_request->attributes->get('_route');
-		$route = $this->user->page['page_name'];
+		$this->route = $this->user->page['page_name'];
 
 		if ($controller_service)
 		{
@@ -234,11 +240,11 @@ class display
 			 */
 			if (method_exists($controller, 'get_blocks_route'))
 			{
-				$route = $controller->get_blocks_route();
+				$this->route = $controller->get_blocks_route();
 			}
 		}
 
-		return $route;
+		return $this->route;
 	}
 
 	public function get_route_info($route)
@@ -259,6 +265,14 @@ class display
         }
 
 		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
+	}
+
+	public function clear_blocks_cache()
+	{
+		if (!empty($this->route))
+		{
+			$this->cache->destroy('_blocks_' . $this->route);
+		}
 	}
 
 	public function get_blocks($route, $edit_mode)
