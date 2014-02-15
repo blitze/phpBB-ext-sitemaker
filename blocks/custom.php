@@ -18,9 +18,9 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
- * My Block
+ * Custom Block
  */
-class myblock extends \primetime\primetime\core\blocks\driver\block
+class custom extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
 	* User object
@@ -59,7 +59,7 @@ class myblock extends \primetime\primetime\core\blocks\driver\block
 		}
 
 		return array(
-			'title'		=> 'MY_BLOCK',
+			'title'		=> 'BLOCK_TITLE',
 			'content'	=> $content,
 		);
 	}
