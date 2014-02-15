@@ -81,17 +81,6 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
-/*
-$year = 2013;
-$month = 5;
-$day = 20;
-$timestamp = $this->user->create_datetime()
-				->setDate($year, $month, $day)
-				->setTime(0, 0, 0)
-				->getTimestamp();
-echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true);
-*/
-
 		if (!empty($row))
 		{
 			$block = $this->ptemplate->render_view('primetime/primetime', 'blocks/birthday.html', 'birthday_block');
