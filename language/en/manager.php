@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'PRIMETIME.BLOCK.STATS'				=> 'Statistics',
 	'PRIMETIME.BLOCK.WHOIS'				=> 'Who is online',
 
+	'ALL'					=> 'All',
 	'NONE'					=> 'None',
 	'EDIT'					=> 'Edit',
 	'CANCEL'				=> 'Cancel',

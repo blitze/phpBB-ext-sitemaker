@@ -32,8 +32,8 @@ class members extends \primetime\primetime\core\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user							$user	User object
-	 * @param \primetime\primetime\core\members		$user	Members object
+	 * @param \phpbb\user							$user		User object
+	 * @param \primetime\primetime\core\members		$members	Members object
 	 */
 	public function __construct(\phpbb\user $user, \primetime\primetime\core\members $members)
 	{
