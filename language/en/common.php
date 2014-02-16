@@ -42,6 +42,7 @@ $lang = array_merge($lang, array(
 	'RANDOM_MEMBER'			=> 'Random Member',
 	'POSTS_MEMBER'			=> 'Top Poster',
 
+	'ALL_TIME'				=> 'All Time',
 	'TODAY'					=> 'Today',
 	'THIS_WEEK'				=> 'This Week',
 	'THIS_MONTH'			=> 'This Month',
