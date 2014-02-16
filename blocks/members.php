@@ -25,8 +25,9 @@ class members extends \primetime\primetime\core\blocks\driver\block
 	/** @var \phpbb\user */
 	private $user;
 
-	private	$mode_options = array('visits' => 'LAST_VISITED', 'bots' => 'RECENT_BOTS', 'recent' => 'RECENT_MEMBERS', 'tenured' => 'MOST_TENURED', 'posts' => 'TOP_POSTERS');
-	private	$range_options = array('' => 'ALL', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
+	private $mode_options = array('visits' => 'LAST_VISITED', 'bots' => 'RECENT_BOTS', 'recent' => 'RECENT_MEMBERS', 'tenured' => 'MOST_TENURED', 'posts' => 'TOP_POSTERS');
+
+	private $range_options = array('' => 'ALL', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
 
 	/**
 	 * Constructor
@@ -59,10 +60,11 @@ class members extends \primetime\primetime\core\blocks\driver\block
 	public function display($bdata, $edit_mode = false)
 	{
 		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
-		$title = $this->mode_options[$bdata['settings']['query_type']] . '_' . $this->range_options[$bdata['settings']['date_range']];
+
+		$this->ptemplate->assign_var('RANGE', $this->user->lang[$this->range_options[$bdata['settings']['range']]]);
 
 		return array(
-			'title'		=> $title,
+			'title'		=> $this->mode_options[$bdata['settings']['query_type']],
 			'content'	=> $this->members->get_list($bdata['settings']),
 		);
 	}

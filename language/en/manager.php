@@ -85,24 +85,13 @@ $lang = array_merge($lang, array(
 	'MAX_MEMBERS'			=> 'Max. Members',
 	'FEATURED_MEMBER_IDS'	=> 'User IDs',
 	'SHOW_MEMBER_MENU'		=> 'Show user menu?',
-
-	'TODAY'					=> 'Today',
-	'THIS_WEEK'				=> 'This Week',
-	'THIS_MONTH'			=> 'This Month',
-	'THIS_YEAR'				=> 'This Year',
+	'MEMBERS_DATE'			=> 'Date',
 
 	'ROTATE_PAGELOAD'		=> 'Page load',
 	'ROTATE_HOURLY'			=> 'Hourly',
 	'ROTATE_DAILY'			=> 'Daily',
 	'ROTATE_WEEKLY'			=> 'Weekly',
 	'ROTATE_MONTHLY'		=> 'Monthly',
-
-	'MEMBERS_DATE'			=> 'Date',
-	'LAST_VISITED'			=> 'Last Visited',
-	'RECENT_BOTS'			=> 'Recent Search Engines',
-	'RECENT_MEMBERS'		=> 'Recent Members',
-	'MOST_TENURED'			=> 'Most Tenured',
-	'TOP_POSTERS'			=> 'Top Posters',
 
 	'SETTING_TOO_LOW'		=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
 	'SETTING_TOO_BIG'		=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
