@@ -81,7 +81,7 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!empty($row))
+		if (!empty($row) || $edit_mode !== false)
 		{
 			$block = $this->ptemplate->render_view('primetime/primetime', 'blocks/birthday.html', 'birthday_block');
 		}
