@@ -43,16 +43,13 @@ class members extends \primetime\primetime\core\blocks\driver\block
 
 	public function get_config($settings)
 	{
-		$mode_options = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $this->mode_options);
-		$range_options = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $this->range_options);
-
 		$query_type = (!empty($settings['query_type'])) ? $settings['query_type'] : 'recent';
 		$date_range = (!empty($settings['date_range'])) ? $settings['date_range'] : 'month';
 
 		return array(
 			'legend1'		=> $this->user->lang['SETTINGS'],
-            'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($mode_options, $query_type), 'default' => 'recent', 'explain' => false),
-            'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
+            'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->mode_options, $query_type), 'default' => 'recent', 'explain' => false),
+            'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->range_options, $date_range), 'default' => '', 'explain' => false),
 			'max_members'	=> array('lang' => 'MAX_MEMBERS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
 	}

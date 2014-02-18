@@ -562,12 +562,16 @@ class manager
 			}
 
 			// this looks bad but its the only way without modifying phpbb code
+			// this is for select items that do not need to be translated
 			if ($type[0] == 'select' && isset($vars['function']))
 			{
 				$options = $vars['params'][0];
 				foreach ($options as $key => $title)
 				{
-					$this->user->lang[$title] = $title;
+					if (!isset($this->user->lang[$title]))
+					{
+						$this->user->lang[$title] = $title;
+					}
 				}
 			}
 

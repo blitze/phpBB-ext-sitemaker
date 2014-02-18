@@ -270,6 +270,10 @@
 	border: 1px solid #ccc;
 }
 
+#dialog-edit dt span {
+	font-size: smaller;
+}
+
 .flash-message {
 	display: none;
 	position: relative;
@@ -284,5 +288,4 @@
 	margin: 0 auto;
 	padding: 5px;
 	z-index: 1000;
-	_zoom: 1;
 }

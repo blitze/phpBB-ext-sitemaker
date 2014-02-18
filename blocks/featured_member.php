@@ -99,9 +99,6 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'featured'	=> 'FEATURED_MEMBER',
 		);
 
-		$rotation_ary = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $rotation_ary);
-		$qtype_ary = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $qtype_ary);
-
 		$qtype = (!empty($settings['qtype'])) ? $settings['qtype'] : 'recent';
 		$rotation = (!empty($settings['rotation'])) ? $settings['rotation'] : 'daily';
 
