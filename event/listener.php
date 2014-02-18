@@ -60,6 +60,12 @@ class listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
+		define('FORUMS_PREVIEW_FIRST_POST', 1);
+		define('FORUMS_PREVIEW_LAST_POST', 2);
+		define('FORUMS_ORDER_FIRST_POST', 0);
+		define('FORUMS_ORDER_LAST_POST', 1);
+		define('FORUMS_ORDER_LAST_READ', 2);
+
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'primetime/primetime',

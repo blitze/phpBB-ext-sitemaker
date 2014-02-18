@@ -69,6 +69,14 @@ services:
         arguments:
             - @primetime.block_collection
 
+    primetime.forum:
+        class: primetime\primetime\core\forum\query
+        arguments:
+            - @config
+            - @dbal.conn
+            - @user
+            - @primetime
+
     primetime.listener:
         class: primetime\primetime\event\listener
         arguments:

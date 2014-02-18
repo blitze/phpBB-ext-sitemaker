@@ -33,6 +33,18 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.block.forum_topics:
+        class: primetime\primetime\blocks\forum_topics
+        arguments:
+            - @user
+            - @primetime.forum
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.forum_topics]]
+        tags:
+            - { name: primetime.block }
+
     primetime.block.member_menu:
         class: primetime\primetime\blocks\member_menu
         arguments:
