@@ -575,6 +575,7 @@ class manager
 				}
 			}
 
+			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 
 			if (empty($content))
@@ -589,10 +590,9 @@ class manager
 				'TITLE_EXPLAIN'	=> $l_explain,
 				'CONTENT'		=> $content)
 			);
-
-			$bdata['settings'][$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 			unset($default_settings[$config_key]);
 		}
+		$bdata['settings'] = $db_settings;
 
 		$this->template->assign_vars(array(
 			'S_GROUP_OPS'	=> $this->get_groups('options', $bdata['permission']))
@@ -928,7 +928,7 @@ class manager
 		}
 		$this->db->sql_freeresult($result);
 
-		return ($raw === false) ? ((!is_array($bid)) ? array_shift($bconfig) : $bconfig) : $data;
+		return ($raw === false) ? ((!is_array($bid) && sizeof($bconfig)) ? array_shift($bconfig) : $bconfig) : $data;
 	}
 
 	private function delete_block_config($bid)
