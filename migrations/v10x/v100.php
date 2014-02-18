@@ -167,7 +167,7 @@ class v100 extends \phpbb\db\migration\migration
 
 			// Add Menu module
 			array('module.add', array('acp', 'ACP_PRIMETIME_EXTENSIONS', array(
-					'module_basename'	=> '\primetime\menu\acp\menu_module',
+					'module_basename'	=> '\primetime\primetime\acp\menu_module',
 				),
 			)),
 		);
