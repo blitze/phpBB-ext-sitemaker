@@ -323,14 +323,17 @@ class display
 				$b = $phpbb_container->get($block_service);
 				$df_settings = $b->get_config($block_config);
 
-				foreach ($df_settings as $key => $settings)
+				if (sizeof($df_settings))
 				{
-					if (!is_array($settings))
+					foreach ($df_settings as $key => $settings)
 					{
-						continue;
+						if (!is_array($settings))
+						{
+							continue;
+						}
+						$default =& $settings['default'];
+						$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
 					}
-					$default =& $settings['default'];
-					$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
 				}
 			}
 
