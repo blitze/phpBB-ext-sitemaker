@@ -25,7 +25,7 @@ class members extends \primetime\primetime\core\blocks\driver\block
 	/** @var \phpbb\user */
 	private $user;
 
-	private $mode_options = array('visits' => 'LAST_VISITED', 'bots' => 'RECENT_BOTS', 'recent' => 'RECENT_MEMBERS', 'tenured' => 'MOST_TENURED', 'posts' => 'TOP_POSTERS');
+	private $query_type_options = array('visits' => 'LAST_VISITED', 'bots' => 'RECENT_BOTS', 'recent' => 'RECENT_MEMBERS', 'tenured' => 'MOST_TENURED', 'posts' => 'TOP_POSTERS');
 
 	private $range_options = array('' => 'ALL_TIME', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
 
@@ -48,8 +48,8 @@ class members extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'legend1'		=> $this->user->lang['SETTINGS'],
-            'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->mode_options, $query_type), 'default' => 'recent', 'explain' => false),
-            'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->range_options, $date_range), 'default' => '', 'explain' => false),
+            'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->query_type_options, $query_type), 'default' => 'recent', 'explain' => false),
+            'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($this->range_options, $date_range), 'default' => 'month', 'explain' => false),
 			'max_members'	=> array('lang' => 'MAX_MEMBERS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
 	}
@@ -61,7 +61,7 @@ class members extends \primetime\primetime\core\blocks\driver\block
 		$this->ptemplate->assign_var('RANGE', $this->user->lang[$this->range_options[$bdata['settings']['range']]]);
 
 		return array(
-			'title'		=> $this->mode_options[$bdata['settings']['query_type']],
+			'title'		=> $this->query_type_options[$bdata['settings']['query_type']],
 			'content'	=> $this->members->get_list($bdata['settings']),
 		);
 	}
