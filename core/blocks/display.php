@@ -331,8 +331,13 @@ class display
 						{
 							continue;
 						}
-						$default =& $settings['default'];
-						$blocks[$position][$bid]['settings'][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $default;
+						$value = $settings['default'];
+						if (isset($db_settings[$bid][$key]))
+						{
+							$type = explode(':', $df_settings[$key]['type']);
+							$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$bid][$key]) : $db_settings[$bid][$key];
+						}
+						$blocks[$position][$bid]['settings'][$key] = $value;
 					}
 				}
 			}

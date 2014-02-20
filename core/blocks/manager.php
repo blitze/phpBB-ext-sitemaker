@@ -485,7 +485,23 @@ class manager
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$bdata['settings'] = $db_settings;
+		$df_settings = $b->get_config($db_settings);
+
+		foreach ($df_settings as $key => $settings)
+		{
+			if (!is_array($settings))
+			{
+				continue;
+			}
+
+			$value =& $settings['default'];
+			if (isset($db_settings[$bid][$key]))
+			{
+				$type = explode(':', $df_settings[$key]['type']);
+				$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$bid][$key]) : $db_settings[$bid][$key];
+			}
+			$bdata['settings'][$key] = $value;
+		}
 
 		return array_merge(
 			array('message' => $this->user->lang['BLOCK_UPDATED']),
@@ -502,6 +518,11 @@ class manager
 	public function edit($bid)
 	{
 		global $phpbb_container, $phpbb_root_path, $phpEx;
+
+		if (!function_exists('build_multi_select'))
+		{
+			include($phpbb_root_path . 'ext/primetime/primetime/functions_blocks.' . $phpEx);
+		}
 
 		if (!function_exists('build_cfg_template'))
 		{
@@ -563,9 +584,10 @@ class manager
 
 			// this looks bad but its the only way without modifying phpbb code
 			// this is for select items that do not need to be translated
-			if ($type[0] == 'select' && isset($vars['function']))
+			if (in_array($type[0], array('select', 'multi_select', 'checkbox')))
 			{
 				$options = $vars['params'][0];
+
 				foreach ($options as $key => $title)
 				{
 					if (!isset($this->user->lang[$title]))
@@ -575,7 +597,18 @@ class manager
 				}
 			}
 
-			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
+			$value = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
+			
+			if ($type[0] == 'checkbox' || $type[0] == 'multi_select')
+			{
+				$vars['function'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
+				$vars['params'][] = $config_key;
+				$type[0] = 'custom';
+
+				$value = explode(',', $db_settings[$config_key]);
+			}
+
+			$db_settings[$config_key] = $value;
 			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 
 			if (empty($content))
@@ -632,12 +665,19 @@ class manager
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$settings = $b->get_config(array());
+		$df_settings = $b->get_config(array());
 
 		$errors = array();
-		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc($this->request->variable('config', array('' => ''), true)) : $settings;
+		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
+		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array(0 => '')), true));
 
-		validate_config_vars($settings, $cfg_array, $errors);
+		$multi_select = array_filter($multi_select);
+		foreach ($multi_select as $key => $values)
+		{
+			$cfg_array[$key] = join(',', $values);
+		}
+
+		validate_config_vars($df_settings, $cfg_array, $errors);
 
 		if (sizeof($errors))
 		{
@@ -816,7 +856,14 @@ class manager
 				{
 					continue;
 				}
-				$row['settings'][$key] =& $settings['default'];
+
+				$value =& $settings['default'];
+				if (isset($db_settings[$row['bid']][$key]))
+				{
+					$type = explode(':', $df_settings[$row['bid']]['type']);
+					$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$row['bid']][$key]) : $db_settings[$row['bid']][$key];
+				}
+				$row['settings'][$key] = $value;
 			}
 
 			$data[$row['position']][] = array_merge(
