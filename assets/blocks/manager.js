@@ -110,13 +110,12 @@
 		}
 		$.post(ajaxUrl + '/blocks/update' + '?route=' + route, data,
 			function(resp){
-				if (!resp.error) {
-					if (resp.title) {
-						undoEditable(resp.title);
-					}
-				} else {
+				if (resp.error) {
 					showMessage(resp.error);
-					undoEditable(editorVal);
+				}
+
+				if (editing === true) {
+					undoEditable(resp.title);
 				}
 			},
 			"json"
