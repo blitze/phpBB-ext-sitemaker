@@ -29,6 +29,12 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	protected $cache;
 
 	/**
+	 * Config Object
+	 * @var \phpbb\config\db
+	 */
+	protected $config;
+
+	/**
 	 * Database
 	 * @var \phpbb\db\driver\driver
 	 */
