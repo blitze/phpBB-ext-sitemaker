@@ -331,13 +331,15 @@ class display
 						{
 							continue;
 						}
-						$value = $settings['default'];
-						if (isset($db_settings[$bid][$key]))
+
+						$type = explode(':', $settings['type']);
+						$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
+
+						if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
 						{
-							$type = explode(':', $df_settings[$key]['type']);
-							$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$bid][$key]) : $db_settings[$bid][$key];
+							$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
 						}
-						$blocks[$position][$bid]['settings'][$key] = $value;
+						$blocks[$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
 					}
 				}
 			}

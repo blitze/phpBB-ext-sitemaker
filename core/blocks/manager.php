@@ -494,19 +494,21 @@ class manager
 				continue;
 			}
 
-			$value =& $settings['default'];
-			if (isset($db_settings[$bid][$key]))
+			$db_settings[$key] = (isset($db_settings[$key])) ? $db_settings[$key] : $settings['default'];
+
+			$type = explode(':', $settings['type']);
+			if ($db_settings[$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
 			{
-				$type = explode(':', $df_settings[$key]['type']);
-				$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$bid][$key]) : $db_settings[$bid][$key];
+				$db_settings[$key] = explode(',', $db_settings[$key]);
 			}
-			$bdata['settings'][$key] = $value;
+			$bdata['settings'][$key] = $db_settings[$key];
 		}
 
 		return array_merge(
-			array('message' => $this->user->lang['BLOCK_UPDATED']),
+			$sql_data,
 			array(
-				'id' => $bid,
+				'id'		=> $bid,
+				'message'	=> $this->user->lang['BLOCK_UPDATED'],
 			),
 			$this->display($b, $bdata)
 		);
@@ -597,18 +599,17 @@ class manager
 				}
 			}
 
-			$value = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
-			
+			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
+
 			if ($type[0] == 'checkbox' || $type[0] == 'multi_select')
 			{
 				$vars['function'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
 				$vars['params'][] = $config_key;
 				$type[0] = 'custom';
 
-				$value = explode(',', $db_settings[$config_key]);
+				$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
 			}
 
-			$db_settings[$config_key] = $value;
 			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 
 			if (empty($content))
@@ -669,12 +670,13 @@ class manager
 
 		$errors = array();
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
-		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array(0 => '')), true));
+		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
 
 		$multi_select = array_filter($multi_select);
 		foreach ($multi_select as $key => $values)
 		{
-			$cfg_array[$key] = join(',', $values);
+			$cfg_array[$key] = array_filter($values, 'strlen');
+			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
 		}
 
 		validate_config_vars($df_settings, $cfg_array, $errors);
@@ -713,16 +715,9 @@ class manager
 			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 		}
 
-		$this->update($bid, $sql_data, $route);
 		$this->cache->destroy('_blocks_' . $route);
 
-		return array_merge(
-			$this->display($b, $bdata),
-			array('message' => $this->user->lang['BLOCK_UPDATED']),
-			array(
-				'id' => $bid,
-			)
-		);
+		return $this->update($bid, $sql_data, $route);
 	}
 
 	/**
@@ -845,11 +840,13 @@ class manager
 		for ($i = 0, $size = sizeof($sql_blocks); $i < $size; $i++)
 		{
 			$row = $sql_blocks[$i];
-			$block_config = (isset($db_settings[$row['bid']])) ? $db_settings[$row['bid']] : array();
+			$bid = $row['bid'];
+			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
 
 			$b = $phpbb_container->get($row['name']);
 
-			$df_settings = $b->get_config($block_config);
+			$df_settings = $b->get_config($db_settings[$bid]);
+
 			foreach ($df_settings as $key => $settings)
 			{
 				if (!is_array($settings))
@@ -857,13 +854,14 @@ class manager
 					continue;
 				}
 
-				$value =& $settings['default'];
-				if (isset($db_settings[$row['bid']][$key]))
+				$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
+
+				$type = explode(':', $settings['type']);
+				if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
 				{
-					$type = explode(':', $df_settings[$row['bid']]['type']);
-					$value = ($type[0] == 'multi_select' || $type[0] == 'checkbox') ? explode(',', $db_settings[$row['bid']][$key]) : $db_settings[$row['bid']][$key];
+					$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
 				}
-				$row['settings'][$key] = $value;
+				$row['settings'][$key] = $db_settings[$bid][$key];
 			}
 
 			$data[$row['position']][] = array_merge(
