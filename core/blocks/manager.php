@@ -584,12 +584,13 @@ class manager
 				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
 			}
 
-			// this looks bad but its the only way without modifying phpbb code
-			// this is for select items that do not need to be translated
-			if (in_array($type[0], array('select', 'multi_select', 'checkbox')))
-			{
-				$options = $vars['params'][0];
+			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 
+			if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
+			{
+				// this looks bad but its the only way without modifying phpbb code
+				// this is for select items that do not need to be translated
+				$options = $vars['params'][0];
 				foreach ($options as $key => $title)
 				{
 					if (!isset($this->user->lang[$title]))
@@ -597,17 +598,18 @@ class manager
 						$this->user->lang[$title] = $title;
 					}
 				}
-			}
 
-			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
-
-			if ($type[0] == 'checkbox' || $type[0] == 'multi_select')
-			{
-				$vars['function'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
-				$vars['params'][] = $config_key;
-				$type[0] = 'custom';
-
-				$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
+				if (($type[0] == 'checkbox' || $type[0] == 'multi_select'))
+				{
+					$vars['function'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
+					$vars['params'][] = $config_key;
+					$type[0] = 'custom';
+	
+					if (!empty($db_settings[$config_key]))
+					{
+						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
+					}
+				}
 			}
 
 			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
