@@ -25,6 +25,7 @@ $lang = array_merge($lang, array(
 	'WELCOME'				=> 'Welcome',
 	'BLOCK_TITLE'			=> 'Block Title',
 	'MEMBERS_DATE'			=> 'Date',
+	'SESSION_HIDE_ME'		=> 'Hide Me',
 
 	'FEATURED_MEMBER'		=> 'Featured Member',
 	'RECENT_MEMBER'			=> 'Recent Member',
@@ -42,6 +43,7 @@ $lang = array_merge($lang, array(
 	'RANDOM_MEMBER'			=> 'Random Member',
 	'POSTS_MEMBER'			=> 'Top Poster',
 
+	'ALL'					=> 'All',
 	'ALL_TIME'				=> 'All Time',
 	'TODAY'					=> 'Today',
 	'THIS_WEEK'				=> 'This Week',
@@ -57,4 +59,12 @@ $lang = array_merge($lang, array(
 	'QTYPE_RECENT'			=> 'Please welcome our newest member:',
 	'QTYPE_POSTS'			=> 'Congratulations to:',
 	'FEATURED_MEMBERLIST'	=> 'Featured members list',
+
+	'FORUM_RECENT_TOPICS'			=> 'Recent Forum Topics',
+	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
+	'FORUM_STICKY_POSTS'			=> 'Recent Sticky Posts',
+	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
+	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
+	'TOPIC_LAST_READ'				=> 'Last read %s',
+	'TOPICS_LAST_READ'				=> 'Last Read Topics',
 ));

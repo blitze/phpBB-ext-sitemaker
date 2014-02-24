@@ -25,6 +25,7 @@ $lang = array_merge($lang, array(
 	'PRIMETIME.BLOCK.BIRTHDAY'			=> 'Birthday',
 	'PRIMETIME.BLOCK.CUSTOM'			=> 'Custom Block',
 	'PRIMETIME.BLOCK.FEATURED_MEMBER'	=> 'Featured Member',
+	'PRIMETIME.BLOCK.FORUM_TOPICS'		=> 'Forum Topics',
 	'PRIMETIME.BLOCK.LOGIN'				=> 'Login Box',
 	'PRIMETIME.BLOCK.MENU'				=> 'Menu',
 	'PRIMETIME.BLOCK.MEMBERS'			=> 'Members',
@@ -121,6 +122,8 @@ $lang = array_merge($lang, array(
 	'TOPIC_TYPE'			=> 'Topic Type',
 	'POST_NORMAL'			=> 'Normal',
 	'POST_GLOBAL'			=> 'Global',
+    'POST_STICKY'			=> 'Sticky',
+    'POST_ANNOUNCEMENT'		=> 'Announcement',
 	'TITLES'				=> 'Titles',
 	'MINI'					=> 'Mini',
 	'CONTEXT'				=> 'Context',
@@ -141,7 +144,6 @@ $lang = array_merge($lang, array(
 	'POLL_FROM_TOPICS_EXPLAIN'	=> 'Id(s) of topics to retrieve polls from, separated by <strong>commas</strong>(,). Leave blank to select any topic.',
 	'POLL_FROM_FORUMS_EXPLAIN'	=> 'Only polls from the selected forums will be displayed as long as no topics are specified above',
 	'ENABLE_TOPIC_TRACKING_EXPLAIN'	=> 'If enabled, unread topics will be indicated but the block results will not be cached <strong>(Not recommended)</strong>',
-
 
 	'SETTING_TOO_LOW'		=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
 	'SETTING_TOO_BIG'		=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',

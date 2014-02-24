@@ -36,8 +36,12 @@ services:
     primetime.block.forum_topics:
         class: primetime\primetime\blocks\forum_topics
         arguments:
+            - @auth
+            - @cache.driver
+            - @config
             - @user
             - @primetime.forum
+            - @primetime
             - %core.root_path%
             - %core.php_ext%
         calls:

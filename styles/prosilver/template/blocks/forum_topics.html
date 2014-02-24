@@ -1,32 +1,4 @@
-<!-- IF S_FULL -->
-	<ul class="topiclist forabg">
-		<li class="header">
-			<dl class="icon">
-				<dt><!-- IF S_DISPLAY_ACTIVE -->{L_ACTIVE_TOPICS}<!-- ELSEIF topicrow.S_TOPIC_TYPE_SWITCH and topicrow.S_TOPIC_TYPE gt 1 -->{L_ANNOUNCEMENTS}<!-- ELSE -->{L_TOPICS}<!-- ENDIF --></dt>
-				<dd class="posts">{L_REPLIES}</dd>
-				<dd class="views">{L_VIEWS}</dd>
-				<dd class="lastpost"><span>{L_LAST_POST}</span></dd>
-			</dl>
-		</li>
-	</ul>
-	<ul class="topiclist topics">
-	<!-- BEGIN topicrow -->
-		<li class="row<!-- IF topicrow.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
-			<dl class="icon" style="background-image: url({topicrow.TOPIC_FOLDER_IMG_SRC}); background-repeat: no-repeat;">
-				<dt<!-- IF topicrow.TOPIC_ICON_IMG --> style="background-image: url({T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}); background-repeat: no-repeat;"<!-- ENDIF --> title="{topicrow.FIRST_PREVIEW}"><a href="{topicrow.U_VIEWTOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a><br />
-					<!-- IF topicrow.PAGINATION --><strong class="pagination"><span>{topicrow.PAGINATION}</span></strong><!-- ENDIF -->
-					<!-- IF topicrow.ATTACH_ICON_IMG -->{topicrow.ATTACH_ICON_IMG} <!-- ENDIF --><!-- IF topicrow.S_UNREAD_TOPIC --><a href="{topicrow.U_NEWEST_POST}">{NEWEST_POST_IMG}</a><!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF --> {L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.FIRST_POST_TIME} {L_IN} <a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>
-				</dt>
-				<dd class="posts">{topicrow.REPLIES} <dfn>{L_REPLIES}</dfn></dd>
-				<dd class="views">{topicrow.VIEWS} <dfn>{L_VIEWS}</dfn></dd>
-				<dd class="lastpost" title="{topicrow.LAST_PREVIEW}"><span><dfn>{L_LAST_POST} </dfn><span class="small-avatar left-box">{topicrow.LAST_POSTER_AVATAR}</span>{L_POST_BY_AUTHOR} {topicrow.LAST_POST_AUTHOR}
-					<!-- IF not S_IS_BOT --><a href="{topicrow.U_LAST_POST}">{LAST_POST_IMG}</a> <!-- ENDIF --><br />{L_POSTED_ON_DATE} {topicrow.LAST_POST_TIME}</span>
-				</dd>
-			</dl>
-		</li>
-	<!-- END topicrow -->
-	</ul>
-<!-- ELSEIF S_CONTEXT -->
+<!-- IF S_CONTEXT -->
 	<ul class="flat-list block-ui clearfix">
 	<!-- BEGIN topicrow -->
 		<li>
