@@ -78,12 +78,9 @@ class menu_admin
 	 */
 	public function handle($action, $item_id = 0)
 	{
-		$this->user->add_lang_ext('primetime/menu', 'admin');
-
 		if ($this->request->is_ajax() === false)
 		{
-			$this->return_data['errors'] = $this->user->lang['NOT_AUTHORIZED'];
-			return new Response(json_encode($this->return_data));
+			trigger_error('NOT_AUTHORISED');
 		}
 
 		$errors = array();

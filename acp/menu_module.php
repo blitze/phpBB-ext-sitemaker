@@ -48,7 +48,7 @@ class menu_module
             'css'   => array(
             	'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css',
                 $asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
-                $asset_path . 'ext/primetime/menu/assets/menu/css/admin.css',
+                $asset_path . 'ext/primetime/primetime/assets/menu/css/admin.css',
             )
 		));
 
