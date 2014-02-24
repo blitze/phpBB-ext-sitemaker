@@ -29,8 +29,10 @@ class query
 	 */
 	protected $db;
 
-	protected $sql_array	= array();
-	protected $topic_data	= array();
+	protected $sql_array		= array();
+	protected $topic_tracking	= array();
+	protected $topic_data		= array();
+	protected $topic_post_ids	= array('first' => array(), 'last' => array());
 
 	/**
 	 * Constructor
@@ -58,14 +60,12 @@ class query
 			'topic_id'		=> 0,
 			'post_id'		=> 0,
 
+			'topic_type'		=> false,
 			'watch_info'		=> false,
 			'tracking_info'		=> false,
 			'bookmark_status'	=> false,
-			'titles_only'		=> true,
-			'first_post'		=> false,
-			'last_post'			=> false,
-			
-			'topic_type'		=> '',
+			'sort_key'			=> false,
+			'sort_dir'			=> 'DESC',
 		);
 
 		$this->sql_array = array(
@@ -86,21 +86,6 @@ class query
 			$this->sql_array['SELECT'] .= ', p.post_visibility, p.post_time, p.post_id';
 			$this->sql_array['FROM'][POSTS_TABLE] = 'p';
 			$this->sql_array['WHERE'][] = "p.post_id = $post_id AND t.topic_id = p.topic_id";
-		}
-		else if (!$get['titles_only'])
-		{
-			$this->sql_array['SELECT'] .= ', p.*';
-			$this->sql_array['FROM'][POSTS_TABLE] = 'p';
-			$this->sql_array['WHERE'][] = 't.topic_id = p.topic_id';
-
-			if ($get['first_post'])
-			{
-				$this->sql_array['WHERE'][] = 'p.post_id = t.topic_first_post_id';
-			}
-			else if ($get['last_post'])
-			{
-				$this->sql_array['WHERE'][] = 'p.post_id = t.topic_last_post_id';
-			}
 		}
 
 		// Topics table need to be the last in the chain
@@ -150,9 +135,10 @@ class query
 
 		if (!empty($get['topic_type']))
 		{
-			$this->sql_array['WHERE'][] = 't.topic_type = ' . (int) $get['topic_type'];
+			$topic_type = (is_array($get['topic_type'])) ? $get['topic_type'] : array($get['topic_type']);
+			$this->sql_array['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
 
-			if ($get['topic_type'] == POST_STICKY || $get['topic_type'] == POST_ANNOUNCE)
+			if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
 			{
 				$this->sql_array['WHERE'][] = '(t.topic_time_limit > 0 AND (t.topic_time + t.topic_time_limit) < ' . time() . ')';
 			}
@@ -174,6 +160,11 @@ class query
 
 		$this->sql_array['WHERE'] = join(' AND ', $this->sql_array['WHERE']);
 
+		if ($get['sort_key'])
+		{
+			$this->sql_array['ORDER_BY'] = $get['sort_key'] . ' ' . $get['sort_dir'];
+		}
+
 		if (sizeof($sql_array))
 		{
 			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
@@ -185,7 +176,7 @@ class query
 	/**
 	 * 
 	 */
-	public function get_topic_data($sql_array = array())
+	public function get_topic_data($limit, $start = 0, $sql_array = array())
 	{
 		if (sizeof($sql_array))
 		{
@@ -198,11 +189,15 @@ class query
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			$this->topic_data[$row['topic_id']] = $row;
+			$this->topic_tracking[$row['forum_id']]['topic_list'][] = $row['topic_id'];
+			$this->topic_tracking[$row['forum_id']]['mark_time'] =& $row['forum_mark_time'];
+			$this->topic_post_ids['first'][] = $row['topic_first_post_id'];
+			$this->topic_post_ids['last'][] = $row['topic_last_post_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -212,56 +207,50 @@ class query
 	/**
 	 * 
 	 */
-	public function get_post_data($sql_array = array())
+	public function get_post_data($limit = false, $start = 0, $pagination = false, $post_ids = array())
 	{
-		if (sizeof($sql_array))
+		$sql_where = array();
+		if (sizeof($this->topic_data))
 		{
-			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
+			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->topic_data));
 		}
 
-		if (empty($this->topic_data))
+		if (sizeof($post_ids))
 		{
-			$this->get_topic_data($sql_array); 
+			$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
 		}
 
-		// we're getting topic posts
-		if (!empty($this->topic_data['topic_id']))
-		{
-			global $phpbb_container;
-
-			$pagination = $phpbb_container->get('pagination');
-			$phpbb_content_visibility = $phpbb_container->get('content.visibility');
-
-			$topics_count = $phpbb_content_visibility->get_count('forum_topics', $this->topic_data, $this->topic_data['forum_id']);
-			$start = $pagination->validate_start($start, $this->config['topics_per_page'], $topics_count);
-		}
-
-		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);
-		$result = $this->db->sql_query($sql);
+		$sql = 'SELECT * FROM ' . POSTS_TABLE . ((sizeof($sql_where)) ? ' WHERE ' . join(' AND ', $sql_where) : '');
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			$this->poster_ids[] = $row['poster_id'];
-			$post_data[$row['post_id']] = $row;
+			$post_data[$row['topic_id']][$row['post_id']] = $row;
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->poster_ids = array_unique($this->poster_ids);
+		return $post_data;
 	}
 
 	/**
 	 * 
 	 */
-	public function get_posters()
+	public function get_topic_tracking_info()
 	{
-		
+		$topic_tracking_info = array();
+		foreach ($this->topic_tracking as $forum_id => $forum)
+		{
+			$topic_tracking_info[$forum_id] = get_topic_tracking($forum_id, $forum['topic_list'], $this->topic_data, array($forum_id => $forum['mark_time']));
+		}
+
+		return $topic_tracking_info;
 	}
 
 	/**
-	 * 
+	 * Returns an array of topic first post or last post ids
 	 */
-	public function get_attachments()
+	public function get_topic_post_ids($first_or_last = 'first')
 	{
-		
+		return (isset($this->topic_post_ids[$first_or_last])) ? $this->topic_post_ids[$first_or_last] : array();
 	}
 }
