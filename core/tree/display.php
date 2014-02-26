@@ -33,7 +33,7 @@ abstract class display
 	 * @var phpbb_template
 	 */
 	 
-	protected $table;
+	protected $items_table;
 	protected $pk;
 	protected $primetime;
 	protected $errors = array();
@@ -53,7 +53,7 @@ abstract class display
 	{
 		$this->db = $db;
 		$this->pk = $pk;
-		$this->table = $table;
+		$this->items_table = $table;
 		$this->sql_where = $sql_where;
 		$this->primetime = $primetime;
 	}
@@ -81,7 +81,7 @@ abstract class display
 		}
 
 		$sql = "SELECT *
-			FROM $this->table
+			FROM $this->items_table
 			WHERE $this->pk = " . (int) $node_id .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$result = $this->db->sql_query($sql);
@@ -115,8 +115,8 @@ abstract class display
 		$condition .= ($this->sql_where) ? ' AND n2.' . $this->sql_where : '';
 
 		$sql = "SELECT n2.*
-			FROM $this->table n1
-			LEFT JOIN $this->table n2 ON ($condition)
+			FROM $this->items_table n1
+			LEFT JOIN $this->items_table n2 ON ($condition)
 			WHERE n1.{$this->pk} = " . (int) $node_id . 
 				(($this->sql_where) ? ' AND n1.' . $this->sql_where : '') . '
 			ORDER BY n2.left_id ' . (($order == 'descending') ? 'ASC' : 'DESC');
@@ -141,7 +141,7 @@ abstract class display
 		$sql_query = array(
 			'SELECT'	=> 't.*',
 			'FROM'		=> array(
-				$this->table => ' t'
+				$this->items_table => ' t'
 			),
 			'WHERE'		=> 't.depth ' . (($level) ? " BETWEEN $start AND " . ($start + $level) : ' >= ' . $start) .
 							(($this->sql_where) ? ' AND t.' . $this->sql_where : ''),

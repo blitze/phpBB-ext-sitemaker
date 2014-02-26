@@ -27,7 +27,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	*
 	* @param \phpbb\db\driver\driver				$db             Database connection
 	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
-	* @param string									$table_name		Table name
+	* @param string									$table			Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
@@ -57,7 +57,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$parents_right_id	= (int) $row['right_id'];
 			$parents_depth		= (int) $row['depth'];
 
-			$sql = "UPDATE $this->table 
+			$sql = "UPDATE $this->items_table 
 				SET left_id = CASE WHEN left_id > $parents_right_id
 						THEN left_id + 2
 						ELSE left_id 
@@ -77,7 +77,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		else
 		{
 			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->table" .
+				FROM $this->items_table" .
 				(($this->sql_where) ? ' WHERE ' . $this->sql_where : '');
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
@@ -89,7 +89,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$sql_data['depth']		= 0;
 		}
 
-		$sql = "INSERT INTO $this->table " . $this->db->sql_build_array('INSERT', $sql_data);
+		$sql = "INSERT INTO $this->items_table " . $this->db->sql_build_array('INSERT', $sql_data);
 		$this->db->sql_query($sql);
 
 		$sql_data[$this->pk] = (int) $this->db->sql_nextid();
@@ -150,7 +150,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			// Update existing tree
 			$diff = sizeof($branch) * 2;
 
-			$sql = "UPDATE $this->table
+			$sql = "UPDATE $this->items_table
 				SET left_id = CASE WHEN left_id > $left_id 
 						THEN left_id + $diff
 						ELSE left_id
@@ -166,7 +166,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		else
 		{
 			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->table" .
+				FROM $this->items_table" .
 				(($this->sql_where) ? ' WHERE ' . $this->sql_where : '');
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
@@ -181,7 +181,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		if ($retain_keys === false)
 		{
 			$sql = "SELECT $this->pk 
-				FROM $this->table
+				FROM $this->items_table
 				ORDER BY $this->pk DESC";
 			$result = $this->db->sql_query($sql, 1);
 			$max_id = $this->db->sql_fetchfield($this->pk);
@@ -217,7 +217,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 		$sql_data = array_values($sql_data);
 
-		$this->db->sql_multi_insert($this->table, $sql_data);
+		$this->db->sql_multi_insert($this->items_table, $sql_data);
 		$this->reset_data();
 
 		return $sql_data;
@@ -242,7 +242,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			}
 		}
 
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET " . $this->db->sql_build_array('UPDATE', $sql_data) . "
 			WHERE $this->pk = " . (int) $node_id;
 		$this->db->sql_query($sql);
@@ -276,7 +276,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 
 		// Rather than updating each item individually, we will just delete all items
 		// then add them all over again with new parent_id|left_id|right_id|depth
-		$this->db->sql_query("DELETE FROM $this->table" . (($this->sql_where) ? ' WHERE ' . $this->sql_where : ''));
+		$this->db->sql_query("DELETE FROM $this->items_table" . (($this->sql_where) ? ' WHERE ' . $this->sql_where : ''));
 
 		// Now we add it back
 		$this->add_branch($tree, 0, true);
@@ -348,7 +348,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$this->move_branch($node_id, $to_parent_id);
 		}
 
-		$sql = "UPDATE $this->table SET parent_id = $to_parent_id WHERE $this->pk = " . (int) $node_id;
+		$sql = "UPDATE $this->items_table SET parent_id = $to_parent_id WHERE $this->pk = " . (int) $node_id;
 		$this->db->sql_query($sql);
 
 		$this->reset_data();
@@ -383,7 +383,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$curr_left_id   = (int) $node_row['left_id'];
 
 		$sql = "SELECT left_id, right_id
-			FROM $this->table
+			FROM $this->items_table
 			WHERE parent_id = $curr_parent_id
 				AND " . (($action == 'move_up') ? "right_id < $curr_right_id ORDER BY right_id DESC" : "left_id > $curr_left_id ORDER BY left_id ASC") .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
@@ -440,7 +440,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 
 		// Now do the dirty job
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET left_id = left_id + CASE
 					WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
 					ELSE {$diff_down}
@@ -468,7 +468,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 	public function recalc_nestedset(&$new_id = 1, $parent_id = 0, $depth = 0)
 	{
 		$sql = "SELECT $this->pk, parent_id, depth, left_id, right_id
-			FROM $this->table
+			FROM $this->items_table
 			WHERE parent_id = " . (int) $parent_id .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '') . '
 			ORDER BY left_id ASC';
@@ -478,7 +478,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			// First we update the left_id for this module
 			if ($row['left_id'] != $new_id)
 			{
-				$this->db->sql_query('UPDATE ' . $this->table . ' SET ' . $this->db->sql_build_array('UPDATE', array('left_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
+				$this->db->sql_query('UPDATE ' . $this->items_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('left_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
 			}
 			$new_id++;
 
@@ -488,13 +488,13 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			// Then we come back and update the right_id for this module
 			if ($row['right_id'] != $new_id)
 			{
-				$this->db->sql_query('UPDATE ' . $this->table . ' SET ' . $this->db->sql_build_array('UPDATE', array('right_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
+				$this->db->sql_query('UPDATE ' . $this->items_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('right_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
 			}
 			$new_id++;
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->db->sql_query("UPDATE $this->table SET depth = $depth WHERE parent_id = " . (int) $parent_id);
+		$this->db->sql_query("UPDATE $this->items_table SET depth = $depth WHERE parent_id = " . (int) $parent_id);
 	}
 
 	/**
@@ -593,7 +593,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 
 		// Resync parents
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET right_id = right_id - $diff
 			WHERE left_id < " . (int) $from_data['right_id'] . '
 				AND right_id > ' . (int) $from_data['right_id'] .
@@ -601,7 +601,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET left_id = left_id - $diff, right_id = right_id - $diff
 			WHERE left_id > " . (int) $from_data['right_id'] .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
@@ -612,7 +612,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$to_data = $this->get_row($to_parent_id);
 
 			// Resync new parents
-			$sql = "UPDATE $this->table
+			$sql = "UPDATE $this->items_table
 				SET right_id = right_id + $diff
 				WHERE " . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set($this->pk, $moved_ids, true) .
@@ -620,7 +620,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			$this->db->sql_query($sql);
 
 			// Resync the righthand side of the tree
-			$sql = "UPDATE $this->table
+			$sql = "UPDATE $this->items_table
 				SET left_id = left_id + $diff, right_id = right_id + $diff
 				WHERE left_id > " . (int) $to_data['right_id'] . '
 					AND ' . $this->db->sql_in_set($this->pk, $moved_ids, true) .
@@ -643,7 +643,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		else
 		{
 			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->table
+				FROM $this->items_table
 				WHERE " . $this->db->sql_in_set($this->pk, $moved_ids, true) .
 					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 			$result = $this->db->sql_query($sql);
@@ -656,7 +656,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 
 		$depth_diff = $to_parent_depth - $from_data['depth'] + 1;
 
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET left_id = left_id $diff, right_id = right_id $diff, depth = depth + $depth_diff
 			WHERE " . $this->db->sql_in_set($this->pk, $moved_ids) .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
@@ -703,7 +703,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 
 		// Delete the node
-		$sql = "DELETE FROM $this->table
+		$sql = "DELETE FROM $this->items_table
 			WHERE $this->pk = $node_id" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
@@ -712,7 +712,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$left_id = (int) $row['left_id'];
 
 		// Resync tree
-		$sql = "UPDATE $this->table 
+		$sql = "UPDATE $this->items_table 
 			SET left_id = CASE WHEN left_id > $right_id
 					THEN left_id - 2
 					ELSE left_id
@@ -747,25 +747,25 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$right_id	= (int) $row['right_id'];
 
 		// Delete the node
-		$sql = "DELETE FROM $this->table
+		$sql = "DELETE FROM $this->items_table
 			WHERE $this->pk = $node_id" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
 		// Move children 1 step up
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET parent_id = $parent_id
 				WHERE parent_id = $node_id" .
 					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
 		// Reduce depth by 1
-		$sql = "UPDATE $this->table
+		$sql = "UPDATE $this->items_table
 			SET depth = depth - 1
 				WHERE left_id BETWEEN $left_id AND $right_id";
 		$this->db->sql_query($sql);
 
-		$sql = "UPDATE $this->table 
+		$sql = "UPDATE $this->items_table 
 			SET 
 				left_id = CASE 
 					WHEN left_id > $right_id
@@ -804,12 +804,12 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$right_id   = (int) $row['right_id'];
 		$left_id	= (int) $row['left_id'];
 
-		$sql = "DELETE FROM $this->table 
+		$sql = "DELETE FROM $this->items_table 
 			WHERE left_id BETWEEN $left_id AND $right_id" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
-		$sql = "UPDATE $this->table 
+		$sql = "UPDATE $this->items_table 
 			SET 
 				left_id = CASE WHEN left_id > $left_id
 					THEN left_id - ($right_id - $left_id + 1)
