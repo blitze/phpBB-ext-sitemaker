@@ -26,6 +26,7 @@ $lang = array_merge($lang, array(
 	'BLOCK_TITLE'			=> 'Block Title',
 	'MEMBERS_DATE'			=> 'Date',
 	'SESSION_HIDE_ME'		=> 'Hide Me',
+	'PT_REQUIRED_FIELDS'	=> '* Required Fields',
 
 	'FEATURED_MEMBER'		=> 'Featured Member',
 	'RECENT_MEMBER'			=> 'Recent Member',

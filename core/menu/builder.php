@@ -38,8 +38,17 @@ class builder extends \primetime\primetime\core\tree\builder
 		$this->menus_table = $menus_table;
 	}
 
-	public function menu_create($data)
+	public function menu_create($data = array())
 	{
+		if (!isset($data['menu_name']))
+		{
+			$result = $this->db->sql_query('SELECT COUNT(*) AS total FROM ' . $this->menus_table);
+			$total = $this->db->sql_fetchfield('total');
+			$this->db->sql_freeresult($result);
+
+			$data['menu_name'] = 'Menu ' . ($total + 1);
+		}
+
 		$this->db->sql_query('INSERT INTO ' . $this->menus_table . ' ' . $this->db->sql_build_array('INSERT', $data));
 		$menu_id = $this->db->sql_nextid();
 
@@ -51,23 +60,35 @@ class builder extends \primetime\primetime\core\tree\builder
 
 	public function menu_update($id, $data)
 	{
+		if (isset($data['menu_name']))
+		{
+			$sql = 'SELECT COUNT(*) AS found FROM ' . $this->menus_table . " WHERE menu_name = '" . $this->db->sql_escape($data['menu_name']) . "'";
+			$result = $this->db->sql_query($sql);
+			$found = $this->db->sql_fetchfield('found');
+			$this->db->sql_freeresult($result);
+
+			if ($found)
+			{
+				return $this->menu_get($id);
+			}
+		}
+
 		$this->db->sql_query('UPDATE ' . $this->menus_table . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE menu_id = ' . (int) $id);
+
+		return $data;
 	}
 
 	public function menu_delete($id)
 	{
-		$ids = (is_array($id)) ? $id : array($id);
-		$ids = array_filter($ids);
+		$this->db->sql_query('DELETE FROM ' . $this->items_table . ' WHERE menu_id = ' . (int) $id);
+		$this->db->sql_query('DELETE FROM ' . $this->menus_table . ' WHERE menu_id = ' . (int) $id);
 
-		$this->db->sql_query('DELETE FROM ' . $this->menus_table . ' WHERE ' . $this->db->sql_in_set('menu_id', $ids));		
+		return array('id' => $id);
 	}
 
-	public function menu_get($id = '')
+	public function menu_get($id = 0)
 	{
-		$ids = (is_array($id)) ? $id : array($id);
-		$ids = array_filter($ids);
-
-		$sql = 'SELECT * FROM ' . $this->menus_table . ((sizeof($ids)) ? ' WHERE ' . $this->db->sql_in_set('menu_id', $ids) : '');
+		$sql = 'SELECT * FROM ' . $this->menus_table . (($id) ? ' WHERE menu_id = ' . (int) $id : '');
 		$result = $this->db->sql_query($sql);
 
 		$data = array();
@@ -77,6 +98,21 @@ class builder extends \primetime\primetime\core\tree\builder
 		}
 		$this->db->sql_freeresult($result);
 
-		return (is_array($id)) ? array_pop($data) : $data;
+		return ($id) ? array_pop($data) : $data;
+	}
+	
+	public function menu_get_items()
+	{
+		$sql = $this->qet_tree_sql();
+		$result = $this->db->sql_query($sql);
+
+		$items = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$items[] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return $items;
 	}
 }

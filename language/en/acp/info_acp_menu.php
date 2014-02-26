@@ -38,9 +38,20 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'TITLE'				=> 'Menu Management',
+	'TITLE_EXPLAIN'		=> 'Here you can create and manage menus for your site',
+	'ITEM_NAME'			=> 'Item Name',
+	'ITEM_URL'			=> 'Item URL',
+	'ITEM_TARGET'		=> 'Item Target',
+	'ITEM_STATUS'		=> 'Item Status',
+	'ITEM_ACTIVE'		=> 'Active',
+	'ITEM_INACTIVE'		=> 'Inactive',
+	'TARGET_BLANK'		=> 'Blank Page',
+	'TARGET_PARENT'		=> 'Parent',
 	'CHANGE_ME'			=> 'Change Me',
 	'ADD_MENU'			=> 'Add Menu',
 	'ADD_MENU_ITEM'		=> 'Add Menu Item',
+	'MENU_ITEMS'		=> 'Menu Items',
+	'MENU_ITEM_PARENT'	=> 'Parent Item',
 	'SAVE_CHANGES'		=> 'Save Changes',
 	'AJAX_PROCESSING'	=> 'Working',
 	'LOADING'			=> 'Loading...',
@@ -48,5 +59,13 @@ $lang = array_merge($lang, array(
 	'NO_MENU_ITEMS'		=> 'No menu items have been created',
 	'REBUILD_TREE'		=> 'Rebuild Tree',
 	'SELECT_ALL'		=> 'Select All',
-	'DELETE_SELECTED'	=> 'Delete Selected'
+	'ADD_BULK_MENU'		=> 'Bulk Add Menu Items',
+
+	'DELETE_SELECTED'			=> 'Delete Selected',
+	'DELETE_ITEM'				=> 'Delete Item',
+	'DELETE_MENU'				=> 'Delete Menu',
+	'DELETE_MENU_ITEM'			=> 'Delete Item',
+	'DELETE_MENU_CONFIRM'		=> 'Are you sure you want to delete this menu?<br />This will delete the menu and all its items',
+	'DELETE_MENU_ITEM_CONFIRM'	=> 'Are you sure you want to delete this menu item?',
+	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|./index.php',
 ));

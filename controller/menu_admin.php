@@ -27,12 +27,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class menu_admin
 {
 	/**
-	 * Database object
-	 * @var \phpbb\db\driver
-	 */
-	protected $db;
-
-	/**
 	 * Request object
 	 * @var \phpbb\request\request_interface
 	 */
@@ -53,16 +47,14 @@ class menu_admin
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver					$db				Database object
 	 * @param \phpbb\request\request_interface			$request 		Request object
 	 * @param \phpbb\user                				$user       	User object
 	 * @param \phpbb\template							$template		Template object
 	 * @param \primetime\primetime\core\menu\builder	$manager		Tree builder Object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\primetime\core\menu\builder $manager, $menus_table)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\primetime\core\menu\builder $manager, $menus_table)
 	{
-		$this->db = $db;
 		$this->request = $request;
 		$this->user = $user;
 		$this->template = $template;
@@ -82,6 +74,8 @@ class menu_admin
 		{
 			trigger_error('NOT_AUTHORISED');
 		}
+
+		$this->user->add_lang_ext('primetime/primetime', 'acp/info_acp_menu');
 
 		$errors = array();
 		$return = array();
@@ -181,18 +175,25 @@ class menu_admin
 
 			case 'add_menu':
 
-				$result = $this->db->sql_query('SELECT COUNT(*) AS total FROM ' . $this->menus_table);
-				$total = $this->db->sql_fetchfield('total');
-				$this->db->sql_freeresult($result);
-
-				$data = array(
-					'menu_name'	=> 'Menu ' . ($total + 1), 
-				);
-
-				$return = $this->manager->menu_create($data);
+				$return = $this->manager->menu_create();
 
 			break;
 
+			case 'update_menu':
+
+				$data = array(
+					'menu_name' => $this->request->variable('title', '', true),
+				);
+
+				$return = $this->manager->menu_update($menu_id, $data);
+
+			break;
+
+			case 'delete_menu':
+
+				$return = $this->manager->menu_delete($menu_id);
+
+			break;
 
 			case 'rebuild_tree':
 
@@ -201,18 +202,8 @@ class menu_admin
 				// no break here
 
 			case 'get_all_items':
-
-				$sql = $this->manager->qet_tree_sql();
-				$result = $this->db->sql_query($sql);
-
-				$items = array();
-				while ($row = $this->db->sql_fetchrow($result))
-				{
-					$items[] = $row;
-				}
-				$this->db->sql_freeresult($result);
 				
-				$return['items'] = $items;
+				$return['items'] = $this->manager->menu_get_items();
 
 			break;
 		}

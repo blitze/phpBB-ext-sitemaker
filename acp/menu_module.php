@@ -43,12 +43,12 @@ class menu_module
                 $asset_path . 'ext/primetime/primetime/assets/js/jquery.populate.pack.js',
                 $asset_path . 'ext/primetime/primetime/assets/tree/nestedSortable.js',
                 $asset_path . 'ext/primetime/primetime/assets/tree/builder.js',
-                $asset_path . 'ext/primetime/primetime/assets/menu/js/admin.js',
+                $asset_path . 'ext/primetime/primetime/assets/menu/admin.js',
             ),
             'css'   => array(
             	'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css',
                 $asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
-                $asset_path . 'ext/primetime/primetime/assets/menu/css/admin.css',
+                $asset_path . 'ext/primetime/primetime/assets/menu/admin.css',
             )
 		));
 

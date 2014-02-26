@@ -98,7 +98,6 @@ services:
     primetime.menu.admin:
         class: primetime\primetime\controller\menu_admin
         arguments:
-            - @dbal.conn
             - @request
             - @user
             - @template
