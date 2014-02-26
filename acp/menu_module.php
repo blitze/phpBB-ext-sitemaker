@@ -84,5 +84,6 @@ class menu_module
 		);
 
 		$this->tpl_name = 'acp_menu';
+		$this->page_title = 'ACP_MENU';
 	}
 }

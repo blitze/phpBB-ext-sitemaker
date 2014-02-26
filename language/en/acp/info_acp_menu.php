@@ -37,6 +37,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
+	'ACP_MENU'			=> 'Menu',
 	'TITLE'				=> 'Menu Management',
 	'TITLE_EXPLAIN'		=> 'Here you can create and manage menus for your site',
 	'ITEM_NAME'			=> 'Item Name',
