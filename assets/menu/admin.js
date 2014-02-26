@@ -112,7 +112,18 @@
 			if (menu_id) {
 				$.post(ajaxUrl + 'delete_menu', function(resp) {
 					if (resp.id == menu_id) {
-						$('#menu-' + menu_id).remove();
+						var menu = $('#menu-' + menu_id);
+						var up = menu.prev();
+						var down = menu.next();
+
+						if (up.length) {
+							up.find('.menu-option').trigger('click');
+						} else if (down.length) {
+							down.find('.menu-option').trigger('click');
+						} else {
+							window.location.reload(false);
+						}
+						menu.remove();
 					}
 				});
 			}
