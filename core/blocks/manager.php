@@ -127,7 +127,7 @@ class manager
 		$this->blocks_config_table = $blocks_config_table;
 		$this->def_icon = '';
 
-		$this->user->add_lang_ext('primetime/primetime', 'manager');
+		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 	}
 
 	/**
