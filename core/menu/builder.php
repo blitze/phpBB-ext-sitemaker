@@ -109,10 +109,19 @@ class builder extends \primetime\primetime\core\tree\builder
 		$items = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$items[] = $row;
+			$items[$row['item_id']] = $row;
+			$items[$row['item_id']]['item_path'] = (strpos($row['item_url'], 'http')) ? $row['item_url'] : './../' . $row['item_url'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return $items;
+		return array_values($items);
+	}
+
+	public function get_item_row($node_id)
+	{
+		$row = $this->get_row($node_id);
+		$row['item_path'] = (strpos($row['item_url'], 'http')) ? $row['item_url'] : './../' . $row['item_url'];
+
+		return $row;
 	}
 }

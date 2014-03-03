@@ -61,6 +61,7 @@ $lang = array_merge($lang, array(
 	'REBUILD_TREE'		=> 'Rebuild Tree',
 	'SELECT_ALL'		=> 'Select All',
 	'ADD_BULK_MENU'		=> 'Bulk Add Menu Items',
+	'GO_TO'				=> 'Go to',
 
 	'DELETE_SELECTED'			=> 'Delete Selected',
 	'DELETE_ITEM'				=> 'Delete Item',

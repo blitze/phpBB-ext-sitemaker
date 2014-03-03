@@ -45,7 +45,8 @@
             <form id="bulk_form" name="bulk_form" action="" method="post" style="width: 350px;">
     		<fieldset>
     			<p><strong>{L_ADD_BULK_MENU}</strong></p>
-    			<p class="small">{L_ADD_BULK_EXPLAIN}</p><br />
+    			<a class="toggle-view" style="float: right" href="#help-addbulk">{L_HELP}</a><br clear="both" />
+    			<p id="help-addbulk" class="small bg2" style="display: none">{L_ADD_BULK_EXPLAIN}</p><br />
     	        
     	        <label>{L_MENU_ITEM_PARENT}:</label>
     	        <select id="parent_id" name="parent_id" style="width: 100%">
@@ -56,7 +57,7 @@
 				</select><br /><br />
 				<label>{L_MENU_ITEMS}</label>
     			<textarea id="add_list" name="add_list"></textarea>
-                <div style="width: 100%; height: 300px; position: relative" id="buld_editor"></div>
+                <div style="width: 100%; height: 300px; position: relative" id="build_editor"></div>
 	            <p class="submit-buttons">
 	        		<input class="button2" type="reset" id="cancel" name="cancel" value="{L_CANCEL}" />
 	            	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
@@ -83,7 +84,7 @@
 				<span class="left ui-icon ui-icon-arrow-4"></span>
 	            <a href="#" id="icon-<%=item_id%>" class="left item-action icon-select ui-dialog-titlebar-close ui-corner-all"><i class="<%=item_icon%>"></i></a>
 				<span class="editable" data-field="item_title"><%=item_title%></span>
-				<a href="<%=item_url%>" target="_blank" style="display: inline-block; margin-left: 5px" title="{L_GO_TO}"><span class="ui-icon ui-icon-newwin"></span></a>
+				<a href="<%=item_path%>" target="_blank" style="display: inline-block; margin-left: 5px" title="{L_GO_TO}"><span class="ui-icon ui-icon-newwin"></span></a>
 				<input type="checkbox" class="right select-item" style="margin-right: 5px; margin-left: 5px; vertical-align: central" />
 				<a href="#" id="delete-<%=item_id%>" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
 				<a href="#" id="edit-<%=item_id%>" class="right item-action edit-item ui-dialog-titlebar-close ui-corner-all" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
