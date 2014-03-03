@@ -21,6 +21,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'HELP'					=> 'Help',
 	'MENU'					=> 'Menu',
 	'WELCOME'				=> 'Welcome',
 	'BLOCK_TITLE'			=> 'Block Title',
