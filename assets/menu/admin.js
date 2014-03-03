@@ -47,6 +47,11 @@
 			}
 		});
 
+		$('.toggle-view').click(function() {
+			$($(this).attr('href')).slideToggle();
+			return false;
+		});
+
 		// add new menu
 		$('#add-menu').button().click(function() {
 			$.getJSON(ajaxUrl + 'add_menu', function(data) {
@@ -143,12 +148,13 @@
 		});
 
 		// cloud9 editor for yaml
-		var ace_editor = ace.edit("buld_editor");
+		var ace_editor = ace.edit("build_editor");
 		var textarea = document.getElementById('add_list');
 
 		textarea.style.display = 'none';
 		ace_editor.setTheme("ace/theme/monokai");
-		ace_editor.getSession().setMode("ace/mode/yaml");
+		ace_editor.getSession().setMode("ace/mode/html");
+		ace_editor.setDisplayIndentGuides(true);
 		ace_editor.getSession().setValue(textarea.value);
 		ace_editor.getSession().on('change', function(){
 			textarea.value = ace_editor.getSession().getValue();
