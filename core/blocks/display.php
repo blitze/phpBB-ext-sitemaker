@@ -18,8 +18,8 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-*
-*/
+ *
+ */
 class display
 {
 	/**
@@ -182,6 +182,8 @@ class display
 			$blocks = array_diff_key($blocks, array_flip(explode(',', $route_info['ex_positions'])));
 		}
 
+		$users_groups = $this->get_users_groups();
+
 		$blocks_per_position = array();
 		foreach ($blocks as $position => $blocks_ary)
 		{
@@ -192,9 +194,10 @@ class display
 			for ($i = 0, $size = sizeof($blocks_ary); $i < $size; $i++)
 			{
 				$row = $blocks_ary[$i];
+				$allowed_groups = explode(',', $row['permission']);
 				$block_service = $row['name'];
-	
-				if ($phpbb_container->has($block_service))
+
+				if ($phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $user_groups))))
 				{
 					$b = $phpbb_container->get($block_service);
 					$b->set_template($this->ptemplate);
@@ -369,6 +372,23 @@ class display
         }
         $this->db->sql_freeresult($result);
     
+        return $data;
+	}
+
+	public function get_users_groups()
+	{
+        $sql = 'SELECT group_id
+            FROM ' . USER_GROUP_TABLE . '
+            WHERE user_id = ' . (int) $this->user->data['user_id'];
+        $result = $this->db->sql_query($sql);
+
+        $data = array();
+        while ($row = $this->db->sql_fetchrow($result))
+        {
+            $data[$row['group_id']] = $row['group_id'];
+        }
+        $this->db->sql_freeresult($result);
+ 
         return $data;
 	}
 }
