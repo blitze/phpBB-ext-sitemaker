@@ -108,7 +108,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		}
 
 		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
-		$preview_options = array('' => 'NO', 'first' => 'FIRST_POST', 'last' => 'LAST_POST');
+		$preview_options = array('' => 'NO', 'first' => 'SHOW_FIRST_POST', 'last' => 'SHOW_LAST_POST');
 		$range_options = array('' => 'ALL_TIME', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
         $sort_options = array(FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
         $template_options = array('titles' => 'TITLES', 'mini' => 'MINI', 'context' => 'CONTEXT');
@@ -180,7 +180,6 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			'forum_id'			=> $this->settings['forum_ids'],
 			'topic_type'		=> $this->settings['topic_type'],
 			'sort_key'			=> $sort_order[$this->settings['order_by']],
-			//'sort_dir'			=> ($this->settings['order_by'] == FORUMS_ORDER_FIRST_POST) ? 'DESC' : 'ASC',
 			'tracking_info'		=> $enable_tracking,
 		);
 		$this->forum->build_query($options);
