@@ -50,15 +50,15 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'		=> 'load_language_on_setup',
+			'core.user_setup'		=> 'init',
 			'core.permissions'		=> 'load_permission_language',
 			'core.append_sid'		=> 'add_edit_mode',
-			'core.page_footer'		=> 'init',
+			'core.page_footer'		=> 'show_primetime',
 			'core.adm_page_footer'	=> 'set_assets',
 		);
 	}
 
-	public function load_language_on_setup($event)
+	public function init($event)
 	{
 		define('FORUMS_PREVIEW_FIRST_POST', 1);
 		define('FORUMS_PREVIEW_LAST_POST', 2);
@@ -72,6 +72,8 @@ class listener implements EventSubscriberInterface
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
+
+		$this->primetime->init();
 	}
 
 	public function load_permission_language($event)
@@ -105,9 +107,8 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-	public function init()
+	public function show_primetime()
 	{
-		$this->primetime->init();
 		$this->blocks->show();
 		$this->set_assets();
 	}
