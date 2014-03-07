@@ -23,6 +23,18 @@ if (!defined('IN_PHPBB'))
 class primetime
 {
 	/**
+	 * Auth object instance
+	 * @var \phpbb\auth\auth
+	 */
+	protected $auth;
+
+	/**
+	 * Database
+	 * @var \phpbb\db\driver\driver
+	 */
+	protected $db;
+
+	/**
 	 * Template object
 	 * @var \phpbb\template\template
 	 */
@@ -47,13 +59,19 @@ class primetime
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\auth\auth						$auth			Auth object
+	 * @param \phpbb\db\driver\driver				$db     		Database connection
+	 * @param \phpbb\config\db						$config			Config object
 	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\template\template				$template		Template object
 	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
+		$this->auth = $auth;
+		$this->db = $db;
+		$this->config = $config;
 		$this->user = $user;
 		$this->template = $template;
 		$this->ptemplate = $ptemplate;
@@ -69,9 +87,26 @@ class primetime
 	 */
 	public function init()
 	{
+		// we sacrifice one query here to potentially save many
+		$sql = 'SELECT post_edit_time
+			FROM ' . POSTS_TABLE . '
+			WHERE post_visibility = ' . ITEM_APPROVED . '
+			ORDER BY post_edit_time DESC';
+		$result = $this->db->sql_query_limit($sql, 1);
+		$last_edit_time = $this->db->sql_fetchfield('post_edit_time');
+		$this->db->sql_freeresult($result);
+	
+		$last_changed = $last_edit_time . '_' . $this->config['num_posts'];
+		define('CMS_FORUM_CHANGED', $last_changed);
+
+		// cache queries for 6 hours unless something changes
+		define('CMS_CACHE_TIME', ($last_changed != $this->config['cms_forum_changed']) ? false : 21600);
+
+		// let's get all forums this user is not allowed to view
+		$this->user->data['ex_forums'] = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
+
 		$this->template->assign_vars(array(
-			'L_INDEX'			=> $this->user->lang['HOME'],
-			'S_CMS_ENABLED'		=> true)
+			'S_CMS_ENABLED'		=> $this->config['primetime_enabled'])
 		);
 	}
 
@@ -269,6 +304,40 @@ class primetime
 		$this->ptemplate->assign_var('S_FORM_TOKEN', $s_form_token);
 
 		return $s_form_token;
+	}
+
+	/**
+	 * Build breadcrumbs
+	 */
+	function set_breadcrumbs($data)
+	{
+		global $template;
+
+		foreach ($data as $row)
+		{
+			$template->assign_block_vars('navlinks', array(
+				'FORUM_NAME'	=> $row['display'],
+				'U_VIEW_FORUM'	=> $row['url'])
+			);
+		}
+	}
+
+	/**
+	 * Reset cached queries
+	 */
+	function reset_sql_cache($tables = array())
+	{
+		$reset = false;
+		if (CMS_FORUM_CHANGED != $this->config['cms_forum_changed'])
+		{
+			$reset = true;
+			if (sizeof($tables))
+			{
+				$cache->destroy('sql', $tables);
+				set_config('cms_forum_changed', CMS_FORUM_CHANGED, true);
+			}
+		}
+		return $reset;
 	}
 
 	/**

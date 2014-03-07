@@ -145,7 +145,9 @@ class v100 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
+			array('config.add', array('primetime_enabled', true)),
 			array('config.add', array('primetime_version', '1.0.0')),
+			array('config.add', array('primetime_forum_changed', 0)),
 			array('config.add', array('primetime_default_layout', '')),
 
 			array('permission.add', array('a_manage_blocks')),
@@ -179,7 +181,9 @@ class v100 extends \phpbb\db\migration\migration
 	public function revert_data()
 	{
 		return array(
+			array('config.remove', array('primetime_enabled')),
 			array('config.remove', array('primetime_version')),
+			array('config.remove', array('primetime_forum_changed')),
 			array('config.remove', array('primetime_default_layout')),
 			array('permission.remove', array('a_manage_blocks')),
 		);

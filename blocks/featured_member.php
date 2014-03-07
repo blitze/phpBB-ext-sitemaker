@@ -46,6 +46,12 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	 */
 	protected $user;
 
+	/**
+	 * Primetime object
+	 * @var \primetime\primetime\core\primetime
+	 */
+	protected $primetime;
+
 	/** @var string */
 	protected $phpbb_root_path = null;
 
@@ -61,20 +67,22 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service			$cache					Cache object
-	 * @param \phpbb\config\db				$config					Config object
-	 * @param \phpbb\db\driver\driver		$db     				Database connection
-	 * @param \phpbb\user					$user					User object
-	 * @param string						$phpbb_root_path		Path to the phpbb includes directory.
-	 * @param string						$php_ext				php file extension
-	 * @param string						$blocks_config_table	Blocks config table
+	 * @param \phpbb\cache\service					$cache					Cache object
+	 * @param \phpbb\config\db						$config					Config object
+	 * @param \phpbb\db\driver\driver				$db     				Database connection
+	 * @param \phpbb\user							$user					User object
+	 * @param \primetime\primetime\core\primetime	$primetime				Primetime Object
+	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string								$php_ext				php file extension
+	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
+		$this->primetime = $primetime;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->blocks_config_table = $blocks_config_table;
@@ -128,7 +136,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$lastchange =& $bdata['settings']['lastchange'];
 
 		$change = $error = false;
-		$reload = (($row = $this->cache->get('_block_members_' . $bid)) === false/* || cms_reset_sql_cache() === true*/) ? true : false;
+		$reload = (($row = $this->cache->get('_block_members_' . $bid)) === false || $this->primetime->reset_sql_cache() === true) ? true : false;
 
 		if (($rotation == 'monthly'  && $lastchange < strtotime('1 months ago')) ||
 			($rotation == 'weekly'   && $lastchange < strtotime('1 weeks ago')) ||

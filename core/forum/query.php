@@ -24,10 +24,28 @@ class query
 {
 
 	/**
-	 * Database
+	 * Config object
+	 * @var \phpbb\config\db
+	 */
+	protected $config;
+
+	/**
+	 * Database connection
 	 * @var \phpbb\db\driver\driver
 	 */
 	protected $db;
+
+	/**
+	 * User object
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
+	/**
+	 * Primetime object
+	 * @var \primetime\primetime\core\primetime
+	 */
+	protected $primetime;
 
 	protected $sql_array		= array();
 	protected $topic_tracking	= array();
@@ -41,7 +59,7 @@ class query
 	 * @param \phpbb\db\driver\driver				$db     		Database connection
 	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
-	*/
+	 */
 	public function __construct(\phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
 	{
 		$this->config = $config;
@@ -154,6 +172,12 @@ class query
 		if (!empty($get['topic_id']))
 		{
 			$this->sql_array['WHERE'][] = 't.topic_id = ' . (int) $get['topic_id'];
+		}
+
+		// let's exlude forums this user is not allowed to view
+		if (isset($this->user->data['ex_forums']))
+		{
+			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $this->user->data['ex_forums'], true);
 		}
 
 		$this->sql_array['WHERE'][] = 'f.forum_id = t.forum_id';

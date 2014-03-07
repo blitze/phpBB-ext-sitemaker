@@ -25,6 +25,7 @@ services:
             - @config
             - @dbal.conn
             - @user
+            - @primetime
             - %core.root_path%
             - %core.php_ext%
             - %tables.primetime.blocks_config%
