@@ -81,26 +81,9 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 				'U_SEARCH_SELF'	=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, 'search_id=egosearch'),
 				'U_PRIVATE_MSG'	=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'i=pm&amp;folder=inbox'),
 				'U_LOGOUT'		=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'mode=logout', true, $this->user->session_id),
+				'U_MCP' 		=> ($this->auth->acl_get('m_')) ? append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id) : '',
 				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, '', true, $this->user->session_id) : '')
 			);
-
-			if ($this->auth->acl_get('m_'))
-			{
-				//cms_reset_sql_cache(POSTS_TABLE);
-
-				$sql = 'SELECT COUNT(post_id) AS total
-					FROM ' . POSTS_TABLE . '
-					WHERE post_visibility = ' . ITEM_UNAPPROVED;
-						//((sizeof($mod_data['ex_forums'])) ? ' AND ' . $this->db->sql_in_set('forum_id', $mod_data['ex_forums'], true) : '');
-				$result = $this->db->sql_query($sql); //, CMS_CACHE_TIME);
-				$total = (int) $this->db->sql_fetchfield('total');
-				$this->db->sql_freeresult($result);
-
-				$this->ptemplate->assign_vars(array(
-					'PENDING'	=> $total,
-					'U_MCP' 	=> append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id))
-				);
-			}
 
 			return array(
 				'title'		=> $this->user->lang['WELCOME'],
