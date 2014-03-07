@@ -126,8 +126,6 @@ class manager
 		$this->block_routes_table = $block_routes_table;
 		$this->blocks_config_table = $blocks_config_table;
 		$this->def_icon = '';
-
-		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 	}
 
 	/**
@@ -175,6 +173,8 @@ class manager
 		if ($edit_mode !== false)
 		{
 			global $phpbb_container, $symfony_request;
+
+			$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 
 			$controller_service = $symfony_request->attributes->get('_route');
 
