@@ -114,8 +114,8 @@ $lang = array_merge($lang, array(
 
 	'TOPICS'				=> 'Topics',
 	'POSTS'					=> 'Posts',
-	'FIRST_POST'			=> 'Yes - First Post',
-	'LAST_POST'				=> 'Yes - Last Post',
+	'SHOW_FIRST_POST'		=> 'Yes - First Post',
+	'SHOW_LAST_POST'		=> 'Yes - Last Post',
 	'FIRST_POST_TIME'		=> 'First Post Time',
 	'LAST_POST_TIME'		=> 'Last Post Time',
 	'LAST_READ_TIME'		=> 'Last Read Time',
