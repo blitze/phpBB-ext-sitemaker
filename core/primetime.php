@@ -97,16 +97,16 @@ class primetime
 		$this->db->sql_freeresult($result);
 	
 		$last_changed = $last_edit_time . '_' . $this->config['num_posts'];
-		define('CMS_FORUM_CHANGED', $last_changed);
+		define('PRIMETIME_FORUM_CHANGED', $last_changed);
 
 		// cache queries for 6 hours unless something changes
-		define('CMS_CACHE_TIME', ($last_changed != $this->config['cms_forum_changed']) ? false : 21600);
+		define('PRIMETIME_CACHE_TIME', ($last_changed != $this->config['primetime_forum_changed']) ? false : 21600);
 
 		// let's get all forums this user is not allowed to view
 		$this->user->data['ex_forums'] = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
 
 		$this->template->assign_vars(array(
-			'S_CMS_ENABLED'		=> $this->config['primetime_enabled'])
+			'S_PRIMETIME_ENABLED'		=> $this->config['primetime_enabled'])
 		);
 	}
 
@@ -328,13 +328,13 @@ class primetime
 	function reset_sql_cache($tables = array())
 	{
 		$reset = false;
-		if (CMS_FORUM_CHANGED != $this->config['cms_forum_changed'])
+		if (PRIMETIME_FORUM_CHANGED != $this->config['primetime_forum_changed'])
 		{
 			$reset = true;
 			if (sizeof($tables))
 			{
 				$cache->destroy('sql', $tables);
-				set_config('cms_forum_changed', CMS_FORUM_CHANGED, true);
+				set_config('primetime_forum_changed', PRIMETIME_FORUM_CHANGED, true);
 			}
 		}
 		return $reset;
