@@ -18,8 +18,8 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-*
-*/
+ *
+ */
 class manager
 {
 	/**
@@ -557,7 +557,7 @@ class manager
 		// Output relevant settings
 		foreach ($default_settings as $config_key => $vars)
 		{
-			if (!is_array($vars) && strpos($config_key, 'legend') === false)
+			if ((!is_array($vars) && strpos($config_key, 'legend') === false) || (is_array($vars) &&$vars['type'] == 'hidden'))
 			{
 				continue;
 			}
@@ -670,7 +670,8 @@ class manager
 		$b = $phpbb_container->get($bdata['name']);
 		$df_settings = $b->get_config(array());
 
-		$errors = array();
+		$class = $this->request->variable('class', '');
+		$permission_ary = $this->request->variable('permission', array(0));
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
 
@@ -681,15 +682,13 @@ class manager
 			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
 		}
 
+		$errors = array();
 		validate_config_vars($df_settings, $cfg_array, $errors);
 
 		if (sizeof($errors))
 		{
 			return array('errors' => join("\n", $errors));
 		}
-
-		$class = $this->request->variable('class', '');
-		$permission_ary = $this->request->variable('permission', array(0));
 
 		$sql_data = array(
 			'permission'	=> implode(',', $permission_ary),
