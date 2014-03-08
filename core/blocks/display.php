@@ -222,6 +222,7 @@ class display
 		$this->template->assign_vars(array_merge(array(
 				'S_PRIMETIME'		=> true,
 				'S_BLOCKS_ADMIN'	=> true,
+				'L_INDEX'			=> $this->user->lang['HOME'],
 			),
 			array_change_key_case($blocks_per_position, CASE_UPPER))
 		);
