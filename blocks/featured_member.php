@@ -46,12 +46,6 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	 */
 	protected $user;
 
-	/**
-	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
-	 */
-	protected $primetime;
-
 	/** @var string */
 	protected $phpbb_root_path = null;
 
@@ -71,18 +65,16 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	 * @param \phpbb\config\db						$config					Config object
 	 * @param \phpbb\db\driver\driver				$db     				Database connection
 	 * @param \phpbb\user							$user					User object
-	 * @param \primetime\primetime\core\primetime	$primetime				Primetime Object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
 	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
-		$this->primetime = $primetime;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->blocks_config_table = $blocks_config_table;
@@ -113,14 +105,36 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'featured'	=> 'FEATURED_MEMBER',
 		);
 
+		$sql = 'SELECT l.lang_name, f.field_ident
+			FROM ' . PROFILE_LANG_TABLE . ' l, ' . PROFILE_FIELDS_TABLE . ' f
+			WHERE l.lang_id = ' . $this->user->get_iso_lang_id() . '
+				AND f.field_active = 1
+				AND f.field_no_view = 0
+				AND f.field_hide = 0
+				AND l.field_id = f.field_id
+			ORDER BY f.field_order';
+		$result = $this->db->sql_query($sql);
+
+		$cpf_ary = false;
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$cpf_ary[$row['field_ident']] = $row['lang_name'];
+		}
+		$this->db->sql_freeresult($result);
+
 		$qtype = (!empty($settings['qtype'])) ? $settings['qtype'] : 'recent';
 		$rotation = (!empty($settings['rotation'])) ? $settings['rotation'] : 'daily';
+		$cpf_fields	= (!empty($settings['show_cpf'])) ? $settings['show_cpf'] : '';
 
 		return array(
 			'legend1'		=> $this->user->lang['SETTINGS'],
             'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
             'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
             'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
+			'legend2'		=> $this->user->lang['CUSTOM_PROFILE_FIELDS'],
+            'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
+            'lastchange'	=> array('type' => 'hidden', 'default' => 0),
+            'current_user'	=> array('type' => 'hidden', 'default' => 0),
 		);
 	}
 
@@ -131,21 +145,15 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	{
 		$bid = $bdata['bid'];
 		$query_type = $bdata['settings']['qtype'];
+		$show_cpf = $bdata['settings']['show_cpf'];
+		$current_user = $bdata['settings']['current_user'];
+		$lastchange = $bdata['settings']['lastchange'];
 		$rotation = $bdata['settings']['rotation'];
-		$current_user =& $bdata['settings']['current_user'];
-		$lastchange =& $bdata['settings']['lastchange'];
+		$rotation_str = array('hourly' => 'hour', 'daily' => 'day', 'weekly' => 'week', 'monthly' => 'month');
 
-		$change = $error = false;
-		$reload = (($row = $this->cache->get('_block_members_' . $bid)) === false || $this->primetime->reset_sql_cache() === true) ? true : false;
-
-		if (($rotation == 'monthly'  && $lastchange < strtotime('1 months ago')) ||
-			($rotation == 'weekly'   && $lastchange < strtotime('1 weeks ago')) ||
-			($rotation == 'daily'    && $lastchange < strtotime('1 days ago')) ||
-			($rotation == 'hourly'   && $lastchange < strtotime('1 hours ago')) ||
-			($rotation == 'pageload'))
-		{
-			$change = true;
-		}
+		$error = false;
+		$reload = true; //(($row = $this->cache->get('_block_members_' . $bid)) === false || PRIMETIME_FORUM_CHANGED) ? true : false;
+		$change = ($rotation == 'pageload' || $lastchange < strtotime('-1 ' . $rotation_str[$rotation])) ? true : false;
 
 		if ($change === true || $reload === true)
 		{
@@ -203,6 +211,17 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 
 			if ($row)
 			{
+				if (is_array($show_cpf))
+				{
+					global $phpbb_container;
+
+					$cp = $phpbb_container->get('profilefields.manager');
+
+					$profile_fields = $cp->grab_profile_fields_data($row['user_id']);
+					$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
+					//$cp_row = $cp->generate_profile_fields_template_data($profile_fields);
+				}
+
 				$this->cache->put('_block_members_' . $bid, $row);
 			}
 			else
@@ -228,15 +247,12 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 					$userlist = join(',', $userlist);
 				}
 
-				$bconfig = array(
-					'qtype'			=> $query_type,
-					'rotation'		=> $rotation,
-					'userlist'		=> $userlist,
-					'lastchange'	=> time(),
-					'current_user'	=> (!empty($current_user)) ? $current_user : 0,
-				);
-		
-				foreach ($bconfig as $var => $val)
+				$bdata['settings']['userlist'] = $userlist;
+				$bdata['settings']['lastchange'] = time();
+				$bdata['settings']['show_cpf'] = (!empty($show_cpf)) ? join(',', $show_cpf) : '';
+				$bdata['settings']['current_user'] = (!empty($current_user)) ? $current_user : 0;
+
+				foreach ($bdata['settings'] as $var => $val)
 				{
 					$sql_ary[] = array(
 						'bid'	=> $bid,
@@ -245,9 +261,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 					);
 				}
 
-				$sql = 'DELETE FROM ' . $this->blocks_config_table . ' WHERE bid = ' . (int) $bid;
-				$this->db->sql_query($sql);
-	
+				$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE bid = ' . (int) $bid);
 				$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 				unset($userlist);
 
@@ -258,6 +272,22 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			if ($error === true)
 			{
 				return array();
+			}
+		}
+
+		if (is_array($show_cpf))
+		{
+			global $phpbb_container;
+
+			$cp = $phpbb_container->get('profilefields.manager');
+
+			$cp_row = $cp->generate_profile_fields_template_data($row['profile_fields']);
+
+			$this->ptemplate->assign_vars($cp_row['row']);
+
+			foreach ($cp_row['blockrow'] as $field_data)
+			{
+				$this->ptemplate->assign_block_vars('custom_fields', $field_data);
 			}
 		}
 

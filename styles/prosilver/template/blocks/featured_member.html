@@ -18,12 +18,27 @@
 	</li>
 	<li>
 		<div class="inner-block-ui">
-			<!-- IF not AVATAR_IMG --><span><b>{L_USERNAME}:</b> <a href="{U_PROFILE}">{USERNAME}</a></span><br /><hr class="divider" /><!-- ENDIF -->
-			<!-- IF AGE --><span><b>{L_AGE}:</b> {AGE}</span><br /><hr class="divider" /><!-- ENDIF -->
-			<!-- IF LOCATION --><span><b>{L_LOCATION}:</b> {LOCATION}</span><br /><hr class="divider" /><!-- ENDIF -->
-			<span><b>{L_JOINED}:</b> {JOINED}</span><br /><hr class="divider" />
-			<span><b>{L_LAST_VISITED}:</b> {VISITED}</span><br /><hr class="divider" />
-			<span><b>{L_TOTAL_POSTS}:</b> <!-- IF POSTS > '0' --><a href="{U_SEARCH_USER}">{POSTS}</a><!-- ELSE -->{POSTS}<!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT} / {POSTS_DAY}]<!-- ENDIF --></span>
+			<ul class="flat-list block-ui clearfix">
+				<!-- IF not AVATAR_IMG --><li><div class="inner-block-ui"><strong>{L_USERNAME}{L_COLON}</strong> <a href="{U_PROFILE}">{USERNAME}</a></li><!-- ENDIF -->
+				<!-- IF AGE --><li><div class="inner-block-ui"><strong>{L_AGE}{L_COLON}</strong> {AGE}</li><!-- ENDIF -->
+				<!-- IF LOCATION --><li><div class="inner-block-ui"><strong>{L_LOCATION}{L_COLON}</strong> {LOCATION}</li><!-- ENDIF -->
+				<li><div class="inner-block-ui"><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</li>
+				<li><div class="inner-block-ui"><strong>{L_LAST_VISITED}{L_COLON}</strong> {VISITED}</li>
+				<li><div class="inner-block-ui"><strong>{L_TOTAL_POSTS}{L_COLON}</strong> <!-- IF POSTS > '0' --><a href="{U_SEARCH_USER}">{POSTS}</a><!-- ELSE -->{POSTS}<!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT} / {POSTS_DAY}]<!-- ENDIF --></li>
+		<!-- BEGIN custom_fields -->
+			<!-- IF not custom_fields.S_PROFILE_CONTACT -->
+				<li><div class="inner-block-ui"><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</li>
+			<!-- ELSE -->
+				<li><div class="inner-block-ui"><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
+				<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
+					<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
+				<!-- ELSE -->
+					{custom_fields.PROFILE_FIELD_VALUE}
+				<!-- ENDIF -->
+				</li>
+			<!-- ENDIF -->
+		<!-- END custom_fields -->
+			</ul>
 		</div>
 	</li>
 </ul>

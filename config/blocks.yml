@@ -2,6 +2,7 @@ services:
     primetime.block.birthday:
         class: primetime\primetime\blocks\birthday
         arguments:
+            - @cache.driver
             - @dbal.conn
             - @user
         calls:
@@ -25,7 +26,6 @@ services:
             - @config
             - @dbal.conn
             - @user
-            - @primetime
             - %core.root_path%
             - %core.php_ext%
             - %tables.primetime.blocks_config%

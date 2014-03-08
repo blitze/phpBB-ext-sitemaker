@@ -29,7 +29,7 @@ $lang = array_merge($lang, array(
 	'PRIMETIME.BLOCK.LOGIN'				=> 'Login Box',
 	'PRIMETIME.BLOCK.MENU'				=> 'Menu',
 	'PRIMETIME.BLOCK.MEMBERS'			=> 'Members',
-	'PRIMETIME.BLOCK.MEMBER_MENU'		=> 'Member Memu',
+	'PRIMETIME.BLOCK.MEMBER_MENU'		=> 'Member Menu',
 	'PRIMETIME.BLOCK.STATS'				=> 'Statistics',
 	'PRIMETIME.BLOCK.WHOIS'				=> 'Who is online',
 
@@ -131,6 +131,7 @@ $lang = array_merge($lang, array(
 	'ALL'					=> 'All',
 	'OR'					=> '<strong>OR</strong>',
 	'ENABLE_TOPIC_TRACKING'	=> 'Enable topic tracking?',
+	'CUSTOM_PROFILE_FIELDS'	=> 'Custom Profile Fields',
 
 	'FORUMS_MAX_TOPICS'			=> 'Maximum topics/posts',
 	'FORUMS_TITLE_MAX_CHARS'	=> 'Maximum characters per title',
@@ -157,4 +158,6 @@ $lang = array_merge($lang, array(
 	'DEFAULT_LAYOUT_EXPLAIN'		=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
 	'FEATURED_MEMBER_IDS_EXPLAIN'	=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
 	'SHOW_MEMBER_MENU_EXPLAIN'		=> 'Replace login box with user menu if user is logged in',
+	'SELECT_PROFILE_FIELDS'			=> 'Select profile fields',
+	'SELECT_PROFILE_FIELDS_EXPLAIN'	=> 'Only the selected profile fields will be displayed, if available.',
 ));
