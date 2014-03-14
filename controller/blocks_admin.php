@@ -59,15 +59,12 @@ class blocks_admin
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\blocks\manager $blocks)
 	{
+		global $phpbb_dispatcher;
+
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->user = $user;
 		$this->blocks = $blocks;
-	}
-
-	public function handle($action, $id, $block)
-	{
-		global $config, $phpbb_dispatcher;
 
 		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 
@@ -91,6 +88,11 @@ class blocks_admin
 			$this->user->add_lang_ext($ext_lang_pair['ext_name'], $ext_lang_pair['lang_set']);
 		}
 		unset($lang_set_ext);
+	}
+
+	public function handle($action, $id, $block)
+	{
+		global $config, $phpbb_dispatcher;
 
 		$return_data = array();
 		$json_data = array(
