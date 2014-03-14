@@ -305,6 +305,7 @@
 				start: function(event, ui) {
 					origin = $(ui.item).addClass('dragging').parent('.horizontal');
 					showAllPositions();
+					blockPositions.sortable('refresh');
 				},
 				update: function(event, ui) {
 					updated = true;
