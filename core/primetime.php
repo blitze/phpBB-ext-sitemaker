@@ -102,7 +102,7 @@ class primetime
 		{
 			define('PRIMETIME_FORUM_CHANGED', true);
 			define('PRIMETIME_CACHE_TIME', false);
-			set_config('primetime_last_changed', $last_changed, true);
+			$this->config->set('primetime_last_changed', $last_changed, true);
 		}
 		else
 		{
