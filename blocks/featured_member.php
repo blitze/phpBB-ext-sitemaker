@@ -127,11 +127,11 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$cpf_fields	= (!empty($settings['show_cpf'])) ? $settings['show_cpf'] : '';
 
 		return array(
-			'legend1'		=> $this->user->lang['SETTINGS'],
+			'legend1'		=> 'SETTINGS',
             'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
             'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
             'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
-			'legend2'		=> $this->user->lang['CUSTOM_PROFILE_FIELDS'],
+			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
             'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
             'lastchange'	=> array('type' => 'hidden', 'default' => 0),
             'current_user'	=> array('type' => 'hidden', 'default' => 0),
@@ -219,7 +219,6 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 
 					$profile_fields = $cp->grab_profile_fields_data($row['user_id']);
 					$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
-					//$cp_row = $cp->generate_profile_fields_template_data($profile_fields);
 				}
 
 				$this->cache->put('_block_members_' . $bid, $row);
