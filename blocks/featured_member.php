@@ -304,7 +304,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->user->lang['QTYPE_' . strtoupper($query_type)] : '',
 			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->user->lang[strtoupper($rotation) . '_MEMBER'] : '',
 			'USERNAME'			=> $username,
-			'AVATAR_IMG'		=> get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], ''),
+			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
 			'POSTS_DAY'			=> sprintf($this->user->lang['POST_DAY'], $posts_per_day),
 			'POSTS_PCT'			=> sprintf($this->user->lang['POST_PCT'], $percentage),
 			'L_VIEW_PROFILE'	=> sprintf($this->user->lang['VIEW_USER_PROFILE'], $username),

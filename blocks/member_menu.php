@@ -72,7 +72,7 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 		if ($this->user->data['is_registered'])
 		{
 			$this->ptemplate->assign_vars(array(
-				'USER_AVATAR'	=> get_user_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height'], $this->user->data['username']),
+				'USER_AVATAR'	=> phpbb_get_user_avatar($this->user->data),
 				'USERNAME'		=> get_username_string('no_profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USERNAME_FULL' => get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 
