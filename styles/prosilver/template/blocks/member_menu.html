@@ -1,18 +1,16 @@
-<ul class="flat-list block-ui clearfix">
+<ul class="pt-list">
 	<li>
-		<div class="inner-block-ui">
-			<div class="align-center" style="padding: 0 5px;">
-				<h2>
-					<a href="{U_PROFILE}">
-						<strong>{USERNAME}</strong><br />
-						<!-- IF USER_AVATAR -->{USER_AVATAR}<!-- ELSE --><i class="fa fa-user" style="font-size: 5em; color: #ccc;"></i><!-- ENDIF -->
-					</a>
-				</h2>
-			</div>
+		<div class="align-center pt-list-inner">
+			<p>
+				<a href="{U_PROFILE}">
+					<strong>{USERNAME}</strong><br />
+					<!-- IF USER_AVATAR -->{USER_AVATAR}<!-- ELSE --><i class="fa fa-user default-avatar-font"></i><!-- ENDIF -->
+				</a>
+			</p>
 		</div>
 	</li>
 	<li>
-		<div class="inner-block-ui align-center">
+		<div class="align-center pt-list-inner">
 			<a class="nav" href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a><br />
 			<a class="nav" href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a><br />
 

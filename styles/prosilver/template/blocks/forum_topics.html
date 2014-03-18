@@ -1,8 +1,8 @@
 <!-- IF S_CONTEXT -->
-	<ul class="flat-list block-ui clearfix">
+	<ul class="pt-list">
 	<!-- BEGIN topicrow -->
 		<li>
-			<div class="inner-block-ui">
+			<div class="pt-list-inner">
 				<!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a><br />
 				{L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME}<br /><br />{topicrow.TOPIC_CONTEXT}
 			</div>
@@ -10,10 +10,10 @@
 	<!-- END topicrow -->
 	</ul>
 <!-- ELSEIF S_MINI -->
-	<ul class="flat-list block-ui clearfix">
+	<ul class="pt-list">
 	<!-- BEGIN topicrow -->
 		<li title="{topicrow.TOPIC_PREVIEW}">
-			<div class="inner-block-ui">
+			<div class="pt-list-inner">
 				<!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF --><a href="{topicrow.U_VIEWTOPIC}">{topicrow.TOPIC_TITLE}</a><br />
 				<!-- IF topicrow.ATTACH_ICON_IMG -->{topicrow.ATTACH_ICON_IMG} <!-- ENDIF -->{L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME}<br />
 				<span class="gensmall">{L_REPLIES}: {topicrow.REPLIES}, {L_VIEWS}: {topicrow.VIEWS}</span>
@@ -22,10 +22,10 @@
 	<!-- END topicrow -->
 	</ul>
 <!-- ELSEIF S_LASTREAD -->
-	<ul class="flat-list block-ui clearfix">
+	<ul class="pt-list">
 	<!-- BEGIN topicrow -->
 		<li>
-			<div class="inner-block-ui">
+			<div class="pt-list-inner">
 				<!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" title="{topicrow.TOPIC_PREVIEW}">{topicrow.TOPIC_TITLE}</a><br />
 				<span class="small">{topicrow.TOPIC_READ}</span>
 			</div>
@@ -33,9 +33,9 @@
 	<!-- END topicrow -->
 	</ul>
 <!-- ELSE -->
-	<ul class="flat-list block-ui clearfix">
+	<ul class="pt-list">
 	<!-- BEGIN topicrow -->
-		<li><div class="inner-block-ui"><!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" title="{topicrow.TOPIC_PREVIEW}">{topicrow.TOPIC_TITLE}</a></div></li>
+		<li><div class="pt-list-inner"><!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" title="{topicrow.TOPIC_PREVIEW}">{topicrow.TOPIC_TITLE}</a></div></li>
 	<!-- END topicrow -->
 	</ul>
 <!-- ENDIF -->

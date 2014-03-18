@@ -1,20 +1,18 @@
 <div class="align-center small clearfix"><strong>{RANGE}</strong></div>
 <div class="header clearfix">
-	<span>{L_USER}</span>
 	<span class="right-box">{L_INFO}</span>
+	<span>{L_USER}</span>
 </div>
-<ul class="flat-list block-ui clearfix">
+<ul class="pt-list">
 <!-- IF S_LIST == 'bots' -->
 	<!-- BEGIN member -->
-	<li><span class="inner-block-ui">{member.USERNAME} - {member.USER_INFO}</span></li>
+	<li>{member.USERNAME} - {member.USER_INFO}</li>
 	<!-- END member -->
 <!-- ELSE -->
 	<!-- BEGIN member -->
 	<li>
-		<div class="inner-block-ui clearfix">
-			<span class="tiny-avatar genmed">{member.USER_AVATAR} {member.USERNAME}</span>
-			<span class="right-box gensmall">{member.USER_INFO}</span>
-		</div>
+		<span class="right-box gensmall">{member.USER_INFO}</span>
+		<span class="tiny-avatar genmed">{member.USER_AVATAR} {member.USERNAME}</span>
 	</li>
 	<!-- END member -->
 <!-- ENDIF -->

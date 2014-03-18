@@ -1,21 +1,19 @@
 <!-- IF QTYPE_EXPLAIN --><div class="align-center">{QTYPE_EXPLAIN}</div><!-- ENDIF -->
-<ul class="flat-list block-ui clearfix">
+<ul class="pt-list">
 	<li>
-		<div class="inner-block-ui">
-			<div class="align-center">
-				<p>
-					<a href="{U_PROFILE}">
-						<p><strong>{USERNAME}</strong></p>
-						<!-- IF AVATAR_IMG -->{AVATAR_IMG}<!-- ELSE --><i class="fa fa-user" style="font-size: 10em; color: #ccc;"></i><!-- ENDIF -->
-					</a>
-					<!-- IF RANK_TITLE --><br /><span class="small">{RANK_TITLE}</span><!-- ENDIF -->
-					<!-- IF RANK_IMG --><br />{RANK_IMG}<!-- ENDIF -->
-				</p>
-			</div>
+		<div class="align-center pt-list-inner">
+			<p>
+				<a href="{U_PROFILE}">
+					<p><strong>{USERNAME}</strong></p>
+					<!-- IF AVATAR_IMG -->{AVATAR_IMG}<!-- ELSE --><i class="fa fa-user default-avatar-font"></i><!-- ENDIF -->
+				</a>
+				<!-- IF RANK_TITLE --><br /><span class="small">{RANK_TITLE}</span><!-- ENDIF -->
+				<!-- IF RANK_IMG --><br />{RANK_IMG}<!-- ENDIF -->
+			</p>
 		</div>
 	</li>
 	<li>
-		<div class="inner-block-ui">
+		<div class="pt-list-inner">
 				<!-- IF not AVATAR_IMG --><div><strong>{L_USERNAME}{L_COLON}</strong> <a href="{U_PROFILE}">{USERNAME}</a></div><!-- ENDIF -->
 				<!-- IF AGE --><div><strong>{L_AGE}{L_COLON}</strong> {AGE}</div><!-- ENDIF -->
 				<!-- IF LOCATION --><div><strong>{L_LOCATION}{L_COLON}</strong> {LOCATION}</div><!-- ENDIF -->

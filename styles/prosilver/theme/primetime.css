@@ -24,15 +24,6 @@
     _zoom: 1;
 }
 
-.cms-block-icon {
-    float: left;
-    display: inline;
-    position: relative;
-    margin-right: 4px;
-    height: 12px !important;
-    vertical-align: middle;
-}
-
 .right-spacer {
     margin-right: 1.5em;
 }
@@ -78,27 +69,6 @@
     width: 99%;
     margin: 10px 0;
 }
-
-/* Lists
-----------*/
-ul.list {margin: 3px; padding: 0;}
-ul.list li {margin-left: 15px; padding: 3px 0; list-style-type: square;}
-
-ul.simplelist {margin-left: -15px; padding: 0;}
-ul.simplelist li {margin-left: 15px; padding: 2px 0; list-style: none;}
-ul.simplelist li img {vertical-align: middle; margin-right: 3px;}
-
-ul.flat-list {list-style: none; margin: 0; padding: 0;}
-ul.flat-list li {padding: 3px 0; list-style: none;}
-
-ul.list li.page-new {list-style-image: url("../../imageset/icon_post_target_unread.gif");}
-ul.list li.page-old {list-style-image: url("../../imageset/icon_post_target.gif");}
-
-dl.ui-def {margin-top: 10px;}
-dl.ui-def, dd.user-comment{overflow: hidden; *overflow: visible; *zoom: 1;}
-dt.user-avatar {float: left; width: 45px;}
-dd.user-comment {width: auto; _position: relative; _left: -3px; _margin-right: -3px; padding-left: 1.7em;}
-dd.user-comment blockquote {width: 90%;}
 
 /* Remove focus */
 *:focus {
@@ -158,6 +128,11 @@ dd.user-comment blockquote {width: 90%;}
     height: 65px;
 }
 
+.default-avatar-font {
+	font-size: 6em;
+	color: #ccc;
+}
+
 .post img {
     max-width: 100% !important;
     height: auto;
@@ -191,48 +166,6 @@ dd.user-comment blockquote {width: 90%;}
 
 /* Block Views
 ----------------------*/
-/* transform vertical list to horizontal blocks */
-.horizontal-list-auto ul.block-ui,
-.horizontal-list-2cols ul.block-ui,
-.horizontal-list-3cols ul.block-ui,
-.horizontal-list-4cols ul.block-ui,
-.horizontal-list-5cols ul.block-ui,
-.horizontal-list-auto ul.block-ui li :last,
-.horizontal-list-2cols ul.block-ui li :last,
-.horizontal-list-3cols ul.block-ui li :last,
-.horizontal-list-4cols ul.block-ui li :last,
-.horizontal-list-5cols ul.block-ui li :last {overflow:hidden; *overflow:visible;*zoom:1;}
-
-.horizontal-list-auto ul.block-ui li :last,
-.horizontal-list-2cols ul.block-ui li :last,
-.horizontal-list-3cols ul.block-ui li :last,
-.horizontal-list-4cols ul.block-ui li :last,
-.horizontal-list-5cols ul.block-ui li :last {float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
-
-.horizontal-list-auto ul.block-ui li,
-.horizontal-list-2cols ul.block-ui li,
-.horizontal-list-3cols ul.block-ui li,
-.horizontal-list-4cols ul.block-ui li,
-.horizontal-list-5cols ul.block-ui li {float: left; border: 0; display: block; position: relative; width: auto;}
-
-.horizontal-list-auto ul.block-ui li .inner-block-ui,
-.horizontal-list-2cols ul.block-ui li .inner-block-ui,
-.horizontal-list-3cols ul.block-ui li .inner-block-ui,
-.horizontal-list-4cols ul.block-ui li .inner-block-ui,
-.horizontal-list-5cols ul.block-ui li .inner-block-ui {margin: 0.6em; text-align: left;}
-
-.horizontal-list-2cols ul.block-ui li {width:50%;}
-.horizontal-list-3cols ul.block-ui li {width:33.33333%;}
-.horizontal-list-4cols ul.block-ui li {width:25%;}
-.horizontal-list-5cols ul.block-ui li {width:20%;}
-
-/* list style */
-.arrow-list ul.block-ui, .check-list ul.block-ui {padding: 0; margin:0;}
-.arrow-list ul.block-ui li {list-style-type: none; margin: 0; background: url(../images/arrow_right.gif) no-repeat 0 0.7em; padding-left: 10px;}
-.check-list ul.block-ui li {list-style-type: none; margin: 0; background: url(../images/icon_check.gif) no-repeat 0 0.2em; padding-left: 20px;}
-.underline-list ul.block-ui li {border-bottom: 1px dotted #ccc; padding-top: 4px; padding-bottom: 4px;}
-.underline-list ul.block-ui li:last-child {border: 0; padding-bottom: 0;}
-
 /* images */
 .small-img .img-ui {width: 55px;}
 .medium-img .img-ui {width: 95px;}
@@ -249,39 +182,190 @@ dd.user-comment blockquote {width: 90%;}
 .align-center {text-align: center;}
 .align-left {text-align: left;}
 
-/* jquery-ui tabs/accordions */
-.simple-jquery-ui .tabs, .simple-jquery-ui .accordion {
-    border: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.simple-jquery-ui .ui-tabs-nav {
-    background: transparent !important;
-    border-width: 0 0 1px 0 !important;
-    border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    -webkit-border-radius: 0 !important;
-}
-
-.simple-jquery-ui .ui-tabs-panel {
-    background-image: none !important;
-    background-color: inherit !important;
-    margin: 0 !important;
-    padding: 15px 0 0 0 !important;
-}
-
-.simple-jquery-ui .ui-accordion-content-active {
-    border: 0 !important;
-    padding: 5px 0 !important;
-}
-
-/* block transformations */
-.highlight {
-    background: transparent !important;
-    background-color: #FFFEBD !important;
-    color: #345;
-}
-
 .inner-spacing {padding: 1em;}
 .no-padding {padding: 0 !important;}
+
+/* Lists
+----------*/
+ul.pt-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.pt-list > li {
+    margin: 5px 0;
+    font-size: 11px;
+}
+
+ul.pt-list > li > ul.pt-list {
+    margin-left: 15px;
+}
+
+.pt-list-square ul.pt-list,
+.pt-list-disc ul.pt-list,
+.pt-list-circle ul.pt-list {
+    list-style-position: inside;
+}
+
+.pt-list-circle ul.pt-list > li {
+    list-style-type: circle;
+}
+
+.pt-list-disc ul.pt-list > li {
+    list-style-type: disc;
+}
+
+.pt-list-square ul.pt-list > li {
+    list-style-type: square;
+}
+
+.pt-list-stacked ul.pt-list > li .pt-list-inner {
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+.pt-list-inline ul.pt-list > li {
+    display: inline;
+    padding: 5px;
+}
+
+.pt-list-inline-sep ul.pt-list > li {
+    display: inline;
+}
+
+.pt-list-inline-sep ul.pt-list > li:after {
+    content: ", ";
+}
+
+.pt-list-inline-sep ul.pt-list > li:last-child:after {
+    content: "";
+}
+
+.pt-list-flat ul.pt-list > li > ul.pt-list {
+    margin: 0;
+}
+
+.pt-list-arrow ul.pt-list > li:before {
+	content: "\00BB \0020";
+}
+
+.pt-list-hover ul.pt-list > li .pt-list-inner:hover,
+.pt-list-striped ul.pt-list > li:nth-child(odd) .pt-list-inner {
+    background-color: #ddd;
+}
+
+.pt-x-divider-dotted ul.pt-list > li {
+    border-top: 1px dotted #ccc;
+    padding-top: 5px;
+    margin: 5px 0;
+}
+
+.pt-x-divider-line ul.pt-list > li {
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+    margin: 5px 0;
+}
+
+.pt-y-divider-dotted ul.pt-list > li > .pt-list-inner {
+    border-left: 1px dotted #ccc;
+    padding: 0.8em 1.2em;
+}
+
+.pt-y-divider-line ul.pt-list > li > .pt-list-inner {
+    border-left: 1px solid #ccc;
+    padding: 0.8em 1.2em;
+}
+
+.pt-x-divider-line ul.pt-list:first-child > li:first-child,
+.pt-x-divider-dotted ul.pt-list:first-child > li:first-child {
+    border-top: 0;
+}
+
+.pt-y-divider-line ul.pt-list > li:first-child > .pt-list-inner,
+.pt-y-divider-dotted ul.pt-list > li:first-child > .pt-list-inner {
+    border-left: 0;
+    margin-left: 0;
+}
+
+nav ul.pt-list > li {
+    font-size: 12px;
+    margin: 5px 0;
+    position: relative;
+}
+
+nav ul.pt-list li > a {
+    display: block;
+    padding: 5px;
+    margin: 0;
+}
+
+nav ul.pt-list li.active > a,
+nav ul.pt-list li > a:hover {
+    background-color: #ddd;
+    text-decoration: none;
+} 
+
+nav ul.pt-list > li.nav-header {
+	list-style-type: none;
+    padding: 5px 0;
+}
+
+.pt-list-square nav ul.pt-list li.nav-header,
+.pt-list-disc nav ul.pt-list li.nav-header,
+.pt-list-circle nav ul.pt-list li.nav-header {
+	margin-left: 15px;
+}
+
+nav ul.pt-list > li.nav-header > a {
+	border-bottom: 1px solid #ccc;
+}
+
+nav ul.pt-list > li.nav-header > a:hover {
+	background-color: inherit;
+}
+
+/* transform vertical list to horizontal blocks */
+.horizontal-list-auto ul.pt-list > li,
+.horizontal-list-2cols ul.pt-list > li,
+.horizontal-list-3cols ul.pt-list > li,
+.horizontal-list-4cols ul.pt-list > li,
+.horizontal-list-5cols ul.pt-list > li {
+	margin: 0;
+	padding: 0;
+}
+
+.horizontal-list-auto ul.pt-list,
+.horizontal-list-2cols ul.pt-list,
+.horizontal-list-3cols ul.pt-list,
+.horizontal-list-4cols ul.pt-list,
+.horizontal-list-5cols ul.pt-list,
+.horizontal-list-auto ul.pt-list > li :last,
+.horizontal-list-2cols ul.pt-list > li :last,
+.horizontal-list-3cols ul.pt-list > li :last,
+.horizontal-list-4cols ul.pt-list > li :last,
+.horizontal-list-5cols ul.pt-list > li :last {overflow:hidden; *overflow:visible;*zoom:1;}
+
+.horizontal-list-auto ul.pt-list > li :last,
+.horizontal-list-2cols ulpt-list > li :last,
+.horizontal-list-3cols ul.pt-list > li :last,
+.horizontal-list-4cols ul.pt-list > li :last,
+.horizontal-list-5cols ul.pt-list > li :last {float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
+
+.horizontal-list-auto ul.pt-list > li,
+.horizontal-list-2cols ul.pt-list > li,
+.horizontal-list-3cols ul.pt-list > li,
+.horizontal-list-4cols ul.pt-list > li,
+.horizontal-list-5cols ul.pt-list > li {float: left; border: 0; display: block; position: relative; width: auto;}
+
+.horizontal-list-auto ul.pt-list > li .pt-list-inner,
+.horizontal-list-2cols ul.pt-list > li .pt-list-inner,
+.horizontal-list-3cols ul.pt-list > li .pt-list-inner,
+.horizontal-list-4cols ul.pt-list > li .pt-list-inner,
+.horizontal-list-5cols ul.pt-list > li .pt-list-inner {margin: 5px; text-align: left;}
+
+.horizontal-list-auto ul.pt-list > li {width:auto;}
+.horizontal-list-2cols ul.pt-list > li {width:50%;}
+.horizontal-list-3cols ul.pt-list > li {width:33.33333%;}
+.horizontal-list-4cols ul.pt-list > li {width:25%;}
+.horizontal-list-5cols ul.pt-list > li {width:20%;}
