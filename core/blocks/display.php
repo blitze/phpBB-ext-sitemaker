@@ -137,8 +137,8 @@ class display
 	{
 		global $phpbb_container, $config;
 
-		$offlimits = array('ucp.php', 'mcp.php');
-		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
+		$offlimits = array('memberlist.php', 'ucp.php', 'mcp.php');
+		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits) || (strpos($this->user->page['page_name'], 'memberlist') && $this->request->is_set('mode')))
 		{
 			return;
 		}
