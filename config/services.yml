@@ -7,16 +7,12 @@ services:
     primetime:
         class: primetime\primetime\core\primetime
         arguments:
+            - @auth
+            - @dbal.conn
+            - @config
             - @path_helper
             - @template
             - @user
-            - @primetime.template
-
-    primetime.icon_picker:
-        class: primetime\primetime\core\icon_picker
-        arguments:
-            - @user
-            - @primetime
             - @primetime.template
 
     primetime.blocks.admin:
@@ -69,6 +65,13 @@ services:
         arguments:
             - @primetime.block_collection
 
+    primetime.calendar:
+        class: primetime\primetime\core\calendar
+        arguments:
+            - @user
+            - @primetime
+            - @primetime.template
+
     primetime.forum:
         class: primetime\primetime\core\forum\query
         arguments:
@@ -76,6 +79,23 @@ services:
             - @dbal.conn
             - @user
             - @primetime
+
+    primetime.forum.manager:
+        class: primetime\primetime\core\forum\manager
+        arguments:
+            - @auth
+            - @cache.driver
+            - @config
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
+    primetime.icon_picker:
+        class: primetime\primetime\core\icon_picker
+        arguments:
+            - @user
+            - @primetime
+            - @primetime.template
 
     primetime.listener:
         class: primetime\primetime\event\listener
