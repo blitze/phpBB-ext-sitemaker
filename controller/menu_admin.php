@@ -143,8 +143,9 @@ class menu_admin
 					'item_target'	=> $this->request->variable('item_target', 0),
 					'item_status'	=> $this->request->variable('item_status', 1),
 				);
+				$data = array_filter($data);
 
-				$this->manager->save_node($item_id, array_filter($data));
+				$this->manager->save_node($item_id, $data);
 				$return = $this->manager->get_item_row($item_id);
 				$errors += $this->manager->get_errors();
 
