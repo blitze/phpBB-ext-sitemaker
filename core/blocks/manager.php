@@ -599,16 +599,22 @@ class manager
 					}
 				}
 
-				if (($type[0] == 'checkbox' || $type[0] == 'multi_select'))
+				switch ($type[0])
 				{
-					$vars['function'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
-					$vars['params'][] = $config_key;
-					$type[0] = 'custom';
-	
-					if (!empty($db_settings[$config_key]))
-					{
-						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
-					}
+					case 'select':
+						$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
+					break;
+					case 'checkbox':
+					case 'multi_select':
+						$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
+						$vars['params'][] = $config_key;
+						$type[0] = 'custom';
+
+						if (!empty($db_settings[$config_key]))
+						{
+							$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
+						}
+					break;
 				}
 			}
 
