@@ -62,6 +62,11 @@ class members
 		$this->ptemplate = $ptemplate;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		if (!function_exists('phpbb_get_user_avatar'))
+		{
+			include($phpbb_root_path . 'includes/functions_display.' . $php_ext);
+		}
 	}
 
 	/**
