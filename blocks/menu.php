@@ -69,40 +69,53 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
+		$depth_ary = array();
+		for ($i = 3; $i < 10; $i++)
+		{
+			$depth_ary[$i] = $i;
+		}
+
 		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : 0;
+		$expanded = (!empty($settings['expanded'])) ? $settings['expanded'] : 0;
+		$max_depth = (!empty($settings['max_depth'])) ? $settings['max_depth'] : 3;
 
 		return array(
             'legend1'       => $this->user->lang['SETTINGS'],
-            'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
             'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'function' => 'build_select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
-        );
+			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
+            'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_ary, $max_depth), 'default' => 3, 'explain' => false),
+       );
 	}
 
 	public function display($db_data, $editing = false)
 	{
 		$title = $this->user->lang['MENU'];
-		$menu_id =& $db_data['settings']['menu_id'];
+		$menu_id = $db_data['settings']['menu_id'];
 
 		if (!$menu_id)
 		{
 			return array(
 				'title'		=> $title,
-				'content'	=> ($editing) ? 'Select Menu' : ''
+				'content'	=> ($editing) ? $this->user->lang['SELECT_MENU'] : ''
 			);
 		}
 
-		$this->tree->set_sql_condition('menu_id = ' . (int) $menu_id);
+		$this->tree->set_params($db_data['settings']);
 		$sql = $this->tree->qet_tree_sql();
 		$result = $this->db->sql_query($sql);
 
 		$data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$data[] = $row;
+			$url_info = parse_url($row['item_url']);
+
+			$data[$row['item_id']] = $row;
+			$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
+			$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->tree->display_list($data, $this->ptemplate, 'tree');	
+		$this->tree->display_list(array_values($data), $this->ptemplate, 'tree');	
 
 		return array(
             'title'     => $title,

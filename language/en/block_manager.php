@@ -133,6 +133,10 @@ $lang = array_merge($lang, array(
 	'ENABLE_TOPIC_TRACKING'	=> 'Enable topic tracking?',
 	'CUSTOM_PROFILE_FIELDS'	=> 'Custom Profile Fields',
 
+	'SELECT_MENU'			=> 'Select Menu',
+	'EXPANDED'				=> 'Expanded',
+	'MAX_DEPTH'				=> 'Maximum depth',
+
 	'FORUMS_MAX_TOPICS'			=> 'Maximum topics/posts',
 	'FORUMS_TITLE_MAX_CHARS'	=> 'Maximum characters per title',
 	'FORUMS_GET_TYPE'			=> 'Get type',
