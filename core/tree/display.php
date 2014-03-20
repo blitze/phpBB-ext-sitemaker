@@ -58,21 +58,25 @@ abstract class display
 		$this->primetime = $primetime;
 	}
 
-	public function is_in_path()
+	/**
+	 * Is subject node an ancestor of the object node?
+	 */
+	public function is_in_path($object, $subject)
 	{
-		
+		return ($subject['left_id'] < $object['left_id'] && $subject['right_id'] > $object['right_id']) ? true : false;
 	}
 
-	public function count_children()
-	{
-		
-	}
-	
+	/**
+	 * Count node descendants
+	 */
 	public function count_descendants($row)
 	{
 		return ($row['right_id'] - $row['left_id'] - 1) / 2;
 	}
 
+	/**
+	 * Get node row
+	 */
 	public function get_row($node_id)
 	{
 		if (isset($this->data[$node_id]))
