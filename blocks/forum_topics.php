@@ -127,15 +127,15 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
             'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => false),
             'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
-            'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_READ, 'explain' => false),
+            'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
+            'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_READ, 'explain' => false),
 
 			'legend2'			=> $this->user->lang['DISPLAY'],
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
-            'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($preview_options, $preview), 'default' => '', 'explain' => false),
+            'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'params' => array($preview_options, $preview), 'default' => '', 'explain' => false),
 			'preview_max_chars'	=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 125),
-            'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
+            'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
         );
 	}
 

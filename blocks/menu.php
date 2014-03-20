@@ -81,7 +81,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
             'legend1'       => $this->user->lang['SETTINGS'],
-            'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'function' => 'build_select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
+            'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
             'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_ary, $max_depth), 'default' => 3, 'explain' => false),
        );

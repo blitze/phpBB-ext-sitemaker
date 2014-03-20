@@ -128,8 +128,8 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'legend1'		=> 'SETTINGS',
-            'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
-            'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'function' => 'build_select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
+            'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
+            'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
             'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
 			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
             'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
