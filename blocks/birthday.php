@@ -56,7 +56,7 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 
 	public function display($bdata, $edit_mode = false)
 	{
-		if (($content = $this->cache->get('_block_blocks' . $bdata['bid'])) === false)
+		if (($content = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
 		{
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
@@ -97,7 +97,7 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 			}
 
 			// we only check birthdays every hour, may make this an admin choice
-			$this->cache->put('_block_blocks' . $bdata['bid'], $content, 3600);
+			$this->cache->put('pt_block_data_' . $bdata['bid'], $content, 3600);
 		}
 		else if ($edit_mode !== false)
 		{

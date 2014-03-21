@@ -152,7 +152,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$rotation_str = array('hourly' => 'hour', 'daily' => 'day', 'weekly' => 'week', 'monthly' => 'month');
 
 		$error = false;
-		$reload = true; //(($row = $this->cache->get('_block_members_' . $bid)) === false || PRIMETIME_FORUM_CHANGED) ? true : false;
+		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || PRIMETIME_FORUM_CHANGED) ? true : false;
 		$change = ($rotation == 'pageload' || $lastchange < strtotime('-1 ' . $rotation_str[$rotation])) ? true : false;
 
 		if ($change === true || $reload === true)
@@ -221,7 +221,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 					$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
 				}
 
-				$this->cache->put('_block_members_' . $bid, $row);
+				$this->cache->put('pt_block_data_' . $bid, $row);
 			}
 			else
 			{

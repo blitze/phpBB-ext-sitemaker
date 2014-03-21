@@ -253,7 +253,7 @@ class display
 
 	public function get_route_info($route)
 	{
-		if (($routes = $this->cache->get('_block_routes')) === false)
+		if (($routes = $this->cache->get('pt_block_routes')) === false)
         {
 			$sql = 'SELECT * FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
@@ -265,7 +265,7 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
-            $this->cache->put('_block_routes', $routes);
+            $this->cache->put('pt_block_routes', $routes);
         }
 
 		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
@@ -275,13 +275,13 @@ class display
 	{
 		if (!empty($this->route))
 		{
-			$this->cache->destroy('_blocks_' . $this->route);
+			$this->cache->destroy('pt_blocks_' . $this->route);
 		}
 	}
 
 	public function get_blocks($route, $edit_mode)
 	{
-        if (($blocks = $this->cache->get('_blocks_' . $route)) === false)
+        if (($blocks = $this->cache->get('pt_blocks_' . $route)) === false)
         {
 			global $phpbb_container;
 
@@ -348,7 +348,7 @@ class display
 				}
 			}
 
-            $this->cache->put('_blocks_' . $route, $blocks);
+            $this->cache->put('pt_blocks_' . $route, $blocks);
         }
 
 		return $blocks;

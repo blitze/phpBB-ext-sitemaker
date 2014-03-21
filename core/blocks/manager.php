@@ -216,14 +216,14 @@ class manager
 	 */
 	public function get_available_blocks()
 	{
-		if (($blocks = $this->cache->get('_primetime_blocks')) === false)
+		if (($blocks = $this->cache->get('pt_available_blocks')) === false)
 		{
 			global $phpbb_container;
 
 			$factory = $phpbb_container->get('primetime.blocks.factory');
 			
 			$blocks = $factory->get_all_blocks();
-			$this->cache->put('_primetime_blocks', $blocks);
+			$this->cache->put('pt_available_blocks', $blocks);
 		}
 
 		foreach ($blocks as $service => $name)
@@ -241,7 +241,7 @@ class manager
 	 */
 	public function get_all_routes()
 	{
-		if (($routes = $this->cache->get('_block_routes')) === false)
+		if (($routes = $this->cache->get('pt_block_routes')) === false)
 		{
 			$sql = 'SELECT * FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
@@ -253,7 +253,7 @@ class manager
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('_block_routes', $routes);
+			$this->cache->put('pt_block_routes', $routes);
 		}
 
 		return $routes;
@@ -329,7 +329,7 @@ class manager
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 
-		$this->cache->destroy('_block_routes');
+		$this->cache->destroy('pt_block_routes');
 
 		return $this->db->sql_nextid();
 	}
@@ -369,7 +369,7 @@ class manager
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->block_routes_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
-		$this->cache->destroy('_block_routes');
+		$this->cache->destroy('pt_block_routes');
 
 		return array_merge(
 			$sql_data,
@@ -384,7 +384,7 @@ class manager
 	{
 		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . ' WHERE route_id = ' . (int) $route_id);
 
-		$this->cache->destroy('_block_routes');
+		$this->cache->destroy('pt_block_routes');
 	}
 
 	/**
@@ -453,7 +453,7 @@ class manager
 			$block_data['settings'][$key] =& $settings['default'];
 		}
 
-		$this->cache->destroy('_blocks_' . $route);
+		$this->cache->destroy('pt_blocks_' . $route);
 
 		return array_merge(
 			array('id' => $block_data['bid']),
@@ -474,7 +474,7 @@ class manager
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
-		$this->cache->destroy('_blocks_' . $route);
+		$this->cache->destroy('pt_blocks_' . $route);
 
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
@@ -667,6 +667,7 @@ class manager
 		}
 
 		$bdata = $this->get_block_data($bid);
+		$settings = array();
 
 		if (!$phpbb_container->has($bdata['name']))
 		{
@@ -674,7 +675,7 @@ class manager
 		}
 
 		$b = $phpbb_container->get($bdata['name']);
-		$df_settings = $b->get_config(array());
+		$df_settings = $b->get_config($settings);
 
 		$class = $this->request->variable('class', '');
 		$permission_ary = $this->request->variable('permission', array(0));
@@ -722,7 +723,8 @@ class manager
 			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 		}
 
-		$this->cache->destroy('_blocks_' . $route);
+		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('pt_block_data_' . $bid);
 
 		return $this->update($bid, $sql_data, $route);
 	}
@@ -756,7 +758,7 @@ class manager
 
 		// add blocks
 		$this->db->sql_multi_insert($this->blocks_table, array_values($sql_blocks_ary));
-		$this->cache->destroy('_blocks_' . $route);
+		$this->cache->destroy('pt_blocks_' . $route);
 
 		return array('message' => $this->user->lang['LAYOUT_SAVED']);
 	}
@@ -884,7 +886,7 @@ class manager
 			);
 		}
 
-		$this->cache->destroy('_blocks_' . $route);
+		$this->cache->destroy('pt_blocks_' . $route);
 
 		return array(
 			'data'		=> $data,
