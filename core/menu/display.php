@@ -40,7 +40,6 @@ class display extends \primetime\primetime\core\tree\display
 	{
 		$this->expanded = (bool) $data['expanded'];
 		$this->max_depth = (int) $data['max_depth'];
-		$this->set_sql_condition('menu_id = ' . (int) $data['menu_id']);
 	}
 
 	/**
@@ -59,19 +58,16 @@ class display extends \primetime\primetime\core\tree\display
 		$active_right_id = 0;
 		$active_depth = 0;
 
-		if ($this->expanded === false)
+		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
-			for ($i = 0, $size = sizeof($data); $i < $size; $i++)
+			$row = $data[$i];
+			if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
 			{
-				$row = $data[$i];
-				if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
-				{
-					$active_depth = $row['depth'];
-					$active_left_id = $row['left_id'];
-					$active_right_id = $row['right_id'];
-					$this->max_depth += ($this->count_descendants($row)) ? 0 : 1;
-					break;
-				}
+				$active_depth = $row['depth'];
+				$active_left_id = $row['left_id'];
+				$active_right_id = $row['right_id'];
+				$this->max_depth += ($this->count_descendants($row)) ? 0 : 1;
+				break;
 			}
 		}
 

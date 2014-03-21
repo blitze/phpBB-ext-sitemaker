@@ -24,6 +24,12 @@ if (!defined('IN_PHPBB'))
 class menu  extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
+	 * Cache
+	 * @var \phpbb\cache\service
+	 */
+	protected $cache;
+
+	/**
 	 * Database
 	 * @var \phpbb\db\driver\driver
 	 */
@@ -44,13 +50,15 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\cache\service						$cache			Cache object
 	 * @param \phpbb\db\driver\driver					$db     		Database connection
 	 * @param \phpbb\template\template					$user			User object
 	 * @param \primetime\primetime\core\menu\display	$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
 	{
+		$this->cache = $cache;
 		$this->db = $db;
 		$this->user = $user;
 		$this->tree = $tree;
@@ -100,22 +108,29 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 			);
 		}
 
-		$this->tree->set_params($db_data['settings']);
-		$sql = $this->tree->qet_tree_sql();
-		$result = $this->db->sql_query($sql);
+        if (($data = $this->cache->get('pt_block_data_' . $db_data['bid'])) === false)
+        {
+			$this->tree->set_sql_condition('menu_id = ' . (int) $menu_id);
+			$sql = $this->tree->qet_tree_sql();
+			$result = $this->db->sql_query($sql);
 
-		$data = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$url_info = parse_url($row['item_url']);
+			$data = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$url_info = parse_url($row['item_url']);
 
-			$data[$row['item_id']] = $row;
-			$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
-			$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+				$data[$row['item_id']] = $row;
+				$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
+				$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+			}
+			$this->db->sql_freeresult($result);
+
+			$data = array_values($data);
+			$this->cache->put('pt_block_data_' . $db_data['bid'], $data);
 		}
-		$this->db->sql_freeresult($result);
 
-		$this->tree->display_list(array_values($data), $this->ptemplate, 'tree');	
+		$this->tree->set_params($db_data['settings']);
+		$this->tree->display_list($data, $this->ptemplate, 'tree');	
 
 		return array(
             'title'     => $title,

@@ -87,6 +87,7 @@ services:
     primetime.block.menu:
         class: primetime\primetime\blocks\menu
         arguments:
+            - @cache.driver
             - @dbal.conn
             - @user
             - @primetime.menu.display
