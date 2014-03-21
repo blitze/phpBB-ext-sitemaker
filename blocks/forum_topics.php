@@ -113,12 +113,12 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
         $sort_options = array(FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
         $template_options = array('titles' => 'TITLES', 'mini' => 'MINI', 'context' => 'CONTEXT');
 
-		$forum_ids	=& $settings['forum_ids'];
-		$topic_type	=& $settings['topic_type'];
-		$preview	=& $settings['display_preview'];
-		$date_range	=& $settings['date_range'];
-		$sorting	=& $settings['order_by'];
-		$template	=& $settings['template'];
+		$forum_ids	= (isset($settings['forum_ids'])) ? $settings['forum_ids'] : '';
+		$topic_type	= (isset($settings['topic_type'])) ? $settings['topic_type'] : POST_NORMAL;
+		$preview	= (isset($settings['display_preview'])) ? $settings['display_preview'] : '';
+		$date_range	= (isset($settings['date_range'])) ? $settings['date_range'] : '';
+		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : FORUMS_ORDER_LAST_READ;
+		$template	= (isset($settings['template'])) ? $settings['template'] : 'titles';
 
 		$preview = (!empty($preview)) ? $preview : (($template == 'context') ? 'first' : '');
 
