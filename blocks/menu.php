@@ -89,6 +89,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
             'legend1'       => $this->user->lang['SETTINGS'],
+			'cache_name'	=> 'pt_block_data_' . $menu_id,
             'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
             'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_ary, $max_depth), 'default' => 3, 'explain' => false),
@@ -108,7 +109,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 			);
 		}
 
-        if (($data = $this->cache->get('pt_block_data_' . $db_data['bid'])) === false)
+        if (($data = $this->cache->get('pt_block_data_' . $menu_id)) === false)
         {
 			$this->tree->set_sql_condition('menu_id = ' . (int) $menu_id);
 			$sql = $this->tree->qet_tree_sql();
@@ -126,7 +127,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 			$this->db->sql_freeresult($result);
 
 			$data = array_values($data);
-			$this->cache->put('pt_block_data_' . $db_data['bid'], $data);
+			$this->cache->put('pt_block_data_' . $menu_id, $data);
 		}
 
 		$this->tree->set_params($db_data['settings']);

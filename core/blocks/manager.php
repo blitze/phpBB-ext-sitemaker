@@ -722,9 +722,12 @@ class manager
 			$this->delete_block_config($bid);
 			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 		}
-
 		$this->cache->destroy('pt_blocks_' . $route);
-		$this->cache->destroy('pt_block_data_' . $bid);
+
+		if (isset($df_settings['cache_name']))
+		{
+			$this->cache->destroy($df_settings['cache_name']);
+		}
 
 		return $this->update($bid, $sql_data, $route);
 	}
