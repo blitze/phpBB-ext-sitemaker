@@ -127,6 +127,7 @@ services:
     primetime.menu.builder:
         class: primetime\primetime\core\menu\builder
         arguments:
+            - @cache.driver
             - @dbal.conn
             - @primetime
             - %tables.primetime.menu%

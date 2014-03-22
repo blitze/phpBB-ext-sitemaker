@@ -24,18 +24,26 @@ if (!defined('IN_PHPBB'))
 class builder extends \primetime\primetime\core\tree\builder
 {
 	/**
+	 * Cache
+	 * @var \phpbb\cache\service
+	 */
+	protected $cache;
+
+	/**
 	 * Construct
 	 * 
+	 * @param \phpbb\cache\service					$cache			Cache object
 	 * @param \phpbb\db\driver\driver				$db             Database connection
 	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	 * @param string								$table_name		Table name
 	 * @param string								$pk				Primary key
 	 * @param string								$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \primetime\primetime\core\primetime $primetime, $menus_table, $menu_items_table, $pk)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, \primetime\primetime\core\primetime $primetime, $menus_table, $menu_items_table, $pk)
 	{
 		parent::__construct($db, $primetime, $menu_items_table, $pk);
 		$this->menus_table = $menus_table;
+		$this->cache = $cache;
 	}
 
 	public function menu_create($data = array())
@@ -123,5 +131,11 @@ class builder extends \primetime\primetime\core\tree\builder
 		$row['item_path'] = (strpos($row['item_url'], 'http')) ? $row['item_url'] : './../' . $row['item_url'];
 
 		return $row;
+	}
+
+	public function on_tree_change($data)
+	{
+		$row = array_pop($data);
+		$this->cache->destroy('pt_block_data_' . $row['menu_id']);
 	}
 }
