@@ -92,8 +92,11 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$sql = "INSERT INTO $this->items_table " . $this->db->sql_build_array('INSERT', $sql_data);
 		$this->db->sql_query($sql);
 
-		$sql_data[$this->pk] = (int) $this->db->sql_nextid();
+		$new_id = (int) $this->db->sql_nextid();
+		$sql_data[$this->pk] = $new_id;
+		$this->data[$new_id] = $sql_data;
 
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -215,9 +218,12 @@ abstract class builder extends \primetime\primetime\core\tree\display
 				$this->update_right_side($sql_data, $right_id, $row['parent_id'], $branch);
 			}
 		}
-		$sql_data = array_values($sql_data);
 
+		$this->data += $sql_data;
+		$sql_data = array_values($sql_data);
 		$this->db->sql_multi_insert($this->items_table, $sql_data);
+
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 
 		return $sql_data;
@@ -247,6 +253,8 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			WHERE $this->pk = " . (int) $node_id;
 		$this->db->sql_query($sql);
 
+		$this->data[$node_id] = $sql_data;
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -281,6 +289,8 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		// Now we add it back
 		$this->add_branch($tree, 0, true);
 
+		$this->data = $tree;
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -351,6 +361,8 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$sql = "UPDATE $this->items_table SET parent_id = $to_parent_id WHERE $this->pk = " . (int) $node_id;
 		$this->db->sql_query($sql);
 
+		$this->data[$node_id] = $this->get_row($node_id);
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -454,6 +466,8 @@ abstract class builder extends \primetime\primetime\core\tree\display
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
+		$this->data[$node_id] = $this->get_row($node_id);
+		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 	
@@ -575,6 +589,11 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		}
 
 		return $indexed[0]['children'];
+	}
+
+	public function on_tree_change($data)
+	{
+		return true;
 	}
 
 	/**
