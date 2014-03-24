@@ -523,7 +523,7 @@ class manager
 
 		if (!function_exists('build_multi_select'))
 		{
-			include($phpbb_root_path . 'ext/primetime/primetime/functions_blocks.' . $phpEx);
+			include($phpbb_root_path . 'ext/primetime/primetime/blocks.' . $phpEx);
 		}
 
 		if (!function_exists('build_cfg_template'))
