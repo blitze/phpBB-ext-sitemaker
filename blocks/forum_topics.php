@@ -173,7 +173,6 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		if ($this->settings['order_by'] == FORUMS_ORDER_LAST_READ)
 		{
 			$lang_var = 'TOPICS_LAST_READ';
-			$this->settings['template'] = 'lastread';
 		}
 
 		$options = array(
@@ -253,7 +252,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
 
-			$post_row =& array_pop($post_data[$topic_id]);
+			$post_row = array_pop($post_data[$topic_id]);
 			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
 
 			$tpl_ary = array(
@@ -303,7 +302,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
 
-			$post_row =& array_pop($post_data[$topic_id]);
+			$post_row = array_pop($post_data[$topic_id]);
 			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
 
 			$tpl_ary = array(
@@ -333,7 +332,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			$topic_row =& $topic_data[$i];
 			$forum_id = $topic_row['forum_id'];
 			$topic_id = $topic_row['topic_id'];
-			$post_row =& array_pop($post_data[$topic_id]);
+			$post_row = array_pop($post_data[$topic_id]);
 
 			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
 			$this->primetime->truncate_html_string($context, $this->settings['preview_max_chars'], $post_row['bbcode_uid']);
