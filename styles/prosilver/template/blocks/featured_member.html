@@ -1,7 +1,7 @@
 <!-- IF QTYPE_EXPLAIN --><div class="align-center">{QTYPE_EXPLAIN}</div><br /><!-- ENDIF -->
 <ul class="pt-list">
 	<li>
-		<div class="align-center pt-list-inner">
+		<div class="align-center">
 			<p>
 				<a href="{U_PROFILE}">
 					<strong>{USERNAME}</strong><br />
@@ -13,28 +13,26 @@
 		</div>
 	</li>
 	<li>
-		<div class="pt-list-inner">
-				<!-- IF not AVATAR_IMG --><div><strong>{L_USERNAME}{L_COLON}</strong> <a href="{U_PROFILE}">{USERNAME}</a></div><!-- ENDIF -->
-				<!-- IF AGE --><div><strong>{L_AGE}{L_COLON}</strong> {AGE}</div><!-- ENDIF -->
-				<!-- IF LOCATION --><div><strong>{L_LOCATION}{L_COLON}</strong> {LOCATION}</div><!-- ENDIF -->
-				<div><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</div>
-				<div><strong>{L_LAST_VISITED}{L_COLON}</strong> {VISITED}</div>
-				<div><strong>{L_TOTAL_POSTS}{L_COLON}</strong> <!-- IF POSTS > '0' --><a href="{U_SEARCH_USER}">{POSTS}</a><!-- ELSE -->{POSTS}<!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT} / {POSTS_DAY}]<!-- ENDIF --></div>
+		<!-- IF not AVATAR_IMG --><div><strong>{L_USERNAME}{L_COLON}</strong> <a href="{U_PROFILE}">{USERNAME}</a></div><!-- ENDIF -->
+		<!-- IF AGE --><div><strong>{L_AGE}{L_COLON}</strong> {AGE}</div><!-- ENDIF -->
+		<!-- IF LOCATION --><div><strong>{L_LOCATION}{L_COLON}</strong> {LOCATION}</div><!-- ENDIF -->
+		<div><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</div>
+		<div><strong>{L_LAST_VISITED}{L_COLON}</strong> {VISITED}</div>
+		<div><strong>{L_TOTAL_POSTS}{L_COLON}</strong> <!-- IF POSTS > '0' --><a href="{U_SEARCH_USER}">{POSTS}</a><!-- ELSE -->{POSTS}<!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT} / {POSTS_DAY}]<!-- ENDIF --></div>
 		<!-- BEGIN custom_fields -->
-			<!-- IF not custom_fields.S_PROFILE_CONTACT -->
-				<div><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</div>
+		<!-- IF not custom_fields.S_PROFILE_CONTACT -->
+		<div><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</div>
+		<!-- ELSE -->
+		<div>
+			<strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
+			<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
+			<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
 			<!-- ELSE -->
-				<div>
-					<strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
-				<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
-					<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
-				<!-- ELSE -->
-					{custom_fields.PROFILE_FIELD_VALUE}
-				<!-- ENDIF -->
-				</div>
+			{custom_fields.PROFILE_FIELD_VALUE}
 			<!-- ENDIF -->
-		<!-- END custom_fields -->
 		</div>
+		<!-- ENDIF -->
+		<!-- END custom_fields -->
 	</li>
 </ul>
 <!-- IF ROTATION -->
