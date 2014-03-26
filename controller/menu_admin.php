@@ -89,31 +89,20 @@ class menu_admin
 			case 'add':
 			case 'edit':
 
-				$data = array(
-					'item_id'		=> (int) $item_id,
+				$return = array(
 					'menu_id'		=> (int) $menu_id,
 					'item_title'	=> $this->request->variable('item_title', $this->user->lang['CHANGE_ME'], true),
 				);
 
-				if ($action == 'edit')
+				if ($action == 'edit' && !$item_id)
 				{
-					if ($data['item_id'])
-					{
-						$data += $this->manager->get_row($data['item_id']);
-					}
-					else
-					{
-						$errors[] = $this->user->lang['MISSING_ITEM_ID'];
-					}
+					$errors[] = $this->user->lang['MISSING_ITEM_ID'];
 				}
-
-				if (!sizeof($errors))
+				else
 				{
-					$data['item_title'] = ucwords($data['item_title']);
+					$return['item_title'] = ucwords($return['item_title']);
 
-					$this->manager->save_node($data['item_id'], $data);
-
-					$return = $this->manager->get_item_row($data['item_id']);
+					$this->manager->save_node($item_id, $return);
 					$errors += $this->manager->get_errors();
 				}
 
@@ -135,18 +124,16 @@ class menu_admin
 
 			case 'update':
 
-				$data = array(
-					'item_id'		=> (int) $item_id,
+				$return = array(
 					'item_title'	=> $this->request->variable('item_title', '', true),
 					'item_icon'		=> $this->request->variable('item_icon', ''),
 					'item_url'		=> $this->request->variable('item_url', ''),
 					'item_target'	=> $this->request->variable('item_target', 0),
 					'item_status'	=> $this->request->variable('item_status', 1),
 				);
-				$data = array_filter($data);
+				$return = array_filter($return);
 
-				$this->manager->save_node($item_id, $data);
-				$return = $this->manager->get_item_row($item_id);
+				$this->manager->save_node($item_id, $return);
 				$errors += $this->manager->get_errors();
 
 			break;

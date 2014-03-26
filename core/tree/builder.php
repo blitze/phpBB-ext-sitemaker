@@ -253,6 +253,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 			WHERE $this->pk = " . (int) $node_id;
 		$this->db->sql_query($sql);
 
+		$sql_data = $this->get_row($node_id);
 		$this->data[$node_id] = $sql_data;
 		$this->on_tree_change($this->data);
 		$this->reset_data();
