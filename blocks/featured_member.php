@@ -63,7 +63,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	 *
 	 * @param \phpbb\cache\service					$cache					Cache object
 	 * @param \phpbb\config\db						$config					Config object
-	 * @param \phpbb\db\driver\driver				$db     				Database connection
+	 * @param \phpbb\db\driver\driver				$db	 				Database connection
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
@@ -128,13 +128,13 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'legend1'		=> 'SETTINGS',
-            'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
-            'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
-            'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
+			'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
+			'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
+			'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
 			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
-            'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
-            'lastchange'	=> array('type' => 'hidden', 'default' => 0),
-            'current_user'	=> array('type' => 'hidden', 'default' => 0),
+			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
+			'lastchange'	=> array('type' => 'hidden', 'default' => 0),
+			'current_user'	=> array('type' => 'hidden', 'default' => 0),
 		);
 	}
 
