@@ -185,6 +185,83 @@
 .inner-spacing {padding: 1em;}
 .no-padding {padding: 0 !important;}
 
+.info {
+	float: right;
+}
+
+/* labels & badges */
+.label .info,
+.badge .info {
+	display: inline-block;
+	border: 1px solid #ccc;
+	line-height: 11px;
+	text-align: center;
+	padding: 3px;
+	margin: 1px 0;
+	font-size: 0.85em;
+}
+
+.badge .info {
+	padding: 3px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+
+/* Colors */
+i.white {color: #fff;}
+i.black {color: #000;}
+i.blue{color: #0000ff;}
+i.orange {color: #ffa500;}
+i.yellow {color: #ffff00;}
+i.red {color: #ff0000;}
+i.green {color: #90af45;}
+i.purple {color: #820182;}
+
+.label.blue .info,
+.badge.blue .info {
+	background: blue;
+}
+
+.label.red .info,
+.badge.red .info {
+	background: red;
+}
+
+.label.green .info,
+.badge.green .info {
+	background: green;
+}
+
+.label.purple .info,
+.badge.purple .info {
+	background: purple;
+}
+
+.label.blue .info,
+.badge.blue .info,
+.label.red .info,
+.badge.red .info,
+.label.green .info,
+.badge.green .info,
+.label.purple .info,
+.badge.purple .info {
+	color: #ffffff;
+}
+
+.label.blue .info a,
+.badge.blue .info a,
+.label.red .info a,
+.badge.red .info a,
+.label.green .info a,
+.badge.green .info a,
+.label.purple .info a,
+.badge.purple .info a {
+	color: #fff;
+}
+
 /* Lists
 ----------*/
 ul.pt-list {
@@ -196,6 +273,8 @@ ul.pt-list {
 ul.pt-list > li {
     margin: 5px 0;
     font-size: 11px;
+	vertical-align: middle;
+	clear: both;
 }
 
 ul.pt-list > li > ul.pt-list {
@@ -220,9 +299,8 @@ ul.pt-list > li > ul.pt-list {
     list-style-type: square;
 }
 
-.pt-list-stacked ul.pt-list > li .pt-list-inner {
-	border: 1px solid #ccc;
-	padding: 5px;
+.pt-list-numbered ul.pt-list > li {
+    list-style: decimal inside;
 }
 
 .pt-list-inline ul.pt-list > li {
@@ -250,8 +328,8 @@ ul.pt-list > li > ul.pt-list {
 	content: "\00BB \0020";
 }
 
-.pt-list-hover ul.pt-list > li .pt-list-inner:hover,
-.pt-list-striped ul.pt-list > li:nth-child(odd) .pt-list-inner {
+.pt-list-hover ul.pt-list > li:hover,
+.pt-list-striped ul.pt-list > li:nth-child(odd) {
     background-color: #ddd;
 }
 
@@ -267,12 +345,12 @@ ul.pt-list > li > ul.pt-list {
     margin: 5px 0;
 }
 
-.pt-y-divider-dotted ul.pt-list > li > .pt-list-inner {
+.pt-y-divider-dotted ul.pt-list > li {
     border-left: 1px dotted #ccc;
     padding: 0.8em 1.2em;
 }
 
-.pt-y-divider-line ul.pt-list > li > .pt-list-inner {
+.pt-y-divider-line ul.pt-list > li {
     border-left: 1px solid #ccc;
     padding: 0.8em 1.2em;
 }
@@ -282,10 +360,17 @@ ul.pt-list > li > ul.pt-list {
     border-top: 0;
 }
 
-.pt-y-divider-line ul.pt-list > li:first-child > .pt-list-inner,
-.pt-y-divider-dotted ul.pt-list > li:first-child > .pt-list-inner {
+.pt-y-divider-line ul.pt-list > li:first-child,
+.pt-y-divider-dotted ul.pt-list > li:first-child {
     border-left: 0;
-    margin-left: 0;
+}
+
+.pt-list-stacked ul.pt-list > li {
+	padding: 5px;
+	border: 1px solid #ccc !important;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 nav ul.pt-list > li {
@@ -325,47 +410,47 @@ nav ul.pt-list > li.nav-header > a:hover {
 	background-color: inherit;
 }
 
-/* transform vertical list to horizontal blocks */
-.horizontal-list-auto ul.pt-list > li,
-.horizontal-list-2cols ul.pt-list > li,
-.horizontal-list-3cols ul.pt-list > li,
-.horizontal-list-4cols ul.pt-list > li,
-.horizontal-list-5cols ul.pt-list > li {
-	margin: 0;
-	padding: 0;
+.pt-x-divider-line nav ul.pt-list > li.nav-header > a,
+.pt-x-divider-dotted nav ul.pt-list > li.nav-header > a,
+.pt-y-divider-line nav ul.pt-list > li.nav-header > a,
+.pt-y-divider-dotted nav ul.pt-list > li.nav-header > a {
+	border: 0;
 }
 
-.horizontal-list-auto ul.pt-list,
-.horizontal-list-2cols ul.pt-list,
-.horizontal-list-3cols ul.pt-list,
-.horizontal-list-4cols ul.pt-list,
-.horizontal-list-5cols ul.pt-list,
-.horizontal-list-auto ul.pt-list > li :last,
-.horizontal-list-2cols ul.pt-list > li :last,
-.horizontal-list-3cols ul.pt-list > li :last,
-.horizontal-list-4cols ul.pt-list > li :last,
-.horizontal-list-5cols ul.pt-list > li :last {overflow:hidden; *overflow:visible;*zoom:1;}
+/* 
+ * Transform vertical list to horizontal blocks 
+ * Based on technique by Ali Jafarian
+ */
+.list-block-auto ul.pt-list,
+.list-block-2cols ul.pt-list,
+.list-block-3cols ul.pt-list,
+.list-block-4cols ul.pt-list,
+.list-block-5cols ul.pt-list {
+	font-size: 0;
+	margin-left: -2.5%;
+}
 
-.horizontal-list-auto ul.pt-list > li :last,
-.horizontal-list-2cols ulpt-list > li :last,
-.horizontal-list-3cols ul.pt-list > li :last,
-.horizontal-list-4cols ul.pt-list > li :last,
-.horizontal-list-5cols ul.pt-list > li :last {float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
+.list-block-auto ul.pt-list > li,
+.list-block-2cols ul.pt-list > li,
+.list-block-3cols ul.pt-list > li,
+.list-block-4cols ul.pt-list > li,
+.list-block-5cols ul.pt-list > li {
+	display: inline-block;
+	padding: 10px;
+	margin: 0 0 2.5% 2.5%;
+	vertical-align: top;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
 
-.horizontal-list-auto ul.pt-list > li,
-.horizontal-list-2cols ul.pt-list > li,
-.horizontal-list-3cols ul.pt-list > li,
-.horizontal-list-4cols ul.pt-list > li,
-.horizontal-list-5cols ul.pt-list > li {float: left; border: 0; display: block; position: relative; width: auto;}
+.list-block-auto ul.pt-list > li {width: auto;}
+.list-block-2cols ul.pt-list > li {width: 47.5%;}
+.list-block-3cols ul.pt-list > li {width: 30.83%;}
+.list-block-4cols ul.pt-list > li {width: 22.5%}
+.list-block-5cols ul.pt-list > li {width: 17.5%;}
 
-.horizontal-list-auto ul.pt-list > li .pt-list-inner,
-.horizontal-list-2cols ul.pt-list > li .pt-list-inner,
-.horizontal-list-3cols ul.pt-list > li .pt-list-inner,
-.horizontal-list-4cols ul.pt-list > li .pt-list-inner,
-.horizontal-list-5cols ul.pt-list > li .pt-list-inner {margin: 5px; text-align: left;}
-
-.horizontal-list-auto ul.pt-list > li {width:auto;}
-.horizontal-list-2cols ul.pt-list > li {width:50%;}
-.horizontal-list-3cols ul.pt-list > li {width:33.33333%;}
-.horizontal-list-4cols ul.pt-list > li {width:25%;}
-.horizontal-list-5cols ul.pt-list > li {width:20%;}
+.list-block-2cols ul.pt-list > li:nth-child(odd) {border-left: 0}
+.list-block-3cols ul.pt-list > li:nth-child(4n) {border-left: 0}
+.list-block-4cols ul.pt-list > li:nth-child(5n) {border-left: 0}
+.list-block-5cols ul.pt-list > li:nth-child(6n) {border-left: 0}
