@@ -18,28 +18,28 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
-*
-*/
+ * 
+ */
 class factory
 {
 	/**
-	* Cache
-	* @var \phpbb\cache\service
-	*/
+	 * Cache
+	 * @var \phpbb\cache\service
+	 */
 	protected $cache;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\cache\service	$cache		Cache object
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\cache\service	$cache		Cache object
+	 */
 	public function __construct($blocks)
 	{
 		$this->load_blocks($blocks);
 	}
 
 	/**
-	 * 
+	 * Load available blocks
 	 */
 	public function load_blocks($blocks)
 	{
