@@ -181,8 +181,8 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			'sort_key'			=> $sort_order[$this->settings['order_by']],
 			'tracking_info'		=> $enable_tracking,
 		);
-		$this->forum->build_query($options);
 
+		$this->forum->build_query($options);
 		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);
 
 		if (sizeof($topic_data) || $edit_mode !== false)
@@ -229,6 +229,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			$topic_data = array_values($topic_data);
 
 			$this->$method($topic_data, $post_data);
+			unset($topic_data, $post_data);
 
 			$this->ptemplate->assign_vars(array(
 				$view				=> true,
@@ -244,7 +245,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		}
 	}
 
-	private function forum_topics_titles($topic_data, $post_data)
+	private function forum_topics_titles(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -266,11 +267,11 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			);
 
 			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i]);
+			unset($topic_data[$i], $post_data[$topic_id]);
 		}
 	}
 
-	private function forum_topics_lastread($topic_data, $post_data)
+	private function forum_topics_lastread(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -286,11 +287,11 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			);
 
 			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i]);
+			unset($topic_data[$i], $post_data[$topic_id]);
 		}
 	}
 
-	private function forum_topics_mini($topic_data, $post_data)
+	private function forum_topics_mini(&$topic_data, &$post_data)
 	{
 		global $phpbb_container;
 
@@ -321,11 +322,11 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			);
 
 			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i]);
+			unset($topic_data[$i], $post_data[$topic_id]);
 		}
 	}
 
-	private function forum_topics_context($topic_data, $post_data)
+	private function forum_topics_context(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
