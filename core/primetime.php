@@ -307,8 +307,14 @@ class primetime
 	 */
 	public function ext_add_form_key($form_name)
 	{
+		global $phpbb_container;
+
+		$tpl_context = $phpbb_container->get('template_context');
+
 		add_form_key($form_name);
-		$s_form_token = $this->template->_tpldata['.']['0']['S_FORM_TOKEN'];
+		
+		$rootref = $tpl_context->get_root_ref();
+		$s_form_token = $rootref['S_FORM_TOKEN'];
 		$this->ptemplate->assign_var('S_FORM_TOKEN', $s_form_token);
 
 		return $s_form_token;
