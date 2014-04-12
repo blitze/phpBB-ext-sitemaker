@@ -274,7 +274,7 @@
 
 			inlineForm = $('<form id="inline-form"><input type="text" id="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
-			$('#add-block-panel').find('.primetime-block').button().draggable({
+			$('#add-block-panel').find('.primetime-block').draggable({
 				scroll: true,
 				opacity: 0.7,
 				helper: 'clone',

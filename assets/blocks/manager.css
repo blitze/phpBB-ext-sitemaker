@@ -105,8 +105,41 @@
 	width: 35px;
 }
 
+#admin-bar .blocks-list {
+	margin: 0;
+	padding: 0;
+	height: 160px; 
+	overflow: auto
+}
+
 #admin-bar .primetime-block {
-	margin: 5px;
+	float: left;
+	margin: 1%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	font-weight: bolder;
+	width: 27.1%;
+	position: relative;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	cursor: move;
+}
+
+#admin-bar .primetime-block:hover {
+	background-color: #1D9C73;
+	color: #fff;
+	opacity: 0.8;
+}
+
+#admin-bar .primetime-block i {
+	float: left;
+	color: #1D9C73;
+}
+
+#admin-bar .primetime-block:hover i {
+	color: #000;
 }
 
 #inline-form {
