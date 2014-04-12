@@ -30,7 +30,9 @@ $lang = array_merge($lang, array(
 	'PRIMETIME.BLOCK.MENU'				=> 'Menu',
 	'PRIMETIME.BLOCK.MEMBERS'			=> 'Members',
 	'PRIMETIME.BLOCK.MEMBER_MENU'		=> 'Member Menu',
+	'PRIMETIME.BLOCK.MYBOOKMARKS'		=> 'My Bookmarks',
 	'PRIMETIME.BLOCK.STATS'				=> 'Statistics',
+	'PRIMETIME.BLOCK.WHATS_NEW'			=> 'What’s New?',
 	'PRIMETIME.BLOCK.WHOIS'				=> 'Who is online',
 
 	'ALL'					=> 'All',
@@ -114,6 +116,7 @@ $lang = array_merge($lang, array(
 
 	'TOPICS'				=> 'Topics',
 	'POSTS'					=> 'Posts',
+	'TOPICS_ONLY'			=> 'Topics only?',
 	'SHOW_FIRST_POST'		=> 'Yes - First Post',
 	'SHOW_LAST_POST'		=> 'Yes - Last Post',
 	'FIRST_POST_TIME'		=> 'First Post Time',

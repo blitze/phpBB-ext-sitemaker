@@ -61,6 +61,11 @@ $lang = array_merge($lang, array(
 	'RECENT_MEMBERS'		=> 'Recent Members',
 	'MOST_TENURED'			=> 'Most Tenured',
 	'TOP_POSTERS'			=> 'Top Posters',
+	'MY_BOOKMARKS'			=> 'My Bookmarks',
+	'NO_BOOKMARKS'			=> 'You have not bookmarked any topics',
+	'WHATS_NEW'				=> 'What’s New?',
+	'NO_NEW_TOPICS'			=> 'There are no new topics to display',
+	'NO_NEW_POSTS'			=> 'There are no new posts to display',
 
 	'QTYPE_RECENT'			=> 'Please welcome our newest member:',
 	'QTYPE_POSTS'			=> 'Congratulations to:',

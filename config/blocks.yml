@@ -97,6 +97,18 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.block.mybookmarks:
+        class: primetime\primetime\blocks\mybookmarks
+        arguments:
+            - @user
+            - @primetime.forum
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.mybookmarks]]
+        tags:
+            - { name: primetime.block }
+
     primetime.blocks.stats:
         class: primetime\primetime\blocks\stats
         arguments:
@@ -104,6 +116,18 @@ services:
             - @user
         calls:
             - [set_name, [primetime.block.stats]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.block.whats_new:
+        class: primetime\primetime\blocks\whats_new
+        arguments:
+            - @user
+            - @primetime.forum
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.whats_new]]
         tags:
             - { name: primetime.block }
 
