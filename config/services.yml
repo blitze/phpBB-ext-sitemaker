@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: form.yml }
     - { resource: blocks.yml }
 
 services:
