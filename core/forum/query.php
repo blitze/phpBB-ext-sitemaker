@@ -86,6 +86,7 @@ class query
 			'sort_dir'			=> 'DESC',
 		);
 
+		$this->topic_data = array();
 		$this->sql_array = array(
 			'SELECT'	=> 't.*, f.*',
 
