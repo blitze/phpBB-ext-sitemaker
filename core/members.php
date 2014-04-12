@@ -50,7 +50,7 @@ class members
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver				$db     			Database connection
-	 * @param \phpbb\template\template				$user				User object
+	 * @param \phpbb\user							$user				User object
 	 * @param \primetime\primetime\core\template	$ptemplate			Primetime template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
