@@ -41,7 +41,7 @@ class template extends \phpbb\template\twig\twig
 	 */
 	public function render_view($ext_name, $tpl_file, $handle)
 	{
-		$this->set_style(array("ext/$ext_name/styles"));
+		$this->set_style(array("ext/$ext_name/styles", 'styles'));
 
 		$this->set_filenames(array(
 			$handle	=> $tpl_file)
