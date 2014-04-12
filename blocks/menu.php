@@ -116,11 +116,14 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 			$result = $this->db->sql_query($sql);
 
 			$data = array();
+			$board_url = generate_board_url();
+
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$url_info = parse_url($row['item_url']);
 
 				$data[$row['item_id']] = $row;
+				$data[$row['item_id']]['item_url'] = ($row['item_url'] && strpos($row['item_url'], 'http') === false) ? $board_url . '/' . $row['item_url'] : $row['item_url'];
 				$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
 				$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
 			}
