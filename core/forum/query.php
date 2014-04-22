@@ -22,12 +22,23 @@ if (!defined('IN_PHPBB'))
 */
 class query
 {
+	/**
+	 * Auth object instance
+	 * @var \phpbb\auth\auth
+	 */
+	protected $auth;
 
 	/**
 	 * Config object
 	 * @var \phpbb\config\db
 	 */
 	protected $config;
+
+	/**
+	 * Content visibility object
+	 * @var \phpbb\content_visibility
+	 */
+	protected $content_visibility;
 
 	/**
 	 * Database connection
@@ -47,22 +58,28 @@ class query
 	 */
 	protected $primetime;
 
+	protected $ex_fid_ary		= array();
 	protected $sql_array		= array();
 	protected $topic_tracking	= array();
 	protected $topic_data		= array();
 	protected $topic_post_ids	= array('first' => array(), 'last' => array());
+	protected $cache_time		= 10800; // caching for 3 hours
 
 	/**
 	 * Constructor
 	 * 
-	 * @param \phpbb\config\db						$config			Config object
-	 * @param \phpbb\db\driver\driver				$db     		Database connection
-	 * @param \phpbb\user							$user			User object
-	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
+	 * @param \phpbb\auth\auth						$auth					Auth object
+	 * @param \phpbb\config\db						$config					Config object
+	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
+	 * @param \phpbb\db\driver\driver				$db     				Database connection
+	 * @param \phpbb\user							$user					User object
+	 * @param \primetime\primetime\core\primetime	$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\config\db $config, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
+		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->user = $user;
 		$this->primetime = $primetime;
@@ -71,22 +88,25 @@ class query
 	/**
 	 * Build a query to pull up forum data
 	 */
-	public function build_query($get = array(), $sql_array = array())
+	public function build_query($options = array(), $sql_array = array())
 	{
-		$get += array(
+		$options += array(
 			'forum_id'		=> 0,
 			'topic_id'		=> 0,
 			'post_id'		=> 0,
 
 			'topic_type'		=> false,
 			'watch_info'		=> false,
-			'tracking_info'		=> false,
+			'topic_tracking'	=> false,
 			'bookmark_status'	=> false,
 			'sort_key'			=> false,
 			'sort_dir'			=> 'DESC',
+			'enable_caching'	=> true,
 		);
 
 		$this->topic_data = array();
+		$this->ex_fid_ary = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
+
 		$this->sql_array = array(
 			'SELECT'	=> 't.*, f.*',
 
@@ -98,9 +118,9 @@ class query
 		);
 
 		// The FROM-Order is quite important here, else t.* columns can not be correctly bound.
-		if (!empty($get['post_id']))
+		if (!empty($options['post_id']))
 		{
-			$post_id = (int) $get['post_id'];
+			$post_id = (int) $options['post_id'];
 
 			$this->sql_array['SELECT'] .= ', p.post_visibility, p.post_time, p.post_id';
 			$this->sql_array['FROM'][POSTS_TABLE] = 'p';
@@ -112,7 +132,7 @@ class query
 
 		if ($this->user->data['is_registered'])
 		{
-			if ($get['watch_info'])
+			if ($options['watch_info'])
 			{
 				$this->sql_array['SELECT'] .= ', tw.notify_status';
 				$this->sql_array['LEFT_JOIN'][] = array(
@@ -127,7 +147,7 @@ class query
 				);
 			}
 
-			if ($get['bookmark_status'] && $this->config['allow_bookmarks'])
+			if ($options['bookmark_status'] && $this->config['allow_bookmarks'])
 			{
 				$this->sql_array['SELECT'] .= ', bm.topic_id as bookmarked';
 				$this->sql_array['LEFT_JOIN'][] = array(
@@ -136,7 +156,12 @@ class query
 				);
 			}
 
-			if ($get['tracking_info'] && $this->config['load_db_lastread'])
+			if ($options['topic_tracking'] || $options['enable_caching'] !== true)
+			{
+				$this->cache_time = 0;
+			}
+
+			if ($options['topic_tracking'] && $this->config['load_db_lastread'])
 			{
 				$this->sql_array['SELECT'] .= ', tt.mark_time, ft.mark_time as forum_mark_time';
 
@@ -152,9 +177,9 @@ class query
 			}
 		}
 
-		if (!empty($get['topic_type']))
+		if (!empty($options['topic_type']))
 		{
-			$topic_type = (is_array($get['topic_type'])) ? $get['topic_type'] : array($get['topic_type']);
+			$topic_type = (is_array($options['topic_type'])) ? $options['topic_type'] : array($options['topic_type']);
 			$this->sql_array['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
 
 			if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
@@ -163,31 +188,33 @@ class query
 			}
 		}
 
-		if (!empty($get['forum_id']))
+		if (!empty($options['forum_id']))
 		{
-			$forum_id = $get['forum_id'];
+			$forum_id = $options['forum_id'];
 			$forum_id = (is_array($forum_id)) ? $forum_id : array((int) $forum_id);
 			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $forum_id);
 		}
 
-		if (!empty($get['topic_id']))
+		if (!empty($options['topic_id']))
 		{
-			$this->sql_array['WHERE'][] = 't.topic_id = ' . (int) $get['topic_id'];
+			$this->sql_array['WHERE'][] = 't.topic_id = ' . (int) $options['topic_id'];
 		}
 
 		// let's exlude forums this user is not allowed to view
-		if (isset($this->user->data['ex_forums']))
+		if (sizeof($this->ex_fid_ary))
 		{
-			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $this->user->data['ex_forums'], true);
+			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $this->ex_fid_ary, true);
 		}
 
 		$this->sql_array['WHERE'][] = 'f.forum_id = t.forum_id';
+		$this->sql_array['WHERE'][] = 't.topic_moved_id = 0';
+		$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
 
-		$this->sql_array['WHERE'] = join(' AND ', $this->sql_array['WHERE']);
+		$this->sql_array['WHERE'] = join(' AND ', array_filter($this->sql_array['WHERE']));
 
-		if ($get['sort_key'])
+		if ($options['sort_key'] !== false)
 		{
-			$this->sql_array['ORDER_BY'] = $get['sort_key'] . ' ' . $get['sort_dir'];
+			$this->sql_array['ORDER_BY'] = $options['sort_key'] . ' ' . $options['sort_dir'];
 		}
 
 		if (sizeof($sql_array))
@@ -214,7 +241,7 @@ class query
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
+		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
@@ -245,8 +272,10 @@ class query
 			$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
 		}
 
+		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary);
+
 		$sql = 'SELECT * FROM ' . POSTS_TABLE . ((sizeof($sql_where)) ? ' WHERE ' . join(' AND ', $sql_where) : '');
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
+		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
@@ -277,5 +306,20 @@ class query
 	public function get_topic_post_ids($first_or_last = 'first')
 	{
 		return (isset($this->topic_post_ids[$first_or_last])) ? $this->topic_post_ids[$first_or_last] : array();
+	}
+	
+	/**
+	 * 
+	 */
+	private function get_cache_time($tables)
+	{
+		$cache_time = 0;
+		if ($options['topic_tracking'] == false)
+		{
+			$cache_time = 3600;
+			$this->primetime->reset_sql_cache($tables);
+		}
+
+		return $cache_time;
 	}
 }

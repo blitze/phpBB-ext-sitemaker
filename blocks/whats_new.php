@@ -63,7 +63,8 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 		$topics_only = $db_data['settings']['topics_only'];
 
 		$options = array(
-			'sort_key'	=> ($topics_only) ? 't.topic_last_post_time' : 'p.post_time',
+			'enable_caching'	=> false,
+			'sort_key'			=> ($topics_only) ? 't.topic_last_post_time' : 'p.post_time',
 		);
 
 		if ($topics_only)
@@ -73,7 +74,7 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 					TOPICS_TABLE	=> 't',
 				),
 				'WHERE'		=> 't.topic_last_post_time > ' . $this->user->data['user_lastvisit'] . '
-							AND t.topic_moved_id = 0',
+					AND t.topic_moved_id = 0',
 			);
 		}
 		else

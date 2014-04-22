@@ -64,7 +64,8 @@ class mybookmarks  extends \primetime\primetime\core\blocks\driver\block
 		}
 
 		$options = array(
-			'sort_key'	=> 't.topic_last_post_time',
+			'enable_caching'	=> false,
+			'sort_key'			=> 't.topic_last_post_time',
 		);
 
 		$sql_array = array(

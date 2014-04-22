@@ -117,7 +117,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		$topic_type	= (isset($settings['topic_type'])) ? $settings['topic_type'] : POST_NORMAL;
 		$preview	= (isset($settings['display_preview'])) ? $settings['display_preview'] : '';
 		$date_range	= (isset($settings['date_range'])) ? $settings['date_range'] : '';
-		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : FORUMS_ORDER_LAST_READ;
+		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : FORUMS_ORDER_LAST_POST;
 		$template	= (isset($settings['template'])) ? $settings['template'] : 'titles';
 
 		$preview = (!empty($preview)) ? $preview : (($template == 'context') ? 'first' : '');
@@ -128,7 +128,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
             'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
             'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
-            'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_READ, 'explain' => false),
+            'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
 			'legend2'			=> $this->user->lang['DISPLAY'],
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
@@ -179,7 +179,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			'forum_id'			=> $this->settings['forum_ids'],
 			'topic_type'		=> $this->settings['topic_type'],
 			'sort_key'			=> $sort_order[$this->settings['order_by']],
-			'tracking_info'		=> $enable_tracking,
+			'topic_tracking'	=> $enable_tracking,
 		);
 
 		$this->forum->build_query($options);
