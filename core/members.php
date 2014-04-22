@@ -112,6 +112,7 @@ class members
 			break;
 
 			case 'recent':
+				$l_info = $this->user->lang['JOIN_DATE'];
 			// no break;
 			case 'tenured':
 				$get['date_range'] = '';
