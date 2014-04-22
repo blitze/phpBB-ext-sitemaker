@@ -228,7 +228,7 @@ class manager
 
 		foreach ($blocks as $service => $name)
 		{
-			$lname = strtoupper($name);
+			$lname = strtoupper(str_replace('.', '_', $name));
 			$this->template->assign_block_vars('block', array(
 				'NAME'		=> (isset($this->user->lang[$lname])) ? $this->user->lang[$lname] : $name,
 				'SERVICE'	=> $service)
