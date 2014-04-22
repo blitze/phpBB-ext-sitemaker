@@ -76,7 +76,9 @@ services:
     primetime.forum:
         class: primetime\primetime\core\forum\query
         arguments:
+            - @auth
             - @config
+            - @content.visibility
             - @dbal.conn
             - @user
             - @primetime
