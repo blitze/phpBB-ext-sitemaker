@@ -100,18 +100,16 @@ class primetime
 
 		if ($last_changed != $this->config['primetime_last_changed'])
 		{
+			global $cache;
+
 			define('PRIMETIME_FORUM_CHANGED', true);
-			define('PRIMETIME_CACHE_TIME', false);
 			$this->config->set('primetime_last_changed', $last_changed, true);
+			$cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 		}
 		else
 		{
 			define('PRIMETIME_FORUM_CHANGED', false);
-			define('PRIMETIME_CACHE_TIME', 21600); 		// cache queries for 6 hours unless something changes
 		}
-
-		// let's get all forums this user is not allowed to view
-		$this->user->data['ex_forums'] = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
 
 		$this->template->assign_vars(array(
 			'S_PRIMETIME_ENABLED'		=> $this->config['primetime_enabled'])
