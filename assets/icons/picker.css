@@ -137,8 +137,9 @@
 	border: 2px solid #333;
 }
 
-#icon-customization ul li .icons-color-container .color {
-	display: inline-block;
+#icon-customization ul li .icons-color-container i.color {
+	display: block;
+	font-size: 12px;
 	width: 13px;
 }
 
