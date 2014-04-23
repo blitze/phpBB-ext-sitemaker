@@ -1,6 +1,88 @@
 <!-- INCLUDE overall_header.html -->
 
-Dashboard here
+<h1>{L_PRIMETIME_DASHBOARD}</h1>
 
+<div class="grid grid-pad">
+    <div class="col-1-4">
+        <div class="module blue align-center">
+			<i class="fa fa-users fa-3x pull-left"></i>
+			<p><strong>{TOTAL_USERS}</strong><br />{L_USERS}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module red align-center">
+			<i class="fa fa-tag fa-3x pull-left"></i>
+			<p><strong>{TOTAL_TOPICS}</strong><br />{L_TOPICS}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module green align-center">
+			<i class="fa fa-comments fa-3x pull-left"></i>
+			<p><strong>{TOTAL_POSTS}</strong><br />{L_REPLIES}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module purple align-center">
+			<i class="fa fa-file fa-3x pull-left"></i>
+			<p><strong>{TOTAL_FILES}</strong><br />{L_ATTACHMENTS}</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-pad">
+    <div class="col-1-4">
+        <div class="module align-center">
+			<div class="pull-left"><br /><span class="inlinebar">{CHART_USERS}</span></div>
+			<p><strong>{USERS_PER_DAY}</strong><br />{L_USERS_PER_DAY}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module align-center">
+			<div class="pull-left"><br /><span class="inlinebar">{CHART_TOPICS}</span></div>
+			<p><strong>{TOPICS_PER_DAY}</strong><br />{L_TOPICS_PER_DAY}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module align-center">
+			<div class="pull-left"><br /><span class="inlinebar">{CHART_POSTS}</span></div>
+			<p><strong>{POSTS_PER_DAY}</strong><br />{L_REPLIES_PER_DAY}</p>
+        </div>
+    </div>
+    <div class="col-1-4">
+        <div class="module align-center">
+			<div class="pull-left"><br /><span class="inlinebar">{CHART_FILES}</span></div>
+			<p><strong>{FILES_PER_DAY}</strong><br />{L_FILES_PER_DAY}</p>
+        </div>
+    </div>
+    <div class="col-2-3">
+        <div class="module">
+            <h1>User Engagement</h1>
+			<br />
+			<div class="pull-left" style="margin-right: 10px">
+				<input class="knob" data-thickness=".2" data-width="65" data-height="55" data-fgColor="66CC66" data-angleArc="250" data-angleOffset="-125" data-readOnly="true" value="{PERCENT_CONTRIB}" />
+			</div>
+			<span>Topics</span>
+			<br clear="both" />
+        </div>
+    </div>
+    <div class="col-1-3">
+        <div class="module scollable">
+            <h3>1/4</h3>
+        </div>
+    </div>
+    <div class="col-full">
+        <div class="module">
+            <h3>1/4</h3>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<script>
+	var weekdays = {
+		{UA_WEEKDAYS}
+	};
+</script>
 
 <!-- INCLUDE overall_footer.html -->
