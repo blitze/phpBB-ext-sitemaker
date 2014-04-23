@@ -63,6 +63,10 @@
     width: 100%;
 }
 
+.cms-block-container .header {
+    font-weight: bold;
+}
+
 .cms-block-container .postbody .codebox {
     display: inline-block;
     position: relative;
@@ -185,7 +189,7 @@
 .inner-spacing {padding: 1em;}
 .no-padding {padding: 0 !important;}
 
-.info {
+.cms-block-content .info {
 	float: right;
 }
 
@@ -264,6 +268,12 @@ i.purple {color: #820182;}
 
 /* Lists
 ----------*/
+.cms-block-container ul,
+.cms-block-container ol {
+	width: auto;
+	overflow: hidden;
+}
+
 ul.pt-list {
     margin: 0;
     padding: 0;
