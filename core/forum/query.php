@@ -307,19 +307,4 @@ class query
 	{
 		return (isset($this->topic_post_ids[$first_or_last])) ? $this->topic_post_ids[$first_or_last] : array();
 	}
-	
-	/**
-	 * 
-	 */
-	private function get_cache_time($tables)
-	{
-		$cache_time = 0;
-		if ($options['topic_tracking'] == false)
-		{
-			$cache_time = 3600;
-			$this->primetime->reset_sql_cache($tables);
-		}
-
-		return $cache_time;
-	}
 }
