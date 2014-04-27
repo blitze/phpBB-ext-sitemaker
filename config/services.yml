@@ -103,6 +103,7 @@ services:
     primetime.listener:
         class: primetime\primetime\event\listener
         arguments:
+            - @cache.driver
             - @request
             - @primetime
             - @primetime.blocks.display

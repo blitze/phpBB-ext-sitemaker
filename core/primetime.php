@@ -83,40 +83,6 @@ class primetime
 	}
 
 	/**
-	 * Initialize phpBB Primetime
-	 */
-	public function init()
-	{
-		// we sacrifice one query here to potentially save many
-		$sql = 'SELECT post_edit_time
-			FROM ' . POSTS_TABLE . '
-			WHERE post_visibility = ' . ITEM_APPROVED . '
-			ORDER BY post_edit_time DESC';
-		$result = $this->db->sql_query_limit($sql, 1);
-		$last_edit_time = $this->db->sql_fetchfield('post_edit_time');
-		$this->db->sql_freeresult($result);
-	
-		$last_changed = $last_edit_time . '_' . $this->config['num_posts'];
-
-		if ($last_changed != $this->config['primetime_last_changed'])
-		{
-			global $cache;
-
-			define('PRIMETIME_FORUM_CHANGED', true);
-			$this->config->set('primetime_last_changed', $last_changed, true);
-			$cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
-		}
-		else
-		{
-			define('PRIMETIME_FORUM_CHANGED', false);
-		}
-
-		$this->template->assign_vars(array(
-			'S_PRIMETIME_ENABLED'		=> $this->config['primetime_enabled'])
-		);
-	}
-
-	/**
 	 * include css/javascript
 	 * receives an array of form: array('js' => array('test.js', 'test2.js'), 'css' => array())
 	*/
