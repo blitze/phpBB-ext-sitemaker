@@ -42,7 +42,7 @@ class query
 
 	/**
 	 * Database connection
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -71,11 +71,11 @@ class query
 	 * @param \phpbb\auth\auth						$auth					Auth object
 	 * @param \phpbb\config\db						$config					Config object
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
-	 * @param \phpbb\db\driver\driver				$db     				Database connection
+	 * @param \phpbb\db\driver\factory				$db     				Database connection
 	 * @param \phpbb\user							$user					User object
 	 * @param \primetime\primetime\core\primetime	$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -306,20 +306,5 @@ class query
 	public function get_topic_post_ids($first_or_last = 'first')
 	{
 		return (isset($this->topic_post_ids[$first_or_last])) ? $this->topic_post_ids[$first_or_last] : array();
-	}
-	
-	/**
-	 * 
-	 */
-	private function get_cache_time($tables)
-	{
-		$cache_time = 0;
-		if ($options['topic_tracking'] == false)
-		{
-			$cache_time = 3600;
-			$this->primetime->reset_sql_cache($tables);
-		}
-
-		return $cache_time;
 	}
 }

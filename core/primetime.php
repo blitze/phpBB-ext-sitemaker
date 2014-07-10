@@ -30,7 +30,7 @@ class primetime
 
 	/**
 	 * Database
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -60,14 +60,14 @@ class primetime
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth						$auth			Auth object
-	 * @param \phpbb\db\driver\driver				$db     		Database connection
+	 * @param \phpbb\db\driver\factory				$db     		Database connection
 	 * @param \phpbb\config\db						$config			Config object
 	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\template\template				$template		Template object
 	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\factory $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
@@ -79,40 +79,6 @@ class primetime
 		$this->scripts = array(
 			'js'	=> array(),
 			'css'   => array(),
-		);
-	}
-
-	/**
-	 * Initialize phpBB Primetime
-	 */
-	public function init()
-	{
-		// we sacrifice one query here to potentially save many
-		$sql = 'SELECT post_edit_time
-			FROM ' . POSTS_TABLE . '
-			WHERE post_visibility = ' . ITEM_APPROVED . '
-			ORDER BY post_edit_time DESC';
-		$result = $this->db->sql_query_limit($sql, 1);
-		$last_edit_time = $this->db->sql_fetchfield('post_edit_time');
-		$this->db->sql_freeresult($result);
-	
-		$last_changed = $last_edit_time . '_' . $this->config['num_posts'];
-
-		if ($last_changed != $this->config['primetime_last_changed'])
-		{
-			global $cache;
-
-			define('PRIMETIME_FORUM_CHANGED', true);
-			$this->config->set('primetime_last_changed', $last_changed, true);
-			$cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
-		}
-		else
-		{
-			define('PRIMETIME_FORUM_CHANGED', false);
-		}
-
-		$this->template->assign_vars(array(
-			'S_PRIMETIME_ENABLED'		=> $this->config['primetime_enabled'])
 		);
 	}
 

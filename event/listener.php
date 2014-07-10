@@ -24,6 +24,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class listener implements EventSubscriberInterface
 {
+	/* @var \phpbb\cache\service */
+	protected $cache;
+
 	/* @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -36,12 +39,14 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\cache\service						$cache			Cache object
 	 * @param \phpbb\request\request_interface			$request		Request object
 	 * @param \primetime\primetime\core\primetime		$primetim		Primetime helper object
 	 * @param \primetime\primetime\core\blocks\display	$blocks			Blocks display object
 	*/
-	public function __construct(\phpbb\request\request_interface $request, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\request\request_interface $request, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks)
 	{
+		$this->cache = $cache;
 		$this->request = $request;
 		$this->primetime = $primetime;
 		$this->blocks = $blocks;
@@ -50,11 +55,13 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'		=> 'init',
-			'core.permissions'		=> 'load_permission_language',
-			'core.append_sid'		=> 'add_edit_mode',
-			'core.page_footer'		=> 'show_primetime',
-			'core.adm_page_footer'	=> 'set_assets',
+			'core.user_setup'			=> 'init',
+			'core.permissions'			=> 'load_permission_language',
+			'core.append_sid'			=> 'add_edit_mode',
+			'core.page_footer'			=> 'show_primetime',
+			'core.adm_page_footer'		=> 'set_assets',
+			'core.submit_post_end'		=> 'clear_cached_queries',
+			'core.delete_posts_after'	=> 'clear_cached_queries',
 		);
 	}
 
@@ -65,6 +72,7 @@ class listener implements EventSubscriberInterface
 		define('FORUMS_ORDER_FIRST_POST', 0);
 		define('FORUMS_ORDER_LAST_POST', 1);
 		define('FORUMS_ORDER_LAST_READ', 2);
+		define('JQUI_VERSION', '1.10.1');
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -72,8 +80,6 @@ class listener implements EventSubscriberInterface
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
-
-		$this->primetime->init();
 	}
 
 	public function load_permission_language($event)
@@ -105,6 +111,11 @@ class listener implements EventSubscriberInterface
 			}
 			$event['params'] = $params;
 		}
+	}
+
+	public function clear_cached_queries()
+	{
+		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
 	public function show_primetime()

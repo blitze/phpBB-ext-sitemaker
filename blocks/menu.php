@@ -31,7 +31,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 
 	/**
 	 * Database
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -51,12 +51,12 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache			Cache object
-	 * @param \phpbb\db\driver\driver					$db     		Database connection
+	 * @param \phpbb\db\driver\factory					$db     		Database connection
 	 * @param \phpbb\template\template					$user			User object
 	 * @param \primetime\primetime\core\menu\display	$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

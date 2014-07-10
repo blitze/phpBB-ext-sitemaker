@@ -98,7 +98,7 @@ class manager
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache					Cache object
-	 * @param \phpbb\db\driver\driver					$db						Database object
+	 * @param \phpbb\db\driver\factory					$db						Database object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
@@ -109,7 +109,7 @@ class manager
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\driver $db, 
+	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\factory $db, 
 		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
 		\primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, 
 		\primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
@@ -142,12 +142,12 @@ class manager
 
 		$this->primetime->add_assets(array(
 			'js'		=> array(
-				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/js/t.js',
 				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.js',
 			),
 			'css'   => array(
-				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css',
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
 				$asset_path . 'ext/primetime/primetime/assets/blocks/manager.css',
 			)
 		));
@@ -172,9 +172,30 @@ class manager
 
 		if ($edit_mode !== false)
 		{
-			global $phpbb_container, $symfony_request;
+			global $phpbb_container, $phpbb_dispatcher, $symfony_request;
 
 			$this->user->add_lang_ext('primetime/primetime', 'block_manager');
+
+			$lang_set_ext = array();
+
+			/**
+			 * Event to load block config language files
+			 * 
+			 * @var	array	lang_set_ext		Array containing entries of format
+			 * 					array(
+			 * 						'ext_name' => (string) [extension name],
+			 * 						'lang_set' => (string|array) [language files],
+			 * 					)
+			 * 					This is to be used only to add language files that are used when editing block configuartion
+			 */
+			$vars = array('lang_set_ext');
+			extract($phpbb_dispatcher->trigger_event('primetime.blocks.add_lang', compact($vars)));
+
+			foreach ($lang_set_ext as $ext_lang_pair)
+			{
+				$this->user->add_lang_ext($ext_lang_pair['ext_name'], $ext_lang_pair['lang_set']);
+			}
+			unset($lang_set_ext);
 
 			$controller_service = $symfony_request->attributes->get('_route');
 

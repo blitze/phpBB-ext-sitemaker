@@ -67,27 +67,6 @@ class blocks_admin
 		$this->blocks = $blocks;
 
 		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
-
-		$lang_set_ext = array();
-
-		/**
-		 * Event to load block config language files
-		 * 
-		 * @var	array	lang_set_ext		Array containing entries of format
-		 * 					array(
-		 * 						'ext_name' => (string) [extension name],
-		 * 						'lang_set' => (string|array) [language files],
-		 * 					)
-		 * 					This is to be used only to add language files that are used when editing block configuartion
-		 */
-		$vars = array('lang_set_ext');
-		extract($phpbb_dispatcher->trigger_event('primetime.blocks.add_lang', compact($vars)));
-
-		foreach ($lang_set_ext as $ext_lang_pair)
-		{
-			$this->user->add_lang_ext($ext_lang_pair['ext_name'], $ext_lang_pair['lang_set']);
-		}
-		unset($lang_set_ext);
 	}
 
 	public function handle($action, $id, $block)
