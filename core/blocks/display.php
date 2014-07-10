@@ -105,7 +105,7 @@ class display
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
 	 * @param \phpbb\cache\service						$cache					Cache object
-	 * @param \phpbb\db\driver\driver					$db						Database object
+	 * @param \phpbb\db\driver\factory					$db						Database object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
@@ -115,7 +115,7 @@ class display
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver $db, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, 
 		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
 		\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, 
 		$blocks_table, $blocks_config_table, $block_routes_table)

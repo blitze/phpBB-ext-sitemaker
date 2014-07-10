@@ -29,7 +29,7 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 
 	/**
 	 * Database
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -48,12 +48,12 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth			$auth				Permission object
-	 * @param \phpbb\db\driver\driver	$db					Database connection
+	 * @param \phpbb\db\driver\factory	$db					Database connection
 	 * @param \phpbb\user				$user				User object
 	 * @param string					$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string					$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->db = $db;

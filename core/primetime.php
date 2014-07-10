@@ -30,7 +30,7 @@ class primetime
 
 	/**
 	 * Database
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -60,14 +60,14 @@ class primetime
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth						$auth			Auth object
-	 * @param \phpbb\db\driver\driver				$db     		Database connection
+	 * @param \phpbb\db\driver\factory				$db     		Database connection
 	 * @param \phpbb\config\db						$config			Config object
 	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\template\template				$template		Template object
 	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\factory $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
