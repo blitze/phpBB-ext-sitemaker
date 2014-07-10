@@ -227,8 +227,8 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 				$view				=> true,
 				'S_IS_BOT'			=> $this->user->data['is_bot'],
 				'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
-				'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'))
-										 );
+				'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest')
+			));
 
 			return array(
 				'title'		=> $this->user->lang[$lang_var],

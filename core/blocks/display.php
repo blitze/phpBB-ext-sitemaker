@@ -338,7 +338,7 @@ class display
 			}
 
 			$this->cache->put('pt_blocks_' . $route, $blocks);
-        }
+		}
 
 		return $blocks;
 	}
