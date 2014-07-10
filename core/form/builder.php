@@ -59,9 +59,9 @@ class builder
 	{
 		if (!empty($field_drivers))
 		{
-			foreach ($field_drivers as $driver)
+			foreach ($field_drivers  as $service => $driver)
 			{
-				$this->fields[$driver->get_name()] = $driver;
+				$this->fields[$service] = $driver;
 			}
 		}
 	}

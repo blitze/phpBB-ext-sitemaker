@@ -65,6 +65,7 @@ class listener implements EventSubscriberInterface
 		define('FORUMS_ORDER_FIRST_POST', 0);
 		define('FORUMS_ORDER_LAST_POST', 1);
 		define('FORUMS_ORDER_LAST_READ', 2);
+		define('JQUI_VERSION', '1.10.1');
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(

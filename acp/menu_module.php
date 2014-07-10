@@ -38,7 +38,7 @@ class menu_module
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
             'js'        => array(
-            	'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js',
+            	'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
             	'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
                 $asset_path . 'ext/primetime/primetime/assets/js/jquery.populate.pack.js',
                 $asset_path . 'ext/primetime/primetime/assets/tree/nestedSortable.js',
@@ -46,7 +46,7 @@ class menu_module
                 $asset_path . 'ext/primetime/primetime/assets/menu/admin.js',
             ),
             'css'   => array(
-            	'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css',
+            	'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
                 $asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
                 $asset_path . 'ext/primetime/primetime/assets/menu/admin.css',
             )

@@ -70,17 +70,18 @@ class manager
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-	}
-
-	public function create(&$forum_data)
-	{
-		$this->user->add_lang('acp/forums');
 
 		if (!class_exists('acp_forums'))
 		{
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
 		}
 
+		$this->user->add_lang('acp/forums');
+		$this->forum = new \acp_forums();
+	}
+
+	public function add(&$forum_data)
+	{
 		$forum_data += array(
 			'parent_id'				=> $this->config['primetime_parent_forum_id'],
 			'forum_type'			=> FORUM_POST,
@@ -121,8 +122,7 @@ class manager
 			'forum_password_unset'	=> false,
 		);
 
-		$acp_forum = new \acp_forums();
-		$errors = $acp_forum->update_forum_data($forum_data);
+		$errors = $this->forum->update_forum_data($forum_data);
 
 		if (!sizeof($errors))
 		{
@@ -140,5 +140,10 @@ class manager
 		}
 
 		return $errors;
+	}
+
+	function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
+	{
+		$this->forum->delete_forum($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
 	}
 }
