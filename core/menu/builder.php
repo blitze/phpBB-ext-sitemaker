@@ -10,14 +10,6 @@
 namespace primetime\primetime\core\menu;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Manage nested sets
  * @package phpBB Primetime
  */
@@ -108,7 +100,7 @@ class builder extends \primetime\primetime\core\tree\builder
 
 		return ($id) ? array_pop($data) : $data;
 	}
-	
+
 	public function menu_get_items()
 	{
 		$sql = $this->qet_tree_sql();

@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Login Block
  */
 class login extends \primetime\primetime\core\blocks\driver\block
@@ -27,7 +19,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 
 	/** @var string */
 	protected $phpbb_root_path;
-	
+
 	/** @var string */
 	protected $php_ext;
 

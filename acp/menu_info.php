@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\acp;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-* @package module_install
-*/
 class menu_info
 {
 	function module()
@@ -35,4 +24,3 @@ class menu_info
 		);
 	}
 }
-

@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\acp;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- *
- */
 class dashboard_module
 {
 	var $u_action;
@@ -39,15 +28,15 @@ class dashboard_module
 				$asset_path . 'ext/primetime/primetime/assets/js/jquery.rss.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/js/jquery.sparkline.min.js',
 				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.js',
-           ),
-            'css'   => array(
-            	'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
+			),
+			'css'   => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
 				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
 				$asset_path . 'ext/primetime/primetime/assets/scrollbars/jquery.mCustomScrollbar.css',
 				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.css',
-            )
+			)
 		));
-		
+
 		$time = $user->create_datetime();
 		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 		$wday = $now['wday'];
@@ -107,7 +96,7 @@ class dashboard_module
 		while($row = $db->sql_fetchrow($result))
 		{
 			$day = $user->format_date($row['user_regdate'], 'w', true);
-			$users_count[$day]++; 
+			$users_count[$day]++;
 		}
 		$db->sql_freeresult($result);
 
@@ -135,7 +124,7 @@ class dashboard_module
 		while($row = $db->sql_fetchrow($result))
 		{
 			$day = $user->format_date($row['topic_time'], 'w', true);
-			$topics_count[$day]++; 
+			$topics_count[$day]++;
 		}
 		$db->sql_freeresult($result);
 
@@ -165,7 +154,7 @@ class dashboard_module
 		while($row = $db->sql_fetchrow($result))
 		{
 			$day = $user->format_date($row['post_time'], 'w', true);
-			$posts_count[$day]++; 
+			$posts_count[$day]++;
 		}
 		$db->sql_freeresult($result);
 
@@ -193,7 +182,7 @@ class dashboard_module
 		while($row = $db->sql_fetchrow($result))
 		{
 			$day = $user->format_date($row['post_time'], 'w', true);
-			$file_count[$day]++; 
+			$file_count[$day]++;
 		}
 		$db->sql_freeresult($result);
 

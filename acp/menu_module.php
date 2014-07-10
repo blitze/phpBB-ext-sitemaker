@@ -10,14 +10,6 @@
 namespace primetime\primetime\acp;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * @package acp
 */
 class menu_module
@@ -26,7 +18,7 @@ class menu_module
 
 	function main($id, $mode)
 	{
-        global $phpbb_root_path, $phpEx;
+		global $phpbb_root_path, $phpEx;
 		global $phpbb_container, $request, $template, $user;
 
 		$menu_id = $request->variable('menu_id', 0);
@@ -37,19 +29,19 @@ class menu_module
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
-            'js'        => array(
-            	'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-            	'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-                $asset_path . 'ext/primetime/primetime/assets/js/jquery.populate.pack.js',
-                $asset_path . 'ext/primetime/primetime/assets/tree/nestedSortable.js',
-                $asset_path . 'ext/primetime/primetime/assets/tree/builder.js',
-                $asset_path . 'ext/primetime/primetime/assets/menu/admin.js',
-            ),
-            'css'   => array(
-            	'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
-                $asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
-                $asset_path . 'ext/primetime/primetime/assets/menu/admin.css',
-            )
+			'js'        => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
+				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
+				$asset_path . 'ext/primetime/primetime/assets/js/jquery.populate.pack.js',
+				$asset_path . 'ext/primetime/primetime/assets/tree/nestedSortable.js',
+				$asset_path . 'ext/primetime/primetime/assets/tree/builder.js',
+				$asset_path . 'ext/primetime/primetime/assets/menu/admin.js',
+			),
+			'css'   => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
+				$asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
+				$asset_path . 'ext/primetime/primetime/assets/menu/admin.css',
+			)
 		));
 
 		// Get all menus

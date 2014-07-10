@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\acp;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-* @package module_install
-*/
 class dashboard_info
 {
 	function module()

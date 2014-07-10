@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\blocks;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- *
- */
 class manager
 {
 	/**
@@ -81,13 +70,13 @@ class manager
 	 * @var string
 	 */
 	private $blocks_config_table;
-	
+
 	/**
 	 * Name of the block_routes database table
 	 * @var string
 	 */
 	private $block_routes_table;
-	
+
 	/**
 	 * Default Icon
 	 * @var string
@@ -109,9 +98,9 @@ class manager
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface  $cache, \phpbb\db\driver\factory $db, 
-		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
-		\primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, 
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db,
+		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user,
+		\primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime,
 		\primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->cache = $cache;
@@ -242,7 +231,7 @@ class manager
 			global $phpbb_container;
 
 			$factory = $phpbb_container->get('primetime.blocks.factory');
-			
+
 			$blocks = $factory->get_all_blocks();
 			$this->cache->put('pt_available_blocks', $blocks);
 		}
@@ -293,7 +282,7 @@ class manager
 				$this->block_routes_table	=> 'r',
 			),
 
-			'WHERE'	 => 'b.route_id = r.route_id' . 
+			'WHERE'	 => 'b.route_id = r.route_id' .
 				(($ex_route) ? " AND r.route <> '" . $this->db->sql_escape($ex_route) . "'" : ''),
 
 			'GROUP_BY'  => 'r.route',
@@ -666,7 +655,7 @@ class manager
 		));
 
 		return array_merge(
-			$bdata, 
+			$bdata,
 			array(
 				'icon'		=> ($bdata['icon']) ? $bdata['icon'] : $this->def_icon,
 				'form'		=> $this->template->assign_display('block_settings'),

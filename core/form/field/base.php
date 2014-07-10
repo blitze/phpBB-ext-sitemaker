@@ -92,7 +92,7 @@ abstract class base implements base_interface
 		if (isset($data['validation_filter']) && !filter_var($data['field_value'], $data['validation_filter'], $options))
 		{
 			$length = utf8_strlen($data['field_value']);
-			
+
 			if (isset($data['field_minlength']) && $length < $data['field_minlength'])
 			{
 				return sprintf($user->lang['FIELD_TOO_SHORT'], $data['field_label'], $data['field_minlength']);

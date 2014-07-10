@@ -10,14 +10,6 @@
 namespace primetime\primetime\core\tree;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * Display nested sets
 */
 abstract class display
@@ -28,11 +20,6 @@ abstract class display
 	 */
 	protected $db;
 
-	/**
-	 * Template
-	 * @var phpbb_template
-	 */
-	 
 	protected $items_table;
 	protected $pk;
 	protected $primetime;
@@ -121,7 +108,7 @@ abstract class display
 		$sql = "SELECT n2.*
 			FROM $this->items_table n1
 			LEFT JOIN $this->items_table n2 ON ($condition)
-			WHERE n1.{$this->pk} = " . (int) $node_id . 
+			WHERE n1.{$this->pk} = " . (int) $node_id .
 				(($this->sql_where) ? ' AND n1.' . $this->sql_where : '') . '
 			ORDER BY n2.left_id ' . (($order == 'descending') ? 'ASC' : 'DESC');
 		$result = $this->db->sql_query($sql);
@@ -139,7 +126,7 @@ abstract class display
 
 		return $rows;
 	}
-	
+
 	public function qet_tree_sql($start = 0, $level = false, $sql_array = array())
 	{
 		$sql_query = array(
@@ -203,7 +190,7 @@ abstract class display
 			$template->assign_block_vars('close_' . $handle, array());
 		}
 	}
-	
+
 	public function display_options($data, &$template, $handle = 'option', $selected_ids = array(), $pad_with = '|---')
 	{
 		$right = 0;

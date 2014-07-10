@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Featured Member Block
  */
 class featured_member extends \primetime\primetime\core\blocks\driver\block
@@ -97,7 +89,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'weekly'	=> 'ROTATE_WEEKLY',
 			'monthly'	=> 'ROTATE_MONTHLY',
 		);
-		
+
 		$qtype_ary = array(
 			'random'	=> 'RANDOM_MEMBER',
 			'recent'	=> 'RECENT_MEMBER',

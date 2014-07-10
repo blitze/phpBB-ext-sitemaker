@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\forum;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-*
-*/
 class manager
 {
 	/**

@@ -9,19 +9,8 @@
 
 namespace primetime\primetime\event;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
-*
-*/
 class listener implements EventSubscriberInterface
 {
 	/* @var \phpbb\cache\service */
@@ -32,10 +21,10 @@ class listener implements EventSubscriberInterface
 
 	/* @var \primetime\primetime\core\primetime */
 	protected $primetime;
-	
+
 	/* @var \primetime\primetime\core\blocks\display */
 	protected $blocks;
-	
+
 	/**
 	 * Constructor
 	 *

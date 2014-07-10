@@ -9,21 +9,8 @@
 
 namespace primetime\primetime\controller;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Exception\ParseException;
 
-/**
-*
-*/
 class menu_admin
 {
 	/**
@@ -112,7 +99,7 @@ class menu_admin
 
 				$parent_id = $this->request->variable('parent_id', 0);
 				$bulk_list = $this->request->variable('add_list', '', true);
-	
+
 				$tree = $this->manager->string_to_nestedset($bulk_list, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
 				if (sizeof($tree)) {
 					$this->manager->add_branch($tree, $parent_id);
@@ -187,11 +174,11 @@ class menu_admin
 			case 'rebuild_tree':
 
 				$this->manager->recalc_nestedset();
-				
+
 				// no break here
 
 			case 'get_all_items':
-				
+
 				$return['items'] = $this->manager->menu_get_items();
 
 			break;

@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\blocks;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- *
- */
 class display
 {
 	/**
@@ -81,7 +70,7 @@ class display
 	 * @var string
 	 */
 	private $blocks_config_table;
-	
+
 	/**
 	 * Name of the block_routes database table
 	 * @var string
@@ -115,9 +104,9 @@ class display
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, 
-		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
-		\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, 
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db,
+		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user,
+		\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate,
 		$blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
@@ -126,7 +115,7 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-    	$this->primetime = $primetime;
+		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
@@ -145,9 +134,9 @@ class display
 
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
-            'css'   => array(
-                $asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
-            )
+			'css'   => array(
+				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
+			)
 		));
 
 		$edit_mode = false;
@@ -202,12 +191,12 @@ class display
 					$b = $phpbb_container->get($block_service);
 					$b->set_template($this->ptemplate);
 					$block = $b->display($row, $edit_mode);
-	
+
 					if (empty($block['content']))
 					{
 						continue;
 					}
-	
+
 					$data = array_merge($row, array(
 							'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
 							'CONTENT'	=> $block['content'],
@@ -254,7 +243,7 @@ class display
 	public function get_route_info($route)
 	{
 		if (($routes = $this->cache->get('pt_block_routes')) === false)
-        {
+		{
 			$sql = 'SELECT * FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
 
@@ -265,8 +254,8 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
-            $this->cache->put('pt_block_routes', $routes);
-        }
+			$this->cache->put('pt_block_routes', $routes);
+		}
 
 		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
 	}
@@ -281,8 +270,8 @@ class display
 
 	public function get_blocks($route, $edit_mode)
 	{
-        if (($blocks = $this->cache->get('pt_blocks_' . $route)) === false)
-        {
+		if (($blocks = $this->cache->get('pt_blocks_' . $route)) === false)
+		{
 			global $phpbb_container;
 
 			$sql_array = array(
@@ -294,7 +283,7 @@ class display
 				),
 
 				'WHERE'	 => "b.route_id = r.route_id
-					AND r.route = '" . $this->db->sql_escape($route) . "'" . 
+					AND r.route = '" . $this->db->sql_escape($route) . "'" .
 					((!$edit_mode) ? ' AND b.status = 1' : ''),
 
 				'ORDER_BY'  => 'b.position, b.weight ASC',
@@ -348,12 +337,12 @@ class display
 				}
 			}
 
-            $this->cache->put('pt_blocks_' . $route, $blocks);
+			$this->cache->put('pt_blocks_' . $route, $blocks);
         }
 
 		return $blocks;
 	}
-	
+
 	public function get_blocks_config($bids)
 	{
 		if (!sizeof($bids))
@@ -361,35 +350,35 @@ class display
 			return array();
 		}
 
-        $sql = 'SELECT bid, bvar, bval
+		$sql = 'SELECT bid, bvar, bval
             FROM ' . $this->blocks_config_table . '
             WHERE ' . $this->db->sql_in_set('bid', $bids);
-        $result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-        $data = array();
-        while ($row = $this->db->sql_fetchrow($result))
-        {
-            $data[$row['bid']][$row['bvar']] = $row['bval'];
-        }
-        $this->db->sql_freeresult($result);
-    
-        return $data;
+		$data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$data[$row['bid']][$row['bvar']] = $row['bval'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $data;
 	}
 
 	public function get_users_groups()
 	{
-        $sql = 'SELECT group_id
+		$sql = 'SELECT group_id
             FROM ' . USER_GROUP_TABLE . '
             WHERE user_id = ' . (int) $this->user->data['user_id'];
-        $result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-        $data = array();
-        while ($row = $this->db->sql_fetchrow($result))
-        {
-            $data[$row['group_id']] = $row['group_id'];
-        }
-        $this->db->sql_freeresult($result);
- 
-        return $data;
+		$data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$data[$row['group_id']] = $row['group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $data;
 	}
 }

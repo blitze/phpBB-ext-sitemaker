@@ -9,20 +9,8 @@
 
 namespace primetime\primetime\controller;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-// This is required for all controllers
 use Symfony\Component\HttpFoundation\Response;
 
-/**
-*
-*/
 class blocks_admin
 {
 	/**

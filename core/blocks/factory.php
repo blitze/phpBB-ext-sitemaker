@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\blocks;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- * 
- */
 class factory
 {
 	/**

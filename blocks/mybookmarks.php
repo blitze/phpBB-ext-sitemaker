@@ -53,7 +53,7 @@ class mybookmarks  extends \primetime\primetime\core\blocks\driver\block
 	{
 		return array(
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-       );
+		);
 	}
 
 	public function display($db_data, $edit_mode = false)
@@ -98,8 +98,8 @@ class mybookmarks  extends \primetime\primetime\core\blocks\driver\block
 		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang['NO_BOOKMARKS']);
 
 		return array(
-            'title'     => 'MY_BOOKMARKS',
-            'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/topiclist.html', 'mybookmarks'),
-        );
+			'title'     => 'MY_BOOKMARKS',
+			'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/topiclist.html', 'mybookmarks'),
+		);
 	}
 }

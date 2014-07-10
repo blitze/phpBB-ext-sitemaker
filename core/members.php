@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- *
- */
 class members
 {
 	/**
@@ -84,7 +73,7 @@ class members
 		$append = $list = '';
 		$l_user = $this->user->lang['USERNAME'];
 		$l_info = $this->user->lang['MEMBERS_DATE'];
-	
+
 		$sql_ary = array(
 			'SELECT'		=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
 			'FROM'			=> array(
@@ -101,7 +90,7 @@ class members
 				$sql_between = 'user_lastvisit';
 				$sql_ary['SELECT'] .= ', u.user_lastvisit as member_date';
 				$sql_ary['ORDER_BY'] = 'u.user_lastvisit DESC';
-				
+
 				if ($get['query_type'] == 'bots')
 				{
 					$l_user = $l_info = '';
@@ -169,7 +158,7 @@ class members
 					$num_days = gmdate('t', $start);
 					$stop = $start + (86400 * $num_days) - 1;
 					$date = $this->user->format_date($start, 'Y-m', true);
-				break;	
+				break;
 
 				case 'year':
 					$start = $this->user->create_datetime()
@@ -217,7 +206,7 @@ class members
 	{
 		$u_posts = append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts" . $append);
 		$user_posts = '<a href="' . $u_posts . '">' . $row['user_posts'] . '</a>';
-	
+
 		return array(
 			'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 			'USER_AVATAR'	=> phpbb_get_user_avatar($row),
@@ -233,7 +222,7 @@ class members
 			'USER_INFO'		=> $this->user->format_date($row['member_date'], $this->user->lang['DATE_FORMAT'], true)
 		);
 	}
-	
+
 	protected function member_bots($row)
 	{
 		return array(

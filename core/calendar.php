@@ -9,20 +9,9 @@
 
 namespace primetime\primetime\core;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-*
-*/
 class calendar
 {
- 	protected $show_next = true;
+	protected $show_next = true;
 	protected $show_prev = true;
 	protected $calendar_cp = false;
 	protected $recursive = false;
@@ -41,10 +30,10 @@ class calendar
 	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	 * @param \primetime\primetime\core\ptemplate	$ptemplate		Primetime Template object
 	 */
-    public function __construct(\phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
 	{
-    	$this->user = $user;
-    	$this->primetime = $primetime;
+		$this->user = $user;
+		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
 
 		$this->user->add_lang_ext('primetime/primetime', 'calendar');
@@ -52,38 +41,23 @@ class calendar
 		$this->u_action = build_url($use->page['page'], 'date');
 	}
 
-/*
-$year = 2013;
-$month = 5;
-$day = 20;
-$timestamp = $this->user->create_datetime()
-				->setDate($year, $month, $day)
-				->setTime(0, 0, 0)
-				->getTimestamp();
-echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true);
-*/
-
 	public function getDayHTML($year = false, $month = false, $day = false, $data = array())
 	{
-		
 	}
 
 	public function getWeekHTML($year = false, $month = false, $day = false, $data = array())
 	{
-		
 	}
 
 	public function getMonthHTML($year = false, $month = false, $day = false, $data = array())
 	{
-		
 	}
 
 	public function getYearHTML($year = false, $month = false, $day = false, $data = array())
 	{
-		
 	}
 
-	function build_calendar($mode, $year = false, $month = false, $day = false, $data)
+	function build_calendar($mode, $data, $year = false, $month = false, $day = false)
 	{
 		if ($this->calendar_cp !== true)
 		{
@@ -144,7 +118,7 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 					$this->template->assign_block_vars('cal_day', array(
 						'TIME'	=> date('h:i a', $unix_time))
 					);
-	
+
 					$t = date($d . '/H:i', $unix_time);
 					if (isset($data[$t]))
 					{
@@ -160,24 +134,24 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 
 					$unix_time = strtotime("+30 minutes",  $unix_time);
 				}
-	
+
 				$unix_time = mktime(12, 0, 0, $month, $day, $year);
 				$next_day = date("Y-n-j", $unix_time + 86400);
 				$prev_day = date("Y-n-j", $unix_time - 86400);
-	
+
 				$this->template->assign_vars(array(
 					'DAY'			=> $user->format_date($unix_time, 'l F d, Y'),
 					'U_NEXT_DAY'	=> $u_date . $next_day . $this->append_url,
 					'U_PREV_DAY'	=> $u_date . $prev_day . $this->append_url)
 				);
-	
+
 				if ("$curr_year-$curr_month" == "$year-$month")
 				{
 					if ($curr_day == $day || $curr_day == ($day - 1))
 					{
 						$this->template->assign_var('L_PREV_DAY', $user->lang['datetime']['YESTERDAY']);
 					}
-	
+
 					if ($curr_day == $day || $curr_day == ($day + 1))
 					{
 						$this->template->assign_var('L_NEXT_DAY', $user->lang['datetime']['TOMORROW']);
@@ -190,20 +164,20 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 
 				$unix_start = mktime(12, 0, 0, $month, $day, $year);
 				$date = getdate($unix_start);
-	
+
 				// We need to work out what date to start at so that the first appears in the correct column
 				$offset = $this->calendar_week_start - $date['wday'];
 				while ($offset > 1)
 				{
 					$offset -= 7;
 				}
-	
+
 				$total_days = $offset + 7;
 				for ($i = $offset; $i < $total_days; $i++)
 				{
 					$unix_time = $unix_start + 86400 * $i;
 					$tdate = date('Y-n-j', $unix_time);
-	
+
 					$this->template->assign_block_vars('week_days', array(
 						'DAY'	=> $user->format_date($unix_time, 'M d'),
 						'L_DAY'	=> $user->format_date($unix_time, 'l'),
@@ -236,17 +210,17 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 						}
 					}
 				}
-	
+
 				$to_year = date('Y', $unix_time);
 				$format = ($year != $to_year) ? 'M d, Y' : 'M d';
 				$unix_start += 86400 * $offset;
-	
+
 				$from_day = $user->format_date($unix_start, $format);
 				$to_day = $user->format_date($unix_time, 'M d, Y');
-	
+
 				$next_week = $user->format_date($unix_start + 604799, 'Y-n-j');
 				$last_week = $user->format_date($unix_start - 604799, 'Y-n-j');
-	
+
 				$this->template->assign_vars(array(
 					'WEEK_DAYS'		=> sprintf($user->lang['WEEK_OF'], $from_day, $to_day),
 					'U_NEXT_WEEK'	=> $u_date . $next_week,
@@ -300,7 +274,7 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 				{
 					// this doesn't do anything, just a place holder
 					$this->template->assign_block_vars($handle, array());
-	
+
 					for ($i = 0; $i < 7; $i++)
 					{
 						$tagged = false;
@@ -342,9 +316,9 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 								);
 							}
 						}
-	
+
 						$offset++;
-					}	
+					}
 				}
 
 				$handle = '';
@@ -395,7 +369,7 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 		}
 	}
 
-	function build_calendar_cp($mode, $year = false, $month = false, $day = false, $data)
+	function build_calendar_cp($mode, $data, $year = false, $month = false, $day = false)
 	{
 		global $user;
 
@@ -504,7 +478,7 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 				$unix_data = $this->get_week_range($year, $month, $day);
 				$start_info = getdate($unix_data['start']);
 				$stop_info = getdate($unix_data['end']);
-	
+
 				$start = gmmktime(0, 0, 0, $start_info['mon'], $start_info['mday'], $start_info['year']) - $user->timezone - $user->dst;
 				$stop = $start + 604799;
 			break;
@@ -517,19 +491,19 @@ echo $this->user->format_date($timestamp, $this->user->lang['DATE_FORMAT'], true
 			break;
 
 			case 'month':
-			default: 
+			default:
 				$start = gmmktime(0, 0, 0, $month, 1, $year) - $user->timezone - $user->dst;
 				$num_days = gmdate('t', $start);
 				$stop = $start + (86400 * $num_days) - 1;
-			break;	
+			break;
 		}
 
 		$data['start'] = $start;
 		$data['stop'] = $stop;
-	
+
 		return $data;
 	}
-	
+
 	function get_week_range($year, $month, $day)
 	{
 		global $user;
