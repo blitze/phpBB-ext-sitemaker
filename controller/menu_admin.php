@@ -118,6 +118,8 @@ class menu_admin
 					'item_target'	=> $this->request->variable('item_target', 0),
 					'item_status'	=> $this->request->variable('item_status', 1),
 				);
+
+				$return['item_url'] = ltrim($return['item_url'], './');
 				$return = array_filter($return);
 
 				$this->manager->save_node($item_id, $return);
