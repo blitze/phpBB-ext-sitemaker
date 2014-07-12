@@ -190,13 +190,13 @@ class display
 	{
 		$style_id = 0;
 		if ($this->request->is_set('style'))
-        {
-            $style_id = request_var('style', 0);
-        }
-        else
-        {
-            $style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
-        }
+		{
+			$style_id = request_var('style', 0);
+		}
+		else
+		{
+			$style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
+		}
 
 		return $style_id;
 	}
