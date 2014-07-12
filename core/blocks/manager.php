@@ -9,86 +9,69 @@
 
 namespace primetime\primetime\core\blocks;
 
+use Symfony\Component\DependencyInjection\Container;
+
 class manager
 {
-	/**
-	* Cache
-	* @var \phpbb\cache\service
-	*/
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Database object
-	 * @var \phpbb\db\driver
-	 */
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver */
 	protected $db;
 
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var Container */
+	protected $phpbb_container;
+
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * Template object
-	 * @var \phpbb\template\template
-	 */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Icons
-	 * @var \primetime\primetime\core\icon_picker
-	 */
+	/** @var \primetime\primetime\core\icon_picker */
 	protected $icons;
 
-	/**
-	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
-	 */
+	/** @var \primetime\primetime\core\primetime */
 	protected $primetime;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\block_template
-	 */
+	/** @var \primetime\primetime\core\block_template */
 	protected $ptemplate;
 
-	/**
-	 * Name of the blocks database table
-	 * @var string
-	 */
+	/** @var string */
 	private $blocks_table;
 
-	/**
-	 * Name of the blocks_config database table
-	 * @var string
-	 */
+	/** @var string */
 	private $blocks_config_table;
 
-	/**
-	 * Name of the block_routes database table
-	 * @var string
-	 */
+	/** @var string */
 	private $block_routes_table;
 
-	/**
-	 * Default Icon
-	 * @var string
-	 */
+	/** @var string phpBB root path */
+	protected $root_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
+
+	/** @var string */
 	private $def_icon;
+
+	/** @var string */
+	private $style_id = 0;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\factory					$db						Database object
 	 * @param \phpbb\request\request_interface			$request				Request object
+	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\primetime\core\icon_picker		$icons					Primetime icon picker object
@@ -97,14 +80,14 @@ class manager
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
+	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db,
-		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user,
-		\primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime,
-		\primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\factory $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->db = $db;
+		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -114,20 +97,21 @@ class manager
 		$this->blocks_table = $blocks_table;
 		$this->block_routes_table = $block_routes_table;
 		$this->blocks_config_table = $blocks_config_table;
+		$this->php_ext = $php_ext;
 		$this->def_icon = '';
 	}
 
 	/**
 	 * Handle the admin bar
 	 */
-	public function handle($route)
+	public function handle($route, $style_id)
 	{
-		global $config, $phpEx;
-
 		$edit_mode = $this->request->variable('edit_mode', false);
 
 		$page_url = str_replace('../', '', build_url(array('edit_mode')));
 		$asset_path = $this->primetime->asset_path;
+
+		$this->set_style($style_id);
 
 		$this->primetime->add_assets(array(
 			'js'		=> array(
@@ -142,10 +126,10 @@ class manager
 		));
 
 		$is_default_route = $u_default_route = false;
-		if ($config['primetime_default_layout'])
+		if ($this->config['primetime_default_layout'])
 		{
-			$is_default_route = ($config['primetime_default_layout'] === $route) ? true : false;
-			$u_default_route = append_sid($asset_path . $config['primetime_bconfigdefault_layout']);
+			$is_default_route = ($this->config['primetime_default_layout'] === $route) ? true : false;
+			$u_default_route = append_sid($asset_path . $this->config['primetime_bconfigdefault_layout']);
 		}
 
 		$this->template->assign_vars(array(
@@ -156,13 +140,11 @@ class manager
 			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
 			'U_DISP_MODE'		=> build_url('edit_mode'),
 			'UA_ROUTE'			=> $route,
-			'UA_AJAX_URL'		=> $this->user->page['root_script_path'] . 'app.' . $phpEx)
+			'UA_AJAX_URL'		=> $this->user->page['root_script_path'] . 'app.' . $this->php_ext)
 		);
 
 		if ($edit_mode !== false)
 		{
-			global $phpbb_container, $phpbb_dispatcher, $symfony_request;
-
 			$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 
 			$lang_set_ext = array();
@@ -178,7 +160,7 @@ class manager
 			 * 					This is to be used only to add language files that are used when editing block configuartion
 			 */
 			$vars = array('lang_set_ext');
-			extract($phpbb_dispatcher->trigger_event('primetime.blocks.add_lang', compact($vars)));
+			extract($this->phpbb_container->get('dispatcher')->trigger_event('primetime.blocks.add_lang', compact($vars)));
 
 			foreach ($lang_set_ext as $ext_lang_pair)
 			{
@@ -186,12 +168,12 @@ class manager
 			}
 			unset($lang_set_ext);
 
-			$controller_service = $symfony_request->attributes->get('_route');
+			$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
 
 			$ext_name = '';
-			if ($controller_service)
+			if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
 			{
-				$controller = $phpbb_container->get($controller_service);
+				$controller = $this->phpbb_container->get($controller_service[0]);
 
 				list($namespace, $ext) = explode('\\', get_class($controller));
 				$ext_name = "$namespace/$ext";
@@ -212,6 +194,7 @@ class manager
 			$this->template->assign_vars(array(
 				'ICON_PICKER'		=> $this->icons->picker(),
 				'UA_EXTENSION'		=> $ext_name,
+				'UA_STYLE_ID'		=> $style_id,
 				'S_ROUTE_OPS'		=> $this->get_route_options($route),
 				'S_HIDE_BLOCKS'		=> $hide_blocks,
 				'S_POSITION_OPS'	=> $this->get_position_options($ex_positions))
@@ -226,14 +209,12 @@ class manager
 	 */
 	public function get_available_blocks()
 	{
-		if (($blocks = $this->cache->get('pt_available_blocks')) === false)
+		if (($blocks = $this->cache->get('primetime_available_blocks')) === false)
 		{
-			global $phpbb_container;
-
-			$factory = $phpbb_container->get('primetime.blocks.factory');
+			$factory = $this->phpbb_container->get('primetime.blocks.factory');
 
 			$blocks = $factory->get_all_blocks();
-			$this->cache->put('pt_available_blocks', $blocks);
+			$this->cache->put('primetime_available_blocks', $blocks);
 		}
 
 		foreach ($blocks as $service => $name)
@@ -251,19 +232,21 @@ class manager
 	 */
 	public function get_all_routes()
 	{
-		if (($routes = $this->cache->get('pt_block_routes')) === false)
+		if (($routes = $this->cache->get('primetime_block_routes')) === false)
 		{
-			$sql = 'SELECT * FROM ' . $this->block_routes_table;
+			$sql = 'SELECT *
+				FROM ' . $this->block_routes_table . '
+				WHERE style = ' . $this->style_id;
 			$result = $this->db->sql_query($sql);
 
 			$routes = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$routes[$row['route']] = $row;
+				$routes[$row['style']][$row['route']] = $row;
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('pt_block_routes', $routes);
+			$this->cache->put('primetime_block_routes', $routes);
 		}
 
 		return $routes;
@@ -272,7 +255,7 @@ class manager
 	/**
 	 * Get routes with blocks
 	 */
-	public function get_route_options($ex_route = '')
+	public function get_route_options($ex_route)
 	{
 		$sql_array = array(
 			'SELECT'	=> 'r.route',
@@ -282,7 +265,8 @@ class manager
 				$this->block_routes_table	=> 'r',
 			),
 
-			'WHERE'	 => 'b.route_id = r.route_id' .
+			'WHERE'	 => 'b.route_id = r.route_id
+				AND b.style = ' . $this->style_id .
 				(($ex_route) ? " AND r.route <> '" . $this->db->sql_escape($ex_route) . "'" : ''),
 
 			'GROUP_BY'  => 'r.route',
@@ -310,7 +294,7 @@ class manager
 	{
 		$routes = $this->get_all_routes();
 
-		return (isset($routes[$route])) ? $routes[$route] : array();
+		return (isset($routes[$this->style_id][$route])) ? $routes[$this->style_id][$route] : array();
 	}
 
 	/**
@@ -320,7 +304,7 @@ class manager
 	{
 		$routes = $this->get_all_routes();
 
-		return (isset($routes[$route])) ? $routes[$route]['route_id'] : $this->add_route($route);
+		return (isset($routes[$this->style_id][$route])) ? $routes[$this->style_id][$route]['route_id'] : $this->add_route($route);
 	}
 
 	/**
@@ -333,13 +317,13 @@ class manager
 		$sql_data = array(
 			'ext_name'		=> $ext_name,
 			'route'			=> $route,
-			'style'			=> 0,
+			'style'			=> $this->style_id,
 			'hide_blocks'	=> false,
 			'ex_positions'	=> '',
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 
-		$this->cache->destroy('pt_block_routes');
+		$this->cache->destroy('primetime_block_routes');
 
 		return $this->db->sql_nextid();
 	}
@@ -379,7 +363,7 @@ class manager
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->block_routes_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
-		$this->cache->destroy('pt_block_routes');
+		$this->cache->destroy('primetime_block_routes');
 
 		return array_merge(
 			$sql_data,
@@ -392,9 +376,11 @@ class manager
 	 */
 	public function delete_route($route_id)
 	{
-		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . ' WHERE route_id = ' . (int) $route_id);
+		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . '
+			WHERE route_id = ' . (int) $route_id . '
+				AND style = ' . $this->style_id);
 
-		$this->cache->destroy('pt_block_routes');
+		$this->cache->destroy('primetime_block_routes');
 	}
 
 	/**
@@ -407,6 +393,7 @@ class manager
 			'FROM'		=> array(
 				$this->blocks_table	=> 'b'
 			),
+			'WHERE'		=> 'b.style = ' . $this->style_id
 		);
 		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -427,12 +414,10 @@ class manager
 	 */
 	public function add($service, $route)
 	{
-		global $phpbb_container;
-
 		$position = $this->request->variable('position', '');
 		$weight = $this->request->variable('weight', 0);
 
-		if (!$phpbb_container->has($service))
+		if (!$this->phpbb_container->has($service))
 		{
 			$this->return_data['errors'] = $this->user->lang['BLOCK_NOT_FOUND'];
 			return;
@@ -445,13 +430,14 @@ class manager
 			'weight'		=> $weight,
 			'position'		=> $position,
 			'route_id'		=> $this->get_route_id($route),
+			'style'			=> $this->style_id,
 			'hide_title'	=> false,
 			'no_wrap'		=> false,
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 		$block_data['bid'] = $this->db->sql_nextid();
 
-		$b = $phpbb_container->get($service);
+		$b = $this->phpbb_container->get($service);
 		$bconfig = $b->get_config(array());
 
 		foreach ($bconfig as $key => $settings)
@@ -463,7 +449,7 @@ class manager
 			$block_data['settings'][$key] =& $settings['default'];
 		}
 
-		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('primetime_blocks');
 
 		return array_merge(
 			array('id' => $block_data['bid']),
@@ -476,25 +462,23 @@ class manager
 	 */
 	public function update($bid, $sql_data, $route)
 	{
-		global $phpbb_container;
-
 		if (!$bid)
 		{
 			return array();
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
-		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('primetime_blocks');
 
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
 
-		if (!$phpbb_container->has($bdata['name']))
+		if (!$this->phpbb_container->has($bdata['name']))
 		{
 			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
 		}
 
-		$b = $phpbb_container->get($bdata['name']);
+		$b = $this->phpbb_container->get($bdata['name']);
 		$df_settings = $b->get_config($db_settings);
 
 		foreach ($df_settings as $key => $settings)
@@ -529,16 +513,14 @@ class manager
 	 */
 	public function edit($bid)
 	{
-		global $phpbb_container, $phpbb_root_path, $phpEx;
-
 		if (!function_exists('build_multi_select'))
 		{
-			include($phpbb_root_path . 'ext/primetime/primetime/blocks.' . $phpEx);
+			include($this->root_path . 'ext/primetime/primetime/blocks.' . $this->php_ext);
 		}
 
 		if (!function_exists('build_cfg_template'))
 		{
-			include($phpbb_root_path . 'includes/functions_acp.' . $phpEx);
+			include($this->root_path . 'includes/functions_acp.' . $this->php_ext);
 		}
 
 		if (!$bid)
@@ -556,12 +538,12 @@ class manager
 			'S_BLOCK_CLASS'	=> trim($bdata['class']))
 		);
 
-		if (!$phpbb_container->has($bdata['name']))
+		if (!$this->phpbb_container->has($bdata['name']))
 		{
 			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
 		}
 
-		$b = $phpbb_container->get($bdata['name']);
+		$b = $this->phpbb_container->get($bdata['name']);
 		$default_settings = $b->get_config($db_settings);
 
 		// Output relevant settings
@@ -669,22 +651,20 @@ class manager
 	 */
 	public function save($bid, $route)
 	{
-		global $phpbb_container, $phpbb_root_path, $phpEx;
-
 		if (!function_exists('validate_config_vars'))
 		{
-			include($phpbb_root_path . 'includes/functions_acp.' . $phpEx);
+			include($this->root_path . 'includes/functions_acp.' . $this->php_ext);
 		}
 
 		$bdata = $this->get_block_data($bid);
 		$settings = array();
 
-		if (!$phpbb_container->has($bdata['name']))
+		if (!$this->phpbb_container->has($bdata['name']))
 		{
 			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
 		}
 
-		$b = $phpbb_container->get($bdata['name']);
+		$b = $this->phpbb_container->get($bdata['name']);
 		$df_settings = $b->get_config($settings);
 
 		$class = $this->request->variable('class', '');
@@ -732,7 +712,7 @@ class manager
 			$this->delete_block_config($bid);
 			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 		}
-		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('primetime_blocks');
 
 		if (isset($df_settings['cache_name']))
 		{
@@ -754,6 +734,7 @@ class manager
 		for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
 		{
 			$row = $blocks[$i];
+			$row['style'] = $this->style_id;
 			$blocks_ary[$row['bid']] = $row;
 		}
 
@@ -771,7 +752,7 @@ class manager
 
 		// add blocks
 		$this->db->sql_multi_insert($this->blocks_table, array_values($sql_blocks_ary));
-		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('primetime_blocks');
 
 		return array('message' => $this->user->lang['LAYOUT_SAVED']);
 	}
@@ -781,8 +762,6 @@ class manager
 	 */
 	public function copy($route, $copy_from)
 	{
-		global $phpbb_container;
-
 		if (!$copy_from)
 		{
 			return array('data' => $this->get_blocks($route));
@@ -865,7 +844,7 @@ class manager
 			$bid = $row['bid'];
 			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
 
-			$b = $phpbb_container->get($row['name']);
+			$b = $this->phpbb_container->get($row['name']);
 
 			$df_settings = $b->get_config($db_settings[$bid]);
 
@@ -899,7 +878,7 @@ class manager
 			);
 		}
 
-		$this->cache->destroy('pt_blocks_' . $route);
+		$this->cache->destroy('primetime_blocks');
 
 		return array(
 			'data'		=> $data,
@@ -920,7 +899,8 @@ class manager
 				$this->block_routes_table	=> 'r',
 			),
 
-			'WHERE'	 => "b.route_id = r.route_id
+			'WHERE'	 => 'b.route_id = r.route_id
+				AND b.style = ' . $this->style_id . "
 				AND r.route = '" . $this->db->sql_escape($route) . "'",
 
 			'ORDER_BY'  => 'b.position, b.weight ASC',
@@ -969,6 +949,11 @@ class manager
 		$this->delete_blocks($blocks);
 
 		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . " WHERE ext_name = '" . $this->db->sql_escape($ext_name) . "'");
+	}
+
+	public function set_style($style_id)
+	{
+		$this->style_id = (int) $style_id;
 	}
 
 	private function get_block_data($bid)

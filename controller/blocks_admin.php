@@ -47,8 +47,6 @@ class blocks_admin
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\blocks\manager $blocks)
 	{
-		global $phpbb_dispatcher;
-
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->user = $user;
@@ -59,8 +57,6 @@ class blocks_admin
 
 	public function handle($action, $id, $block)
 	{
-		global $config, $phpbb_dispatcher;
-
 		$return_data = array();
 		$json_data = array(
 			'id'		=> '',
@@ -82,8 +78,16 @@ class blocks_admin
 		}
 
 		$id		= $this->request->variable('id', 0);
+		$style	= $this->request->variable('style', 0);
 		$block	= $this->request->variable('block', '');
 		$route	= $this->request->variable('route', '');
+
+		if (!$style)
+		{
+			return new Response(json_encode($json_data));
+		}
+
+		$this->blocks->set_style($style);
 
 		switch ($action)
 		{
@@ -125,7 +129,7 @@ class blocks_admin
 				$return_data = $this->blocks->set_route_prefs($route, $data);
 			break;
 			case 'set_default':
-				$config->set('primetime_default_layout', $route);
+				$this->config->set('primetime_default_layout', $route);
 			break;
 		}
 

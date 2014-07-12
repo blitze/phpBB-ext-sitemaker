@@ -85,7 +85,7 @@
 			dialogConfirmDelete.dialog({buttons: dButtons}).dialog('open');
 			return false;
 		});
-		
+
 		$('#inline-menu-form').submit(function(e) {
 			e.preventDefault();
 			$(this).children('#inline-menu-edit').trigger('blur');
