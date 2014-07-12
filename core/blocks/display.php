@@ -221,12 +221,12 @@ class display
 	{
 		global $phpbb_container, $symfony_request;
 
-		$controller_service = $symfony_request->attributes->get('_route');
 		$this->route = $this->user->page['page_name'];
+		$controller_service = explode(':', $symfony_request->attributes->get('_controller'));
 
-		if ($controller_service)
+		if (!empty($controller_service[0]) && $phpbb_container->has($controller_service[0]))
 		{
-			$controller = $phpbb_container->get($controller_service);
+			$controller = $phpbb_container->get($controller_service[0]);
 
 			/**
 			 * Let controller optionally specify route
