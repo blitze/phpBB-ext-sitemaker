@@ -269,16 +269,17 @@ class display
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
-			$blocks = $block_pos = array();
+			$blocks = $block_ids = $block_pos = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
+				$block_ids[] = $row['bid'];
 				$block_pos[$row['style']][$row['route']][$row['bid']] = $row['position'];
 				$blocks[$row['style']][$row['route']][$row['position']][$row['bid']] = $row;
 				$blocks[$row['style']][$row['route']][$row['position']][$row['bid']]['settings'] = array();
 			}
 			$this->db->sql_freeresult($result);
 
-			$db_settings = $this->get_blocks_config(array_keys($block_pos[$style_id][$route]));
+			$db_settings = $this->get_blocks_config($block_ids);
 
 			foreach ($block_pos as $style_id => $routes)
 			{
