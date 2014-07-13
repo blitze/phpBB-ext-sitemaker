@@ -97,6 +97,7 @@ class manager
 		$this->blocks_table = $blocks_table;
 		$this->block_routes_table = $block_routes_table;
 		$this->blocks_config_table = $blocks_config_table;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->def_icon = '';
 	}
@@ -108,11 +109,11 @@ class manager
 	{
 		$edit_mode = $this->request->variable('edit_mode', false);
 
-		$page_url = str_replace('../', '', build_url(array('edit_mode')));
-		$asset_path = $this->primetime->asset_path;
+		$page_url = str_replace('../', '', rtrim(build_url(array('edit_mode')), '?'));
 
 		$this->set_style($style_id);
 
+		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
@@ -138,9 +139,9 @@ class manager
 			'S_IS_DEFAULT'		=> $is_default_route,
 			'U_DEFAULT_LAYOUT'	=> $u_default_route,
 			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
-			'U_DISP_MODE'		=> build_url('edit_mode'),
+			'U_DISP_MODE'		=> $page_url,
 			'UA_ROUTE'			=> $route,
-			'UA_AJAX_URL'		=> $this->user->page['root_script_path'] . 'app.' . $this->php_ext)
+			'UA_AJAX_URL'		=> $this->root_path . 'app.' . $this->php_ext)
 		);
 
 		if ($edit_mode !== false)
@@ -151,7 +152,7 @@ class manager
 
 			/**
 			 * Event to load block config language files
-			 * 
+			 *
 			 * @var	array	lang_set_ext		Array containing entries of format
 			 * 					array(
 			 * 						'ext_name' => (string) [extension name],
@@ -1015,6 +1016,8 @@ class manager
 		{
 			$this->delete_block_config($block_ids);
 		}
+
+		$this->cache->destroy('primetime_blocks');
 	}
 
 	private function display($block, $settings)
