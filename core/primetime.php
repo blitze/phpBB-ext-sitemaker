@@ -18,6 +18,12 @@ class primetime
 	protected $auth;
 
 	/**
+	 * Config object
+	 * @var \phpbb\config\db
+	 */
+	protected $config;
+
+	/**
 	 * Database
 	 * @var \phpbb\db\driver\factory
 	 */
@@ -287,25 +293,6 @@ class primetime
 				'U_VIEW_FORUM'	=> $row['url'])
 			);
 		}
-	}
-
-	/**
-	 * Reset cached queries
-	 */
-	function reset_sql_cache($tables = array())
-	{
-		global $cache;
-
-		$reset = false;
-		if (PRIMETIME_FORUM_CHANGED)
-		{
-			$reset = true;
-			if (sizeof($tables))
-			{
-				$cache->destroy('sql', $tables);
-			}
-		}
-		return $reset;
 	}
 
 	/**
