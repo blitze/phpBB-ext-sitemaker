@@ -104,6 +104,7 @@ class listener implements EventSubscriberInterface
 
 	public function clear_cached_queries()
 	{
+		define('PRIMETIME_FORUM_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 

@@ -144,7 +144,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$rotation_str = array('hourly' => 'hour', 'daily' => 'day', 'weekly' => 'week', 'monthly' => 'month');
 
 		$error = false;
-		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || PRIMETIME_FORUM_CHANGED) ? true : false;
+		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || defined('PRIMETIME_FORUM_CHANGED')) ? true : false;
 		$change = ($rotation == 'pageload' || $lastchange < strtotime('-1 ' . $rotation_str[$rotation])) ? true : false;
 
 		if ($change === true || $reload === true)
