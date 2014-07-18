@@ -19,7 +19,7 @@ class menu_info
 			'parent'	=> 'ACP_MOD_MANAGEMENT',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'menu'		=> array('title' => 'MENU', 'auth' => '', 'cat' => array('ACP_MENU')),
+				'menu'		=> array('title' => 'MENU', 'auth' => 'ext_primetime/primetime', 'cat' => array('ACP_MENU')),
 			),
 		);
 	}

@@ -18,7 +18,7 @@ class dashboard_info
 			'title'		=> 'ACP_PRIMETIME_DASHBOARD',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'dashboard'		=> array('title' => 'PRIMETIME_DASHBOARD', 'auth' => '', 'cat' => array('ACP_CAT_CMS')),
+				'dashboard'		=> array('title' => 'PRIMETIME_DASHBOARD', 'auth' => 'ext_primetime/primetime', 'cat' => array('ACP_CAT_CMS')),
 			),
 		);
 	}
