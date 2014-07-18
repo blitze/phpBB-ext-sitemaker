@@ -131,6 +131,6 @@ class builder extends \primetime\primetime\core\tree\builder
 	public function on_tree_change($data)
 	{
 		$row = array_pop($data);
-		$this->cache->destroy('pt_block_data_' . $row['menu_id']);
+		$this->cache->destroy('primetime_menu_data_' . $row['menu_id']);
 	}
 }
