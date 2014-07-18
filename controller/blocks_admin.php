@@ -20,6 +20,12 @@ class blocks_admin
 	protected $auth;
 
 	/**
+	 * Config object
+	 * @var \phpbb\config\db
+	 */
+	protected $config;
+
+	/**
 	 * Request object
 	 * @var \phpbb\request\request_interface
 	 */
@@ -41,13 +47,15 @@ class blocks_admin
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth								$auth		Auth object
+	 * @param \phpbb\config\db								$config		Config object
 	 * @param \phpbb\request\request_interface				$request	Request object
 	 * @param \phpbb\user									$user		User object
 	 * @param \primetime\primetime\core\blocks\manager		$blocks		Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
+		$this->config = $config;
 		$this->request = $request;
 		$this->user = $user;
 		$this->blocks = $blocks;

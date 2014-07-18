@@ -20,6 +20,7 @@ services:
         class: primetime\primetime\controller\blocks_admin
         arguments:
             - @auth
+            - @config
             - @request
             - @user
             - @primetime.blocks.manager
