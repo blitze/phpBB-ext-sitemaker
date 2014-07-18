@@ -58,7 +58,7 @@ class builder
 		{
 			foreach ($field_drivers as $service => $driver)
 			{
-				$this->fields[$service] = $driver;
+				$this->fields[$driver->get_name()] = $driver;
 			}
 		}
 	}
