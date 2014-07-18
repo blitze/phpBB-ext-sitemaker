@@ -191,12 +191,13 @@ abstract class display
 		}
 	}
 
-	public function display_options($data, &$template, $handle = 'option', $selected_ids = array(), $pad_with = '|---')
+	public function display_options($data, &$template, $selected_ids = array(), $handle = 'option', $pad_with = '|---')
 	{
 		$right = 0;
 		$options = $padding = '';
 		$padding_store = array('0' => '');
 
+		$data = array_values($data);
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
 			$row = $data[$i];
