@@ -41,10 +41,17 @@ class checkbox extends choice
 	/**
 	 * @inheritdoc
 	 */
-	public function get_field_value($name, $value)
+	public function get_field_value($name, $default)
 	{
-		$array = is_array($value) ? $value : explode(', ', $value);
-		return $this->request->variable($name, $array, true);
+		$default = is_array($default) ? $default : explode("\n", $default);
+		$value =  $this->request->variable($name, $default, true);
+
+		if (empty($value) && $this->request->server('REQUEST_METHOD') != 'POST')
+		{
+			$value = $default;
+		}
+
+		return $value;
 	}
 
 	/**

@@ -1,1 +1,27 @@
-<?php/**** @package phpBB Primetime [English]* @copyright (c) 2013 Pico88* @license http://opensource.org/licenses/gpl-license.php GNU Public License**//*** DO NOT CHANGE*/if (!defined('IN_PHPBB')){	exit;}if (empty($lang) || !is_array($lang)){	$lang = array();}// Admin Permissions$lang = array_merge($lang, array(	'ACL_CAT_PRIMETIME'		=> 'Primetime',	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',));
+<?php
+/**
+*
+* @package phpBB Primetime [English]
+* @copyright (c) 2013 Pico88
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*
+*/
+
+/**
+* DO NOT CHANGE
+*/
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
+
+if (empty($lang) || !is_array($lang))
+{
+	$lang = array();
+}
+
+// Admin Permissions
+$lang = array_merge($lang, array(
+	'ACL_CAT_PRIMETIME'		=> 'Primetime',
+	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',
+));

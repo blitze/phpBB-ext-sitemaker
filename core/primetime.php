@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
- *
- */
 class primetime
 {
 	/**
@@ -27,6 +16,12 @@ class primetime
 	 * @var \phpbb\auth\auth
 	 */
 	protected $auth;
+
+	/**
+	 * Config object
+	 * @var \phpbb\config\db
+	 */
+	protected $config;
 
 	/**
 	 * Database
@@ -276,7 +271,7 @@ class primetime
 		$tpl_context = $phpbb_container->get('template_context');
 
 		add_form_key($form_name);
-		
+
 		$rootref = $tpl_context->get_root_ref();
 		$s_form_token = $rootref['S_FORM_TOKEN'];
 		$this->ptemplate->assign_var('S_FORM_TOKEN', $s_form_token);
@@ -301,25 +296,6 @@ class primetime
 	}
 
 	/**
-	 * Reset cached queries
-	 */
-	function reset_sql_cache($tables = array())
-	{
-		global $cache;
-
-		$reset = false;
-		if (PRIMETIME_FORUM_CHANGED)
-		{
-			$reset = true;
-			if (sizeof($tables))
-			{
-				$cache->destroy('sql', $tables);
-			}
-		}
-		return $reset;
-	}
-
-	/**
 	 * Merge dbal query arrays
 	 */
 	public function merge_dbal_arrays($sql_ary1, $sql_ary2)
@@ -329,17 +305,17 @@ class primetime
 			$sql_ary1['SELECT'] .= (!empty($sql_ary2['SELECT'])) ? ', ' . $sql_ary2['SELECT'] : '';
 			$sql_ary1['FROM'] += (!empty($sql_ary2['FROM'])) ? $sql_ary2['FROM'] : array();
 			$sql_ary1['WHERE'] .= (!empty($sql_ary2['WHERE'])) ? ' AND ' . $sql_ary2['WHERE'] : '';
-	
+
 			if (!empty($sql_ary2['LEFT_JOIN']))
 			{
 				$sql_ary1['LEFT_JOIN'] = (!empty($sql_ary1['LEFT_JOIN'])) ? array_merge($sql_ary1['LEFT_JOIN'], $sql_ary2['LEFT_JOIN']) : $sql_ary2['LEFT_JOIN'];
 			}
-	
+
 			if (!empty($sql_ary2['GROUP_BY']))
 			{
 				$sql_ary1['GROUP_BY'] = $sql_ary2['GROUP_BY'];
 			}
-	
+
 			if (!empty($sql_ary2['ORDER_BY']))
 			{
 				$sql_ary1['ORDER_BY'] = $sql_ary2['ORDER_BY'];

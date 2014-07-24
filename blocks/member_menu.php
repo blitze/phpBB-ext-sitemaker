@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Featured Member Block
  */
 class member_menu extends \primetime\primetime\core\blocks\driver\block

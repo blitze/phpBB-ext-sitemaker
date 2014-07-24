@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\acp;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-* @package module_install
-*/
 class menu_info
 {
 	function module()
@@ -30,9 +19,8 @@ class menu_info
 			'parent'	=> 'ACP_MOD_MANAGEMENT',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'menu'		=> array('title' => 'MENU', 'auth' => '', 'cat' => array('ACP_MENU')),
+				'menu'		=> array('title' => 'MENU', 'auth' => 'ext_primetime/primetime', 'cat' => array('ACP_MENU')),
 			),
 		);
 	}
 }
-

@@ -9,9 +9,6 @@
 
 namespace primetime\primetime\core\form;
 
-/**
- * 
- */
 class builder
 {
 	/**
@@ -59,9 +56,9 @@ class builder
 	{
 		if (!empty($field_drivers))
 		{
-			foreach ($field_drivers  as $service => $driver)
+			foreach ($field_drivers as $service => $driver)
 			{
-				$this->fields[$service] = $driver;
+				$this->fields[$driver->get_name()] = $driver;
 			}
 		}
 	}
@@ -167,7 +164,7 @@ class builder
 			else
 			{
 				$this->is_valid = false;
-				$this->ptemplate->assign_var('ERRORS', join('<br />', $errors));	
+				$this->ptemplate->assign_var('ERRORS', join('<br />', $errors));
 			}
 		}
 

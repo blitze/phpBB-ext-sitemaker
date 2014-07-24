@@ -10,32 +10,10 @@
 namespace primetime\primetime\core\tree;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * Manage nested sets
 */
 abstract class builder extends \primetime\primetime\core\tree\display
 {
-	/**
-	* Construct
-	*
-	* @param \phpbb\db\driver\factory				$db             Database connection
-	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
-	* @param string									$table			Table name
-	* @param string									$pk				Primary key
-	* @param string									$sql_where		Column restriction
-	*/
-	public function __construct(\phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $table, $pk, $sql_where = '')
-	{
-		parent::__construct($db, $primetime, $table, $pk, $sql_where);
-	}
-
 	/**
 	 * Adds a single node as the child of a given parent node
 	 * 
@@ -162,7 +140,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 						THEN right_id + $diff
 						ELSE right_id
 					END
-				WHERE right_id > $right_id" . 
+				WHERE right_id > $right_id" .
 					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 			$this->db->sql_query($sql);
 		}
@@ -463,7 +441,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 					ELSE {$diff_down}
 				END
 			WHERE left_id BETWEEN {$left_id} AND {$right_id}
-				AND right_id BETWEEN {$left_id} AND {$right_id}" . 
+				AND right_id BETWEEN {$left_id} AND {$right_id}" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
@@ -471,7 +449,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
-	
+
 	/**
 	 * Recalculate Nested Set
 	 * 
@@ -801,7 +779,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 						THEN right_id - 1
 					ELSE right_id
 				END
-			WHERE (left_id > $left_id OR right_id > $right_id)" . 
+			WHERE (left_id > $left_id OR right_id > $right_id)" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 
@@ -839,7 +817,7 @@ abstract class builder extends \primetime\primetime\core\tree\display
 					THEN right_id - ($right_id - $left_id + 1)
 					ELSE right_id 
 				END
-			WHERE (left_id > $left_id OR right_id > $left_id)" . 
+			WHERE (left_id > $left_id OR right_id > $left_id)" .
 				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
 		$this->db->sql_query($sql);
 

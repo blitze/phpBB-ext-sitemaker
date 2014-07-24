@@ -12,10 +12,6 @@ namespace primetime\primetime;
 /**
  * @ignore
  */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
 
 /**
  * Main extension class for phpBB Primetime extension.

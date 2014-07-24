@@ -10,14 +10,6 @@
 namespace primetime\primetime\migrations\v10x;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Initial schema changes needed for Extension installation
  */
 class v100 extends \phpbb\db\migration\migration
@@ -37,9 +29,9 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables'	=> array(
-				$this->table_prefix . 'block_routes'	=> array(
+				$this->table_prefix . 'pt_block_routes' => array(
 					'COLUMNS'		=> array(
-						'route_id'		=> array('UINT', NULL, 'auto_increment'),
+						'route_id'		=> array('UINT', null, 'auto_increment'),
 						'ext_name'		=> array('VCHAR:255', ''),
 						'route'			=> array('XSTEXT_UNI', ''),
 						'style'			=> array('USINT', 0),
@@ -50,9 +42,9 @@ class v100 extends \phpbb\db\migration\migration
 					'PRIMARY_KEY'	=> 'route_id'
 				),
 
-				$this->table_prefix . 'blocks'			=> array(
+				$this->table_prefix . 'pt_blocks' => array(
 					'COLUMNS'		=> array(
-						'bid'			=> array('UINT', NULL, 'auto_increment'),
+						'bid'			=> array('UINT', null, 'auto_increment'),
 						'icon'			=> array('VCHAR:55', ''),
 						'name'			=> array('VCHAR:55', ''),
 						'title'			=> array('XSTEXT_UNI', ''),
@@ -74,7 +66,7 @@ class v100 extends \phpbb\db\migration\migration
 					),
 				),
 
-				$this->table_prefix . 'blocks_config'	=> array(
+				$this->table_prefix . 'pt_blocks_config' => array(
 					'COLUMNS'		=> array(
 						'bid'			=> array('UINT', 0),
 						'bvar'			=> array('VCHAR', ''),
@@ -86,9 +78,9 @@ class v100 extends \phpbb\db\migration\migration
 					),
 				),
 
-				$this->table_prefix . 'menus'	=> array(
+				$this->table_prefix . 'pt_menus' => array(
 					'COLUMNS'        => array(
-						'menu_id'			=> array('UINT', NULL, 'auto_increment'),
+						'menu_id'			=> array('UINT', null, 'auto_increment'),
 						'menu_name'			=> array('VCHAR:55', ''),
 					),
 					'PRIMARY_KEY'	=> 'menu_id',
@@ -98,9 +90,9 @@ class v100 extends \phpbb\db\migration\migration
 					),
 				),
 
-				$this->table_prefix . 'menu_items'	=> array(
+				$this->table_prefix . 'pt_menu_items' => array(
 					'COLUMNS'        => array(
-						'item_id'			=> array('UINT', NULL, 'auto_increment'),
+						'item_id'			=> array('UINT', null, 'auto_increment'),
 						'menu_id'			=> array('UINT', 0),
 						'group_id'			=> array('UINT', 0),
 						'parent_id'			=> array('UINT', 0),
@@ -130,11 +122,11 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'drop_tables'	=> array(
-				$this->table_prefix . 'blocks',
-				$this->table_prefix . 'blocks_config',
-				$this->table_prefix . 'block_routes',
-				$this->table_prefix . 'menus',
-				$this->table_prefix . 'menu_items',
+				$this->table_prefix . 'pt_blocks',
+				$this->table_prefix . 'pt_blocks_config',
+				$this->table_prefix . 'pt_block_routes',
+				$this->table_prefix . 'pt_menus',
+				$this->table_prefix . 'pt_menu_items',
 			),
 		);
 	}
@@ -163,7 +155,7 @@ class v100 extends \phpbb\db\migration\migration
 			// Add Primetime Category
 			array('module.add', array('acp', 'Primetime', 'ACP_CAT_CMS')),
 
-		 	array('module.add', array('acp', 'Primetime', 'ACP_PRIMETIME_EXTENSIONS')),
+			array('module.add', array('acp', 'Primetime', 'ACP_PRIMETIME_EXTENSIONS')),
 
 			// Add the dashboard mode
 			array('module.add', array('acp', 'ACP_CAT_CMS', array(
@@ -203,7 +195,7 @@ class v100 extends \phpbb\db\migration\migration
 
 		if (!class_exists('acp_forums'))
 		{
-		    include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
+			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
 		}
 
 		$forum_data = array(

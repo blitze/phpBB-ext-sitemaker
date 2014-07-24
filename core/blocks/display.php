@@ -9,95 +9,53 @@
 
 namespace primetime\primetime\core\blocks;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
+use Symfony\Component\DependencyInjection\Container;
 
-/**
- *
- */
 class display
 {
-	/**
-	 * Auth object instance
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Database object
-	 * @var \phpbb\db\driver
-	 */
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver */
 	protected $db;
 
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var Container */
+	protected $phpbb_container;
+
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * Template object
-	 * @var \phpbb\template\template
-	 */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
-	 */
+	/** @var \primetime\primetime\core\primetime */
 	protected $primetime;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
-	/**
-	 * Name of the blocks database table
-	 * @var string
-	 */
+	/** @var string */
 	private $blocks_table;
 
-	/**
-	 * Name of the blocks_config database table
-	 * @var string
-	 */
+	/** @var string */
 	private $blocks_config_table;
-	
-	/**
-	 * Name of the block_routes database table
-	 * @var string
-	 */
+
+	/** @var string */
 	private $block_routes_table;
 
-	/**
-	 * Default layout
-	 * @var string
-	 */
+	/** @var string */
 	private $default_route;
 
-	/**
-	 * Current block route
-	 * @var string
-	 */
+	/** @var string */
 	public $route;
 
 	/**
@@ -105,7 +63,9 @@ class display
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
 	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\factory					$db						Database object
+	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
@@ -115,18 +75,17 @@ class display
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, 
-		\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, 
-		\primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, 
-		$blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\factory $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->db = $db;
+		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-    	$this->primetime = $primetime;
+		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
@@ -135,8 +94,6 @@ class display
 
 	public function show()
 	{
-		global $phpbb_container, $config;
-
 		$offlimits = array('ucp.php', 'mcp.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits) || (strpos($this->user->page['page_name'], 'memberlist') !== false && $this->request->is_set('mode')))
 		{
@@ -145,23 +102,24 @@ class display
 
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
-            'css'   => array(
-                $asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
-            )
+			'css'   => array(
+				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
+			)
 		));
 
 		$edit_mode = false;
-		$this->default_route = $config['primetime_default_layout'];
+		$this->default_route = $this->config['primetime_default_layout'];
 		$route = $this->get_route();
+		$style_id = $this->get_style_id();
 
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
-			$manager = $phpbb_container->get('primetime.blocks.manager');
-			$edit_mode = $manager->handle($route);
+			$manager = $this->phpbb_container->get('primetime.blocks.manager');
+			$edit_mode = $manager->handle($route, $style_id);
 		}
 
-		$route_info = $this->get_route_info($route);
-		$blocks = $this->get_blocks($route, $edit_mode);
+		$route_info = $this->get_route_info($route, $style_id);
+		$blocks = $this->get_blocks($route, $style_id, $edit_mode);
 
 		if (empty($route_info))
 		{
@@ -173,7 +131,7 @@ class display
 
 		if (!sizeof($blocks) && !$route_info['hide_blocks'] && $edit_mode === false)
 		{
-			$blocks = $this->get_blocks($this->default_route, false);
+			$blocks = $this->get_blocks($this->default_route, $style_id, false);
 		}
 
 		// remove unwanted positions for this route
@@ -197,17 +155,17 @@ class display
 				$allowed_groups = explode(',', $row['permission']);
 				$block_service = $row['name'];
 
-				if ($phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $user_groups))))
+				if ($this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $user_groups))))
 				{
-					$b = $phpbb_container->get($block_service);
+					$b = $this->phpbb_container->get($block_service);
 					$b->set_template($this->ptemplate);
 					$block = $b->display($row, $edit_mode);
-	
+
 					if (empty($block['content']))
 					{
 						continue;
 					}
-	
+
 					$data = array_merge($row, array(
 							'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
 							'CONTENT'	=> $block['content'],
@@ -228,16 +186,29 @@ class display
 		);
 	}
 
+	public function get_style_id()
+	{
+		$style_id = 0;
+		if ($this->request->is_set('style'))
+		{
+			$style_id = request_var('style', 0);
+		}
+		else
+		{
+			$style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
+		}
+
+		return $style_id;
+	}
+
 	public function get_route()
 	{
-		global $phpbb_container, $symfony_request;
-
-		$controller_service = $symfony_request->attributes->get('_route');
 		$this->route = $this->user->page['page_name'];
+		$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
 
-		if ($controller_service)
+		if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
 		{
-			$controller = $phpbb_container->get($controller_service);
+			$controller = $this->phpbb_container->get($controller_service[0]);
 
 			/**
 			 * Let controller optionally specify route
@@ -251,109 +222,111 @@ class display
 		return $this->route;
 	}
 
-	public function get_route_info($route)
+	public function get_route_info($route, $style_id)
 	{
-		if (($routes = $this->cache->get('pt_block_routes')) === false)
-        {
-			$sql = 'SELECT * FROM ' . $this->block_routes_table;
+		if (($routes = $this->cache->get('primetime_block_routes')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
 
 			$routes = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$routes[$row['route']] = $row;
+				$routes[$row['style']][$row['route']] = $row;
 			}
 			$this->db->sql_freeresult($result);
 
-            $this->cache->put('pt_block_routes', $routes);
-        }
+			$this->cache->put('primetime_block_routes', $routes);
+		}
 
-		return (isset($routes[$route])) ? $routes[$route] : (($this->default_route && isset($routes[$this->default_route])) ? $routes[$this->default_route] : array());
+		return (isset($routes[$style_id][$route])) ? $routes[$style_id][$route] : (($this->default_route && isset($routes[$style_id][$this->default_route])) ? $routes[$style_id][$this->default_route] : array());
 	}
 
 	public function clear_blocks_cache()
 	{
-		if (!empty($this->route))
-		{
-			$this->cache->destroy('pt_blocks_' . $this->route);
-		}
+		$this->cache->destroy('primetime_blocks');
 	}
 
-	public function get_blocks($route, $edit_mode)
+	public function get_blocks($route, $style_id, $edit_mode)
 	{
-        if (($blocks = $this->cache->get('pt_blocks_' . $route)) === false)
-        {
-			global $phpbb_container;
-
+		if (($blocks = $this->cache->get('primetime_blocks')) === false)
+		{
 			$sql_array = array(
-				'SELECT'	=> 'b.*',
+				'SELECT'	=> 'b.*, r.*',
 
 				'FROM'	  => array(
 					$this->blocks_table			=> 'b',
 					$this->block_routes_table	=> 'r',
 				),
 
-				'WHERE'	 => "b.route_id = r.route_id
-					AND r.route = '" . $this->db->sql_escape($route) . "'" . 
+				'WHERE'	 => 'b.route_id = r.route_id' .
 					((!$edit_mode) ? ' AND b.status = 1' : ''),
 
-				'ORDER_BY'  => 'b.position, b.weight ASC',
+				'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
 			);
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
-			$blocks = $block_pos = array();
+			$blocks = $block_ids = $block_pos = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$block_pos[$row['bid']] = $row['position'];
-				$blocks[$row['position']][$row['bid']] = $row;
-				$blocks[$row['position']][$row['bid']]['settings'] = array();
+				$block_ids[] = $row['bid'];
+				$block_pos[$row['style']][$row['route']][$row['bid']] = $row['position'];
+				$blocks[$row['style']][$row['route']][$row['position']][$row['bid']] = $row;
+				$blocks[$row['style']][$row['route']][$row['position']][$row['bid']]['settings'] = array();
 			}
 			$this->db->sql_freeresult($result);
 
-			$db_settings = $this->get_blocks_config(array_keys($block_pos));
+			$db_settings = $this->get_blocks_config($block_ids);
 
-			foreach ($block_pos as $bid => $position)
+			foreach ($block_pos as $style_id => $routes)
 			{
-				$block_service = $blocks[$position][$bid]['name'];
-				$block_config = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
-
-				if ($phpbb_container->has($block_service) === false)
+				foreach($routes as $route => $positions)
 				{
-					continue;
-				}
-
-				$b = $phpbb_container->get($block_service);
-				$df_settings = $b->get_config($block_config);
-
-				if (sizeof($df_settings))
-				{
-					foreach ($df_settings as $key => $settings)
+					foreach ($positions as $bid => $position)
 					{
-						if (!is_array($settings))
+						$block_service = $blocks[$style_id][$route][$position][$bid]['name'];
+						$block_config = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
+
+						if ($this->phpbb_container->has($block_service) === false)
 						{
 							continue;
 						}
 
-						$type = explode(':', $settings['type']);
-						$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
+						$b = $this->phpbb_container->get($block_service);
+						$df_settings = $b->get_config($block_config);
 
-						if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
+						if (sizeof($df_settings))
 						{
-							$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
+							foreach ($df_settings as $key => $settings)
+							{
+								if (!is_array($settings))
+								{
+									continue;
+								}
+
+								$type = explode(':', $settings['type']);
+								$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
+
+								if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
+								{
+									$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
+								}
+								$blocks[$style_id][$route][$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
+							}
 						}
-						$blocks[$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
 					}
 				}
 			}
 
-            $this->cache->put('pt_blocks_' . $route, $blocks);
-        }
+			$this->cache->put('primetime_blocks', $blocks);
+		}
 
-		return $blocks;
+		return isset($blocks[$style_id][$route]) ? $blocks[$style_id][$route] : array();
 	}
-	
+
 	public function get_blocks_config($bids)
 	{
 		if (!sizeof($bids))
@@ -361,35 +334,35 @@ class display
 			return array();
 		}
 
-        $sql = 'SELECT bid, bvar, bval
+		$sql = 'SELECT bid, bvar, bval
             FROM ' . $this->blocks_config_table . '
             WHERE ' . $this->db->sql_in_set('bid', $bids);
-        $result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-        $data = array();
-        while ($row = $this->db->sql_fetchrow($result))
-        {
-            $data[$row['bid']][$row['bvar']] = $row['bval'];
-        }
-        $this->db->sql_freeresult($result);
-    
-        return $data;
+		$data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$data[$row['bid']][$row['bvar']] = $row['bval'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $data;
 	}
 
 	public function get_users_groups()
 	{
-        $sql = 'SELECT group_id
+		$sql = 'SELECT group_id
             FROM ' . USER_GROUP_TABLE . '
             WHERE user_id = ' . (int) $this->user->data['user_id'];
-        $result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-        $data = array();
-        while ($row = $this->db->sql_fetchrow($result))
-        {
-            $data[$row['group_id']] = $row['group_id'];
-        }
-        $this->db->sql_freeresult($result);
- 
-        return $data;
+		$data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$data[$row['group_id']] = $row['group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $data;
 	}
 }

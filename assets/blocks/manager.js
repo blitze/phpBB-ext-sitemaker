@@ -198,7 +198,7 @@
 
 	var undoEditable = function(v) {
 		var element = inlineForm.parent();
-		
+
 		editing = false;
 		editorVal = '';
 		element.addClass('block-title').text(v);
@@ -241,7 +241,7 @@
 		blockData.no_wrap = (blockData.no_wrap > 0) ? true : false;
 		blockObj.html(template.render(blockData));
 	};
-	
+
 	var initIconPicker = function() {
 		$('.block-icon').iconPicker({
 			onSelect: function(item, iconHtml, iconClass) {
@@ -318,14 +318,14 @@
 					} else {
 						saveBtn.button('enable');
 					}
-	
+
 					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.block');
 					$(ui.item).removeClass('unit size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().removeClass('empty-position');
 
 					if (items.length > 0) {
 						sortHorizontal(items);
 					}
-	
+
 					if (origin.attr('id') != $(ui.item).parent('.horizontal').attr('id')) {
 						sortHorizontal(origin.find('.block'));
 					}
@@ -358,7 +358,7 @@
 				saveLayout();
 				return false;
 			});
-			
+
 			$('.has_dropdown').click(function() {
 				$(this).parent().find('.has_dropdown').not($(this)).removeClass('dropped');
 				blocksPanel = $(this).toggleClass('dropped');
@@ -383,6 +383,11 @@
 				$('#loading').fadeIn();
 			}).ajaxStop(function(){
 				$('#loading').fadeOut('slow');
+			});
+
+			// add style id to ajax requests
+			$(document).ajaxSend(function(event, xhr, settings) {
+				settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + style;
 			});
 
 			eButtons[lang.edit] = function() {
@@ -497,7 +502,7 @@
 					return lang.leaveConfirm;
 				}
 			};
-			
+
 			var blockTabs = $('#add-block-panel').tabs().parent();
 
 			// fix the classes

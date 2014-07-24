@@ -10,14 +10,6 @@
 namespace primetime\primetime\core\blocks\driver;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Base class for block drivers
  * @package primetime
  */

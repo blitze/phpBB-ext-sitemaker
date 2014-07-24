@@ -55,7 +55,7 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 			'legend1'		=> $this->user->lang['SETTINGS'],
 			'topics_only'	=> array('lang' => 'TOPICS_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-       );
+		);
 	}
 
 	public function display($db_data, $edit_mode = false)
@@ -110,8 +110,8 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 		$this->ptemplate->assign_var('NO_RECORDS', ($topics_only) ? $this->user->lang['NO_NEW_TOPICS'] : $this->user->lang['NO_NEW_POSTS']);
 
 		return array(
-            'title'     => 'WHATS_NEW',
-            'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/topiclist.html', 'whats_new'),
-        );
+			'title'     => 'WHATS_NEW',
+			'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/topiclist.html', 'whats_new'),
+		);
 	}
 }

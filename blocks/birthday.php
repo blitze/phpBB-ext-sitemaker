@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Birthday Block
  */
 class birthday extends \primetime\primetime\core\blocks\driver\block

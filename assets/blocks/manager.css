@@ -58,12 +58,12 @@
 	text-shadow: 0 1px 0 #000;
 }
 
-#admin-bar .hmenu li .button,
+#admin-bar .hmenu li .btn,
 #admin-bar .hmenu li .menu_item {
 	font: bold 1.2em Arial, Helvetica;
 }
 
-#admin-bar .hmenu li .button {
+#admin-bar .hmenu li .btn {
 	margin: 5px 0 5px 5px;
 }
 

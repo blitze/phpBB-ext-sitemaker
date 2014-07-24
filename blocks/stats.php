@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * Stats Block
 */
 class stats extends \primetime\primetime\core\blocks\driver\block
@@ -56,7 +48,7 @@ class stats extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'title'		=> 'STATISTICS',
-			'content'	=> $content, 
+			'content'	=> $content,
 		);
 	}
 }

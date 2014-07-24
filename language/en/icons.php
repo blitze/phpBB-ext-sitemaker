@@ -33,11 +33,11 @@ $lang = array_merge($lang, array(
 
 	'ICON_BRAND'			=> 'Brand',
 	'ICON_CURRENCY'			=> 'Currency',
-    'ICON_DIRECTIONAL'		=> 'Directional',
-    'ICON_FORM_CONTROL'		=> 'Form Control',
-    'ICON_MEDICAL'			=> 'Medical',
-    'ICON_SOCIAL'			=> 'Social',
+	'ICON_DIRECTIONAL'		=> 'Directional',
+	'ICON_FORM_CONTROL'		=> 'Form Control',
+	'ICON_MEDICAL'			=> 'Medical',
+	'ICON_SOCIAL'			=> 'Social',
 	'ICON_TEXT_EDITOR'		=> 'Text Editor',
-    'ICON_VIDEO_PLAYER'		=> 'Video Player',
+	'ICON_VIDEO_PLAYER'		=> 'Video Player',
 	'ICON_WEB_APPLICATION'	=> 'Web Application',
 ));

@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\forum;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-*
-*/
 class query
 {
 	/**
@@ -237,7 +226,7 @@ class query
 
 		if (empty($this->sql_array))
 		{
-			$this->build_query(array(), $sql_array); 
+			$this->build_query(array(), $sql_array);
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);

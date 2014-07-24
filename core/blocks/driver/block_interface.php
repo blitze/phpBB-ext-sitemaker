@@ -9,17 +9,6 @@
 
 namespace primetime\primetime\core\blocks\driver;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-*
-*/
 interface block_interface
 {
 	/**

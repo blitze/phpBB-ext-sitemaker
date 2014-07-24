@@ -10,14 +10,6 @@
 namespace primetime\primetime\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Login Block
  */
 class members extends \primetime\primetime\core\blocks\driver\block
@@ -48,8 +40,8 @@ class members extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'legend1'		=> $this->user->lang['SETTINGS'],
-            'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->query_type_options, $query_type), 'default' => 'recent', 'explain' => false),
-            'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->range_options, $date_range), 'default' => 'month', 'explain' => false),
+			'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->query_type_options, $query_type), 'default' => 'recent', 'explain' => false),
+			'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->range_options, $date_range), 'default' => 'month', 'explain' => false),
 			'max_members'	=> array('lang' => 'MAX_MEMBERS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
 	}

@@ -10,14 +10,6 @@
 namespace primetime\primetime\core;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
  * Primetime icons - Font-awesome
  */
 class icon_picker
@@ -47,10 +39,10 @@ class icon_picker
 	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	 * @param \primetime\primetime\core\ptemplate	$ptemplate		Primetime Template object
 	 */
-    function __construct(\phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
+	function __construct(\phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
 	{
-    	$this->user = $user;
-    	$this->primetime = $primetime;
+		$this->user = $user;
+		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
 	}
 
@@ -59,17 +51,17 @@ class icon_picker
 	 */
 	public function picker()
 	{
-        $this->user->add_lang_ext('primetime/primetime', 'icons');
+		$this->user->add_lang_ext('primetime/primetime', 'icons');
 
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
-            'js'        => array(
-                $asset_path . 'ext/primetime/primetime/assets/icons/picker.js',
-            ),
-            'css'   => array(
-                $asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
-                $asset_path . 'ext/primetime/primetime/assets/icons/picker.css',
-            )
+			'js'        => array(
+				$asset_path . 'ext/primetime/primetime/assets/icons/picker.js',
+			),
+			'css'   => array(
+				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/primetime/assets/icons/picker.css',
+			)
 		));
 
 		$this->ptemplate->set_style(array("ext/primetime/primetime/styles"));
