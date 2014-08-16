@@ -191,11 +191,12 @@ abstract class display
 		}
 	}
 
-	public function display_options($data, &$template, $selected_ids = array(), $handle = 'option', $pad_with = '|---')
+	public function display_options($data, $title_column, &$template, $selected_ids = array(), $handle = 'option', $pad_with = '|---')
 	{
 		$right = 0;
 		$options = $padding = '';
 		$padding_store = array('0' => '');
+		$return = array();
 
 		$data = array_values($data);
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
@@ -218,9 +219,11 @@ abstract class display
 				'S_PADDING'		=> $padding,
 				'S_SELECTED'	=> (in_array($row[$this->pk], $selected_ids)) ? true : false,
 			);
+			$return[$row[$this->pk]] = $padding . $row[$title_column];
 
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
 		}
+		return $return;
 	}
 
 	public function set_sql_condition($where)
