@@ -8,12 +8,13 @@
 	"license": "GPL-2.0",
 	"authors": [{
 			"name": "Daniel A.",
-			"username": "Blitze",
 			"email": "shizzah@hotmail.com",
 			"homepage": "https://github.com/blitze",
 			"role": "Lead Developer"
 		}],
 	"require": {
+		"cocur/slugify" : "@stable",
+		"urodoz/truncate-html" : "@stable",
 		"php": ">=5.3"
 	},
 	"extra": {
