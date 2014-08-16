@@ -18,6 +18,9 @@
 		"composer/installers": "~1.0",
 		"php": ">=5.3"
 	},
+	"require-dev": {
+		"phpbb/epv": "dev-master"
+	},
 	"extra": {
 		"display-name": "phpBB Primetime",
 		"soft-require": {
