@@ -173,7 +173,7 @@ class dashboard_module
 		$files_per_day	= sprintf('%.2f', $total_files / $boarddays);
 		$files_per_day	= ($files_per_day > $total_files) ? $total_files : $files_per_day;
 
-		$sql = 'SELECT filetime 
+		$sql = 'SELECT filetime
 			FROM ' . ATTACHMENTS_TABLE  . '
 			WHERE is_orphan = 0
 				AND filetime > ' . $lookback;
@@ -181,7 +181,7 @@ class dashboard_module
 
 		while($row = $db->sql_fetchrow($result))
 		{
-			$day = $user->format_date($row['post_time'], 'w', true);
+			$day = $user->format_date($row['filetime'], 'w', true);
 			$file_count[$day]++;
 		}
 		$db->sql_freeresult($result);
