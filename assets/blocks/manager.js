@@ -66,7 +66,7 @@
 			.addClass('block')
 			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="fa fa-spinner fa-lg fa-spin"></i> ' + lang.ajaxLoading + '</div>');
 
-		$.getJSON(ajaxUrl + '/blocks/add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
+		$.getJSON(ajaxUrl + 'add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
 			updated = false;
 			if (data.id === null) {
 				$(droppedElement).remove();
@@ -80,7 +80,7 @@
 	};
 
 	var getEditForm = function(block) {
-		$.getJSON(ajaxUrl + '/blocks/edit', {id: block.attr('id').substring(6)}, function(resp) {
+		$.getJSON(ajaxUrl + 'edit', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
@@ -92,7 +92,7 @@
 
 	var saveForm = function(block) {
 		var form = $('#edit_form');
-		$.getJSON(ajaxUrl + '/blocks/save?route=' + route + '&id=' + block.attr('id').substring(6) + '&' + form.serialize(), function(resp) {
+		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&' + form.serialize(), function(resp) {
 			if (resp.errors) {
 				showMessage(resp.errors);
 				return;
@@ -108,7 +108,7 @@
 			showMessage('Missing block id');
 			return false;
 		}
-		$.post(ajaxUrl + '/blocks/update' + '?route=' + route, data,
+		$.post(ajaxUrl + 'update' + '?route=' + route, data,
 			function(resp){
 				if (resp.error) {
 					showMessage(resp.error);
@@ -123,11 +123,11 @@
 	};
 
 	var setDefaultLayout = function(set) {
-		$.post(ajaxUrl + '/blocks/set_default' + '?route=' + ((set === true) ? route : ''));
+		$.post(ajaxUrl + 'set_default' + '?route=' + ((set === true) ? route : ''));
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(ajaxUrl + '/blocks/settings' + '?route=' + route + '&ext=' + ext, form.serialize(),
+		$.post(ajaxUrl + 'settings' + '?route=' + route + '&ext=' + ext, form.serialize(),
 			function(resp){
 				console.log(resp);
 			},
@@ -137,7 +137,7 @@
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(ajaxUrl + '/blocks/copy', {copy: copyFrom, route: route, ext: ext}, function(resp) {
+		$.getJSON(ajaxUrl + 'copy', {copy: copyFrom, route: route, ext: ext}, function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -180,7 +180,7 @@
 			});
 		});
 
-		$.post(ajaxUrl + '/blocks/save_layout', {route: route, blocks: blocks}, function(resp) {
+		$.post(ajaxUrl + 'save_layout', {route: route, blocks: blocks}, function(resp) {
 			saveBtn.button('disable');
 			updated = false;
 		});

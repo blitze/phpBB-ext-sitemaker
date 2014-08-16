@@ -109,7 +109,8 @@ class manager
 	{
 		$edit_mode = $this->request->variable('edit_mode', false);
 
-		$page_url = str_replace('../', '', rtrim(build_url(array('edit_mode')), '?'));
+		$board_url = generate_board_url();
+		$page_url = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
 
 		$this->set_style($style_id);
 
@@ -133,6 +134,8 @@ class manager
 			$u_default_route = append_sid($asset_path . $this->config['primetime_bconfigdefault_layout']);
 		}
 
+		$app_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '') . '/blocks/';
+
 		$this->template->assign_vars(array(
 			'S_ADMIN_BLOCKS'	=> true,
 			'S_EDIT_MODE'		=> $edit_mode,
@@ -141,7 +144,7 @@ class manager
 			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
 			'U_DISP_MODE'		=> $page_url,
 			'UA_ROUTE'			=> $route,
-			'UA_AJAX_URL'		=> $this->root_path . 'app.' . $this->php_ext)
+			'UA_AJAX_URL'		=> $app_url)
 		);
 
 		if ($edit_mode !== false)
