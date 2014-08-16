@@ -203,7 +203,8 @@ class display
 
 	public function get_route()
 	{
-		$this->route = $this->user->page['page_name'];
+		// let's stay consistent, whether mod rewrite is being used or not
+		$this->route = ltrim($this->user->page['page_name'], 'app.php');
 		$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
 
 		if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
