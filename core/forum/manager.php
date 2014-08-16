@@ -69,7 +69,7 @@ class manager
 		$this->forum = new \acp_forums();
 	}
 
-	public function add(&$forum_data)
+	public function add(&$forum_data, $forum_perm_from = 0)
 	{
 		$forum_data += array(
 			'parent_id'				=> $this->config['primetime_parent_forum_id'],
@@ -115,10 +115,8 @@ class manager
 
 		if (!sizeof($errors))
 		{
-			$forum_perm_from = $this->config['primetime_forum_perm_from'];
-
 			// Copy permissions?
-			if (!empty($forum_perm_from) && $forum_perm_from != $forum_data['forum_id'])
+			if ($forum_perm_from && $forum_perm_from != $forum_data['forum_id'])
 			{
 				copy_forum_permissions($forum_perm_from, $forum_data['forum_id'], false, false);
 				cache_moderators();
