@@ -51,6 +51,7 @@ class query
 	protected $sql_array		= array();
 	protected $topic_tracking	= array();
 	protected $topic_data		= array();
+	protected $poster_ids		= array();
 	protected $topic_post_ids	= array('first' => array(), 'last' => array());
 	protected $cache_time		= 10800; // caching for 3 hours
 
@@ -217,7 +218,7 @@ class query
 	/**
 	 * 
 	 */
-	public function get_topic_data($limit, $start = 0, $sql_array = array())
+	public function get_topic_data($limit = false, $start = 0, $sql_array = array())
 	{
 		if (sizeof($sql_array))
 		{
@@ -248,7 +249,7 @@ class query
 	/**
 	 * 
 	 */
-	public function get_post_data($limit = false, $start = 0, $pagination = false, $post_ids = array())
+	public function get_post_data($post_ids = array(), $limit = false, $start = 0, $pagination = false)
 	{
 		$sql_where = array();
 		if (sizeof($this->topic_data))
@@ -268,6 +269,10 @@ class query
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
+			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+
+			$this->poster_ids[] = $row['poster_id'];
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
 		}
 		$this->db->sql_freeresult($result);
@@ -278,15 +283,52 @@ class query
 	/**
 	 * 
 	 */
-	public function get_topic_tracking_info()
+	public function get_topic_tracking_info($forum_id = 0)
 	{
-		$topic_tracking_info = array();
-		foreach ($this->topic_tracking as $forum_id => $forum)
+		$tracking_info = array();
+		if ($this->config['load_db_lastread'] && $this->user->data['is_registered'])
 		{
-			$topic_tracking_info[$forum_id] = get_topic_tracking($forum_id, $forum['topic_list'], $this->topic_data, array($forum_id => $forum['mark_time']));
+			foreach ($this->topic_tracking as $fid => $forum)
+			{
+				$tracking_info[$fid] = get_topic_tracking($fid, $forum['topic_list'], $this->topic_data, array($fid => $forum['mark_time']));
+			}
+		}
+		else if ($this->config['load_anon_lastread'] || $this->user->data['is_registered'])
+		{
+			foreach ($this->topic_tracking as $fid => $forum)
+			{
+				$tracking_info[$fid] = get_complete_topic_tracking($fid, $forum['topic_list']);
+			}
 		}
 
-		return $topic_tracking_info;
+		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
+	}
+
+	/**
+	 * Returns an array of topic first post or last post ids
+	 */
+	public function get_posters_info()
+	{
+		$this->poster_ids = array_filter(array_unique($this->poster_ids));
+
+		if (!sizeof($this->poster_ids))
+		{
+			return array();
+		}
+
+		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_rank
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_id', $this->poster_ids);
+		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
+
+		$users_info = array();
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$users_info[$row['user_id']] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return $users_info;
 	}
 
 	/**
