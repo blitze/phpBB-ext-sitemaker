@@ -43,7 +43,10 @@ class submit extends base
 	 */
 	public function get_default_props()
 	{
-		return array();
+		return array(
+			'validate_form'		=> true,
+			'requires_item_id'	=> true,
+		);
 	}
 
 	/**

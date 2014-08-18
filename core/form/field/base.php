@@ -9,22 +9,12 @@
 
 namespace primetime\primetime\core\form\field;
 
-/**
- * Base class for content fields
- * @package primetime
- */
-abstract class base implements base_interface
+abstract class base implements field_interface
 {
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
-	/**
-	 * Block name
-	 * @var string
-	 */
+	/** @var string */
 	protected $name;
 
 	/**
@@ -40,15 +30,15 @@ abstract class base implements base_interface
 	/**
 	 * @inheritdoc
 	 */
-	public function display_field($value)
+	public function display_field($field_value, $fields_data = array(), $view = 'detail', $item_id = 0)
 	{
-		return $value;
+		return $field_value;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function render_view($name, &$data)
+	public function render_view($name, &$data, $item_id = 0)
 	{
 		$data += $this->get_default_props();
 
@@ -65,9 +55,9 @@ abstract class base implements base_interface
 	/**
 	 * @inheritdoc
 	 */
-	public function save_field($field, $value)
+	public function save_field($field, $value, $item_id = 0)
 	{
-		return '[field=' . $field . ']' . $value . '[/field]';
+		return false;
 	}
 
 	/**
@@ -106,5 +96,13 @@ abstract class base implements base_interface
 				return sprintf($user->lang['FIELD_INVALID'], $data['field_label']);
 			}
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function get_langname()
+	{
+		return strtoupper('FORM_FIELD_' . $this->get_name());
 	}
 }

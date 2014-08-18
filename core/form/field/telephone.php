@@ -41,7 +41,7 @@ class telephone extends base
 	/**
 	 * @inheritdoc
 	 */
-	public function display_field($value)
+	public function display_field($value, $data = array(), $view = 'detail', $item_id = 0)
 	{
 		return '<a href="tel:' . $value . '">' . preg_replace("/^1?(\d{3})(\d{3})(\d{4})$/", "$1-$2-$3", $value) . '</a>';
 	}
@@ -65,6 +65,7 @@ class telephone extends base
 			'field_minlen'		=> 0,
 			'field_maxlen'		=> 200,
 			'field_value'		=> '',
+			'requires_item_id'	=> false,
 		);
 	}
 

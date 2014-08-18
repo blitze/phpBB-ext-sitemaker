@@ -54,6 +54,7 @@ class datetime extends base
 		return array(
 			'field_minlen'		=> '',
 			'field_maxlen'		=> '',
+			'requires_item_id'	=> false,
 		);
 	}
 

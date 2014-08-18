@@ -9,9 +9,6 @@
 
 namespace primetime\primetime\core\form\field;
 
-/**
- * 
- */
 abstract class choice extends base
 {
 	/**
@@ -24,13 +21,15 @@ abstract class choice extends base
 			'field_minlen'		=> 0,
 			'field_maxlen'		=> 200,
 			'field_options'		=> array(),
+			'field_multi'		=> false,
+			'requires_item_id'	=> false,
 		);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function render_view($name, &$data)
+	public function render_view($name, &$data, $item_id = 0)
 	{
 		$data += $this->get_default_props();
 		$field = $this->get_name();
@@ -38,7 +37,7 @@ abstract class choice extends base
 		$selected = (is_array($selected)) ? $selected : array($selected);
 
 		$data['field_name'] = $name;
-		$data['field_value'] = join(', ', $selected);
+		$data['field_value'] = join("\n", $selected);
 		$data['field_required']	= ($data['field_required']) ? ' required' : '';
 		$data['field_size'] = (sizeof($data['field_options']) < $data['field_size']) ? sizeof($data['field_options']) : $data['field_size'];
 

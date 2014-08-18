@@ -9,22 +9,18 @@
 
 namespace primetime\primetime\core\form\field;
 
-/**
- * 
- */
+use Urodoz\Truncate\TruncateService;
+
 class textarea extends base
 {
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
+
+	/** @var Urodoz\Truncate\TruncateService */
+	protected $truncate;
 
 	/**
 	 * Constructor
@@ -36,6 +32,7 @@ class textarea extends base
 	{
 		$this->request = $request;
 		$this->ptemplate = $ptemplate;
+		$this->truncate = new TruncateService();
 	}
 
 	/**
@@ -49,6 +46,19 @@ class textarea extends base
 	/**
 	 * @inheritdoc
 	 */
+	public function display_field($value, $data = array(), $view = 'detail', $item_id = 0)
+	{
+		if ($view == 'summary' && $data['max_chars'])
+		{
+			$value = $this->truncate->truncate($value, $data['max_chars']);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function get_default_props()
 	{
 		return array(
@@ -56,6 +66,8 @@ class textarea extends base
 			'field_maxlen'		=> 20,
 			'field_rows'		=> 5,
 			'field_cols'		=> 25,
+			'max_chars'			=> 0,
+			'requires_item_id'	=> false,
 		);
 	}
 

@@ -70,14 +70,6 @@ services:
         tags:
             - { name: form.field }
 
-    form.field.multiple:
-        class: primetime\primetime\core\form\field\multiple
-        arguments:
-            - @request
-            - @primetime.template
-        tags:
-            - { name: form.field }
-
     form.field.number:
         class: primetime\primetime\core\form\field\number
         arguments:

@@ -33,7 +33,7 @@ class hidden extends base
 	/**
 	 * @inheritdoc
 	 */
-	public function display_field($value)
+	public function display_field($value, $data = array(), $view = 'detail', $item_id = 0)
 	{
 		return '';
 	}
@@ -51,7 +51,9 @@ class hidden extends base
 	 */
 	public function get_default_props()
 	{
-		return array();
+		return array(
+			'requires_item_id'	=> false
+		);
 	}
 
 	/**

@@ -49,7 +49,7 @@ class url extends base
 	/**
 	 * @inheritdoc
 	 */
-	public function display_field($value)
+	public function display_field($value, $data = array(), $view = 'detail', $item_id = 0)
 	{
 		return make_clickable($value);
 	}
@@ -64,6 +64,7 @@ class url extends base
 			'field_minlen'		=> 0,
 			'field_maxlen'		=> 200,
 			'validation_filter'	=> FILTER_VALIDATE_URL,
+			'requires_item_id'	=> false,
 		);
 	}
 

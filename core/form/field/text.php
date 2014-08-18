@@ -55,6 +55,7 @@ class text extends base
 			'field_size'		=> 40,
 			'field_minlen'		=> 0,
 			'field_maxlen'		=> 200,
+			'requires_item_id'	=> false,
 		);
 	}
 

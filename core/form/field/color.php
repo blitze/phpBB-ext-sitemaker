@@ -51,7 +51,9 @@ class color extends base
 	 */
 	public function get_default_props()
 	{
-		return array();
+		return array(
+			'requires_item_id'	=> false
+		);
 	}
 
 	/**

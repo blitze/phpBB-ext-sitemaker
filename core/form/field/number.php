@@ -57,6 +57,7 @@ class number extends base
 			'field_step'		=> 1,
 			'field_value'		=> 0,
 			'validation_filter'	=> FILTER_VALIDATE_INT,
+			'requires_item_id'	=> false,
 		);
 	}
 

@@ -56,6 +56,7 @@ class email extends base
 			'field_minlen'		=> 0,
 			'field_maxlen'		=> 200,
 			'validation_filter'	=> FILTER_VALIDATE_EMAIL,
+			'requires_item_id'	=> false,
 		);
 	}
 

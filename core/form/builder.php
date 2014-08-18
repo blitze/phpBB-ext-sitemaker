@@ -63,7 +63,7 @@ class builder
 		}
 	}
 
-	public function add($name, $type, $field_data = array())
+	public function add($name, $type, $field_data = array(), $item_id = 0)
 	{
 		$field_data += array('field_id' => 'field-' . $name);
 		$field_data += $this->get_default_field_data();
@@ -73,7 +73,7 @@ class builder
 			$obj = $this->fields[$type];
 
 			$field_data['field_type'] = $type;
-			$field_data['field_view'] = $obj->render_view($name, $field_data);
+			$field_data['field_view'] = $obj->render_view($name, $field_data, $item_id);
 
 			$this->data[$name] = $field_data;
 		}
@@ -123,7 +123,7 @@ class builder
 
 	public function handle_request($request)
 	{
-		$message = '';
+		$field_values = array();
 		if ($request->server('REQUEST_METHOD') === 'POST')
 		{
 			$errors = array();
@@ -138,6 +138,11 @@ class builder
 					$obj = $this->fields[$row['field_type']];
 					$errors[] = $obj->validate_field($row);
 				}
+
+				if (!$row['requires_item_id'])
+				{
+					$field_values[$field] = $row['field_value'];
+				}
 			}
 
 			if (!check_form_key($this->form['form_name']))
@@ -149,16 +154,6 @@ class builder
 
 			if (!sizeof($errors))
 			{
-				foreach ($this->data as $field => $row)
-				{
-					if ($row['field_type'] == 'submit' || $row['field_type'] == 'reset')
-					{
-						continue;
-					}
-
-					$obj = $this->fields[$row['field_type']];
-					$message .= $obj->save_field($field, $row['field_value']);
-				}
 				$this->is_valid = true;
 			}
 			else
@@ -168,7 +163,21 @@ class builder
 			}
 		}
 
-		return $message;
+		return $field_values;
+	}
+
+	public function save_fields($item_id)
+	{
+		if (!$item_id)
+		{
+			return false;
+		}
+
+		foreach ($this->data as $field => $row)
+		{
+			$obj = $this->fields[$row['field_type']];
+			$obj->save_field($field, $row['field_value'], $row, $item_id);
+		}
 	}
 
 	public function get_default_field_data()
