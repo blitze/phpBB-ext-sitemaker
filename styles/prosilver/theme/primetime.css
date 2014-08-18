@@ -59,6 +59,23 @@
 
 /* CMS Misc
 --------------- */
+.field-label {
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.label-hidden {
+	display: none;
+}
+
+.label-inline {
+	display: inline;
+}
+
+.label-newline {
+	display: block;
+}
+
 .cms-block-container .postbody {
     width: 100%;
 }
@@ -397,9 +414,10 @@ nav ul.pt-list li > a {
 
 nav ul.pt-list li.active > a,
 nav ul.pt-list li > a:hover {
-    background-color: #ddd;
+    font-weight: bold;
+	color: #282525;
     text-decoration: none;
-} 
+}
 
 nav ul.pt-list > li.nav-header {
 	list-style-type: none;
@@ -427,7 +445,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 	border: 0;
 }
 
-/* 
+/*
  * Transform vertical list to horizontal blocks 
  * Based on technique by Ali Jafarian
  */
