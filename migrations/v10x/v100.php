@@ -147,7 +147,7 @@ class v100 extends \phpbb\db\migration\migration
 			array('config.add', array('primetime_forum_perm_from', 0)),
 
 			array('permission.add', array('a_manage_blocks')),
-			array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_manage_blocks')),
+			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_manage_blocks')),
 
 			// Add the Primetime tab in acp
 			array('module.add', array('acp', 0, 'Primetime')),
@@ -168,6 +168,9 @@ class v100 extends \phpbb\db\migration\migration
 					'module_basename'	=> '\primetime\primetime\acp\menu_module',
 				),
 			)),
+
+			// Add the Primetime tab in ucp
+			array('module.add', array('ucp', 0, 'PRIMETIME_CONTENT')),
 		);
 	}
 
