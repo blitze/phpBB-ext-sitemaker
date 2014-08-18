@@ -189,33 +189,31 @@
 {ICON_PICKER}
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
-{% verbatim %}
-[[no_wrap]]
-	<div class="post [[=class]] cms-block-spacing">
-		[[!hide_title]]
-		<h2>
-			<span class="block-icon"><i class="[[=icon]]"></i></span>
-			<span class="block-title">[[=title]]</span>
-		</h2>
-		[[/!hide_title]]
-		[[=content]]
-	</div>
-[[:no_wrap]]
-	<div class="panel post cms-block-container [[=class]] cms-block-spacing">
-		<div class="inner">
+	[[no_wrap]]
+		<div class="post [[=class]] cms-block-spacing">
 			[[!hide_title]]
 			<h2>
 				<span class="block-icon"><i class="[[=icon]]"></i></span>
 				<span class="block-title">[[=title]]</span>
 			</h2>
 			[[/!hide_title]]
-			<div class="cms-block-content">
-				[[=content]]
+			[[=content]]
+		</div>
+	[[:no_wrap]]
+		<div class="panel post cms-block-container [[=class]] cms-block-spacing">
+			<div class="inner">
+				[[!hide_title]]
+				<h2>
+					<span class="block-icon"><i class="[[=icon]]"></i></span>
+					<span class="block-title">[[=title]]</span>
+				</h2>
+				[[/!hide_title]]
+				<div class="cms-block-content">
+					[[=content]]
+				</div>
 			</div>
 		</div>
-	</div>
-[[/no_wrap]]
-{% endverbatim %}
+	[[/no_wrap]]
 	<div class="block-controls">
 		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
 		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
