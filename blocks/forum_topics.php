@@ -9,45 +9,33 @@
 
 namespace primetime\primetime\blocks;
 
+use Urodoz\Truncate\TruncateService;
+
 /**
  * Forum Topics Block
  */
 class forum_topics extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Config Object
-	 * @var \phpbb\config\db
-	 */
+	/** @var \phpbb\config\db */
 	protected $config;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Forum object
-	 * @var \primetime\primetime\core\forum\query
-	 */
+	/** @var \primetime\primetime\core\forum\query */
 	protected $forum;
 
-	/**
-	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
-	 */
+	/** @var \primetime\primetime\core\primetime */
 	protected $primetime;
+
+	/** @var Urodoz\Truncate\TruncateService */
+	protected $truncate;
 
 	/** @var string */
 	protected $phpbb_root_path = null;
@@ -75,6 +63,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		$this->user = $user;
 		$this->forum = $forum;
 		$this->primetime = $primetime;
+		$this->truncate = new TruncateService();
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -142,17 +131,17 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		switch ($this->settings['topic_type'])
 		{
 			case POST_GLOBAL:
-			$lang_var = 'FORUM_GLOBAL_ANNOUNCEMENTS';
+				$lang_var = 'FORUM_GLOBAL_ANNOUNCEMENTS';
 			break;
 			case POST_ANNOUNCE:
-			$lang_var = 'FORUM_ANNOUNCEMENTS';
+				$lang_var = 'FORUM_ANNOUNCEMENTS';
 			break;
 			case POST_STICKY:
-			$lang_var = 'FORUM_STICKY_POSTS';
+				$lang_var = 'FORUM_STICKY_POSTS';
 			break;
 			case POST_NORMAL:
 			default:
-			$lang_var = 'FORUM_RECENT_TOPICS';
+				$lang_var = 'FORUM_RECENT_TOPICS';
 			break;
 		}
 
@@ -184,7 +173,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 				$first_or_last = $this->settings['display_preview'];
 				$preview_post_ids = $this->forum->get_topic_post_ids($first_or_last);
 
-				$post_data = $this->forum->get_post_data(sizeof($topic_data), 0, false, $preview_post_ids);
+				$post_data = $this->forum->get_post_data($preview_post_ids, false, 0, false);
 			}
 			else
 			{
@@ -328,7 +317,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			$post_row = array_pop($post_data[$topic_id]);
 
 			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
-			$this->primetime->truncate_html_string($context, $this->settings['preview_max_chars'], $post_row['bbcode_uid']);
+			$context = $this->truncate->truncate($context, $this->settings['preview_max_chars']);
 
 			$tpl_ary = array(
 				'TOPIC_TITLE'		=> truncate_string(censor_text($topic_row['topic_title']), $this->settings['topic_title_limit']),
