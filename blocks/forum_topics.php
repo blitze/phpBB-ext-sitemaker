@@ -163,7 +163,11 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 			'topic_tracking'	=> $enable_tracking,
 		);
 
-		$this->forum->build_query($options);
+		$sql_array = array(
+			'WHERE'		=> 'f.display_on_index = 1'
+		);
+
+		$this->forum->build_query($options, $sql_array);
 		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);
 
 		if (sizeof($topic_data) || $edit_mode !== false)
