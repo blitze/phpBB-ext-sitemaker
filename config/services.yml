@@ -8,13 +8,8 @@ services:
     primetime:
         class: primetime\primetime\core\primetime
         arguments:
-            - @auth
-            - @dbal.conn
-            - @config
             - @path_helper
             - @template
-            - @user
-            - @primetime.template
 
     primetime.blocks.admin:
         class: primetime\primetime\controller\blocks_admin

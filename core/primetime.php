@@ -11,41 +11,8 @@ namespace primetime\primetime\core;
 
 class primetime
 {
-	/**
-	 * Auth object instance
-	 * @var \phpbb\auth\auth
-	 */
-	protected $auth;
-
-	/**
-	 * Config object
-	 * @var \phpbb\config\db
-	 */
-	protected $config;
-
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
-	protected $db;
-
-	/**
-	 * Template object
-	 * @var \phpbb\template\template
-	 */
+	/** @var \phpbb\template\template */
 	protected $template;
-
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
-	protected $user;
-
-	/**
-	 * Primetime template object
-	 * @var \primetime\primetime\core\template
-	 */
-	protected $ptemplate;
 
 	protected $scripts;
 
@@ -54,22 +21,12 @@ class primetime
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth						$auth			Auth object
-	 * @param \phpbb\db\driver\factory				$db     		Database connection
-	 * @param \phpbb\config\db						$config			Config object
 	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\template\template				$template		Template object
-	 * @param \phpbb\user							$user			User object
-	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\factory $db, \phpbb\config\db $config, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template)
 	{
-		$this->auth = $auth;
-		$this->db = $db;
-		$this->config = $config;
-		$this->user = $user;
 		$this->template = $template;
-		$this->ptemplate = $ptemplate;
 		$this->asset_path = $path_helper->get_web_root_path();
 		$this->scripts = array(
 			'js'	=> array(),
@@ -80,7 +37,7 @@ class primetime
 	/**
 	 * include css/javascript
 	 * receives an array of form: array('js' => array('test.js', 'test2.js'), 'css' => array())
-	*/
+	 */
 	public function add_assets($scripts)
 	{
 		foreach ($scripts as $type => $paths)
@@ -123,39 +80,6 @@ class primetime
 		}
 
 		$this->scripts = array();
-	}
-
-	/**
-	 * Add a secret token to the form (requires the S_FORM_TOKEN template variable)
-	 * @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
-	 */
-	public function ext_add_form_key($form_name)
-	{
-		global $phpbb_container;
-
-		$tpl_context = $phpbb_container->get('template_context');
-
-		add_form_key($form_name);
-
-		$rootref = $tpl_context->get_root_ref();
-		$s_form_token = $rootref['S_FORM_TOKEN'];
-		$this->ptemplate->assign_var('S_FORM_TOKEN', $s_form_token);
-
-		return $s_form_token;
-	}
-
-	/**
-	 * Build breadcrumbs
-	 */
-	function set_breadcrumbs($data)
-	{
-		foreach ($data as $row)
-		{
-			$this->template->assign_block_vars('navlinks', array(
-				'FORUM_NAME'	=> $row['display'],
-				'U_VIEW_FORUM'	=> $row['url'])
-			);
-		}
 	}
 
 	/**
