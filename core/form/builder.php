@@ -11,22 +11,16 @@ namespace primetime\primetime\core\form;
 
 class builder
 {
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var \phpbb\template\context */
+	protected $template_context;
+
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\block_template
-	 */
+	/** @var \primetime\primetime\core\block_template */
 	protected $ptemplate;
 
 	protected $fields = array();
@@ -37,19 +31,19 @@ class builder
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\template\context					$context				Template context object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\di\service_collection				$type_collection
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\primetime\core\primetime		$primetime				Primetime object
 	 * @param \primetime\primetime\core\template		$ptemplate				Primetime template object
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\di\service_collection $field_drivers, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\di\service_collection $field_drivers, \phpbb\template\context $template_context, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->request = $request;
+		$this->template_context = $template_context;
 		$this->user = $user;
-		$this->register_fields($field_drivers);
-		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
+		$this->register_fields($field_drivers);
 	}
 
 	protected function register_fields($field_drivers)
@@ -81,15 +75,20 @@ class builder
 		return $this;
 	}
 
-	public function create($name, $action, $legend = '', $method = 'post')
+	public function create($form_name, $action, $legend = '', $method = 'post')
 	{
+		add_form_key($form_name);
+
+		$rootref = $this->template_context->get_root_ref();
+
 		$this->form = array(
-			'form_name'		=> $name,
+			'form_name'		=> $form_name,
 			'form_action'	=> $action,
 			'form_legend'	=> $legend,
 			'form_method'	=> $method,
-			'form_key'		=> $this->primetime->ext_add_form_key($name),
+			'form_key'		=> $rootref['S_FORM_TOKEN'],
 		);
+		unset($rootref);
 
 		return $this;
 	}

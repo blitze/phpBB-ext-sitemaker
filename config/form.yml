@@ -4,8 +4,8 @@ services:
         arguments:
             - @request
             - @primetime.form.fields_collection
+            - @template_context
             - @user
-            - @primetime
             - @primetime.template
 
     primetime.form.fields_collection:
