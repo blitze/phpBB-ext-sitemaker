@@ -319,7 +319,7 @@ class query
 		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_rank
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $this->poster_ids);
-		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
+		$result = $this->db->sql_query($sql);
 
 		$users_info = array();
 		while($row = $this->db->sql_fetchrow($result))
