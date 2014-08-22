@@ -169,8 +169,9 @@ class v100 extends \phpbb\db\migration\migration
 				),
 			)),
 
-			// Add the Primetime tab in ucp
+			// Add the Primetime tab in ucp/mcp
 			array('module.add', array('ucp', 0, 'PRIMETIME_CONTENT')),
+			array('module.add', array('mcp', 0, 'PRIMETIME_CONTENT')),
 		);
 	}
 
