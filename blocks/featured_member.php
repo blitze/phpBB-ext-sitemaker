@@ -254,10 +254,8 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 
 				$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE bid = ' . (int) $bid);
 				$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
+				$this->cache->destroy('pt_block_data_' . $bid);
 				unset($userlist);
-
-				$block_display = $phpbb_container->get('primetime.blocks.display');
-				$block_display->clear_blocks_cache();
 			}
 
 			if ($error === true)
