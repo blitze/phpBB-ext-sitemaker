@@ -92,6 +92,7 @@ class query
 			'sort_key'			=> false,
 			'sort_dir'			=> 'DESC',
 			'enable_caching'	=> true,
+			'check_visibility'	=> true,
 		);
 
 		$this->topic_data = array();
@@ -196,10 +197,13 @@ class query
 			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $this->ex_fid_ary, true);
 		}
 
+		if ($options['check_visibility'])
+		{
+			$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
+		}
+
 		$this->sql_array['WHERE'][] = 'f.forum_id = t.forum_id';
 		$this->sql_array['WHERE'][] = 't.topic_moved_id = 0';
-		$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
-
 		$this->sql_array['WHERE'] = join(' AND ', array_filter($this->sql_array['WHERE']));
 
 		if ($options['sort_key'] !== false)
