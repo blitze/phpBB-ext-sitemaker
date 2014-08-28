@@ -44,6 +44,8 @@ class builder
 		$this->user = $user;
 		$this->ptemplate = $ptemplate;
 		$this->register_fields($field_drivers);
+
+		$this->user->add_lang_ext('primetime/primetime', 'form');
 	}
 
 	protected function register_fields($field_drivers)

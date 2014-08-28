@@ -9,32 +9,28 @@
 
 namespace primetime\primetime\core\form\field;
 
-/**
- * 
- */
 class email extends base
 {
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/* @var \phpbb\user */
+	protected $user;
+
+	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\request\request_interface		$request		Request object
+	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->request = $request;
+		$this->user = $user;
 		$this->ptemplate = $ptemplate;
 	}
 

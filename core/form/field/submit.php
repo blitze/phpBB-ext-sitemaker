@@ -9,24 +9,23 @@
 
 namespace primetime\primetime\core\form\field;
 
-/**
- * 
- */
 class submit extends base
 {
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/* @var \phpbb\user */
+	protected $user;
+
+	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
+		$this->user = $user;
 		$this->ptemplate = $ptemplate;
 	}
 

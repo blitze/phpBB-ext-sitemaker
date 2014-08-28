@@ -16,6 +16,9 @@ class editor extends base
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
+	/* @var \phpbb\user */
+	protected $user;
+
 	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
@@ -26,11 +29,13 @@ class editor extends base
 	 * Constructor
 	 *
 	 * @param \phpbb\request\request_interface		$request		Request object
+	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->request = $request;
+		$this->user = $user;
 		$this->ptemplate = $ptemplate;
 		$this->truncate = new TruncateService();
 	}

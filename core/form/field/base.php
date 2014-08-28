@@ -103,6 +103,6 @@ abstract class base implements field_interface
 	 */
 	public function get_langname()
 	{
-		return strtoupper('FORM_FIELD_' . $this->get_name());
+		return $this->user->lang[strtoupper('FORM_FIELD_' . $this->get_name())];
 	}
 }
