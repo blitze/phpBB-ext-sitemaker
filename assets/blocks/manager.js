@@ -1,4 +1,6 @@
-(function($){
+;(function ($, window, document, undefined) {
+	"use strict";
+
 	var editing = false, updated = false;
 	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
 	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
@@ -512,7 +514,7 @@
 			blockTabs.find('.block-bottom-tabs .ui-tabs-nav').appendTo('.block-bottom-tabs');
 		}
 	});
-})(jQuery);
+})(jQuery, window, document);
 
 if (typeof(CKEDITOR) !== 'undefined') {
 	CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;

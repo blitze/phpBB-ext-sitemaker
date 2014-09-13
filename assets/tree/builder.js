@@ -4,7 +4,8 @@
  * Licensed under the GPL license
  */
 
-;(function($) {
+;(function ($, window, document, undefined) {
+	"use strict";
 	$.widget("primetime.treeBuilder", {
 		options : {
 			ajaxUrl			: '',
@@ -535,4 +536,4 @@
 			this._saveItem('update', this.editForm.serializeArray(), itemID);
 		}
 	});
-})(jQuery);
+})(jQuery, window, document);

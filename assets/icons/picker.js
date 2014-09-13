@@ -5,6 +5,7 @@
  */
  
 ;(function ($, window, document, undefined) {
+	"use strict";
 
     var pluginName = 'iconPicker',
         dataPlugin = "plugin_" + pluginName,
@@ -155,4 +156,4 @@
 			}
         }
     };
-}(jQuery, window, document));
+})(jQuery, window, document);

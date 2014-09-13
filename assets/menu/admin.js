@@ -1,4 +1,5 @@
-(function($){
+;(function ($, window, document, undefined) {
+	"use strict";
 
 	$(document).ready(function() {
 		var menuAdmin = {};
@@ -164,4 +165,4 @@
 			menuAdmin.show();
 		}
 	});
-})(jQuery);
+})(jQuery, window, document);
