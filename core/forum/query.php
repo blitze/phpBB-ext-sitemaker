@@ -11,40 +11,28 @@ namespace primetime\primetime\core\forum;
 
 class query
 {
-	/**
-	 * Auth object instance
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Config object
-	 * @var \phpbb\config\db
-	 */
+	/** @var \phpbb\config\db */
 	protected $config;
 
-	/**
-	 * Content visibility object
-	 * @var \phpbb\content_visibility
-	 */
+	/** @var \phpbb\content_visibility */
 	protected $content_visibility;
 
-	/**
-	 * Database connection
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\factory */
 	protected $db;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
-	 */
+	/** @var string */
+	protected $phpbb_root_path = null;
+
+	/** @var string */
+	protected $php_ext = null;
+
+	/** @var \primetime\primetime\core\primetime */
 	protected $primetime;
 
 	protected $ex_fid_ary		= array();
@@ -63,15 +51,19 @@ class query
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\factory				$db     				Database connection
 	 * @param \phpbb\user							$user					User object
+	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string								$php_ext				php file extension
 	 * @param \primetime\primetime\core\primetime	$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\primetime $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->user = $user;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 		$this->primetime = $primetime;
 	}
 
@@ -191,12 +183,6 @@ class query
 			$this->sql_array['WHERE'][] = 't.topic_id = ' . (int) $options['topic_id'];
 		}
 
-		// let's exlude forums this user is not allowed to view
-		if (sizeof($this->ex_fid_ary))
-		{
-			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $this->ex_fid_ary, true);
-		}
-
 		if ($options['check_visibility'])
 		{
 			$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
@@ -220,7 +206,7 @@ class query
 	}
 
 	/**
-	 * 
+	 * Get topic data
 	 */
 	public function get_topic_data($limit = false, $start = 0, $sql_array = array())
 	{
@@ -251,7 +237,7 @@ class query
 	}
 
 	/**
-	 * 
+	 * Get post data
 	 */
 	public function get_post_data($post_ids = array(), $limit = false, $start = 0, $pagination = false)
 	{
@@ -315,24 +301,92 @@ class query
 	{
 		$this->poster_ids = array_filter(array_unique($this->poster_ids));
 
+		if (!function_exists('get_user_rank'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
 		if (!sizeof($this->poster_ids))
 		{
 			return array();
 		}
 
-		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_rank
+		$sql = 'SELECT *
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $this->poster_ids);
 		$result = $this->db->sql_query($sql);
 
-		$users_info = array();
+		$user_cache = array();
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			$users_info[$row['user_id']] = $row;
+			$poster_id = $row['user_id'];
+
+			$user_cache[$poster_id] = array(
+				'user_type'					=> $row['user_type'],
+				'user_inactive_reason'		=> $row['user_inactive_reason'],
+
+				'joined'		=> $this->user->format_date($row['user_regdate'], 'M d, Y'),
+				'posts'			=> $row['user_posts'],
+				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+
+				'viewonline'	=> $row['user_allow_viewonline'],
+				'allow_pm'		=> $row['user_allow_pm'],
+
+				'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+				'age'			=> '',
+
+				'rank_title'		=> '',
+				'rank_image'		=> '',
+				'rank_image_src'	=> '',
+
+				'username'			=> $row['username'],
+				'user_colour'		=> $row['user_colour'],
+				'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
+
+				'online'			=> false,
+				'jabber'			=> ($row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
+				'search'			=> ($this->auth->acl_get('u_search')) ? append_sid("{$this->phpbb_root_path}search.$this->php_ext", "author_id=$poster_id&amp;sr=posts") : '',
+
+				'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
+				'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
+				'author_username'	=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
+				'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
+			);
+
+			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);
+
+			if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
+			{
+				$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+			}
+			else
+			{
+				$user_cache[$poster_id]['email'] = '';
+			}
+
+			if ($this->config['allow_birthdays'] && !empty($row['user_birthday']))
+			{
+				list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
+
+				if ($bday_year)
+				{
+					$diff = $now['mon'] - $bday_month;
+					if ($diff == 0)
+					{
+						$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
+					}
+					else
+					{
+						$diff = ($diff < 0) ? 1 : 0;
+					}
+
+					$user_cache[$poster_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
+				}
+			}
 		}
 		$this->db->sql_freeresult($result);
 
-		return $users_info;
+		return $user_cache;
 	}
 
 	/**
