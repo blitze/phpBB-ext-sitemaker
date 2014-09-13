@@ -2,7 +2,7 @@ services:
     primetime.block.birthday:
         class: primetime\primetime\blocks\birthday
         arguments:
-            - @cache.driver
+            - @cache
             - @dbal.conn
             - @user
         calls:
@@ -22,7 +22,7 @@ services:
     primetime.block.featured_member:
         class: primetime\primetime\blocks\featured_member
         arguments:
-            - @cache.driver
+            - @cache
             - @config
             - @dbal.conn
             - @user
@@ -38,7 +38,7 @@ services:
         class: primetime\primetime\blocks\forum_topics
         arguments:
             - @auth
-            - @cache.driver
+            - @cache
             - @config
             - @user
             - @primetime.forum
@@ -87,7 +87,7 @@ services:
     primetime.block.menu:
         class: primetime\primetime\blocks\menu
         arguments:
-            - @cache.driver
+            - @cache
             - @dbal.conn
             - @user
             - @primetime.menu.display
