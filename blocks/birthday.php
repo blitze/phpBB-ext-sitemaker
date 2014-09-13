@@ -39,7 +39,7 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 	 * @param \phpbb\db\driver\factory		$db     	Database connection
 	 * @param \phpbb\template\template		$user		User object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, \phpbb\user $user)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\factory $db, \phpbb\user $user)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

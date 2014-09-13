@@ -48,7 +48,7 @@ class menu  extends \primetime\primetime\core\blocks\driver\block
 	 * @param \primetime\primetime\core\menu\display	$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

@@ -33,7 +33,7 @@ class listener implements EventSubscriberInterface
 	 * @param \primetime\primetime\core\primetime		$primetim		Primetime helper object
 	 * @param \primetime\primetime\core\blocks\display	$blocks			Blocks display object
 	*/
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\request\request_interface $request, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\request\request_interface $request, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks)
 	{
 		$this->cache = $cache;
 		$this->request = $request;

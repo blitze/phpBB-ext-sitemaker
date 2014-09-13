@@ -61,7 +61,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 	 * @param string								$php_ext				php file extension
 	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

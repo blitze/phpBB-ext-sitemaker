@@ -24,7 +24,7 @@ services:
         class: primetime\primetime\core\blocks\display
         arguments:
             - @auth
-            - @cache.driver
+            - @cache
             - @config
             - @dbal.conn
             - @service_container
@@ -40,7 +40,7 @@ services:
     primetime.blocks.manager:
         class: primetime\primetime\core\blocks\manager
         arguments:
-            - @cache.driver
+            - @cache
             - @config
             - @dbal.conn
             - @service_container
@@ -83,13 +83,15 @@ services:
             - @content.visibility
             - @dbal.conn
             - @user
+            - %core.root_path%
+            - %core.php_ext%
             - @primetime
 
     primetime.forum.manager:
         class: primetime\primetime\core\forum\manager
         arguments:
             - @auth
-            - @cache.driver
+            - @cache
             - @config
             - @user
             - %core.root_path%
@@ -105,7 +107,7 @@ services:
     primetime.listener:
         class: primetime\primetime\event\listener
         arguments:
-            - @cache.driver
+            - @cache
             - @request
             - @primetime
             - @primetime.blocks.display
@@ -133,7 +135,7 @@ services:
     primetime.menu.builder:
         class: primetime\primetime\core\menu\builder
         arguments:
-            - @cache.driver
+            - @cache
             - @dbal.conn
             - @primetime
             - %tables.primetime.menu%

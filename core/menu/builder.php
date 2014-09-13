@@ -15,10 +15,7 @@ namespace primetime\primetime\core\menu;
  */
 class builder extends \primetime\primetime\core\tree\builder
 {
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
 	/**
@@ -31,9 +28,10 @@ class builder extends \primetime\primetime\core\tree\builder
 	 * @param string								$pk				Primary key
 	 * @param string								$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $menus_table, $menu_items_table, $pk)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $menus_table, $menu_items_table, $pk)
 	{
 		parent::__construct($db, $primetime, $menu_items_table, $pk);
+
 		$this->menus_table = $menus_table;
 		$this->cache = $cache;
 	}

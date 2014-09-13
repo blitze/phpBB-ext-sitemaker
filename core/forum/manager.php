@@ -11,28 +11,16 @@ namespace primetime\primetime\core\forum;
 
 class manager
 {
-	/**
-	 * Auth object instance
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Config
-	 * @var \phpbb\config\db
-	 */
+	/** @var \phpbb\config\db */
 	protected $config;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string */
@@ -51,7 +39,7 @@ class manager
 	 * @param string						$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string						$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\db $config, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
