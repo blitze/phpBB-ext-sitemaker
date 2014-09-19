@@ -185,6 +185,7 @@ class query
 
 		if ($options['check_visibility'])
 		{
+			$this->sql_array['WHERE'][] = 't.topic_time <= ' . time();
 			$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
 		}
 
