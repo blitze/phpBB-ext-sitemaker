@@ -35,11 +35,12 @@ class query
 	/** @var \primetime\primetime\core\primetime */
 	protected $primetime;
 
+	protected $attachments		= array();
 	protected $ex_fid_ary		= array();
-	protected $sql_array		= array();
-	protected $topic_tracking	= array();
-	protected $topic_data		= array();
 	protected $poster_ids		= array();
+	protected $topic_data		= array();
+	protected $topic_tracking	= array();
+	protected $sql_array		= array();
 	protected $topic_post_ids	= array('first' => array(), 'last' => array());
 	protected $cache_time		= 10800; // caching for 3 hours
 
@@ -263,10 +264,13 @@ class query
 			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
-			$this->poster_ids[] = $row['poster_id'];
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
+			$this->poster_ids[] = $row['poster_id'];
+			$this->attachments[$row['post_id']] = $row['post_attachment'];
 		}
 		$this->db->sql_freeresult($result);
+
+		$this->attachments = array_flip(array_filter($this->attachments));
 
 		return $post_data;
 	}
@@ -293,6 +297,32 @@ class query
 		}
 
 		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
+	}
+
+	/**
+	 * Get attachments...
+	 */
+	public function get_attachments($forum_id)
+	{
+		$attachments = array();
+		if ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
+		{
+			$sql = 'SELECT *
+				FROM ' . ATTACHMENTS_TABLE . '
+				WHERE ' . $db->sql_in_set('post_msg_id', $this->attachments) . '
+					AND in_message = 0
+				ORDER BY filetime DESC, post_msg_id ASC';
+			$result = $this->db->sql_query($sql);
+
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$attachments[$row['post_msg_id']][] = $row;
+			}
+			$this->db->sql_freeresult($result);
+		}
+		$this->attachments = array();
+
+		return $attachments;
 	}
 
 	/**
