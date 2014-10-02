@@ -24,40 +24,59 @@
         init: function (options) {
 			var self = this;
 			this.item = {};
+			this.selectedIcon = '';
 			this.iconsDiv = $('#icon-picker');
 			this.fontList = this.iconsDiv.find('#icons-font-list');
 			this.colorBoxes = this.iconsDiv.find('.icons-color-container');
 			this.customization = this.iconsDiv.find('#icon-customization');
+			this.preview = this.iconsDiv.find('#icon-picker-preview');
 
             $.extend(this.options, options);
 
 			this.element.on('click', function(e) {
+				e.preventDefault();
 				e.stopImmediatePropagation();
 				self.showPicker($(this));
-				return false;
 			});
 
-			this.iconsDiv.mouseleave(function() {
-				self.hidePicker();
-			}).children().find('i').click(function(e){
+			this.iconsDiv.mouseleave(function(e) {
+				if (!e.fromElement.length) {
+					self.hidePicker();
+				}
+			});
+
+			this.fontList.find('i').click(function(e) {
+				e.preventDefault();
 				e.stopImmediatePropagation();
-				var iconClass = $(this).attr('class');
-				self.hidePicker();
-				self.selectIcon(iconClass);
-				return false;
+				self.selectIcon($(this));
 			});
 
 			this.iconsDiv.find('#icons-font-cat-list').find('a').click(function(e) {
+				e.preventDefault();
 				e.stopImmediatePropagation();
 				self._scrollToIcon($($(this).attr('href')));
-				return false;
+			});
+
+			this.iconsDiv.find('#icon-picker-insert').click(function(e) {
+				e.preventDefault();
+				self.insertIcon(self.selectedIcon);
+			});
+
+			this.iconsDiv.find('#icon-picker-none').click(function(e) {
+				e.preventDefault();
+				self.insertIcon('');
+			});
+
+			this.customization.find('.icons-customize').change(function(e) {
+				e.preventDefault();
+				self.previewIcon();
 			});
 
 			this.colorBoxes.click(function(e) {
-				e.stopImmediatePropagation();
+				e.preventDefault();
 				self.colorBoxes.removeClass('selected');
 				$(this).addClass('selected').next().prop('checked', 'checked').trigger('click');
-				return false;
+				self.previewIcon();
 			});
 
 			var tabs = $("#icons-tab").tabs().parent();
@@ -69,17 +88,14 @@
 			tabs.find('.icons-bottom-tabs .ui-tabs-nav').appendTo('.icons-bottom-tabs');
         },
 
-		showPicker : function(element) {
-			var pos = element.offset();
-			var height = element.height();
+		getIconProps : function(iconClass) {
+			if (iconClass) {
+				$.each(this.customization.serializeArray(), function(i, field) {
+					iconClass += (field.value) ? ' ' + field.value : '';
+				});
+			}
 
-			this.element.removeClass('icons-drop');
-			this.item = element.addClass('icons-drop');
-			this.iconsDiv.slideToggle().offset({
-				top: pos.top + height - 1,
-				left: pos.left - 5
-			});
-			this.setIcon(element);
+			return iconClass;
 		},
 
 		hidePicker : function() {
@@ -87,33 +103,59 @@
 			this.element.removeClass('icons-drop');
 		},
 
-		selectIcon : function(iconClass) {
-			$.each(this.customization.serializeArray(), function(i, field) {
-				iconClass += (field.value) ? ' ' + field.value : '';
-			});
-			var iconHtml = '<i class="' + iconClass + '"></i>';
+		insertIcon : function(icon) {
+			var iconHtml = '';
+			var iconClass = this.getIconProps(icon);
+
+			if (iconClass) {
+				iconHtml = '<i class="' + iconClass + '"></i>';
+			}
 
 			this.item.html(iconHtml);
 			this.options.onSelect.call(this, this.item, iconHtml, iconClass);
+			this.hidePicker();
 		},
 
-		setIcon : function(element) {
-			var curr_icon = element.find('i');
+		previewIcon : function() {
+			this.preview.children('i').attr('class', this.getIconProps(this.selectedIcon));
+		},
+
+		selectIcon : function(element) {
+			this.fontList.find('a').removeClass('icon-selected');
+			this.selectedIcon = element.attr('class');
+			this.previewIcon(this.selectedIcon);
+			element.parent().addClass('icon-selected');
+		},
+
+		setCurrentIcon : function(element) {
+			var currIcon = element.find('i');
+			var $inputs = this.customization.find(':input');
 
 			this.colorBoxes.removeClass('selected');
-			this.customization[0].reset();
 			this.fontList.find('a').removeClass('icon-selected');
+			this.customization.get(0).reset();
+			this.customization.find('select').val('');
+			this.selectedIcon = '';
 
-			if (curr_icon.length > 0) {
-				var icon_info = curr_icon.attr('class').split(' ');
-				icon_info.shift();
+			if (currIcon.length > 0) {
+				var iconInfo = currIcon.attr('class').split(' ');
+				iconInfo.shift();
 
-				var self = this, icon = this.fontList.find('.' + icon_info.shift());
+				var self = this, iconClass = iconInfo.shift();
+				var icon = this.fontList.find('.' + iconClass);
 
 				if (icon.length > 0) {
 					icon.parent().addClass('icon-selected');
+
+					this.selectedIcon = 'fa ' + iconClass;
 					this._scrollToIcon(icon);
-					this.customization.find(':input').val(icon_info);
+
+					var $selects = $inputs.filter('select').children();
+
+					$.each(iconInfo, function(i, val) {
+						$selects.filter('[value=' + val + ']').attr('selected', true);
+						$inputs.filter('[value=' + val + ']').attr('checked', true);
+					});
 
 					var color = this.customization.find('input[name=color]:checked');
 					if (color.length > 0) {
@@ -121,6 +163,21 @@
 					}
 				}
 			}
+
+			this.previewIcon();
+		},
+
+		showPicker : function(element) {
+			var pos = element.offset();
+			var height = element.height();
+
+			this.element.removeClass('icons-drop');
+			this.item = element.addClass('icons-drop');
+			this.iconsDiv.slideToggle().offset({
+				top: pos.top + height,
+				left: pos.left - 15
+			});
+			this.setCurrentIcon(element);
 		},
 
 		_scrollToIcon : function(element) {
