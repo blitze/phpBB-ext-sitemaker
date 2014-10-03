@@ -1,6 +1,7 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
 
+	var editorVal = '';
 	var editing = false, updated = false;
 	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
 	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
