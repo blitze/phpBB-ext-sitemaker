@@ -670,6 +670,8 @@ class manager
 			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
 		}
 
+		$this->add_block_admin_lang();
+
 		$errors = array();
 		validate_config_vars($df_settings, $cfg_array, $errors);
 
@@ -714,6 +716,25 @@ class manager
 	}
 
 	/**
+	 * Save a single block setting
+	 */
+	public function config($id, $data)
+	{
+		$settings = $this->get_block_config($id);
+
+		if (isset($settings[$data['bvar']]))
+		{
+			$this->db->sql_query('UPDATE ' . $this->blocks_config_table . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE bid = ' . (int) $id);
+		}
+		else
+		{
+			$this->db->sql_query('INSERT INTO ' . $this->blocks_config_table . ' ' . $this->db->sql_build_array('INSERT', $data));
+		}
+
+		$this->cache->destroy('primetime_blocks');
+	}
+
+	/**
 	 * Save all blocks in layout
 	 */
 	public function save_layout($route)
@@ -751,7 +772,7 @@ class manager
 	/**
 	 * Copy blocks from one route to another
 	 */
-	public function copy($route, $copy_from)
+	public function copy_layout($route, $copy_from)
 	{
 		if (!$copy_from)
 		{

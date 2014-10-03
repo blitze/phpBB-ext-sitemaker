@@ -2,7 +2,7 @@
 	"use strict";
 
 	var editorVal = '';
-	var editing = false, updated = false;
+	var editing = false, updated = false, dialogEditOpened = false;
 	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
 	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
 
@@ -133,12 +133,27 @@
 		);
 	};
 
+	var updateConfig = function(data) {
+		if (data.id === undefined) {
+			showMessage('Missing block id');
+			return false;
+		}
+		$.post(ajaxUrl + 'config', data,
+			function(resp){
+				if (resp.error) {
+					showMessage(resp.error);
+				}
+			},
+			"json"
+		);
+	};
+
 	var setDefaultLayout = function(set) {
 		$.post(ajaxUrl + 'set_default' + '?route=' + ((set === true) ? route : ''));
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(ajaxUrl + 'settings' + '?route=' + route + '&ext=' + ext, form.serialize(),
+		$.post(ajaxUrl + 'layout_settings' + '?route=' + route + '&ext=' + ext, form.serialize(),
 			function(resp){
 				console.log(resp);
 			},
@@ -148,7 +163,7 @@
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(ajaxUrl + 'copy', {copy: copyFrom, route: route, ext: ext}, function(resp) {
+		$.getJSON(ajaxUrl + 'copy_layout', {copy: copyFrom, route: route, ext: ext}, function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -306,8 +321,8 @@
 				revert: true,
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
 				forcePlaceholderSize: true,
-				items: '.block',
-				//handle: '.block-title',
+				items: ".block",
+				cancel: '.editable-block',
 				delay: 150,
 				dropOnEmpty: true,
 				tolerance: 'pointer',
@@ -437,7 +452,35 @@
 
 			dialogConfirm = $('#dialog-confirm').dialog(def_dialog);
 
+			// Initiate dialog for block copy
+			cButtons[lang.copy] = function() {
+				$(this).dialog('close');
+				copyBlocks(copyFrom);
+			};
+
+			cButtons[lang.cancel] = function() {
+				$(this).dialog('close');
+			};
+			dialogCopy = $('#dialog-copy').dialog(def_dialog);
+
+			// Events for add block dropdown
+			$('#copy-form').submit(function(e) {
+				e.preventDefault();
+				copyFrom = $(this).find('select').val();
+				if (copyFrom !== '') {
+					blocksPanel.trigger('click');
+					dialogCopy.dialog({buttons: cButtons}).dialog('open');
+				}
+			});
+
 			// Events for edit block dialog
+			def_dialog.open = function(e, ui) {
+				if (dialogEditOpened === false) {
+					var pane = $(this).dialog('widget').find('.ui-dialog-buttonpane');
+					dialogEditOpened = true;
+					$('<label class="dialog-check-button"><input type="checkbox" /> Apply changes to similar blocks</label>').prependTo(pane);
+				}
+			};
 			dialogEdit = $('#dialog-edit').dialog(def_dialog).on('click', '#class-clear', function(e) {
 				dialogEdit.find('#block_class').val('').change();
 				return false;
@@ -461,27 +504,6 @@
 				previewBlock();
 			});
 
-			// Initiate dialog for block copy
-			cButtons[lang.copy] = function() {
-				$(this).dialog('close');
-				copyBlocks(copyFrom);
-			};
-
-			cButtons[lang.cancel] = function() {
-				$(this).dialog('close');
-			};
-			dialogCopy = $('#dialog-copy').dialog(def_dialog);
-
-			// Events for add block dropdown
-			$('#copy-form').submit(function(e) {
-				e.preventDefault();
-				copyFrom = $(this).find('select').val();
-				if (copyFrom !== '') {
-					blocksPanel.trigger('click');
-					dialogCopy.dialog({buttons: cButtons}).dialog('open');
-				}
-			});
-
 			$('.default-layout').button().click(function() {
 				var setDefault = $(this).data('set');
 				setDefaultLayout(setDefault);
@@ -499,7 +521,11 @@
 			});
 
 			$('.editable-block').focusout(function() {
-				//alert($(this).html());
+				var id = $(this).attr('id');
+				var bid = id.substring(13);
+				var content = CKEDITOR.instances[id].getData();
+
+				updateConfig({'id': bid, 'bvar': 'content', 'bval': content});
 			});
 
 			window.onbeforeunload = function (e) {
@@ -524,36 +550,3 @@
 		}
 	});
 })(jQuery, window, document);
-
-if (typeof(CKEDITOR) !== 'undefined') {
-	CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
-	// The "instanceCreated" event is fired for every editor instance created.
-	CKEDITOR.on( 'instanceCreated', function( event ) {
-		var editor = event.editor,
-			element = editor.element;
-
-		// Customize editors for headers and tag list.
-		// These editors don't need features like smileys, templates, iframes etc.
-		if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
-			// Customize the editor configurations on "configLoaded" event,
-			// which is fired after the configuration file loading and
-			// execution. This makes it possible to change the
-			// configurations before the editor initialization takes place.
-			editor.on( 'configLoaded', function() {
-
-				// Remove unnecessary plugins to make the editor simpler.
-				editor.config.removePlugins = 'colorbutton,find,flash,font,' +
-					'forms,iframe,image,newpage,removeformat,' +
-					'smiley,specialchar,stylescombo,templates';
-
-				// Rearrange the layout of the toolbar.
-				editor.config.toolbarGroups = [
-					{ name: 'editing',		groups: [ 'basicstyles', 'links' ] },
-					{ name: 'undo' },
-					{ name: 'clipboard',	groups: [ 'selection', 'clipboard' ] },
-					{ name: 'about' }
-				];
-			});
-		}
-	});
-}

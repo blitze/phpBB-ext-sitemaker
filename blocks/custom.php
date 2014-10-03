@@ -28,26 +28,29 @@ class custom extends \primetime\primetime\core\blocks\driver\block
 		$this->user = $user;
 	}
 
+	public function get_config($settings)
+	{
+		return array(
+			'content'	=> array('type' => 'hidden', 'default' => ''),
+		);
+	}
+
 	public function display($bdata, $edit_mode = false)
 	{
-		$content = (isset($bdata['settings']['content'])) ? $bdata['settings']['content'] : '';
-		$content = html_entity_decode($content);
+		$content = (isset($bdata['settings']['content'])) ? html_entity_decode($bdata['settings']['content']) : '';
 
 		if ($edit_mode !== false)
 		{
 			global $phpbb_container;
 
-			$primetime = $phpbb_container->get('primetime');
-			$asset_path = $primetime->asset_path;
-
-			$primetime->add_assets(array(
+			$phpbb_container->get('primetime')->add_assets(array(
 				'js' => array(
-					$asset_path . 'ext/primetime/primetime/assets/ckeditor/ckeditor.js',
+					'//cdn.ckeditor.com/4.4.5/standard/ckeditor.js',
 				)
 			));
 
 			$bid = (isset($bdata['bid'])) ? $bdata['bid'] : 0;
-			$content = '<div id="block_' . $bid . '" class="editable-block" contenteditable="true">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
+			$content = '<div id="block-editor-' . $bid . '" class="editable-block" contenteditable="true">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
 		}
 
 		return array(

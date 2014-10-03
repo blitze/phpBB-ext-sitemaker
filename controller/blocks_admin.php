@@ -13,34 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class blocks_admin
 {
-	/**
-	 * Auth object instance
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Config object
-	 * @var \phpbb\config\db
-	 */
+	/** @var \phpbb\config\db */
 	protected $config;
 
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Primetime Block manager object
-	 * @var \primetime\primetime\core\blocks\manager
-	 */
+	/** @var \primetime\primetime\core\blocks\manager */
 	protected $block;
 
 	/**
@@ -102,6 +87,14 @@ class blocks_admin
 			case 'add':
 				$return_data = $this->blocks->add($block, $route);
 			break;
+			case 'config':
+				$data = array(
+					'bid'	=> (int) $id,
+					'bvar'	=> $this->request->variable('bvar', ''),
+					'bval'	=> $this->request->variable('bval', ''),
+				);
+				$this->blocks->config($id, $data);
+			break;
 			case 'edit':
 				$return_data = $this->blocks->edit($id);
 			break;
@@ -125,11 +118,11 @@ class blocks_admin
 			case 'save_layout':
 				$return_data = $this->blocks->save_layout($route);
 			break;
-			case 'copy':
+			case 'copy_layout':
 				$copy_from = $this->request->variable('copy', '');
-				$return_data = $this->blocks->copy($route, $copy_from);
+				$return_data = $this->blocks->copy_layout($route, $copy_from);
 			break;
-			case 'settings':
+			case 'layout_settings':
 				$data = array(
 					'hide_blocks'	=> $this->request->variable('hide_blocks', false),
 					'ex_positions'	=> join(',', $this->request->variable('ex_positions', array(0 => ''))),

@@ -108,7 +108,7 @@
 #admin-bar .blocks-list {
 	margin: 0;
 	padding: 0;
-	height: 160px; 
+	height: 160px;
 	overflow: auto
 }
 
@@ -265,7 +265,7 @@
 }
 
 .block-receiver .block-title:hover {
-	border: 1px solid #ccc;
+	border: 1px solid #d5f8a0;
 }
 
 .block-receiver .block .block-controls {
@@ -305,6 +305,17 @@
 
 #dialog-edit dt span {
 	font-size: smaller;
+}
+
+.dialog-check-button {
+    float: left;
+    display: inline-block;
+	margin-right: 5px;
+	margin-top: 1em;
+}
+
+.editable-block:hover {
+	border: 1px solid #d5f8a0;
 }
 
 .flash-message {
