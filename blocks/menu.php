@@ -13,30 +13,18 @@ namespace primetime\primetime\blocks;
 * Menu Block
 * @package phpBB Primetime Menu
 */
-class menu  extends \primetime\primetime\core\blocks\driver\block
+class menu extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\factory */
 	protected $db;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Tree object
-	 * @var \primetime\menu\core\display
-	 */
+	/** @var \primetime\menu\core\display */
 	protected $tree;
 
 	/**
