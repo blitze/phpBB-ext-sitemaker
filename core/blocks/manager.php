@@ -80,6 +80,7 @@ class manager
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
+	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\factory $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
@@ -151,26 +152,7 @@ class manager
 		{
 			$this->user->add_lang_ext('primetime/primetime', 'block_manager');
 
-			$lang_set_ext = array();
-
-			/**
-			 * Event to load block config language files
-			 *
-			 * @var	array	lang_set_ext		Array containing entries of format
-			 * 					array(
-			 * 						'ext_name' => (string) [extension name],
-			 * 						'lang_set' => (string|array) [language files],
-			 * 					)
-			 * 					This is to be used only to add language files that are used when editing block configuartion
-			 */
-			$vars = array('lang_set_ext');
-			extract($this->phpbb_container->get('dispatcher')->trigger_event('primetime.blocks.add_lang', compact($vars)));
-
-			foreach ($lang_set_ext as $ext_lang_pair)
-			{
-				$this->user->add_lang_ext($ext_lang_pair['ext_name'], $ext_lang_pair['lang_set']);
-			}
-			unset($lang_set_ext);
+			$this->add_block_admin_lang();
 
 			$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
 
@@ -532,6 +514,8 @@ class manager
 			return array('errors' => $this->user->lang['BLOCK_NO_ID']);
 		}
 
+		$this->add_block_admin_lang();
+
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
 
@@ -553,7 +537,7 @@ class manager
 		// Output relevant settings
 		foreach ($default_settings as $config_key => $vars)
 		{
-			if ((!is_array($vars) && strpos($config_key, 'legend') === false) || (is_array($vars) &&$vars['type'] == 'hidden'))
+			if (!is_array($vars) && strpos($config_key, 'legend') === false)
 			{
 				continue;
 			}
@@ -570,14 +554,19 @@ class manager
 
 			$type = explode(':', $vars['type']);
 
-			$l_explain = '';
-			if ($vars['explain'] && isset($vars['lang_explain']))
+			$l_explain = $explain = '';
+			if (!empty($vars['explain']))
 			{
-				$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
-			}
-			else if ($vars['explain'])
-			{
-				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+				$explain = $vars['explain'];
+
+				if (isset($vars['lang_explain']))
+				{
+					$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
+				}
+				else
+				{
+					$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+				}
 			}
 
 			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
@@ -587,31 +576,29 @@ class manager
 				// this looks bad but its the only way without modifying phpbb code
 				// this is for select items that do not need to be translated
 				$options = $vars['params'][0];
-				foreach ($options as $key => $title)
-				{
-					if (!isset($this->user->lang[$title]))
+				$this->add_lang_vars($options);
+			}
+
+			switch ($type[0])
+			{
+				case 'select':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
+				break;
+				case 'checkbox':
+				case 'multi_select':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
+					$vars['params'][] = $config_key;
+					$type[0] = 'custom';
+
+					if (!empty($db_settings[$config_key]))
 					{
-						$this->user->lang[$title] = $title;
+						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
 					}
-				}
-
-				switch ($type[0])
-				{
-					case 'select':
-						$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
-					break;
-					case 'checkbox':
-					case 'multi_select':
-						$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
-						$vars['params'][] = $config_key;
-						$type[0] = 'custom';
-
-						if (!empty($db_settings[$config_key]))
-						{
-							$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
-						}
-					break;
-				}
+				break;
+				case 'hidden':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
+					$type[0] = 'custom';
+				break;
 			}
 
 			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
@@ -623,8 +610,8 @@ class manager
 
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $config_key,
-				'TITLE'			=> (isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang'],
-				'S_EXPLAIN'		=> $vars['explain'],
+				'TITLE'			=> (!empty($vars['lang'])) ? ((isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang']) : '',
+				'S_EXPLAIN'		=> $explain,
 				'TITLE_EXPLAIN'	=> $l_explain,
 				'CONTENT'		=> $content)
 			);
@@ -958,6 +945,71 @@ class manager
 	public function set_style($style_id)
 	{
 		$this->style_id = (int) $style_id;
+	}
+
+	/**
+	 * Add blocks_admin language file
+	 * 
+	 * This is a modified copy of the add_mod_info in functions_module.php
+	 */
+	function add_block_admin_lang()
+	{
+		$finder = $this->phpbb_container->get('ext.manager')->get_finder();
+
+		// We grab the language files from the default, English and user's language.
+		// So we can fall back to the other files like we do when using add_lang()
+		$default_lang_files = $english_lang_files = $user_lang_files = array();
+
+		// Search for board default language if it's not the user language
+		if ($this->config['default_lang'] != $this->user->lang_name)
+		{
+			$default_lang_files = $finder
+				->prefix('blocks_admin')
+				->suffix(".$this->php_ext")
+				->extension_directory('/language/' . basename($this->config['default_lang']))
+				->core_path('language/' . basename($this->config['default_lang']) . '/')
+				->find();
+		}
+
+		// Search for english, if its not the default or user language
+		if ($this->config['default_lang'] != 'en' && $this->user->lang_name != 'en')
+		{
+			$english_lang_files = $finder
+				->prefix('blocks_admin')
+				->suffix(".$this->php_ext")
+				->extension_directory('/language/en')
+				->core_path('language/en/')
+				->find();
+		}
+
+		// Find files in the user's language
+		$user_lang_files = $finder
+			->prefix('blocks_admin')
+			->suffix(".$this->php_ext")
+			->extension_directory('/language/' . $this->user->lang_name)
+			->core_path('language/' . $this->user->lang_name . '/')
+			->find();
+
+		$lang_files = array_unique(array_merge($user_lang_files, $english_lang_files, $default_lang_files));
+		foreach ($lang_files as $lang_file => $ext_name)
+		{
+			$this->user->add_lang_ext($ext_name, $lang_file);
+		}
+	}
+
+	private function add_lang_vars($options)
+	{
+		foreach ($options as $key => $title)
+		{
+			if (is_array($title))
+			{
+				$this->add_lang_vars($title);
+			}
+			else if (!isset($this->user->lang[$title]))
+			{
+				$this->user->lang[$title] = $title;
+			}
+		}
 	}
 
 	private function get_block_data($bid)

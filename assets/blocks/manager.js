@@ -87,6 +87,14 @@
 			if (resp.form) {
 				dialogEdit.html(resp.form);
 				dialogEdit.find('#block-settings').tabs();
+				dialogEdit.find('select[data-togglable-settings]').each(function() {
+					var $this = $(this);
+
+					$this.change(function() {
+						phpbb.toggleSelectSettings($this);
+					});
+					phpbb.toggleSelectSettings($this);
+				});
 				dialogEdit.dialog({buttons: eButtons}).dialog('option', 'title', lang.edit + ' - ' + resp.title).dialog('open');
 			}
 		});

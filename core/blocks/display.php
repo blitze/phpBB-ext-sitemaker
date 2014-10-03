@@ -179,7 +179,6 @@ class display
 
 		$this->template->assign_vars(array_merge(array(
 				'S_PRIMETIME'		=> true,
-				'S_BLOCKS_ADMIN'	=> true,
 				'L_INDEX'			=> $this->user->lang['HOME'],
 			),
 			array_change_key_case($blocks_per_position, CASE_UPPER))
@@ -280,7 +279,8 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
-			$db_settings = $this->get_blocks_config($block_ids);
+			$sql_where = $this->db->sql_in_set('bid', $block_ids);
+			$db_settings = $this->get_blocks_config($sql_where);
 
 			foreach ($block_pos as $style_id => $routes)
 			{
@@ -328,16 +328,11 @@ class display
 		return isset($blocks[$style_id][$route]) ? $blocks[$style_id][$route] : array();
 	}
 
-	public function get_blocks_config($bids)
+	public function get_blocks_config($sql_where = array())
 	{
-		if (!sizeof($bids))
-		{
-			return array();
-		}
-
 		$sql = 'SELECT bid, bvar, bval
-            FROM ' . $this->blocks_config_table . '
-            WHERE ' . $this->db->sql_in_set('bid', $bids);
+			FROM ' . $this->blocks_config_table .
+			(($sql_where) ? ' WHERE ' . $sql_where : '');
 		$result = $this->db->sql_query($sql);
 
 		$data = array();
