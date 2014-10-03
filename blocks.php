@@ -37,13 +37,29 @@ function build_checkbox($option_ary, $selected_items, $key)
 	$id_assigned = false;
 	$html = '';
 
-	foreach ($option_ary as $value => $title)
+	$test = current($option_ary);
+	if (!is_array($test))
 	{
-		$selected = (in_array($value, $selected_items)) ? ' checked="checked"' : '';
-		$title = (isset($user->lang[$title])) ? $user->lang[$title] : $title;
-		$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . (($key) ? ' accesskey="' . $key . '"' : '') . ' class="checkbox" /> ' . $title . '</label><br />';
-		$id_assigned = true;
+		$option_ary = array($option_ary);
+	}
+
+	foreach ($option_ary as $col => $row)
+	{
+		$html .= '<div class="unit sizeAuto ' . $key . '-checkbox" id="' . $key . '-col-' . $col . '">';
+		foreach ($row as $value => $title)
+		{
+			$selected = (in_array($value, $selected_items)) ? ' checked="checked"' : '';
+			$title = (isset($user->lang[$title])) ? $user->lang[$title] : $title;
+			$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . (($key) ? ' accesskey="' . $key . '"' : '') . ' class="checkbox" /> ' . $title . '</label><br />';
+			$id_assigned = true;
+		}
+		$html .= '</div>';
 	}
 
 	return $html;
+}
+
+function build_hidden($value, $key)
+{
+	return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" />';
 }
