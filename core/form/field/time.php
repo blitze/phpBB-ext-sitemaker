@@ -9,7 +9,7 @@
 
 namespace primetime\primetime\core\form\field;
 
-class time extends base
+class time extends duration
 {
 	/** @var \phpbb\request\request_interface */
 	protected $request;
@@ -20,38 +20,23 @@ class time extends base
 	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
+	/** @var \primetime\primetime\core\primetime */
+	protected $primetime;
+
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\request\request_interface		$request		Request object
 	 * @param \phpbb\user							$user			User object
 	 * @param \primetime\primetime\core\template	$ptemplate		Primetime template object
+	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\template $ptemplate)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\template $ptemplate, \primetime\primetime\core\primetime $primetime)
 	{
 		$this->request = $request;
 		$this->user = $user;
 		$this->ptemplate = $ptemplate;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get_field_value($name, $value)
-	{
-		return $this->request->variable($name, $value);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get_default_props()
-	{
-		return array(
-			'field_minlen'		=> '',
-			'field_maxlen'		=> '',
-			'requires_item_id'	=> false,
-		);
+		$this->primetime = $primetime;
 	}
 
 	/**

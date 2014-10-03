@@ -39,6 +39,7 @@ services:
             - @request
             - @user
             - @primetime.template
+            - @primetime
         tags:
             - { name: form.field }
 
@@ -48,6 +49,7 @@ services:
             - @request
             - @user
             - @primetime.template
+            - @primetime
         tags:
             - { name: form.field }
 
@@ -171,6 +173,7 @@ services:
             - @request
             - @user
             - @primetime.template
+            - @primetime
         tags:
             - { name: form.field }
 
