@@ -13,22 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class menu_admin
 {
-	/**
-	 * Request object
-	 * @var \phpbb\request\request_interface
-	 */
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Tree builder object
-	 * @var \primetime\menu\core\builder
-	 */
+	/** @var \primetime\menu\core\builder */
 	protected $manager;
 
 	/**
@@ -61,8 +52,6 @@ class menu_admin
 		{
 			trigger_error('NOT_AUTHORISED');
 		}
-
-		$this->user->add_lang_ext('primetime/primetime', 'acp/info_acp_menu');
 
 		$errors = array();
 		$return = array();
