@@ -174,10 +174,7 @@ class forum_topics extends \primetime\primetime\core\blocks\driver\block
 		{
 			if ($this->settings['display_preview'])
 			{
-				$first_or_last = $this->settings['display_preview'];
-				$preview_post_ids = $this->forum->get_topic_post_ids($first_or_last);
-
-				$post_data = $this->forum->get_post_data($preview_post_ids, false, 0, false);
+				$post_data = $this->forum->get_post_data($this->settings['display_preview']);
 			}
 			else
 			{

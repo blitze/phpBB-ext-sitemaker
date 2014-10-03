@@ -241,12 +241,17 @@ class query
 	/**
 	 * Get post data
 	 */
-	public function get_post_data($post_ids = array(), $limit = false, $start = 0, $pagination = false)
+	public function get_post_data($topic_first_or_last = false, $post_ids = array(), $limit = false, $start = 0)
 	{
 		$sql_where = array();
 		if (sizeof($this->topic_data))
 		{
 			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->topic_data));
+		}
+
+		if ($topic_first_or_last)
+		{
+			$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last));
 		}
 
 		if (sizeof($post_ids))
