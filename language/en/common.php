@@ -71,6 +71,8 @@ $lang = array_merge($lang, array(
 	'QTYPE_RECENT'			=> 'Please welcome our newest member:',
 	'QTYPE_POSTS'			=> 'Congratulations to:',
 	'FEATURED_MEMBERLIST'	=> 'Featured members list',
+	'UCP_PRIMETIME_CONTENT'	=> 'My Stuff',
+	'MCP_PRIMETIME_CONTENT'	=> 'Contents',
 
 	'FORUM_RECENT_TOPICS'			=> 'Recent Forum Topics',
 	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
