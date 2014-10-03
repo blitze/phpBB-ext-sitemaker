@@ -14,52 +14,37 @@ namespace primetime\primetime\blocks;
  */
 class featured_member extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Config Object
-	 * @var \phpbb\config\db
-	 */
+	/** @var \phpbb\config\db */
 	protected $config;
 
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\factory */
 	protected $db;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
-	/**
-	 * Name of the blocks_config database table
-	 * @var string
-	 */
+	/** @var string */
 	private $blocks_config_table;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service					$cache					Cache object
-	 * @param \phpbb\config\db						$config					Config object
-	 * @param \phpbb\db\driver\factory				$db	 				Database connection
-	 * @param \phpbb\user							$user					User object
-	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
-	 * @param string								$php_ext				php file extension
-	 * @param string								$blocks_config_table	Blocks config table
+	 * @param \phpbb\cache\service			$cache					Cache object
+	 * @param \phpbb\config\db				$config					Config object
+	 * @param \phpbb\db\driver\factory		$db	 					Database connection
+	 * @param \phpbb\user					$user					User object
+	 * @param string						$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string						$php_ext				php file extension
+	 * @param string						$blocks_config_table	Blocks config table
 	 */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
@@ -77,9 +62,6 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		}
 	}
 
-	/**
-	 * 
-	 */
 	public function get_config($settings)
 	{
 		$rotation_ary = array(
@@ -117,6 +99,8 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$qtype = (!empty($settings['qtype'])) ? $settings['qtype'] : 'recent';
 		$rotation = (!empty($settings['rotation'])) ? $settings['rotation'] : 'daily';
 		$cpf_fields	= (!empty($settings['show_cpf'])) ? $settings['show_cpf'] : '';
+		$current_user	= (!empty($settings['curren_user'])) ? $settings['curren_user'] : 0;
+		$lastchange	= (!empty($settings['lastchange'])) ? $settings['lastchange'] : 0;
 
 		return array(
 			'legend1'		=> 'SETTINGS',
@@ -125,14 +109,11 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
 			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
 			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
-			'lastchange'	=> array('type' => 'hidden', 'default' => 0),
-			'current_user'	=> array('type' => 'hidden', 'default' => 0),
+			'lastchange'	=> array('type' => 'hidden', 'default' => $lastchange),
+			'current_user'	=> array('type' => 'hidden', 'default' => $current_user),
 		);
 	}
 
-	/**
-	 * 
-	 */
 	public function display($bdata, $edit_mode = false)
 	{
 		$bid = $bdata['bid'];
@@ -210,7 +191,11 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 					$cp = $phpbb_container->get('profilefields.manager');
 
 					$profile_fields = $cp->grab_profile_fields_data($row['user_id']);
-					$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
+
+					if (sizeof($profile_fields))
+					{
+						$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
+					}
 				}
 
 				$this->cache->put('pt_block_data_' . $bid, $row);
@@ -264,7 +249,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			}
 		}
 
-		if (is_array($show_cpf))
+		if (!empty($row['profile_fields']))
 		{
 			global $phpbb_container;
 
