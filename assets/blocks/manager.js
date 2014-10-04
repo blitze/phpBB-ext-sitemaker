@@ -103,7 +103,9 @@
 
 	var saveForm = function(block) {
 		var form = $('#edit_form');
-		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&' + form.serialize(), function(resp) {
+		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
+
+		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			if (resp.errors) {
 				showMessage(resp.errors);
 				return;
@@ -478,7 +480,7 @@
 				if (dialogEditOpened === false) {
 					var pane = $(this).dialog('widget').find('.ui-dialog-buttonpane');
 					dialogEditOpened = true;
-					$('<label class="dialog-check-button"><input type="checkbox" /> Apply changes to similar blocks</label>').prependTo(pane);
+					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" checked="checked" />' + lang.updateSimilar + '</label>').prependTo(pane);
 				}
 			};
 			dialogEdit = $('#dialog-edit').dialog(def_dialog).on('click', '#class-clear', function(e) {

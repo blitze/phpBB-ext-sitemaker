@@ -61,7 +61,7 @@ class manager
 	/** @var string */
 	private $def_icon;
 
-	/** @var string */
+	/** @var int */
 	private $style_id = 0;
 
 	/**
@@ -662,6 +662,7 @@ class manager
 		$permission_ary = $this->request->variable('permission', array(0));
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
+		$update_similar = $this->request->variable('similar', false);
 
 		$multi_select = array_filter($multi_select);
 		foreach ($multi_select as $key => $values)
@@ -686,6 +687,7 @@ class manager
 			'hide_title'	=> $this->request->variable('hide_title', 0),
 			'status'		=> $this->request->variable('status', 0),
 			'no_wrap'		=> $this->request->variable('no_wrap', 0),
+			'hash'			=> '',
 		);
 
 		if (is_array($cfg_array) && sizeof($cfg_array))
@@ -701,16 +703,41 @@ class manager
 				);
 			}
 
-			// just remove old values and replace
-			$this->delete_block_config($bid);
-			$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
+			$old_hash = $bdata['hash'];
+			$new_hash = md5(join('', $bdata['settings']));
+			$this->save_settings($bid, $sql_ary, $df_settings);
+
+			if ($update_similar && $new_hash != $old_hash)
+			{
+				// grab all blocks with same settings
+				$sql_where = array(
+					'b.bid <> ' . (int) $bid,
+					"b.hash = '" . $this->db->sql_escape($old_hash) . "'",
+				);
+				$similar_blocks = $this->get_blocks('', 'data', $sql_where);
+
+				if (sizeof($similar_blocks))
+				{
+					$similar_blocks_config = $this->get_block_config(array_keys($similar_blocks));
+
+					foreach ($similar_blocks as $id => $block)
+					{
+						foreach ($sql_ary as $i => $row)
+						{
+							$sql_sql[$i]['bid'] = $id;
+						}
+
+						$b = $this->phpbb_container->get($block['name']);
+						$df_settings = $b->get_config(isset($similar_blocks_config[$id]) ? $similar_blocks_config[$id] : array());
+
+						$this->save_settings($block['bid'], $sql_ary, $df_settings);
+					}
+				}
+			}
+
+			$sql_data['hash'] = $new_hash;
 		}
 		$this->cache->destroy('primetime_blocks');
-
-		if (isset($df_settings['cache_name']))
-		{
-			$this->cache->destroy($df_settings['cache_name']);
-		}
 
 		return $this->update($bid, $sql_data, $route);
 	}
@@ -901,8 +928,15 @@ class manager
 	/**
 	 * Get all blocks for specified route
 	 */
-	public function get_blocks($route, $return = 'data')
+	public function get_blocks($route, $return = 'data', $sql_where_array = array())
 	{
+		$def_sql_where = array(
+			'b.style = ' . $this->style_id,
+			"r.route = '" . $this->db->sql_escape($route) . "'",
+		);
+
+		$sql_where = (sizeof($sql_where_array)) ? $sql_where_array : $def_sql_where;
+
 		$sql_array = array(
 			'SELECT'	=> 'b.*',
 
@@ -911,9 +945,7 @@ class manager
 				$this->block_routes_table	=> 'r',
 			),
 
-			'WHERE'	 => 'b.route_id = r.route_id
-				AND b.style = ' . $this->style_id . "
-				AND r.route = '" . $this->db->sql_escape($route) . "'",
+			'WHERE'	 => 'b.route_id = r.route_id' . ((sizeof($sql_where)) ? ' AND ' . join(' AND ', $sql_where) : ''),
 
 			'ORDER_BY'  => 'b.position, b.weight ASC',
 		);
@@ -1133,5 +1165,23 @@ class manager
 		$this->db->sql_freeresult($result);
 
 		return ($mode == 'data') ? $data : $options;
+	}
+
+	private function save_settings($bid, $sql_config_data, $df_settings)
+	{
+		// just remove old values and replace
+		$this->delete_block_config($bid);
+		$this->db->sql_multi_insert($this->blocks_config_table, $sql_config_data);
+
+		/**
+		 * This is used by blocks that cache their own data.This
+		 *
+		 * Set hidden field in block config called 'cache_name' with the name of the cache
+		 * The cache will be cleared everytime the block is settings are changed
+		 */
+		if (isset($df_settings['cache_name']))
+		{
+			$this->cache->destroy($df_settings['cache_name']);
+		}
 	}
 }
