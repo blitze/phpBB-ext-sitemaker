@@ -50,10 +50,12 @@ class menu extends \primetime\primetime\core\blocks\driver\block
 		$sql = 'SELECT * FROM ' . $this->menus_table;
 		$result = $this->db->sql_query($sql);
 
+		$menu_id = 0;
 		$options = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$options[$row['menu_id']] = $row['menu_name'];
+			$menu_id = $row['menu_id'];
+			$options[$menu_id] = $row['menu_name'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -63,14 +65,14 @@ class menu extends \primetime\primetime\core\blocks\driver\block
 			$depth_ary[$i] = $i;
 		}
 
-		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : 0;
+		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : $menu_id;
 		$expanded = (!empty($settings['expanded'])) ? $settings['expanded'] : 0;
 		$max_depth = (!empty($settings['max_depth'])) ? $settings['max_depth'] : 3;
 
 		return array(
 			'legend1'       => $this->user->lang['SETTINGS'],
 			'cache_name'	=> 'primetime_menu_data_' . $menu_id,
-			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => 0, 'explain' => false),
+			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => $menu_id, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
 			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_ary, $max_depth), 'default' => 3, 'explain' => false),
 		);
