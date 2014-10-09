@@ -80,6 +80,7 @@ class display extends \primetime\primetime\core\tree\display
 				'S_ACTIVE'		=> $is_active,
 			);
 
+			$row['item_url'] = append_sid($row['item_url']);
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
 
 			for ($j = 0; $j < $repeat; $j++)
