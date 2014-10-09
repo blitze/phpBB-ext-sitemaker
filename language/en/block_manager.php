@@ -42,6 +42,7 @@ $lang = array_merge($lang, array(
 	'COPY'					=> 'Copy',
 	'COPY_BLOCKS'			=> 'Copy Blocks?',
 	'DELETE'				=> 'Delete',
+	'DELETE_ALL_BLOCKS'		=> 'Delete All Blocks',
 	'EDIT_BLOCK'			=> 'Edit Block',
 	'DELETE_BLOCK'			=> 'Delete Block',
 	'EXIT_EDIT_MODE'		=> 'Exit Edit Mode',
@@ -159,7 +160,8 @@ $lang = array_merge($lang, array(
 	'SETTING_TOO_SHORT'		=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
 
 	'AJAX_ERROR'					=> 'Oops! There was an error processing your request. Please try again.',
-	'COPY_BLOCKS_CONFIRM'			=> 'Are you sure that want to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
+	'COPY_BLOCKS_CONFIRM'			=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
+	'DELETE_ALL_BLOCKS_CONFIRM'		=> 'Are you sure that you’d like to delete all blocks for this page?',
 	'LEAVE_CONFIRM'					=> 'You have some unsaved changes to this page. Please save your work before moving on',
 	'UPDATE_SIMILAR'				=> 'Update blocks with similar settings',
 	'DELETE_BLOCK_CONFIRM'			=> 'Are you sure you want to delete this block?<br /><br /><br /><strong>Note:</strong> You will have to save the layout changes to make this permanent.',

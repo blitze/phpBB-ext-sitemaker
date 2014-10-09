@@ -4,7 +4,7 @@
 	var editorVal = '';
 	var editing = false, updated = false, dialogEditOpened = false;
 	var blockPositions = {}, mainContentObj = {}, emptyPositionsObj = {}, subcontentObj = {}, template = {};
-	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
+	var origin = {}, inlineForm = {}, dialogConfirm = {}, dialogEdit = {}, dialogCopy = {}, cButtons = {}, dButtons = {}, eButtons = {}, lButtons = {}, blockObj = {}, blockData = {}, msgObj = {}, saveBtn = {};
 
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
@@ -454,18 +454,38 @@
 
 			dialogConfirm = $('#dialog-confirm').dialog(def_dialog);
 
+			// Delete all blocks
+			lButtons[lang.deleteAll] = function() {
+				$(this).dialog('close');
+				$('.block-position').empty();
+				hideEmptyPositions();
+				saveBtn.button('enable');
+				updated = true;
+			};
+
+			lButtons[lang.cancel] = function() {
+				$(this).dialog('close');
+			};
+
+			var dialogDeleteAll = $('#dialog-delete-all').dialog(def_dialog);
+			var deleteAll = $('#delete-blocks').button().click(function(e) {
+				e.preventDefault();
+				dialogDeleteAll.dialog({buttons: lButtons}).dialog('open');
+			});
+
 			// Initiate dialog for block copy
 			cButtons[lang.copy] = function() {
 				$(this).dialog('close');
 				copyBlocks(copyFrom);
+				deleteAll.parent().show();
 			};
 
 			cButtons[lang.cancel] = function() {
 				$(this).dialog('close');
 			};
-			dialogCopy = $('#dialog-copy').dialog(def_dialog);
 
 			// Events for add block dropdown
+			dialogCopy = $('#dialog-copy').dialog(def_dialog);
 			$('#copy-form').submit(function(e) {
 				e.preventDefault();
 				copyFrom = $(this).find('select').val();
@@ -510,9 +530,13 @@
 				var setDefault = $(this).data('set');
 				setDefaultLayout(setDefault);
 				if (setDefault === true) {
+					// set as default
 					$(this).parent().hide().next().hide().next().show();
+					deleteAll.parent().hide();
 				} else {
+					// remove as default
 					$(this).parent().hide().prev().hide().prev().show();
+					deleteAll.parent().show();
 				}
 				return false;
 			});

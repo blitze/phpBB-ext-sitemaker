@@ -115,6 +115,9 @@ class blocks_admin
 				}
 				$return_data = $this->blocks->update($id, $data, $route);
 			break;
+			case 'delete_blocks':
+				$this->blocks->delete_route_blocks($route);
+			break;
 			case 'save_layout':
 				$return_data = $this->blocks->save_layout($route);
 			break;

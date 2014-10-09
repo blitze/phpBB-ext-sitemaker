@@ -21,7 +21,7 @@
 
 							<div class="ui-state-default" style="text-align: center">
 								<form id="copy-form">
-									<strong>{L_BLOCKS_COPY_FROM}:</strong> 
+									<strong>{L_BLOCKS_COPY_FROM}:</strong>
 									<select id="copy-from">
 										{S_ROUTE_OPS}
 									</select>
@@ -35,8 +35,9 @@
 							<div class="line">
 								<div class="unit size1of2">
 									<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true">{L_MAKE_DEFAULT_LAYOUT}</a></p>
-									<p<!-- IF not U_DEFAULT_LAYOUT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_DEFAULT_LAYOUT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
+									<p<!-- IF not U_VIEW_DEFAULT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_VIEW_DEFAULT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
 									<p<!-- IF not S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="false">{L_REMOVE_DEFAULT_LAYOUT}</a></p>
+									<p<!-- IF not S_HAS_BLOCKS || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" id="delete-blocks" data-set="false">{L_DELETE_ALL_BLOCKS}</a></p>
 								</div>
 								<div class="unit size1of2 lastUnit">
 									<form id="route-settings">

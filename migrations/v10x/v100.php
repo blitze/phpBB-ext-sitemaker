@@ -36,6 +36,7 @@ class v100 extends \phpbb\db\migration\migration
 						'route'			=> array('XSTEXT_UNI', ''),
 						'style'			=> array('USINT', 0),
 						'hide_blocks'	=> array('BOOL', 0),
+						'has_blocks'	=> array('BOOL', 0),
 						'ex_positions'	=> array('VCHAR:255', ''),
 					),
 
