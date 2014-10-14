@@ -143,7 +143,7 @@ class manager
 			'S_IS_DEFAULT'		=> $is_default_route,
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
-			'U_DISP_MODE'		=> $page_url,
+			'U_DISP_MODE'		=> reapply_sid($page_url),
 			'UA_ROUTE'			=> $route,
 			'UA_AJAX_URL'		=> $app_url)
 		);
@@ -572,6 +572,11 @@ class manager
 				{
 					$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
 				}
+			}
+
+			if (!empty($vars['append']))
+			{
+				$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
 			}
 
 			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
