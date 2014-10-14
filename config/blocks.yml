@@ -140,3 +140,17 @@ services:
             - [set_name, [primetime.block.whois]]
         tags:
             - { name: primetime.block }
+
+    primetime.blocks.wordgraph:
+        class: primetime\primetime\blocks\wordgraph
+        arguments:
+            - @auth
+            - @content.visibility
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.wordgraph]]
+        tags:
+            - { name: primetime.block }

@@ -34,6 +34,7 @@ $lang = array_merge($lang, array(
 	'PRIMETIME_BLOCK_STATS'				=> 'Statistics',
 	'PRIMETIME_BLOCK_WHATS_NEW'			=> 'What’s New?',
 	'PRIMETIME_BLOCK_WHOIS'				=> 'Who is online',
+	'PRIMETIME_BLOCK_WORDGRAPH'			=> 'Wordgraph',
 
 	'ALL'					=> 'All',
 	'NONE'					=> 'None',
@@ -140,6 +141,20 @@ $lang = array_merge($lang, array(
 	'SELECT_MENU'			=> 'Select Menu',
 	'EXPANDED'				=> 'Expanded',
 	'MAX_DEPTH'				=> 'Maximum depth',
+	'WORDS'					=> 'Words',
+	'PIXEL'					=> 'px',
+
+	'ALLOW_WORD_COUNT'			=> 'Enable word counter',
+	'ALLOW_WORD_COUNT_EXPLAIN'	=> 'Allow display the total number of words after each word, e.g. <samp>phpBB(33)</samp>',
+	'WORD_MAX_SIZE'				=> 'Maximum font size',
+	'WORD_MAX_SIZE_EXPLAIN'		=> 'Set maximum value of font size for words in wordgraph.',
+	'WORD_MIN_SIZE'				=> 'Minimum font size',
+	'WORD_MIN_SIZE_EXPLAIN'		=> 'Set minimum value of font size for words in wordgraph.',
+	'WORD_NUMBER'				=> 'Number of words',
+	'EXCLUDE_WORDS'				=> 'Exclude words',
+	'EXCLUDE_TOO_MANY_WORDS'	=> 'You have entered too many words to exclude. The maximum number of characters possible is 255, you have entered %s.',
+	'EXCLUDE_WORDS_EXPLAIN'		=> 'List the words you’d like to exclude from the wordgraph separated by a comma (,). Maximum 255 characters.',
+	'WORD_NUMBER_EXPLAIN'		=> 'Select the number of words to display in wordgraph. A higher number could make server load slower in wordgraph page.',
 
 	'FORUMS_MAX_TOPICS'			=> 'Maximum topics/posts',
 	'FORUMS_TITLE_MAX_CHARS'	=> 'Maximum characters per title',
@@ -152,12 +167,11 @@ $lang = array_merge($lang, array(
 	'POLL_FROM_GROUPS_EXPLAIN'	=> 'Only polls from members of the selected groups will be displayed as long as no user(s) is/are specified above',
 	'POLL_FROM_TOPICS_EXPLAIN'	=> 'Id(s) of topics to retrieve polls from, separated by <strong>commas</strong>(,). Leave blank to select any topic.',
 	'POLL_FROM_FORUMS_EXPLAIN'	=> 'Only polls from the selected forums will be displayed as long as no topics are specified above',
-	'ENABLE_TOPIC_TRACKING_EXPLAIN'	=> 'If enabled, unread topics will be indicated but the block results will not be cached <strong>(Not recommended)</strong>',
 
-	'SETTING_TOO_LOW'		=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
-	'SETTING_TOO_BIG'		=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
-	'SETTING_TOO_LONG'		=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
-	'SETTING_TOO_SHORT'		=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
+	'SETTING_TOO_LOW'			=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
+	'SETTING_TOO_BIG'			=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
+	'SETTING_TOO_LONG'			=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
+	'SETTING_TOO_SHORT'			=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
 
 	'AJAX_ERROR'					=> 'Oops! There was an error processing your request. Please try again.',
 	'COPY_BLOCKS_CONFIRM'			=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
@@ -170,4 +184,5 @@ $lang = array_merge($lang, array(
 	'SHOW_MEMBER_MENU_EXPLAIN'		=> 'Replace login box with user menu if user is logged in',
 	'SELECT_PROFILE_FIELDS'			=> 'Select profile fields',
 	'SELECT_PROFILE_FIELDS_EXPLAIN'	=> 'Only the selected profile fields will be displayed, if available.',
+	'ENABLE_TOPIC_TRACKING_EXPLAIN'	=> 'If enabled, unread topics will be indicated but the block results will not be cached <strong>(Not recommended)</strong>',
 ));

@@ -81,4 +81,5 @@ $lang = array_merge($lang, array(
 	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
 	'TOPIC_LAST_READ'				=> 'Last read %s',
 	'TOPICS_LAST_READ'				=> 'Last Read Topics',
+	'WORDGRAPH'						=> 'Wordgraph',
 ));
