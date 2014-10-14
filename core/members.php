@@ -11,22 +11,13 @@ namespace primetime\primetime\core;
 
 class members
 {
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Template object for primetime blocks
-	 * @var \primetime\primetime\core\template
-	 */
+	/** @var \primetime\primetime\core\template driver_interface */
 	protected $ptemplate;
 
 	/** @var string */
@@ -38,13 +29,13 @@ class members
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\factory				$db     			Database connection
+	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
 	 * @param \primetime\primetime\core\template	$ptemplate			Primetime template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\factory $db, \phpbb\user $user, \primetime\primetime\core\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\primetime\core\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;

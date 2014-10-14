@@ -14,32 +14,23 @@ namespace primetime\primetime\blocks;
  */
 class birthday extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
+	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service			$cache		Cache object
-	 * @param \phpbb\db\driver\factory		$db     	Database connection
-	 * @param \phpbb\template\template		$user		User object
+	 * @param \phpbb\cache\service					$cache		Cache object
+	 * @param \phpbb\db\driver\driver_interface		$db     	Database connection
+	 * @param \phpbb\template\template				$user		User object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\factory $db, \phpbb\user $user)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

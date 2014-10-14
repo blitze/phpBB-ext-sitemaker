@@ -17,29 +17,29 @@ class wordgraph extends \primetime\primetime\core\blocks\driver\block
 	/** @var \phpbb\content_visibility */
 	protected $content_visibility;
 
-	/** @var \phpbb\db\driver\factory */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var string phpBB root path */
+	/** @var string */
 	protected $phpbb_root_path;
 
-	/** @var string phpEx */
+	/** @var string */
 	protected $php_ext;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth				$auth					Auth object
-	 * @param \phpbb\content_visibility		$content_visibility		Content visibility
-	 * @param \phpbb\db\driver\factory		$db     				Database connection
-	 * @param \phpbb\user					$user					User object
-	 * @param string						$root_path				phpBB root path
-	 * @param string						$php_ext				phpEx
+	 * @param \phpbb\auth\auth					$auth					Auth object
+	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
+	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
+	 * @param \phpbb\user						$user					User object
+	 * @param string							$root_path				phpBB root path
+	 * @param string							$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;

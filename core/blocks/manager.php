@@ -19,7 +19,7 @@ class manager
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\db\driver */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var Container */
@@ -69,7 +69,7 @@ class manager
 	 *
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
-	 * @param \phpbb\db\driver\factory					$db						Database object
+	 * @param \phpbb\db\driver\driver_interface			$db						Database object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
@@ -83,7 +83,7 @@ class manager
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\factory $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

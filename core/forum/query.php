@@ -20,7 +20,7 @@ class query
 	/** @var \phpbb\content_visibility */
 	protected $content_visibility;
 
-	/** @var \phpbb\db\driver\factory */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\user */
@@ -50,13 +50,13 @@ class query
 	 * @param \phpbb\auth\auth						$auth					Auth object
 	 * @param \phpbb\config\db						$config					Config object
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
-	 * @param \phpbb\db\driver\factory				$db     				Database connection
+	 * @param \phpbb\db\driver\driver_interface		$db     				Database connection
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
 	 * @param \primetime\primetime\core\primetime	$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\primetime $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;

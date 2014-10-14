@@ -14,20 +14,13 @@ namespace primetime\primetime\blocks;
  */
 class member_menu extends \primetime\primetime\core\blocks\driver\block
 {
-	/**
-	 * @var \phpbb\auth\auth
-	 */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/**
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string */
@@ -39,13 +32,13 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth			$auth				Permission object
-	 * @param \phpbb\db\driver\factory	$db					Database connection
-	 * @param \phpbb\user				$user				User object
-	 * @param string					$phpbb_root_path	Path to the phpbb includes directory.
-	 * @param string					$php_ext			php file extension
+	 * @param \phpbb\auth\auth					$auth				Permission object
+	 * @param \phpbb\db\driver\driver_interface	$db					Database connection
+	 * @param \phpbb\user						$user				User object
+	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string							$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\factory $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->db = $db;

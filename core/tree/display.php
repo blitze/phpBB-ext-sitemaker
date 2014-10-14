@@ -14,10 +14,7 @@ namespace primetime\primetime\core\tree;
 */
 abstract class display
 {
-	/**
-	 * Database
-	 * @var \phpbb\db\driver\factory
-	 */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	protected $items_table;
@@ -30,13 +27,13 @@ abstract class display
 	/**
 	* Construct
 	*
-	* @param \phpbb\db\driver\factory				$db             Database connection
+	* @param \phpbb\db\driver\driver_interface		$db             Database connection
 	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	* @param string									$table_name		Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
-	public function __construct(\phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $table, $pk, $sql_where = '')
+	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\primetime\core\primetime $primetime, $table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
 		$this->pk = $pk;
