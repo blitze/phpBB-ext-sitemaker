@@ -106,9 +106,10 @@ class manager
 	/**
 	 * Handle the admin bar
 	 */
-	public function handle($route, $style_id)
+	public function handle($route_info, $edit_mode)
 	{
-		$edit_mode = $this->request->variable('edit_mode', false);
+		$route = $route_info['route'];
+		$style_id = $route_info['style'];
 
 		$board_url = generate_board_url();
 		$page_url = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../');
@@ -166,7 +167,6 @@ class manager
 			}
 
 			$this->get_available_blocks();
-			$route_info = $this->get_route_info($route);
 
 			$hide_blocks = false;
 			$ex_positions = array();
@@ -280,7 +280,7 @@ class manager
 	{
 		$routes = $this->get_all_routes();
 
-		return (isset($routes[$this->style_id][$route])) ? $routes[$this->style_id][$route] : array();
+		return (isset($routes[$this->style_id][$route])) ? $routes[$this->style_id][$route] : $this->add_route($route, 'data');
 	}
 
 	/**
@@ -296,7 +296,7 @@ class manager
 	/**
 	 * Add a new route
 	 */
-	public function add_route($route)
+	public function add_route($route, $return = 'id')
 	{
 		$ext_name = $this->request->variable('ext', '');
 
@@ -309,10 +309,11 @@ class manager
 			'ex_positions'	=> '',
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
+		$sql_data['route_id'] = $this->db->sql_nextid();
 
 		$this->cache->destroy('primetime_block_routes');
 
-		return $this->db->sql_nextid();
+		return ($return == 'id') ? $sql_data['route_id'] : $sql_data;
 	}
 
 	/**
@@ -411,6 +412,19 @@ class manager
 			return;
 		}
 
+		$b = $this->phpbb_container->get($service);
+		$bconfig = $b->get_config(array());
+
+		$default_setting = array();
+		foreach ($bconfig as $key => $settings)
+		{
+			if (!is_array($settings))
+			{
+				continue;
+			}
+			$default_setting[$key] =& $settings['default'];
+		}
+
 		$route_id = $this->get_route_id($route);
 		$block_data = array(
 			'icon'			=> '',
@@ -422,26 +436,17 @@ class manager
 			'style'			=> $this->style_id,
 			'hide_title'	=> false,
 			'no_wrap'		=> false,
+			'hash'			=> md5(join('', $default_setting)),
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
+
 		$block_data['bid'] = $this->db->sql_nextid();
+		$block_data['settings'] = $default_setting;
 
 		// update route info
 		$this->update_route($route_id, array('has_blocks' => true));
 
 		// get block info and display it
-		$b = $this->phpbb_container->get($service);
-		$bconfig = $b->get_config(array());
-
-		foreach ($bconfig as $key => $settings)
-		{
-			if (!is_array($settings))
-			{
-				continue;
-			}
-			$block_data['settings'][$key] =& $settings['default'];
-		}
-
 		return array_merge(
 			array('id' => $block_data['bid']),
 			$this->display($b, $block_data)
@@ -747,7 +752,6 @@ class manager
 
 			$sql_data['hash'] = $new_hash;
 		}
-		$this->cache->destroy('primetime_blocks');
 
 		return $this->update($bid, $sql_data, $route);
 	}
@@ -790,14 +794,17 @@ class manager
 		$current_blocks = $this->get_blocks($route);
 		$route_info = $this->get_route_info($route);
 
-		$sql_blocks_ary = array_intersect_key($current_blocks, $blocks_ary);
-		$sql_blocks_ary = array_replace_recursive($sql_blocks_ary, $blocks_ary);
-		$removed_blocks = array_keys(array_diff_key($current_blocks, $blocks_ary));
+		if (sizeof($blocks_ary))
+		{
+			$sql_blocks_ary = array_intersect_key($current_blocks, $blocks_ary);
+			$sql_blocks_ary = array_replace_recursive($sql_blocks_ary, $blocks_ary);
+		}
 
 		// Delete all blocks for this route
 		$this->delete_blocks(array_keys($current_blocks), false);
 
 		// Remove block settings for deleted blocks
+		$removed_blocks = array_keys(array_diff_key($current_blocks, $blocks_ary));
 		$this->delete_block_config($removed_blocks);
 
 		// add blocks
@@ -824,18 +831,20 @@ class manager
 			return array('data' => $this->get_blocks($route));
 		}
 
-		// get current blocks info
-		$route_id = $this->get_route_id($route);
+		// get current route and blocks info
+		$route_info = $this->get_route_info($route);
 		$old_blocks = $this->get_blocks($route, 'id');
+		$route_id	= $route_info['route_id'];
 
 		// get new blocks info
-		$sql_new_route_info = $this->get_route_info($copy_from);
+		$new_route_info = $this->get_route_info($copy_from);
 		$new_blocks = $this->get_blocks($copy_from, 'data');
 
-		// copy route info
-		$sql_new_route_info['route'] = $route;
-		$sql_new_route_info['route_id'] = $route_id;
-		$this->update_route($route_id, $sql_new_route_info);
+		// copy route prefs
+		$route_info['has_blocks'] = $new_route_info['has_blocks'];
+		$route_info['hide_blocks'] = $new_route_info['hide_blocks'];
+		$route_info['ex_positions'] = $new_route_info['ex_positions'];
+		$this->update_route($route_info['route_id'], $route_info);
 
 		// delete current blocks
 		$this->delete_blocks($old_blocks);
@@ -927,7 +936,7 @@ class manager
 
 		return array(
 			'data'		=> $data,
-			'config'	=> $sql_new_route_info,
+			'config'	=> $route_info,
 		);
 	}
 

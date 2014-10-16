@@ -107,18 +107,17 @@ class display
 			)
 		));
 
-		$edit_mode = false;
+		$edit_mode = $this->request->variable('edit_mode', false);
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
 		$this->default_route = $this->config['primetime_default_layout'];
+		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
 
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
-			$manager = $this->phpbb_container->get('primetime.blocks.manager');
-			$edit_mode = $manager->handle($route, $style_id);
+			$this->phpbb_container->get('primetime.blocks.manager')->handle($route_info, $edit_mode);
 		}
 
-		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
 		$blocks = $this->get_blocks($route_info, $style_id, $edit_mode);
 		$users_groups = $this->get_users_groups();
 
@@ -208,12 +207,14 @@ class display
 	{
 		$default_info = array(
 			'route_id'		=> 0,
+			'route'			=> $route,
+			'style'			=> $style_id,
 			'hide_blocks'	=> false,
 			'ex_positions'	=> '',
 			'has_blocks'	=> false,
 		);
 
-		if (($routes = $this->cache->get('primetime_block_routes')) === false)
+		if (($route_info = $this->cache->get('primetime_block_routes')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->block_routes_table;
@@ -222,14 +223,16 @@ class display
 			$routes = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$routes[$row['style']][$row['route']] = $row;
+				$route_info[$row['style']][$row['route']] = $row;
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('primetime_block_routes', $routes);
+			$this->cache->put('primetime_block_routes', $route_info);
 		}
 
-		return (isset($routes[$style_id][$route])) ? $routes[$style_id][$route] : (($edit_mode === false && $this->default_route && isset($routes[$style_id][$this->default_route])) ? $routes[$style_id][$this->default_route] : $default_info);
+		$route_info = (isset($route_info[$style_id][$route])) ? $route_info[$style_id][$route] : (($edit_mode === false && $this->default_route && isset($route_info[$style_id][$this->default_route])) ? $route_info[$style_id][$this->default_route] : $default_info);
+
+		return $route_info;
 	}
 
 	public function clear_blocks_cache()
@@ -239,7 +242,6 @@ class display
 
 	public function get_blocks($route_info, $style_id, $edit_mode)
 	{
-		$edit_mode = false;
 		if (($blocks = $this->cache->get('primetime_blocks')) === false || $edit_mode)
 		{
 			$sql_array = array(
@@ -269,8 +271,11 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
-			$sql_where = $this->db->sql_in_set('bid', $block_ids);
-			$db_settings = $this->get_blocks_config($sql_where);
+			if (sizeof($block_ids))
+			{
+				$sql_where = $this->db->sql_in_set('bid', $block_ids);
+				$db_settings = $this->get_blocks_config($sql_where);
+			}
 
 			foreach ($block_pos as $style_id => $routes)
 			{
@@ -318,10 +323,14 @@ class display
 			}
 		}
 
-		$default_route = $this->get_route_info($this->default_route, $style_id, $edit_mode);
-		$route_id = ($route_info['has_blocks']) ? $route_info['route_id'] : ((!$edit_mode) ? $default_route['route_id'] : 0);
+		$route_id = $route_info['route_id'];
+		if ($edit_mode !== false && !$route_info['has_blocks'])
+		{
+			$default_route = $this->get_route_info($this->default_route, $style_id, $edit_mode);
+			$route_id = $default_route['route_id'];
+		}
 
-		$blocks = (isset($blocks[$style_id][$route_id]) && (!$route_info['hide_blocks'] || $edit_mode)) ? $blocks[$style_id][$route_id] : array();
+		$blocks = (isset($blocks[$style_id][$route_id])) ? $blocks[$style_id][$route_id] : array();
 
 		return $blocks;
 	}
