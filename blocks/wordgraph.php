@@ -110,8 +110,8 @@ class wordgraph extends \primetime\primetime\core\blocks\driver\block
 			);
 		}
 
-		$max_sat = hexdec(0);
-		$min_sat = hexdec('f');
+		$max_sat = hexdec('f');
+		$min_sat = hexdec(0);
 
 		$max_count = max(array_values($words_array));
 		$min_count = min(array_values($words_array));
