@@ -10,9 +10,9 @@
 namespace primetime\primetime\blocks;
 
 /**
- * Custom Block
+ * HTML Block
  */
-class custom extends \primetime\primetime\core\blocks\driver\block
+class html extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
 	* User object
@@ -45,12 +45,12 @@ class custom extends \primetime\primetime\core\blocks\driver\block
 
 			$phpbb_container->get('primetime')->add_assets(array(
 				'js' => array(
-					'//cdn.ckeditor.com/4.4.5/standard/ckeditor.js',
+					'//tinymce.cachefly.net/4.1/tinymce.min.js',
 				)
 			));
 
 			$bid = (isset($bdata['bid'])) ? $bdata['bid'] : 0;
-			$content = '<div id="block-editor-' . $bid . '" class="editable-block" contenteditable="true">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
+			$content = '<div id="block-editor-' . $bid . '" class="editable-block">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
 		}
 
 		return array(

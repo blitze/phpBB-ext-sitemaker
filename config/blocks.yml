@@ -10,15 +10,6 @@ services:
         tags:
             - { name: primetime.block }
 
-    primetime.blocks.custom:
-        class: primetime\primetime\blocks\custom
-        arguments:
-            - @user
-        calls:
-            - [set_name, [primetime.block.custom]]
-        tags:
-            - { name: primetime.block }
-
     primetime.block.featured_member:
         class: primetime\primetime\blocks\featured_member
         arguments:
@@ -47,6 +38,15 @@ services:
             - %core.php_ext%
         calls:
             - [set_name, [primetime.block.forum_topics]]
+        tags:
+            - { name: primetime.block }
+
+    primetime.blocks.html:
+        class: primetime\primetime\blocks\html
+        arguments:
+            - @user
+        calls:
+            - [set_name, [primetime.block.html]]
         tags:
             - { name: primetime.block }
 
