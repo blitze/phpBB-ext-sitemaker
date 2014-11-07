@@ -108,14 +108,23 @@ class display
 		));
 
 		$edit_mode = $this->request->variable('edit_mode', false);
+
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
 		$this->default_route = $this->config['primetime_default_layout'];
 		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
 
+		$u_edit_mode = '';
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
-			$this->phpbb_container->get('primetime.blocks.manager')->handle($route_info, $edit_mode);
+			if ($edit_mode)
+			{
+				$this->phpbb_container->get('primetime.blocks.manager')->handle($route_info);
+			}
+			else
+			{
+				$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=1');
+			}
 		}
 
 		$blocks = $this->get_blocks($route_info, $style_id, $edit_mode);
@@ -160,6 +169,7 @@ class display
 				'S_PRIMETIME'		=> true,
 				'S_HAS_BLOCKS'		=> sizeof($blocks),
 				'L_INDEX'			=> $this->user->lang['HOME'],
+				'U_EDIT_MODE'		=> $u_edit_mode,
 			),
 			array_change_key_case($blocks_per_position, CASE_UPPER))
 		);
@@ -277,13 +287,13 @@ class display
 				$db_settings = $this->get_blocks_config($sql_where);
 			}
 
-			foreach ($block_pos as $style_id => $routes)
+			foreach ($block_pos as $style => $routes)
 			{
 				foreach($routes as $route_id => $positions)
 				{
 					foreach ($positions as $bid => $position)
 					{
-						$block_service = $blocks[$style_id][$route_id][$position][$bid]['name'];
+						$block_service = $blocks[$style][$route_id][$position][$bid]['name'];
 						$block_config = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
 
 						if ($this->phpbb_container->has($block_service) === false)
@@ -310,7 +320,7 @@ class display
 								{
 									$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
 								}
-								$blocks[$style_id][$route_id][$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
+								$blocks[$style][$route_id][$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
 							}
 						}
 					}
@@ -324,7 +334,7 @@ class display
 		}
 
 		$route_id = $route_info['route_id'];
-		if ($edit_mode !== false && !$route_info['has_blocks'])
+		if ($edit_mode === false && !$route_info['has_blocks'])
 		{
 			$default_route = $this->get_route_info($this->default_route, $style_id, $edit_mode);
 			$route_id = $default_route['route_id'];
