@@ -60,6 +60,9 @@ $lang = array_merge($lang, array(
 	'REBUILD_TREE'		=> 'Rebuild Tree',
 	'SAVE_CHANGES'		=> 'Save Changes',
 	'SELECT_ALL'		=> 'Select All',
+	'REPLIES_PER_DAY'	=> 'Replies Per Day',
+	'PHPBB_NEWS'		=> 'phpBB News',
+	'USER_ENGAGEMENT'	=> 'User Engagement',
 
 	'ACP_CAT_CMS'				=> 'Primetime',
 	'ACP_PRIMETIME_EXTENSIONS'	=> 'Extensions',
