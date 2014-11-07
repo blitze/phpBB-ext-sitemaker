@@ -14,8 +14,10 @@ class primetime
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** array */
 	protected $scripts;
 
+	/** array */
 	public $asset_path;
 
 	/**
@@ -110,5 +112,23 @@ class primetime
 		}
 
 		return $sql_ary1;
+	}
+
+	/**
+	 * Add a secret token to the form (requires the S_FORM_TOKEN template variable)
+	 * @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
+	 */
+	public function get_form_key($form_name)
+	{
+		global $phpbb_container;
+
+		$tpl_context = $phpbb_container->get('template_context');
+
+		add_form_key($form_name);
+
+		$rootref = $tpl_context->get_root_ref();
+		$s_form_token = $rootref['S_FORM_TOKEN'];
+
+		return $s_form_token;
 	}
 }
