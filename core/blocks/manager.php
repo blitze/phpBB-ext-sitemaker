@@ -70,8 +70,8 @@ class manager
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param Container									$phpbb_container		Service container
+	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\primetime\core\icon_picker		$icons					Primetime icon picker object
@@ -106,13 +106,13 @@ class manager
 	/**
 	 * Handle the admin bar
 	 */
-	public function handle($route_info, $edit_mode)
+	public function handle($route_info)
 	{
+		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
+		$this->add_block_admin_lang();
+
 		$route = $route_info['route'];
 		$style_id = $route_info['style'];
-
-		$board_url = generate_board_url();
-		$page_url = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../');
 
 		$this->set_style($style_id);
 
@@ -120,74 +120,90 @@ class manager
 		$this->primetime->add_assets(array(
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
+				'//tinymce.cachefly.net/4.1/tinymce.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/js/t.js',
 				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.js',
 			),
 			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/base/jquery-ui.css',
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
 				$asset_path . 'ext/primetime/primetime/assets/blocks/manager.css',
 			)
 		));
+
+		$board_url = generate_board_url();
+		$app_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
+		$ajax_url = $app_url . '/blocks/';
+		$u_disp_mode = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
 
 		$is_default_route = $u_default_route = false;
 		if ($this->config['primetime_default_layout'])
 		{
 			$is_default_route = ($this->config['primetime_default_layout'] === $route) ? true : false;
-			$u_default_route = append_sid($asset_path . $this->config['primetime_default_layout']);
+			$u_default_route .= $board_url . '/' . $this->config['primetime_default_layout'];
+			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$app_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '') . '/blocks/';
+		$symfony_request = $this->phpbb_container->get('symfony_request');
+		$controller = $symfony_request->attributes->get('_controller');
 
-		$this->template->assign_vars(array(
-			'S_ADMIN_BLOCKS'	=> true,
-			'S_EDIT_MODE'		=> $edit_mode,
-			'S_IS_DEFAULT'		=> $is_default_route,
-			'U_VIEW_DEFAULT'	=> $u_default_route,
-			'U_EDIT_MODE'		=> append_sid($page_url, 'edit_mode=1'),
-			'U_DISP_MODE'		=> reapply_sid($page_url),
-			'UA_ROUTE'			=> $route,
-			'UA_AJAX_URL'		=> $app_url)
-		);
-
-		if ($edit_mode !== false)
+		if ($controller)
 		{
-			$this->user->add_lang_ext('primetime/primetime', 'block_manager');
+			list($controller_service, $controller_method) = explode(':', $controller);
+			$controller_params	= $symfony_request->attributes->get('_route_params');
+			$controller_object	= $this->phpbb_container->get($controller_service);
+			$controller_class	= get_class($controller_object);
 
-			$this->add_block_admin_lang();
+			$r = new \ReflectionMethod($controller_class, $controller_method);
+			$params = $r->getParameters();
 
-			$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
-
-			$ext_name = '';
-			if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
+			$arguments = array();
+			foreach ($params as $param)
 			{
-				$controller = $this->phpbb_container->get($controller_service[0]);
-
-				list($namespace, $ext) = explode('\\', get_class($controller));
-				$ext_name = "$namespace/$ext";
+				$name = $param->getName();
+				$arguments[$name] = $controller_params[$name];
 			}
 
-			$this->get_available_blocks();
-
-			$hide_blocks = false;
-			$ex_positions = array();
-
-			if (sizeof($route_info))
-			{
-				$ex_positions = explode(',', $route_info['ex_positions']);
-				$hide_blocks = $route_info['hide_blocks'];
-			}
+			list($namespace, $extension) = explode('\\', $controller_class);
 
 			$this->template->assign_vars(array(
-				'ICON_PICKER'		=> $this->icons->picker(),
-				'UA_EXTENSION'		=> $ext_name,
-				'UA_STYLE_ID'		=> $style_id,
-				'S_ROUTE_OPS'		=> $this->get_route_options($route),
-				'S_HIDE_BLOCKS'		=> $hide_blocks,
-				'S_POSITION_OPS'	=> $this->get_position_options($ex_positions))
-			);
-		};
+				'CONTROLLER_NAME'	=> $controller_service,
+				'CONTROLLER_METHOD'	=> $controller_method,
+				'CONTROLLER_PARAMS'	=> join('/', $arguments),
+				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service) ? true : false,
+				'UA_EXTENSION'		=> $namespace . '/' . $extension,
+			));
+		}
 
-		return $edit_mode;
+		$this->get_available_blocks();
+
+		$hide_blocks = false;
+		$ex_positions = array();
+
+		if (sizeof($route_info))
+		{
+			$ex_positions = explode(',', $route_info['ex_positions']);
+			$hide_blocks = $route_info['hide_blocks'];
+		}
+
+		$this->template->assign_vars(array(
+			'S_EDIT_MODE'		=> true,
+			'S_ROUTE_OPS'		=> $this->get_route_options($route),
+			'S_HIDE_BLOCKS'		=> $hide_blocks,
+			'S_POSITION_OPS'	=> $this->get_position_options($ex_positions),
+			'S_IS_DEFAULT'		=> $is_default_route,
+			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
+
+			'ICON_PICKER'		=> $this->icons->picker(),
+
+			'UA_STYLE_ID'		=> $style_id,
+			'UA_ROUTE'			=> $route,
+			'UA_AJAX_URL'		=> $ajax_url,
+			'UA_APP_URL'		=> $app_url,
+			'UA_BOARD_URL'		=> $board_url,
+
+			'U_VIEW_DEFAULT'	=> $u_default_route,
+			'U_DISP_MODE'		=> $u_disp_mode,
+		));
 	}
 
 	/**
@@ -241,7 +257,7 @@ class manager
 	/**
 	 * Get routes with blocks
 	 */
-	public function get_route_options($ex_route)
+	public function get_route_options($route)
 	{
 		$sql_array = array(
 			'SELECT'	=> 'r.route',
@@ -251,9 +267,7 @@ class manager
 				$this->block_routes_table	=> 'r',
 			),
 
-			'WHERE'	 => 'b.route_id = r.route_id
-				AND b.style = ' . $this->style_id .
-				(($ex_route) ? " AND r.route <> '" . $this->db->sql_escape($ex_route) . "'" : ''),
+			'WHERE'	 => 'b.route_id = r.route_id',
 
 			'GROUP_BY'  => 'r.route',
 
@@ -266,7 +280,8 @@ class manager
 		$options = '<option value="">' . $this->user->lang['SELECT'] . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$options .= '<option value="' . $row['route'] . '">' . $row['route'] . '</option>';
+			$selected = ($row['route'] == $route) ? " selected='selected'" : '';
+			$options .= '<option value="' . $row['route'] . '"' . $selected . '>' . $row['route'] . '</option>';
 		}
 		$this->db->sql_freeresult($result);
 
@@ -276,11 +291,12 @@ class manager
 	/**
 	 * Get route info, if it exists
 	 */
-	public function get_route_info($route)
+	public function get_route_info($route, $style = 0, $create_route = true)
 	{
 		$routes = $this->get_all_routes();
+		$style_id = ($style) ? $style : $this->style_id;
 
-		return (isset($routes[$this->style_id][$route])) ? $routes[$this->style_id][$route] : $this->add_route($route, 'data');
+		return (isset($routes[$style_id][$route])) ? $routes[$style_id][$route] : (($create_route) ? $this->add_route($route, 'data') : array());
 	}
 
 	/**
@@ -737,9 +753,9 @@ class manager
 
 					foreach ($similar_blocks as $id => $block)
 					{
-						foreach ($sql_ary as $i => $row)
+						for ($i = 0, $size = sizeof($sql_ary); $i < $size; $i++)
 						{
-							$sql_sql[$i]['bid'] = $id;
+							$sql_ary[$i]['bid'] = $id;
 						}
 
 						$b = $this->phpbb_container->get($block['name']);
@@ -824,21 +840,37 @@ class manager
 	/**
 	 * Copy blocks from one route to another
 	 */
-	public function copy_layout($route, $copy_from)
+	public function copy_layout($route, $from_route, $from_style)
 	{
-		if (!$copy_from)
+		if (!$from_route)
 		{
 			return array('data' => $this->get_blocks($route));
 		}
 
+		$from_where = array(
+			'b.style = ' . $from_style,
+			"r.route = '" . $this->db->sql_escape($from_route) . "'",
+		);
+
 		// get current route and blocks info
 		$route_info = $this->get_route_info($route);
 		$old_blocks = $this->get_blocks($route, 'id');
-		$route_id	= $route_info['route_id'];
+
+		$route_id	= (int) $route_info['route_id'];
+		$style_id	= (int) $route_info['style'];
 
 		// get new blocks info
-		$new_route_info = $this->get_route_info($copy_from);
-		$new_blocks = $this->get_blocks($copy_from, 'data');
+		$new_route_info = $this->get_route_info($from_route, $from_style, false);
+
+		if (!sizeof($new_route_info))
+		{
+			return array(
+				'data' 		=> array(),
+				'config'	=> array(),
+			);
+		}
+
+		$new_blocks = $this->get_blocks($from_route, 'data', $from_where);
 
 		// copy route prefs
 		$route_info['has_blocks'] = $new_route_info['has_blocks'];
@@ -870,6 +902,7 @@ class manager
 			{
 				$mapped_ids[$new_blocks[$i]['bid']] = ++$bid;
 				$new_blocks[$i]['bid'] = $bid;
+				$new_blocks[$i]['style'] = $style_id;
 				$new_blocks[$i]['route_id'] = (int) $route_id;
 			}
 

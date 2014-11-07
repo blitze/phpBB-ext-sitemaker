@@ -122,8 +122,9 @@ class blocks_admin
 				$return_data = $this->blocks->save_layout($route);
 			break;
 			case 'copy_layout':
-				$copy_from = $this->request->variable('copy', '');
-				$return_data = $this->blocks->copy_layout($route, $copy_from);
+				$from_route = $this->request->variable('from_route', '');
+				$from_style = $this->request->variable('from_style', $style);
+				$return_data = $this->blocks->copy_layout($route, $from_route, $from_style);
 			break;
 			case 'layout_settings':
 				$data = array(
@@ -134,6 +135,11 @@ class blocks_admin
 			break;
 			case 'set_default':
 				$this->config->set('primetime_default_layout', $route);
+			break;
+			case 'set_startpage':
+				$this->config->set('primetime_startpage_controller', $this->request->variable('controller', ''));
+				$this->config->set('primetime_startpage_method', $this->request->variable('method', ''));
+				$this->config->set('primetime_startpage_params', $this->request->variable('params', ''));
 			break;
 		}
 
