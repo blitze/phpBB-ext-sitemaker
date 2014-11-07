@@ -10,6 +10,10 @@
 /**
 * @ignore
 */
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
 
 function build_multi_select($option_ary, $selected_items, $key)
 {
