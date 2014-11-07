@@ -1,63 +1,73 @@
 <div id="admin-bar">
 	<div id="admin-options" style="display: none">
 		<ul class="hmenu">
-			<li class="hmenu-item ">
-				<a id="add-block" class="menu_item has_dropdown" href="#">{L_BLOCKS}</a>
-				<div class="adminbar_dropdown">
-					<div id="add-block-panel" class="block-bottom-tabs">
-						<ul>
-							<li><a href="#available-blocks-content">{L_BLOCKS}</a></li>
-							<li><a href="#layout-settings-content">{L_SETTINGS}</a></li>
-						</ul>
-						<div class="block-tabs-spacer"></div>
-						<div id="available-blocks-content" class="tab-content">
-							<div class="ui-state-default" style="width: auto; text-align: center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
+			<li class="hmenu-item">
+				<a class="menu-item has_dropdown" href="#">{L_BLOCKS}</a>
+				<div id="add-block-panel" class="dropdown">
+					<div class="ui-state-default align-center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
 
-							<div class="blocks-list">
-							<!-- BEGIN block -->
-								<div data-block="{block.SERVICE}" class="primetime-block panel"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
-							<!-- END block -->
-							</div>
+					<div id="blocks-list">
+						<!-- BEGIN block -->
+						<div data-block="{block.SERVICE}" class="primetime-block panel"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+						<!-- END block -->
+					</div>
 
-							<div class="ui-state-default" style="text-align: center">
-								<form id="copy-form">
-									<strong>{L_BLOCKS_COPY_FROM}:</strong>
-									<select id="copy-from">
-										{S_ROUTE_OPS}
-									</select>
-									<input type="submit" class="button2" value="{L_GO}" />
-								</form>
-							</div>
-						</div>
-						<div id="layout-settings-content" class="tab-content">
-							<h3>{L_LAYOUT_SETTINGS}</h3>
-							<p>{L_DEFAULT_LAYOUT_EXPLAIN}</p>
-							<div class="line">
-								<div class="unit size1of2">
-									<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true">{L_MAKE_DEFAULT_LAYOUT}</a></p>
-									<p<!-- IF not U_VIEW_DEFAULT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_VIEW_DEFAULT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
-									<p<!-- IF not S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="false">{L_REMOVE_DEFAULT_LAYOUT}</a></p>
-									<p<!-- IF not S_HAS_BLOCKS || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" id="delete-blocks" data-set="false">{L_DELETE_ALL_BLOCKS}</a></p>
-								</div>
-								<div class="unit size1of2 lastUnit">
-									<form id="route-settings">
-										<input type="checkbox" id="hide_blocks" name="hide_blocks"<!-- IF S_HIDE_BLOCKS --> checked="checked"<!-- ENDIF --> /> {L_HIDE_ALL_BLOCKS}<br /><br />
-										{L_HIDE_BLOCK_POSITIONS}:<br />
-										<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
-											{S_POSITION_OPS}
-										</select>
-										<input type="submit" class="button2" value="{L_SAVE}" />
-									</form>
-								</div>
-							</div>
-						</div>
-				    </div>
+					<div class="ui-state-default align-center">&nbsp;</div>
 			    </div>
 			</li>
-			<li class="hmenu-item right"><div class="spacer">&nbsp;</div></li>
-	        <li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_DISP_MODE}">{L_EXIT_EDIT_MODE}</a></li>
-	        <li class="hmenu-item right"><a id="save-changes" class="btn" href="#">{L_SAVE_CHANGES}</a></li>
+			<li class="hmenu-item">
+				<a class="menu-item has_dropdown" href="#">{L_TOOLS}</a>
+				<div class="dropdown">
+					<h3>{L_TOOLS}</h3>
+					<div class="line">
+						<div class="unit size1of2">
+							<!-- IF CONTROLLER_NAME -->
+								<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="pt-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
+								<p<!-- IF not S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="pt-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
+							<!-- ENDIF -->
+
+							<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true" title="{L_DEFAULT_LAYOUT_EXPLAIN}">{L_MAKE_DEFAULT_LAYOUT}</a></p>
+							<p<!-- IF not U_VIEW_DEFAULT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_VIEW_DEFAULT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
+							<p<!-- IF not S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="false">{L_REMOVE_DEFAULT_LAYOUT}</a></p>
+							<p>&nbsp;</p>
+							<form id="copy-form">
+								<p>
+									<select name="from_route">{S_ROUTE_OPS}</select>
+									<select name="from_style">{S_STYLE_OPTIONS}</select>
+								</p>
+								<p>
+									<a href="#" class="layout-action" data-action="view"><i class="fa fa-eye"></i> {L_VISIT_PAGE}</a>
+									<a href="#" class="layout-action" data-action="copy"><i class="fa fa-copy"></i> {L_BLOCKS_COPY_FROM}</a>
+								</p>
+							</form>
+						</div>
+						<div class="unit size1of2 lastUnit">
+							<p<!-- IF not S_HAS_BLOCKS || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" id="delete-blocks" data-set="false">{L_DELETE_ALL_BLOCKS}</a></p>
+							<form id="route-settings">
+								<input type="checkbox" id="hide_blocks" name="hide_blocks"<!-- IF S_HIDE_BLOCKS --> checked="checked"<!-- ENDIF --> /> {L_HIDE_ALL_BLOCKS}<br /><br />
+								<div class="column1">{L_HIDE_BLOCK_POSITIONS}</div>
+								<div class="column2">
+									<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
+										{S_POSITION_OPS}
+									</select>
+								</div>
+								<div class="clear"></div>
+								<p class="align-center">
+									<input type="submit" class="button2" value="{L_SAVE_SETTINGS}" />
+								</p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</li>
 			<!-- EVENT admin_bar_append -->
+			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
+	        <li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_DISP_MODE}"><i class="fa fa-check fa-lg"></i> {L_EXIT_EDIT_MODE}</a></li>
+	        <li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i> {L_SAVE_CHANGES}</a></li>
+			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
+			<li class="hmenu-item right">
+				<select id="style-options">{S_STYLE_OPTIONS}</select>
+			</li>
 		</ul>
 	</div>
 	<a id="admin-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
@@ -65,3 +75,74 @@
 	<div id="loading" class="flash-message"><i class="fa fa-spinner fa-spin"></i> {L_AJAX_PROCESSING}</div>
 	<div id="ajax-message" class="flash-message"></div>
 </div>
+
+<div id="dialog-edit" class="dialog" title="{L_EDIT_BLOCK}" style="display: none;"></div>
+
+<div id="dialog-confirm" class="dialog" title="{L_DELETE_BLOCK}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_BLOCK_CONFIRM}</p>
+</div>
+
+<div id="dialog-copy" class="dialog" title="{L_COPY_BLOCKS}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_COPY_BLOCKS_CONFIRM}</p>
+</div>
+
+<div id="dialog-delete-all" class="dialog" title="{L_DELETE_ALL_BLOCKS}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_ALL_BLOCKS_CONFIRM}</p>
+</div>
+
+{ICON_PICKER}
+
+<script id="block-template-container" type="text/x-jquery-tmpl">
+	[[no_wrap]]
+		<div class="post [[=class]] cms-block-spacing">
+			[[!hide_title]]
+			<h2>
+				<span class="block-icon"><i class="[[=icon]]"></i></span>
+				<span class="block-title">[[=title]]</span>
+			</h2>
+			[[/!hide_title]]
+			[[=content]]
+		</div>
+	[[:no_wrap]]
+		<div class="panel post cms-block-container [[=class]] cms-block-spacing">
+			<div class="inner">
+				[[!hide_title]]
+				<h2>
+					<span class="block-icon"><i class="[[=icon]]"></i></span>
+					<span class="block-title">[[=title]]</span>
+				</h2>
+				[[/!hide_title]]
+				<div class="cms-block-content">
+					[[=content]]
+				</div>
+			</div>
+		</div>
+	[[/no_wrap]]
+	<div class="block-controls">
+		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
+		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
+	</div>
+</script>
+
+<script type="text/javascript">
+// <![CDATA[
+	var ajaxUrl = '{UA_AJAX_URL}';
+	var appUrl = '{UA_APP_URL}';
+	var boardUrl = '{UA_BOARD_URL}';
+	var route = '{UA_ROUTE}';
+	var ext = '{UA_EXTENSION}';
+	var style = '{UA_STYLE_ID}';
+	var editMode = {S_EDIT_MODE};
+	var lang = {
+		edit:   '{LA_EDIT_BLOCK}',
+		copy: '{LA_COPY}',
+		remove: '{LA_DELETE}',
+		cancel: '{LA_CANCEL}',
+		deleteAll: '{LA_DELETE_ALL}',
+		ajaxERROR: '{LA_AJAX_ERROR}',
+		ajaxLoading: '{LA_AJAX_LOADING}',
+		leaveConfirm: '{LA_LEAVE_CONFIRM}',
+		updateSimilar: '{LA_UPDATE_SIMILAR}'
+	};
+// ]]>
+</script>
