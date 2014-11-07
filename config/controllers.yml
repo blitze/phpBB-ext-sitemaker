@@ -1,0 +1,29 @@
+services:
+
+    primetime.blocks.admin:
+        class: primetime\primetime\controller\blocks_admin
+        arguments:
+            - @auth
+            - @config
+            - @request
+            - @user
+            - @primetime.blocks.manager
+
+    primetime.phpbb.forum:
+        class: primetime\primetime\controller\forum
+        arguments:
+            - @config
+            - @controller.helper
+            - @template
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
+    primetime.menu.admin:
+        class: primetime\primetime\controller\menu_admin
+        arguments:
+            - @request
+            - @user
+            - @template
+            - @primetime.menu.builder
+            - %tables.primetime.menu%

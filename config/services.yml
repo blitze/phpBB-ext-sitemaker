@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: form.yml }
     - { resource: blocks.yml }
+    - { resource: controllers.yml }
 
 services:
 
@@ -10,15 +10,6 @@ services:
         arguments:
             - @path_helper
             - @template
-
-    primetime.blocks.admin:
-        class: primetime\primetime\controller\blocks_admin
-        arguments:
-            - @auth
-            - @config
-            - @request
-            - @user
-            - @primetime.blocks.manager
 
     primetime.blocks.display:
         class: primetime\primetime\core\blocks\display
@@ -75,6 +66,17 @@ services:
             - @primetime
             - @primetime.template
 
+    primetime.cron.blocks_cleanup:
+        class: primetime\primetime\cron\blocks_cleanup
+        arguments:
+            - @config
+            - @dbal.conn
+            - @primetime.blocks.manager
+        calls:
+            - [set_name, [primetime.cron.blocks_cleanup]]
+        tags:
+            - { name: cron.task }
+
     primetime.forum:
         class: primetime\primetime\core\forum\query
         arguments:
@@ -108,9 +110,14 @@ services:
         class: primetime\primetime\event\listener
         arguments:
             - @cache
+            - @config
             - @request
+            - @service_container
+            - @template
+            - @user
             - @primetime
             - @primetime.blocks.display
+            - %core.root_path%
         tags:
             - { name: event.listener }
 
@@ -122,15 +129,6 @@ services:
             - @primetime.template
             - %core.root_path%
             - %core.php_ext%
-
-    primetime.menu.admin:
-        class: primetime\primetime\controller\menu_admin
-        arguments:
-            - @request
-            - @user
-            - @template
-            - @primetime.menu.builder
-            - %tables.primetime.menu%
 
     primetime.menu.builder:
         class: primetime\primetime\core\menu\builder
