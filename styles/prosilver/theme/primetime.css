@@ -1,7 +1,6 @@
 /* CMS blocks layout
 ------------------ */
 .cms-block-spacing, .unit .cms-block-spacing {
-	margin: 0;
     margin-bottom: 10px;
 }
 
@@ -57,6 +56,34 @@
     border: 0;
 }
 
+#admin-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	z-index: 1000;
+}
+
+#admin-control {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 35px;
+	height: 38px;
+	line-height: 38px;
+	background-color: #c33;
+	color: #ccc;
+	font-size: 18px;
+	text-align: center;
+}
+
+#admin-control:hover {
+	text-decoration: none;
+	font-weight: bolder;
+	color: #ddd;
+}
+
 /* CMS Misc
 --------------- */
 .field-label {
@@ -76,8 +103,13 @@
 	display: block;
 }
 
+.pt-postbody,
 .cms-block-container .postbody {
     width: 100%;
+}
+
+.cms-block-container .content {
+	overflow-x: hidden;
 }
 
 .cms-block-container .header {
@@ -100,33 +132,16 @@
     border: none;
 }
 
-/* CMS image sizes
----------------------------------------- */
-.img-ui {
-    float: left;
-    width: 55px;
-    margin-right: 1em;
-    overflow: hidden;
-    text-align: center;
-}
-
-.img-ui img {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
-    *zoom: 1;
-}
-
 /* CMS avatar sizes
 ---------------------------------------- */
 .tiny-avatar img {
     vertical-align: middle;
-    max-width: 16px;
+    max-width: 12px;
     width: auto !important;
-    width: 16px;
-    max-height: 16px;
+    width: 12px;
+    max-height: 12px;
     height: auto !important;
-    height: 16px;
+    height: 12px;
 }
 
 .small-avatar img {
@@ -150,7 +165,7 @@
 }
 
 .default-avatar-font {
-	font-size: 6em;
+	font-size: 6em !important;
 	color: #ccc;
 }
 
@@ -185,6 +200,24 @@
 .size4of5{width:80%;}
 .lastUnit{float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
 
+@media screen and (max-width: 480px){
+	.unit,
+	.size1of2,
+	.size1of3,
+	.size2of3,
+	.size1of4,
+	.size3of4,
+	.size1of5,
+	.size2of5,
+	.size3of5,
+	.size4of5 {
+		width: 98%;
+		float: none;
+		padding: 0;
+		margin: 4px auto;
+	}
+}
+
 /* Block Views
 ----------------------*/
 /* images */
@@ -193,10 +226,11 @@
 .large-img .img-ui {max-width: 200px; width: auto !important; width: 200px;}
 .landscape-img .img-ui {width: 97%; height: 3.5em; text-align: center !important; margin: 0 0 5px 0;}
 .landscape-img .img-ui img {width: 100%; margin: -50% auto; vertical-align: middle;}
-.img-align-left .img-ui{float: left; margin: 0 2.5% 0 0;}
-.img-align-right .img-ui{float: right; margin: 0 0 0 2.5%;}
+.img-align-left .img-ui {float: left; margin: 0 2.5% 0 0;}
+.img-align-right .img-ui {float: right; margin: 0 0 0 2.5%;}
 .img-border .img-ui, .img-border-padding .img-ui {border: 1px solid #ccc;}
 .img-border-padding .img-ui {padding: 3px !important;}
+.img-circle .img-ui {border-radius: 50%; -webkit-border-radius: 50%; -moz-border-radius: 50%;}
 
 /* text alignment */
 .align-right {text-align: right;}
@@ -234,7 +268,7 @@
 /* Colors */
 i.white {color: #fff;}
 i.black {color: #000;}
-i.blue{color: #0000ff;}
+i.blue {color: #0000ff;}
 i.orange {color: #ffa500;}
 i.yellow {color: #ffff00;}
 i.red {color: #ff0000;}
@@ -285,12 +319,6 @@ i.purple {color: #820182;}
 
 /* Lists
 ----------*/
-.cms-block-container ul,
-.cms-block-container ol {
-	width: auto;
-	overflow: hidden;
-}
-
 ul.pt-list {
     margin: 0;
     padding: 0;
@@ -299,7 +327,7 @@ ul.pt-list {
 
 ul.pt-list > li {
     margin: 5px 0;
-    font-size: 11px;
+	font-size: 11px;
 	vertical-align: middle;
 	clear: both;
 }
@@ -454,8 +482,8 @@ nav ul.pt-list > li.nav-header > a:hover {
 .list-block-3cols ul.pt-list,
 .list-block-4cols ul.pt-list,
 .list-block-5cols ul.pt-list {
-	font-size: 0;
-	margin-left: -2.5%;
+	@include clearfix;
+    margin: 0;
 }
 
 .list-block-auto ul.pt-list > li,
@@ -463,22 +491,18 @@ nav ul.pt-list > li.nav-header > a:hover {
 .list-block-3cols ul.pt-list > li,
 .list-block-4cols ul.pt-list > li,
 .list-block-5cols ul.pt-list > li {
-	display: inline-block;
-	padding: 10px;
-	margin: 0 0 2.5% 2.5%;
-	vertical-align: top;
+	display: block;
+	float: left;
+	width: 100%;
+	clear: none;
+	padding-right: 1.4em;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
 
 .list-block-auto ul.pt-list > li {width: auto;}
-.list-block-2cols ul.pt-list > li {width: 47.5%;}
-.list-block-3cols ul.pt-list > li {width: 30.83%;}
-.list-block-4cols ul.pt-list > li {width: 22.5%}
-.list-block-5cols ul.pt-list > li {width: 17.5%;}
-
-.list-block-2cols ul.pt-list > li:nth-child(odd) {border-left: 0}
-.list-block-3cols ul.pt-list > li:nth-child(4n) {border-left: 0}
-.list-block-4cols ul.pt-list > li:nth-child(5n) {border-left: 0}
-.list-block-5cols ul.pt-list > li:nth-child(6n) {border-left: 0}
+.list-block-2cols ul.pt-list > li {width: 50%;}
+.list-block-3cols ul.pt-list > li {width: 33.33%;}
+.list-block-4cols ul.pt-list > li {width: 25%}
+.list-block-5cols ul.pt-list > li {width: 20%;}
