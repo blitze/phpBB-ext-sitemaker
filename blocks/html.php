@@ -41,14 +41,6 @@ class html extends \primetime\primetime\core\blocks\driver\block
 
 		if ($edit_mode !== false)
 		{
-			global $phpbb_container;
-
-			$phpbb_container->get('primetime')->add_assets(array(
-				'js' => array(
-					'//tinymce.cachefly.net/4.1/tinymce.min.js',
-				)
-			));
-
 			$bid = (isset($bdata['bid'])) ? $bdata['bid'] : 0;
 			$content = '<div id="block-editor-' . $bid . '" class="editable-block">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
 		}
