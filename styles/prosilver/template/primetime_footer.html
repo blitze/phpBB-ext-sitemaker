@@ -175,73 +175,8 @@
 </div>
 <!-- ENDIF -->
 
-<!-- IF S_EDIT_MODE -->
-<div id="dialog-edit" class="dialog" title="{L_EDIT_BLOCK}" style="display: none;"></div>
-
-<div id="dialog-confirm" class="dialog" title="{L_DELETE_BLOCK}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_BLOCK_CONFIRM}</p>
+<!-- IF U_EDIT_MODE -->
+<div id="admin-bar">
+	<a id="admin-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
 </div>
-
-<div id="dialog-copy" class="dialog" title="{L_COPY_BLOCKS}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_COPY_BLOCKS_CONFIRM}</p>
-</div>
-
-<div id="dialog-delete-all" class="dialog" title="{L_DELETE_ALL_BLOCKS}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_ALL_BLOCKS_CONFIRM}</p>
-</div>
-
-{ICON_PICKER}
-
-<script id="block-template-container" type="text/x-jquery-tmpl">
-	[[no_wrap]]
-		<div class="post [[=class]] cms-block-spacing">
-			[[!hide_title]]
-			<h2>
-				<span class="block-icon"><i class="[[=icon]]"></i></span>
-				<span class="block-title">[[=title]]</span>
-			</h2>
-			[[/!hide_title]]
-			[[=content]]
-		</div>
-	[[:no_wrap]]
-		<div class="panel post cms-block-container [[=class]] cms-block-spacing">
-			<div class="inner">
-				[[!hide_title]]
-				<h2>
-					<span class="block-icon"><i class="[[=icon]]"></i></span>
-					<span class="block-title">[[=title]]</span>
-				</h2>
-				[[/!hide_title]]
-				<div class="cms-block-content">
-					[[=content]]
-				</div>
-			</div>
-		</div>
-	[[/no_wrap]]
-	<div class="block-controls">
-		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
-		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
-	</div>
-</script>
-
-<script type="text/javascript">
-// <![CDATA[
-	var ajaxUrl = '{UA_AJAX_URL}';
-	var route = '{UA_ROUTE}';
-	var ext = '{UA_EXTENSION}';
-	var style = '{UA_STYLE_ID}';
-	var editMode = {S_EDIT_MODE};
-	var lang = {
-		edit:   '{LA_EDIT_BLOCK}',
-		copy: '{LA_COPY}',
-		remove: '{LA_DELETE}',
-		cancel: '{LA_CANCEL}',
-		deleteAll: '{LA_DELETE_ALL}',
-		ajaxERROR: '{LA_AJAX_ERROR}',
-		ajaxLoading: '{LA_AJAX_LOADING}',
-		leaveConfirm: '{LA_LEAVE_CONFIRM}',
-		updateSimilar: '{LA_UPDATE_SIMILAR}'
-	};
-// ]]>
-</script>
 <!-- ENDIF -->
