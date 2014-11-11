@@ -10,16 +10,15 @@
 		</div>
 	</li>
 	<li>
-		<div class="align-center pt-list-inner">
-			<a class="nav" href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a><br />
-			<a class="nav" href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a><br />
-
-			<!-- IF U_MCP or U_ACP -->
-				<br />
-				<!-- IF U_MCP --><a class="nav" href="{U_MCP}">{L_MCP}</a><br /><!-- ENDIF -->
-				<!-- IF U_ACP --><a class="nav" href="{U_ACP}">{L_ACP}</a><br /><!-- ENDIF -->
-			<!-- ENDIF -->
-			<br /><div><a href="{U_LOGOUT}" class="button2">{L_LOGOUT}</a></div>
-		</div>
+		<ul class="pt-list">
+			<li><a class="nav" href="{U_SEARCH_NEW}"><i class="fa fa-bolt fa-fw"></i> {L_SEARCH_NEW}</a></li>
+			<li><a class="nav" href="{U_SEARCH_SELF}"><i class="fa fa-user fa-fw"></i> {L_SEARCH_SELF}</a></li>
+		<!-- IF U_MCP or U_ACP -->
+			<!-- IF U_MCP --><li><a class="nav" href="{U_MCP}"><i class="fa fa-gavel fa-fw"></i> {L_MCP}</a></li><!-- ENDIF -->
+			<!-- IF U_ACP --><li><a class="nav" href="{U_ACP}"><i class="fa fa-cogs fa-fw"></i> {L_ACP}</a></li><!-- ENDIF -->
+		<!-- ENDIF -->
+		</ul>
+		<br />
+		<div class="align-center"><a href="{U_LOGOUT}" class="button2">{L_LOGOUT}</a></div>
 	</li>
 </ul>
