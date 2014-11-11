@@ -343,6 +343,9 @@ class query
 			return array();
 		}
 
+		$now = $this->user->create_datetime();
+		$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
+
 		$sql = 'SELECT *
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $this->poster_ids);
