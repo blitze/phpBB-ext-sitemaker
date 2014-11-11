@@ -25,6 +25,24 @@ services:
         tags:
             - { name: primetime.block }
 
+    primetime.block.forum_poll:
+        class: primetime\primetime\blocks\forum_poll
+        arguments:
+            - @auth
+            - @cache
+            - @config
+            - @dbal.conn
+            - @request
+            - @user
+            - @primetime.forum
+            - @primetime
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [primetime.block.forum_poll]]
+        tags:
+            - { name: primetime.block }
+
     primetime.block.forum_topics:
         class: primetime\primetime\blocks\forum_topics
         arguments:

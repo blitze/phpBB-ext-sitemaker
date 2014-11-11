@@ -24,6 +24,7 @@ $lang = array_merge($lang, array(
 	// Block names
 	'PRIMETIME_BLOCK_BIRTHDAY'			=> 'Birthday',
 	'PRIMETIME_BLOCK_FEATURED_MEMBER'	=> 'Featured Member',
+	'PRIMETIME_BLOCK_FORUM_POLL'		=> 'Forum Poll',
 	'PRIMETIME_BLOCK_FORUM_TOPICS'		=> 'Forum Topics',
 	'PRIMETIME_BLOCK_HTML'				=> 'HTML Content',
 	'PRIMETIME_BLOCK_LOGIN'				=> 'Login Box',
