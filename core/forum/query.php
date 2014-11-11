@@ -248,11 +248,11 @@ class query
 		{
 			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->topic_data));
 
-    		if ($topic_first_or_last)
-    		{
-    			$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last));
-    			$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
-    		}
+			if ($topic_first_or_last)
+			{
+				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last));
+				$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
+			}
 		}
 
 		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary);

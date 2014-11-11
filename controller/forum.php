@@ -39,7 +39,7 @@ class forum
 	 * @param string						$root_path		phpBB root path
 	 * @param string						$php_ext		phpEx
 	 */
-    public function __construct(\phpbb\config\db $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
+	public function __construct(\phpbb\config\db $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
