@@ -71,16 +71,80 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 
 	public function get_config($settings)
 	{
-		
+		if (!function_exists('make_forum_select'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
+		}
+
+		$forumlist = make_forum_select(false, false, true, false, false, false, true);
+
+		$forum_options = array('' => 'ALL');
+		foreach ($forumlist as $row)
+		{
+			$forum_options[$row['forum_id']] = $row['padding'] . $row['forum_name'];
+		}
+
+		$sql = 'SELECT group_id, group_name
+			FROM ' . GROUPS_TABLE . '
+			WHERE group_type = ' . GROUP_SPECIAL . '
+			ORDER BY group_name ASC';
+		$result = $this->db->sql_query($sql);
+
+		$group_options = array('' => 'ALL');
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$group_options[$row['group_id']] = $this->user->lang['G_' . $row['group_name']];
+		}
+		$this->db->sql_freeresult($result);
+
+		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
+		$sort_options = array('' => 'RANDOM', FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
+
+		$group_ids	= (isset($settings['group_ids'])) ? $settings['group_ids'] : '';
+		$forum_ids	= (isset($settings['forum_ids'])) ? $settings['forum_ids'] : '';
+		$topic_type	= (isset($settings['topic_type'])) ? $settings['topic_type'] : POST_NORMAL;
+		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : 0;
+
+		return array(
+			'legend1'		=> $this->user->lang['SETTINGS'],
+			'group_ids'		=> array('lang' => 'POLL_FROM_GROUPS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($group_options, $group_ids), 'default' => '', 'explain' => true),
+			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => true),
+			'topic_ids'		=> array('lang' => 'POLL_FROM_TOPICS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'user_ids'		=> array('lang' => 'POLL_FROM_USERS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'topic_type'	=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
+			'order_by'		=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => 0, 'explain' => false),
+		);
 	}
 
 	public function display($bdata, $edit_mode = false)
 	{
+		$this->settings = $bdata['settings'];
+		$sort_order = array(
+			FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
+			FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
+			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
+		);
+		$options = array(
+			'forum_id'		=> $this->settings['forum_ids'],
+			'topic_type'	=> $this->settings['topic_type'],
+			'sort_key'		=> (isset($sort_order[$this->settings['order_by']])) ? $sort_order[$this->settings['order_by']] : 'RAND()',
+		);
+		$from_users_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['user_ids'])));
+        $from_topics_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['topic_ids'])));
+
 		$sql_array = array(
-			'WHERE'		=> 't.poll_start <> 0'
+			'WHERE'		=> 't.poll_start <> 0' .
+				(sizeof($from_topics_ary) ? ' AND ' . $this->db->sql_in_set('t.topic_id', $from_topics_ary) : '') .
+				(sizeof($from_users_ary) ? ' AND ' . $this->db->sql_in_set('t.user_id', $from_users_ary) : '')
 		);
 
-		$this->forum->build_query(array(), $sql_array);
+		if (!empty($this->settings['group_ids']))
+		{
+			$sql_array['FROM'][USER_GROUP_TABLE] = 'ug';
+			$sql_array['WHERE'] .= ' AND t.topic_poster = ug.user_id AND ' . $this->db->sql_in_set('ug.group_id', $this->settings['group_ids']);
+		}
+
+		$this->forum->build_query($options, $sql_array);
 		$topic_data = $this->forum->get_topic_data(1);
 		$topic_data = array_shift($topic_data);
 
@@ -201,10 +265,10 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 
 			'U_VIEW_RESULTS'	=> $viewtopic_url . '&amp;view=viewpoll',
 		));
-		unset($poll_end, $poll_info, $voted_id);
+		unset($poll_end, $poll_info, $voted_id, $topic_data);
 
 		return array(
-			'title'		=> 'Test Poll', //$this->user->lang[$lang_var],
+			'title'		=> $this->user->lang['POLL'],
 			'content'	=> $this->ptemplate->render_view('primetime/primetime', 'blocks/forum_poll.html', 'forum_poll_block')
 		);
 	}

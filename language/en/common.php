@@ -27,12 +27,8 @@ $lang = array_merge($lang, array(
 	'BLOCK_TITLE'			=> 'Block Title',
 	'JOIN_DATE'				=> 'Join Date',
 	'MEMBERS_DATE'			=> 'Date',
+	'POLL'					=> 'Poll',
 	'SESSION_HIDE_ME'		=> 'Hide Me',
-	'PT_REQUIRED_FIELDS'	=> '* Required Fields',
-	'FIELD_REQUIRED'		=> '“%s” is a required field',
-	'FIELD_INVALID'			=> 'The provided value for the field “%s” has an invalid format',
-	'FIELD_TOO_SHORT'		=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
-	'FIELD_TOO_LONG'		=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
 
 	'FEATURED_MEMBER'		=> 'Featured Member',
 	'RECENT_MEMBER'			=> 'Recent Member',

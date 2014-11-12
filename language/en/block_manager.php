@@ -120,6 +120,11 @@ $lang = array_merge($lang, array(
 	'TEMPLATE'				=> 'Template',
 	'SELECT_FORUMS'			=> 'Select forums',
 	'LIMIT_FORUMS'			=> 'Forum Ids (optional)',
+	'PT_REQUIRED_FIELDS'	=> '* Required Fields',
+	'FIELD_REQUIRED'		=> '“%s” is a required field',
+	'FIELD_INVALID'			=> 'The provided value for the field “%s” has an invalid format',
+	'FIELD_TOO_SHORT'		=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
+	'FIELD_TOO_LONG'		=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
 
 	'TOPICS'				=> 'Topics',
 	'POSTS'					=> 'Posts',
