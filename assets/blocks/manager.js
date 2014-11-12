@@ -326,6 +326,7 @@
 				}
 			});
 
+			var exPositions = $('#ex_positions');
 			blockPositions = $(".block-position").addClass('block-receiver').sortable({
 				revert: true,
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
@@ -384,6 +385,11 @@
 				e.preventDefault();
 				blockObj = $(this).parentsUntil('.block').parent();
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
+			}).each(function(i, pos) {
+				var p = $(pos).attr('id').substring('4');
+				if (exPositions.find('option[value=' + p + ']').length == 0 ) {
+					exPositions.append('<option value="'+ p +'">'+ p +'</option>');
+				}
 			});
 
 			saveBtn = $('#toggle-edit').button().click(function() {

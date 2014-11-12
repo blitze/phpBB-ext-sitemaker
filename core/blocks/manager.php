@@ -393,23 +393,11 @@ class manager
 	 */
 	public function get_position_options($selected_positions)
 	{
-		$sql_ary = array(
-			'SELECT'	=> 'b.position',
-			'FROM'		=> array(
-				$this->blocks_table	=> 'b'
-			),
-			'WHERE'		=> 'b.style = ' . $this->style_id
-		);
-		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-
 		$options = '<option value=""' . ((!sizeof($selected_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang['NONE'] . '</option>';
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($selected_positions as $position)
 		{
-			$selected = (in_array($row['position'], $selected_positions)) ? ' selected="selected"' : '';
-			$options .= '<option value="' . $row['position'] . '"' . $selected . '>' . $row['position'] . '</option>';
+			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';
 		}
-		$this->db->sql_freeresult($result);
 
 		return $options;
 	}
