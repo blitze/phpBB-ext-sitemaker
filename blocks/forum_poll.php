@@ -108,7 +108,7 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 		return array(
 			'legend1'		=> $this->user->lang['SETTINGS'],
 			'group_ids'		=> array('lang' => 'POLL_FROM_GROUPS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($group_options, $group_ids), 'default' => '', 'explain' => true),
-			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => tru),
+			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => true),
 			'topic_ids'		=> array('lang' => 'POLL_FROM_TOPICS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
 			'user_ids'		=> array('lang' => 'POLL_FROM_USERS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
 			'topic_type'	=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
