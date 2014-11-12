@@ -202,7 +202,7 @@ class listener implements EventSubscriberInterface
 				'U_PT_VIEWFORUM'		=> $u_viewforum,
 			));
 
-			if ($this->request->is_set('f'))
+			if ($this->request->is_set('f') && isset($this->user->lang['FORUM']))
 			{
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $this->user->lang['FORUM'],
