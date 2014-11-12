@@ -154,6 +154,7 @@ services:
         arguments:
             - @config
             - @template_context
+            - @user
         calls:
             - [set_name, [primetime.block.whois]]
         tags:
