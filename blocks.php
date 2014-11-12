@@ -8,13 +8,16 @@
  */
 
 /**
-* @ignore
-*/
+ * @ignore
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
 }
 
+/**
+ * Used to add multi-select dropdown in blocks config
+ */
 function build_multi_select($option_ary, $selected_items, $key)
 {
 	global $user;
@@ -33,6 +36,9 @@ function build_multi_select($option_ary, $selected_items, $key)
 	return $html;
 }
 
+/**
+ * Used to build multi-column checkboxes for blocks config
+ */
 function build_checkbox($option_ary, $selected_items, $key)
 {
 	global $user;
@@ -63,6 +69,9 @@ function build_checkbox($option_ary, $selected_items, $key)
 	return $html;
 }
 
+/**
+ * build hidden field for blocks config
+ */
 function build_hidden($value, $key)
 {
 	return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" />';
