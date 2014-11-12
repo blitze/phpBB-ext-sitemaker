@@ -181,7 +181,7 @@ class manager
 
 		if (sizeof($route_info))
 		{
-			$ex_positions = explode(',', $route_info['ex_positions']);
+			$ex_positions = array_filter(explode(',', $route_info['ex_positions']));
 			$hide_blocks = $route_info['hide_blocks'];
 		}
 
