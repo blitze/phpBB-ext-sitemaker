@@ -152,9 +152,12 @@ services:
     primetime.blocks.whois:
         class: primetime\primetime\blocks\whois
         arguments:
+            - @auth
             - @config
             - @template_context
             - @user
+            - %core.root_path%
+            - %core.php_ext%
         calls:
             - [set_name, [primetime.block.whois]]
         tags:

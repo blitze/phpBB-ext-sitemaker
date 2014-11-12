@@ -14,6 +14,9 @@ namespace primetime\primetime\blocks;
  */
 class whois extends \primetime\primetime\core\blocks\driver\block
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -23,18 +26,30 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $phpbb_root_path = null;
+
+	/** @var string */
+	protected $php_ext = null;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config		$config		phpBB configuration
-	 * @param \phpbb\template\context	$context    Template context
-	 * @param \phpbb\user				$user		User object
+	 * @param \phpbb\auth\auth			$auth				Permission object
+	 * @param \phpbb\config\config		$config				phpBB configuration
+	 * @param \phpbb\template\context	$context    		Template context
+	 * @param \phpbb\user				$user				User object
+	 * @param string					$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string					$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\template\context $context, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\context $context, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->context = $context;
 		$this->user = $user;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	public function display($settings, $edit_mode = false)
@@ -66,6 +81,7 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 			'TOTAL_USERS_ONLINE'	=> $l_online_users,
 			'LOGGED_IN_USER_LIST'	=> $online_userlist,
 			'RECORD_USERS'			=> $l_online_record,
+			'U_VIEWONLINE'			=> ($this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) ? append_sid("{$this->phpbb_root_path}viewonline." . $this->php_ext) : '',
 		));
 		unset($data);
 
