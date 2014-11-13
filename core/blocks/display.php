@@ -94,18 +94,20 @@ class display
 
 	public function show()
 	{
-		$offlimits = array('ucp.php', 'mcp.php');
-		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
-		{
-			return;
-		}
-
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'css'   => array(
 				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
 			)
 		));
+
+		$this->template->assign_var('L_INDEX', $this->user->lang['HOME']);
+
+		$offlimits = array('ucp.php', 'mcp.php');
+		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
+		{
+			return;
+		}
 
 		$edit_mode = $this->request->variable('edit_mode', false);
 
@@ -168,7 +170,6 @@ class display
 		$this->template->assign_vars(array_merge(array(
 				'S_PRIMETIME'		=> true,
 				'S_HAS_BLOCKS'		=> sizeof($blocks),
-				'L_INDEX'			=> $this->user->lang['HOME'],
 				'U_EDIT_MODE'		=> $u_edit_mode,
 			),
 			array_change_key_case($blocks_per_position, CASE_UPPER))
