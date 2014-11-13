@@ -60,6 +60,6 @@ class forum
 			'U_VIEW_FORUM'	=> $this->helper->route('primetime_forum')
 		));
 
-		return $this->helper->render('index_body.html', '');
+		return $this->helper->render('index_body.html', $this->user->lang['FORUM_INDEX']);
 	}
 }
