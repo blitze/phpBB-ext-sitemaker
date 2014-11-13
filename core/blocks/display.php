@@ -95,7 +95,7 @@ class display
 	public function show()
 	{
 		$offlimits = array('ucp.php', 'mcp.php');
-		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits) || (strpos($this->user->page['page_name'], 'memberlist') !== false && $this->request->is_set('mode')))
+		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
 		{
 			return;
 		}
