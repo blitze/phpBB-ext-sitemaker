@@ -80,7 +80,8 @@ class listener implements EventSubscriberInterface
 			'core.adm_page_footer'		=> 'set_assets',
 			'core.submit_post_end'		=> 'clear_cached_queries',
 			'core.delete_posts_after'	=> 'clear_cached_queries',
-			'core.display_forums_modify_sql'	=> 'set_startpage',
+			'core.display_forums_modify_sql'		=> 'set_startpage',
+			'core.viewonline_overwrite_location'	=> 'add_viewonline_location',
 		);
 	}
 
@@ -209,6 +210,15 @@ class listener implements EventSubscriberInterface
 					'U_VIEW_FORUM'	=> $u_viewforum,
 				));
 			}
+		}
+	}
+
+	public function add_viewonline_location($event)
+	{
+		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.php' . $this->php_ext . '/forum') === 0)
+		{
+			$event['location'] = $this->user->lang['FORUM_INDEX'];
+			$event['location_url'] = $event['row']['session_page'];
 		}
 	}
 }
