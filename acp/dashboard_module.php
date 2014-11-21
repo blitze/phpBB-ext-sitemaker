@@ -17,23 +17,23 @@ class dashboard_module
 	{
 		global $config, $db, $phpbb_container, $request, $template, $user, $phpbb_root_path, $phpEx;
 
-		$primetime = $phpbb_container->get('primetime');
+		$primetime = $phpbb_container->get('primetime.primetime');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/js/jquery.knob.js',
-				$asset_path . 'ext/primetime/primetime/assets/scrollbars/jquery.mCustomScrollbar.concat.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/js/jquery.rss.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/js/jquery.sparkline.min.js',
-				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery-knob/js/jquery.knob.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery-rss/dist/jquery.rss.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery.sparkline/index.min.js',
+				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/primetime/assets/scrollbars/jquery.mCustomScrollbar.css',
-				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.css',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/fontawesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
+				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.min.css',
 			)
 		));
 

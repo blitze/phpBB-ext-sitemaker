@@ -57,7 +57,7 @@ class forum
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['FORUM'],
-			'U_VIEW_FORUM'	=> $this->helper->route('primetime_forum')
+			'U_VIEW_FORUM'	=> $this->helper->route('primetime_primetime_forum')
 		));
 
 		return $this->helper->render('index_body.html', $this->user->lang['FORUM_INDEX']);

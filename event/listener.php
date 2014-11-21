@@ -140,7 +140,7 @@ class listener implements EventSubscriberInterface
 
 	public function clear_cached_queries()
 	{
-		define('PRIMETIME_FORUM_CHANGED', true);
+		define('primetime_primetime_forum_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
@@ -196,7 +196,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->phpbb_container->has($this->config['primetime_startpage_controller']))
 		{
-			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('primetime_forum');
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('primetime_primetime_forum');
 
 			$this->template->assign_vars(array(
 				'S_PT_SHOW_FORUM_NAV'	=> true,

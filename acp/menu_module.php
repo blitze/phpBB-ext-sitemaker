@@ -23,24 +23,24 @@ class menu_module
 
 		$menu_id = $request->variable('menu_id', 0);
 
-		$manager = $phpbb_container->get('primetime.menu.builder');
-		$icon = $phpbb_container->get('primetime.icon_picker');
-		$primetime = $phpbb_container->get('primetime');
+		$manager = $phpbb_container->get('primetime.primetime.menu.builder');
+		$icon = $phpbb_container->get('primetime.primetime.icon_picker');
+		$primetime = $phpbb_container->get('primetime.primetime');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-				$asset_path . 'ext/primetime/primetime/assets/js/jquery.populate.pack.js',
-				$asset_path . 'ext/primetime/primetime/assets/tree/nestedSortable.js',
-				$asset_path . 'ext/primetime/primetime/assets/tree/builder.js',
-				$asset_path . 'ext/primetime/primetime/assets/menu/admin.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery.populate/jquery.populate.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/nestedSortable/jquery.ui.nestedSortable.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/tree/builder.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/menu/admin.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/assets/tree/builder.css',
-				$asset_path . 'ext/primetime/primetime/assets/menu/admin.css',
+				$asset_path . 'ext/primetime/primetime/assets/tree/builder.min.css',
+				$asset_path . 'ext/primetime/primetime/assets/menu/admin.min.css',
 			)
 		));
 

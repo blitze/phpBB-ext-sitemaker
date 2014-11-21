@@ -1,0 +1,40 @@
+{
+  "name": "phpBB Primetime",
+  "dependencies": {
+    "malihu-custom-scrollbar-plugin": "~3.0.5",
+    "jquery-knob": "~1.2.11",
+    "jquery-rss": "~1.4.1",
+    "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
+    "fontawesome": "~4.2.0",
+    "jquery.wheel": "*",
+    "twig.js": "~0.7.2",
+    "jquery.sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
+    "nestedSortable": "~1.3.4"
+  },
+  "overrides": {
+    "malihu-custom-scrollbar-plugin": {
+      "dependencies": null
+    },
+    "jquery-knob": {
+      "dependencies": null
+    },
+    "jquery-rss": {
+      "dependencies": null
+    },
+    "jquery.populate": {
+      "main": "jquery.populate.js"
+    },
+    "jquery.wheel": {
+      "dependencies": null
+    },
+    "nestedSortable": {
+      "main": "jquery.ui.nestedSortable.js"
+    },
+	"twig.js": {
+	  "main": [
+		  "twig.min.js",
+		  "twig.min.js.map"
+	  ]
+	}
+  }
+}

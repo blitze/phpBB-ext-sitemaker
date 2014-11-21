@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'MEMBERS_DATE'			=> 'Date',
 	'POLL'					=> 'Poll',
 	'SESSION_HIDE_ME'		=> 'Hide Me',
+	'CHANGE_ME'				=> 'Change Me',
 
 	'FEATURED_MEMBER'		=> 'Featured Member',
 	'RECENT_MEMBER'			=> 'Recent Member',

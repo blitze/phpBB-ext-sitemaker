@@ -1,1 +1,5 @@
 /vendor/
+/node_modules/
+/develop/vendor/
+/assets/
+.git-ftp-ignore

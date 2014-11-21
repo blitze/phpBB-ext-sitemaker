@@ -5,13 +5,13 @@ imports:
 
 services:
 
-    primetime:
+    primetime.primetime:
         class: primetime\primetime\core\primetime
         arguments:
             - @path_helper
             - @template
 
-    primetime.blocks.display:
+    primetime.primetime.blocks.display:
         class: primetime\primetime\core\blocks\display
         arguments:
             - @auth
@@ -22,13 +22,13 @@ services:
             - @request
             - @template
             - @user
-            - @primetime
-            - @primetime.template
+            - @primetime.primetime
+            - @primetime.primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
 
-    primetime.blocks.manager:
+    primetime.primetime.blocks.manager:
         class: primetime\primetime\core\blocks\manager
         arguments:
             - @cache
@@ -38,46 +38,39 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.icon_picker
-            - @primetime
-            - @primetime.template
+            - @primetime.primetime.icon_picker
+            - @primetime.primetime
+            - @primetime.primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.block_collection:
+    primetime.primetime.block_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
             - { name: service_collection, tag: primetime.block }
 
-    primetime.blocks.factory:
+    primetime.primetime.blocks.factory:
         class: primetime\primetime\core\blocks\factory
         arguments:
-            - @primetime.block_collection
+            - @primetime.primetime.block_collection
 
-    primetime.calendar:
-        class: primetime\primetime\core\calendar
-        arguments:
-            - @user
-            - @primetime
-            - @primetime.template
-
-    primetime.cron.blocks_cleanup:
+    primetime.primetime.cron.blocks_cleanup:
         class: primetime\primetime\cron\blocks_cleanup
         arguments:
             - @config
             - @dbal.conn
-            - @primetime.blocks.manager
+            - @primetime.primetime.blocks.manager
         calls:
-            - [set_name, [primetime.cron.blocks_cleanup]]
+            - [set_name, [primetime.primetime.cron.blocks_cleanup]]
         tags:
             - { name: cron.task }
 
-    primetime.forum:
+    primetime.primetime.forum:
         class: primetime\primetime\core\forum\query
         arguments:
             - @auth
@@ -87,9 +80,9 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - @primetime
+            - @primetime.primetime
 
-    primetime.forum.manager:
+    primetime.primetime.forum.manager:
         class: primetime\primetime\core\forum\manager
         arguments:
             - @auth
@@ -99,14 +92,14 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.icon_picker:
+    primetime.primetime.icon_picker:
         class: primetime\primetime\core\icon_picker
         arguments:
             - @user
-            - @primetime
-            - @primetime.template
+            - @primetime.primetime
+            - @primetime.primetime.template
 
-    primetime.listener:
+    primetime.primetime.listener:
         class: primetime\primetime\event\listener
         arguments:
             - @cache
@@ -115,47 +108,47 @@ services:
             - @service_container
             - @template
             - @user
-            - @primetime
-            - @primetime.blocks.display
+            - @primetime.primetime
+            - @primetime.primetime.blocks.display
             - %core.root_path%
         tags:
             - { name: event.listener }
 
-    primetime.members:
+    primetime.primetime.members:
         class: primetime\primetime\core\members
         arguments:
             - @dbal.conn
             - @user
-            - @primetime.template
+            - @primetime.primetime.template
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.menu.builder:
+    primetime.primetime.menu.builder:
         class: primetime\primetime\core\menu\builder
         arguments:
             - @cache
             - @dbal.conn
-            - @primetime
+            - @primetime.primetime
             - %tables.primetime.menu%
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.menu.display:
+    primetime.primetime.menu.display:
         class: primetime\primetime\core\menu\display
         arguments:
             - @dbal.conn
-            - @primetime
+            - @primetime.primetime
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.template_context:
+    primetime.primetime.template_context:
         class: phpbb\template\context
 
-    primetime.template:
+    primetime.primetime.template:
         class: primetime\primetime\core\template
         arguments:
             - @path_helper
             - @config
             - @user
-            - @primetime.template_context
+            - @primetime.primetime.template_context
             - @ext.manager

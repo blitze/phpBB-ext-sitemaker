@@ -1,0 +1,186 @@
+#icon-picker {
+	display: none;
+	width: 230px;
+	z-index: 500;
+	font-size: 10px;
+	position: relative;
+	background: transparent;
+}
+
+#icon-picker .ui-tabs .ui-tabs-panel {
+	padding: 0;
+}
+
+#icon-picker.ui-widget-content {
+	border: 0;
+}
+
+#icon-picker .tab-content {
+	height: 325px;
+}
+
+#icon-picker .icons-bottom-tabs .ui-tabs-nav {
+	clear: left;
+	padding: 0 0.2em 0.2em 0.2em;
+}
+
+#icon-picker .icons-bottom-tabs .ui-tabs-nav li {
+	top: auto;
+	bottom: 0;
+	margin: 0 0.2em 1px 0;
+	border-bottom: auto;
+	border-top: 0;
+}
+
+#icon-picker .icons-bottom-tabs .ui-tabs-nav li.ui-tabs-active {
+	margin-top: -1px;
+	padding-top: 1px;
+}
+
+#icon-picker-preview {
+	width: 55px;
+	height: 50px;
+	border: 1px solid #ccc;
+	padding: 3px;
+	margin: 10px 10px 0 10px;
+	text-align: center;
+	font-size: 3em;
+	line-height: 1.5em;
+	float: left;
+	overflow: hidden;
+}
+
+#icon-picker-actions {
+	margin-top: 20px;
+}
+
+#icon-picker-insert {
+	padding: 10px;
+	background-color: #6c60ba;
+	color: #ffffff;
+	font-weight: bold;
+	overflow: hidden;
+	text-decoration: none;
+}
+
+#icon-picker-insert:hover {
+	background-color: #9e2a81;
+}
+
+#icons-font-list {
+	width: auto;
+	height: 150px;
+	position: relative;
+	border: 1px solid #ccc;
+	text-align: center;
+	overflow: auto;
+}
+
+#icons-font-list h3 {
+	clear: left;
+	display: block;
+	margin: 20px 4px;
+	font-size: 14px;
+	color: #c3f;
+}
+
+#icons-font-list a {
+	width: 28px;
+	height: 32px;
+	line-height: 32px;
+	font-size: 14px;
+	float: left;
+	display: block;
+}
+
+#icons-font-list a:hover {
+	background-color: #fbf4f4;
+	color: blue;
+}
+
+#icons-font-list a:hover {
+	*font-size: 28px;
+	*vertical-align: middle;
+	*color: blue;
+}
+
+#icons-font-list a:hover :before {
+	font-size: 28px;
+	vertical-align: -5px;
+	color: blue;
+}
+
+#icons-font-list .icon-selected {
+	color: #ffffff;
+	background-color: #21b384;
+}
+
+#icons-font-cat-list {
+	position: relative;
+	clear: both;
+}
+
+#icons-font-cat-list a {
+	padding: 4px;
+	margin: 2px 0;
+	font-weight: bold;
+	font-size: 10px;
+	background-color: #ccc;
+	border-radius: 4px;
+	position: relative;
+	display: inline-block;
+	width: auto;
+}
+
+#icon-customization fieldset {
+	border: 0;
+	margin: 8px;
+}
+
+#icon-customization fieldset dt {
+	width: 30%;
+}
+
+#icon-customization fieldset dd {
+	margin-left: 31%;
+}
+
+#icon-customization ul {
+	margin: 0;
+	padding: 0;
+}
+
+#icon-customization ul li {
+	display: inline;
+}
+
+#icon-customization ul li .icons-color-container {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	padding: 1px;
+}
+
+#icon-customization ul li .selected {
+	border: 2px solid #333;
+}
+
+#icon-customization ul li .icons-color-container .color {
+	display: block;
+	font-size: 12px;
+	width: 13px;
+}
+
+#icon-customization ul li input {
+	display: none;
+}
+
+.icons-drop {
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	margin-bottom: -5px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	z-index: 5000;
+}

@@ -1,17 +1,17 @@
-primetime_blocks_admin:
+primetime_primetime_blocks_admin:
     pattern: /blocks/{action}/{id}/{block}
-    defaults: { _controller: primetime.blocks.admin:handle, id: 0, block: '', _format: json }
+    defaults: { _controller: primetime.primetime.blocks.admin:handle, id: 0, block: '', _format: json }
     requirements:
         id: \d+
         _format: json
 
-primetime_menu_admin:
+primetime_primetime_menu_admin:
     pattern: /menu/admin/{action}/{item_id}
-    defaults: { _controller: primetime.menu.admin:handle, item_id: 0 }
+    defaults: { _controller: primetime.primetime.menu.admin:handle, item_id: 0 }
     requirements:
         item_id: \d+
         _format: json
 
-primetime_forum:
+primetime_primetime_forum:
     pattern: /forum
-    defaults: { _controller: primetime.phpbb.forum:handle }
+    defaults: { _controller: primetime.primetime.forum:handle }

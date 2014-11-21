@@ -97,7 +97,7 @@ class display
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'css'   => array(
-				$asset_path . 'ext/primetime/primetime/assets/font-awesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/fontawesome/css/font-awesome.min.css',
 			)
 		));
 
@@ -121,7 +121,7 @@ class display
 		{
 			if ($edit_mode)
 			{
-				$this->phpbb_container->get('primetime.blocks.manager')->handle($route_info);
+				$this->phpbb_container->get('primetime.primetime.blocks.manager')->handle($route_info);
 			}
 			else
 			{

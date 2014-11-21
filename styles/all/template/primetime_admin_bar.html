@@ -1,14 +1,14 @@
-<div id="admin-bar">
-	<div id="admin-options" style="display: none">
+<div id="admin-bar" class="admin-bar-container">
+	<div id="admin-options" class="admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
 			<li class="hmenu-item">
 				<a class="menu-item has_dropdown" href="#">{L_BLOCKS}</a>
 				<div id="add-block-panel" class="dropdown">
 					<div class="ui-state-default align-center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
 
-					<div id="blocks-list">
+					<div id="blocks-list" class="blocks-gallery">
 						<!-- BEGIN block -->
-						<div data-block="{block.SERVICE}" class="primetime-block panel"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+						<div data-block="{block.SERVICE}" class="primetime-block panel"><div class="gal-bloc"><i class="fa fa-arrows-alt"></i>{block.NAME}</div class="gal-block"></div>
 						<!-- END block -->
 					</div>
 

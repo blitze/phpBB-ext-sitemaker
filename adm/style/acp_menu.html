@@ -31,25 +31,25 @@
 	</ul>
 </div>
 
-<div id="nested-tree" style="display: none; position: relative; float: left;  width: 85%;">
+<div id="nested-tree" style="display: none;">
 
-	<div id="loading" style="display: none"><img src="{T_PATH}ext/primetime/primetime/assets/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
-	<div id="ajax-message"></div>
+	<div id="loading" class="loader" style="display: none"><img src="{T_PATH}ext/primetime/primetime/assets/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
+	<div id="ajax-message" class="message"></div>
 
-    <div>
+    <div class="bulk-container">
         <div style="display: none">
             <button id="add-new">{L_ADD_MENU_ITEM}</button>
             <button id="add-bulk">&nbsp;</button>
         </div>
-        <div style="width: auto; height: auto; display: none; position: absolute; z-index: 1000">
-            <form id="bulk_form" name="bulk_form" action="" method="post" style="width: 350px;">
+        <div class="bulk-dropdown">
+            <form id="bulk_form" name="bulk_form" action="" method="post">
     		<fieldset>
     			<p><strong>{L_ADD_BULK_MENU}</strong></p>
     			<a class="toggle-view" style="float: right" href="#help-addbulk">{L_HELP}</a><br clear="both" />
     			<p id="help-addbulk" class="small bg2" style="display: none">{L_ADD_BULK_EXPLAIN}</p><br />
 
     	        <label>{L_MENU_ITEM_PARENT}:</label>
-    	        <select id="parent_id" name="parent_id" style="width: 100%">
+    	        <select id="parent_id" name="parent_id">
 					<option value="0">{L_NONE}</option>
 				<!-- BEGIN option -->
 					<option value="{option.CAT_ID}">{option.S_PADDING}{option.CAT_NAME}</option>
@@ -57,7 +57,7 @@
 				</select><br /><br />
 				<label>{L_MENU_ITEMS}</label>
     			<textarea id="add_list" name="add_list"></textarea>
-                <div style="width: 100%; height: 300px; position: relative" id="build_editor"></div>
+                <div class="bulk-editor" id="build_editor"></div>
 	            <p class="submit-buttons">
 	        		<input class="button2" type="reset" id="cancel" name="cancel" value="{L_CANCEL}" />
 	            	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
@@ -67,14 +67,17 @@
         </div>
     </div>
 
-    <div id="no-items">{L_NO_MENU_ITEMS}</div>
+	<div class="align-right"><span style="display: none"><input type="checkbox" id="select-all" /> {L_SELECT_ALL}</span>&nbsp;</div>
+	<div class="row3 items-container">
+		<div id="no-items" class="center">{L_NO_MENU_ITEMS}</div>
+		<div class="items-list">
+			<ol id="sortable" class="ui-helper-reset ui-helper-clearfix ui-corner-all" style="display: none;"></ol>
+		</div>
+	</div>
 
-	<div style="text-align: right; display: none"><input type="checkbox" id="select-all" /> {L_SELECT_ALL}</div>
-	<ol id="sortable" class="row3 ui-helper-reset ui-helper-clearfix ui-corner-all" style="display: none; padding: 4px; margin: 0px; height: 550px; overflow: auto"></ol>
-
-	<button id="save" style="float: right; display: none">{L_SAVE_CHANGES}</button>
-	<button id="delete-selected" style="float: right; display: none">{L_DELETE_SELECTED}</button>
-	<button id="rebuild-tree" style="float: right; display: none">{L_REBUILD_TREE}</button>
+	<button id="save" class="right" style="display: none">{L_SAVE_CHANGES}</button>
+	<button id="delete-selected" class="right" style="display: none">{L_DELETE_SELECTED}</button>
+	<button id="rebuild-tree" class="right" style="display: none">{L_REBUILD_TREE}</button>
 
     {ICON_PICKER}
 
@@ -82,7 +85,9 @@
 		<li id="item-<%=item_id%>">
 			<div class="ui-state-default ui-corner-all">
 				<span class="left ui-icon ui-icon-arrow-4"></span>
-	            <a href="#" id="icon-<%=item_id%>" class="left item-action icon-select ui-dialog-titlebar-close ui-corner-all"><i class="<%=item_icon%>"></i></a>
+				<span class="left icon-container">
+	            	<a href="#" id="icon-<%=item_id%>" class="item-action icon-select ui-dialog-titlebar-close ui-corner-all"><i class="<%=item_icon%>"></i></a>
+				</span>
 				<span class="editable" data-field="item_title"><%=item_title%></span>
 				<a href="<%=item_path%>" target="_blank" style="display: inline-block; margin-left: 5px" title="{L_GO_TO}"><span class="ui-icon ui-icon-newwin"></span></a>
 				<input type="checkbox" class="right select-item" style="margin-right: 5px; margin-left: 5px; vertical-align: central" />
@@ -143,24 +148,22 @@
 	</div>
 </div>
 
-
 <script type="text/javascript">
 // <![CDATA[
-
-var ajaxUrl		= '{UA_AJAX_URL}';
-var menu_id		= {UA_MENU_ID};
-var LANG = {
-	none				: '{LA_NONE}',
-	editNode			: '{LA_EDIT}',
-	cancel				: '{LA_CANCEL}',
-	remove				: '{LA_DELETE}',
-	deleteNode			: '{LA_DELETE_ITEM}',
-	deleteChildNodes	: '{LA_DELETE_KIDS}',
-	required			: '{LA_REQUIRED}',
-	addNode				: '{LA_ADD_ITEM}',
-	unsavedChanges		: '{LA_UNSAVED_CHANGES}',
-	errorMessage		: '{LA_PROCESSING_ERROR}'
-};
+	var ajaxUrl	= '{UA_AJAX_URL}';
+	var menuId	= {UA_MENU_ID};
+	var LANG = {
+		none				: '{LA_NONE}',
+		editNode			: '{LA_EDIT}',
+		cancel				: '{LA_CANCEL}',
+		remove				: '{LA_DELETE}',
+		deleteNode			: '{LA_DELETE_ITEM}',
+		deleteChildNodes	: '{LA_DELETE_KIDS}',
+		required			: '{LA_REQUIRED}',
+		addNode				: '{LA_ADD_ITEM}',
+		unsavedChanges		: '{LA_UNSAVED_CHANGES}',
+		errorMessage		: '{LA_PROCESSING_ERROR}'
+	};
 // ]]>
 </script>
 

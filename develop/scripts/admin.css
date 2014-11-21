@@ -1,0 +1,45 @@
+#menu-options {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-top: 14px;
+	border-right: 1px solid #ccc;
+}
+
+#menu-options li {
+	padding: 4px;
+	position: relative;
+}
+
+#menu-options .menu-actions {
+	display: none;
+}
+
+#menu-options li.current-menu .menu-actions {
+	position: absolute;
+	right: 10px;
+	top: 2px;
+	display: none;
+}
+
+#menu-options li.current-menu:hover .menu-actions {
+	display: block;
+}
+
+#menu-options li a {
+	height: 30px;
+	position: relative;
+}
+
+#menu-options li a:hover {
+	text-decoration: none;
+}
+
+.current-menu {
+	width: 103%;
+}
+
+#sortable {
+	max-height: 550px;
+	overflow: auto;
+}

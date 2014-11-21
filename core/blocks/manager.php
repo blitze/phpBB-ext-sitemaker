@@ -121,12 +121,12 @@ class manager
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.1/tinymce.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/js/t.js',
-				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/twig.js/twig.min.js',
+				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/assets/blocks/manager.css',
+				$asset_path . 'ext/primetime/primetime/assets/blocks/manager.min.css',
 			)
 		));
 
@@ -213,7 +213,7 @@ class manager
 	{
 		if (($blocks = $this->cache->get('primetime_available_blocks')) === false)
 		{
-			$factory = $this->phpbb_container->get('primetime.blocks.factory');
+			$factory = $this->phpbb_container->get('primetime.primetime.blocks.factory');
 
 			$blocks = $factory->get_all_blocks();
 			$this->cache->put('primetime_available_blocks', $blocks);
