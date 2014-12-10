@@ -511,7 +511,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 .list-block-4cols ul.pt-list > li,
 .list-block-5cols ul.pt-list > li {
 	display: inline-block;
-	margin: 0 0 1% 2.5%;
+	margin: 0 0 2.5% 2.5%;
 	vertical-align: top;
 }
 
