@@ -22,7 +22,7 @@
 	var blockObj = {};
 	var blockData = {};
 	var msgObj = {};
-	saveBtn = {};
+	var saveBtn = {};
 
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
@@ -83,7 +83,7 @@
 
 		$.getJSON(ajaxUrl + 'add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
 			updated = false;
-			if (data.id === null) {
+			if (data.id === '') {
 				$(droppedElement).remove();
 				return;
 			}
@@ -91,6 +91,7 @@
 			var html = template.render(data);
 			$(droppedElement).attr('id', 'block-' + data.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initIconPicker();
+			initTinyMce();
 		});
 	};
 
@@ -118,8 +119,7 @@
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 
 		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
-			if (resp.errors) {
-				showMessage(resp.errors);
+			if (resp.id === '') {
 				return;
 			}
 
@@ -130,15 +130,10 @@
 
 	var updateBlock = function(data) {
 		if (data.id === undefined) {
-			showMessage('Missing block id');
 			return false;
 		}
 		$.post(ajaxUrl + 'update' + '?route=' + route, data,
 			function(resp) {
-				if (resp.error) {
-					showMessage(resp.error);
-				}
-
 				if (editing === true) {
 					undoEditable(resp.title);
 				}
@@ -149,17 +144,9 @@
 
 	var updateConfig = function(data) {
 		if (data.id === undefined) {
-			showMessage('Missing block id');
-			return false;
+			return;
 		}
-		$.post(ajaxUrl + 'config', data,
-			function(resp) {
-				if (resp.error) {
-					showMessage(resp.error);
-				}
-			},
-			'json'
-		);
+		$.post(ajaxUrl + 'config', data);
 	};
 
 	var setDefaultLayout = function(set) {
@@ -269,15 +256,10 @@
 			data[this.name] = this.value;
 		});
 
-		data['no_wrap'] = (data['no_wrap'] > 0) ? true : false;
-		data['hide_title'] = (data['hide_title'] > 0) ? true : false;
-
 		blockObj.html(template.render(data));
 	};
 
 	var undoPreviewBlock = function() {
-		blockData['hide_title'] = (blockData['hide_title'] > 0) ? true : false;
-		blockData['no_wrap'] = (blockData['no_wrap'] > 0) ? true : false;
 		blockObj.html(template.render(blockData));
 	};
 
@@ -286,6 +268,47 @@
 			onSelect: function(item, iconHtml, iconClass) {
 				var id = item.parentsUntil('.block').parent().attr('id').substring('6');
 				updateBlock({'id': id, 'icon': iconClass});
+			}
+		});
+	};
+
+	var initTinyMce = function() {
+		tinymce.init({
+			'selector': 'div.editable-block',
+			'inline': true,
+			'plugins': [
+				'advlist autolink lists link image charmap print preview anchor',
+				'searchreplace visualblocks code fullscreen',
+				'insertdatetime media table contextmenu paste'
+			],
+			'valid_elements' : '*[*]',
+			'toolbar': 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+			'setup': function(editor) {
+				var isPlaceholder = false;
+				var editorContent = '';
+				editor.on('blur', function(e) {
+					var content = editor.getContent();
+					if (content && content !== editorContent && content !== lang.placeholder) {
+						updateConfig({'id': e.target.id.substring(13), 'bvar': 'content', 'bval': editor.getContent({format: 'raw'})});
+					} else if (!content) {
+						editor.setContent(lang.placeholder);
+					}
+				});
+
+				editor.on('init', function() {
+					editorContent = editor.getContent();
+					if (editorContent.length === 0) {
+						editor.setContent(lang.placeholder);
+						editorContent = lang.placeholder;
+						isPlaceholder = true;
+					}
+				});
+
+				editor.on('mousedown', function() {
+					if (isPlaceholder) {
+						editor.setContent('');
+					}
+				});
 			}
 		});
 	};
@@ -309,8 +332,6 @@
 		});
 
 		if (typeof editMode !== undefined && editMode) {
-			initIconPicker();
-
 			inlineForm = $('<form class="inline-form"><input type="text" class="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
 			$('#add-block-panel').find('.primetime-block').draggable({
@@ -322,7 +343,6 @@
 				connectToSortable: '.block-position',
 				start: function(event, ui) {
 					showAllPositions();
-					tinyMCE.execCommand('mceRemoveControl', false, 'div.editable-block');
 				},
 				stop: function(event, ui) {
 					window.setTimeout(function() {
@@ -394,7 +414,7 @@
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
 			}).each(function(i, pos) {
 				var p = $(pos).attr('id').substring('4');
-				if (exPositions.find('option[value=' + p + ']').length == 0) {
+				if (exPositions.find('option[value=' + p + ']').length === 0) {
 					exPositions.append('<option value="' + p + '">' + p + '</option>');
 				}
 			});
@@ -421,7 +441,6 @@
 			subcontentObj = $('#pos-subcontent');
 			emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
 			template = twig({
-				id: 'block-template',
 				data: $.trim($('#block-template-container').html())
 			});
 
@@ -439,6 +458,15 @@
 			// add style id to ajax requests
 			$(document).ajaxSend(function(event, xhr, settings) {
 				settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + style;
+			});
+
+			// Display any returned message
+			$(document).ajaxSuccess(function(event, xhr, settings, data) {
+				var message = (data.message) ? data.message : data.errors;
+				if (message) {
+					$('#loading').hide();
+					showMessage(message);
+				}
 			});
 
 			eButtons[lang.edit] = function() {
@@ -542,12 +570,18 @@
 					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" checked="checked" />' + lang.updateSimilar + '</label>').prependTo(pane);
 				}
 			};
-			dialogEdit = $('#dialog-edit').dialog(defDialog).on('click', '#class-clear', function(e) {
-				dialogEdit.find('#block_class').val('').change();
+			dialogEdit = $('#dialog-edit').dialog(defDialog).on('click', '.block-class-actions', function(e) {
 				e.preventDefault();
-			}).on('click', '#class-select', function(e) {
-				dialogEdit.find('#css-class-options').slideToggle();
-				e.preventDefault();
+				switch ($(this).data('action')) {
+					case 'clear':
+						dialogEdit.find('#block_class').val('').change();
+						e.preventDefault();
+					break;
+					case 'toggle':
+						dialogEdit.find('#css-class-options').slideToggle();
+						e.preventDefault();
+					break;
+				}
 			}).on('click', '.class-cat', function(e) {
 				var id = $(this).attr('href');
 				var obj = $('#classes-scroller');
@@ -604,25 +638,6 @@
 				e.preventDefault();
 			});
 
-			if (tinymce !== undefined) {
-				tinymce.init({
-					'selector': 'div.editable-block',
-					'inline': true,
-					'setup': function(editor) {
-						editor.on('blur', function(e) {
-							updateConfig({'id': e.target.id.substring(13), 'bvar': 'content', 'bval': tinymce.activeEditor.getContent({format: 'raw'})});
-						});
-					},
-					'plugins': [
-						'advlist autolink lists link image charmap print preview anchor',
-						'searchreplace visualblocks code fullscreen',
-						'insertdatetime media table contextmenu paste'
-					],
-					'valid_elements' : '*[*]',
-					'toolbar': 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
-				});
-			}
-
 			window.onbeforeunload = function(e) {
 				if (updated === true) {
 					e = e || window.event;
@@ -634,6 +649,9 @@
 					return lang.leaveConfirm;
 				}
 			};
+
+			initIconPicker();
+			initTinyMce();
 		}
 	});
 })(jQuery, window, document);

@@ -153,6 +153,7 @@ class menu_admin
 				);
 
 				$return = $this->manager->menu_update($menu_id, $data);
+				$return['name'] = $return['menu_name'];
 
 			break;
 

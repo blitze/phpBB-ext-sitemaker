@@ -33,6 +33,7 @@
 
 			$.extend(this.options, options);
 
+			// $('body').on('click', '.' + this.element.attr('class'), function(e) {
 			this.element.on('click', function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
@@ -205,7 +206,7 @@
 			instance.element = this;
 
 			if (typeof arg === 'undefined' || typeof arg === 'object') {
-				if (typeof instance['init'] === 'function') {
+				if (typeof instance.init === 'function') {
 					instance.init(arg);
 				}
 			} else if (typeof arg === 'string' && typeof instance[arg] === 'function') {

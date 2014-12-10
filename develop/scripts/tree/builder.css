@@ -84,15 +84,18 @@
 	height: 550px;
 	overflow: auto;
 	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	transform-style: preserve-3d;
+	        transform-style: preserve-3d;
 }
 
 .tree-builder .center {
 	position: relative;
 	text-align: center;
 	top: 50%;
-	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	   -moz-transform: translateY(-50%);
+	     -o-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	        transform: translateY(-50%);
 }
 
 .tree-builder .items-list {

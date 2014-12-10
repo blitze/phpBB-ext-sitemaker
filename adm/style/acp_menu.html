@@ -15,10 +15,9 @@
 
 <p>&nbsp;</p>
 
-<div id="menus" style="float: left; width: 14%; padding-right: 5px;">
-	<button id="add-menu">{L_ADD_MENU}</button><br />
-	<br />
-	<ul id="menu-options">
+<div class="menus-container">
+	<button id="add-menu">{L_ADD_MENU}</button>
+	<ul id="pt-menus" class="menus-list">
 	<!-- BEGIN menu -->
 		<li id="menu-{menu.ID}"<!-- IF menu.S_ACTIVE --> class="row3 current-menu"<!-- ENDIF -->>
 			<a href="#" class="menu-option"><span class="menu-editable">{menu.NAME}</span></a>
@@ -33,7 +32,7 @@
 
 <div id="nested-tree" style="display: none;">
 
-	<div id="loading" class="loader" style="display: none"><img src="{T_PATH}ext/primetime/primetime/assets/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
+	<div id="loading" class="loader" style="display: none"><i class="fa fa-refresh fa-spin"></i> {L_AJAX_PROCESSING}</div>
 	<div id="ajax-message" class="message"></div>
 
     <div class="bulk-container">

@@ -1,45 +1,55 @@
-#menu-options {
+.menus-container {
+	float: left;
+	width: 15%;
+}
+
+.tree-builder {
+	float: left;
+	width: 85%;
+	display: block;
+}
+
+.menus-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	margin-top: 14px;
-	border-right: 1px solid #ccc;
+	margin-top: 40px;
 }
 
-#menu-options li {
+.menus-list li {
 	padding: 4px;
 	position: relative;
 }
 
-#menu-options .menu-actions {
+.menus-list .menu-actions {
 	display: none;
 }
 
-#menu-options li.current-menu .menu-actions {
+.menus-list li.current-menu .menu-actions {
 	position: absolute;
 	right: 10px;
 	top: 2px;
 	display: none;
 }
 
-#menu-options li.current-menu:hover .menu-actions {
+.menus-list li.current-menu:hover .menu-actions {
 	display: block;
 }
 
-#menu-options li a {
+.menus-list li form {
+	display: inline-block;
+}
+
+.menus-list li form input {
+	position: relative;
+	width: 95%;
+}
+
+.menus-list li a {
 	height: 30px;
 	position: relative;
 }
 
-#menu-options li a:hover {
+.menus-list li a:hover {
 	text-decoration: none;
-}
-
-.current-menu {
-	width: 103%;
-}
-
-#sortable {
-	max-height: 550px;
-	overflow: auto;
 }

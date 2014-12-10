@@ -194,6 +194,7 @@ class manager
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
+			'PAGE_URL'			=> build_url(array('style')),
 
 			'UA_STYLE_ID'		=> $style_id,
 			'UA_ROUTE'			=> $route,
@@ -453,6 +454,7 @@ class manager
 		// get block info and display it
 		return array_merge(
 			array('id' => $block_data['bid']),
+			$block_data,
 			$this->display($b, $block_data)
 		);
 	}
@@ -636,7 +638,10 @@ class manager
 			);
 			unset($default_settings[$config_key]);
 		}
+
 		$bdata['settings'] = $db_settings;
+		$bdata['no_wrap'] = (bool) $bdata['no_wrap'];
+		$bdata['hide_title'] = (bool) $bdata['hide_title'];
 
 		$this->template->assign_vars(array(
 			'S_GROUP_OPS'	=> $this->get_groups('options', $bdata['permission']))

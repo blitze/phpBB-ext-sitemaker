@@ -90,7 +90,7 @@
 			</div>
 
 			<!-- IF .subcontent or S_EDIT_MODE -->
-			<div id="pos-subcontent" class="block-position unit size1of4 lastUnit">
+			<div id="pos-subcontent" class="block-position full-height pad-left unit size1of4 lastUnit">
 				<!-- BEGIN subcontent -->
 				<div id="block-{subcontent.BID}" class="unit size1of1 block">
 					<!-- IF not subcontent.NO_WRAP -->
@@ -129,7 +129,7 @@
 
 <!-- IF .footer or S_EDIT_MODE -->
 <div class="clear"></div>
-<div id="pos-footer" class="panel bg3 block-position horizontal equal line">
+<div id="pos-footer" class="footer panel bg3 block-position horizontal equal line">
 	<!-- IF (S_FOOTER_COUNT % 3) eq 0 -->
 		<!-- DEFINE $DIV = 3 -->
 	<!-- ELSEIF (S_FOOTER_COUNT % 2) eq 0 -->
@@ -176,7 +176,7 @@
 <!-- ENDIF -->
 
 <!-- IF U_EDIT_MODE -->
-<div id="admin-bar">
-	<a id="admin-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
+<div id="admin-bar" class="admin-bar-container">
+	<a class="admin-bar-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
 </div>
 <!-- ENDIF -->

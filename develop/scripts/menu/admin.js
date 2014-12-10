@@ -22,14 +22,12 @@
 		});
 
 		// menu list
-		var menuDivObj = $('#menu-options').on('click', '.menu-option', function() {
+		var menuDivObj = $('#pt-menus').on('click', '.menu-option', function(e) {
 			menuId = $(this).parent().attr('id').substring(5);
 			$(this).parent().parent().children().removeClass('row3 current-menu');
 			$(this).parent().addClass('row3 current-menu');
 			menuAdmin.treeBuilder('getItems');
-			$('#menu_id').val(menuId);
-
-			return false;
+			e.preventDefault();
 		});
 
 		var inlineMenuForm = $('<form id="inline-menu-form"><input type="text" id="inline-menu-edit" value="" /></form>').hide().appendTo($('body'));
@@ -48,13 +46,13 @@
 			}
 		});
 
-		$('.toggle-view').click(function() {
+		$('.toggle-view').click(function(e) {
 			$($(this).attr('href')).slideToggle();
-			return false;
+			e.preventDefault();
 		});
 
 		// add new menu
-		$('#add-menu').button().click(function() {
+		$('#add-menu').button().click(function(e) {
 			$.getJSON(ajaxUrl + 'add_menu', function(data) {
 				if (data.id === null) {
 					return;
@@ -74,23 +72,22 @@
 				menuAdmin.show().treeBuilder('getItems');
 			});
 
-			return false;
+			e.preventDefault();
 		});
 
-		$('#menu-options').on('click', '.menu-edit', function() {
+		$('#pt-menus').on('click', '.menu-edit', function(e) {
 			var element = $(this).parent().prev().removeClass('menu-option').parent().removeClass('current-menu').find('.menu-editable');
 			currentMenuTitle = element.text();
 			inlineMenuForm.show().appendTo(element.text('')).children(':input').val(currentMenuTitle).focus().select().end();
-			return false;
-		}).on('click', '.menu-delete', function() {
+			e.preventDefault();
+		}).on('click', '.menu-delete', function(e) {
 			dialogConfirmDelete.dialog({buttons: dButtons}).dialog('open');
-			return false;
+			e.preventDefault();
 		});
 
 		$('#inline-menu-form').submit(function(e) {
 			e.preventDefault();
 			$(this).children('#inline-menu-edit').trigger('blur');
-			return false;
 		});
 
 		$('#inline-menu-edit').focusout(function(e) {
@@ -98,9 +95,9 @@
 			var element = $(this).val('').parent().parent();
 
 			if (menuId && menuTitle && menuTitle !== currentMenuTitle) {
-				$.post(ajaxUrl + 'update_menu', {'title': menuTitle}, function(resp) {
-					if (resp['menu_name']) {
-						element.text(resp['menu_name']);
+				$.post(ajaxUrl + 'update_menu', {'title': menuTitle}, function(menu) {
+					if (menu.name) {
+						element.text(menu.name);
 					}
 				});
 			} else {
@@ -110,8 +107,6 @@
 			inlineMenuForm.hide().appendTo($('body'));
 			element.text(menuTitle).parent().addClass('menu-option').parent().addClass('current-menu');
 			e.preventDefault();
-
-			return false;
 		});
 
 		dButtons[LANG.remove] = function() {

@@ -1,4 +1,4 @@
-#icon-picker {
+.icon-picker-container {
 	display: none;
 	width: 230px;
 	z-index: 500;
@@ -7,84 +7,95 @@
 	background: transparent;
 }
 
-#icon-picker .ui-tabs .ui-tabs-panel {
+.icon-picker-container .ui-tabs .ui-tabs-panel {
 	padding: 0;
 }
 
-#icon-picker.ui-widget-content {
+.icon-picker-container .ui-widget-content {
 	border: 0;
 }
 
-#icon-picker .tab-content {
+.icon-picker-container .tab-content {
 	height: 325px;
 }
 
-#icon-picker .icons-bottom-tabs .ui-tabs-nav {
+.icon-picker-container .icons-bottom-tabs {
+	border: 1px solid #ccc;
+}
+
+.icon-picker-container .icons-bottom-tabs .ui-tabs-nav {
 	clear: left;
 	padding: 0 0.2em 0.2em 0.2em;
 }
 
-#icon-picker .icons-bottom-tabs .ui-tabs-nav li {
+.icon-picker-container .icons-bottom-tabs .ui-tabs-nav li {
 	top: auto;
 	bottom: 0;
 	margin: 0 0.2em 1px 0;
-	border-bottom: auto;
 	border-top: 0;
 }
 
-#icon-picker .icons-bottom-tabs .ui-tabs-nav li.ui-tabs-active {
+.icon-picker-container .icons-bottom-tabs .ui-tabs-nav .ui-tabs-active {
 	margin-top: -1px;
 	padding-top: 1px;
 }
 
-#icon-picker-preview {
-	width: 55px;
-	height: 50px;
-	border: 1px solid #ccc;
-	padding: 3px;
-	margin: 10px 10px 0 10px;
+.icon-picker-container .preview-container {
+	float: left;
 	text-align: center;
 	font-size: 3em;
 	line-height: 1.5em;
-	float: left;
-	overflow: hidden;
+	margin: 10px 10px 0 10px;
+	padding: 3px;
+	border: 1px solid #ccc;
 }
 
-#icon-picker-actions {
+.icon-picker-container .preview {
+	overflow: hidden;
+	width: 55px;
+	height: 50px;
+}
+
+.icon-picker-container .actions-container {
 	margin-top: 20px;
 }
 
-#icon-picker-insert {
+.icon-picker-container .actions-container .action-btn {
 	padding: 10px;
 	background-color: #6c60ba;
-	color: #ffffff;
+	color: #fff;
 	font-weight: bold;
 	overflow: hidden;
 	text-decoration: none;
+	border-radius: 4px;
 }
 
-#icon-picker-insert:hover {
+.icon-picker-container .actions-container .action-btn:hover {
 	background-color: #9e2a81;
 }
 
-#icons-font-list {
-	width: auto;
-	height: 150px;
-	position: relative;
+.icon-picker-container .icons-container {
 	border: 1px solid #ccc;
 	text-align: center;
-	overflow: auto;
+	position: relative;
+	width: auto;
 }
 
-#icons-font-list h3 {
+.icon-picker-container .icons {
+	height: 150px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.icon-picker-container .icons p {
 	clear: left;
-	display: block;
+	font-weight: bold;
 	margin: 20px 4px;
 	font-size: 14px;
 	color: #c3f;
 }
 
-#icons-font-list a {
+.icon-picker-container .icons a {
 	width: 28px;
 	height: 32px;
 	line-height: 32px;
@@ -93,34 +104,28 @@
 	display: block;
 }
 
-#icons-font-list a:hover {
+.icon-picker-container .icons a:hover {
 	background-color: #fbf4f4;
 	color: blue;
 }
 
-#icons-font-list a:hover {
-	*font-size: 28px;
-	*vertical-align: middle;
-	*color: blue;
-}
-
-#icons-font-list a:hover :before {
+.icon-picker-container .icons a:hover :before {
 	font-size: 28px;
 	vertical-align: -5px;
 	color: blue;
 }
 
-#icons-font-list .icon-selected {
+.icon-picker-container .icons .icon-selected {
 	color: #ffffff;
 	background-color: #21b384;
 }
 
-#icons-font-cat-list {
+.icon-picker-container .cats-container {
 	position: relative;
 	clear: both;
 }
 
-#icons-font-cat-list a {
+.icon-picker-container .cats-container a {
 	padding: 4px;
 	margin: 2px 0;
 	font-weight: bold;
@@ -132,29 +137,29 @@
 	width: auto;
 }
 
-#icon-customization fieldset {
+.icon-picker-container fieldset {
 	border: 0;
 	margin: 8px;
 }
 
-#icon-customization fieldset dt {
+.icon-picker-container fieldset dt {
 	width: 30%;
 }
 
-#icon-customization fieldset dd {
+.icon-picker-container fieldset dd {
 	margin-left: 31%;
 }
 
-#icon-customization ul {
+.icon-picker-container ul {
 	margin: 0;
 	padding: 0;
 }
 
-#icon-customization ul li {
+.icon-picker-container ul li {
 	display: inline;
 }
 
-#icon-customization ul li .icons-color-container {
+.icon-picker-container ul li .icons-color-container {
 	position: relative;
 	display: inline-block;
 	border: 1px solid #ccc;
@@ -162,21 +167,21 @@
 	padding: 1px;
 }
 
-#icon-customization ul li .selected {
+.icon-picker-container ul li .selected {
 	border: 2px solid #333;
 }
 
-#icon-customization ul li .icons-color-container .color {
+.icon-picker-container ul li .icons-color-container .color {
 	display: block;
 	font-size: 12px;
 	width: 13px;
 }
 
-#icon-customization ul li input {
+.icon-picker-container ul li input {
 	display: none;
 }
 
-.icons-drop {
+.icon-picker-container .icons-drop {
 	border: 1px solid #ccc;
 	border-bottom: 0;
 	margin-bottom: -5px;

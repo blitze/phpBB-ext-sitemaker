@@ -57,7 +57,8 @@
 .module .banner {
 	padding: 10px;
 }
-.module h5 {
+.module .header {
+	font-size: 1.2em;
 	padding: 10px 15px;
 	background-color: #dee8d7;
 }
