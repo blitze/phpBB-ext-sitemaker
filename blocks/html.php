@@ -42,7 +42,7 @@ class html extends \primetime\primetime\core\blocks\driver\block
 		if ($edit_mode !== false)
 		{
 			$bid = (isset($bdata['bid'])) ? $bdata['bid'] : 0;
-			$content = '<div id="block-editor-' . $bid . '" class="editable-block">' . (($content) ? $content : $this->user->lang['EDIT_ME']) . '</div>';
+			$content = '<div id="block-editor-' . $bid . '" class="editable-block">' . $content . '</div>';
 		}
 
 		return array(
