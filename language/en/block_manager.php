@@ -84,9 +84,11 @@ $lang = array_merge($lang, array(
 	'MAKE_DEFAULT_LAYOUT'	=> 'Set As Default Layout',
 	'VIEW_DEFAULT_LAYOUT'	=> 'View/Edit Default Layout',
 	'REMOVE_DEFAULT_LAYOUT'	=> 'Remove As Default Layout',
+	'SET_STARTPAGE'			=> 'Set As Start Page',
 	'REMOVE_STARTPAGE'		=> 'Remove As Start Page',
 
 	'SETTINGS'				=> 'Settings',
+	'TOGGLE'				=> 'Toggle',
 	'EDIT_ME'				=> 'Please edit me',
 	'SHOW_HIDE_ME'			=> 'Allow hide online status?',
 	'AUTO_LOGIN'			=> 'Allow auto login?',
