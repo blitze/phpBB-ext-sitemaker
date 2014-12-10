@@ -145,7 +145,7 @@ class display
 				$allowed_groups = explode(',', $row['permission']);
 				$block_service = $row['name'];
 
-				if ($this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $user_groups))))
+				if ($this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $users_groups))))
 				{
 					$b = $this->phpbb_container->get($block_service);
 					$b->set_template($this->ptemplate);
@@ -153,7 +153,14 @@ class display
 
 					if (empty($block['content']))
 					{
-						continue;
+						if ($edit_mode && isset($block['title']))
+						{
+							$block['content'] = $this->user->lang['BLOCK_NO_DATA'];
+						}
+						else
+						{
+							continue;
+						}
 					}
 
 					$data = array_merge($row, array(
