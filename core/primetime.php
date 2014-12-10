@@ -64,12 +64,17 @@ class primetime
 	 */
 	public function set_assets()
 	{
-		ksort($this->scripts['js']);
-		ksort($this->scripts['css']);
+		if (isset($this->scripts['js']))
+		{
+			ksort($this->scripts['js']);
+			$this->scripts['js'] = array_filter(array_unique($this->scripts['js']));
+		}
 
-		// lets clean it up
-		$this->scripts['js'] = (isset($this->scripts['js'])) ? array_filter(array_unique($this->scripts['js'])) : array();
-		$this->scripts['css'] = (isset($this->scripts['css'])) ? array_filter(array_unique($this->scripts['css'])) : array();
+		if (isset($this->scripts['css']))
+		{
+			ksort($this->scripts['css']);
+			$this->scripts['css'] = array_filter(array_unique($this->scripts['css']));
+		}
 
 		$this->scripts = array_filter($this->scripts);
 
