@@ -71,7 +71,7 @@ class login extends \primetime\primetime\core\blocks\driver\block
 		else if ($settings['show_member_menu'])
 		{
 			global $phpbb_container;
-			$block = $phpbb_container->get('primetime.block.member_menu');
+			$block = $phpbb_container->get('primetime.primetime.block.member_menu');
 			$block->set_template($this->ptemplate);
 			return $block->display(array(), $edit_mode);
 		}
