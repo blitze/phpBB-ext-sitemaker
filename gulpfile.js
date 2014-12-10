@@ -4,57 +4,50 @@ var gulp = require('gulp'),
 		replaceString: /\bgulp[\-.]/,
 		camelize: true
 	}),
-	jsFilter = plugins.filter(['**/*.js', '!**/*.min.js']),
-	cssFilter = plugins.filter(['**/*.css', '!**/*.min.css']),
+	argv = require('yargs').argv,
+	production = !!(argv.production), // true if --production flag is used
 	paths = {
 		'dev': {
-			'adm': './develop/adm/**',
-			'images': './develop/images/**',
-			'scripts': './develop/scripts/**',
-			'theme': './develop/theme/*.css',
-			'vendor': './develop/vendor/'
+			'adm': 'develop/adm/',
+			'scripts': 'develop/scripts/',
+			'theme': 'develop/theme/',
+			'vendor': 'develop/vendor/'
 		},
 		'prod': {
-			'adm': './adm/style/',
-			'images': './assets/images/',
-			'scripts': './assets/',
-			'theme': './styles/prosilver/theme/',
-			'vendor': './assets/vendor/'
+			'adm': 'adm/style/',
+			'scripts': 'assets/',
+			'theme': 'styles/prosilver/theme/',
+			'vendor': 'assets/vendor/'
 		}
 	};
 
 // Bower
 gulp.task('bower', function() {
 	return plugins.bower()
-		.pipe(gulp.dest(paths.dev.vendor))
-});
-
-// Images
-gulp.task('images', function() {
-	return gulp.src(paths.dev.images)
-		//.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-		.pipe(gulp.dest(paths.prod.images))
-		.pipe(plugins.notify({ message: 'Images task complete' }));
+		.pipe(gulp.dest(paths.dev.vendor));
 });
 
 // Admin js and css
 gulp.task('adm', function() {
-	return gulp.src(paths.dev.adm)
+	var jsFilter = plugins.filter(['**/*.js', '!**/*.min.js']);
+	var cssFilter = plugins.filter(['**/*.css', '!**/*.min.css']);
+
+	return gulp.src(paths.dev.adm + '**')
 		.pipe(jsFilter)
 		.pipe(plugins.jscs())
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter(plugins.jshintStylish))
 		.pipe(plugins.jshint.reporter('fail'))
 		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
+		.pipe(plugins.if(production, plugins.uglify()))
 		.pipe(gulp.dest(paths.prod.adm))
 		.pipe(jsFilter.restore())
 		.pipe(cssFilter)
-		.pipe(plugins.autoprefixer())
 		.pipe(plugins.csscomb())
-		.pipe(gulp.dest('./develop/adm/'))
+		.pipe(gulp.dest(paths.dev.adm))
 		.pipe(plugins.csslint())
 		.pipe(plugins.csslint.reporter())
+		.pipe(plugins.autoprefixer())
 		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest(paths.prod.adm))
@@ -63,21 +56,24 @@ gulp.task('adm', function() {
 
 // Scripts
 gulp.task('scripts', function() {
-	return gulp.src(paths.dev.scripts)
+	var jsFilter = plugins.filter(['**/*.js', '!**/*.min.js']);
+	var cssFilter = plugins.filter(['**/*.css', '!**/*.min.css']);
+
+	return gulp.src(paths.dev.scripts + '**')
 		.pipe(jsFilter)
 		.pipe(plugins.jscs())
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter(plugins.jshintStylish))
 		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
+		.pipe(plugins.if(production, plugins.uglify()))
 		.pipe(gulp.dest(paths.prod.scripts))
 		.pipe(jsFilter.restore())
 		.pipe(cssFilter)
-		.pipe(plugins.autoprefixer())
 		.pipe(plugins.csscomb())
-		.pipe(gulp.dest('./develop/scripts/'))
+		.pipe(gulp.dest(paths.dev.scripts))
 		.pipe(plugins.csslint())
 		.pipe(plugins.csslint.reporter())
+		.pipe(plugins.autoprefixer())
 		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest(paths.prod.scripts))
@@ -86,12 +82,12 @@ gulp.task('scripts', function() {
 
 // Theme-specific CSS
 gulp.task('theme', function() {
-	return gulp.src(paths.dev.theme)
-		.pipe(plugins.autoprefixer())
+	return gulp.src(paths.dev.theme + '*.css')
 		.pipe(plugins.csscomb())
-		.pipe(gulp.dest('./develop/theme/'))
+		.pipe(gulp.dest(paths.dev.theme))
 		.pipe(plugins.csslint())
 		.pipe(plugins.csslint.reporter())
+		.pipe(plugins.autoprefixer())
 		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest(paths.prod.theme))
@@ -103,7 +99,6 @@ gulp.task('vendor', function() {
 	var mainFiles = plugins.mainBowerFiles();
 
 	if (!mainFiles.length) {
-		// No main files found. Skipping....
 		return;
 	}
 
@@ -113,7 +108,7 @@ gulp.task('vendor', function() {
 	return gulp.src(mainFiles, {base: paths.dev.vendor })
 		.pipe(jsFilter)
 		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
+		.pipe(plugins.if(production, plugins.uglify()))
 		.pipe(gulp.dest(paths.prod.vendor))
 		.pipe(jsFilter.restore())
 		.pipe(cssFilter)
@@ -128,29 +123,31 @@ gulp.task('vendor', function() {
 // Clean up
 gulp.task('clean', function(cb) {
 	plugins.del([
-		paths.prod.js,
-		paths.prod.css,
-		paths.prod.vendor,
-		paths.prod.theme
+		paths.prod.adm + '*.js',
+		paths.prod.adm + '*.css',
+		paths.prod.theme + '*.css',
+		paths.prod.scripts,
+		paths.prod.vendor
 	], cb);
 });
 
 gulp.task('watch', function() {
+	// Watch admin files
+	gulp.watch([paths.dev.adm + '**/*.css', paths.dev.adm + '**/*.js'], ['adm']);
 
-  // Watch admin files
-  gulp.watch(paths.dev.adm, ['adm']);
+	// Watch script files
+	gulp.watch([paths.dev.scripts + '**/*.css', paths.dev.scripts + '**/*.js'], ['scripts']);
 
-  // Watch script files
-  gulp.watch(paths.dev.scripts, ['scripts']);
+	// Watch theme files
+	gulp.watch(paths.dev.theme + '*.css', ['theme']);
 
-  // Watch theme files
-  gulp.watch(paths.dev.theme, ['theme']);
+	// Watch Vendor files
+	gulp.watch(paths.dev.vendor + '**', ['vendor']);
 
-  // Watch bower.json
-  gulp.watch('./bower.json', ['bower']);
-
+	// Watch bower.json
+	gulp.watch('./bower.json', ['bower']);
 });
 
 gulp.task('build', ['clean'], function() {
-	gulp.start('css', 'theme', 'js', 'vendor');
+	gulp.start('adm', 'theme', 'scripts', 'vendor');
 });

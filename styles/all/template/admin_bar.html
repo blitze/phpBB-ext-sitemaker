@@ -8,7 +8,9 @@
 
 					<div id="blocks-list" class="blocks-gallery">
 						<!-- BEGIN block -->
-						<div data-block="{block.SERVICE}" class="primetime-block panel"><div class="gal-bloc"><i class="fa fa-arrows-alt"></i>{block.NAME}</div class="gal-block"></div>
+						<div data-block="{block.SERVICE}" class="primetime-block">
+							<div class="inner"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+						</div>
 						<!-- END block -->
 					</div>
 
@@ -66,14 +68,18 @@
 	        <li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i> {L_SAVE_CHANGES}</a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right">
-				<select id="style-options">{S_STYLE_OPTIONS}</select>
+				<select id="style-options" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{PAGE_URL}&amp;style='+this.options[this.selectedIndex].value;}">
+					{S_STYLE_OPTIONS}
+				</select>
 			</li>
 		</ul>
 	</div>
-	<a id="admin-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
+	<a id="admin-control" class="admin-bar-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
 
-	<div id="loading" class="flash-message"><i class="fa fa-spinner fa-spin"></i> {L_AJAX_PROCESSING}</div>
-	<div id="ajax-message" class="flash-message"></div>
+	<div class="message-container">
+		<div id="loading" class="flash-message"><i class="fa fa-refresh fa-spin"></i> {L_AJAX_PROCESSING}</div>
+		<div id="ajax-message" class="flash-message"></div>
+	</div>
 </div>
 
 <div id="dialog-edit" class="dialog" title="{L_EDIT_BLOCK}" style="display: none;"></div>
@@ -93,31 +99,33 @@
 {ICON_PICKER}
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
-	[[no_wrap]]
-		<div class="post [[=class]] cms-block-spacing">
-			[[!hide_title]]
-			<h2>
-				<span class="block-icon"><i class="[[=icon]]"></i></span>
-				<span class="block-title">[[=title]]</span>
-			</h2>
-			[[/!hide_title]]
-			[[=content]]
-		</div>
-	[[:no_wrap]]
-		<div class="panel post cms-block-container [[=class]] cms-block-spacing">
+	{% verbatim %}
+	{% if no_wrap == false %}
+		<div class="panel post cms-block-container {{ class }} cms-block-spacing">
 			<div class="inner">
-				[[!hide_title]]
+				{% if title is not empty and hide_title == false %}
 				<h2>
-					<span class="block-icon"><i class="[[=icon]]"></i></span>
-					<span class="block-title">[[=title]]</span>
+					<span class="block-icon"><i class="{{ icon }}"></i></span>
+					<span class="block-title">{{ title }}</span>
 				</h2>
-				[[/!hide_title]]
+				{% endif %}
 				<div class="cms-block-content">
-					[[=content]]
+					{{ content }}
 				</div>
 			</div>
 		</div>
-	[[/no_wrap]]
+	{% else %}
+		<div class="post {{ class }} cms-block-spacing">
+			{% if title is not empty and hide_title == false %}
+			<h2>
+				<span class="block-icon"><i class="{{ icon }}"></i></span>
+				<span class="block-title">{{ title }}</span>
+			</h2>
+			{% endif %}
+			{{ content }}
+		</div>
+	{% endif %}
+	{% endverbatim %}
 	<div class="block-controls">
 		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
 		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
