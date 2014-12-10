@@ -148,6 +148,13 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 		$topic_data = $this->forum->get_topic_data(1);
 		$topic_data = array_shift($topic_data);
 
+		if (!sizeof($topic_data))
+		{
+			return array(
+				'title'		=> $this->user->lang['POLL'],
+			);
+		}
+
 		$forum_id = (int) $topic_data['forum_id'];
 		$topic_id = (int) $topic_data['topic_id'];
 		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id");
