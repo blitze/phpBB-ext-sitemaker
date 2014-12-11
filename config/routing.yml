@@ -1,17 +1,17 @@
 primetime_primetime_blocks_admin:
-    pattern: /blocks/{action}/{id}/{block}
+    path: /blocks/{action}/{id}/{block}
     defaults: { _controller: primetime.primetime.blocks.admin:handle, id: 0, block: '', _format: json }
     requirements:
         id: \d+
         _format: json
 
 primetime_primetime_menu_admin:
-    pattern: /menu/admin/{action}/{item_id}
+    path: /menu/admin/{action}/{item_id}
     defaults: { _controller: primetime.primetime.menu.admin:handle, item_id: 0 }
     requirements:
         item_id: \d+
         _format: json
 
 primetime_primetime_forum:
-    pattern: /forum
+    path: /forum
     defaults: { _controller: primetime.primetime.forum:handle }
