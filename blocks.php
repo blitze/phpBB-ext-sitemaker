@@ -10,10 +10,6 @@
 /**
  * @ignore
  */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
 
 /**
  * Used to add multi-select dropdown in blocks config
