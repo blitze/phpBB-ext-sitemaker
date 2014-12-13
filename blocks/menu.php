@@ -18,6 +18,9 @@ class menu extends \primetime\primetime\core\blocks\driver\block
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -31,14 +34,16 @@ class menu extends \primetime\primetime\core\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache			Cache object
+	 * @param \phpbb\config\config						$config			Config object
 	 * @param \phpbb\db\driver\driver_interface			$db     		Database connection
 	 * @param \phpbb\template\template					$user			User object
 	 * @param \primetime\primetime\core\menu\display	$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\primetime\core\menu\display $tree, $menus_table)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
 		$this->tree = $tree;
@@ -104,8 +109,17 @@ class menu extends \primetime\primetime\core\blocks\driver\block
 			{
 				$url_info = parse_url($row['item_url']);
 
+				$item_url = $row['item_url'];
+				if (strpos($item_url, 'app.php') !== false && $this->config['enable_mod_rewrite'])
+				{
+					$item_url = $board_url . str_replace('app.php', '', $item_url);
+				}
+				else if (strpos($item_url, 'http') === false)
+				{
+					$item_url = $board_url . '/' . $item_url;
+				}
 				$data[$row['item_id']] = $row;
-				$data[$row['item_id']]['item_url'] = ($row['item_url'] && strpos($row['item_url'], 'http') === false) ? $board_url . '/' . $row['item_url'] : $row['item_url'];
+				$data[$row['item_id']]['item_url'] = $item_url;
 				$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
 				$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
 			}

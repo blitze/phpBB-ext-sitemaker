@@ -106,6 +106,7 @@ services:
         class: primetime\primetime\blocks\menu
         arguments:
             - @cache
+            - @config
             - @dbal.conn
             - @user
             - @primetime.primetime.menu.display
