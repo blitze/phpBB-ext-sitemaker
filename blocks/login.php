@@ -60,8 +60,8 @@ class login extends \primetime\primetime\core\blocks\driver\block
 				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=login'),
 				'U_REGISTER'			=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=register'),
 				'U_SEND_PASSWORD'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=sendpassword'),
-				'U_REDIRECT'			=> reapply_sid(htmlspecialchars($this->user->page['root_script_path'] . $this->user->page['page'])))
-			);
+				'U_REDIRECT'			=> reapply_sid(ltrim(rtrim(build_url(array('edit_mode')), '?'), './../'))
+			));
 
 			return array(
 				'title'		=> 'LOGIN',
