@@ -88,6 +88,7 @@ services:
             - @auth
             - @cache
             - @config
+            - @dbal.conn
             - @user
             - %core.root_path%
             - %core.php_ext%

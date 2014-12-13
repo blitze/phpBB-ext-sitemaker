@@ -20,6 +20,9 @@ class manager
 	/** @var \phpbb\config\db */
 	protected $config;
 
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -32,18 +35,20 @@ class manager
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth				$auth				Auth object
-	 * @param \phpbb\cache\service			$cache				Cache object
-	 * @param \phpbb\config\db				$config				Config object
-	 * @param \phpbb\user					$user				User object
-	 * @param string						$phpbb_root_path	Path to the phpbb includes directory.
-	 * @param string						$php_ext			php file extension
+	 * @param \phpbb\auth\auth						$auth				Auth object
+	 * @param \phpbb\cache\service					$cache				Cache object
+	 * @param \phpbb\config\db						$config				Config object
+	 * @param \phpbb\db\driver\driver_interface		$db					Database object
+	 * @param \phpbb\user							$user				User object
+	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->db = $db;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -107,7 +112,7 @@ class manager
 			if ($forum_perm_from && $forum_perm_from != $forum_data['forum_id'])
 			{
 				copy_forum_permissions($forum_perm_from, $forum_data['forum_id'], false, false);
-				cache_moderators();
+				phpbb_cache_moderators($this->db, $this->cache, $this->auth);
 			}
 
 			$this->auth->acl_clear_prefetch();
