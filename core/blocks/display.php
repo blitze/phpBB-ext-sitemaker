@@ -188,7 +188,7 @@ class display
 		$style_id = 0;
 		if ($this->request->is_set('style'))
 		{
-			$style_id = request_var('style', 0);
+			$style_id = $this->request->variable('style', 0);
 		}
 		else
 		{
