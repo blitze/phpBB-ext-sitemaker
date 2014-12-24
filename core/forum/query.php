@@ -241,7 +241,7 @@ class query
 	/**
 	 * Get post data
 	 */
-	public function get_post_data($topic_first_or_last = false, $post_ids = array(), $limit = false, $start = 0)
+	public function get_post_data($topic_first_or_last = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
 		$sql_where = array();
 		if (sizeof($this->topic_data))
@@ -255,9 +255,21 @@ class query
 			}
 		}
 
+		if (sizeof($sql_array))
+		{
+			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
+		}
+
 		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary);
 
-		$sql = 'SELECT * FROM ' . POSTS_TABLE . ((sizeof($sql_where)) ? ' WHERE ' . join(' AND ', $sql_where) : '');
+		$sql_array = $this->primetime->merge_dbal_arrays(array(
+				'SELECT'	=> 'p.*',
+				'FROM'		=> array(POSTS_TABLE => 'p'),
+				'WHERE'		=> ((sizeof($sql_where)) ? join(' AND ', $sql_where) : '')
+			),
+			$sql_array
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		while($row = $this->db->sql_fetchrow($result))
