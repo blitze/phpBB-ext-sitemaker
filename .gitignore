@@ -1,8 +1,4 @@
 /vendor/
 /node_modules/
 /develop/vendor/
-/assets/
-/adm/style/*.css
-/adm/style/*.js
-/styles/prosilver/theme/*.css
 .git-ftp-ignore
