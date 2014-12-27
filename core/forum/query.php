@@ -255,12 +255,7 @@ class query
 			}
 		}
 
-		if (sizeof($sql_array))
-		{
-			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
-		}
-
-		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary);
+		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
 
 		$sql_array = $this->primetime->merge_dbal_arrays(array(
 				'SELECT'	=> 'p.*',
