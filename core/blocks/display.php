@@ -131,12 +131,18 @@ class display
 
 		$blocks = $this->get_blocks($route_info, $style_id, $edit_mode);
 		$users_groups = $this->get_users_groups();
+		$ex_positions = array_flip($route_info['ex_positions']);
 
 		$blocks_per_position = array();
 		foreach ($blocks as $position => $blocks_ary)
 		{
 			$pos_count_key = 's_' . $position . '_count';
 			$blocks_per_position[$pos_count_key] = 0;
+
+			if ($edit_mode === false && isset($ex_positions[$position]))
+			{
+				continue;
+			}
 
 			$blocks_ary = array_values($blocks_ary);
 			for ($i = 0, $size = sizeof($blocks_ary); $i < $size; $i++)
@@ -228,7 +234,7 @@ class display
 			'route'			=> $route,
 			'style'			=> $style_id,
 			'hide_blocks'	=> false,
-			'ex_positions'	=> '',
+			'ex_positions'	=> array(),
 			'has_blocks'	=> false,
 		);
 
@@ -241,6 +247,7 @@ class display
 			$routes = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
+				$row['ex_positions'] = array_filter(explode(',', $row['ex_positions']));
 				$route_info[$row['style']][$row['route']] = $row;
 			}
 			$this->db->sql_freeresult($result);
@@ -271,7 +278,7 @@ class display
 				),
 
 				'WHERE'	 => 'b.route_id = r.route_id' .
-					((!$edit_mode) ? ' AND b.status = 1 AND r.hide_blocks <> 1' : ' AND r.style = ' . (int) $style_id),
+					((!$edit_mode) ? ' AND b.status = 1' : ' AND r.style = ' . (int) $style_id),
 
 				'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
 			);
@@ -348,7 +355,7 @@ class display
 			$route_id = $default_route['route_id'];
 		}
 
-		$blocks = (isset($blocks[$style_id][$route_id])) ? $blocks[$style_id][$route_id] : array();
+		$blocks = (isset($blocks[$style_id][$route_id]) && !$route_info['hide_blocks']) ? $blocks[$style_id][$route_id] : array();
 
 		return $blocks;
 	}

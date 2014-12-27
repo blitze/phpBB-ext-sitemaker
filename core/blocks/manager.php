@@ -176,20 +176,11 @@ class manager
 
 		$this->get_available_blocks();
 
-		$hide_blocks = false;
-		$ex_positions = array();
-
-		if (sizeof($route_info))
-		{
-			$ex_positions = array_filter(explode(',', $route_info['ex_positions']));
-			$hide_blocks = $route_info['hide_blocks'];
-		}
-
 		$this->template->assign_vars(array(
 			'S_EDIT_MODE'		=> true,
 			'S_ROUTE_OPS'		=> $this->get_route_options($route),
-			'S_HIDE_BLOCKS'		=> $hide_blocks,
-			'S_POSITION_OPS'	=> $this->get_position_options($ex_positions),
+			'S_HIDE_BLOCKS'		=> $route_info['hide_blocks'],
+			'S_POSITION_OPS'	=> $this->get_position_options($route_info['ex_positions']),
 			'S_IS_DEFAULT'		=> $is_default_route,
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
 
