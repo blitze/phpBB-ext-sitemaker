@@ -267,6 +267,7 @@ class query
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
+		$post_data = array();
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
