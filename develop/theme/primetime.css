@@ -618,7 +618,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 	width: auto;
 }
 
-@media screen and (max-device-width : 1024px) {
+@media only screen and (max-width : 68.75em) {
 	.line,
 	.lastUnit {
 		overflow: visible;
@@ -661,13 +661,13 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.sidebar-left {
 		position: absolute;
 		left: 0;
-		padding: 10px 10px 0 10px;
+		padding: 10px 15px 0 10px;
 	}
 
 	.sidebar-right {
 		position: absolute;
 		right: 0;
-		padding: 10px 10px 0 10px;
+		padding: 10px 10px 0 15px;
 	}
 
 	.pt-responsive-show {
