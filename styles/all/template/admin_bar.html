@@ -64,10 +64,10 @@
 			</li>
 			<!-- EVENT admin_bar_append -->
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-	        <li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_DISP_MODE}"><i class="fa fa-check fa-lg"></i> {L_EXIT_EDIT_MODE}</a></li>
-	        <li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i> {L_SAVE_CHANGES}</a></li>
+			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_DISP_MODE}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {L_EXIT_EDIT_MODE}</span></a></li>
+			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {L_SAVE_CHANGES}</span></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right">
+			<li class="hmenu-item right responsive-hide">
 				<select id="style-options" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{PAGE_URL}&amp;style='+this.options[this.selectedIndex].value;}">
 					{S_STYLE_OPTIONS}
 				</select>

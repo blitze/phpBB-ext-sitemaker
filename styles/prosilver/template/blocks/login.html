@@ -1,1 +1,25 @@
-<form action="{S_LOGIN_ACTION}" method="post">    <div style="text-align: center">	    <p>	    	<span class="genmed">{L_USERNAME}:</span><br /><input type="text" name="username" class="inputbox autowidth" tabindex="1" /><br />			<span class="genmed">{L_PASSWORD}:</span><br /><input type="password" name="password" class="inputbox autowidth" tabindex="2" />		</p>		<p><a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a></p>		<p>		<!-- IF S_AUTOLOGIN_ENABLED -->		    <input type="checkbox" class="radio" name="autologin" tabindex="3" /> <span class="gensmall">{L_LOG_ME_IN}</span><br />		<!-- ENDIF -->		<!-- IF S_SHOW_HIDE_ME -->			<input type="checkbox" class="radio" name="viewonline" tabindex="4" /> <span class="gensmall">{L_SESSION_HIDE_ME}</span><br />		<!-- ENDIF -->		</p>	    <fieldset class="submit-buttons">	        <input type="hidden" name="redirect" value="{U_REDIRECT}" />	        <input type="submit" name="login" value="{L_LOGIN}" class="btnmain" tabindex="5" />	    </fieldset>    </div></form><a class="right-box" href="{U_REGISTER}">{L_REGISTER}</a>
+<form action="{S_LOGIN_ACTION}" method="post">
+
+    <div style="text-align: center">
+	    <p>
+	    	<span class="genmed">{L_USERNAME}:</span><br /><input type="text" name="username" class="inputbox" tabindex="1" /><br />
+			<span class="genmed">{L_PASSWORD}:</span><br /><input type="password" name="password" class="inputbox" tabindex="2" />
+		</p>
+		<p><a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a></p>
+		<p>
+		<!-- IF S_AUTOLOGIN_ENABLED -->
+		    <input type="checkbox" class="radio" name="autologin" tabindex="3" /> <span class="gensmall">{L_LOG_ME_IN}</span><br />
+		<!-- ENDIF -->
+		<!-- IF S_SHOW_HIDE_ME -->
+			<input type="checkbox" class="radio" name="viewonline" tabindex="4" /> <span class="gensmall">{L_SESSION_HIDE_ME}</span><br />
+		<!-- ENDIF -->
+		</p>
+
+	    <fieldset class="submit-buttons">
+	        <input type="hidden" name="redirect" value="{U_REDIRECT}" />
+	        <input type="submit" name="login" value="{L_LOGIN}" class="btnmain" tabindex="5" />
+	    </fieldset>
+    </div>
+</form>
+
+<a class="right-box" href="{U_REGISTER}">{L_REGISTER}</a>

@@ -7,11 +7,18 @@
 	{% endset %}
 {% endif %}
 <div class="cms-block-spacing"></div>
-<!-- IF .panel or S_EDIT_MODE -->
+
+<div class="pt-responsive-show" style="overflow: hidden;">
+	<!-- IF .sidebar or S_EDIT_MODE --><a class="panel left-box" href="#" onclick="phpbb.toggleDisplay('pos-sidebar'); return false;"><i class="fa fa-exchange"></i></a><!-- ENDIF -->
+	<!-- IF .subcontent or S_EDIT_MODE --><a class="panel right-box" href="#" onclick="phpbb.toggleDisplay('pos-subcontent'); return false;"><i class="fa fa-exchange"></i></a><!-- ENDIF -->
+</div>
+
+<div style="position: relative">
+	<!-- IF .panel or S_EDIT_MODE -->
 	<div id="pos-panel" class="block-position line">
-	<!-- BEGIN panel -->
+		<!-- BEGIN panel -->
 		<div id="block-{panel.BID}" class="unit size1of1 lastUnit block">
-		<!-- IF not panel.NO_WRAP -->
+			<!-- IF not panel.NO_WRAP -->
 			<div class="panel post cms-block-container{panel.CLASS} cms-block-spacing">
 				<div class="inner">
 					<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
@@ -25,7 +32,7 @@
 					</div>
 				</div>
 			</div>
-		<!-- ELSE -->
+			<!-- ELSE -->
 			<div class="post{panel.CLASS} cms-block-spacing">
 				<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 				<h2>
@@ -35,136 +42,136 @@
 				<!-- ENDIF -->
 				{panel.CONTENT}
 			</div>
-		<!-- ENDIF -->
+			<!-- ENDIF -->
 			{S_BLOCK_CONTROLS}
 		</div>
-	<!-- END panel -->
+		<!-- END panel -->
 	</div>
-<!-- ENDIF -->
+	<!-- ENDIF -->
 
-<div class="line">
-	<!-- IF .sidebar or S_EDIT_MODE -->
-	<div id="pos-sidebar" class="block-position full-height pad-right unit size1of5">
-		<!-- BEGIN sidebar -->
-		<div id="block-{sidebar.BID}" class="block">
-			<!-- IF not sidebar.NO_WRAP -->
-			<div class="panel post cms-block-container{sidebar.CLASS} cms-block-spacing">
-				<div class="inner">
+	<div class="line">
+		<!-- IF .sidebar or S_EDIT_MODE -->
+		<div id="pos-sidebar" class="block-position sidebar sidebar-left unit size1of5">
+			<!-- BEGIN sidebar -->
+			<div id="block-{sidebar.BID}" class="block">
+				<!-- IF not sidebar.NO_WRAP -->
+				<div class="panel post cms-block-container{sidebar.CLASS} cms-block-spacing">
+					<div class="inner">
+						<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
+						<h2>
+							<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
+							<span class="block-title">{sidebar.TITLE}</span>
+						</h2>
+						<!-- ENDIF -->
+						<div class="cms-block-content">
+							{sidebar.CONTENT}
+						</div>
+					</div>
+				</div>
+				<!-- ELSE -->
+				<div class="post{sidebar.CLASS} cms-block-spacing">
 					<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 					<h2>
 						<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
 						<span class="block-title">{sidebar.TITLE}</span>
 					</h2>
 					<!-- ENDIF -->
-					<div class="cms-block-content">
-						{sidebar.CONTENT}
-					</div>
+					{sidebar.CONTENT}
 				</div>
-			</div>
-			<!-- ELSE -->
-			<div class="post{sidebar.CLASS} cms-block-spacing">
-				<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
-				<h2>
-					<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
-					<span class="block-title">{sidebar.TITLE}</span>
-				</h2>
 				<!-- ENDIF -->
-				{sidebar.CONTENT}
+				{S_BLOCK_CONTROLS}
 			</div>
-			<!-- ENDIF -->
-			{S_BLOCK_CONTROLS}
+			<!-- END sidebar -->
 		</div>
-		<!-- END sidebar -->
-	</div>
-	<!-- ENDIF -->
+		<!-- ENDIF -->
 
-	<div class="unit <!-- IF .sidebar or S_EDIT_MODE -->size4of5<!-- ELSE --> size1of1<!-- ENDIF --> lastUnit">
-		<!-- IF .top_hor or S_EDIT_MODE -->
-			{% set DIV = 0 %}
-			{% set SIZE = 3 %}
-		<div id="pos-top_hor" class="block-position horizontal line">
-			<!-- BEGIN top_hor -->
-				<!-- IF DIV eq 0 -->
-					<!-- IF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 3 eq 0 or (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) > 3 -->
-						{% set DIV = 3 %}
-					<!-- ELSEIF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 2 eq 0 -->
-						{% set DIV = 3 %}
-						{% set SIZE = 2 %}
-					<!-- ELSE -->
-						{% set DIV = 1 %}
-						{% set SIZE = 1 %}
+		<div class="unit <!-- IF .sidebar or S_EDIT_MODE -->size4of5<!-- ELSE --> size1of1<!-- ENDIF --> lastUnit">
+			<!-- IF .top_hor or S_EDIT_MODE -->
+				{% set DIV = 0 %}
+				{% set SIZE = 3 %}
+			<div id="pos-top_hor" class="block-position horizontal line">
+				<!-- BEGIN top_hor -->
+					<!-- IF DIV eq 0 -->
+						<!-- IF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 3 eq 0 or (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) > 3 -->
+							{% set DIV = 3 %}
+						<!-- ELSEIF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 2 eq 0 -->
+							{% set DIV = 3 %}
+							{% set SIZE = 2 %}
+						<!-- ELSE -->
+							{% set DIV = 1 %}
+							{% set SIZE = 1 %}
+						<!-- ENDIF -->
 					<!-- ENDIF -->
-				<!-- ENDIF -->
-			<div id="block-{top_hor.BID}" class="unit size1of{SIZE}<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV or top_hor.S_LAST_ROW --> lastUnit<!-- ENDIF --> block">
-				<!-- IF not top_hor.NO_WRAP -->
-				<div class="panel post cms-block-container{top_hor.CLASS} cms-block-spacing">
-					<div class="inner">
+				<div id="block-{top_hor.BID}" class="unit size1of{SIZE}<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV or top_hor.S_LAST_ROW --> lastUnit<!-- ENDIF --> block">
+					<!-- IF not top_hor.NO_WRAP -->
+					<div class="panel post cms-block-container{top_hor.CLASS} cms-block-spacing">
+						<div class="inner">
+							<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
+							<h2>
+								<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
+								<span class="block-title">{top_hor.TITLE}</span>
+							</h2>
+							<!-- ENDIF -->
+							<div class="cms-block-content">
+								{top_hor.CONTENT}
+							</div>
+						</div>
+					</div>
+					<!-- ELSE -->
+					<div class="post{top_hor.CLASS} cms-block-spacing">
 						<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
 							<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
 							<span class="block-title">{top_hor.TITLE}</span>
 						</h2>
 						<!-- ENDIF -->
-						<div class="cms-block-content">
-							{top_hor.CONTENT}
-						</div>
+						{top_hor.CONTENT}
 					</div>
-				</div>
-				<!-- ELSE -->
-				<div class="post{top_hor.CLASS} cms-block-spacing">
-					<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
-					<h2>
-						<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
-						<span class="block-title">{top_hor.TITLE}</span>
-					</h2>
 					<!-- ENDIF -->
-					{top_hor.CONTENT}
+					{S_BLOCK_CONTROLS}
 				</div>
-				<!-- ENDIF -->
-				{S_BLOCK_CONTROLS}
+					<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV and not top_hor.S_LAST_ROW -->
+						{% set DIV = 0 %}
+						<div class="clear"></div>
+					<!-- ENDIF -->
+				<!-- END top_hor -->
 			</div>
-				<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV and not top_hor.S_LAST_ROW -->
-					{% set DIV = 0 %}
-					<div class="clear"></div>
-				<!-- ENDIF -->
-			<!-- END top_hor -->
-		</div>
-		<!-- ENDIF -->
-		<div class="line">
-			<div id="main-content" class="unit <!-- IF S_EDIT_MODE or .subcontent -->size3of4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->size1of1 lastUnit<!-- ENDIF -->">
-				<!-- IF .top or S_EDIT_MODE -->
-				<div id="pos-top" class="block-position">
-					<!-- BEGIN top -->
-					<div id="block-{top.BID}" class="unit size1of1 block">
-						<!-- IF not top.NO_WRAP -->
-						<div class="panel post cms-block-container{top.CLASS} cms-block-spacing">
-							<div class="inner">
+			<!-- ENDIF -->
+			<div class="line">
+				<div id="main-content" class="unit <!-- IF S_EDIT_MODE or .subcontent -->size3of4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->size1of1 lastUnit<!-- ENDIF -->">
+					<!-- IF .top or S_EDIT_MODE -->
+					<div id="pos-top" class="block-position">
+						<!-- BEGIN top -->
+						<div id="block-{top.BID}" class="unit size1of1 block">
+							<!-- IF not top.NO_WRAP -->
+							<div class="panel post cms-block-container{top.CLASS} cms-block-spacing">
+								<div class="inner">
+									<!-- IF top.TITLE and not top.HIDE_TITLE -->
+									<h2>
+										<span class="block-icon"><i class="{top.ICON}"></i></span>
+										<span class="block-title">{top.TITLE}</span>
+									</h2>
+									<!-- ENDIF -->
+									<div class="cms-block-content">
+										{top.CONTENT}
+									</div>
+								</div>
+							</div>
+							<!-- ELSE -->
+							<div class="post{top.CLASS} cms-block-spacing">
 								<!-- IF top.TITLE and not top.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{top.ICON}"></i></span>
 									<span class="block-title">{top.TITLE}</span>
 								</h2>
 								<!-- ENDIF -->
-								<div class="cms-block-content">
-									{top.CONTENT}
-								</div>
+								{top.CONTENT}
 							</div>
-						</div>
-						<!-- ELSE -->
-						<div class="post{top.CLASS} cms-block-spacing">
-							<!-- IF top.TITLE and not top.HIDE_TITLE -->
-							<h2>
-								<span class="block-icon"><i class="{top.ICON}"></i></span>
-								<span class="block-title">{top.TITLE}</span>
-							</h2>
 							<!-- ENDIF -->
-							{top.CONTENT}
+							{S_BLOCK_CONTROLS}
 						</div>
-						<!-- ENDIF -->
-						{S_BLOCK_CONTROLS}
+						<!-- END top -->
 					</div>
-					<!-- END top -->
-				</div>
-				<!-- ENDIF -->
+					<!-- ENDIF -->
 
-				<div<!-- IF S_EDIT_MODE or not .module --> class="cms-block-spacing"<!-- ENDIF -->>
+					<div<!-- IF S_EDIT_MODE or not .module --> class="cms-block-spacing"<!-- ENDIF -->>
