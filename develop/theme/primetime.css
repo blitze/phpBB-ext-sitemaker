@@ -661,13 +661,13 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.sidebar-left {
 		position: absolute;
 		left: 0;
-		padding: 10px 15px 0 10px;
+		padding: 10px 10px 0 10px;
 	}
 
 	.sidebar-right {
 		position: absolute;
 		right: 0;
-		padding: 10px 10px 0 15px;
+		padding: 10px 10px 0 10px;
 	}
 
 	.pt-responsive-show {
