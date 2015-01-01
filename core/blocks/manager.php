@@ -160,7 +160,7 @@ class manager
 			foreach ($params as $param)
 			{
 				$name = $param->getName();
-				$arguments[$name] = $controller_params[$name];
+				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
 			}
 
 			list($namespace, $extension) = explode('\\', $controller_class);
