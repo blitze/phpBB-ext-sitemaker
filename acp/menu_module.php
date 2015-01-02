@@ -32,6 +32,7 @@ class menu_module
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery.populate/jquery.populate.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/vendor/nestedSortable/jquery.ui.nestedSortable.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/tree/builder.min.js',
