@@ -121,6 +121,7 @@ class manager
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.1/tinymce.min.js',
+				$asset_path . 'ext/primetime/primetime/assets/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/primetime/primetime/assets/vendor/twig.js/twig.min.js',
 				100 =>  $asset_path . 'ext/primetime/primetime/assets/blocks/manager.min.js',
 			),

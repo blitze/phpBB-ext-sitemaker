@@ -9,7 +9,8 @@
     "jquery.wheel": "*",
     "twig.js": "~0.7.2",
     "jquery.sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
-    "nestedSortable": "~1.3.4"
+    "nestedSortable": "~1.3.4",
+    "jqueryui-touch-punch": "*"
   },
   "overrides": {
     "malihu-custom-scrollbar-plugin": {
@@ -30,11 +31,15 @@
     "nestedSortable": {
       "main": "jquery.ui.nestedSortable.js"
     },
-	"twig.js": {
-	  "main": [
-		  "twig.min.js",
-		  "twig.min.js.map"
-	  ]
+    "twig.js": {
+      "main": [
+        "twig.min.js",
+        "twig.min.js.map"
+      ]
+    },
+	"jqueryui-touch-punch": {
+		"main": "jquery.ui.touch-punch.min.js",
+		"dependencies": null
 	}
   }
 }
