@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 			'adm': 'develop/adm/',
 			'scripts': 'develop/scripts/',
 			'theme': 'develop/theme/',
-			'vendor': 'develop/vendor/'
+			'vendor': 'bower_components/'
 		},
 		'prod': {
 			'adm': 'adm/style/',

@@ -1,7 +1,7 @@
 /assets/
 /vendor/
 /node_modules/
-/develop/vendor/
+/bower_components/
 /adm/style/*.css
 /adm/style/*.js
 /styles/prosilver/theme/*.css

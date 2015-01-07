@@ -4,7 +4,6 @@ travis/			export-ignore
 .gitignore		export-ignore
 .gitattributes	export-ignore
 .git-ftp-ignore	export-ignore
-.bowerrc		export-ignore
 .jscsrc			export-ignore
 .csscomb.json	export-ignore
 bower.json		export-ignore
