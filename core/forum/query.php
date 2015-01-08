@@ -260,7 +260,8 @@ class query
 		$sql_array = $this->primetime->merge_dbal_arrays(array(
 				'SELECT'	=> 'p.*',
 				'FROM'		=> array(POSTS_TABLE => 'p'),
-				'WHERE'		=> ((sizeof($sql_where)) ? join(' AND ', $sql_where) : '')
+				'WHERE'		=> ((sizeof($sql_where)) ? join(' AND ', $sql_where) : ''),
+				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
 			),
 			$sql_array
 		);
