@@ -56,11 +56,11 @@ class icon_picker
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'js'        => array(
-				$asset_path . 'ext/primetime/primetime/assets/icons/picker.min.js',
+				'@primetime_primetime/assets/icons/picker.min.js',
 			),
 			'css'   => array(
-				$asset_path . 'ext/primetime/primetime/assets/vendor/fontawesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/primetime/assets/icons/picker.min.css',
+				$asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
+				'@primetime_primetime/assets/icons/picker.min.css',
 			)
 		));
 

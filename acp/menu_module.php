@@ -32,16 +32,16 @@ class menu_module
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery.populate/jquery.populate.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/nestedSortable/jquery.ui.nestedSortable.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/tree/builder.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/menu/admin.min.js',
+				$asset_path . 'ext/primetime/primetime/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				$asset_path . 'ext/primetime/primetime/components/jquery.populate/jquery.populate.min.js',
+				$asset_path . 'ext/primetime/primetime/components/nestedSortable/jquery.ui.nestedSortable.min.js',
+				'@primetime_primetime/assets/tree/builder.min.js',
+				'@primetime_primetime/assets/menu/admin.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/assets/tree/builder.min.css',
-				$asset_path . 'ext/primetime/primetime/assets/menu/admin.min.css',
+				'@primetime_primetime/assets/tree/builder.min.css',
+				'@primetime_primetime/assets/menu/admin.min.css',
 			)
 		));
 

@@ -23,17 +23,17 @@ class dashboard_module
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery-knob/js/jquery.knob.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery-rss/dist/jquery.rss.min.js',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/jquery.sparkline/index.min.js',
-				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.min.js',
+				$asset_path . 'ext/primetime/primetime/components/jquery-knob/js/jquery.knob.min.js',
+				$asset_path . 'ext/primetime/primetime/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/primetime/primetime/components/jquery-rss/dist/jquery.rss.min.js',
+				$asset_path . 'ext/primetime/primetime/components/jquery.sparkline/index.min.js',
+				'@primetime_primetime/assets/adm/dashboard.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/fontawesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/primetime/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
-				$asset_path . 'ext/primetime/primetime/adm/style/dashboard.min.css',
+				$asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/primetime/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
+				'@primetime_primetime/assets/adm/dashboard.min.css',
 			)
 		));
 

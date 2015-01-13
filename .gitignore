@@ -1,8 +1,6 @@
-/assets/
+/components/
 /vendor/
 /node_modules/
 /bower_components/
-/adm/style/*.css
-/adm/style/*.js
-/styles/prosilver/theme/*.css
+/styles/all/theme/assets/
 .git-ftp-ignore
