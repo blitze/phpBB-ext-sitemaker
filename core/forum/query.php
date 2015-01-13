@@ -27,12 +27,12 @@ class query
 	protected $user;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
-	/** @var \primetime\primetime\core\primetime */
+	/** @var \primetime\primetime\core\util */
 	protected $primetime;
 
 	protected $attachments		= array();
@@ -54,9 +54,9 @@ class query
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
-	 * @param \primetime\primetime\core\primetime	$primetime				Primetime object
+	 * @param \primetime\primetime\core\util		$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\util $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;

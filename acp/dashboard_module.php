@@ -17,7 +17,7 @@ class dashboard_module
 	{
 		global $config, $db, $phpbb_container, $request, $template, $user, $phpbb_root_path, $phpEx;
 
-		$primetime = $phpbb_container->get('primetime.primetime');
+		$primetime = $phpbb_container->get('primetime.primetime.util');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(

@@ -9,7 +9,7 @@
 
 namespace primetime\primetime\core;
 
-class primetime
+class util
 {
 	/** @var \phpbb\template\template */
 	protected $template;

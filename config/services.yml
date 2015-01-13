@@ -5,8 +5,8 @@ imports:
 
 services:
 
-    primetime.primetime:
-        class: primetime\primetime\core\primetime
+    primetime.primetime.util:
+        class: primetime\primetime\core\util
         arguments:
             - @path_helper
             - @template
@@ -22,7 +22,7 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.primetime
+            - @primetime.primetime.util
             - @primetime.primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
@@ -39,7 +39,7 @@ services:
             - @template
             - @user
             - @primetime.primetime.icon_picker
-            - @primetime.primetime
+            - @primetime.primetime.util
             - @primetime.primetime.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
@@ -80,7 +80,7 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - @primetime.primetime
+            - @primetime.primetime.util
 
     primetime.primetime.forum.manager:
         class: primetime\primetime\core\forum\manager
@@ -97,7 +97,7 @@ services:
         class: primetime\primetime\core\icon_picker
         arguments:
             - @user
-            - @primetime.primetime
+            - @primetime.primetime.util
             - @primetime.primetime.template
 
     primetime.primetime.listener:
@@ -109,7 +109,7 @@ services:
             - @service_container
             - @template
             - @user
-            - @primetime.primetime
+            - @primetime.primetime.util
             - @primetime.primetime.blocks.display
             - %core.root_path%
         tags:
@@ -129,7 +129,7 @@ services:
         arguments:
             - @cache
             - @dbal.conn
-            - @primetime.primetime
+            - @primetime.primetime.util
             - %tables.primetime.menu%
             - %tables.primetime.menu_items%
             - 'item_id'
@@ -138,7 +138,7 @@ services:
         class: primetime\primetime\core\menu\display
         arguments:
             - @dbal.conn
-            - @primetime.primetime
+            - @primetime.primetime.util
             - %tables.primetime.menu_items%
             - 'item_id'
 

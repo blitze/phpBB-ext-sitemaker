@@ -32,7 +32,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/* @var \primetime\primetime\core\primetime */
+	/* @var \primetime\primetime\core\util */
 	protected $primetime;
 
 	/* @var \primetime\primetime\core\blocks\display */
@@ -53,11 +53,11 @@ class listener implements EventSubscriberInterface
 	 * @param Container									$phpbb_container	Service container
 	 * @param \phpbb\template\template					$template			Template object
 	 * @param \phpbb\user								$user				User object
-	 * @param \primetime\primetime\core\primetime		$primetime			Primetime helper object
+	 * @param \primetime\primetime\core\util			$primetime			Primetime helper object
 	 * @param \primetime\primetime\core\blocks\display	$blocks				Blocks display object
 	 * @param string									$root_path			phpBB root path
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\blocks\display $blocks, $root_path)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\util $primetime, \primetime\primetime\core\blocks\display $blocks, $root_path)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

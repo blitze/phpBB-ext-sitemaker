@@ -28,12 +28,12 @@ abstract class display
 	* Construct
 	*
 	* @param \phpbb\db\driver\driver_interface		$db             Database connection
-	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
+	* @param \primetime\primetime\core\util			$primetime		Primetime object
 	* @param string									$table_name		Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\primetime\core\primetime $primetime, $table, $pk, $sql_where = '')
+	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\primetime\core\util $primetime, $table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
 		$this->pk = $pk;

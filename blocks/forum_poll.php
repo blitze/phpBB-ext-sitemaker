@@ -32,7 +32,7 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 	/** @var \primetime\primetime\core\forum\query */
 	protected $forum;
 
-	/** @var \primetime\primetime\core\primetime */
+	/** @var \primetime\primetime\core\util */
 	protected $primetime;
 
 	/** @var string */
@@ -48,14 +48,14 @@ class forum_poll extends \primetime\primetime\core\blocks\driver\block
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\config\db						$config				Config object
 	 * @param \phpbb\db\driver\driver_interface		$db	 				Database connection
-	 * @param \phpbb\request\request_interface		$request				Request object
+	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\user							$user				User object
 	 * @param \primetime\primetime\core\forum\query	$forum				Forum object
-	 * @param \primetime\primetime\core\primetime	$primetime			Primetime Object
+	 * @param \primetime\primetime\core\util		$primetime			Primetime Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\forum\query $forum, \primetime\primetime\core\primetime $primetime, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\forum\query $forum, \primetime\primetime\core\util $primetime, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;

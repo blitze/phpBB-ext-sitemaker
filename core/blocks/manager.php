@@ -37,7 +37,7 @@ class manager
 	/** @var \primetime\primetime\core\icon_picker */
 	protected $icons;
 
-	/** @var \primetime\primetime\core\primetime */
+	/** @var \primetime\primetime\core\util */
 	protected $primetime;
 
 	/** @var \primetime\primetime\core\block_template */
@@ -75,7 +75,7 @@ class manager
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\primetime\core\icon_picker		$icons					Primetime icon picker object
-	 * @param \primetime\primetime\core\primetime		$primetime				Template object
+	 * @param \primetime\primetime\core\util			$primetime				Template object
 	 * @param \primetime\primetime\core\template		$ptemplate				Primetime template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
@@ -83,7 +83,7 @@ class manager
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\icon_picker $icons, \primetime\primetime\core\util $primetime, \primetime\primetime\core\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

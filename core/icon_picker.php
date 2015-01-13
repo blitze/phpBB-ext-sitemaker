@@ -22,7 +22,7 @@ class icon_picker
 
 	/**
 	 * Primetime object
-	 * @var \primetime\primetime\core\primetime
+	 * @var \primetime\primetime\core\util
 	 */
 	protected $primetime;
 
@@ -36,10 +36,10 @@ class icon_picker
 	 * Constructor
 	 *
 	 * @param \phpbb\user                			$user       	User object
-	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
+	 * @param \primetime\primetime\core\util		$primetime		Primetime object
 	 * @param \primetime\primetime\core\ptemplate	$ptemplate		Primetime Template object
 	 */
-	function __construct(\phpbb\user $user, \primetime\primetime\core\primetime $primetime, \primetime\primetime\core\template $ptemplate)
+	function __construct(\phpbb\user $user, \primetime\primetime\core\util $primetime, \primetime\primetime\core\template $ptemplate)
 	{
 		$this->user = $user;
 		$this->primetime = $primetime;

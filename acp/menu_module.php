@@ -25,7 +25,7 @@ class menu_module
 
 		$manager = $phpbb_container->get('primetime.primetime.menu.builder');
 		$icon = $phpbb_container->get('primetime.primetime.icon_picker');
-		$primetime = $phpbb_container->get('primetime.primetime');
+		$primetime = $phpbb_container->get('primetime.primetime.util');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(

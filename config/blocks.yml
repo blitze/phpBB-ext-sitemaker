@@ -35,7 +35,7 @@ services:
             - @request
             - @user
             - @primetime.primetime.forum
-            - @primetime.primetime
+            - @primetime.primetime.util
             - %core.root_path%
             - %core.php_ext%
         calls:
@@ -51,7 +51,7 @@ services:
             - @config
             - @user
             - @primetime.primetime.forum
-            - @primetime.primetime
+            - @primetime.primetime.util
             - %core.root_path%
             - %core.php_ext%
         calls:
