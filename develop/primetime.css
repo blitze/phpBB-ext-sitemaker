@@ -297,7 +297,7 @@
 }
 
 .gray .info {
-	background-color: gray;
+	background-color: #9b9595;
 }
 
 .green .info {
@@ -337,7 +337,7 @@
 }
 
 .fa-gray {
-	color: gray;
+	color: #9b9595;
 }
 
 .fa-green {
@@ -441,12 +441,10 @@ ul.pt-list > li > ul.pt-list {
 
 .pt-y-divider-dotted ul.pt-list > li {
 	border-left: 1px dotted #ccc;
-	padding: 0.8em 1.2em;
 }
 
 .pt-y-divider-line ul.pt-list > li {
 	border-left: 1px solid #ccc;
-	padding: 0.8em 1.2em;
 }
 
 .pt-x-divider-line ul.pt-list:first-child > li:first-child,
@@ -518,8 +516,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 .list-block-3cols ul.pt-list,
 .list-block-4cols ul.pt-list,
 .list-block-5cols ul.pt-list {
-	margin: 0;
-	margin-left: -2.5%;
+	font-size: 0;
 }
 
 .list-block-auto ul.pt-list > li,
@@ -528,8 +525,11 @@ nav ul.pt-list > li.nav-header > a:hover {
 .list-block-4cols ul.pt-list > li,
 .list-block-5cols ul.pt-list > li {
 	display: inline-block;
-	margin: 0 0 2.5% 2.5%;
+	padding: 0 10px;
 	vertical-align: top;
+	        box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .list-block-auto ul.pt-list > li {
@@ -537,19 +537,19 @@ nav ul.pt-list > li.nav-header > a:hover {
 }
 
 .list-block-2cols ul.pt-list > li {
-	width: 47.2%;
+	width: 50%;
 }
 
 .list-block-3cols ul.pt-list > li {
-	width: 30.8%;
+	width: 33.33333%;
 }
 
 .list-block-4cols ul.pt-list > li {
-	width: 22.2%;
+	width: 25%;
 }
 
 .list-block-5cols ul.pt-list > li {
-	width: 17.2%;
+	width: 20%;
 }
 
 /* Grids
@@ -619,6 +619,37 @@ nav ul.pt-list > li.nav-header > a:hover {
 }
 
 @media only screen and (max-width : 68.75em) {
+	.sidebar {
+		display: none;
+		width: 80%;
+		max-width: 200px;
+		background-color: #8f929b;
+		z-index: 5000;
+		top: 0;
+	}
+
+	.sidebar-left {
+		position: absolute;
+		left: 0;
+		padding: 10px 10px 0 10px;
+	}
+
+	.sidebar-right {
+		position: absolute;
+		right: 0;
+		padding: 10px 10px 0 10px;
+	}
+
+	.pt-responsive-show {
+		display: block;
+	}
+
+	.pt-responsive-hide {
+		display: none;
+	}
+}
+
+@media (max-width: 22em) {
 	.line,
 	.lastUnit {
 		overflow: visible;
@@ -647,34 +678,5 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.list-block-5cols ul.pt-list > li {
 		width: 100%;
 		margin: 0 0 10px;
-	}
-
-	.sidebar {
-		display: none;
-		width: 80%;
-		max-width: 200px;
-		background-color: #8f929b;
-		z-index: 5000;
-		top: 0;
-	}
-
-	.sidebar-left {
-		position: absolute;
-		left: 0;
-		padding: 10px 10px 0 10px;
-	}
-
-	.sidebar-right {
-		position: absolute;
-		right: 0;
-		padding: 10px 10px 0 10px;
-	}
-
-	.pt-responsive-show {
-		display: block;
-	}
-
-	.pt-responsive-hide {
-		display: none;
 	}
 }
