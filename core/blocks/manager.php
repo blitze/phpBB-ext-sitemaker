@@ -154,9 +154,6 @@ class manager
 			$controller_object	= $this->phpbb_container->get($controller_service);
 			$controller_class	= get_class($controller_object);
 
-			// Can't avoid using camelCase here: native php methods
-			// So we ignore coding standards
-			// @codingStandardsIgnoreStart
 			$r = new \ReflectionMethod($controller_class, $controller_method);
 			$params = $r->getParameters();
 
@@ -166,7 +163,6 @@ class manager
 				$name = $param->getName();
 				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
 			}
-			// @codingStandardsIgnoreEnd
 
 			list($namespace, $extension) = explode('\\', $controller_class);
 
