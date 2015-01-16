@@ -89,9 +89,15 @@ class listener implements EventSubscriberInterface
 	{
 		define('FORUMS_PREVIEW_FIRST_POST', 1);
 		define('FORUMS_PREVIEW_LAST_POST', 2);
+
 		define('FORUMS_ORDER_FIRST_POST', 0);
 		define('FORUMS_ORDER_LAST_POST', 1);
 		define('FORUMS_ORDER_LAST_READ', 2);
+
+		define('SHOW_BLOCK_BOTH', 0);
+		define('SHOW_BLOCK_LANDING', 1);
+		define('SHOW_BLOCK_SUBPAGE', 2);
+
 		define('JQUI_VERSION', '1.11.2');
 
 		if (!defined('ADMIN_START'))

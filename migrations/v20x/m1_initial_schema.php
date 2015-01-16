@@ -56,6 +56,7 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 						'permission'	=> array('VCHAR:125', ''),
 						'class'			=> array('VCHAR:125', ''),
 						'status'		=> array('BOOL', 1),
+						'type'			=> array('BOOL', 0),
 						'no_wrap'		=> array('BOOL', 0),
 						'hide_title'	=> array('BOOL', 0),
 						'hash'			=> array('VCHAR:32', ''),

@@ -43,6 +43,9 @@ class display
 	/** @var \primetime\primetime\core\template */
 	protected $ptemplate;
 
+	/** @var bool */
+	private $is_subpage;
+
 	/** @var string */
 	private $blocks_table;
 
@@ -94,10 +97,9 @@ class display
 
 	public function show()
 	{
-		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'css'   => array(
-				$asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
+				$this->primetime->asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
 			)
 		));
 
@@ -116,11 +118,34 @@ class display
 		$this->default_route = $this->config['primetime_default_layout'];
 		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
 
+		if ($this->is_subpage === false)
+		{
+			$show_block = array(
+				SHOW_BLOCK_BOTH		=> true,
+				SHOW_BLOCK_LANDING	=> true,
+				SHOW_BLOCK_SUBPAGE	=> false,
+			);
+		}
+		else
+		{
+			$show_block = array(
+				SHOW_BLOCK_BOTH		=> true,
+				SHOW_BLOCK_LANDING	=> false,
+				SHOW_BLOCK_SUBPAGE	=> true,
+			);
+		}
+
 		$u_edit_mode = '';
 		if ($this->auth->acl_get('a_manage_blocks'))
 		{
 			if ($edit_mode)
 			{
+				$show_block = array(
+					SHOW_BLOCK_BOTH		=> true,
+					SHOW_BLOCK_LANDING	=> true,
+					SHOW_BLOCK_SUBPAGE	=> true,
+				);
+
 				$this->phpbb_container->get('primetime.primetime.blocks.manager')->handle($route_info);
 			}
 			else
@@ -151,7 +176,7 @@ class display
 				$allowed_groups = explode(',', $row['permission']);
 				$block_service = $row['name'];
 
-				if ($this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $users_groups))))
+				if ($show_block[$row['type']] && $this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $users_groups))))
 				{
 					$b = $this->phpbb_container->get($block_service);
 					$b->set_template($this->ptemplate);
@@ -207,20 +232,20 @@ class display
 	public function get_route()
 	{
 		// let's stay consistent, whether mod rewrite is being used or not
-		$this->route = ltrim($this->user->page['page_name'], 'app.php');
+		$user_page = ltrim($this->user->page['page_name'], 'app.php');
 		$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
+
+		$this->route = $user_page;
+		$this->is_subpage = false;
 
 		if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
 		{
 			$controller = $this->phpbb_container->get($controller_service[0]);
 			$this->route = join('/', array_slice(explode('/', $this->route), 0, 3));
 
-			/**
-			 * Let controller optionally specify route
-			 */
-			if (method_exists($controller, 'get_blocks_route'))
+			if (str_replace($this->route, '', $user_page))
 			{
-				$this->route = $controller->get_blocks_route();
+				$this->is_subpage = true;
 			}
 		}
 

@@ -186,6 +186,11 @@ $lang = array_merge($lang, array(
 	'SETTING_TOO_LONG'			=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
 	'SETTING_TOO_SHORT'			=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
 
+	'BLOCK_DISPLAY_TYPE'		=> 'Display',
+	'BLOCK_SHOW_ALWAYS'			=> 'Always',
+	'BLOCK_SHOW_LANDING_ONLY'	=> 'Landing Only',
+	'BLOCK_SHOW_SUBPAGE_ONLY'	=> 'Sub-page Only',
+
 	'AJAX_ERROR'					=> 'Oops! There was an error processing your request. Please try again.',
 	'COPY_BLOCKS_CONFIRM'			=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
 	'DELETE_ALL_BLOCKS_CONFIRM'		=> 'Are you sure that you’d like to delete all blocks for this page?',

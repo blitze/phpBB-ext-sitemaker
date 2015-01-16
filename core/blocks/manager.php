@@ -533,6 +533,7 @@ class manager
 
 		$this->template->assign_vars(array(
 			'S_ACTIVE'		=> $bdata['status'],
+			'S_TYPE'		=> $bdata['type'],
 			'S_NO_WRAP'		=> $bdata['no_wrap'],
 			'S_HIDE_TITLE'	=> $bdata['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($bdata['class']))
@@ -706,6 +707,7 @@ class manager
 			'class'			=> ($class) ? ' ' . $class : '',
 			'hide_title'	=> $this->request->variable('hide_title', 0),
 			'status'		=> $this->request->variable('status', 0),
+			'type'			=> $this->request->variable('type', 0),
 			'no_wrap'		=> $this->request->variable('no_wrap', 0),
 			'hash'			=> '',
 		);

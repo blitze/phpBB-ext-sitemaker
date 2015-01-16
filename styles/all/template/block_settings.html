@@ -23,6 +23,14 @@
 					<input type="radio" name="status" value="0"<!-- IF not S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_INACTIVE}
 				</dd>
 			</dl>
+			<dl>
+				<dt><label for="block_type">{L_BLOCK_DISPLAY_TYPE}</label></dt>
+				<dd>
+					<input type="radio" name="type" value="0"<!-- IF not S_TYPE --> checked="checked"<!-- ENDIF --> id="block_type" /> {L_BLOCK_SHOW_ALWAYS}<br />
+					<input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_SHOW_LANDING_ONLY}<br />
+					<input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_SHOW_SUBPAGE_ONLY}
+				</dd>
+			</dl>
 		<dl>
 			<dt><label for="permission">{L_BLOCK_PERMISSION}</label></dt>
 			<dd>
