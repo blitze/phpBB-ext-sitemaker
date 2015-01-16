@@ -40,12 +40,6 @@ class menu_admin
 		$this->menus_table = $menus_table;
 	}
 
-	/**
-	 * Default controller method to be called if no other method is given.
-	 * In our case, it is accessed when the URL is /example
-	 *
-	 * @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	 */
 	public function handle($action, $item_id = 0)
 	{
 		if ($this->request->is_ajax() === false)
