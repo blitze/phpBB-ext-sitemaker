@@ -618,7 +618,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 	width: auto;
 }
 
-@media only screen and (max-width : 68.75em) {
+@media only screen and (max-width : 940px) {
 	.sidebar {
 		display: none;
 		width: 80%;
