@@ -618,10 +618,10 @@ nav ul.pt-list > li.nav-header > a:hover {
 	width: auto;
 }
 
-@media only screen and (max-width : 940px) {
+@media screen and (max-width : 940px) {
 	.sidebar {
 		display: none;
-		width: 80%;
+		width: 50%;
 		max-width: 200px;
 		background-color: #8f929b;
 		z-index: 5000;
@@ -649,7 +649,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 	}
 }
 
-@media (max-width: 22em) {
+@media screen and (max-width: 480px) {
 	.line,
 	.lastUnit {
 		overflow: visible;
@@ -665,10 +665,17 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.size2of5,
 	.size3of5,
 	.size4of5 {
-		width: 100%;
+		width: auto;
 		float: none;
-		padding: 0;
-		margin: 1px auto;
+		margin: 0 0 10px 0;
+	}
+
+	.horizontal > .unit > .cms-block-spacing,
+	.horizontal > .lastUnit > .cms-block-spacing,
+	.unit .cms-block-spacing,
+	.post .cms-block-spacing,
+	.cms-block-spacing {
+		margin: 0 0 10px 0;
 	}
 
 	.list-block-auto ul.pt-list > li,
@@ -676,7 +683,10 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.list-block-3cols ul.pt-list > li,
 	.list-block-4cols ul.pt-list > li,
 	.list-block-5cols ul.pt-list > li {
-		width: 100%;
-		margin: 0 0 10px;
+		width: auto;
+		margin: 0 0 10px 0;
+	}
+	.sidebar {
+		width: 50%;
 	}
 }
