@@ -396,6 +396,7 @@
 				stop: function(event, ui) {
 					$(ui.item).removeClass('dragging');
 					hideEmptyPositions();
+					$('body').trigger('layoutChanged');
 				}
 			}).on('click', '.block-title', function() {
 				makeEditable($(this));
