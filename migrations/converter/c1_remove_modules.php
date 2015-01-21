@@ -22,7 +22,10 @@ class c1_remove_modules extends \phpbb\db\migration\migration
 		return !$this->db_tools->sql_column_exists($this->table_prefix . 'modules', 'module_dir');
 	}
 
-	public function update_data()
+	/**
+	 * This realy should be update_data but migrator's 'effectively_installed' only seems to work with 'update_schema'
+	 */
+	public function update_schema()
 	{
 		$sql = 'SELECT *
 			FROM ' . MODULES_TABLE . "
