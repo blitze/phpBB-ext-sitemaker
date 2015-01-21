@@ -17,31 +17,33 @@ phpBB Primetime creates a CMS base around your phpBB 3.1 installation
 
 ## Installation
 
-* Clone into phpBB/ext/primetime/primetime:
+Requires npm
+
+Clone into phpBB/ext/primetime/primetime:
 
     git clone https://github.com/blitze/primetime.git phpBB/ext/primetime/primetime
 
-* From command line go to primetime directory: 
+From command line go to primetime directory: 
 
     cd phpBB/ext/primetime/primetime
 
-* Install nodejs modules
+Install nodejs modules
 
     npm install
 
-* Install bower components
+Install bower components
 
     bower install
 
-* Install vendors
+Install vendors
 
     php composer install
 
-* Build scripts
+Build scripts
 
     gulp build
 
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Primetime" extension.
+Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Primetime" extension.
 
 ## Collaborate
 
