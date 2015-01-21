@@ -105,7 +105,7 @@ class display
 
 		$this->template->assign_var('L_INDEX', $this->user->lang['HOME']);
 
-		$offlimits = array('ucp.php', 'mcp.php');
+		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
 		{
 			return;
