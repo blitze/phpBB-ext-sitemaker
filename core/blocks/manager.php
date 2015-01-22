@@ -541,6 +541,7 @@ class manager
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
+		$b->set_template($this->ptemplate);
 		$default_settings = $b->get_config($db_settings);
 
 		// Output relevant settings
@@ -673,6 +674,7 @@ class manager
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
+		$b->set_template($this->ptemplate);
 		$df_settings = $b->get_config($settings);
 
 		$class = $this->request->variable('class', '');

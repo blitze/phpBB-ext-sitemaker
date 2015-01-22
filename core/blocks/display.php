@@ -342,6 +342,7 @@ class display
 						}
 
 						$b = $this->phpbb_container->get($block_service);
+						$b->set_template($this->ptemplate);
 						$df_settings = $b->get_config($block_config);
 
 						if (sizeof($df_settings))
