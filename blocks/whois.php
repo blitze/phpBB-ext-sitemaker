@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
  * Whois Block
  */
-class whois extends \primetime\primetime\core\blocks\driver\block
+class whois extends \primetime\base\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -27,10 +27,10 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 	protected $user;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
 	/**
 	 * Constructor
@@ -87,7 +87,7 @@ class whois extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'title'		=> 'WHO_IS_ONLINE',
-			'content'	=> $this->ptemplate->render_view('primetime/primetime', 'blocks/whois.html', 'whois_block')
+			'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/whois.html', 'whois_block')
 		);
 	}
 }

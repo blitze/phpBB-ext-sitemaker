@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
  * Featured Member Block
  */
-class member_menu extends \primetime\primetime\core\blocks\driver\block
+class member_menu extends \primetime\base\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -72,7 +72,7 @@ class member_menu extends \primetime\primetime\core\blocks\driver\block
 
 			return array(
 				'title'		=> $this->user->lang['WELCOME'],
-				'content'	=> $this->ptemplate->render_view('primetime/primetime', 'blocks/member_menu.html', 'member_menu_block'),
+				'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/member_menu.html', 'member_menu_block'),
 			);
 		}
 	}

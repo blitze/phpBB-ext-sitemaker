@@ -1,16 +1,16 @@
 services:
 
-    primetime.primetime.blocks.admin.controller:
-        class: primetime\primetime\controller\blocks_admin
+    primetime.base.blocks.admin.controller:
+        class: primetime\base\controller\blocks_admin
         arguments:
             - @auth
             - @config
             - @request
             - @user
-            - @primetime.primetime.blocks.manager
+            - @primetime.base.blocks.manager
 
-    primetime.primetime.forum.controller:
-        class: primetime\primetime\controller\forum
+    primetime.base.forum.controller:
+        class: primetime\base\controller\forum
         arguments:
             - @config
             - @controller.helper
@@ -19,11 +19,11 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.primetime.menu.admin.controller:
-        class: primetime\primetime\controller\menu_admin
+    primetime.base.menu.admin.controller:
+        class: primetime\base\controller\menu_admin
         arguments:
             - @request
             - @user
             - @template
-            - @primetime.primetime.menu.builder
+            - @primetime.base.menu.builder
             - %tables.primetime.menu%

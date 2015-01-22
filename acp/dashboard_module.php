@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\acp;
+namespace primetime\base\acp;
 
 class dashboard_module
 {
@@ -17,23 +17,23 @@ class dashboard_module
 	{
 		global $config, $db, $phpbb_container, $request, $template, $user, $phpbb_root_path, $phpEx;
 
-		$primetime = $phpbb_container->get('primetime.primetime.util');
+		$primetime = $phpbb_container->get('primetime.base.util');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				$asset_path . 'ext/primetime/primetime/components/jquery-knob/js/jquery.knob.min.js',
-				$asset_path . 'ext/primetime/primetime/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
-				$asset_path . 'ext/primetime/primetime/components/jquery-rss/dist/jquery.rss.min.js',
-				$asset_path . 'ext/primetime/primetime/components/jquery.sparkline/index.min.js',
-				'@primetime_primetime/assets/adm/dashboard.min.js',
+				$asset_path . 'ext/primetime/base/components/jquery-knob/js/jquery.knob.min.js',
+				$asset_path . 'ext/primetime/base/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/primetime/base/components/jquery-rss/dist/jquery.rss.min.js',
+				$asset_path . 'ext/primetime/base/components/jquery.sparkline/index.min.js',
+				'@primetime_base/assets/adm/dashboard.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/primetime/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
-				'@primetime_primetime/assets/adm/dashboard.min.css',
+				$asset_path . 'ext/primetime/base/components/fontawesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/base/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
+				'@primetime_base/assets/adm/dashboard.min.css',
 			)
 		));
 

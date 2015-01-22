@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\core\tree;
+namespace primetime\base\services\tree;
 
 /**
 * Manage nested sets
 */
-abstract class builder extends \primetime\primetime\core\tree\display
+abstract class builder extends \primetime\base\services\tree\display
 {
 	/**
 	 * Adds a single node as the child of a given parent node

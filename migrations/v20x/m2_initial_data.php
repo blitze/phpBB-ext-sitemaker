@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\migrations\v20x;
+namespace primetime\base\migrations\v20x;
 
 /**
  * Initial schema changes needed for Extension installation
@@ -20,8 +20,8 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\primetime\migrations\converter\c2_update_data',
-			'\primetime\primetime\migrations\v20x\m1_initial_schema'
+			'\primetime\base\migrations\converter\c2_update_data',
+			'\primetime\base\migrations\v20x\m1_initial_schema'
 		);
 	}
 
@@ -36,7 +36,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			array('config.add', array('primetime_last_changed', 0)),
 			array('config.add', array('primetime_default_layout', '')),
 			array('config.add', array('primetime_parent_forum_id', 0)),
-			array('config.add', array('primetime_primetime_forum_perm_from', 0)),
+			array('config.add', array('primetime_base_forum_perm_from', 0)),
 			array('config.add', array('primetime_blocks_cleanup_gc', 604800)),
 			array('config.add', array('primetime_blocks_cleanup_last_gc', time(), 1)),
 			array('config.add', array('primetime_startpage_controller', '')),
@@ -54,7 +54,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			array('config.remove', array('primetime_last_changed')),
 			array('config.remove', array('primetime_default_layout')),
 			array('config.remove', array('primetime_parent_forum_id')),
-			array('config.remove', array('primetime_primetime_forum_perm_from')),
+			array('config.remove', array('primetime_base_forum_perm_from')),
 			array('config.remove', array('primetime_blocks_cleanup_gc')),
 			array('config.remove', array('primetime_blocks_cleanup_last_gc')),
 			array('config.remove', array('primetime_startpage_controller')),

@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime;
+namespace primetime\base;
 
 /**
  * @ignore

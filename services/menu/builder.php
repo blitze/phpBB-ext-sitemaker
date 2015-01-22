@@ -7,13 +7,13 @@
  *
  */
 
-namespace primetime\primetime\core\menu;
+namespace primetime\base\services\menu;
 
 /**
  * Manage nested sets
  * @package phpBB Primetime
  */
-class builder extends \primetime\primetime\core\tree\builder
+class builder extends \primetime\base\services\tree\builder
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -23,12 +23,12 @@ class builder extends \primetime\primetime\core\tree\builder
 	 * 
 	 * @param \phpbb\cache\service					$cache			Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db             Database connection
-	 * @param \primetime\primetime\core\util		$primetime		Primetime object
+	 * @param \primetime\base\services\util			$primetime		Primetime object
 	 * @param string								$table_name		Table name
 	 * @param string								$pk				Primary key
 	 * @param string								$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \primetime\primetime\core\util $primetime, $menus_table, $menu_items_table, $pk)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \primetime\base\services\util $primetime, $menus_table, $menu_items_table, $pk)
 	{
 		parent::__construct($db, $primetime, $menu_items_table, $pk);
 

@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core;
+namespace primetime\base\services;
 
 /**
  * Primetime icons - Font-awesome
@@ -22,13 +22,13 @@ class icon_picker
 
 	/**
 	 * Primetime object
-	 * @var \primetime\primetime\core\util
+	 * @var \primetime\base\services\util
 	 */
 	protected $primetime;
 
 	/**
 	 * Primetime template object
-	 * @var \primetime\primetime\core\template
+	 * @var \primetime\base\services\template
 	 */
 	protected $ptemplate;
 
@@ -36,10 +36,10 @@ class icon_picker
 	 * Constructor
 	 *
 	 * @param \phpbb\user                			$user       	User object
-	 * @param \primetime\primetime\core\util		$primetime		Primetime object
-	 * @param \primetime\primetime\core\ptemplate	$ptemplate		Primetime Template object
+	 * @param \primetime\base\services\util			$primetime		Primetime object
+	 * @param \primetime\base\services\ptemplate	$ptemplate		Primetime Template object
 	 */
-	function __construct(\phpbb\user $user, \primetime\primetime\core\util $primetime, \primetime\primetime\core\template $ptemplate)
+	function __construct(\phpbb\user $user, \primetime\base\services\util $primetime, \primetime\base\services\template $ptemplate)
 	{
 		$this->user = $user;
 		$this->primetime = $primetime;
@@ -51,20 +51,20 @@ class icon_picker
 	 */
 	public function picker()
 	{
-		$this->user->add_lang_ext('primetime/primetime', 'icons');
+		$this->user->add_lang_ext('primetime/base', 'icons');
 
 		$asset_path = $this->primetime->asset_path;
 		$this->primetime->add_assets(array(
 			'js'        => array(
-				'@primetime_primetime/assets/icons/picker.min.js',
+				'@primetime_base/assets/icons/picker.min.js',
 			),
 			'css'   => array(
-				$asset_path . 'ext/primetime/primetime/components/fontawesome/css/font-awesome.min.css',
-				'@primetime_primetime/assets/icons/picker.min.css',
+				$asset_path . 'ext/primetime/base/components/fontawesome/css/font-awesome.min.css',
+				'@primetime_base/assets/icons/picker.min.css',
 			)
 		));
 
-		$this->ptemplate->set_style(array("ext/primetime/primetime/styles"));
+		$this->ptemplate->set_style(array("ext/primetime/base/styles"));
 
 		$this->ptemplate->set_filenames(array(
 			'icons'	=> 'icon_picker.html')

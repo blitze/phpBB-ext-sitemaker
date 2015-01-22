@@ -7,13 +7,13 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
 * Menu Block
 * @package phpBB Primetime Menu
 */
-class whats_new  extends \primetime\primetime\core\blocks\driver\block
+class whats_new  extends \primetime\base\services\blocks\driver\block
 {
 	/**
 	 * User object
@@ -23,7 +23,7 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 
 	/**
 	 * Forum object
-	 * @var \primetime\primetime\core\forum\query
+	 * @var \primetime\base\services\forum\query
 	 */
 	protected $forum;
 
@@ -37,11 +37,11 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\primetime\core\forum\query	$forum				Forum object
+	 * @param \primetime\base\services\forum\query	$forum				Forum object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \primetime\primetime\core\forum\query $forum, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \primetime\base\services\forum\query $forum, $phpbb_root_path, $php_ext)
 	{
 		$this->user = $user;
 		$this->forum = $forum;
@@ -111,7 +111,7 @@ class whats_new  extends \primetime\primetime\core\blocks\driver\block
 
 		return array(
 			'title'     => 'WHATS_NEW',
-			'content'   => $this->ptemplate->render_view('primetime/primetime', 'blocks/topiclist.html', 'whats_new'),
+			'content'   => $this->ptemplate->render_view('primetime/base', 'blocks/topiclist.html', 'whats_new'),
 		);
 	}
 }

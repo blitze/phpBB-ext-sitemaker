@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\migrations\v20x;
+namespace primetime\base\migrations\v20x;
 
 /**
  * Initial schema changes needed for Extension installation

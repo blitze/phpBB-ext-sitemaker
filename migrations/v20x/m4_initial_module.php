@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\migrations\v20x;
+namespace primetime\base\migrations\v20x;
 
 /**
  * Initial schema changes needed for Extension installation
@@ -20,8 +20,8 @@ class m4_initial_module extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\primetime\migrations\converter\c1_remove_modules',
-			'\primetime\primetime\migrations\v20x\m3_initial_permission',
+			'\primetime\base\migrations\converter\c1_remove_modules',
+			'\primetime\base\migrations\v20x\m3_initial_permission',
 		);
 	}
 
@@ -41,13 +41,13 @@ class m4_initial_module extends \phpbb\db\migration\migration
 
 			// Add the dashboard mode
 			array('module.add', array('acp', 'ACP_CAT_CMS', array(
-					'module_basename'	=> '\primetime\primetime\acp\dashboard_module',
+					'module_basename'	=> '\primetime\base\acp\dashboard_module',
 				),
 			)),
 
 			// Add Menu module
 			array('module.add', array('acp', 'ACP_PRIMETIME_EXTENSIONS', array(
-					'module_basename'	=> '\primetime\primetime\acp\menu_module',
+					'module_basename'	=> '\primetime\base\acp\menu_module',
 				),
 			)),
 

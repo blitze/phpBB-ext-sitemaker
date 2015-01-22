@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\migrations\converter;
+namespace primetime\base\migrations\converter;
 
 class c1_remove_modules extends \phpbb\db\migration\migration
 {

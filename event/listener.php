@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\event;
+namespace primetime\base\event;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -32,10 +32,10 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/* @var \primetime\primetime\core\util */
+	/* @var \primetime\base\services\util */
 	protected $primetime;
 
-	/* @var \primetime\primetime\core\blocks\display */
+	/* @var \primetime\base\services\blocks\display */
 	protected $blocks;
 
 	/** @var string phpBB root path */
@@ -53,11 +53,11 @@ class listener implements EventSubscriberInterface
 	 * @param Container									$phpbb_container	Service container
 	 * @param \phpbb\template\template					$template			Template object
 	 * @param \phpbb\user								$user				User object
-	 * @param \primetime\primetime\core\util			$primetime			Primetime helper object
-	 * @param \primetime\primetime\core\blocks\display	$blocks				Blocks display object
+	 * @param \primetime\base\services\util				$primetime			Primetime helper object
+	 * @param \primetime\base\services\blocks\display	$blocks				Blocks display object
 	 * @param string									$root_path			phpBB root path
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\primetime\core\util $primetime, \primetime\primetime\core\blocks\display $blocks, $root_path)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\base\services\util $primetime, \primetime\base\services\blocks\display $blocks, $root_path)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -107,7 +107,7 @@ class listener implements EventSubscriberInterface
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'primetime/primetime',
+			'ext_name' => 'primetime/base',
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
@@ -146,7 +146,7 @@ class listener implements EventSubscriberInterface
 
 	public function clear_cached_queries()
 	{
-		define('PRIMETIME_PRIMETIME_FORUM_CHANGED', true);
+		define('PRIMETIME_FORUM_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
@@ -209,7 +209,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->phpbb_container->has($this->config['primetime_startpage_controller']))
 		{
-			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('primetime_primetime_forum');
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('primetime_base_forum');
 
 			$this->template->assign_vars(array(
 				'S_PT_SHOW_FORUM_NAV'	=> true,

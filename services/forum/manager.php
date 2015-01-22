@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core\forum;
+namespace primetime\base\services\forum;
 
 class manager
 {
@@ -27,10 +27,10 @@ class manager
 	protected $user;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
 	/**
 	 * Constructor

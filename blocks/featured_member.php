@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
  * Featured Member Block
  */
-class featured_member extends \primetime\primetime\core\blocks\driver\block
+class featured_member extends \primetime\base\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -125,7 +125,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 		$rotation_str = array('hourly' => 'hour', 'daily' => 'day', 'weekly' => 'week', 'monthly' => 'month');
 
 		$error = false;
-		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || defined('primetime_primetime_forum_CHANGED')) ? true : false;
+		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || defined('PRIMETIME_FORUM_CHANGED')) ? true : false;
 		$change = ($rotation == 'pageload' || $lastchange < strtotime('-1 ' . $rotation_str[$rotation])) ? true : false;
 
 		if ($change === true || $reload === true)
@@ -293,7 +293,7 @@ class featured_member extends \primetime\primetime\core\blocks\driver\block
 			'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"))
 		);
 
-		$block = $this->ptemplate->render_view('primetime/primetime', 'blocks/featured_member.html', 'featured_member_block');
+		$block = $this->ptemplate->render_view('primetime/base', 'blocks/featured_member.html', 'featured_member_block');
 
 		return array(
 			'title'		=> $this->user->lang[strtoupper($query_type) . '_MEMBER'],

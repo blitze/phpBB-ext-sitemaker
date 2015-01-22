@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core\blocks\driver;
+namespace primetime\base\services\blocks\driver;
 
 /**
  * Base class for block drivers
@@ -23,7 +23,7 @@ abstract class block implements block_interface
 
 	/**
 	 * Template object for Primetime blocks
-	 * @var \primetime\primetime\core\template
+	 * @var \primetime\base\services\template
 	 */
 	protected $ptemplate;
 
@@ -32,7 +32,7 @@ abstract class block implements block_interface
 	 *
 	 * @param \phpbb\template\template	$ptemplate	Template object
 	 */
-	public function set_template(\primetime\primetime\core\template $ptemplate)
+	public function set_template(\primetime\base\services\template $ptemplate)
 	{
 		$this->ptemplate = $ptemplate;
 	}

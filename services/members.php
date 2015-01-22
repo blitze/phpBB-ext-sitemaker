@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core;
+namespace primetime\base\services;
 
 class members
 {
@@ -17,7 +17,7 @@ class members
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\primetime\core\template driver_interface */
+	/** @var \primetime\base\services\template driver_interface */
 	protected $ptemplate;
 
 	/** @var string */
@@ -31,11 +31,11 @@ class members
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\primetime\core\template	$ptemplate			Primetime template object
+	 * @param \primetime\base\services\template		$ptemplate			Primetime template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\primetime\core\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\base\services\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
@@ -187,7 +187,7 @@ class members
 				'L_INFO'	=> $l_info)
 			);
 
-			$list = $this->ptemplate->render_view('primetime/primetime', 'blocks/members.html', 'members_block');
+			$list = $this->ptemplate->render_view('primetime/base', 'blocks/members.html', 'members_block');
 		}
 
 		return $list;

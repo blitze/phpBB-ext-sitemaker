@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
  * Birthday Block
  */
-class birthday extends \primetime\primetime\core\blocks\driver\block
+class birthday extends \primetime\base\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -76,7 +76,7 @@ class birthday extends \primetime\primetime\core\blocks\driver\block
 			$content = '';
 			if (!empty($row))
 			{
-				$content = $this->ptemplate->render_view('primetime/primetime', 'blocks/birthday.html', 'birthday_block');
+				$content = $this->ptemplate->render_view('primetime/base', 'blocks/birthday.html', 'birthday_block');
 			}
 
 			// we only check birthdays every hour, may make this an admin choice

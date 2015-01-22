@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\controller;
+namespace primetime\base\controller;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,7 +25,7 @@ class blocks_admin
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\primetime\core\blocks\manager */
+	/** @var \primetime\base\services\blocks\manager */
 	protected $block;
 
 	/**
@@ -35,9 +35,9 @@ class blocks_admin
 	 * @param \phpbb\config\db								$config		Config object
 	 * @param \phpbb\request\request_interface				$request	Request object
 	 * @param \phpbb\user									$user		User object
-	 * @param \primetime\primetime\core\blocks\manager		$blocks		Block manager object
+	 * @param \primetime\base\services\blocks\manager		$blocks		Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\primetime\core\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\base\services\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -45,7 +45,7 @@ class blocks_admin
 		$this->user = $user;
 		$this->blocks = $blocks;
 
-		$this->user->add_lang_ext('primetime/primetime', 'block_manager');
+		$this->user->add_lang_ext('primetime/base', 'block_manager');
 	}
 
 	public function handle($action, $id, $block)

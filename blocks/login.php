@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\primetime\blocks;
+namespace primetime\base\blocks;
 
 /**
  * Login Block
  */
-class login extends \primetime\primetime\core\blocks\driver\block
+class login extends \primetime\base\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	protected $user;
@@ -65,13 +65,13 @@ class login extends \primetime\primetime\core\blocks\driver\block
 
 			return array(
 				'title'		=> 'LOGIN',
-				'content'	=> $this->ptemplate->render_view('primetime/primetime', 'blocks/login.html', 'login_block')
+				'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/login.html', 'login_block')
 			);
 		}
 		else if ($settings['show_member_menu'])
 		{
 			global $phpbb_container;
-			$block = $phpbb_container->get('primetime.primetime.block.member_menu');
+			$block = $phpbb_container->get('primetime.base.block.member_menu');
 			$block->set_template($this->ptemplate);
 			return $block->display(array(), $edit_mode);
 		}

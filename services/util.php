@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core;
+namespace primetime\base\services;
 
 class util
 {

@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\controller;
+namespace primetime\base\controller;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,10 +28,10 @@ class menu_admin
 	 * @param \phpbb\request\request_interface			$request 		Request object
 	 * @param \phpbb\user                				$user       	User object
 	 * @param \phpbb\template							$template		Template object
-	 * @param \primetime\primetime\core\menu\builder	$manager		Tree builder Object
+	 * @param \primetime\base\services\menu\builder		$manager		Tree builder Object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\primetime\core\menu\builder $manager, $menus_table)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\base\services\menu\builder $manager, $menus_table)
 	{
 		$this->request = $request;
 		$this->user = $user;

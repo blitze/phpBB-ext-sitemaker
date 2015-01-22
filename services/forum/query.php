@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\primetime\core\forum;
+namespace primetime\base\services\forum;
 
 class query
 {
@@ -32,7 +32,7 @@ class query
 	/** @var string */
 	protected $php_ext;
 
-	/** @var \primetime\primetime\core\util */
+	/** @var \primetime\base\services\util */
 	protected $primetime;
 
 	protected $attachments		= array();
@@ -54,9 +54,9 @@ class query
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
-	 * @param \primetime\primetime\core\util		$primetime				Primetime object
+	 * @param \primetime\base\services\util			$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\primetime\core\util $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\base\services\util $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
