@@ -410,6 +410,7 @@ class manager
 		}
 
 		$b = $this->phpbb_container->get($service);
+		$b->set_template($this->ptemplate);
 		$bconfig = $b->get_config(array());
 
 		$default_setting = array();
