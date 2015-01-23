@@ -387,7 +387,7 @@
 				var title = padding + '&#x251c;&#x2500; ' + item.find('.editable:first').text();
 				var option = '<option value="' + id + '">' + title + '</option>';
 
-				options += self._getOptions(item.children('ol'), '----', option);
+				options += self._getOptions(item.children('ol'), '&nbsp;&nbsp;&nbsp;&nbsp;' + padding, option);
 			});
 
 			return options;

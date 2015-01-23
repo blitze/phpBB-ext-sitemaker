@@ -158,6 +158,7 @@ abstract class display
 	{
 		$prev_depth = 0;
 		$parental_depth = array(0 => -1);
+		$data = array_values($data);
 
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
@@ -188,17 +189,29 @@ abstract class display
 		}
 	}
 
-	public function display_options($data, $title_column, &$template, $selected_ids = array(), $handle = 'option', $pad_with = '    ')
+	/**
+	 * Get tree as form options or data
+	 *
+	 * @param	array	$db_data	Raw tree data from database
+	 * @param	string	$title_column	Database column name to use as label/title for each item
+	 * @param	array	$selected_ids	Array of selected items
+	 * @param	string	$return_mode	options | data
+	 * @param	string	$pad_with		Character used to denote nesting
+	 *
+	 * @return	mixed	Returns array of padded titles or html string of options depending on $return_mode
+	 */
+	public function display_options($db_data, $title_column, $selected_ids = array(), $return_mode = 'options', $pad_with = '&nbsp;&nbsp;&nbsp;&nbsp;')
 	{
 		$right = 0;
-		$options = $padding = '';
+		$padding = '';
+		$return_options = '';
+		$return_data = array();
 		$padding_store = array('0' => '');
-		$return = array();
 
-		$data = array_values($data);
-		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
+		$db_data = array_values($db_data);
+		for ($i = 0, $size = sizeof($db_data); $i < $size; $i++)
 		{
-			$row = $data[$i];
+			$row = $db_data[$i];
 
 			if ($row['left_id'] < $right)
 			{
@@ -211,16 +224,14 @@ abstract class display
 			}
 
 			$right = $row['right_id'];
+			$title = $padding . '&#x251c;&#x2500; ' . $row[$title_column];
+			$selected = (in_array($row[$this->pk], $selected_ids)) ? ' selected="selected' : '';
 
-			$tpl_data = array(
-				'S_PADDING'		=> $padding,
-				'S_SELECTED'	=> (in_array($row[$this->pk], $selected_ids)) ? true : false,
-			);
-			$return[$row[$this->pk]] = $padding . $row[$title_column];
-
-			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
+			$return_options .= '<option value="' . $row[$this->pk] . '"' . $selected . '>' . $title . '</option>';
+			$return_data[$row[$this->pk]] = $title;
 		}
-		return $return;
+
+		return ($return_mode == 'options') ? $return_options : $return_data;
 	}
 
 	public function set_sql_condition($where)
