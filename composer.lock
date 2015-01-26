@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1b0d343eeb22b08f58c07204bb9cd6ae",
+    "hash": "6e2fbe8f8f39dc6b32d37329fc4699e9",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.19",
+            "version": "v1.0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "89d77bfbee79e16653f7162c86e602cc188471db"
+                "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/89d77bfbee79e16653f7162c86e602cc188471db",
-                "reference": "89d77bfbee79e16653f7162c86e602cc188471db",
+                "url": "https://api.github.com/repos/composer/installers/zipball/1bff8aa77a18f3616f468ed8000cf86a5725bac3",
+                "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3",
                 "shasum": ""
             },
             "replace": {
@@ -59,6 +59,7 @@
                 "Hurad",
                 "MODX Evo",
                 "OXID",
+                "SMF",
                 "Thelia",
                 "WolfCMS",
                 "agl",
@@ -97,7 +98,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-11-29 01:29:17"
+            "time": "2015-01-11 03:51:11"
         },
         {
             "name": "urodoz/truncate-html",
@@ -254,12 +255,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbb/epv.git",
-                "reference": "07e017ea9d92581d5b83066469eb33b4b2a8f6ed"
+                "reference": "a16b81cae6eb3ae2d60e33c87e4425fe962907bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbb/epv/zipball/07e017ea9d92581d5b83066469eb33b4b2a8f6ed",
-                "reference": "07e017ea9d92581d5b83066469eb33b4b2a8f6ed",
+                "url": "https://api.github.com/repos/phpbb/epv/zipball/a16b81cae6eb3ae2d60e33c87e4425fe962907bc",
+                "reference": "a16b81cae6eb3ae2d60e33c87e4425fe962907bc",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +273,8 @@
                 "symfony/yaml": ">=2.3.0|>=2.4.0|>=2.5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.0.*"
+                "phpunit/phpunit": "4.4.*",
+                "phpunit/phpunit-mock-objects": "2.3.*"
             },
             "bin": [
                 "src/EPV.php"
@@ -294,7 +296,7 @@
                 }
             ],
             "description": "A extension validator for phpBB extensions. Extensions are required to pass the validator when submitted to the extension database.",
-            "time": "2014-12-13 10:15:27"
+            "time": "2015-01-24 15:26:42"
         },
         {
             "name": "sensiolabs/ansi-to-html",
