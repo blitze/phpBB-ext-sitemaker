@@ -7,18 +7,18 @@
  *
  */
 
-namespace primetime\base\acp;
+namespace primetime\core\acp;
 
 class dashboard_info
 {
 	function module()
 	{
 		return array(
-			'filename'	=> '\primetime\base\acp\dashboard_module',
+			'filename'	=> '\primetime\core\acp\dashboard_module',
 			'title'		=> 'ACP_PRIMETIME_DASHBOARD',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'dashboard'		=> array('title' => 'PRIMETIME_DASHBOARD', 'auth' => 'ext_primetime/base', 'cat' => array('ACP_CAT_CMS')),
+				'dashboard'		=> array('title' => 'PRIMETIME_DASHBOARD', 'auth' => 'ext_primetime/core', 'cat' => array('ACP_CAT_CMS')),
 			),
 		);
 	}

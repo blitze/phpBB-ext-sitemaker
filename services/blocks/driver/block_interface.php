@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\blocks\driver;
+namespace primetime\core\services\blocks\driver;
 
 interface block_interface
 {

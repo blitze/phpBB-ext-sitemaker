@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
  * Featured Member Block
  */
-class member_menu extends \primetime\base\services\blocks\driver\block
+class member_menu extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -67,12 +67,12 @@ class member_menu extends \primetime\base\services\blocks\driver\block
 				'U_PRIVATE_MSG'	=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'i=pm&amp;folder=inbox'),
 				'U_LOGOUT'		=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'mode=logout', true, $this->user->session_id),
 				'U_MCP' 		=> ($this->auth->acl_get('m_')) ? append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id) : '',
-				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-primetime-primetime-acp-dashboard_module', true, $this->user->session_id) : '')
+				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-primetime-base-acp-dashboard_module', true, $this->user->session_id) : '')
 			);
 
 			return array(
 				'title'		=> $this->user->lang['WELCOME'],
-				'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/member_menu.html', 'member_menu_block'),
+				'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/member_menu.html', 'member_menu_block'),
 			);
 		}
 	}

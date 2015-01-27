@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\blocks;
+namespace primetime\core\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -34,13 +34,13 @@ class manager
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\base\services\icon_picker */
+	/** @var \primetime\core\services\icon_picker */
 	protected $icons;
 
-	/** @var \primetime\base\services\util */
+	/** @var \primetime\core\services\util */
 	protected $primetime;
 
-	/** @var \primetime\base\services\block_template */
+	/** @var \primetime\core\services\block_template */
 	protected $ptemplate;
 
 	/** @var string */
@@ -74,16 +74,16 @@ class manager
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\base\services\icon_picker		$icons					Primetime icon picker object
-	 * @param \primetime\base\services\util				$primetime				Template object
-	 * @param \primetime\base\services\template			$ptemplate				Primetime template object
+	 * @param \primetime\core\services\icon_picker		$icons					Primetime icon picker object
+	 * @param \primetime\core\services\util				$primetime				Template object
+	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\base\services\icon_picker $icons, \primetime\base\services\util $primetime, \primetime\base\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\icon_picker $icons, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -108,7 +108,7 @@ class manager
 	 */
 	public function handle($route_info)
 	{
-		$this->user->add_lang_ext('primetime/base', 'block_manager');
+		$this->user->add_lang_ext('primetime/core', 'block_manager');
 		$this->add_block_admin_lang();
 
 		$route = $route_info['route'];
@@ -121,13 +121,13 @@ class manager
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.1/tinymce.min.js',
-				$asset_path . 'ext/primetime/base/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/base/components/twig.js/twig.min.js',
-				100 =>  '@primetime_base/assets/blocks/manager.min.js',
+				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				$asset_path . 'ext/primetime/core/components/twig.js/twig.min.js',
+				100 =>  '@primetime_core/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				'@primetime_base/assets/blocks/manager.min.css',
+				'@primetime_core/assets/blocks/manager.min.css',
 			)
 		));
 
@@ -206,7 +206,7 @@ class manager
 	{
 		if (($blocks = $this->cache->get('primetime_available_blocks')) === false)
 		{
-			$factory = $this->phpbb_container->get('primetime.base.blocks.factory');
+			$factory = $this->phpbb_container->get('primetime.core.blocks.factory');
 
 			$blocks = $factory->get_all_blocks();
 			$this->cache->put('primetime_available_blocks', $blocks);
@@ -510,7 +510,7 @@ class manager
 	{
 		if (!function_exists('build_multi_select'))
 		{
-			include($this->root_path . 'ext/primetime/base/blocks.' . $this->php_ext);
+			include($this->root_path . 'ext/primetime/core/blocks.' . $this->php_ext);
 		}
 
 		if (!function_exists('build_cfg_template'))

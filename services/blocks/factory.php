@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\blocks;
+namespace primetime\core\services\blocks;
 
 class factory
 {

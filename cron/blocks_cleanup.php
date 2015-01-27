@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\cron;
+namespace primetime\core\cron;
 
 class blocks_cleanup extends \phpbb\cron\task\base
 {
@@ -17,7 +17,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \primetime\base\services\blocks\manager */
+	/** @var \primetime\core\services\blocks\manager */
 	protected $manager;
 
 	/**
@@ -25,9 +25,9 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 *
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param \primetime\base\services\blocks\manager	$manager				Blocks manager object
+	 * @param \primetime\core\services\blocks\manager	$manager				Blocks manager object
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \primetime\base\services\blocks\manager $manager)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \primetime\core\services\blocks\manager $manager)
 	{
 		$this->config = $config;
 		$this->db = $db;

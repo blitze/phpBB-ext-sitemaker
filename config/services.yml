@@ -5,14 +5,14 @@ imports:
 
 services:
 
-    primetime.base.util:
-        class: primetime\base\services\util
+    primetime.core.util:
+        class: primetime\core\services\util
         arguments:
             - @path_helper
             - @template
 
-    primetime.base.blocks.display:
-        class: primetime\base\services\blocks\display
+    primetime.core.blocks.display:
+        class: primetime\core\services\blocks\display
         arguments:
             - @auth
             - @cache
@@ -22,14 +22,14 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.base.util
-            - @primetime.base.template
+            - @primetime.core.util
+            - @primetime.core.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
 
-    primetime.base.blocks.manager:
-        class: primetime\base\services\blocks\manager
+    primetime.core.blocks.manager:
+        class: primetime\core\services\blocks\manager
         arguments:
             - @cache
             - @config
@@ -38,40 +38,40 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.base.icon_picker
-            - @primetime.base.util
-            - @primetime.base.template
+            - @primetime.core.icon_picker
+            - @primetime.core.util
+            - @primetime.core.template
             - %tables.primetime.blocks%
             - %tables.primetime.blocks_config%
             - %tables.primetime.block_routes%
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.base.block_collection:
+    primetime.core.block_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
             - { name: service_collection, tag: primetime.block }
 
-    primetime.base.blocks.factory:
-        class: primetime\base\services\blocks\factory
+    primetime.core.blocks.factory:
+        class: primetime\core\services\blocks\factory
         arguments:
-            - @primetime.base.block_collection
+            - @primetime.core.block_collection
 
-    primetime.base.cron.blocks_cleanup:
-        class: primetime\base\cron\blocks_cleanup
+    primetime.core.cron.blocks_cleanup:
+        class: primetime\core\cron\blocks_cleanup
         arguments:
             - @config
             - @dbal.conn
-            - @primetime.base.blocks.manager
+            - @primetime.core.blocks.manager
         calls:
-            - [set_name, [primetime.base.cron.blocks_cleanup]]
+            - [set_name, [primetime.core.cron.blocks_cleanup]]
         tags:
             - { name: cron.task }
 
-    primetime.base.forum:
-        class: primetime\base\services\forum\query
+    primetime.core.forum:
+        class: primetime\core\services\forum\query
         arguments:
             - @auth
             - @config
@@ -80,10 +80,10 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - @primetime.base.util
+            - @primetime.core.util
 
-    primetime.base.forum.manager:
-        class: primetime\base\services\forum\manager
+    primetime.core.forum.manager:
+        class: primetime\core\services\forum\manager
         arguments:
             - @auth
             - @cache
@@ -93,15 +93,15 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.base.icon_picker:
-        class: primetime\base\services\icon_picker
+    primetime.core.icon_picker:
+        class: primetime\core\services\icon_picker
         arguments:
             - @user
-            - @primetime.base.util
-            - @primetime.base.template
+            - @primetime.core.util
+            - @primetime.core.template
 
-    primetime.base.listener:
-        class: primetime\base\event\listener
+    primetime.core.listener:
+        class: primetime\core\event\listener
         arguments:
             - @cache
             - @config
@@ -109,47 +109,47 @@ services:
             - @service_container
             - @template
             - @user
-            - @primetime.base.util
-            - @primetime.base.blocks.display
+            - @primetime.core.util
+            - @primetime.core.blocks.display
             - %core.root_path%
         tags:
             - { name: event.listener }
 
-    primetime.base.members:
-        class: primetime\base\services\members
+    primetime.core.members:
+        class: primetime\core\services\members
         arguments:
             - @dbal.conn
             - @user
-            - @primetime.base.template
+            - @primetime.core.template
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.base.menu.builder:
-        class: primetime\base\services\menu\builder
+    primetime.core.menu.builder:
+        class: primetime\core\services\menu\builder
         arguments:
             - @cache
             - @dbal.conn
-            - @primetime.base.util
+            - @primetime.core.util
             - %tables.primetime.menu%
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.base.menu.display:
-        class: primetime\base\services\menu\display
+    primetime.core.menu.display:
+        class: primetime\core\services\menu\display
         arguments:
             - @dbal.conn
-            - @primetime.base.util
+            - @primetime.core.util
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.base.template_context:
+    primetime.core.template_context:
         class: phpbb\template\context
 
-    primetime.base.template:
-        class: primetime\base\services\template
+    primetime.core.template:
+        class: primetime\core\services\template
         arguments:
             - @path_helper
             - @config
             - @user
-            - @primetime.base.template_context
+            - @primetime.core.template_context
             - @ext.manager

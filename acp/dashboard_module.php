@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\acp;
+namespace primetime\core\acp;
 
 class dashboard_module
 {
@@ -17,23 +17,23 @@ class dashboard_module
 	{
 		global $config, $db, $phpbb_container, $request, $template, $user, $phpbb_root_path, $phpEx;
 
-		$primetime = $phpbb_container->get('primetime.base.util');
+		$primetime = $phpbb_container->get('primetime.core.util');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				$asset_path . 'ext/primetime/base/components/jquery-knob/js/jquery.knob.min.js',
-				$asset_path . 'ext/primetime/base/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
-				$asset_path . 'ext/primetime/base/components/jquery-rss/dist/jquery.rss.min.js',
-				$asset_path . 'ext/primetime/base/components/jquery.sparkline/index.min.js',
-				'@primetime_base/assets/adm/dashboard.min.js',
+				$asset_path . 'ext/primetime/core/components/jquery-knob/js/jquery.knob.min.js',
+				$asset_path . 'ext/primetime/core/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/primetime/core/components/jquery-rss/dist/jquery.rss.min.js',
+				$asset_path . 'ext/primetime/core/components/jquery.sparkline/index.min.js',
+				'@primetime_core/assets/adm/dashboard.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/base/components/fontawesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/base/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
-				'@primetime_base/assets/adm/dashboard.min.css',
+				$asset_path . 'ext/primetime/core/components/fontawesome/css/font-awesome.min.css',
+				$asset_path . 'ext/primetime/core/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
+				'@primetime_core/assets/adm/dashboard.min.css',
 			)
 		));
 

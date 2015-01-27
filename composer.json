@@ -1,5 +1,5 @@
 {
-	"name": "primetime/base",
+	"name": "primetime/core",
     "type": "phpbb-extension",
 	"description": "A CMS for phpBB3.1x.",
 	"homepage": "https://github.com/blitze/primetime",

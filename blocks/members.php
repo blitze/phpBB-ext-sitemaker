@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
  * Login Block
  */
-class members extends \primetime\base\services\blocks\driver\block
+class members extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	private $user;
@@ -25,9 +25,9 @@ class members extends \primetime\base\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user		User object
-	 * @param \primetime\base\services\members		$members	Members object
+	 * @param \primetime\core\services\members		$members	Members object
 	 */
-	public function __construct(\phpbb\user $user, \primetime\base\services\members $members)
+	public function __construct(\phpbb\user $user, \primetime\core\services\members $members)
 	{
 		$this->user = $user;
 		$this->members = $members;

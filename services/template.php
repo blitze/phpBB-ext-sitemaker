@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services;
+namespace primetime\core\services;
 
 class template extends \phpbb\template\twig\twig
 {

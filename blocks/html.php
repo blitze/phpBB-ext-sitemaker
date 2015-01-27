@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
  * HTML Block
  */
-class html extends \primetime\base\services\blocks\driver\block
+class html extends \primetime\core\services\blocks\driver\block
 {
 	/**
 	* User object

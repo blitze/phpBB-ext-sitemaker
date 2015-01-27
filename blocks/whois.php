@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
  * Whois Block
  */
-class whois extends \primetime\base\services\blocks\driver\block
+class whois extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -87,7 +87,7 @@ class whois extends \primetime\base\services\blocks\driver\block
 
 		return array(
 			'title'		=> 'WHO_IS_ONLINE',
-			'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/whois.html', 'whois_block')
+			'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/whois.html', 'whois_block')
 		);
 	}
 }

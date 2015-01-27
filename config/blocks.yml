@@ -1,17 +1,17 @@
 services:
-    primetime.base.block.birthday:
-        class: primetime\base\blocks\birthday
+    primetime.core.block.birthday:
+        class: primetime\core\blocks\birthday
         arguments:
             - @cache
             - @dbal.conn
             - @user
         calls:
-            - [set_name, [primetime.base.block.birthday]]
+            - [set_name, [primetime.core.block.birthday]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.featured_member:
-        class: primetime\base\blocks\featured_member
+    primetime.core.block.featured_member:
+        class: primetime\core\blocks\featured_member
         arguments:
             - @cache
             - @config
@@ -21,12 +21,12 @@ services:
             - %core.php_ext%
             - %tables.primetime.blocks_config%
         calls:
-            - [set_name, [primetime.base.block.featured_member]]
+            - [set_name, [primetime.core.block.featured_member]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.forum_poll:
-        class: primetime\base\blocks\forum_poll
+    primetime.core.block.forum_poll:
+        class: primetime\core\blocks\forum_poll
         arguments:
             - @auth
             - @cache
@@ -34,42 +34,42 @@ services:
             - @dbal.conn
             - @request
             - @user
-            - @primetime.base.forum
-            - @primetime.base.util
+            - @primetime.core.forum
+            - @primetime.core.util
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.forum_poll]]
+            - [set_name, [primetime.core.block.forum_poll]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.forum_topics:
-        class: primetime\base\blocks\forum_topics
+    primetime.core.block.forum_topics:
+        class: primetime\core\blocks\forum_topics
         arguments:
             - @auth
             - @cache
             - @config
             - @user
-            - @primetime.base.forum
-            - @primetime.base.util
+            - @primetime.core.forum
+            - @primetime.core.util
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.forum_topics]]
+            - [set_name, [primetime.core.block.forum_topics]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.blocks.html:
-        class: primetime\base\blocks\html
+    primetime.core.blocks.html:
+        class: primetime\core\blocks\html
         arguments:
             - @user
         calls:
-            - [set_name, [primetime.base.block.html]]
+            - [set_name, [primetime.core.block.html]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.member_menu:
-        class: primetime\base\blocks\member_menu
+    primetime.core.block.member_menu:
+        class: primetime\core\blocks\member_menu
         arguments:
             - @auth
             - @dbal.conn
@@ -77,81 +77,81 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.member_menu]]
+            - [set_name, [primetime.core.block.member_menu]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.login:
-        class: primetime\base\blocks\login
+    primetime.core.block.login:
+        class: primetime\core\blocks\login
         arguments:
             - @user
             - %core.root_path%
             - .%core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.login]]
+            - [set_name, [primetime.core.block.login]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.members:
-        class: primetime\base\blocks\members
+    primetime.core.block.members:
+        class: primetime\core\blocks\members
         arguments:
             - @user
-            - @primetime.base.members
+            - @primetime.core.members
         calls:
-            - [set_name, [primetime.base.block.members]]
+            - [set_name, [primetime.core.block.members]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.menu:
-        class: primetime\base\blocks\menu
+    primetime.core.block.menu:
+        class: primetime\core\blocks\menu
         arguments:
             - @cache
             - @config
             - @dbal.conn
             - @user
-            - @primetime.base.menu.display
+            - @primetime.core.menu.display
             - %tables.primetime.menu%
         calls:
-            - [set_name, [primetime.base.block.menu]]
+            - [set_name, [primetime.core.block.menu]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.mybookmarks:
-        class: primetime\base\blocks\mybookmarks
+    primetime.core.block.mybookmarks:
+        class: primetime\core\blocks\mybookmarks
         arguments:
             - @user
-            - @primetime.base.forum
+            - @primetime.core.forum
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.mybookmarks]]
+            - [set_name, [primetime.core.block.mybookmarks]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.blocks.stats:
-        class: primetime\base\blocks\stats
+    primetime.core.blocks.stats:
+        class: primetime\core\blocks\stats
         arguments:
             - @config
             - @user
         calls:
-            - [set_name, [primetime.base.block.stats]]
+            - [set_name, [primetime.core.block.stats]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.block.whats_new:
-        class: primetime\base\blocks\whats_new
+    primetime.core.block.whats_new:
+        class: primetime\core\blocks\whats_new
         arguments:
             - @user
-            - @primetime.base.forum
+            - @primetime.core.forum
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.whats_new]]
+            - [set_name, [primetime.core.block.whats_new]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.blocks.whois:
-        class: primetime\base\blocks\whois
+    primetime.core.blocks.whois:
+        class: primetime\core\blocks\whois
         arguments:
             - @auth
             - @config
@@ -160,12 +160,12 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.whois]]
+            - [set_name, [primetime.core.block.whois]]
         tags:
             - { name: primetime.block }
 
-    primetime.base.blocks.wordgraph:
-        class: primetime\base\blocks\wordgraph
+    primetime.core.blocks.wordgraph:
+        class: primetime\core\blocks\wordgraph
         arguments:
             - @auth
             - @content.visibility
@@ -174,6 +174,6 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.base.block.wordgraph]]
+            - [set_name, [primetime.core.block.wordgraph]]
         tags:
             - { name: primetime.block }

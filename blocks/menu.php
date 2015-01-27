@@ -7,13 +7,13 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
 * Menu Block
 * @package phpBB Primetime Menu
 */
-class menu extends \primetime\base\services\blocks\driver\block
+class menu extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -37,10 +37,10 @@ class menu extends \primetime\base\services\blocks\driver\block
 	 * @param \phpbb\config\config						$config			Config object
 	 * @param \phpbb\db\driver\driver_interface			$db     		Database connection
 	 * @param \phpbb\template\template					$user			User object
-	 * @param \primetime\base\services\menu\display		$tree			Menu tree display object
+	 * @param \primetime\core\services\menu\display		$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\base\services\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\core\services\menu\display $tree, $menus_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -134,7 +134,7 @@ class menu extends \primetime\base\services\blocks\driver\block
 
 		return array(
 			'title'     => $title,
-			'content'   => $this->ptemplate->render_view('primetime/base', 'blocks/menu.html', 'menu_block'),
+			'content'   => $this->ptemplate->render_view('primetime/core', 'blocks/menu.html', 'menu_block'),
 		);
 	}
 }

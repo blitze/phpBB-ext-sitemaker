@@ -7,19 +7,19 @@
  *
  */
 
-namespace primetime\base\acp;
+namespace primetime\core\acp;
 
 class menu_info
 {
 	function module()
 	{
 		return array(
-			'filename'	=> '\primetime\base\acp\menu_module',
+			'filename'	=> '\primetime\core\acp\menu_module',
 			'title'		=> 'ACP_MENU_MANAGEMENT',
 			'parent'	=> 'ACP_MOD_MANAGEMENT',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'menu'		=> array('title' => 'MENU', 'auth' => 'ext_primetime/base', 'cat' => array('ACP_MENU')),
+				'menu'		=> array('title' => 'MENU', 'auth' => 'ext_primetime/core', 'cat' => array('ACP_MENU')),
 			),
 		);
 	}

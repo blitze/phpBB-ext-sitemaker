@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\migrations\converter;
+namespace primetime\core\migrations\converter;
 
 class c2_update_data extends \phpbb\db\migration\migration
 {

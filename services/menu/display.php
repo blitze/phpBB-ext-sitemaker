@@ -7,13 +7,13 @@
  *
  */
 
-namespace primetime\base\services\menu;
+namespace primetime\core\services\menu;
 
 /**
  * Manage nested sets
  * @package phpBB Primetime Categories
  */
-class display extends \primetime\base\services\tree\display
+class display extends \primetime\core\services\tree\display
 {
 	public function set_params($data)
 	{

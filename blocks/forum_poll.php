@@ -7,9 +7,9 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
-class forum_poll extends \primetime\base\services\blocks\driver\block
+class forum_poll extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -29,10 +29,10 @@ class forum_poll extends \primetime\base\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\base\services\forum\query */
+	/** @var \primetime\core\services\forum\query */
 	protected $forum;
 
-	/** @var \primetime\base\services\util */
+	/** @var \primetime\core\services\util */
 	protected $primetime;
 
 	/** @var string */
@@ -50,12 +50,12 @@ class forum_poll extends \primetime\base\services\blocks\driver\block
 	 * @param \phpbb\db\driver\driver_interface		$db	 				Database connection
 	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\base\services\forum\query	$forum				Forum object
-	 * @param \primetime\base\services\util			$primetime			Primetime Object
+	 * @param \primetime\core\services\forum\query	$forum				Forum object
+	 * @param \primetime\core\services\util			$primetime			Primetime Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\base\services\forum\query $forum, \primetime\base\services\util $primetime, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\core\services\forum\query $forum, \primetime\core\services\util $primetime, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -276,7 +276,7 @@ class forum_poll extends \primetime\base\services\blocks\driver\block
 
 		return array(
 			'title'		=> $this->user->lang['POLL'],
-			'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/forum_poll.html', 'forum_poll_block')
+			'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/forum_poll.html', 'forum_poll_block')
 		);
 	}
 }

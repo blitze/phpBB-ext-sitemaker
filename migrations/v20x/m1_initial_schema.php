@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\migrations\v20x;
+namespace primetime\core\migrations\v20x;
 
 class m1_initial_schema extends \phpbb\db\migration\migration
 {
@@ -17,8 +17,8 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\base\migrations\converter\c3_update_tables',
-			'\primetime\base\migrations\v20x\m3_initial_permission',
+			'\primetime\core\migrations\converter\c3_update_tables',
+			'\primetime\core\migrations\v20x\m3_initial_permission',
 		);
 	}
 

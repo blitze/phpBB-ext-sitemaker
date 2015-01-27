@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\forum;
+namespace primetime\core\services\forum;
 
 class manager
 {

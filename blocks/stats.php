@@ -7,12 +7,12 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
 /**
 * Stats Block
 */
-class stats extends \primetime\base\services\blocks\driver\block
+class stats extends \primetime\core\services\blocks\driver\block
 {
 	/**
 	* phpBB configuration

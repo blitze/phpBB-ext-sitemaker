@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\tree;
+namespace primetime\core\services\tree;
 
 /**
 * Display nested sets
@@ -28,12 +28,12 @@ abstract class display
 	* Construct
 	*
 	* @param \phpbb\db\driver\driver_interface		$db             Database connection
-	* @param \primetime\base\services\util			$primetime		Primetime object
+	* @param \primetime\core\services\util			$primetime		Primetime object
 	* @param string									$table_name		Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\base\services\util $primetime, $table, $pk, $sql_where = '')
+	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
 		$this->pk = $pk;

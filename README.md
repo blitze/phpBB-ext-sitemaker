@@ -19,13 +19,13 @@ phpBB Primetime creates a CMS base around your phpBB 3.1 installation
 
 Requires npm
 
-Clone into phpBB/ext/primetime/base:
+Clone into phpBB/ext/primetime/core:
 
-    git clone https://github.com/blitze/primetime.git phpBB/ext/primetime/base
+    git clone https://github.com/blitze/primetime.git phpBB/ext/primetime/core
 
 From command line go to primetime directory: 
 
-    cd phpBB/ext/primetime/base
+    cd phpBB/ext/primetime/core
 
 Install nodejs modules
 

@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\services\blocks;
+namespace primetime\core\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -37,10 +37,10 @@ class display
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\base\services\util */
+	/** @var \primetime\core\services\util */
 	protected $primetime;
 
-	/** @var \primetime\base\services\template */
+	/** @var \primetime\core\services\template */
 	protected $ptemplate;
 
 	/** @var bool */
@@ -72,13 +72,13 @@ class display
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\base\services\util				$primetime				Primetime object
-	 * @param \primetime\base\services\template			$ptemplate				Primetime template object
+	 * @param \primetime\core\services\util				$primetime				Primetime object
+	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\base\services\util $primetime, \primetime\base\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -99,7 +99,7 @@ class display
 	{
 		$this->primetime->add_assets(array(
 			'css'   => array(
-				$this->primetime->asset_path . 'ext/primetime/base/components/fontawesome/css/font-awesome.min.css',
+				$this->primetime->asset_path . 'ext/primetime/core/components/fontawesome/css/font-awesome.min.css',
 			)
 		));
 
@@ -146,7 +146,7 @@ class display
 					SHOW_BLOCK_SUBPAGE	=> true,
 				);
 
-				$this->phpbb_container->get('primetime.base.blocks.manager')->handle($route_info);
+				$this->phpbb_container->get('primetime.core.blocks.manager')->handle($route_info);
 			}
 			else
 			{

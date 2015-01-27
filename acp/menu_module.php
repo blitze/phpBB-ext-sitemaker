@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\acp;
+namespace primetime\core\acp;
 
 /**
 * @package acp
@@ -23,25 +23,25 @@ class menu_module
 
 		$menu_id = $request->variable('menu_id', 0);
 
-		$manager = $phpbb_container->get('primetime.base.menu.builder');
-		$icon = $phpbb_container->get('primetime.base.icon_picker');
-		$primetime = $phpbb_container->get('primetime.base.util');
+		$manager = $phpbb_container->get('primetime.core.menu.builder');
+		$icon = $phpbb_container->get('primetime.core.icon_picker');
+		$primetime = $phpbb_container->get('primetime.core.util');
 
 		$asset_path = $primetime->asset_path;
 		$primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-				$asset_path . 'ext/primetime/base/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/base/components/jquery.populate/jquery.populate.min.js',
-				$asset_path . 'ext/primetime/base/components/nestedSortable/jquery.ui.nestedSortable.min.js',
-				'@primetime_base/assets/tree/builder.min.js',
-				'@primetime_base/assets/menu/admin.min.js',
+				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				$asset_path . 'ext/primetime/core/components/jquery.populate/jquery.populate.min.js',
+				$asset_path . 'ext/primetime/core/components/nestedSortable/jquery.ui.nestedSortable.min.js',
+				'@primetime_core/assets/tree/builder.min.js',
+				'@primetime_core/assets/menu/admin.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				'@primetime_base/assets/tree/builder.min.css',
-				'@primetime_base/assets/menu/admin.min.css',
+				'@primetime_core/assets/tree/builder.min.css',
+				'@primetime_core/assets/menu/admin.min.css',
 			)
 		));
 

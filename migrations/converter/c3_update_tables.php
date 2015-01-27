@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\base\migrations\converter;
+namespace primetime\core\migrations\converter;
 
 /**
  * Initial schema changes needed for Extension installation

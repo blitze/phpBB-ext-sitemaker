@@ -7,9 +7,9 @@
  *
  */
 
-namespace primetime\base\blocks;
+namespace primetime\core\blocks;
 
-class wordgraph extends \primetime\base\services\blocks\driver\block
+class wordgraph extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -144,7 +144,7 @@ class wordgraph extends \primetime\base\services\blocks\driver\block
 
 		return array(
 			'title'		=> $this->user->lang['WORDGRAPH'],
-			'content'	=> $this->ptemplate->render_view('primetime/base', 'blocks/wordgraph.html', 'wordgraph_block')
+			'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/wordgraph.html', 'wordgraph_block')
 		);
 	}
 }
