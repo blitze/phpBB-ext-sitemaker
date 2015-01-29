@@ -26,6 +26,9 @@ class manager
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \acp_forums */
+	protected $forum;
+
 	/** @var string */
 	protected $phpbb_root_path;
 

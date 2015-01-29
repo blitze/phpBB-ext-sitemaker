@@ -17,7 +17,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
+	/** @var \phpbb\config\db */
 	protected $config;
 
 	/** @var Container */

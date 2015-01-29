@@ -41,6 +41,9 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 	/** @var string */
 	protected $php_ext;
 
+	/** @var array */
+	private $settings = array();
+
 	/**
 	 * Constructor
 	 *
@@ -226,7 +229,7 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 
 		for ($i = 0, $size = sizeof($poll_info); $i < $size; $i++)
 		{
-			$poll_info[$i]['poll_option_text'] = generate_text_for_display($poll_info[$i]['poll_option_text'], $poll_info[$i]['bbcode_uid'], $poll_option['bbcode_bitfield'], $parse_flags, true);
+			$poll_info[$i]['poll_option_text'] = generate_text_for_display($poll_info[$i]['poll_option_text'], $poll_info[$i]['bbcode_uid'], $poll_info[$i]['bbcode_bitfield'], $parse_flags, true);
 		}
 
 		$topic_data['poll_title'] = generate_text_for_display($topic_data['poll_title'], $poll_info[0]['bbcode_uid'], $poll_info[0]['bbcode_bitfield'], $parse_flags, true);

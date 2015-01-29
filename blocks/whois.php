@@ -72,7 +72,6 @@ class whois extends \primetime\core\services\blocks\driver\block
 
 			$l_online_users = $user_online_strings['l_online_users'];
 			$online_userlist = $user_online_strings['online_userlist'];
-			$total_online_users = $online_users['total_online'];
 
 			$l_online_record = $this->user->lang('RECORD_ONLINE_USERS', (int) $this->config['record_online_users'], $this->user->format_date($this->config['record_online_date'], false, true));
 		}

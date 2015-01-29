@@ -24,7 +24,7 @@ class forum
 	protected $user;
 
 	/** @var string phpBB root path */
-	protected $root_path;
+	protected $phpbb_root_path;
 
 	/** @var string phpEx */
 	protected $php_ext;

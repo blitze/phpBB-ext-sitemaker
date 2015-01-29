@@ -210,7 +210,7 @@ class query
 	/**
 	 * Get topic data
 	 */
-	public function get_topic_data($limit = false, $start = 0, $sql_array = array())
+	public function get_topic_data($limit = 0, $start = 0, $sql_array = array())
 	{
 		if (sizeof($sql_array))
 		{
@@ -223,7 +223,7 @@ class query
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);
-		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
+		$result = $this->db->sql_query_limit($sql, ($limit) ? $limit : false, $start, $this->cache_time);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
@@ -241,7 +241,7 @@ class query
 	/**
 	 * Get post data
 	 */
-	public function get_post_data($topic_first_or_last = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
+	public function get_post_data($topic_first_or_last = '', $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
 		$sql_where = array();
 		if (sizeof($this->topic_data))
@@ -286,7 +286,7 @@ class query
 	}
 
 	/**
-	 * 
+	 * Get topic tracking info
 	 */
 	public function get_topic_tracking_info($forum_id = 0)
 	{
@@ -319,7 +319,7 @@ class query
 		{
 			$sql = 'SELECT *
 				FROM ' . ATTACHMENTS_TABLE . '
-				WHERE ' . $db->sql_in_set('post_msg_id', $this->attachments) . '
+				WHERE ' . $this->db->sql_in_set('post_msg_id', $this->attachments) . '
 					AND in_message = 0
 				ORDER BY filetime DESC, post_msg_id ASC';
 			$result = $this->db->sql_query($sql);

@@ -112,8 +112,6 @@ abstract class builder extends \primetime\core\services\tree\display
 	 */
 	public function add_branch($branch, $parent_id = 0, $retain_keys = false)
 	{
-		$left_id = $right_id = $max_id = 0;
-
 		if ($parent_id)
 		{
 			$row = $this->get_row($parent_id);
@@ -247,9 +245,6 @@ abstract class builder extends \primetime\core\services\tree\display
 	{
 		$items_data = $this->get_tree_array();
 
-		$item_ids = array_keys($items_data);
-		$tree_ids = array_keys($tree);
-
 		/** Remove any new nodes in the tree that did not exist before
 		 * The intent of this method is to update an existing tree, not add new nodes
 		 */
@@ -381,7 +376,6 @@ abstract class builder extends \primetime\core\services\tree\display
 		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
-		$target_left_id = $target_right_id = 0;
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -517,7 +511,6 @@ abstract class builder extends \primetime\core\services\tree\display
 		$values = array_fill(0, $field_size, '');
 		$lines = array_filter(explode("\n", $structure));
 
-		$depth = $prev_depth = 0;
 		$adj_tree = $parent_ary = array();
 		foreach ($lines as $i => $string)
 		{
@@ -669,7 +662,8 @@ abstract class builder extends \primetime\core\services\tree\display
 	private function move_to_own_child($row, $to_parent_id)
 	{
 		$this->delete($row[$this->pk], 'node');
-		$this->add($to_parent_id, $row);
+		$row['parent_id'] = $to_parent_id;
+		$this->add_node($row);
 	}
 
 	/**
@@ -707,7 +701,6 @@ abstract class builder extends \primetime\core\services\tree\display
 		$this->db->sql_query($sql);
 
 		$right_id = (int) $row['right_id'];
-		$left_id = (int) $row['left_id'];
 
 		// Resync tree
 		$sql = "UPDATE $this->items_table 

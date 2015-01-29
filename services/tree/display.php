@@ -17,11 +17,22 @@ abstract class display
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	protected $items_table;
-	protected $pk;
+	/** @var \primetime\core\services\util */
 	protected $primetime;
+
+	/** @var string */
+	protected $items_table;
+
+	/** @var string */
+	protected $pk;
+
+	/** @var array */
 	protected $errors = array();
+
+	/** @var array */
 	protected $data = array();
+
+	/** @var string */
 	protected $sql_where;
 
 	/**
@@ -29,15 +40,15 @@ abstract class display
 	*
 	* @param \phpbb\db\driver\driver_interface		$db             Database connection
 	* @param \primetime\core\services\util			$primetime		Primetime object
-	* @param string									$table_name		Table name
+	* @param string									$items_table	Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $table, $pk, $sql_where = '')
+	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $items_table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
 		$this->pk = $pk;
-		$this->items_table = $table;
+		$this->items_table = $items_table;
 		$this->sql_where = $sql_where;
 		$this->primetime = $primetime;
 	}

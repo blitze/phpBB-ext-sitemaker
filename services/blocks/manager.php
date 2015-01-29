@@ -55,6 +55,9 @@ class manager
 	/** @var string phpBB root path */
 	protected $root_path;
 
+	/** @var array */
+	private $return_data;
+
 	/** @var string phpEx */
 	protected $php_ext;
 
@@ -455,7 +458,7 @@ class manager
 	/**
 	 * Update block data
 	 */
-	public function update($bid, $sql_data, $route)
+	public function update($bid, $sql_data)
 	{
 		if (!$bid)
 		{
@@ -786,7 +789,7 @@ class manager
 	 */
 	public function save_layout($route)
 	{
-		$blocks_ary = $removed_blocks = $sql_blocks_ary = array();
+		$blocks_ary = $sql_blocks_ary = array();
 
 		$blocks = $this->request->variable('blocks', array(0 => array('' => '')));
 
@@ -1043,7 +1046,8 @@ class manager
 		$this->delete_blocks($block_ids);
 
 		// update route info
-		$this->update_route($route_id, array('has_blocks' => false));
+		$route_id = $this->get_route_id($route);
+		$this->update_route($route_id);
 	}
 
 	public function set_style($style_id)
@@ -1062,7 +1066,7 @@ class manager
 
 		// We grab the language files from the default, English and user's language.
 		// So we can fall back to the other files like we do when using add_lang()
-		$default_lang_files = $english_lang_files = $user_lang_files = array();
+		$default_lang_files = $english_lang_files = array();
 
 		// Search for board default language if it's not the user language
 		if ($this->config['default_lang'] != $this->user->lang_name)

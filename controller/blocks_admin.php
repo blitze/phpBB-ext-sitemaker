@@ -26,7 +26,7 @@ class blocks_admin
 	protected $user;
 
 	/** @var \primetime\core\services\blocks\manager */
-	protected $block;
+	protected $blocks;
 
 	/**
 	 * Constructor

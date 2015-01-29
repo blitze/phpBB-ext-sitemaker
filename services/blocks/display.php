@@ -216,7 +216,6 @@ class display
 
 	public function get_style_id()
 	{
-		$style_id = 0;
 		if ($this->request->is_set('style'))
 		{
 			$style_id = $this->request->variable('style', 0);
@@ -240,7 +239,6 @@ class display
 
 		if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
 		{
-			$controller = $this->phpbb_container->get($controller_service[0]);
 			$this->route = join('/', array_slice(explode('/', $this->route), 0, 3));
 
 			if (str_replace($this->route, '', $user_page))
@@ -269,7 +267,7 @@ class display
 				FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
 
-			$routes = array();
+			$route_info = array();
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$row['ex_positions'] = array_filter(explode(',', $row['ex_positions']));
@@ -321,6 +319,7 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
+			$db_settings = array();
 			if (sizeof($block_ids))
 			{
 				$sql_where = $this->db->sql_in_set('bid', $block_ids);

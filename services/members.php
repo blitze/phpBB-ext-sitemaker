@@ -21,10 +21,10 @@ class members
 	protected $ptemplate;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
 	/**
 	 * Constructor
@@ -113,9 +113,13 @@ class members
 				$sql_ary['GROUP_BY'] = 'p.poster_id';
 				$sql_ary['ORDER_BY'] = 'user_posts DESC';
 			break;
+
+			default:
+				$sql_between = '';
+			break;
 		}
 
-		if ($get['date_range'])
+		if ($get['date_range'] && $sql_between)
 		{
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
@@ -161,10 +165,18 @@ class members
 					$stop = $start + (86400 * $num_days) - 1;
 					$date = $this->user->format_date($start, 'Y', true);
 				break;
+
+				default:
+					$start = $stop = 0;
+					$date = '';
+				break;
 			}
 
-			$append = '&amp;date=' . $date;
-			$sql_ary['WHERE'] .= " AND $sql_between BETWEEN $start AND $stop";
+			if ($start && $stop)
+			{
+				$append = '&amp;date=' . $date;
+				$sql_ary['WHERE'] .= " AND $sql_between BETWEEN $start AND $stop";
+			}
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);

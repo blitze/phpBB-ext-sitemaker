@@ -34,14 +34,23 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	/** @var \primetime\core\services\util */
 	protected $primetime;
 
-	/** @var Urodoz\Truncate\TruncateService */
+	/** @var \Urodoz\Truncate\TruncateService */
 	protected $truncate;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
+
+	/** @var array */
+	private $fields = array();
+
+	/** @var array */
+	private $settings = array();
+
+	/** @var array */
+	private $topic_tracking_info = array();
 
 	/**
 	 * Constructor

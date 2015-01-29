@@ -17,9 +17,14 @@ class members extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	private $user;
 
-	private $query_type_options = array('visits' => 'LAST_VISITED', 'bots' => 'RECENT_BOTS', 'recent' => 'RECENT_MEMBERS', 'tenured' => 'MOST_TENURED', 'posts' => 'TOP_POSTERS');
+	/** @var \primetime\core\services\members */
+	private $members;
 
-	private $range_options = array('' => 'ALL_TIME', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
+	/** @var array */
+	private $query_type_options;
+
+	/** @var array */
+	private $range_options;
 
 	/**
 	 * Constructor
@@ -31,6 +36,23 @@ class members extends \primetime\core\services\blocks\driver\block
 	{
 		$this->user = $user;
 		$this->members = $members;
+
+		$this->query_type_options = array(
+			'visits'	=> 'LAST_VISITED',
+			'bots'		=> 'RECENT_BOTS',
+			'recent'	=> 'RECENT_MEMBERS',
+			'tenured'	=> 'MOST_TENURED',
+			'posts'		=> 'TOP_POSTERS',
+		);
+
+		$this->range_options = array(
+			''		=> 'ALL_TIME',
+			'today'	=> 'TODAY',
+			'week'	=> 'THIS_WEEK',
+			'month'	=> 'THIS_MONTH',
+			'year'	=> 'THIS_YEAR',
+		);
+
 	}
 
 	public function get_config($settings)

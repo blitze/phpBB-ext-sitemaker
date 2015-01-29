@@ -27,8 +27,11 @@ class menu extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\menu\core\display */
+	/** @var \primetime\core\services\menu\display */
 	protected $tree;
+
+	/** @var string */
+	private $menus_table;
 
 	/**
 	 * Constructor

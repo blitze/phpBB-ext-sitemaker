@@ -11,11 +11,8 @@ namespace primetime\core\services\blocks;
 
 class factory
 {
-	/**
-	 * Cache
-	 * @var \phpbb\cache\service
-	 */
-	protected $cache;
+	/** @var array */
+	private $blocks;
 
 	/**
 	 * Constructor

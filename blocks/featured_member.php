@@ -228,6 +228,7 @@ class featured_member extends \primetime\core\services\blocks\driver\block
 				$bdata['settings']['show_cpf'] = (!empty($show_cpf)) ? join(',', $show_cpf) : '';
 				$bdata['settings']['current_user'] = (!empty($current_user)) ? $current_user : 0;
 
+				$sql_ary = array();
 				foreach ($bdata['settings'] as $var => $val)
 				{
 					$sql_ary[] = array(

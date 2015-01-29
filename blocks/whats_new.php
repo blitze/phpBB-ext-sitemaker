@@ -15,23 +15,17 @@ namespace primetime\core\blocks;
 */
 class whats_new  extends \primetime\core\services\blocks\driver\block
 {
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Forum object
-	 * @var \primetime\core\services\forum\query
-	 */
+	/** @var \primetime\core\services\forum\query */
 	protected $forum;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
 	/**
 	 * Constructor
@@ -87,7 +81,7 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 			);
 		}
 
-		$test = $this->forum->build_query($options, $sql_array);
+		$this->forum->build_query($options, $sql_array);
 		$topic_data = $this->forum->get_topic_data($db_data['settings']['max_topics']);
 
 		if (sizeof($topic_data) || $edit_mode !== false)

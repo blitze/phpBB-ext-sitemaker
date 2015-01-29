@@ -15,6 +15,12 @@ namespace primetime\core\services\menu;
  */
 class display extends \primetime\core\services\tree\display
 {
+	/** @var bool */
+	private $expanded = false;
+
+	/** @var int */
+	private $max_depth = 0;
+
 	public function set_params($data)
 	{
 		$this->expanded = (bool) $data['expanded'];

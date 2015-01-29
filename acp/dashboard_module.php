@@ -11,16 +11,45 @@ namespace primetime\core\acp;
 
 class dashboard_module
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \primetime\core\util */
+	protected $primetime;
+
+	/** @var string */
+	var $tpl_name;
+
+	/** @var string */
+	var $page_title;
+
+	/** @var string */
 	var $u_action;
 
-	function main($id, $mode)
+	public function __construct()
 	{
-		global $config, $db, $phpbb_container, $request, $template, $user, $phpbb_root_path, $phpEx;
+		global $config, $db, $phpbb_container, $template, $user;
 
-		$primetime = $phpbb_container->get('primetime.core.util');
+		$this->config = $config;
+		$this->db = $db;
+		$this->template = $template;
+		$this->user = $user;
+		$this->primetime = $phpbb_container->get('primetime.core.util');
+	}
 
-		$asset_path = $primetime->asset_path;
-		$primetime->add_assets(array(
+	public function main($id, $mode)
+	{
+		$asset_path = $this->primetime->asset_path;
+		$this->primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				$asset_path . 'ext/primetime/core/components/jquery-knob/js/jquery.knob.min.js',
@@ -37,7 +66,7 @@ class dashboard_module
 			)
 		));
 
-		$time = $user->create_datetime();
+		$time = $this->user->create_datetime();
 		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 		$wday = $now['wday'];
 
@@ -59,13 +88,13 @@ class dashboard_module
 		$js_weekdays = array();
 		for ($i = 6; $i >= 0; $i--)
 		{
-			$js_weekdays[] = "$count: '" . $user->format_date(strtotime("- $i days"), 'l M j', true) . "'";
+			$js_weekdays[] = "$count: '" . $this->user->format_date(strtotime("- $i days"), 'l M j', true) . "'";
 			$count++;
 		}
-		$template->assign_var('UA_WEEKDAYS', join(', ', $js_weekdays));
+		$this->template->assign_var('UA_WEEKDAYS', join(', ', $js_weekdays));
 
 		$lookback = $now[0] - (6 * 24 * 3600);
-		$boarddays = ($now[0] - $config['board_startdate']) / 86400;
+		$boarddays = ($now[0] - $this->config['board_startdate']) / 86400;
 
 		$this->user_stats($weekdays, $lookback, $boarddays);
 		$this->topic_stats($weekdays, $lookback, $boarddays);
@@ -78,11 +107,12 @@ class dashboard_module
 		$this->page_title = 'PRIMETIME_DASHBOARD';
 	}
 
+	/**
+	 * Get user stats
+	 */
 	public function user_stats($users_count, $lookback, $boarddays)
 	{
-		global $config, $db, $template, $user;
-
-		$total_users	= $config['num_users'];
+		$total_users	= $this->config['num_users'];
 		$users_per_day	= sprintf('%.2f', $total_users / $boarddays);
 		$users_per_day	= ($users_per_day > $total_users) ? $total_users : $users_per_day;
 
@@ -91,27 +121,28 @@ class dashboard_module
 			WHERE user_type IN (' . USER_NORMAL . ',' . USER_FOUNDER . ')
 				AND user_regdate > ' . $lookback . '
 			ORDER BY user_regdate DESC';
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while($row = $db->sql_fetchrow($result))
+		while($row = $this->db->sql_fetchrow($result))
 		{
-			$day = $user->format_date($row['user_regdate'], 'w', true);
+			$day = $this->user->format_date($row['user_regdate'], 'w', true);
 			$users_count[$day]++;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'TOTAL_USERS'		=> $total_users,
 			'USERS_PER_DAY'		=> $users_per_day,
 			'CHART_USERS'		=> join(',', $users_count)
 		));
 	}
 
+	/**
+	 * Get topic stats
+	 */
 	public function topic_stats($topics_count, $lookback, $boarddays)
 	{
-		global $config, $db, $template, $user;
-
-		$total_topics	= $config['num_topics'];
+		$total_topics	= $this->config['num_topics'];
 		$topics_per_day	= sprintf('%.2f', $total_topics / $boarddays);
 		$topics_per_day	= ($topics_per_day > $total_topics) ? $total_topics : $topics_per_day;
 
@@ -119,27 +150,29 @@ class dashboard_module
 			FROM ' . TOPICS_TABLE . '
 			WHERE topic_visibility = ' . ITEM_APPROVED . '
 				AND topic_time > ' . $lookback;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while($row = $db->sql_fetchrow($result))
+		while($row = $this->db->sql_fetchrow($result))
 		{
-			$day = $user->format_date($row['topic_time'], 'w', true);
+			$day = $this->user->format_date($row['topic_time'], 'w', true);
 			$topics_count[$day]++;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'TOTAL_TOPICS'		=> $total_topics,
 			'TOPICS_PER_DAY'	=> $topics_per_day,
 			'CHART_TOPICS'		=> join(',', $topics_count)
 		));
 	}
 
+
+	/**
+	 * Get post stats
+	 */
 	public function post_stats($posts_count, $lookback, $boarddays)
 	{
-		global $config, $db, $template, $user;
-
-		$total_posts	= $config['num_posts'] - $config['num_topics'];
+		$total_posts	= $this->config['num_posts'] - $this->config['num_topics'];
 		$posts_per_day	= sprintf('%.2f', $total_posts / $boarddays);
 		$posts_per_day	= ($posts_per_day > $total_posts) ? $total_posts : $posts_per_day;
 
@@ -149,27 +182,28 @@ class dashboard_module
 				AND p.topic_id = t.topic_id
 				AND p.post_visibility  = ' . ITEM_APPROVED . '
 				AND p.post_time > ' . $lookback;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while($row = $db->sql_fetchrow($result))
+		while($row = $this->db->sql_fetchrow($result))
 		{
-			$day = $user->format_date($row['post_time'], 'w', true);
+			$day = $this->user->format_date($row['post_time'], 'w', true);
 			$posts_count[$day]++;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'TOTAL_POSTS'	=> $total_posts,
 			'POSTS_PER_DAY'	=> $posts_per_day,
 			'CHART_POSTS'	=> join(',', $posts_count)
 		));
 	}
 
+	/**
+	 * Get file stats
+	 */
 	public function file_stats($file_count, $lookback, $boarddays)
 	{
-		global $config, $db, $template, $user;
-
-		$total_files	= $config['num_files'];
+		$total_files	= $this->config['num_files'];
 		$files_per_day	= sprintf('%.2f', $total_files / $boarddays);
 		$files_per_day	= ($files_per_day > $total_files) ? $total_files : $files_per_day;
 
@@ -177,32 +211,33 @@ class dashboard_module
 			FROM ' . ATTACHMENTS_TABLE  . '
 			WHERE is_orphan = 0
 				AND filetime > ' . $lookback;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		while($row = $db->sql_fetchrow($result))
+		while($row = $this->db->sql_fetchrow($result))
 		{
-			$day = $user->format_date($row['filetime'], 'w', true);
+			$day = $this->user->format_date($row['filetime'], 'w', true);
 			$file_count[$day]++;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'TOTAL_FILES'	=> $total_files,
 			'FILES_PER_DAY'	=> $files_per_day,
 			'CHART_FILES'	=> join(',', $file_count)
 		));
 	}
 
+	/**
+	 * Get user engagement stats
+	 */
 	public function user_contributions()
 	{
-		global $config, $db, $template, $user;
-
 		// percent users involved
 		$sql = 'SELECT COUNT(*) AS posters FROM ' . USERS_TABLE . ' WHERE user_posts <> 0';
-		$result = $db->sql_query($sql);
-		$posters = $db->sql_fetchfield('posters');
-		$db->sql_freeresult();
+		$result = $this->db->sql_query($sql);
+		$posters = $this->db->sql_fetchfield('posters');
+		$this->db->sql_freeresult();
 
-		$template->assign_var('PERCENT_CONTRIB', sprintf('%.1f', ($posters / $config['num_users']) * 100));
+		$this->template->assign_var('PERCENT_CONTRIB', sprintf('%.1f', ($posters / $this->config['num_users']) * 100));
 	}
 }

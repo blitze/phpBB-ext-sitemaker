@@ -14,21 +14,55 @@ namespace primetime\core\acp;
 */
 class menu_module
 {
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\request\request_interface */
+	protected $request;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \primetime\core\util */
+	protected $primetime;
+
+	/** @var string phpBB root path */
+	protected $phpbb_root_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
+
+	/** @var string */
+	var $tpl_name;
+
+	/** @var string */
+	var $page_title;
+
+	/** @var string */
 	var $u_action;
+
+	public function __construct()
+	{
+		global $db, $phpbb_container, $request, $template, $user;
+		global $phpbb_root_path, $phpEx;
+
+		$this->db = $db;
+		$this->request = $request;
+		$this->template = $template;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $phpEx;
+
+		$this->manager = $phpbb_container->get('primetime.core.menu.builder');
+		$this->icon = $phpbb_container->get('primetime.core.icon_picker');
+		$this->primetime = $phpbb_container->get('primetime.core.util');
+	}
 
 	function main($id, $mode)
 	{
-		global $phpbb_root_path, $phpEx;
-		global $phpbb_container, $request, $template, $user;
+		$menu_id = $this->request->variable('menu_id', 0);
 
-		$menu_id = $request->variable('menu_id', 0);
-
-		$manager = $phpbb_container->get('primetime.core.menu.builder');
-		$icon = $phpbb_container->get('primetime.core.icon_picker');
-		$primetime = $phpbb_container->get('primetime.core.util');
-
-		$asset_path = $primetime->asset_path;
-		$primetime->add_assets(array(
+		$asset_path = $this->primetime->asset_path;
+		$this->primetime->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
@@ -46,7 +80,7 @@ class menu_module
 		));
 
 		// Get all menus
-		$menus = $manager->menu_get();
+		$menus = $this->manager->menu_get();
 		$menus = array_values(array_filter($menus));
 
 		if (sizeof($menus))
@@ -59,7 +93,7 @@ class menu_module
 			for ($i = 0, $size = sizeof($menus); $i < $size; $i++)
 			{
 				$row = $menus[$i];
-				$template->assign_block_vars('menu', array(
+				$this->template->assign_block_vars('menu', array(
 					'ID'		=> $row['menu_id'],
 					'NAME'		=> $row['menu_name'],
 					'S_ACTIVE'	=> ($row['menu_id'] == $menu_id) ? true : false)
@@ -67,13 +101,13 @@ class menu_module
 			}
 		}
 
-		$template->assign_vars(array(
+		$this->template->assign_vars(array(
 			'S_MENU'		=> true,
 			'MENU_ID'		=> $menu_id,
-			'ICON_PICKER'	=> $icon->picker(),
-			'T_PATH'		=> $phpbb_root_path,
+			'ICON_PICKER'	=> $this->icon->picker(),
+			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_MENU_ID'	=> $menu_id,
-			'UA_AJAX_URL'   => "{$phpbb_root_path}app.$phpEx/menu/admin/")
+			'UA_AJAX_URL'   => "{$this->phpbb_root_path}app.{$this->php_ext}/menu/admin/")
 		);
 
 		$this->tpl_name = 'acp_menu';

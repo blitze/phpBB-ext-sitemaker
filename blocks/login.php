@@ -49,7 +49,6 @@ class login extends \primetime\core\services\blocks\driver\block
 
 	public function display($bdata, $edit_mode = false)
 	{
-		$content = $title = '';
 		$settings = $bdata['settings'];
 
 		if (!$this->user->data['is_registered'] || $edit_mode === true)

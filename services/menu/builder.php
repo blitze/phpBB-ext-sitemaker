@@ -18,15 +18,18 @@ class builder extends \primetime\core\services\tree\builder
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
+	/** @var string */
+	private $menus_table;
+
 	/**
 	 * Construct
 	 * 
-	 * @param \phpbb\cache\service					$cache			Cache object
-	 * @param \phpbb\db\driver\driver_interface		$db             Database connection
-	 * @param \primetime\core\services\util			$primetime		Primetime object
-	 * @param string								$table_name		Table name
-	 * @param string								$pk				Primary key
-	 * @param string								$menus_table	Menus table
+	 * @param \phpbb\cache\service					$cache				Cache object
+	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
+	 * @param \primetime\core\services\util			$primetime			Primetime object
+	 * @param string								$menus_table		Menus table
+	 * @param string								$menu_items_table	Menu Items table
+	 * @param string								$pk					Primary key
 	 */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $menus_table, $menu_items_table, $pk)
 	{

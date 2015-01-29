@@ -16,11 +16,17 @@ class menu_admin
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\menu\core\builder */
+	/** @var \primetime\core\services\menu\builder */
 	protected $manager;
+
+	/** @var string */
+	private $menus_table;
 
 	/**
 	 * Constructor
@@ -34,8 +40,8 @@ class menu_admin
 	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\core\services\menu\builder $manager, $menus_table)
 	{
 		$this->request = $request;
-		$this->user = $user;
 		$this->template = $template;
+		$this->user = $user;
 		$this->manager = $manager;
 		$this->menus_table = $menus_table;
 	}

@@ -36,7 +36,7 @@ class wordgraph extends \primetime\core\services\blocks\driver\block
 	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
 	 * @param \phpbb\user						$user					User object
-	 * @param string							$root_path				phpBB root path
+	 * @param string							$phpbb_root_path		phpBB root path
 	 * @param string							$php_ext				phpEx
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
