@@ -119,7 +119,7 @@ abstract class builder extends \primetime\core\services\tree\display
 			if (!$row)
 			{
 				$this->errors[] = 'PARENT_NO_EXIST';
-				return false;
+				return array();
 			}
 
 			$right_id	= (int) $row['right_id'] - 1;
@@ -157,6 +157,7 @@ abstract class builder extends \primetime\core\services\tree\display
 		}
 
 		// Get the highest id
+		$max_id = 0;
 		if ($retain_keys === false)
 		{
 			$sql = "SELECT $this->pk 
@@ -175,11 +176,15 @@ abstract class builder extends \primetime\core\services\tree\display
 			$right_id   = $right_id + 2;
 
 			$sql_data[$i] = $row;
-			$sql_data[$i][$this->pk]	+= $max_id;
 			$sql_data[$i]['parent_id']	= $parent_id;
 			$sql_data[$i]['depth']		= $depth;
 			$sql_data[$i]['left_id']	= $left_id;
 			$sql_data[$i]['right_id']	= $right_id;
+
+			if ($retain_keys === false)
+			{
+				$sql_data[$i][$this->pk] += $max_id;
+			}
 
 			if ($row['parent_id'])
 			{
@@ -522,7 +527,7 @@ abstract class builder extends \primetime\core\services\tree\display
 			if ($depth && !$parent_id)
 			{
 				$this->errors[] = 'MALFORMED_TREE';
-				return false;
+				return array();
 			}
 
 			$key = $i + 1;

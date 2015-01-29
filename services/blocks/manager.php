@@ -762,7 +762,7 @@ class manager
 			$sql_data['hash'] = $new_hash;
 		}
 
-		return $this->update($bid, $sql_data, $route);
+		return $this->update($bid, $sql_data);
 	}
 
 	/**
@@ -1047,7 +1047,7 @@ class manager
 
 		// update route info
 		$route_id = $this->get_route_id($route);
-		$this->update_route($route_id);
+		$this->update_route($route_id, array('has_blocks' => false));
 	}
 
 	public function set_style($style_id)

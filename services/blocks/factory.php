@@ -16,8 +16,6 @@ class factory
 
 	/**
 	 * Constructor
-	 *
-	 * @param \phpbb\cache\service	$cache		Cache object
 	 */
 	public function __construct($blocks)
 	{

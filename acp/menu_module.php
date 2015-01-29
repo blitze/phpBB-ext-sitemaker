@@ -23,6 +23,12 @@ class menu_module
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \primetime\core\services\icon_picker */
+	protected $icon;
+
+	/** @var \primetime\core\services\menu\builder */
+	protected $manager;
+
 	/** @var \primetime\core\util */
 	protected $primetime;
 
@@ -57,7 +63,7 @@ class menu_module
 		$this->primetime = $phpbb_container->get('primetime.core.util');
 	}
 
-	function main($id, $mode)
+	function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 

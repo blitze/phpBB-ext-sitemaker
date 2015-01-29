@@ -90,9 +90,12 @@ class menu_admin
 				$bulk_list = $this->request->variable('add_list', '', true);
 
 				$tree = $this->manager->string_to_nestedset($bulk_list, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
-				if (sizeof($tree)) {
+
+				if (sizeof($tree))
+				{
 					$this->manager->add_branch($tree, $parent_id);
 				}
+
 				$return['items'] = $this->manager->menu_get_items();
 				$errors += $this->manager->get_errors();
 

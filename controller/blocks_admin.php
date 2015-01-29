@@ -70,9 +70,7 @@ class blocks_admin
 			return new Response(json_encode($json_data));
 		}
 
-		$id		= $this->request->variable('id', 0);
 		$style	= $this->request->variable('style', 0);
-		$block	= $this->request->variable('block', '');
 		$route	= $this->request->variable('route', '');
 
 		if (!$style)
@@ -113,7 +111,7 @@ class blocks_admin
 				{
 					$data['icon'] = $this->request->variable('icon', '');
 				}
-				$return_data = $this->blocks->update($id, $data, $route);
+				$return_data = $this->blocks->update($id, $data);
 			break;
 			case 'delete_blocks':
 				$this->blocks->delete_route_blocks($route);
