@@ -1,8 +1,7 @@
 primetime_core_blocks_admin:
-    path: /blocks/{action}/{id}/{block}
-    defaults: { _controller: primetime.core.blocks.admin.controller:handle, id: 0, block: '', _format: json }
+    path: /blocks/{action}
+    defaults: { _controller: primetime.core.blocks.admin.controller:handle, _format: json }
     requirements:
-        id: \d+
         _format: json
 
 primetime_core_menu_admin:

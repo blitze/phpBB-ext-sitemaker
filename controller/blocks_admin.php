@@ -48,7 +48,7 @@ class blocks_admin
 		$this->user->add_lang_ext('primetime/core', 'block_manager');
 	}
 
-	public function handle($action, $id, $block)
+	public function handle($action)
 	{
 		$return_data = array();
 		$json_data = array(
@@ -70,6 +70,8 @@ class blocks_admin
 			return new Response(json_encode($json_data));
 		}
 
+		$id		= $this->request->variable('id', 0);
+		$block	= $this->request->variable('block', '');
 		$style	= $this->request->variable('style', 0);
 		$route	= $this->request->variable('route', '');
 
