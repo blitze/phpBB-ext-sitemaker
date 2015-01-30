@@ -93,10 +93,9 @@ class menu_admin
 
 				if (sizeof($tree))
 				{
-					$this->manager->add_branch($tree, $parent_id);
+					$return['items'] = $this->manager->add_branch($tree, $parent_id);
 				}
 
-				$return['items'] = $this->manager->menu_get_items();
 				$errors += $this->manager->get_errors();
 
 			break;
