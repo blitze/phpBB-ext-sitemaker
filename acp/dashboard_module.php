@@ -107,8 +107,17 @@ class dashboard_module
 		$this->page_title = 'PRIMETIME_DASHBOARD';
 	}
 
+	/**
+	 * Get stats
+	 * 
+	 * @param string	$stat		Kind of stat to get: users/topics/posts/files
+	 * @param array		$weekdays	Array of weekdays
+	 * @param int		$lookback	Lookback period
+	 * @param int		$boarddays	Age of board
+	 */
 	public function get_stats($stat, $weekdays, $lookback, $boarddays)
 	{
+		$sql = '';
 		$total	= $this->config['num_' . $stat];
 		$per_day = sprintf('%.2f', $total / $boarddays);
 		$per_day = ($per_day > $total) ? $total : $per_day;
@@ -147,14 +156,17 @@ class dashboard_module
 			break;
 		}
 
-		$result = $this->db->sql_query($sql);
-
-		while($row = $this->db->sql_fetchrow($result))
+		if ($sql)
 		{
-			$day = $this->user->format_date($row['time_field'], 'w', true);
-			$weekdays[$day]++;
+			$result = $this->db->sql_query($sql);
+
+			while($row = $this->db->sql_fetchrow($result))
+			{
+				$day = $this->user->format_date($row['time_field'], 'w', true);
+				$weekdays[$day]++;
+			}
+			$this->db->sql_freeresult($result);
 		}
-		$this->db->sql_freeresult($result);
 
 		$data =  array(
 			$stat . '_total'	=> $total,
