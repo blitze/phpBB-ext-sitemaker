@@ -130,7 +130,7 @@ abstract class builder extends \primetime\core\services\tree\display
 			$diff = sizeof($branch) * 2;
 
 			$sql = "UPDATE $this->items_table
-				SET left_id = CASE WHEN left_id > $left_id 
+				SET left_id = CASE WHEN left_id > $right_id 
 						THEN left_id + $diff
 						ELSE left_id
 					END,
