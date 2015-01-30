@@ -18,7 +18,7 @@ abstract class builder extends \primetime\core\services\tree\display
 	 * Adds a single node as the child of a given parent node
 	 * 
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
-	 * @return	mixed	Returns the ID of the newly inserted node or FALSE upon error.
+	 * @return	false|null	Returns the ID of the newly inserted node or FALSE upon error.
 	 */
 	public function add_node(&$sql_data)
 	{
@@ -302,7 +302,7 @@ abstract class builder extends \primetime\core\services\tree\display
 	 * 
 	 * @param	int		$node_id		The ID of the node to move to another branch
 	 * @param	int		$to_parent_id	The ID of the node's new parent node
-	 * @return	null
+	 * @return	false|null
 	 */
 	public function change_branch($node_id, $to_parent_id)
 	{
@@ -351,7 +351,7 @@ abstract class builder extends \primetime\core\services\tree\display
 	 * @param	int		$node_id	The ID of the node to move
 	 * @param	string	$action		Direction: move_up|move_down
 	 * @param	int		$steps		Number of steps to move up/down
-	 * @return	null
+	 * @return	false|null
 	 */
 	public function move_by($node_id, $action = 'move_up', $steps = 1)
 	{
@@ -575,6 +575,8 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Move a branch to a another branch
+	 * @param integer $node_id
+	 * @param integer $to_parent_id
 	 */
 	private function move_branch($node_id, $to_parent_id)
 	{
@@ -663,6 +665,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	* Make a node a child of its own child
+	* @param integer $to_parent_id
 	*/
 	private function move_to_own_child($row, $to_parent_id)
 	{
@@ -673,6 +676,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	* Update right side of tree
+	* @param integer $right_id
 	*/
 	private function update_right_side(&$data, &$right_id, $index, $branch)
 	{
@@ -687,6 +691,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	* Delete single node that has no child nodes
+	* @param integer $node_id
 	*/
 	private function delete_leaf($node_id)
 	{
@@ -726,6 +731,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	* Delete a single node, moving any child nodes one level up
+	* @param integer $node_id
 	*/
 	private function delete_node($node_id)
 	{
@@ -786,6 +792,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	* Delete an entire branch, the node and all its child nodes
+	* @param integer $node_id
 	*/
 	private function delete_branch($node_id)
 	{
