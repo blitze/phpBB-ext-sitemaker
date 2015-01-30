@@ -227,9 +227,13 @@
 				self.addBulkBtn.trigger('click');
 			}).next().click(function(event) {
 				var form = $(event.target).parentsUntil('form').parent();
-				self._addBulk(form.serialize());
+				var data = {
+					'add_list': form.find('#add_list').val(),
+					'parent_id': form.find('#parent_id').val()
+				};
+				self._addBulk($.param(data));
 				self.addBulkBtn.trigger('click');
-				form.find('textarea').val();
+				form.find('textarea').val('');
 				event.preventDefault();
 			});
 
