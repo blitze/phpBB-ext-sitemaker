@@ -647,6 +647,11 @@ nav ul.pt-list > li.nav-header > a:hover {
 	.pt-responsive-hide {
 		display: none;
 	}
+
+	.pt-responsive-full-width {
+		float: none;
+		width: auto;
+	}
 }
 
 @media screen and (max-width: 480px) {
