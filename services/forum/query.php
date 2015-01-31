@@ -26,23 +26,38 @@ class query
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \primetime\core\services\util */
+	protected $primetime;
+
 	/** @var string */
 	protected $phpbb_root_path;
 
 	/** @var string */
 	protected $php_ext;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var array */
+	protected $attachments = array();
 
-	protected $attachments		= array();
-	protected $ex_fid_ary		= array();
-	protected $poster_ids		= array();
-	protected $topic_data		= array();
-	protected $topic_tracking	= array();
-	protected $sql_array		= array();
-	protected $topic_post_ids	= array('first' => array(), 'last' => array());
-	protected $cache_time		= 10800; // caching for 3 hours
+	/** @var array */
+	protected $ex_fid_ary = array();
+
+	/** @var array */
+	protected $poster_ids = array();
+
+	/** @var array */
+	protected $topic_data = array();
+
+	/** @var array */
+	protected $topic_tracking = array();
+
+	/** @var array */
+	protected $sql_array = array();
+
+	/** @var array */
+	protected $topic_post_ids = array('first' => array(), 'last' => array());
+
+	/** @var array */
+	protected $cache_time = 10800; // caching for 3 hours
 
 	/**
 	 * Constructor
@@ -276,6 +291,8 @@ class query
 
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
 			$this->poster_ids[] = $row['poster_id'];
+			$this->poster_ids[] = $row['post_edit_user'];
+			$this->poster_ids[] = $row['post_delete_user'];
 			$this->attachments[$row['post_id']] = $row['post_attachment'];
 		}
 		$this->db->sql_freeresult($result);
@@ -315,7 +332,7 @@ class query
 	public function get_attachments($forum_id)
 	{
 		$attachments = array();
-		if ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
+		if (sizeof($this->attachments) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
 		{
 			$sql = 'SELECT *
 				FROM ' . ATTACHMENTS_TABLE . '
@@ -383,18 +400,16 @@ class query
 				'rank_image'		=> '',
 				'rank_image_src'	=> '',
 
-				'username'			=> $row['username'],
-				'user_colour'		=> $row['user_colour'],
 				'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
 
 				'online'			=> false,
 				'jabber'			=> ($row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
 				'search'			=> ($this->auth->acl_get('u_search')) ? append_sid("{$this->phpbb_root_path}search.$this->php_ext", "author_id=$poster_id&amp;sr=posts") : '',
 
-				'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
-				'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
-				'author_username'	=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
-				'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
+				'username'			=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
+				'username_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
+				'user_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
+				'user_profile'		=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
 			);
 
 			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);
