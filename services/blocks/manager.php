@@ -497,7 +497,7 @@ class manager
 		}
 
 		return array_merge(
-			$sql_data,
+			$bdata,
 			array(
 				'id'		=> $bid,
 				'message'	=> $this->user->lang['BLOCK_UPDATED'],
