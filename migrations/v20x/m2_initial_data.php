@@ -38,7 +38,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			array('config.add', array('primetime_parent_forum_id', 0)),
 			array('config.add', array('primetime_core_forum_perm_from', 0)),
 			array('config.add', array('primetime_blocks_cleanup_gc', 604800)),
-			array('config.add', array('primetime_blocks_cleanup_last_gc', time(), 1)),
+			array('config.add', array('primetime_blocks_cleanup_last_gc', 0, 1)),
 			array('config.add', array('primetime_startpage_controller', '')),
 			array('config.add', array('primetime_startpage_method', '')),
 			array('config.add', array('primetime_startpage_params', '')),
