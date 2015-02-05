@@ -426,7 +426,7 @@ class manager
 			$default_setting[$key] =& $settings['default'];
 		}
 
-		$route_id = $this->get_route_id($route);
+		$route_id = (int) $this->get_route_id($route);
 		$block_data = array(
 			'icon'			=> '',
 			'title'			=> '',
@@ -434,11 +434,12 @@ class manager
 			'weight'		=> $weight,
 			'position'		=> $position,
 			'route_id'		=> $route_id,
-			'style'			=> $this->style_id,
+			'style'			=> (int) $this->style_id,
 			'hide_title'	=> false,
 			'no_wrap'		=> false,
 			'hash'			=> md5(join('', $default_setting)),
 		);
+		$this->db->sql_query('UPDATE ' . $this->blocks_table . " SET weight = weight + 1 WHERE weight >= $weight AND route_id = $route_id AND style = " . (int) $this->style_id);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
 		$block_data['bid'] = $this->db->sql_nextid();
@@ -988,7 +989,7 @@ class manager
 
 			'WHERE'	 => 'b.route_id = r.route_id' . ((sizeof($sql_where)) ? ' AND ' . join(' AND ', $sql_where) : ''),
 
-			'ORDER_BY'  => 'b.position, b.weight ASC',
+			'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
 		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);

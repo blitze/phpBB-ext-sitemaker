@@ -50,8 +50,7 @@
 		if (divisibleItems > 0) {
 			items.slice(0, divisibleItems).addClass('unit size1of' + numCols)
 				.filter(':nth-child(' + numCols + ')')
-					.addClass('lastUnit')
-					.after('<div class="clear"></div>');
+					.addClass('lastUnit');
 		}
 
 		if (itemsLeft) {
@@ -81,7 +80,7 @@
 			.addClass('block')
 			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');
 
-		$.getJSON(ajaxUrl + 'add', {block: $.trim(blockName), weight: droppedElement.index(), route: route, ext: ext, position: posID}, function(data) {
+		$.getJSON(ajaxUrl + 'add', {block: $.trim(blockName), weight: droppedElement.parent().find('.block').index(droppedElement), route: route, ext: ext, position: posID}, function(data) {
 			updated = false;
 			if (data.id === '') {
 				$(droppedElement).remove();
@@ -142,11 +141,16 @@
 		);
 	};
 
-	var updateConfig = function(data) {
+	var customBlockAction = function(data) {
 		if (data.id === undefined) {
 			return;
 		}
-		$.post(ajaxUrl + 'config', data);
+
+		$.getJSON(ajaxUrl + 'custom', data, function(resp) {
+			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
+				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
+			}
+		});
 	};
 
 	var setDefaultLayout = function(set) {
@@ -284,30 +288,36 @@
 			'valid_elements' : '*[*]',
 			'toolbar': 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
 			'setup': function(editor) {
-				var isPlaceholder = false;
+				var editorPreview = '';
 				var editorContent = '';
 				editor.on('blur', function(e) {
-					var content = editor.getContent();
-					if (content && content !== editorContent && content !== lang.placeholder) {
-						updateConfig({'id': e.target.id.substring(13), 'bvar': 'content', 'bval': editor.getContent({format: 'raw'})});
-					} else if (!content) {
+					var content = editor.getContent({format: 'raw'});
+					var data = $('#' + editor.id).data('raw', content).data();
+
+					if (content.length > 0) {
+						if (content !== editorContent && content !== lang.placeholder) {
+							data.id = editor.id.substring(13);
+							data.content = content;
+
+							customBlockAction(data);
+						} else {
+							editor.setContent(editorPreview);
+						}
+					} else {
 						editor.setContent(lang.placeholder);
 					}
 				});
 
 				editor.on('init', function() {
-					editorContent = editor.getContent();
-					if (editorContent.length === 0) {
+					if (editor.getContent().length === 0) {
 						editor.setContent(lang.placeholder);
-						editorContent = lang.placeholder;
-						isPlaceholder = true;
 					}
 				});
 
-				editor.on('mousedown', function() {
-					if (isPlaceholder) {
-						editor.setContent('');
-					}
+				editor.on('focus', function() {
+					editorContent = $('#' + editor.id).data('raw');
+					editorPreview = editor.getContent({format: 'raw'});
+					editor.setContent(editorContent);
 				});
 			}
 		});
@@ -418,6 +428,10 @@
 				if (exPositions.find('option[value=' + p + ']').length === 0) {
 					exPositions.append('<option value="' + p + '">' + p + '</option>');
 				}
+			});
+
+			phpbb.addAjaxCallback('previewCustomBlock', function(data) {
+				$('#block-editor-' + data.id).html(data.content.replace('./../../', ''));
 			});
 
 			saveBtn = $('#toggle-edit').button().click(function() {

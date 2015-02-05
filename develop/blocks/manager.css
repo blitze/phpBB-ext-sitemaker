@@ -252,8 +252,12 @@
 	margin-top: 1em;
 }
 
+.editable-block {
+	margin: 1px;
+}
+
 .editable-block:hover {
-	border: 1px solid #d5f8a0;
+	outline: 1px solid #d5f8a0;
 }
 
 .message-container {

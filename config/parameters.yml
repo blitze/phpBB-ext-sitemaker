@@ -2,5 +2,6 @@ parameters:
     tables.primetime.blocks: %core.table_prefix%pt_blocks
     tables.primetime.blocks_config: %core.table_prefix%pt_blocks_config
     tables.primetime.block_routes: %core.table_prefix%pt_block_routes
+    tables.primetime.cblocks: %core.table_prefix%pt_cblocks
     tables.primetime.menu: %core.table_prefix%pt_menus
     tables.primetime.menu_items: %core.table_prefix%pt_menu_items

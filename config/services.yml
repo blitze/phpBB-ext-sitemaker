@@ -65,6 +65,8 @@ services:
             - @config
             - @dbal.conn
             - @primetime.core.blocks.manager
+            - %tables.primetime.blocks%
+            - %tables.primetime.cblocks%
         calls:
             - [set_name, [primetime.core.cron.blocks_cleanup]]
         tags:

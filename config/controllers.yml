@@ -5,6 +5,7 @@ services:
         arguments:
             - @auth
             - @config
+            - @service_container
             - @request
             - @user
             - @primetime.core.blocks.manager

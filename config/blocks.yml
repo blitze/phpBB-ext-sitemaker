@@ -62,7 +62,10 @@ services:
     primetime.core.blocks.html:
         class: primetime\core\blocks\html
         arguments:
+            - @cache
+            - @dbal.conn
             - @user
+            - %tables.primetime.cblocks%
         calls:
             - [set_name, [primetime.core.block.html]]
         tags:

@@ -9,6 +9,7 @@
 
 namespace primetime\core\controller;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 
 class blocks_admin
@@ -18,6 +19,9 @@ class blocks_admin
 
 	/** @var \phpbb\config\db */
 	protected $config;
+
+	/** @var Container */
+	protected $phpbb_container;
 
 	/** @var \phpbb\request\request_interface */
 	protected $request;
@@ -31,16 +35,18 @@ class blocks_admin
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth								$auth		Auth object
-	 * @param \phpbb\config\db								$config		Config object
-	 * @param \phpbb\request\request_interface				$request	Request object
-	 * @param \phpbb\user									$user		User object
-	 * @param \primetime\core\services\blocks\manager		$blocks		Block manager object
+	 * @param \phpbb\auth\auth								$auth				Auth object
+	 * @param \phpbb\config\db								$config				Config object
+	 * @param Container										$phpbb_container	Service container
+	 * @param \phpbb\request\request_interface				$request			Request object
+	 * @param \phpbb\user									$user				User object
+	 * @param \primetime\core\services\blocks\manager		$blocks				Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\core\services\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\core\services\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
+		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->user = $user;
 		$this->blocks = $blocks;
@@ -140,6 +146,20 @@ class blocks_admin
 				$this->config->set('primetime_startpage_controller', $this->request->variable('controller', ''));
 				$this->config->set('primetime_startpage_method', $this->request->variable('method', ''));
 				$this->config->set('primetime_startpage_params', $this->request->variable('params', ''));
+			break;
+			case 'custom':
+				$service = $this->request->variable('service', '');
+				$method = $this->request->variable('method', '');
+				$content = $this->request->variable('content', '', true);
+
+				if ($this->phpbb_container->has($service))
+				{
+					$return_data = $this->phpbb_container->get($service)->$method($id, $content);
+				}
+				else
+				{
+					$json_data['errors'] = $this->user->lang['SERVICE_NOT_FOUND'];
+				}
 			break;
 		}
 
