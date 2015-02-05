@@ -19,8 +19,19 @@
 
 .cms-block-content {
 	display: block;
+	clear: both;
 	overflow: hidden;
 	word-wrap: break-word;
+}
+
+.cms-block-content li {
+	list-style-type: inherit;
+}
+
+.cms-block-content ul,
+.cms-block-content ol {
+	margin-bottom: 1em;
+	margin-left: 3em;
 }
 
 .right-spacer {
@@ -563,6 +574,9 @@ nav ul.pt-list > li.nav-header > a:hover {
 
 .unit {
 	float: left;
+	        box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .unitRight {
@@ -624,7 +638,7 @@ nav ul.pt-list > li.nav-header > a:hover {
 		width: 50%;
 		max-width: 200px;
 		background-color: #8f929b;
-		z-index: 5000;
+		z-index: 100;
 		top: 0;
 	}
 
