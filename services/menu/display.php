@@ -69,7 +69,7 @@ class display extends \primetime\core\services\tree\display
 			$this_depth	= $parental_depth[$row['parent_id']] + 1;
 			$repeat		= abs($prev_depth - $this_depth);
 
-			if ($is_active === true || $this->expanded === true || ($row['left_id'] < $active_left_id && $row['right_id'] > $active_right_id))
+			if ($is_active === true || $this->expanded === true || !$row['item_url'] || ($row['left_id'] < $active_left_id && $row['right_id'] > $active_right_id))
 			{
 				$parental_depth[$row[$this->pk]] = $this_depth;
 			}

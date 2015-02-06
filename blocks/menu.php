@@ -101,8 +101,12 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) === false)
 		{
-			$this->tree->set_sql_condition('menu_id = ' . (int) $menu_id);
-			$sql = $this->tree->qet_tree_sql();
+			$sql_array = array(
+				'WHERE'	=> 't.menu_id = ' . (int) $menu_id,
+			);
+
+			$this->tree->set_sql_condition("item_title <> ''");
+			$sql = $this->tree->qet_tree_sql(0, false, $sql_array);
 			$result = $this->db->sql_query($sql);
 
 			$data = array();
@@ -110,16 +114,20 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
+				$url_info = array();
+				$item_url = $row['item_url'];
 				$url_info = parse_url($row['item_url']);
 
-				$item_url = $row['item_url'];
-				if (strpos($item_url, 'app.php') !== false && $this->config['enable_mod_rewrite'])
+				if ($item_url)
 				{
-					$item_url = $board_url . str_replace('app.php', '', $item_url);
-				}
-				else if (strpos($item_url, 'http') === false)
-				{
-					$item_url = $board_url . '/' . $item_url;
+					if (strpos($item_url, 'app.php') !== false && $this->config['enable_mod_rewrite'])
+					{
+						$item_url = $board_url . str_replace('app.php', '', $item_url);
+					}
+					else if (strpos($item_url, 'http') === false)
+					{
+						$item_url = $board_url . '/' . $item_url;
+					}
 				}
 				$data[$row['item_id']] = $row;
 				$data[$row['item_id']]['item_url'] = $item_url;
