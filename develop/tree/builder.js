@@ -339,6 +339,8 @@
 				var html = {};
 				var item = items.shift();
 
+				item['item_title'] = (item['item_title']) ? item['item_title'] : LANG.changeMe;
+
 				if (item['parent_id'] > 0) {
 					var parentObj = $('#item-' + item['parent_id']);
 					var children = parentObj.children(this.options.listType);
@@ -404,7 +406,7 @@
 			}
 
 			this.editing = true;
-			this.editorVal = element.text();
+			this.editorVal = (element.text() !== LANG.changeMe) ? element.text() : '';
 
 			element.replaceWith('<form id="inline-form"><input type="text" id="inline-edit" value="' + this.editorVal + '" /></form>');
 			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();
@@ -434,7 +436,7 @@
 				data[field] = val;
 				this._saveItem('edit', data, id, field);
 			} else {
-				this._undoEditable(this.editorVal);
+				this._undoEditable(this.editorVal ? this.editorVal : LANG.changeMe);
 			}
 
 			return false;

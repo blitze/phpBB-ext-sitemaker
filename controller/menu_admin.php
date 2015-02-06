@@ -67,7 +67,7 @@ class menu_admin
 
 				$return = array(
 					'menu_id'		=> (int) $menu_id,
-					'item_title'	=> $this->request->variable('item_title', $this->user->lang['CHANGE_ME'], true),
+					'item_title'	=> $this->request->variable('item_title', '', true),
 				);
 
 				if ($action == 'edit' && !$item_id)
