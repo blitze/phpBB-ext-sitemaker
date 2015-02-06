@@ -83,9 +83,11 @@ class html extends \primetime\core\services\blocks\driver\block
 			$this->cache->put($cblock, 'pt_cblocks');
 		}
 
+		$content = '';
 		if (isset($cblock[$bdata['bid']]))
 		{
 			$cblock = $cblock[$bdata['bid']];
+			$content = $this->parse($cblock);
 		}
 		else
 		{
@@ -96,12 +98,9 @@ class html extends \primetime\core\services\blocks\driver\block
 			);
 		}
 
-		$content = $this->parse($cblock);
-
 		if ($edit_mode !== false)
 		{
 			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
-
 			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable-block" data-service="primetime.core.blocks.html" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
 		}
 
@@ -113,12 +112,7 @@ class html extends \primetime\core\services\blocks\driver\block
 
 	private function parse($data)
 	{
-		$content = '';
-		if ($data['block_content'])
-		{
-			$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
-		}
-
+		$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
 		return html_entity_decode($content);
 	}
 }
