@@ -49,8 +49,9 @@
 
 		if (divisibleItems > 0) {
 			items.slice(0, divisibleItems).addClass('unit size1of' + numCols)
-				.filter(':nth-child(' + numCols + ')')
-					.addClass('lastUnit');
+				.filter(':nth-child(' + numCols + 'n)')
+					.addClass('lastUnit')
+					.after('<div class="clear"></div>');
 		}
 
 		if (itemsLeft) {
@@ -294,7 +295,7 @@
 					var content = editor.getContent({format: 'raw'});
 					var data = $('#' + editor.id).data('raw', content).data();
 
-					if (content.length > 0) {
+					if (editor.getContent().length > 0) {
 						if (content !== editorContent && content !== lang.placeholder) {
 							data.id = editor.id.substring(13);
 							data.content = content;
@@ -369,7 +370,7 @@
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
 				forcePlaceholderSize: true,
 				items: '.block',
-				cancel: '.editable-block',
+				cancel: '.editable-block, .inline-edit',
 				delay: 150,
 				dropOnEmpty: true,
 				tolerance: 'pointer',

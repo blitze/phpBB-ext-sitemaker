@@ -172,7 +172,7 @@
 .sorting {
 	display: block;
 	position: relative;
-	min-width: 200px;
+	width: 150px;
 }
 
 .dragging {
@@ -182,8 +182,8 @@
 
 .horizontal .sorting {
 	float: left;
-	width: 33%;
-	position: relative;
+	width: auto;
+	max-width: 150px;
 }
 
 .horizontal .size1of1 {
