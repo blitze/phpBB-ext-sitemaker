@@ -178,10 +178,11 @@ class listener implements EventSubscriberInterface
 	{
 		$controller_service = $this->config['primetime_startpage_controller'];
 
-		if ($this->user->page['page_name'] == 'index.php' && $this->phpbb_container->has($controller_service))
+		if ($this->user->page['page_name'] == 'index.php' && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
 		{
 			$controller_object = $this->phpbb_container->get($controller_service);
 			$controller_dir = explode('\\', get_class($controller_object));
+			define('STARTPAGE_IS_SET', 1);
 
 			// 0 vendor, 1 extension name, ...
 			if (!is_null($this->template) && isset($controller_dir[1]))
