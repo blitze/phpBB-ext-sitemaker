@@ -56,7 +56,7 @@ class query
 	/** @var array */
 	protected $topic_post_ids = array('first' => array(), 'last' => array());
 
-	/** @var array */
+	/** @var integer */
 	protected $cache_time = 10800; // caching for 3 hours
 
 	/**
