@@ -113,7 +113,7 @@ class blocks_admin
 				$data = array();
 				if ($field == 'title')
 				{
-					$data['title'] = ucwords(trim($this->request->variable('title', '')));
+					$data['title'] = ucwords(trim($this->request->variable('title', '', true)));
 				}
 				else
 				{
