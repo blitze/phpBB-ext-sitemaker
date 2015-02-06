@@ -293,9 +293,10 @@
 				var editorContent = '';
 				editor.on('blur', function(e) {
 					var content = editor.getContent({format: 'raw'});
-					var data = $('#' + editor.id).data('raw', content).data();
 
 					if (editor.getContent().length > 0) {
+						var data = $('#' + editor.id).data('raw', content).data();
+
 						if (content !== editorContent && content !== lang.placeholder) {
 							data.id = editor.id.substring(13);
 							data.content = content;
@@ -304,6 +305,8 @@
 						} else {
 							editor.setContent(editorPreview);
 						}
+					} else if (editorPreview) {
+						editor.setContent(editorPreview);
 					} else {
 						editor.setContent(lang.placeholder);
 					}
