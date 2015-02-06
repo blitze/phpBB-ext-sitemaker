@@ -150,7 +150,7 @@ class manager
 		$symfony_request = $this->phpbb_container->get('symfony_request');
 		$controller = $symfony_request->attributes->get('_controller');
 
-		if ($controller)
+		if ($controller && $controller !== 'primetime.core.forum.controller:handle')
 		{
 			list($controller_service, $controller_method) = explode(':', $controller);
 			$controller_params	= $symfony_request->attributes->get('_route_params');
@@ -168,12 +168,13 @@ class manager
 			}
 
 			list($namespace, $extension) = explode('\\', $controller_class);
+			$controller_arguments = join('/', $arguments);
 
 			$this->template->assign_vars(array(
 				'CONTROLLER_NAME'	=> $controller_service,
 				'CONTROLLER_METHOD'	=> $controller_method,
-				'CONTROLLER_PARAMS'	=> join('/', $arguments),
-				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service) ? true : false,
+				'CONTROLLER_PARAMS'	=> $controller_arguments,
+				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service && $this->config['primetime_startpage_params'] == $controller_arguments) ? true : false,
 				'UA_EXTENSION'		=> $namespace . '/' . $extension,
 			));
 		}
