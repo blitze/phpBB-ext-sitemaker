@@ -17,7 +17,7 @@ class featured_member extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\db */
+	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\db\driver\driver_interface */
@@ -39,14 +39,14 @@ class featured_member extends \primetime\core\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service					$cache					Cache object
-	 * @param \phpbb\config\db						$config					Config object
+	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\db\driver\driver_interface		$db	 					Database connection
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
 	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

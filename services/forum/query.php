@@ -14,7 +14,7 @@ class query
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\config\db */
+	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\content_visibility */
@@ -63,7 +63,7 @@ class query
 	 * Constructor
 	 * 
 	 * @param \phpbb\auth\auth						$auth					Auth object
-	 * @param \phpbb\config\db						$config					Config object
+	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface		$db     				Database connection
 	 * @param \phpbb\user							$user					User object
@@ -71,7 +71,7 @@ class query
 	 * @param string								$php_ext				php file extension
 	 * @param \primetime\core\services\util			$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\db $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\core\services\util $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\core\services\util $primetime)
 	{
 		$this->auth = $auth;
 		$this->config = $config;

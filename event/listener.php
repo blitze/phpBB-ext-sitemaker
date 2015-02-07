@@ -17,7 +17,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\db */
+	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var Container */
@@ -48,7 +48,7 @@ class listener implements EventSubscriberInterface
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache				Cache object
-	 * @param \phpbb\config\db							$config				Config object
+	 * @param \phpbb\config\config						$config				Config object
 	 * @param \phpbb\request\request_interface			$request			Request object
 	 * @param Container									$phpbb_container	Service container
 	 * @param \phpbb\template\template					$template			Template object
@@ -57,7 +57,7 @@ class listener implements EventSubscriberInterface
 	 * @param \primetime\core\services\blocks\display	$blocks				Blocks display object
 	 * @param string									$root_path			phpBB root path
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

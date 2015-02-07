@@ -22,7 +22,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\db */
+	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\user */
@@ -57,14 +57,14 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	 *
 	 * @param \phpbb\auth\auth						$auth				Permission object
 	 * @param \phpbb\cache\service					$cache				Cache object
-	 * @param \phpbb\config\db						$config				Config object
+	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\user							$user				User object
 	 * @param \primetime\core\services\forum\query	$forum				Forum object
 	 * @param \primetime\core\services\util			$primetime			Primetime Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\db $config, \phpbb\user $user, \primetime\core\services\forum\query $forum, \primetime\core\services\util $primetime, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \primetime\core\services\forum\query $forum, \primetime\core\services\util $primetime, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;

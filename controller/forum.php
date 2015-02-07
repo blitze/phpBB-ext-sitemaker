@@ -11,7 +11,7 @@ namespace primetime\core\controller;
 
 class forum
 {
-	/** @var \phpbb\config\db */
+	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\controller\helper */
@@ -32,14 +32,14 @@ class forum
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\db				$config			Config object
+	 * @param \phpbb\config\config			$config			Config object
 	 * @param \phpbb\controller\helper		$helper			Controller Helper object
 	 * @param \phpbb\template\template		$template		Template object
 	 * @param \phpbb\user					$user			User object
 	 * @param string						$root_path		phpBB root path
 	 * @param string						$php_ext		phpEx
 	 */
-	public function __construct(\phpbb\config\db $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
