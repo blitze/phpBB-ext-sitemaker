@@ -2,7 +2,7 @@
 
 phpBB Primetime is an Extension for [phpBB 3.1](https://www.phpbb.com/)
 
-[![Build Status](https://travis-ci.org/blitze/primetime.svg?branch=develop)](https://travis-ci.org/blitze/primetime)
+[![Build Status](https://scrutinizer-ci.com/g/blitze/primetime/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/blitze/primetime/build-status/develop) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/blitze/primetime/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/blitze/primetime/?branch=develop)
 
 ## Description
 
@@ -13,6 +13,12 @@ phpBB Primetime creates a CMS base around your phpBB 3.1 installation
 * Customize your site using blocks of content
 * Drag and drop interface for adding/removing blocks
 * Customizable block display - background color, title, etc
+* Set any front-facing controller as your site's landing page
+* Create layouts for each page or set a default layout for your entire site
+* Icon picker for choosing blocks/menu icons using font awesome
+* Limit access to specific blocks based on group memberships
+* Create Menus with nested lists
+* Create blocks with your own content using html/bbcode
 
 
 ## Installation
