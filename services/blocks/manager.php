@@ -147,39 +147,8 @@ class manager
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$symfony_request = $this->phpbb_container->get('symfony_request');
-		$controller = $symfony_request->attributes->get('_controller');
-
-		if ($controller && $controller !== 'primetime.core.forum.controller:handle')
-		{
-			list($controller_service, $controller_method) = explode(':', $controller);
-			$controller_params	= $symfony_request->attributes->get('_route_params');
-			$controller_object	= $this->phpbb_container->get($controller_service);
-			$controller_class	= get_class($controller_object);
-
-			$r = new \ReflectionMethod($controller_class, $controller_method);
-			$params = $r->getParameters();
-
-			$arguments = array();
-			foreach ($params as $param)
-			{
-				$name = $param->getName();
-				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
-			}
-
-			list($namespace, $extension) = explode('\\', $controller_class);
-			$controller_arguments = join('/', $arguments);
-
-			$this->template->assign_vars(array(
-				'CONTROLLER_NAME'	=> $controller_service,
-				'CONTROLLER_METHOD'	=> $controller_method,
-				'CONTROLLER_PARAMS'	=> $controller_arguments,
-				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service && $this->config['primetime_startpage_params'] == $controller_arguments) ? true : false,
-				'UA_EXTENSION'		=> $namespace . '/' . $extension,
-			));
-		}
-
 		$this->get_available_blocks();
+		$this->get_startpage_options();
 
 		$this->template->assign_vars(array(
 			'S_EDIT_MODE'		=> true,
@@ -223,6 +192,41 @@ class manager
 				'NAME'		=> (isset($this->user->lang[$lname])) ? $this->user->lang[$lname] : $name,
 				'SERVICE'	=> $service)
 			);
+		}
+	}
+
+	public function get_startpage_options()
+	{
+		$symfony_request = $this->phpbb_container->get('symfony_request');
+		$controller = $symfony_request->attributes->get('_controller');
+
+		if ($controller && $controller !== 'primetime.core.forum.controller:handle')
+		{
+			list($controller_service, $controller_method) = explode(':', $controller);
+			$controller_params	= $symfony_request->attributes->get('_route_params');
+			$controller_object	= $this->phpbb_container->get($controller_service);
+			$controller_class	= get_class($controller_object);
+
+			$r = new \ReflectionMethod($controller_class, $controller_method);
+			$params = $r->getParameters();
+
+			$arguments = array();
+			foreach ($params as $param)
+			{
+				$name = $param->getName();
+				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
+			}
+
+			list($namespace, $extension) = explode('\\', $controller_class);
+			$controller_arguments = join('/', $arguments);
+
+			$this->template->assign_vars(array(
+				'CONTROLLER_NAME'	=> $controller_service,
+				'CONTROLLER_METHOD'	=> $controller_method,
+				'CONTROLLER_PARAMS'	=> $controller_arguments,
+				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service && $this->config['primetime_startpage_params'] == $controller_arguments) ? true : false,
+				'UA_EXTENSION'		=> $namespace . '/' . $extension,
+			));
 		}
 	}
 
@@ -1000,61 +1004,10 @@ class manager
 				continue;
 			}
 
-			$type = explode(':', $vars['type']);
-
 			$l_explain = $explain = '';
-			if (!empty($vars['explain']))
-			{
-				$explain = $vars['explain'];
-
-				if (isset($vars['lang_explain']))
-				{
-					$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
-				}
-				else
-				{
-					$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
-				}
-			}
-
-			if (!empty($vars['append']))
-			{
-				$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
-			}
-
 			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 
-			if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
-			{
-				// this looks bad but its the only way without modifying phpbb code
-				// this is for select items that do not need to be translated
-				$options = $vars['params'][0];
-				$this->add_lang_vars($options);
-			}
-
-			switch ($type[0])
-			{
-				case 'select':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
-				break;
-				case 'checkbox':
-				case 'multi_select':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
-					$vars['params'][] = $config_key;
-					$type[0] = 'custom';
-
-					if (!empty($db_settings[$config_key]))
-					{
-						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
-					}
-				break;
-				case 'hidden':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
-					$type[0] = 'custom';
-				break;
-			}
-
-			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
+			$content = $this->get_config_field($config_key, $db_settings, $vars);
 
 			if (empty($content))
 			{
@@ -1064,12 +1017,69 @@ class manager
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $config_key,
 				'TITLE'			=> (!empty($vars['lang'])) ? ((isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang']) : '',
-				'S_EXPLAIN'		=> $explain,
-				'TITLE_EXPLAIN'	=> $l_explain,
+				'S_EXPLAIN'		=> $vars['explain'],
+				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
 				'CONTENT'		=> $content)
 			);
 			unset($default_settings[$config_key]);
 		}
+	}
+
+	private function get_config_field($config_key, &$db_settings, &$vars)
+	{
+		$type = explode(':', $vars['type']);
+
+		$l_explain = '';
+		if (!empty($vars['explain']))
+		{
+			if (isset($vars['lang_explain']))
+			{
+				$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
+			}
+			else
+			{
+				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+			}
+		}
+
+		$vars['lang_explain'] = $l_explain;
+
+		if (!empty($vars['append']))
+		{
+			$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
+		}
+
+		if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
+		{
+			// this looks bad but its the only way without modifying phpbb code
+			// this is for select items that do not need to be translated
+			$options = $vars['params'][0];
+			$this->add_lang_vars($options);
+		}
+
+		switch ($type[0])
+		{
+			case 'select':
+				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
+			break;
+			case 'checkbox':
+			case 'multi_select':
+				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
+				$vars['params'][] = $config_key;
+				$type[0] = 'custom';
+
+				if (!empty($db_settings[$config_key]))
+				{
+					$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
+				}
+			break;
+			case 'hidden':
+				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
+				$type[0] = 'custom';
+			break;
+		}
+
+		return build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 	}
 
 	/**
