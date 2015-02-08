@@ -114,7 +114,6 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$url_info = array();
 				$item_url = $row['item_url'];
 				$url_info = parse_url($row['item_url']);
 
