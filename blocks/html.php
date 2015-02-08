@@ -17,6 +17,9 @@ class html extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\user */
 	protected $user;
 
