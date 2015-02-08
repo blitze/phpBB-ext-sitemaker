@@ -119,12 +119,11 @@
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 
 		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
-			if (resp.id === '') {
-				return;
-			}
-
-			block.html(template.render(resp));
 			dialogEdit.dialog('close');
+
+			$.each(resp, function(i, data) {
+				$('#block-' + data.id).html(template.render(data));
+			});
 		});
 	};
 

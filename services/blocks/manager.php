@@ -64,7 +64,7 @@ class manager
 	/** @var string */
 	private $def_icon;
 
-	/** @var int */
+	/** @var integer */
 	private $style_id = 0;
 
 	/**
@@ -404,14 +404,13 @@ class manager
 	 */
 	public function add($service, $route)
 	{
+		if (!$this->block_exists($service))
+		{
+			return array();
+		}
+
 		$position = $this->request->variable('position', '');
 		$weight = $this->request->variable('weight', 0);
-
-		if (!$this->phpbb_container->has($service))
-		{
-			$this->return_data['errors'] = $this->user->lang['BLOCK_NOT_FOUND'];
-			return;
-		}
 
 		$b = $this->phpbb_container->get($service);
 		$b->set_template($this->ptemplate);
@@ -473,9 +472,9 @@ class manager
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
 
-		if (!$this->phpbb_container->has($bdata['name']))
+		if (!$this->block_exists($bdata['name']))
 		{
-			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
+			return array();
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
@@ -533,17 +532,12 @@ class manager
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
 
-		$this->template->assign_vars(array(
-			'S_ACTIVE'		=> $bdata['status'],
-			'S_TYPE'		=> $bdata['type'],
-			'S_NO_WRAP'		=> $bdata['no_wrap'],
-			'S_HIDE_TITLE'	=> $bdata['hide_title'],
-			'S_BLOCK_CLASS'	=> trim($bdata['class']))
+		$this->template->assign_vars(array()
 		);
 
-		if (!$this->phpbb_container->has($bdata['name']))
+		if (!$this->block_exists($bdata['name']))
 		{
-			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
+			return array();
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
@@ -551,99 +545,18 @@ class manager
 		$default_settings = $b->get_config($db_settings);
 
 		// Output relevant settings
-		foreach ($default_settings as $config_key => $vars)
-		{
-			if (!is_array($vars) && strpos($config_key, 'legend') === false)
-			{
-				continue;
-			}
-
-			if (strpos($config_key, 'legend') !== false)
-			{
-				$this->template->assign_block_vars('options', array(
-					'S_LEGEND'	=> $config_key,
-					'LEGEND'	=> (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
-				);
-
-				continue;
-			}
-
-			$type = explode(':', $vars['type']);
-
-			$l_explain = $explain = '';
-			if (!empty($vars['explain']))
-			{
-				$explain = $vars['explain'];
-
-				if (isset($vars['lang_explain']))
-				{
-					$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
-				}
-				else
-				{
-					$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
-				}
-			}
-
-			if (!empty($vars['append']))
-			{
-				$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
-			}
-
-			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
-
-			if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
-			{
-				// this looks bad but its the only way without modifying phpbb code
-				// this is for select items that do not need to be translated
-				$options = $vars['params'][0];
-				$this->add_lang_vars($options);
-			}
-
-			switch ($type[0])
-			{
-				case 'select':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
-				break;
-				case 'checkbox':
-				case 'multi_select':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
-					$vars['params'][] = $config_key;
-					$type[0] = 'custom';
-
-					if (!empty($db_settings[$config_key]))
-					{
-						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
-					}
-				break;
-				case 'hidden':
-					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
-					$type[0] = 'custom';
-				break;
-			}
-
-			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
-
-			if (empty($content))
-			{
-				continue;
-			}
-
-			$this->template->assign_block_vars('options', array(
-				'KEY'			=> $config_key,
-				'TITLE'			=> (!empty($vars['lang'])) ? ((isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang']) : '',
-				'S_EXPLAIN'		=> $explain,
-				'TITLE_EXPLAIN'	=> $l_explain,
-				'CONTENT'		=> $content)
-			);
-			unset($default_settings[$config_key]);
-		}
+		$this->generate_config_fields($db_settings, $default_settings);
 
 		$bdata['settings'] = $db_settings;
 		$bdata['no_wrap'] = (bool) $bdata['no_wrap'];
 		$bdata['hide_title'] = (bool) $bdata['hide_title'];
 
 		$this->template->assign_vars(array(
+			'S_ACTIVE'		=> $bdata['status'],
+			'S_TYPE'		=> $bdata['type'],
+			'S_NO_WRAP'		=> $bdata['no_wrap'],
+			'S_HIDE_TITLE'	=> $bdata['hide_title'],
+			'S_BLOCK_CLASS'	=> trim($bdata['class']),
 			'S_GROUP_OPS'	=> $this->get_groups('options', $bdata['permission']))
 		);
 
@@ -663,6 +576,10 @@ class manager
 
 	/**
 	 * Save Edit Form
+	 *
+	 * @param	integer		$bid		Block id
+	 * @param	string		$route		Routte
+	 * @return	array		Return array of all updated blocks 
 	 */
 	public function save($bid, $route)
 	{
@@ -671,12 +588,12 @@ class manager
 			include($this->root_path . 'includes/functions_acp.' . $this->php_ext);
 		}
 
-		$bdata = $this->get_block_data($bid);
-		$settings = array();
+		$settings	= array();
+		$bdata		= $this->get_block_data($bid);
 
-		if (!$this->phpbb_container->has($bdata['name']))
+		if (!$this->block_exists($bdata['name']))
 		{
-			return array('errors' => $this->user->lang['BLOCK_NOT_FOUND']);
+			return array();
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
@@ -716,55 +633,38 @@ class manager
 			'hash'			=> '',
 		);
 
+		$updated_blocks = array();
 		if (is_array($cfg_array) && sizeof($cfg_array))
 		{
-			$sql_ary = array();
-			foreach ($cfg_array as $var => $val)
-			{
-				$bdata['settings'][$var] = $val;
-				$sql_ary[] = array(
-					'bid'		=> $bid,
-					'bvar'		=> $var,
-					'bval'		=> $val,
-				);
-			}
+			$bdata['settings'] = $this->save_settings($bid, $cfg_array, $df_settings);
 
 			$old_hash = $bdata['hash'];
 			$new_hash = md5(join('', $bdata['settings']));
-			$this->save_settings($bid, $sql_ary, $df_settings);
 
+			// settings have changed and we want to update similar blocks
 			if ($update_similar && $new_hash != $old_hash)
 			{
-				// grab all blocks with same settings
-				$sql_where = array(
-					'b.bid <> ' . (int) $bid,
-					"b.hash = '" . $this->db->sql_escape($old_hash) . "'",
-				);
-				$similar_blocks = $this->get_blocks('', 'data', $sql_where);
+				$similar_blocks = $this->update_similar_blocks($bid, $cfg_array, $bdata['settings'], $old_hash, $new_hash);
 
+				// Get similar blocks for this route
 				if (sizeof($similar_blocks))
 				{
-					$similar_blocks_config = $this->get_block_config(array_keys($similar_blocks));
-
-					foreach ($similar_blocks as $id => $block)
-					{
-						for ($i = 0, $size = sizeof($sql_ary); $i < $size; $i++)
-						{
-							$sql_ary[$i]['bid'] = $id;
-						}
-
-						$b = $this->phpbb_container->get($block['name']);
-						$df_settings = $b->get_config(isset($similar_blocks_config[$id]) ? $similar_blocks_config[$id] : array());
-
-						$this->save_settings($block['bid'], $sql_ary, $df_settings);
-					}
+					$updated_blocks = array_intersect_key(
+						$similar_blocks,
+						$this->get_blocks($route, 'data', array(
+							'b.style = ' . (int) $this->style_id,
+							$this->db->sql_in_set('b.bid', array_keys($similar_blocks))
+						))
+					);
 				}
 			}
 
 			$sql_data['hash'] = $new_hash;
 		}
 
-		return $this->update($bid, $sql_data);
+		$updated_blocks[$bid] = $this->update($bid, $sql_data);
+
+		return $updated_blocks;
 	}
 
 	/**
@@ -975,8 +875,12 @@ class manager
 	{
 		$def_sql_where = array(
 			'b.style = ' . $this->style_id,
-			"r.route = '" . $this->db->sql_escape($route) . "'",
 		);
+
+		if ($route)
+		{
+			$def_sql_where[] = "r.route = '" . $this->db->sql_escape($route) . "'";
+		}
 
 		$sql_where = (sizeof($sql_where_array)) ? $sql_where_array : $def_sql_where;
 
@@ -1055,6 +959,117 @@ class manager
 	public function set_style($style_id)
 	{
 		$this->style_id = (int) $style_id;
+	}
+
+	/**
+	 * Check if block exists
+	 *
+	 * @param	string	$service_name	Service name of block
+	 * @return	bool
+	 */
+	private function block_exists($service_name)
+	{
+		if (!$this->phpbb_container->has($service_name))
+		{
+			$this->return_data['errors'] = $this->user->lang['BLOCK_NOT_FOUND'];
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Generate block configuration fields
+	 */
+	private function generate_config_fields(&$db_settings, $default_settings)
+	{
+		foreach ($default_settings as $config_key => $vars)
+		{
+			if (!is_array($vars) && strpos($config_key, 'legend') === false)
+			{
+				continue;
+			}
+
+			if (strpos($config_key, 'legend') !== false)
+			{
+				$this->template->assign_block_vars('options', array(
+					'S_LEGEND'	=> $config_key,
+					'LEGEND'	=> (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
+				);
+
+				continue;
+			}
+
+			$type = explode(':', $vars['type']);
+
+			$l_explain = $explain = '';
+			if (!empty($vars['explain']))
+			{
+				$explain = $vars['explain'];
+
+				if (isset($vars['lang_explain']))
+				{
+					$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
+				}
+				else
+				{
+					$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+				}
+			}
+
+			if (!empty($vars['append']))
+			{
+				$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
+			}
+
+			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
+
+			if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
+			{
+				// this looks bad but its the only way without modifying phpbb code
+				// this is for select items that do not need to be translated
+				$options = $vars['params'][0];
+				$this->add_lang_vars($options);
+			}
+
+			switch ($type[0])
+			{
+				case 'select':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
+				break;
+				case 'checkbox':
+				case 'multi_select':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
+					$vars['params'][] = $config_key;
+					$type[0] = 'custom';
+
+					if (!empty($db_settings[$config_key]))
+					{
+						$db_settings[$config_key] = explode(',', $db_settings[$config_key]);
+					}
+				break;
+				case 'hidden':
+					$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
+					$type[0] = 'custom';
+				break;
+			}
+
+			$content = build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
+
+			if (empty($content))
+			{
+				continue;
+			}
+
+			$this->template->assign_block_vars('options', array(
+				'KEY'			=> $config_key,
+				'TITLE'			=> (!empty($vars['lang'])) ? ((isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang']) : '',
+				'S_EXPLAIN'		=> $explain,
+				'TITLE_EXPLAIN'	=> $l_explain,
+				'CONTENT'		=> $content)
+			);
+			unset($default_settings[$config_key]);
+		}
 	}
 
 	/**
@@ -1224,14 +1239,55 @@ class manager
 		return ($mode == 'data') ? $data : $options;
 	}
 
-	private function save_settings($bid, $sql_config_data, $df_settings)
+	private function update_similar_blocks($block_id, $cfg_array, $settings, $old_hash, $new_hash)
 	{
+		// grab all blocks with same settings
+		$similar_blocks = $this->get_blocks('', 'data', array(
+			'b.bid <> ' . (int) $block_id,
+			"b.hash = '" . $this->db->sql_escape($old_hash) . "'",
+		));
+
+		if (!sizeof($similar_blocks))
+		{
+			return array();
+		}
+
+		$blocks = array();
+		foreach ($similar_blocks as $bid => $block)
+		{
+			if ($this->block_exists($block['name']))
+			{
+				$this->save_settings($bid, $cfg_array, $settings);
+				$blocks[$bid] = $this->update($bid, array(
+					'hash'	=> $new_hash
+				));
+			}
+		}
+
+		return $blocks;
+	}
+
+	private function save_settings($bid, $cfg_array, $df_settings)
+	{
+		$sql_ary = $settings = array();
+		foreach ($cfg_array as $var => $val)
+		{
+			$sql_ary[] = array(
+				'bid'		=> $bid,
+				'bvar'		=> $var,
+				'bval'		=> $val,
+			);
+
+			settype($val, gettype($df_settings[$var]['default']));
+			$settings[$var] = $val;
+		}
+
 		// just remove old values and replace
 		$this->delete_block_config($bid);
-		$this->db->sql_multi_insert($this->blocks_config_table, $sql_config_data);
+		$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 
 		/**
-		 * This is used by blocks that cache their own data.This
+		 * This is used by blocks that cache their own data.
 		 *
 		 * Set hidden field in block config called 'cache_name' with the name of the cache
 		 * The cache will be cleared everytime the block is settings are changed
@@ -1240,5 +1296,7 @@ class manager
 		{
 			$this->cache->destroy($df_settings['cache_name']);
 		}
+
+		return $settings;
 	}
 }
