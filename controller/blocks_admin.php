@@ -122,7 +122,7 @@ class blocks_admin
 				$return_data = $this->blocks->update($id, $data);
 			break;
 			case 'delete_blocks':
-				$this->blocks->delete_route_blocks($route);
+				$this->blocks->delete_blocks_by_route($route);
 			break;
 			case 'save_layout':
 				$return_data = $this->blocks->save_layout($route);
