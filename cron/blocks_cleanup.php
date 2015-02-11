@@ -39,7 +39,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	{
 		$this->config = $config;
 		$this->db = $db;
-		$this->manger = $manager;
+		$this->manager = $manager;
 		$this->blocks_table = $blocks_table;
 		$this->cblocks_table = $cblocks_table;
 	}
@@ -51,19 +51,41 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	public function run()
 	{
-		$routes = $this->manager->get_all_routes();
+		$routes_ary	= $this->manager->get_all_routes();
+		$style_ids	= $this->get_style_ids();
+		$board_url	= generate_board_url();
 
 		$this->config->set('primetime_blocks_cleanup_last_gc', time());
 
-		foreach ($routes as $style_id => $style_routes)
+		$routes = array();
+		foreach ($routes_ary as $style_id => $style_routes)
 		{
+			// Style no longer exists => remove all routes and blocks for style
 			if (!isset($style_ids[$style_id]))
 			{
+				$this->manager->delete_blocks_by_style($style_id);
+
 				continue;
 			}
 
+			$routes += $style_routes;
 		}
 
+		foreach ($routes as $route => $row)
+		{
+			$url = $board_url . '/' . (($row['ext_name']) ? 'app.php' : '') . $row['route'];
+
+			$file_headers = @get_headers($url);
+
+			// Route no longer exists => remove all blocks for route
+			if ($file_headers[0] !== 'HTTP/1.1 200 OK')
+			{
+				$this->manager->set_style($row['style']);
+				$this->manager->delete_blocks_by_route($route);
+			}
+		}
+
+		$this->clean_blocks();
 		$this->clean_custom_blocks();
 	}
 
@@ -116,5 +138,48 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		{
 			$this->db->sql_query('DELETE FROM ' . $this->cblocks_table . ' WHERE ' . $this->db->sql_in_set('block_id', $block_ids));
 		}
+	}
+
+	private function clean_blocks()
+	{
+		$sql = $this->db->sql_build_query('SELECT', array(
+            'SELECT'	=> 'b.name',
+            'FROM'		=> array(
+                $this->blocks_table    => 'b',
+            ),
+			'GROUP_BY'	=> 'b.name'
+        ));
+        $result = $this->db->sql_query($sql);
+
+		$blocks = array();
+        while ($row = $this->db->sql_fetchrow($result))
+        {
+			if (!$this->manager->block_exists($row['name']))
+			{
+            	$blocks[] = $row['name'];
+			}
+        }
+        $this->db->sql_freeresult($result);
+
+		if (sizeof($blocks))
+		{
+			$this->manager->delete_blocks_by_name($blocks);
+		}
+	}
+
+	private function get_style_ids()
+	{
+		$sql = 'SELECT style_id, style_name
+			FROM ' . STYLES_TABLE;
+		$result = $this->db->sql_query($sql);
+
+		$style_ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$style_ids[$row['style_id']] = $row['style_name'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $style_ids;
 	}
 }

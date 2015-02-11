@@ -238,8 +238,7 @@ class manager
 		if (($routes = $this->cache->get('primetime_block_routes')) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->block_routes_table . '
-				WHERE style = ' . $this->style_id;
+				FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
 
 			$routes = array();
@@ -914,55 +913,84 @@ class manager
 		return ($return == 'id') ? array_keys($blocks) : $blocks;
 	}
 
-	/**
-	 * Delete all blocks provided by a particular extension
-	 */
-	public function delete_ext_blocks($ext_name)
+	public function set_style($style_id)
 	{
-		$sql_array = array(
-			'SELECT'	=> 'b.bid',
+		$this->style_id = (int) $style_id;
+	}
 
-			'FROM'	  => array(
-				$this->blocks_table			=> 'b',
-				$this->block_routes_table	=> 'r',
-			),
+	/**
+	 * Delete all blocks and routes for a specific style
+	 */
+	public function delete_blocks_by_style($style_id)
+	{
+		$this->set_style($style_id);
+		$block_ids = $this->get_blocks('', 'data');
+		$this->delete_blocks($block_ids);
 
-			'WHERE'	 => "b.route_id = r.route_id
-				AND r.ext_name = '" . $this->db->sql_escape($ext_name) . "'",
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-
-		$blocks = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$blocks[] = $row['bid'];
-		}
-		$this->db->sql_freeresult($result);
-
-		$this->delete_blocks($blocks);
-
-		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . " WHERE ext_name = '" . $this->db->sql_escape($ext_name) . "'");
+		// Delete all routes for this style
+		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . ' WHERE style = ' . (int) $style_id);
 		$this->cache->destroy('primetime_block_routes');
 	}
 
 	/**
-	 * Delete all blocks for a particular route
+	 * Delete all blocks for a particular route across styles
 	 */
-	public function delete_route_blocks($route)
+	public function delete_blocks_by_route($route, $update_route = true)
 	{
 		$block_ids = $this->get_blocks($route, 'id');
 		$this->delete_blocks($block_ids);
 
 		// update route info
-		$route_id = $this->get_route_id($route);
-		$this->update_route($route_id, array('has_blocks' => false));
+		if ($update_route)
+		{
+			$route_info = $this->get_route_info($route);
+
+			$this->set_route_prefs($route, array(
+				'hide_blocks'	=> (bool) $route_info['hide_blocks'],
+				'ex_positions'	=> join(',', $route_info['ex_positions']),
+			));
+		}
 	}
 
-	public function set_style($style_id)
+	/**
+	 * Delete all instances of a block across styles/routes
+	 */
+	public function delete_blocks_by_name($service_name)
 	{
-		$this->style_id = (int) $style_id;
+		$service_name = is_array($service_name) ? $service_name : array($service_name);
+
+		$sql_array = array(
+			'SELECT'	=> 'b.bid, b.route_id, b.style, b.weight, b.position',
+
+			'FROM'	  => array(
+				$this->blocks_table		=> 'b',
+			),
+
+			'WHERE'	 => $this->db->sql_in_set('b.name', $service_name),
+		);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+
+		$block_ids = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$style	= (int) $row['style'];
+			$route	= (int) $row['route_id'];
+			$weight	= (int) $row['weight'];
+			$pos	= $this->db->sql_escape($row['position']);
+
+			$block_ids[] = (int) $row['bid'];
+			$this->db->sql_query('UPDATE ' . $this->blocks_table . "
+				SET weight = weight - 1
+				WHERE weight > $weight
+					AND style = $style
+					AND route_id = $route
+					AND position = '$pos'");
+		}
+		$this->db->sql_freeresult($result);
+
+		$this->delete_blocks($block_ids);
 	}
 
 	/**
@@ -971,11 +999,11 @@ class manager
 	 * @param	string	$service_name	Service name of block
 	 * @return	bool
 	 */
-	private function block_exists($service_name)
+	public function block_exists($service_name)
 	{
 		if (!$this->phpbb_container->has($service_name))
 		{
-			$this->return_data['errors'] = $this->user->lang['BLOCK_NOT_FOUND'];
+			$this->return_data['errors'] = 'BLOCK_NOT_FOUND';
 			return false;
 		}
 
@@ -1004,7 +1032,6 @@ class manager
 				continue;
 			}
 
-			$l_explain = $explain = '';
 			$db_settings[$config_key] = (isset($db_settings[$config_key])) ? $db_settings[$config_key] : $vars['default'];
 
 			$content = $this->get_config_field($config_key, $db_settings, $vars);
@@ -1186,14 +1213,10 @@ class manager
 		$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $bid));
 	}
 
-	private function delete_blocks($block_ids, $delete_config = true)
+	private function delete_blocks($block_ids, $delete_config = true, $update_weight = false)
 	{
-		if (!is_array($block_ids))
-		{
-			$block_ids = array($block_ids);
-		}
+		$block_ids = array_filter((is_array($block_ids)) ? $block_ids : array($block_ids));
 
-		$block_ids = array_filter($block_ids);
 		if (!sizeof($block_ids))
 		{
 			return;
