@@ -10,9 +10,9 @@
 namespace primetime\core\blocks;
 
 /**
- * HTML Block
+ * Custom Block
  */
-class html extends \primetime\core\services\blocks\driver\block
+class custom extends \primetime\core\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
