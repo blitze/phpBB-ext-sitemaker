@@ -10,8 +10,8 @@
 			<li<!-- IF tree.S_ACTIVE --> class="active"<!-- ENDIF -->>
 				<a href="{tree.ITEM_URL}"><i class="{tree.ITEM_ICON}"></i> {tree.ITEM_TITLE}</a>
 		<!-- ELSE -->
-			<li class="nav-header">
-				<a><i class="{tree.ITEM_ICON}"></i> {tree.ITEM_TITLE}</a>
+			<li>
+				&nbsp;<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON}"></i> {tree.ITEM_TITLE}<!-- ENDIF --><hr />
 		<!-- ENDIF -->
 		<!-- IF tree.S_NUM_KIDS == 0 -->
 			</li>

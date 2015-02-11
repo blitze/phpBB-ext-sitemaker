@@ -99,7 +99,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 			);
 		}
 
-		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) === false)
+		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) !== false)
 		{
 			$sql_array = array(
 				'WHERE'	=> 't.menu_id = ' . (int) $menu_id,
@@ -114,24 +114,28 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$item_url = $row['item_url'];
 				$url_info = parse_url($row['item_url']);
 
-				if ($item_url)
+				$row['url_path']	= (isset($url_info['path'])) ? $url_info['path'] : '';
+				$row['url_query']	= (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+
+				if ($row['item_url'] && $row['item_url'] !== '-')
 				{
-					if (strpos($item_url, 'app.php') !== false && $this->config['enable_mod_rewrite'])
+					if (strpos($row['item_url'], 'app.php') !== false && $this->config['enable_mod_rewrite'])
 					{
-						$item_url = $board_url . str_replace('app.php', '', $item_url);
+						$row['item_url'] = $board_url . str_replace('app.php', '', $row['item_url']);
 					}
-					else if (strpos($item_url, 'http') === false)
+					else if (strpos($row['item_url'], 'http') === false)
 					{
-						$item_url = $board_url . '/' . $item_url;
+						$row['item_url'] = $board_url . '/' . $row['item_url'];
 					}
 				}
+				else
+				{
+					$row['item_url'] = '';
+				}
+
 				$data[$row['item_id']] = $row;
-				$data[$row['item_id']]['item_url'] = $item_url;
-				$data[$row['item_id']]['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
-				$data[$row['item_id']]['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
 			}
 			$this->db->sql_freeresult($result);
 
