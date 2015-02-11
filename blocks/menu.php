@@ -99,7 +99,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 			);
 		}
 
-		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) !== false)
+		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) === false)
 		{
 			$sql_array = array(
 				'WHERE'	=> 't.menu_id = ' . (int) $menu_id,
@@ -118,22 +118,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 				$row['url_path']	= (isset($url_info['path'])) ? $url_info['path'] : '';
 				$row['url_query']	= (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
-
-				if ($row['item_url'] && $row['item_url'] !== '-')
-				{
-					if (strpos($row['item_url'], 'app.php') !== false && $this->config['enable_mod_rewrite'])
-					{
-						$row['item_url'] = $board_url . str_replace('app.php', '', $row['item_url']);
-					}
-					else if (strpos($row['item_url'], 'http') === false)
-					{
-						$row['item_url'] = $board_url . '/' . $row['item_url'];
-					}
-				}
-				else
-				{
-					$row['item_url'] = '';
-				}
+				$row['item_url']	= $this->get_item_url($row['item_url'], $board_url);
 
 				$data[$row['item_id']] = $row;
 			}
@@ -150,5 +135,26 @@ class menu extends \primetime\core\services\blocks\driver\block
 			'title'     => $title,
 			'content'   => $this->ptemplate->render_view('primetime/core', 'blocks/menu.html', 'menu_block'),
 		);
+	}
+
+	private function get_item_url($item_url, $board_url)
+	{
+		if ($item_url && $item_url !== '-')
+		{
+			if (strpos($item_url, 'app.php') !== false && $this->config['enable_mod_rewrite'])
+			{
+				$item_url = $board_url . str_replace('app.php', '', $item_url);
+			}
+			else if (strpos($item_url, 'http') === false)
+			{
+				$item_url = $board_url . '/' . $item_url;
+			}
+		}
+		else
+		{
+			$item_url = '';
+		}
+
+		return $item_url;
 	}
 }
