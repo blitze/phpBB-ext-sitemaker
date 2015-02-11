@@ -1213,7 +1213,7 @@ class manager
 		$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $bid));
 	}
 
-	private function delete_blocks($block_ids, $delete_config = true, $update_weight = false)
+	private function delete_blocks($block_ids, $delete_config = true)
 	{
 		$block_ids = array_filter((is_array($block_ids)) ? $block_ids : array($block_ids));
 
