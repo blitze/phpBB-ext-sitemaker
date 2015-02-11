@@ -41,7 +41,7 @@ class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 			'add_tables'	=> array(
 				$this->table_prefix . 'pt_cblocks' => array(
 					'COLUMNS'		=> array(
-						'block_id'			=> array('UINT', NULL, 'auto_increment'),
+						'block_id'			=> array('UINT', null, 'auto_increment'),
 						'block_content'		=> array('TEXT_UNI', ''),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_options'	=> array('UINT:11', 7),
