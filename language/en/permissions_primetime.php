@@ -22,6 +22,8 @@ if (empty($lang) || !is_array($lang))
 
 // Admin Permissions
 $lang = array_merge($lang, array(
-	'ACL_CAT_PRIMETIME'		=> 'Primetime',
 	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',
+	'ACL_CAT_PRIMETIME'		=> 'Primetime',
 ));
+
+?>

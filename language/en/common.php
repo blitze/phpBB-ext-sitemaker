@@ -21,63 +21,71 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'HELP'					=> 'Help',
-	'MENU'					=> 'Menu',
-	'WELCOME'				=> 'Welcome',
-	'BLOCK_TITLE'			=> 'Block Title',
-	'JOIN_DATE'				=> 'Join Date',
-	'MEMBERS_DATE'			=> 'Date',
-	'POLL'					=> 'Poll',
-	'SESSION_HIDE_ME'		=> 'Hide Me',
-	'CHANGE_ME'				=> 'Change Me',
+	'ALL'							=> 'All',
+	'ALL_TIME'						=> 'All Time',
 
-	'FEATURED_MEMBER'		=> 'Featured Member',
-	'RECENT_MEMBER'			=> 'Recent Member',
-	'RANDOM_MEMBER'			=> 'Random Member',
-	'POSTS_MEMBER'			=> 'Top Poster',
-	'LAST_VISITED'			=> 'Last Visited',
-	'VIEW_USER_PROFILE'		=> 'All about %s',
+	'BLOCK_TITLE'					=> 'Block Title',
 
-	'HOURLY_MEMBER'			=> 'Member of the hour',
-	'DAILY_MEMBER'			=> 'Member of the day',
-	'WEEKLY_MEMBER'			=> 'Member of the week',
-	'MONTHLY_MEMBER'		=> 'Member of the month',
-	'FEATURED_MEMBER'		=> 'Featured Member',
-	'RECENT_MEMBER'			=> 'Recent Member',
-	'RANDOM_MEMBER'			=> 'Random Member',
-	'POSTS_MEMBER'			=> 'Top Poster',
+	'CHANGE_ME'						=> 'Change Me',
 
-	'ALL'					=> 'All',
-	'ALL_TIME'				=> 'All Time',
-	'TODAY'					=> 'Today',
-	'THIS_WEEK'				=> 'This Week',
-	'THIS_MONTH'			=> 'This Month',
-	'THIS_YEAR'				=> 'This Year',
+	'DAILY_MEMBER'					=> 'Member of the day',
 
-	'LAST_VISITED'			=> 'Last Visited',
-	'RECENT_BOTS'			=> 'Recent Search Engines',
-	'RECENT_MEMBERS'		=> 'Recent Members',
-	'MOST_TENURED'			=> 'Most Tenured',
-	'TOP_POSTERS'			=> 'Top Posters',
-	'MY_BOOKMARKS'			=> 'My Bookmarks',
-	'NO_BOOKMARKS'			=> 'You have not bookmarked any topics',
-	'WHATS_NEW'				=> 'What’s New?',
-	'VIEW_DETAILS'			=> 'View Details',
-	'NO_NEW_TOPICS'			=> 'There are no new topics to display',
-	'NO_NEW_POSTS'			=> 'There are no new posts to display',
-
-	'QTYPE_RECENT'			=> 'Please welcome our newest member:',
-	'QTYPE_POSTS'			=> 'Congratulations to:',
-	'FEATURED_MEMBERLIST'	=> 'Featured members list',
-	'UCP_PRIMETIME_CONTENT'	=> 'My Stuff',
-	'MCP_PRIMETIME_CONTENT'	=> 'Contents',
-
-	'FORUM_RECENT_TOPICS'			=> 'Recent Forum Topics',
-	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
-	'FORUM_STICKY_POSTS'			=> 'Recent Sticky Posts',
+	'FEATURED_MEMBER'				=> 'Featured Member',
+	'FEATURED_MEMBERLIST'			=> 'Featured members list',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
 	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
-	'TOPIC_LAST_READ'				=> 'Last read %s',
+	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
+	'FORUM_RECENT_TOPICS'			=> 'Recent Forum Topics',
+	'FORUM_STICKY_POSTS'			=> 'Recent Sticky Posts',
+
+	'HELP'							=> 'Help',
+	'HOURLY_MEMBER'					=> 'Member of the hour',
+
+	'JOIN_DATE'						=> 'Join Date',
+
+	'LAST_VISITED'					=> 'Last Visited',
+
+	'MCP_PRIMETIME_CONTENT'			=> 'Contents',
+	'MEMBERS_DATE'					=> 'Date',
+	'MENU'							=> 'Menu',
+	'MONTHLY_MEMBER'				=> 'Member of the month',
+	'MOST_TENURED'					=> 'Most Tenured',
+	'MY_BOOKMARKS'					=> 'My Bookmarks',
+
+	'NO_BOOKMARKS'					=> 'You have not bookmarked any topics',
+	'NO_NEW_POSTS'					=> 'There are no new posts to display',
+	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
+
+	'POLL'							=> 'Poll',
+	'POSTS_MEMBER'					=> 'Top Poster',
+
+	'QTYPE_POSTS'					=> 'Congratulations to:',
+	'QTYPE_RECENT'					=> 'Please welcome our newest member:',
+
+	'RANDOM_MEMBER'					=> 'Random Member',
+	'RECENT_BOTS'					=> 'Recent Search Engines',
+	'RECENT_MEMBER'					=> 'Recent Member',
+	'RECENT_MEMBERS'				=> 'Recent Members',
+
+	'SESSION_HIDE_ME'				=> 'Hide Me',
+
+	'THIS_MONTH'					=> 'This Month',
+	'THIS_WEEK'						=> 'This Week',
+	'THIS_YEAR'						=> 'This Year',
+	'TODAY'							=> 'Today',
 	'TOPICS_LAST_READ'				=> 'Last Read Topics',
+	'TOPIC_LAST_READ'				=> 'Last read %s',
+	'TOP_POSTERS'					=> 'Top Posters',
+
+	'UCP_PRIMETIME_CONTENT'			=> 'My Stuff',
+
+	'VIEW_DETAILS'					=> 'View Details',
+	'VIEW_USER_PROFILE'				=> 'All about %s',
+
+	'WEEKLY_MEMBER'					=> 'Member of the week',
+	'WELCOME'						=> 'Welcome',
+	'WHATS_NEW'						=> 'What’s New?',
 	'WORDGRAPH'						=> 'Wordgraph',
 ));
+
+?>

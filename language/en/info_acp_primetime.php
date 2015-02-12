@@ -37,42 +37,55 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_MENU'			=> 'Menu Management',
-	'ADD_BULK_MENU'		=> 'Bulk Add Menu Items',
-	'ADD_MENU'			=> 'Add Menu',
-	'ADD_MENU_ITEM'		=> 'Add Menu Item',
-	'AJAX_PROCESSING'	=> 'Working',
-	'CHANGE_ME'			=> 'Change Me',
-	'GO_TO'				=> 'Go to',
-	'ITEM_NAME'			=> 'Item Name',
-	'ITEM_URL'			=> 'Item URL',
-	'ITEM_TARGET'		=> 'Item Target',
-	'ITEM_STATUS'		=> 'Item Status',
-	'ITEM_ACTIVE'		=> 'Active',
-	'ITEM_INACTIVE'		=> 'Inactive',
-	'LOADING'			=> 'Loading...',
-	'MENU_ITEMS'		=> 'Menu Items',
-	'MENU_ITEM_PARENT'	=> 'Parent Item',
-	'NO_MENU'			=> 'No menus have been created',
-	'NO_MENU_ITEMS'		=> 'No menu items have been created',
-	'TARGET_BLANK'		=> 'Blank Page',
-	'TARGET_PARENT'		=> 'Parent',
-	'REBUILD_TREE'		=> 'Rebuild Tree',
-	'SAVE_CHANGES'		=> 'Save Changes',
-	'SELECT_ALL'		=> 'Select All',
-	'REPLIES_PER_DAY'	=> 'Replies Per Day',
-	'PHPBB_NEWS'		=> 'phpBB News',
-	'USER_ENGAGEMENT'	=> 'User Engagement',
-
 	'ACP_CAT_CMS'				=> 'Primetime',
+	'ACP_MENU'					=> 'Menu Management',
+	'ACP_MENU_EXPLAIN'			=> 'Here you can create and manage menus for your site',
 	'ACP_PRIMETIME_EXTENSIONS'	=> 'Extensions',
-	'PRIMETIME_DASHBOARD'		=> 'Dashboard',
-	'DELETE_SELECTED'			=> 'Delete Selected',
+	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|./index.php',
+	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
+	'ADD_MENU'					=> 'Add Menu',
+	'ADD_MENU_ITEM'				=> 'Add Menu Item',
+	'AJAX_PROCESSING'			=> 'Working',
+
+	'CHANGE_ME'					=> 'Change Me',
+
 	'DELETE_ITEM'				=> 'Delete Item',
 	'DELETE_MENU'				=> 'Delete Menu',
-	'DELETE_MENU_ITEM'			=> 'Delete Item',
 	'DELETE_MENU_CONFIRM'		=> 'Are you sure you want to delete this menu?<br />This will delete the menu and all its items',
+	'DELETE_MENU_ITEM'			=> 'Delete Item',
 	'DELETE_MENU_ITEM_CONFIRM'	=> 'Are you sure you want to delete this menu item?',
-	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|./index.php',
-	'ACP_MENU_EXPLAIN'			=> 'Here you can create and manage menus for your site',
+	'DELETE_SELECTED'			=> 'Delete Selected',
+
+	'GO_TO'						=> 'Go to',
+
+	'ITEM_ACTIVE'				=> 'Active',
+	'ITEM_INACTIVE'				=> 'Inactive',
+	'ITEM_NAME'					=> 'Item Name',
+	'ITEM_STATUS'				=> 'Item Status',
+	'ITEM_TARGET'				=> 'Item Target',
+	'ITEM_URL'					=> 'Item URL',
+
+	'LOADING'					=> 'Loading...',
+
+	'MENU_ITEMS'				=> 'Menu Items',
+	'MENU_ITEM_PARENT'			=> 'Parent Item',
+
+	'NO_MENU'					=> 'No menus have been created',
+	'NO_MENU_ITEMS'				=> 'No menu items have been created',
+
+	'PHPBB_NEWS'				=> 'phpBB News',
+	'PRIMETIME_DASHBOARD'		=> 'Dashboard',
+
+	'REBUILD_TREE'				=> 'Rebuild Tree',
+	'REPLIES_PER_DAY'			=> 'Replies Per Day',
+
+	'SAVE_CHANGES'				=> 'Save Changes',
+	'SELECT_ALL'				=> 'Select All',
+
+	'TARGET_BLANK'				=> 'Blank Page',
+	'TARGET_PARENT'				=> 'Parent',
+
+	'USER_ENGAGEMENT'			=> 'User Engagement',
 ));
+
+?>
