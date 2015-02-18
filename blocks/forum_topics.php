@@ -236,7 +236,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 		}
 	}
 
-	private function forum_topics_titles(&$topic_data, &$post_data)
+	protected function forum_topics_titles(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -262,7 +262,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 		}
 	}
 
-	private function forum_topics_lastread(&$topic_data, &$post_data)
+	protected function forum_topics_lastread(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -282,7 +282,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 		}
 	}
 
-	private function forum_topics_mini(&$topic_data, &$post_data)
+	protected function forum_topics_mini(&$topic_data, &$post_data)
 	{
 		global $phpbb_container;
 
@@ -317,7 +317,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 		}
 	}
 
-	private function forum_topics_context(&$topic_data, &$post_data)
+	protected function forum_topics_context(&$topic_data, &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
