@@ -275,7 +275,7 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 
 			'U_VIEW_RESULTS'	=> $viewtopic_url . '&amp;view=viewpoll',
 		));
-		unset($poll_end, $poll_info, $voted_id, $topic_data);
+		unset($poll_end, $poll_info, $topic_data);
 
 		return array(
 			'title'		=> $this->user->lang['POLL'],
