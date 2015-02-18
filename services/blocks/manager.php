@@ -34,23 +34,8 @@ class manager extends route
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\icon_picker */
-	protected $icons;
-
-	/** @var \primetime\core\services\util */
-	protected $primetime;
-
 	/** @var \primetime\core\services\block_template */
 	protected $ptemplate;
-
-	/** @var string */
-	protected $blocks_table;
-
-	/** @var string */
-	protected $blocks_config_table;
-
-	/** @var string */
-	protected $block_routes_table;
 
 	/** @var string phpBB root path */
 	protected $root_path;
@@ -60,12 +45,6 @@ class manager extends route
 
 	/** @var integer */
 	protected $style_id = 0;
-
-	/** @var array */
-	private $return_data;
-
-	/** @var string */
-	private $def_icon;
 
 	/**
 	 * Constructor
@@ -77,18 +56,13 @@ class manager extends route
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\core\services\icon_picker		$icons					Primetime icon picker object
-	 * @param \primetime\core\services\util				$primetime				Template object
 	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$blocks_config_table	Name of the blocks_config database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\icon_picker $icons, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\template $ptemplate, $root_path, $php_ext)
 	{
-		parent::__construct($cache, $db, $request, $user, $blocks_table, $block_routes_table);
+		parent::__construct($cache, $config, $db, $phpbb_container, $request, $user, $php_ext);
 
 		$this->cache = $cache;
 		$this->config = $config;
@@ -97,154 +71,9 @@ class manager extends route
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->icons = $icons;
-		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
-		$this->blocks_table = $blocks_table;
-		$this->block_routes_table = $block_routes_table;
-		$this->blocks_config_table = $blocks_config_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
-		$this->def_icon = '';
-	}
-
-	/**
-	 * Handle the admin bar
-	 */
-	public function handle($route_info)
-	{
-		$this->user->add_lang_ext('primetime/core', 'block_manager');
-		$this->add_block_admin_lang();
-
-		$route = $route_info['route'];
-		$style_id = $route_info['style'];
-
-		$this->set_style($style_id);
-
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
-			'js'		=> array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'//tinymce.cachefly.net/4.1/tinymce.min.js',
-				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/core/components/twig.js/twig.min.js',
-				100 =>  '@primetime_core/assets/blocks/manager.min.js',
-			),
-			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				'@primetime_core/assets/blocks/manager.min.css',
-			)
-		));
-
-		$board_url = generate_board_url();
-		$app_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
-		$ajax_url = $app_url . '/blocks/';
-		$u_disp_mode = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
-
-		$is_default_route = $u_default_route = false;
-		if ($this->config['primetime_default_layout'])
-		{
-			$is_default_route = ($this->config['primetime_default_layout'] === $route) ? true : false;
-			$u_default_route .= $board_url . '/' . $this->config['primetime_default_layout'];
-			$u_default_route = reapply_sid($u_default_route);
-		}
-
-		$this->get_available_blocks();
-		$this->get_startpage_options();
-
-		$this->template->assign_vars(array(
-			'S_EDIT_MODE'		=> true,
-			'S_ROUTE_OPS'		=> $this->get_route_options($route),
-			'S_HIDE_BLOCKS'		=> $route_info['hide_blocks'],
-			'S_POSITION_OPS'	=> $this->get_position_options($route_info['ex_positions']),
-			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
-			'S_IS_DEFAULT'		=> $is_default_route,
-			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
-
-			'ICON_PICKER'		=> $this->icons->picker(),
-			'PAGE_URL'			=> build_url(array('style')),
-
-			'UA_STYLE_ID'		=> $style_id,
-			'UA_ROUTE'			=> $route,
-			'UA_AJAX_URL'		=> $ajax_url,
-			'UA_APP_URL'		=> $app_url,
-			'UA_BOARD_URL'		=> $board_url,
-
-			'U_VIEW_DEFAULT'	=> $u_default_route,
-			'U_DISP_MODE'		=> $u_disp_mode,
-		));
-	}
-
-	/**
-	 * Get all available primetime blocks
-	 */
-	public function get_available_blocks()
-	{
-		if (($blocks = $this->cache->get('primetime_available_blocks')) === false)
-		{
-			$factory = $this->phpbb_container->get('primetime.core.blocks.factory');
-
-			$blocks = $factory->get_all_blocks();
-			$this->cache->put('primetime_available_blocks', $blocks);
-		}
-
-		foreach ($blocks as $service => $name)
-		{
-			$lname = strtoupper(str_replace('.', '_', $name));
-			$this->template->assign_block_vars('block', array(
-				'NAME'		=> (isset($this->user->lang[$lname])) ? $this->user->lang[$lname] : $name,
-				'SERVICE'	=> $service)
-			);
-		}
-	}
-
-	public function get_startpage_options()
-	{
-		$symfony_request = $this->phpbb_container->get('symfony_request');
-		$controller = $symfony_request->attributes->get('_controller');
-
-		if ($controller && $controller !== 'primetime.core.forum.controller:handle')
-		{
-			list($controller_service, $controller_method) = explode(':', $controller);
-			$controller_params	= $symfony_request->attributes->get('_route_params');
-			$controller_object	= $this->phpbb_container->get($controller_service);
-			$controller_class	= get_class($controller_object);
-
-			$r = new \ReflectionMethod($controller_class, $controller_method);
-			$params = $r->getParameters();
-
-			$arguments = array();
-			foreach ($params as $param)
-			{
-				$name = $param->getName();
-				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
-			}
-
-			list($namespace, $extension) = explode('\\', $controller_class);
-			$controller_arguments = join('/', $arguments);
-
-			$this->template->assign_vars(array(
-				'CONTROLLER_NAME'	=> $controller_service,
-				'CONTROLLER_METHOD'	=> $controller_method,
-				'CONTROLLER_PARAMS'	=> $controller_arguments,
-				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service && $this->config['primetime_startpage_params'] == $controller_arguments) ? true : false,
-				'UA_EXTENSION'		=> $namespace . '/' . $extension,
-			));
-		}
-	}
-
-	/**
-	 * Get position options
-	 */
-	public function get_position_options($selected_positions)
-	{
-		$options = '<option value=""' . ((!sizeof($selected_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang['NONE'] . '</option>';
-		foreach ($selected_positions as $position)
-		{
-			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';
-		}
-
-		return $options;
 	}
 
 	/**
@@ -254,7 +83,7 @@ class manager extends route
 	{
 		if (!$this->block_exists($service))
 		{
-			return array();
+			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
 		$position = $this->request->variable('position', '');
@@ -262,19 +91,11 @@ class manager extends route
 
 		$b = $this->phpbb_container->get($service);
 		$b->set_template($this->ptemplate);
-		$bconfig = $b->get_config(array());
+		$df_settings = $b->get_config(array());
 
-		$default_setting = array();
-		foreach ($bconfig as $key => $settings)
-		{
-			if (!is_array($settings))
-			{
-				continue;
-			}
-			$default_setting[$key] =& $settings['default'];
-		}
-
+		$block_settings = $this->get_block_settings($df_settings);
 		$route_id = (int) $this->get_route_id($route);
+
 		$block_data = array(
 			'icon'			=> '',
 			'title'			=> '',
@@ -285,13 +106,13 @@ class manager extends route
 			'style'			=> (int) $this->style_id,
 			'hide_title'	=> false,
 			'no_wrap'		=> false,
-			'hash'			=> md5(join('', $default_setting)),
+			'hash'			=> md5(join('', $block_settings)),
 		);
-		$this->db->sql_query('UPDATE ' . $this->blocks_table . " SET weight = weight + 1 WHERE weight >= $weight AND route_id = $route_id AND style = " . (int) $this->style_id);
-		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
+		$this->db->sql_query('UPDATE ' . PT_BLOCKS_TABLE . " SET weight = weight + 1 WHERE weight >= $weight AND route_id = $route_id AND style = " . (int) $this->style_id);
+		$this->db->sql_query('INSERT INTO ' . PT_BLOCKS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
 		$block_data['bid'] = $this->db->sql_nextid();
-		$block_data['settings'] = $default_setting;
+		$block_data['settings'] = $block_settings;
 
 		// update route info
 		$this->update_route($route_id, array('has_blocks' => true));
@@ -314,7 +135,7 @@ class manager extends route
 			return array();
 		}
 
-		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
+		$this->db->sql_query('UPDATE ' . PT_BLOCKS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
 		$this->cache->destroy('primetime_blocks');
 
 		$bdata = $this->get_block_data($bid);
@@ -322,28 +143,12 @@ class manager extends route
 
 		if (!$this->block_exists($bdata['name']))
 		{
-			return array();
+			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
 		$df_settings = $b->get_config($db_settings);
-
-		foreach ($df_settings as $key => $settings)
-		{
-			if (!is_array($settings))
-			{
-				continue;
-			}
-
-			$db_settings[$key] = (isset($db_settings[$key])) ? $db_settings[$key] : $settings['default'];
-
-			$type = explode(':', $settings['type']);
-			if ($db_settings[$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
-			{
-				$db_settings[$key] = explode(',', $db_settings[$key]);
-			}
-			$bdata['settings'][$key] = $db_settings[$key];
-		}
+		$bdata['settings'] = $this->get_block_settings($df_settings, $db_settings);
 
 		return array_merge(
 			$bdata,
@@ -380,12 +185,9 @@ class manager extends route
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
 
-		$this->template->assign_vars(array()
-		);
-
 		if (!$this->block_exists($bdata['name']))
 		{
-			return array();
+			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
@@ -415,7 +217,6 @@ class manager extends route
 		return array_merge(
 			$bdata,
 			array(
-				'icon'		=> ($bdata['icon']) ? $bdata['icon'] : $this->def_icon,
 				'form'		=> $this->template->assign_display('block_settings'),
 			),
 			$this->display($b, $bdata)
@@ -441,7 +242,7 @@ class manager extends route
 
 		if (!$this->block_exists($bdata['name']))
 		{
-			return array();
+			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
 		$b = $this->phpbb_container->get($bdata['name']);
@@ -516,25 +317,6 @@ class manager extends route
 	}
 
 	/**
-	 * Save a single block setting
-	 */
-	public function config($id, $data)
-	{
-		$settings = $this->get_block_config($id);
-
-		if (isset($settings[$data['bvar']]))
-		{
-			$this->db->sql_query('UPDATE ' . $this->blocks_config_table . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE bid = ' . (int) $id);
-		}
-		else
-		{
-			$this->db->sql_query('INSERT INTO ' . $this->blocks_config_table . ' ' . $this->db->sql_build_array('INSERT', $data));
-		}
-
-		$this->cache->destroy('primetime_blocks');
-	}
-
-	/**
 	 * Save all blocks in layout
 	 */
 	public function save_layout($route)
@@ -569,7 +351,7 @@ class manager extends route
 		// add blocks
 		if (sizeof($sql_blocks_ary))
 		{
-			$this->db->sql_multi_insert($this->blocks_table, array_values($sql_blocks_ary));
+			$this->db->sql_multi_insert(PT_BLOCKS_TABLE, array_values($sql_blocks_ary));
 		}
 		else if (empty($route_info['hide_blocks']) && empty($route_info['ex_positions']))
 		{
@@ -590,80 +372,29 @@ class manager extends route
 			return array('data' => $this->get_blocks($route));
 		}
 
+		// delete all blocks for this route
+		$this->delete_blocks_by_route($route, false);
+
+		// copy route settings
+		$route_info = $this->copy_route_prefs($route, $from_route, $from_style);
+
+		$route_id	= (int) $route_info['route_id'];
+		$style_id	= (int) $route_info['style'];
+
+		// get $from_route blocks
 		$from_where = array(
 			'b.style = ' . $from_style,
 			"r.route = '" . $this->db->sql_escape($from_route) . "'",
 		);
 
-		// get current route and blocks info
-		$route_info = $this->get_route_info($route);
-		$old_blocks = $this->get_blocks($route, 'id');
-
-		$route_id	= (int) $route_info['route_id'];
-		$style_id	= (int) $route_info['style'];
-
-		// get new blocks info
-		$new_route_info = $this->get_route_info($from_route, $from_style, false);
-
-		if (!sizeof($new_route_info))
-		{
-			return array(
-				'data' 		=> array(),
-				'config'	=> array(),
-			);
-		}
-
 		$new_blocks = $this->get_blocks($from_route, 'data', $from_where);
 
-		// copy route prefs
-		$route_info['has_blocks'] = $new_route_info['has_blocks'];
-		$route_info['hide_blocks'] = $new_route_info['hide_blocks'];
-		$route_info['ex_positions'] = $new_route_info['ex_positions'];
-		$this->update_route($route_info['route_id'], $route_info);
-
-		// delete current blocks
-		$this->delete_blocks($old_blocks);
-
-		// get max block id
-		$sql = 'SELECT bid FROM ' . $this->blocks_table . ' ORDER BY bid DESC';
-		$result = $this->db->sql_query_limit($sql, 1);
-		$bid = $this->db->sql_fetchfield('bid');
-		$this->db->sql_freeresult($result);
-
 		$db_settings = array();
+		$new_blocks = array_values($new_blocks);
 
 		if (sizeof($new_blocks))
 		{
-			$new_blocks_config = $this->get_block_config(array_keys($new_blocks), true);
-
-			$mapped_ids = array();
-			$sql_new_config = array();
-			$new_blocks = array_values($new_blocks);
-
-			// copy blocks
-			for ($i = 0, $size = sizeof($new_blocks); $i < $size; $i++)
-			{
-				$mapped_ids[$new_blocks[$i]['bid']] = ++$bid;
-				$new_blocks[$i]['bid'] = $bid;
-				$new_blocks[$i]['style'] = $style_id;
-				$new_blocks[$i]['route_id'] = (int) $route_id;
-			}
-
-			$this->db->sql_multi_insert($this->blocks_table, $new_blocks);
-
-			// copy blocks config
-			if (sizeof($new_blocks_config))
-			{
-				for ($i = 0, $size = sizeof($new_blocks_config); $i < $size; $i++)
-				{
-					$row = $new_blocks_config[$i];
-					$row['bid'] = (int) $mapped_ids[$row['bid']];
-					$sql_new_config[] = $row;
-					$db_settings[$row['bid']][$row['bvar']] = $row['bval'];
-				}
-
-				$this->db->sql_multi_insert($this->blocks_config_table, $sql_new_config);
-			}
+			$db_settings = $this->copy_blocks($style_id, $route_id, $new_blocks);
 		}
 
 		// Now let's select the new blocks and return data
@@ -675,30 +406,13 @@ class manager extends route
 			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
 
 			$b = $this->phpbb_container->get($row['name']);
-
 			$df_settings = $b->get_config($db_settings[$bid]);
-
-			foreach ($df_settings as $key => $settings)
-			{
-				if (!is_array($settings))
-				{
-					continue;
-				}
-
-				$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
-
-				$type = explode(':', $settings['type']);
-				if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
-				{
-					$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
-				}
-				$row['settings'][$key] = $db_settings[$bid][$key];
-			}
+			$row['settings'] = $this->get_block_settings($df_settings, $db_settings[$bid]);
 
 			$data[$row['position']][] = array_merge(
 				array(
 					'id'			=> $row['bid'],
-					'icon'			=> ($row['icon']) ? $row['icon'] : $this->def_icon,
+					'icon'			=> $row['icon'],
 					'class'			=> $row['class'],
 					'status'		=> (bool) $row['status'],
 					'no_wrap'		=> (bool) $row['no_wrap'],
@@ -736,8 +450,8 @@ class manager extends route
 			'SELECT'	=> 'b.*',
 
 			'FROM'	  => array(
-				$this->blocks_table			=> 'b',
-				$this->block_routes_table	=> 'r',
+				PT_BLOCKS_TABLE			=> 'b',
+				PT_BLOCK_ROUTES_TABLE	=> 'r',
 			),
 
 			'WHERE'	 => 'b.route_id = r.route_id' . ((sizeof($sql_where)) ? ' AND ' . join(' AND ', $sql_where) : ''),
@@ -773,7 +487,7 @@ class manager extends route
 		$this->delete_blocks($block_ids);
 
 		// Delete all routes for this style
-		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . ' WHERE style = ' . (int) $style_id);
+		$this->db->sql_query('DELETE FROM ' . PT_BLOCK_ROUTES_TABLE . ' WHERE style = ' . (int) $style_id);
 		$this->cache->destroy('primetime_block_routes');
 	}
 
@@ -808,7 +522,7 @@ class manager extends route
 			'SELECT'	=> 'b.bid, b.route_id, b.style, b.weight, b.position',
 
 			'FROM'	  => array(
-				$this->blocks_table		=> 'b',
+				PT_BLOCKS_TABLE		=> 'b',
 			),
 
 			'WHERE'	 => $this->db->sql_in_set('b.name', $service_name),
@@ -826,7 +540,7 @@ class manager extends route
 			$pos	= $this->db->sql_escape($row['position']);
 
 			$block_ids[] = (int) $row['bid'];
-			$this->db->sql_query('UPDATE ' . $this->blocks_table . "
+			$this->db->sql_query('UPDATE ' . PT_BLOCKS_TABLE . "
 				SET weight = weight - 1
 				WHERE weight > $weight
 					AND style = $style
@@ -848,7 +562,6 @@ class manager extends route
 	{
 		if (!$this->phpbb_container->has($service_name))
 		{
-			$this->return_data['errors'] = 'BLOCK_NOT_FOUND';
 			return false;
 		}
 
@@ -954,59 +667,9 @@ class manager extends route
 		return build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
 	}
 
-	/**
-	 * Add blocks_admin language file
-	 * 
-	 * This is a modified copy of the add_mod_info in functions_module.php
-	 */
-	private function add_block_admin_lang()
-	{
-		$finder = $this->phpbb_container->get('ext.manager')->get_finder();
-
-		// We grab the language files from the default, English and user's language.
-		// So we can fall back to the other files like we do when using add_lang()
-		$default_lang_files = $english_lang_files = array();
-
-		// Search for board default language if it's not the user language
-		if ($this->config['default_lang'] != $this->user->lang_name)
-		{
-			$default_lang_files = $finder
-				->prefix('blocks_admin')
-				->suffix(".$this->php_ext")
-				->extension_directory('/language/' . basename($this->config['default_lang']))
-				->core_path('language/' . basename($this->config['default_lang']) . '/')
-				->find();
-		}
-
-		// Search for english, if its not the default or user language
-		if ($this->config['default_lang'] != 'en' && $this->user->lang_name != 'en')
-		{
-			$english_lang_files = $finder
-				->prefix('blocks_admin')
-				->suffix(".$this->php_ext")
-				->extension_directory('/language/en')
-				->core_path('language/en/')
-				->find();
-		}
-
-		// Find files in the user's language
-		$user_lang_files = $finder
-			->prefix('blocks_admin')
-			->suffix(".$this->php_ext")
-			->extension_directory('/language/' . $this->user->lang_name)
-			->core_path('language/' . $this->user->lang_name . '/')
-			->find();
-
-		$lang_files = array_unique(array_merge($user_lang_files, $english_lang_files, $default_lang_files));
-		foreach ($lang_files as $lang_file => $ext_name)
-		{
-			$this->user->add_lang_ext($ext_name, $lang_file);
-		}
-	}
-
 	private function add_lang_vars($options)
 	{
-		foreach ($options as $key => $title)
+		foreach ($options as $title)
 		{
 			if (is_array($title))
 			{
@@ -1021,7 +684,7 @@ class manager extends route
 
 	private function get_block_data($bid)
 	{
-		$result = $this->db->sql_query('SELECT * FROM ' . $this->blocks_table . ' WHERE bid = ' . (int) $bid);
+		$result = $this->db->sql_query('SELECT * FROM ' . PT_BLOCKS_TABLE . ' WHERE bid = ' . (int) $bid);
 
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -1033,7 +696,7 @@ class manager extends route
 	{
 		$ids = (is_array($bid)) ? $bid : array($bid);
 
-		$result = $this->db->sql_query('SELECT * FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $ids));
+		$result = $this->db->sql_query('SELECT * FROM ' . PT_BLOCKS_CONFIG_TABLE . ' WHERE ' . $this->db->sql_in_set('bid', $ids));
 
 		$bconfig = $data = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1046,6 +709,88 @@ class manager extends route
 		return ($raw === false) ? ((!is_array($bid) && sizeof($bconfig)) ? array_shift($bconfig) : $bconfig) : $data;
 	}
 
+	private function copy_route_prefs($route, $from_route, $from_style)
+	{
+		$new_route_info = $this->get_route_info($from_route, $from_style, false);
+		$route_info = $this->get_route_info($route, 0, (sizeof($new_route_info)) ? true : false);
+
+		// copy route prefs
+		$route_info['has_blocks'] = $new_route_info['has_blocks'];
+		$route_info['hide_blocks'] = $new_route_info['hide_blocks'];
+		$route_info['ex_positions'] = $new_route_info['ex_positions'];
+
+		$this->update_route($route_info['route_id'], $route_info);
+
+		return $route_info;
+	}
+
+	private function copy_blocks($style_id, $route_id, $new_blocks)
+	{
+		// get max block id
+		$sql = 'SELECT bid FROM ' . PT_BLOCKS_TABLE . ' ORDER BY bid DESC';
+		$result = $this->db->sql_query_limit($sql, 1);
+		$bid = $this->db->sql_fetchfield('bid');
+		$this->db->sql_freeresult($result);
+
+		$mapped_ids = array();
+		for ($i = 0, $size = sizeof($new_blocks); $i < $size; $i++)
+		{
+			$mapped_ids[$new_blocks[$i]['bid']] = ++$bid;
+
+			$new_blocks[$i]['bid'] = $bid;
+			$new_blocks[$i]['style'] = (int) $style_id;
+			$new_blocks[$i]['route_id'] = (int) $route_id;
+		}
+
+		$settings = $this->copy_blocks_config($mapped_ids);
+		$this->db->sql_multi_insert(PT_BLOCKS_TABLE, $new_blocks);
+
+		return $settings;
+	}
+
+	private function copy_blocks_config($mapped_ids)
+	{
+		$new_blocks_config = $this->get_block_config(array_keys($mapped_ids), true);
+
+		$db_settings = array();
+		if (sizeof($new_blocks_config))
+		{
+			$sql_new_config = array();
+			for ($i = 0, $size = sizeof($new_blocks_config); $i < $size; $i++)
+			{
+				$row = $new_blocks_config[$i];
+				$row['bid'] = (int) $mapped_ids[$row['bid']];
+				$sql_new_config[] = $row;
+				$db_settings[$row['bid']][$row['bvar']] = $row['bval'];
+			}
+
+			$this->db->sql_multi_insert(PT_BLOCKS_CONFIG_TABLE, $sql_new_config);
+		}
+
+		return $db_settings;
+	}
+
+	private function get_block_settings($df_settings, $db_settings = array())
+	{
+		foreach ($df_settings as $key => $settings)
+		{
+			if (!is_array($settings))
+			{
+				continue;
+			}
+
+			$db_settings[$key] = (isset($db_settings[$key])) ? $db_settings[$key] : $settings['default'];
+
+			$type = explode(':', $settings['type']);
+			if ($db_settings[$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
+			{
+				$db_settings[$key] = explode(',', $db_settings[$key]);
+			}
+		}
+
+		return $db_settings;
+	}
+
 	private function delete_block_config($bid)
 	{
 		$bid = (is_array($bid)) ? $bid : array($bid);
@@ -1055,7 +800,7 @@ class manager extends route
 			return;
 		}
 
-		$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE ' . $this->db->sql_in_set('bid', $bid));
+		$this->db->sql_query('DELETE FROM ' . PT_BLOCKS_CONFIG_TABLE . ' WHERE ' . $this->db->sql_in_set('bid', $bid));
 	}
 
 	private function delete_blocks($block_ids, $delete_config = true)
@@ -1067,7 +812,7 @@ class manager extends route
 			return;
 		}
 
-		$sql = 'DELETE FROM ' . $this->blocks_table . ' WHERE ' . $this->db->sql_in_set('bid', $block_ids);
+		$sql = 'DELETE FROM ' . PT_BLOCKS_TABLE . ' WHERE ' . $this->db->sql_in_set('bid', $block_ids);
 		$this->db->sql_query($sql);
 
 		if ($delete_config === true)
@@ -1162,7 +907,7 @@ class manager extends route
 
 		// just remove old values and replace
 		$this->delete_block_config($bid);
-		$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
+		$this->db->sql_multi_insert(PT_BLOCKS_CONFIG_TABLE, $sql_ary);
 
 		/**
 		 * This is used by blocks that cache their own data.

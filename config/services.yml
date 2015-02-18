@@ -11,6 +11,19 @@ services:
             - @path_helper
             - @template
 
+    primetime.core.blocks.builder:
+        class: primetime\core\services\blocks\builder
+        arguments:
+            - @cache
+            - @config
+            - @dbal.conn
+            - @service_container
+            - @template
+            - @user
+            - @primetime.core.icon_picker
+            - @primetime.core.util
+            - %core.php_ext%
+
     primetime.core.blocks.display:
         class: primetime\core\services\blocks\display
         arguments:
@@ -24,9 +37,6 @@ services:
             - @user
             - @primetime.core.util
             - @primetime.core.template
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_routes%
 
     primetime.core.blocks.manager:
         class: primetime\core\services\blocks\manager
@@ -38,12 +48,7 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.core.icon_picker
-            - @primetime.core.util
             - @primetime.core.template
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_routes%
             - %core.root_path%
             - %core.php_ext%
 
@@ -113,6 +118,9 @@ services:
             - @user
             - @primetime.core.util
             - @primetime.core.blocks.display
+            - %tables.primetime.blocks%
+            - %tables.primetime.blocks_config%
+            - %tables.primetime.block_routes%
             - %core.root_path%
         tags:
             - { name: event.listener }

@@ -9,7 +9,9 @@
 
 namespace primetime\core\services\blocks;
 
-abstract class route
+use Symfony\Component\DependencyInjection\Container;
+
+abstract class route extends base
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -23,12 +25,6 @@ abstract class route
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var string */
-	protected $blocks_table;
-
-	/** @var string */
-	protected $block_routes_table;
-
 	/** @var integer */
 	protected $style_id = 0;
 
@@ -36,20 +32,20 @@ abstract class route
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
+	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\user								$user					User object
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, $blocks_table, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, $php_ext)
 	{
+		parent::__construct($config, $phpbb_container, $user, $php_ext);
+
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->request = $request;
 		$this->user = $user;
-		$this->blocks_table = $blocks_table;
-		$this->block_routes_table = $block_routes_table;
 	}
 
 	/**
@@ -57,57 +53,18 @@ abstract class route
 	 */
 	public function get_all_routes()
 	{
-		if (($routes = $this->cache->get('primetime_block_routes')) === false)
-		{
-			$sql = 'SELECT *
-				FROM ' . $this->block_routes_table;
-			$result = $this->db->sql_query($sql);
-
-			$routes = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$routes[$row['style']][$row['route']] = $row;
-			}
-			$this->db->sql_freeresult($result);
-
-			$this->cache->put('primetime_block_routes', $routes);
-		}
-
-		return $routes;
-	}
-
-	/**
-	 * Get routes with blocks
-	 */
-	public function get_route_options($route)
-	{
-		$sql_array = array(
-			'SELECT'	=> 'r.route',
-
-			'FROM'	  => array(
-				$this->blocks_table			=> 'b',
-				$this->block_routes_table	=> 'r',
-			),
-
-			'WHERE'	 => 'b.route_id = r.route_id',
-
-			'GROUP_BY'  => 'r.route',
-
-			'ORDER_BY'  => 'r.route',
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql = 'SELECT *
+				FROM ' . PT_BLOCK_ROUTES_TABLE;
 		$result = $this->db->sql_query($sql);
 
-		$options = '<option value="">' . $this->user->lang['SELECT'] . '</option>';
+		$routes = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$selected = ($row['route'] == $route) ? " selected='selected'" : '';
-			$options .= '<option value="' . $row['route'] . '"' . $selected . '>' . $row['route'] . '</option>';
+			$routes[$row['style']][$row['route']] = $row;
 		}
 		$this->db->sql_freeresult($result);
 
-		return $options;
+		return $routes;
 	}
 
 	/**
@@ -146,7 +103,7 @@ abstract class route
 			'has_blocks'	=> false,
 			'ex_positions'	=> '',
 		);
-		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
+		$this->db->sql_query('INSERT INTO ' . PT_BLOCK_ROUTES_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 		$sql_data['route_id'] = $this->db->sql_nextid();
 
 		$this->cache->destroy('primetime_block_routes');
@@ -188,7 +145,7 @@ abstract class route
 			return array();
 		}
 
-		$this->db->sql_query('UPDATE ' . $this->block_routes_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
+		$this->db->sql_query('UPDATE ' . PT_BLOCK_ROUTES_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
 		$this->cache->destroy('primetime_block_routes');
 		$this->cache->destroy('primetime_blocks');
 
@@ -203,7 +160,7 @@ abstract class route
 	 */
 	public function delete_route($route_id)
 	{
-		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . '
+		$this->db->sql_query('DELETE FROM ' . PT_BLOCK_ROUTES_TABLE . '
 			WHERE route_id = ' . (int) $route_id . '
 				AND style = ' . $this->style_id);
 
