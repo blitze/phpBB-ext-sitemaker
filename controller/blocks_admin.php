@@ -93,14 +93,6 @@ class blocks_admin
 			case 'add':
 				$return_data = $this->blocks->add($block, $route);
 			break;
-			case 'config':
-				$data = array(
-					'bid'	=> (int) $id,
-					'bvar'	=> $this->request->variable('bvar', ''),
-					'bval'	=> $this->request->variable('bval', ''),
-				);
-				$this->blocks->config($id, $data);
-			break;
 			case 'edit':
 				$return_data = $this->blocks->edit($id);
 			break;
