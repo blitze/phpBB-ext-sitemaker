@@ -165,6 +165,8 @@ $lang = array_merge($lang, array(
 	'ROTATE_MONTHLY'						=> 'Monthly',
 	'ROTATE_PAGELOAD'						=> 'Page load',
 	'ROTATE_WEEKLY'							=> 'Weekly',
+	'ROUTE_HIDDEN_BLOCKS'					=> 'Blocks are being hidden for this page',
+	'ROUTE_HIDDEN_POSITIONS'				=> 'Blocks are being hidden for the following positions',
 	'ROUTE_UPDATED'							=> 'Page settings successfully updated',
 
 	'SAVE_CHANGES'							=> 'Save Changes',

@@ -328,21 +328,31 @@
 
 	var showMessage = function(message) {
 		if (message) {
-			msgObj.text(message);
+			msgObj.html(message);
 			msgObj.fadeIn().delay(3000).fadeOut();
+		}
+	};
+
+	var showCurrentState = function(hidingBlocks, positions) {
+		if (hidingBlocks) {
+			showMessage('<span><i class="fa fa-info-circle fa-blue fa-lg"></i> ' + lang.hidingBlocks + '</span>');
+		} else if (positions.length) {
+			showMessage('<span><i class="fa fa-info-circle fa-blue fa-lg"></i> ' + lang.hidingPos + ': <strong>' + positions.join(', ') + '</strong></span>');
 		}
 	};
 
 	$(document).ready(function() {
 		var copyFrom = '';
 		var blocksPanel = {};
+		var exPositions = {};
+		var isHidingBlocks = false;
 
-		$('#admin-bar').delay(300).slideDown().find('#admin-control').click(function() {
+		var loader = $('#admin-bar').delay(300).slideDown().find('#admin-control').click(function() {
 			if (typeof editMode !== undefined && editMode) {
 				$(this).prev().toggle();
 				return false;
 			}
-		});
+		}).find('i');
 
 		if (typeof editMode !== undefined && editMode) {
 			inlineForm = $('<form class="inline-form"><input type="text" class="inline-edit" value="" /></form>').hide().appendTo($('body'));
@@ -366,7 +376,7 @@
 				}
 			});
 
-			var exPositions = $('#ex_positions');
+			exPositions = $('#ex_positions');
 			blockPositions = $('.block-position').addClass('block-receiver').sortable({
 				revert: true,
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
@@ -451,10 +461,17 @@
 				blocksPanel = $(this).toggleClass('dropped');
 				blocksPanel.next().toggle();
 			}).next().mouseleave(function() {
-				//$(this).prev().trigger('click');
+				$(this).prev().trigger('click');
 			});
 
-			$('#admin-options').show();
+			$('#admin-options').show(100, function() {
+				var exPos = $.grep(exPositions.val(), function(str) {
+					return str.length;
+				});
+				showCurrentState(isHidingBlocks, exPos);
+			});
+
+			msgObj = $('#ajax-message');
 			mainContentObj = $('#main-content');
 			subcontentObj = $('#pos-subcontent');
 			emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
@@ -462,28 +479,26 @@
 				data: $.trim($('#block-template-container').html())
 			});
 
-			msgObj = $('#ajax-message').ajaxError(function(e) {
-				e.preventDefault();
-				showMessage(lang.ajaxError);
-			});
-
-			$(document).ajaxStart(function() {
-				$('#loading').fadeIn();
-			}).ajaxStop(function() {
-				$('#loading').fadeOut('slow');
-			});
-
-			// add style id to ajax requests
-			$(document).ajaxSend(function(event, xhr, settings) {
-				settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + style;
-			});
-
-			// Display any returned message
-			$(document).ajaxSuccess(function(event, xhr, settings, data) {
-				var message = (data.message) ? data.message : data.errors;
-				if (message) {
-					$('#loading').hide();
-					showMessage(message);
+			$.ajaxSetup({
+				// add style id to ajax requests
+				'beforeSend': function(xhr, settings) {
+					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
+					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + style;
+				},
+				'complete'   : function() {
+					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
+				},
+				// Display any returned message
+				'success': function(data) {
+					var message = (data.message) ? data.message : data.errors;
+					if (message) {
+						$('#loading').hide();
+						showMessage(message);
+					}
+				},
+				'error': function(e) {
+					e.preventDefault();
+					showMessage(lang.ajaxError);
 				}
 			});
 
@@ -588,6 +603,7 @@
 					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" checked="checked" />' + lang.updateSimilar + '</label>').prependTo(pane);
 				}
 			};
+
 			dialogEdit = $('#dialog-edit').dialog(defDialog).on('click', '.block-class-actions', function(e) {
 				e.preventDefault();
 				switch ($(this).data('action')) {
@@ -617,6 +633,7 @@
 				previewBlock();
 			});
 
+			// Set default layout
 			$('.default-layout').button().click(function(e) {
 				var setDefault = $(this).data('set');
 				setDefaultLayout(setDefault);
@@ -632,6 +649,7 @@
 				}
 			});
 
+			// Set start page
 			$('.pt-startpage').button().click(function(e) {
 				e.preventDefault();
 				var info = {};
@@ -651,10 +669,10 @@
 				}
 			});
 
-			$('#route-settings').submit(function(e) {
+			isHidingBlocks = $('#route-settings').submit(function(e) {
 				setRoutePrefs($(this));
 				e.preventDefault();
-			});
+			}).find('#hide_blocks').is(':checked');
 
 			window.onbeforeunload = function(e) {
 				if (updated === true) {
