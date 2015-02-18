@@ -11,7 +11,7 @@ namespace primetime\core\acp;
 
 class dashboard_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'	=> '\primetime\core\acp\dashboard_module',

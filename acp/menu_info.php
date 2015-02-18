@@ -11,7 +11,7 @@ namespace primetime\core\acp;
 
 class menu_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'	=> '\primetime\core\acp\menu_module',

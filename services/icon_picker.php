@@ -39,7 +39,7 @@ class icon_picker
 	 * @param \primetime\core\services\util			$primetime		Primetime object
 	 * @param \primetime\core\services\ptemplate	$ptemplate		Primetime Template object
 	 */
-	function __construct(\phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate)
+	public function __construct(\phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate)
 	{
 		$this->user = $user;
 		$this->primetime = $primetime;

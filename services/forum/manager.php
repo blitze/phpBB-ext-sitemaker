@@ -125,7 +125,7 @@ class manager
 		return $errors;
 	}
 
-	function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
+	public function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
 		$this->forum->delete_forum($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
 	}

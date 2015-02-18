@@ -63,7 +63,7 @@ class menu_module
 		$this->primetime = $phpbb_container->get('primetime.core.util');
 	}
 
-	function main()
+	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
