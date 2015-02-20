@@ -18,7 +18,7 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\forum\query */
+	/** @var \primetime\core\services\forum\data */
 	protected $forum;
 
 	/** @var string */
@@ -31,11 +31,11 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\core\services\forum\query	$forum				Forum object
+	 * @param \primetime\core\services\forum\data	$forum				Forum Data object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \primetime\core\services\forum\query $forum, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \primetime\core\services\forum\data $forum, $phpbb_root_path, $php_ext)
 	{
 		$this->user = $user;
 		$this->forum = $forum;

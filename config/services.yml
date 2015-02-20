@@ -69,8 +69,8 @@ services:
         tags:
             - { name: cron.task }
 
-    primetime.core.forum.query:
-        class: primetime\core\services\forum\query
+    primetime.core.forum.data:
+        class: primetime\core\services\forum\data
         arguments:
             - @auth
             - @config

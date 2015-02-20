@@ -9,7 +9,7 @@
 
 namespace primetime\core\services\forum;
 
-class query
+class data
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -70,7 +70,7 @@ class query
 	 *
 	 * @return	\primetime\core\forum\query		This object for chaining calls
 	 */
-	public function query()
+	public function init()
 	{
 		$this->store = array(
 			'attachments'	=> array(),
@@ -558,7 +558,7 @@ class query
 	 */
 	public function get_topic_post_ids($first_or_last_post = 'first')
 	{
-		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->topic_post_ids[$first_or_last_post] : array();
+		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->store['post_ids'][$first_or_last_post] : array();
 	}
 
 	private function _fetch($column_id, $column)

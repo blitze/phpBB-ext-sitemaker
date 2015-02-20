@@ -106,7 +106,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 			);
 
 			$this->tree->set_sql_condition("item_title <> ''");
-			$sql = $this->tree->qet_tree_sql(0, false, $sql_array);
+			$sql = $this->tree->qet_tree_sql(0, 0, $sql_array);
 			$result = $this->db->sql_query($sql);
 
 			$data = array();

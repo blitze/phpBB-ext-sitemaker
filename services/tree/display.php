@@ -165,7 +165,7 @@ abstract class display
 		return $this->db->sql_build_query('SELECT', $sql_array);
 	}
 
-	public function get_tree_array($start = 0, $level = false, $sql_array = array())
+	public function get_tree_array($start = 0, $level = 0, $sql_array = array())
 	{
 		$sql = $this->qet_tree_sql($start, $level, $sql_array);
 		$result = $this->db->sql_query($sql);

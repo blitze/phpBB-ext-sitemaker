@@ -45,7 +45,7 @@ services:
             - @dbal.conn
             - @request
             - @user
-            - @primetime.core.forum.query
+            - @primetime.core.forum.data
             - @primetime.core.util
             - %core.root_path%
             - %core.php_ext%
@@ -61,7 +61,7 @@ services:
             - @cache
             - @config
             - @user
-            - @primetime.core.forum.query
+            - @primetime.core.forum.data
             - @primetime.core.util
             - %core.root_path%
             - %core.php_ext%
@@ -122,7 +122,7 @@ services:
         class: primetime\core\blocks\mybookmarks
         arguments:
             - @user
-            - @primetime.core.forum.query
+            - @primetime.core.forum.data
             - %core.root_path%
             - %core.php_ext%
         calls:
@@ -144,7 +144,7 @@ services:
         class: primetime\core\blocks\whats_new
         arguments:
             - @user
-            - @primetime.core.forum.query
+            - @primetime.core.forum.data
             - %core.root_path%
             - %core.php_ext%
         calls:
