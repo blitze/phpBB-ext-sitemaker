@@ -23,29 +23,24 @@ class custom extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var string */
-	protected $cblocks_table;
-
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db					Database object
 	 * @param \phpbb\user							$user				User object
-	 * @param string								$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $cblocks_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->user = $user;
-		$this->cblocks_table = $cblocks_table;
 	}
 
 	public function save($id, $content)
 	{
 		// Delete block data
-		$this->db->sql_query('DELETE FROM ' . $this->cblocks_table . ' WHERE block_id = ' . (int) $id);
+		$this->db->sql_query('DELETE FROM ' . PT_CUSTOM_BLOCKS_TABLE . ' WHERE block_id = ' . (int) $id);
 
 		$sql_data =	array(
 			'block_id'			=> $id,
@@ -57,7 +52,7 @@ class custom extends \primetime\core\services\blocks\driver\block
 
 		generate_text_for_storage($sql_data['block_content'], $sql_data['bbcode_uid'], $sql_data['bbcode_bitfield'], $sql_data['bbcode_options'], true, true, true);
 
-		$this->db->sql_query('INSERT INTO ' . $this->cblocks_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
+		$this->db->sql_query('INSERT INTO ' . PT_CUSTOM_BLOCKS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 		$this->cache->destroy('pt_cblocks');
 
 		return array(
@@ -73,7 +68,7 @@ class custom extends \primetime\core\services\blocks\driver\block
 		if (($cblock = $this->cache->get('pt_cblocks')) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . $this->cblocks_table;
+				FROM ' . PT_CUSTOM_BLOCKS_TABLE;
 			$result = $this->db->sql_query($sql);
 
 			$cblock = array();

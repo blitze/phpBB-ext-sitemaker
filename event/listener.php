@@ -38,15 +38,6 @@ class listener implements EventSubscriberInterface
 	/* @var \primetime\core\services\blocks\display */
 	protected $blocks;
 
-	/** @var string */
-	protected $blocks_table;
-
-	/** @var string */
-	protected $blocks_config_table;
-
-	/** @var string */
-	protected $block_routes_table;
-
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
@@ -64,12 +55,9 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\core\services\util				$primetime				Primetime helper object
 	 * @param \primetime\core\services\blocks\display	$blocks					Blocks display object
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$blocks_config_table	Name of the blocks_config database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
 	 * @param string									$root_path				phpBB root path
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $blocks_table, $blocks_config_table, $block_routes_table, $root_path)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -79,9 +67,6 @@ class listener implements EventSubscriberInterface
 		$this->user = $user;
 		$this->primetime = $primetime;
 		$this->blocks = $blocks;
-		$this->blocks_table = $blocks_table;
-		$this->block_routes_table = $block_routes_table;
-		$this->blocks_config_table = $blocks_config_table;
 		$this->phpbb_root_path = $root_path;
 	}
 
@@ -103,9 +88,10 @@ class listener implements EventSubscriberInterface
 	public function init($event)
 	{
 		// Define tables
-		define('PT_BLOCKS_TABLE', $this->blocks_table);
-		define('PT_BLOCKS_CONFIG_TABLE', $this->blocks_config_table);
-		define('PT_BLOCK_ROUTES_TABLE', $this->block_routes_table);
+		define('PT_BLOCKS_TABLE', $this->phpbb_container->getParameter('tables.primetime.blocks'));
+		define('PT_BLOCKS_CONFIG_TABLE', $this->phpbb_container->getParameter('tables.primetime.blocks_config'));
+		define('PT_BLOCK_ROUTES_TABLE', $this->phpbb_container->getParameter('tables.primetime.block_routes'));
+		define('PT_CUSTOM_BLOCKS_TABLE', $this->phpbb_container->getParameter('tables.primetime.cblocks'));
 
 		// Define forum options
 		define('FORUMS_PREVIEW_FIRST_POST', 1);

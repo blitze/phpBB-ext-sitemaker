@@ -65,9 +65,6 @@ class display
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\core\services\util				$primetime				Primetime object
 	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$blocks_config_table	Name of the blocks_config database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate)
 	{
@@ -140,6 +137,10 @@ class display
 			{
 				$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=1');
 			}
+		}
+		else
+		{
+			$edit_mode = false;
 		}
 
 		$blocks = $this->get_blocks($route_info, $style_id, $edit_mode);
