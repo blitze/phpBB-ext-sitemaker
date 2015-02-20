@@ -14,6 +14,9 @@ class util
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** array */
 	protected $scripts;
 
@@ -25,10 +28,12 @@ class util
 	 *
 	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\template\template				$template		Template object
+	 * @param \phpbb\user							$user			User object
 	 */
-	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template)
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->template = $template;
+		$this->user = $user;
 		$this->asset_path = $path_helper->get_web_root_path();
 		$this->scripts = array(
 			'js'	=> array(),
@@ -135,5 +140,65 @@ class util
 		$s_form_token = $rootref['S_FORM_TOKEN'];
 
 		return $s_form_token;
+	}
+
+	public function get_date_range($range)
+	{
+		$time = $this->user->create_datetime();
+		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
+
+		switch($range)
+		{
+			case 'today':
+			$start = $this->user->create_datetime()
+				->setDate($now['year'], $now['mon'], $now['mday'])
+				->setTime(0, 0, 0)
+				->getTimestamp();
+			$stop = $start + 86399;
+			$date = $this->user->format_date($start, 'Y-m-d', true);
+			break;
+
+			case 'week':
+			$info = getdate($now[0] - (86400 * $now['wday']));
+			$start = $this->user->create_datetime()
+				->setDate($info['year'], $info['mon'], $info['mday'])
+				->setTime(0, 0, 0)
+				->getTimestamp();
+			$stop = $start + 604799;
+			$date = $this->user->format_date($start, 'Y-m-d', true) . '&amp;dsp=week';
+			break;
+
+			case 'month':
+			$start = $this->user->create_datetime()
+				->setDate($now['year'], $now['mon'], 1)
+				->setTime(0, 0, 0)
+				->getTimestamp();
+			$num_days = gmdate('t', $start);
+			$stop = $start + (86400 * $num_days) - 1;
+			$date = $this->user->format_date($start, 'Y-m', true);
+			break;
+
+			case 'year':
+			$start = $this->user->create_datetime()
+				->setDate($now['year'], 1, 1)
+				->setTime(0, 0, 0)
+				->getTimestamp();
+			$leap_year = gmdate('L', $start);
+			$num_days = ($leap_year) ? 366 : 365;
+			$stop = $start + (86400 * $num_days) - 1;
+			$date = $this->user->format_date($start, 'Y', true);
+			break;
+
+			default:
+			$start = $stop = 0;
+			$date = '';
+			break;
+		}
+
+		return array(
+			'start'	=> $start,
+			'stop'	=> $stop,
+			'date'	=> $date,
+		);
 	}
 }

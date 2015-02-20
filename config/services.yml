@@ -176,3 +176,4 @@ services:
         arguments:
             - @path_helper
             - @template
+            - @user
