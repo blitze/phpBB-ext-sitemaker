@@ -26,9 +26,6 @@ class query
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
-
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -36,32 +33,17 @@ class query
 	protected $php_ext;
 
 	/** @var array */
-	protected $attachments = array();
+	protected $store;
 
 	/** @var array */
-	protected $ex_fid_ary = array();
-
-	/** @var array */
-	protected $poster_ids = array();
-
-	/** @var array */
-	protected $topic_data = array();
-
-	/** @var array */
-	protected $topic_tracking = array();
-
-	/** @var array */
-	protected $sql_array = array();
-
-	/** @var array */
-	protected $topic_post_ids = array('first' => array(), 'last' => array());
+	protected $ex_fid_ary;
 
 	/** @var integer */
 	protected $cache_time = 10800; // caching for 3 hours
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param \phpbb\auth\auth						$auth					Auth object
 	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
@@ -69,9 +51,8 @@ class query
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
-	 * @param \primetime\core\services\util			$primetime				Primetime object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, \primetime\core\services\util $primetime)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -80,34 +61,28 @@ class query
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-		$this->primetime = $primetime;
+
+		$this->ex_fid_ary = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
 	}
 
 	/**
-	 * Build a query to pull up forum data
+	 * Begin query
+	 * 
+	 * @return	\primetime\core\forum\query		This object for chaining calls
 	 */
-	public function build_query($options = array(), $sql_array = array())
+	public function query()
 	{
-		$options += array(
-			'forum_id'		=> 0,
-			'topic_id'		=> 0,
-			'post_id'		=> 0,
-
-			'topic_type'		=> false,
-			'watch_info'		=> false,
-			'topic_tracking'	=> false,
-			'bookmark_status'	=> false,
-			'sort_key'			=> false,
-			'sort_dir'			=> 'DESC',
-			'enable_caching'	=> true,
-			'check_visibility'	=> true,
+		$this->store = array(
+			'attachments'	=> array(),
+			'post_ids'		=> array(),
+			'poster_ids'	=> array(),
+			'sql_array'		=> array(),
+			'topic'			=> array(),
+			'tracking'		=> array(),
 		);
 
-		$this->topic_data = array();
-		$this->ex_fid_ary = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
-
-		$this->sql_array = array(
-			'SELECT'	=> 't.*, f.*',
+		$this->store['sql_array'] = array(
+			'SELECT'	=> array('t.*, f.*'),
 
 			'FROM'		=> array(FORUMS_TABLE => 'f'),
 
@@ -116,170 +91,299 @@ class query
 			'WHERE'		=> array(),
 		);
 
-		// The FROM-Order is quite important here, else t.* columns can not be correctly bound.
-		if (!empty($options['post_id']))
-		{
-			$post_id = (int) $options['post_id'];
+		// Topics table need to be the last in the chain
+		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
 
-			$this->sql_array['SELECT'] .= ', p.post_visibility, p.post_time, p.post_id';
-			$this->sql_array['FROM'][POSTS_TABLE] = 'p';
-			$this->sql_array['WHERE'][] = "p.post_id = $post_id AND t.topic_id = p.topic_id";
+		return $this;
+	}
+
+	/**
+	 * Fetch Forum by id(s)
+	 *
+	 * @param	mixed	$forum_id	Limit by forum id: single id or array of forum ids
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_forum($forum_id)
+	{
+		if (!empty($forum_id))
+		{
+			$this->store['sql_array']['WHERE'][] = (is_array($forum_id)) ? $this->db->sql_in_set('f.forum_id', $forum_id) : 'f.forum_id = ' . (int) $forum_id;
+		}
+		return $this;
+	}
+
+	/**
+	 * Fetch Topic by id(s)
+	 *
+	 * @param	mixed	$topic_id	Limit by topic id: single id or array of topic ids
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_topic($topic_id)
+	{
+		if (!empty($topic_id))
+		{
+			$this->store['sql_array']['WHERE'][] = (is_array($topic_id)) ? $this->db->sql_in_set('t.topic_id', $topic_id) : 't.topic_id = ' . (int) $topic_id;
+		}
+		return $this;
+	}
+
+	/**
+	 * Fetch Topic by Poster id(s)
+	 *
+	 * @param	mixed	$user_id	User id of topic poster: single id or array of user ids
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_topic_poster($user_id)
+	{
+		$this->store['sql_array']['WHERE'][] = (is_array($user_id)) ? $this->db->sql_in_set('t.topic_poster', $user_id) : 't.topic_poster = ' . (int) $user_id;
+
+		return $this;
+	}
+
+	/**
+	 * Fetch Post by id(s)
+	 *
+	 * @param	mixed	$post_id	Limit by post id: single id or array of post ids
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_post($post_id)
+	{
+		$this->store['sql_array']['SELECT'][] = 'p.post_visibility, p.post_time, p.post_id';
+		$this->store['sql_array']['FROM'][POSTS_TABLE] = 'p';
+		$this->store['sql_array']['WHERE'][] = ((is_array($post_id)) ? $this->db->sql_in_set('p.post_id', $post_id) : 'p.post_id = ' . (int) $post_id) . ' AND t.topic_id = p.topic_id';
+
+		return $this;
+	}
+
+	/**
+	 * Fetch by Topic Type
+	 *
+	 * @param	mixed	$topic_type		Limit by post id: single id or array of post ids
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_topic_type($topic_type)
+	{
+		$topic_type = (is_array($topic_type)) ? $topic_type : array($topic_type);
+		$this->store['sql_array']['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
+
+		if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
+		{
+			$this->store['sql_array']['WHERE'][] = '(t.topic_time_limit > 0 AND (t.topic_time + t.topic_time_limit) < ' . time() . ')';
 		}
 
-		// Topics table need to be the last in the chain
-		$this->sql_array['FROM'][TOPICS_TABLE] = 't';
+		return $this;
+	}
 
+	/**
+	 * Fetch Topic Watch info
+	 *
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_watch_status()
+	{
 		if ($this->user->data['is_registered'])
 		{
-			if ($options['watch_info'])
-			{
-				$this->sql_array['SELECT'] .= ', tw.notify_status';
-				$this->sql_array['LEFT_JOIN'][] = array(
-					'FROM'	=> array(TOPICS_WATCH_TABLE => 'tw'),
-					'ON'	=> 'tw.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tw.topic_id'
-				);
+			$this->store['sql_array']['SELECT'][] = 'tw.notify_status';
+			$this->store['sql_array']['LEFT_JOIN'][] = array(
+				'FROM'	=> array(TOPICS_WATCH_TABLE => 'tw'),
+				'ON'	=> 'tw.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tw.topic_id'
+			);
 
-				$this->sql_array['SELECT'] .= ', fw.notify_status';
-				$this->sql_array['LEFT JOIN'][] = array(
-					'FROM'	=> array(FORUMS_WATCH_TABLE => 'fw'),
-					'ON'	=> '(fw.forum_id = f.forum_id AND fw.user_id = ' . $this->user->data['user_id'] . ')',
-				);
-			}
-
-			if ($options['bookmark_status'] && $this->config['allow_bookmarks'])
-			{
-				$this->sql_array['SELECT'] .= ', bm.topic_id as bookmarked';
-				$this->sql_array['LEFT_JOIN'][] = array(
-					'FROM'	=> array(BOOKMARKS_TABLE => 'bm'),
-					'ON'	=> 'bm.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = bm.topic_id'
-				);
-			}
-
-			if ($options['topic_tracking'] || $options['enable_caching'] !== true)
-			{
-				$this->cache_time = 0;
-			}
-
-			if ($options['topic_tracking'] && $this->config['load_db_lastread'])
-			{
-				$this->sql_array['SELECT'] .= ', tt.mark_time, ft.mark_time as forum_mark_time';
-
-				$this->sql_array['LEFT_JOIN'][] = array(
-					'FROM'	=> array(TOPICS_TRACK_TABLE => 'tt'),
-					'ON'	=> 'tt.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tt.topic_id'
-				);
-
-				$this->sql_array['LEFT_JOIN'][] = array(
-					'FROM'	=> array(FORUMS_TRACK_TABLE => 'ft'),
-					'ON'	=> 'ft.user_id = ' . $this->user->data['user_id'] . ' AND t.forum_id = ft.forum_id'
-				);
-			}
+			$this->store['sql_array']['SELECT'][] = 'fw.notify_status';
+			$this->store['sql_array']['LEFT JOIN'][] = array(
+				'FROM'	=> array(FORUMS_WATCH_TABLE => 'fw'),
+				'ON'	=> '(fw.forum_id = f.forum_id AND fw.user_id = ' . $this->user->data['user_id'] . ')',
+			);
 		}
 
-		if (!empty($options['topic_type']))
+		return $this;
+	}
+
+	/**
+	 * Fetch Topic Bookmark Info
+	 *
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_bookmark_status()
+	{
+		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
 		{
-			$topic_type = (is_array($options['topic_type'])) ? $options['topic_type'] : array($options['topic_type']);
-			$this->sql_array['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
-
-			if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
-			{
-				$this->sql_array['WHERE'][] = '(t.topic_time_limit > 0 AND (t.topic_time + t.topic_time_limit) < ' . time() . ')';
-			}
+			$this->store['sql_array']['SELECT'][] = 'bm.topic_id as bookmarked';
+			$this->store['sql_array']['LEFT_JOIN'][] = array(
+				'FROM'	=> array(BOOKMARKS_TABLE => 'bm'),
+				'ON'	=> 'bm.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = bm.topic_id'
+			);
 		}
 
-		if (!empty($options['forum_id']))
+		return $this;
+	}
+
+	/**
+	 * Fetch Topic Tracking Info
+	 *
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_tracking_info($track = true)
+	{
+		if ($track && $this->user->data['is_registered'] && $this->config['load_db_lastread'])
 		{
-			$forum_id = $options['forum_id'];
-			$forum_id = (is_array($forum_id)) ? $forum_id : array((int) $forum_id);
-			$this->sql_array['WHERE'][] = $this->db->sql_in_set('f.forum_id', $forum_id);
+			$this->cache_time = 0;
+
+			$this->store['sql_array']['SELECT'][] = 'tt.mark_time, ft.mark_time as forum_mark_time';
+			$this->store['sql_array']['LEFT_JOIN'][] = array(
+				'FROM'	=> array(TOPICS_TRACK_TABLE => 'tt'),
+				'ON'	=> 'tt.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tt.topic_id'
+			);
+
+			$this->store['sql_array']['LEFT_JOIN'][] = array(
+				'FROM'	=> array(FORUMS_TRACK_TABLE => 'ft'),
+				'ON'	=> 'ft.user_id = ' . $this->user->data['user_id'] . ' AND t.forum_id = ft.forum_id'
+			);
 		}
 
-		if (!empty($options['topic_id']))
+		return $this;
+	}
+
+	/**
+	 * Fetch by Date Range
+	 *
+	 * @param	integer		$start		Unix start time
+	 * @param	integer		$start		Unix stop time
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_date_range($start, $stop, $mode = 'topic')
+	{
+		if ($start && $stop)
 		{
-			$this->sql_array['WHERE'][] = 't.topic_id = ' . (int) $options['topic_id'];
+			$this->store['sql_array']['WHERE'][] = (($mode == 'topic') ? 't.topic_time' : 'p.post_time') . " BETWEEN $start AND $stop";
 		}
 
-		if ($options['check_visibility'])
+		return $this;
+	}
+
+	/**
+	 * Fetch by Custom Query
+	 *
+	 * @param	array	$sql_array		Array of elements to merge into query
+	 * 										array(
+	 * 											'SELECT'	=> array('p.*'),
+	 * 											'WHERE'		=> array('p.post_id = 2'),
+	 * 										)
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function fetch_custom($sql_array)
+	{
+		$this->store['sql_array'] = array_merge_recursive($this->store['sql_array'], $sql_array);
+
+		return $this;
+	}
+
+	/**
+	 * Set Sorting Order
+	 *
+	 * @param	string	$sort_key	The sorting key e.g. t.topic_time
+	 * @param	string	$sort_dir	Sort direction: ASC/DESC
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function set_sorting($sort_key, $sort_dir = 'DESC')
+	{
+		$this->store['sql_array']['ORDER_BY'] = $sort_key . ' ' . $sort_dir;
+
+		return $this;
+	}
+
+	/**
+	 * Build the query
+	 *
+	 * @param	bool	$check_visibility	Should we only return data from forums the user is allowed to see?
+	 * @param	bool	$enable_caching		Should the query be cached where possible?
+	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 */
+	public function build($check_visibility = true, $enable_caching = true)
+	{
+		if ($enable_caching !== true)
 		{
-			$this->sql_array['WHERE'][] = 't.topic_time <= ' . time();
-			$this->sql_array['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
+			$this->cache_time = 0;
 		}
 
-		$this->sql_array['WHERE'][] = 'f.forum_id = t.forum_id';
-		$this->sql_array['WHERE'][] = 't.topic_moved_id = 0';
-		$this->sql_array['WHERE'] = join(' AND ', array_filter($this->sql_array['WHERE']));
-
-		if ($options['sort_key'] !== false)
+		if ($check_visibility)
 		{
-			$this->sql_array['ORDER_BY'] = $options['sort_key'] . ' ' . $options['sort_dir'];
+			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . time();
+			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
 		}
 
-		if (sizeof($sql_array))
-		{
-			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
-		}
+		$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
+		$this->store['sql_array']['WHERE'][] = 't.topic_moved_id = 0';
 
-		return $this->sql_array;
+		$this->store['sql_array']['SELECT'] = join(', ', array_filter($this->store['sql_array']['SELECT']));
+		$this->store['sql_array']['WHERE'] = join(' AND ', array_filter($this->store['sql_array']['WHERE']));
+
+		return $this;
+	}
+
+	/**
+	 * Get the query array
+	 *
+	 * @return	array	The sql array that can be used with sql_build_query
+	 */
+	public function get_sql_array()
+	{
+		return $this->store['sql_array'];
 	}
 
 	/**
 	 * Get topic data
 	 */
-	public function get_topic_data($limit = 0, $start = 0, $sql_array = array())
+	public function get_topic_data($limit = 0, $start = 0)
 	{
-		if (sizeof($sql_array))
-		{
-			$this->sql_array = $this->primetime->merge_dbal_arrays($this->sql_array, $sql_array);
-		}
-
-		if (empty($this->sql_array))
-		{
-			$this->build_query(array(), $sql_array);
-		}
-
-		$sql = $this->db->sql_build_query('SELECT', $this->sql_array);
+		$sql = $this->db->sql_build_query('SELECT', $this->store['sql_array']);
 		$result = $this->db->sql_query_limit($sql, ($limit) ? $limit : false, $start, $this->cache_time);
 
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			$this->topic_data[$row['topic_id']] = $row;
-			$this->topic_tracking[$row['forum_id']]['topic_list'][] = $row['topic_id'];
-			$this->topic_tracking[$row['forum_id']]['mark_time'] =& $row['forum_mark_time'];
-			$this->topic_post_ids['first'][] = $row['topic_first_post_id'];
-			$this->topic_post_ids['last'][] = $row['topic_last_post_id'];
+			$this->store['topic'][$row['topic_id']] = $row;
+
+			$this->store['tracking'][$row['forum_id']]['topic_list'][] = $row['topic_id'];
+			$this->store['tracking'][$row['forum_id']]['mark_time'] =& $row['forum_mark_time'];
+			$this->store['post_ids']['first'][] = $row['topic_first_post_id'];
+			$this->store['post_ids']['last'][] = $row['topic_last_post_id'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return $this->topic_data;
+		return $this->store['topic'];
 	}
 
 	/**
 	 * Get post data
 	 */
-	public function get_post_data($topic_first_or_last = '', $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
+	public function get_post_data($topic_first_or_last_post = '', $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
 		$sql_where = array();
-		if (sizeof($this->topic_data))
+		if (sizeof($this->store['topic']))
 		{
-			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->topic_data));
+			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->store['topic']));
 
-			if ($topic_first_or_last)
+			if ($topic_first_or_last_post)
 			{
-				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last));
+				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last_post));
 				$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
 			}
 		}
 
 		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
 
-		$sql_array = $this->primetime->merge_dbal_arrays(array(
-				'SELECT'	=> 'p.*',
+		$sql_array = array_merge_recursive(array(
+				'SELECT'	=> array('p.*'),
 				'FROM'		=> array(POSTS_TABLE => 'p'),
-				'WHERE'		=> ((sizeof($sql_where)) ? join(' AND ', $sql_where) : ''),
+				'WHERE'		=> $sql_where,
 				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
 			),
 			$sql_array
 		);
+
+		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
+		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
@@ -290,40 +394,14 @@ class query
 			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
-			$this->poster_ids[] = $row['poster_id'];
-			$this->poster_ids[] = $row['post_edit_user'];
-			$this->poster_ids[] = $row['post_delete_user'];
-			$this->attachments[$row['post_id']] = $row['post_attachment'];
+			$this->store['poster_ids'][] = $row['poster_id'];
+			$this->store['poster_ids'][] = $row['post_edit_user'];
+			$this->store['poster_ids'][] = $row['post_delete_user'];
+			$this->store['attachments'][$row['post_id']] = $row['post_attachment'];
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->attachments = array_flip(array_filter($this->attachments));
-
 		return $post_data;
-	}
-
-	/**
-	 * Get topic tracking info
-	 */
-	public function get_topic_tracking_info($forum_id = 0)
-	{
-		$tracking_info = array();
-		if ($this->config['load_db_lastread'] && $this->user->data['is_registered'])
-		{
-			foreach ($this->topic_tracking as $fid => $forum)
-			{
-				$tracking_info[$fid] = get_topic_tracking($fid, $forum['topic_list'], $this->topic_data, array($fid => $forum['mark_time']));
-			}
-		}
-		else if ($this->config['load_anon_lastread'] || $this->user->data['is_registered'])
-		{
-			foreach ($this->topic_tracking as $fid => $forum)
-			{
-				$tracking_info[$fid] = get_complete_topic_tracking($fid, $forum['topic_list']);
-			}
-		}
-
-		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
 	}
 
 	/**
@@ -331,12 +409,14 @@ class query
 	 */
 	public function get_attachments($forum_id)
 	{
+		$this->store['attachments'] = array_flip(array_filter($this->store['attachments']));
+
 		$attachments = array();
-		if (sizeof($this->attachments) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
+		if (sizeof($this->store['attachments']) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
 		{
 			$sql = 'SELECT *
 				FROM ' . ATTACHMENTS_TABLE . '
-				WHERE ' . $this->db->sql_in_set('post_msg_id', $this->attachments) . '
+				WHERE ' . $this->db->sql_in_set('post_msg_id', $this->store['attachments']) . '
 					AND in_message = 0
 				ORDER BY filetime DESC, post_msg_id ASC';
 			$result = $this->db->sql_query($sql);
@@ -347,9 +427,38 @@ class query
 			}
 			$this->db->sql_freeresult($result);
 		}
-		$this->attachments = array();
+		$this->store['attachments'] = array();
 
 		return $attachments;
+	}
+
+	/**
+	 * Get topic tracking info
+	 */
+	public function get_topic_tracking_info($forum_id = 0)
+	{
+		if (!sizeof($this->store['tracking']))
+		{
+			return array();
+		}
+
+		$tracking_info = array();
+		if ($this->config['load_db_lastread'] && $this->user->data['is_registered'])
+		{
+			foreach ($this->store['tracking'] as $fid => $forum)
+			{
+				$tracking_info[$fid] = get_topic_tracking($fid, $forum['topic_list'], $this->store['topic'], array($fid => $forum['mark_time']));
+			}
+		}
+		else if ($this->config['load_anon_lastread'] || $this->user->data['is_registered'])
+		{
+			foreach ($this->store['tracking'] as $fid => $forum)
+			{
+				$tracking_info[$fid] = get_complete_topic_tracking($fid, $forum['topic_list']);
+			}
+		}
+
+		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
 	}
 
 	/**
@@ -357,14 +466,14 @@ class query
 	 */
 	public function get_posters_info()
 	{
-		$this->poster_ids = array_filter(array_unique($this->poster_ids));
+		$this->store['poster_ids'] = array_filter(array_unique($this->store['poster_ids']));
 
 		if (!function_exists('get_user_rank'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 		}
 
-		if (!sizeof($this->poster_ids))
+		if (!sizeof($this->store['poster_ids']))
 		{
 			return array();
 		}
@@ -374,7 +483,7 @@ class query
 
 		$sql = 'SELECT *
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $this->poster_ids);
+			WHERE ' . $this->db->sql_in_set('user_id', $this->store['poster_ids']);
 		$result = $this->db->sql_query($sql);
 
 		$user_cache = array();
@@ -386,15 +495,15 @@ class query
 				'user_type'					=> $row['user_type'],
 				'user_inactive_reason'		=> $row['user_inactive_reason'],
 
-				'joined'		=> $this->user->format_date($row['user_regdate'], 'M d, Y'),
-				'posts'			=> $row['user_posts'],
-				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+				'joined'			=> $this->user->format_date($row['user_regdate'], 'M d, Y'),
+				'posts'				=> $row['user_posts'],
+				'warnings'			=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
 
-				'viewonline'	=> $row['user_allow_viewonline'],
-				'allow_pm'		=> $row['user_allow_pm'],
+				'viewonline'		=> $row['user_allow_viewonline'],
+				'allow_pm'			=> $row['user_allow_pm'],
 
-				'avatar'		=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-				'age'			=> '',
+				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+				'age'				=> '',
 
 				'rank_title'		=> '',
 				'rank_image'		=> '',
@@ -451,8 +560,8 @@ class query
 	/**
 	 * Returns an array of topic first post or last post ids
 	 */
-	public function get_topic_post_ids($first_or_last = 'first')
+	public function get_topic_post_ids($first_or_last_post = 'first')
 	{
-		return (isset($this->topic_post_ids[$first_or_last])) ? $this->topic_post_ids[$first_or_last] : array();
+		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->topic_post_ids[$first_or_last_post] : array();
 	}
 }

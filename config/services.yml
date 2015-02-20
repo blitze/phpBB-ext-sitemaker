@@ -5,12 +5,6 @@ imports:
 
 services:
 
-    primetime.core.util:
-        class: primetime\core\services\util
-        arguments:
-            - @path_helper
-            - @template
-
     primetime.core.blocks.builder:
         class: primetime\core\services\blocks\builder
         arguments:
@@ -38,6 +32,18 @@ services:
             - @primetime.core.util
             - @primetime.core.template
 
+    primetime.core.block_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: primetime.block }
+
+    primetime.core.blocks.factory:
+        class: primetime\core\services\blocks\factory
+        arguments:
+            - @primetime.core.block_collection
+
     primetime.core.blocks.manager:
         class: primetime\core\services\blocks\manager
         arguments:
@@ -52,23 +58,25 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.core.block_collection:
-        class: phpbb\di\service_collection
-        arguments:
-            - @service_container
-        tags:
-            - { name: service_collection, tag: primetime.block }
-
-    primetime.core.blocks.factory:
-        class: primetime\core\services\blocks\factory
-        arguments:
-            - @primetime.core.block_collection
-
     primetime.core.cron.blocks_cleanup:
         class: primetime\core\cron\blocks_cleanup
         arguments:
             - @config
             - @dbal.conn
+
+    primetime.core.blocks.manager:
+        class: primetime\core\services\blocks\manager
+        arguments:
+            - @cache
+            - @config
+            - @dbal.conn
+            - @service_container
+            - @request
+            - @template
+            - @user
+            - @primetime.core.template
+            - %core.root_path%
+            - %core.php_ext%
             - @primetime.core.blocks.manager
             - %tables.primetime.blocks%
             - %tables.primetime.cblocks%
@@ -87,7 +95,6 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - @primetime.core.util
 
     primetime.core.forum.manager:
         class: primetime\core\services\forum\manager
@@ -152,9 +159,6 @@ services:
             - %tables.primetime.menu_items%
             - 'item_id'
 
-    primetime.core.template_context:
-        class: phpbb\template\context
-
     primetime.core.template:
         class: primetime\core\services\template
         arguments:
@@ -163,3 +167,12 @@ services:
             - @user
             - @primetime.core.template_context
             - @ext.manager
+
+    primetime.core.template_context:
+        class: phpbb\template\context
+
+    primetime.core.util:
+        class: primetime\core\services\util
+        arguments:
+            - @path_helper
+            - @template

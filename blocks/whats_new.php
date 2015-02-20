@@ -56,19 +56,13 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 	{
 		$topics_only = $db_data['settings']['topics_only'];
 
-		$options = array(
-			'enable_caching'	=> false,
-			'sort_key'			=> ($topics_only) ? 't.topic_last_post_time' : 'p.post_time',
-		);
-
 		if ($topics_only)
 		{
 			$sql_array = array(
-				'FROM'		=> array(
-					TOPICS_TABLE	=> 't',
+				'WHERE'		=> array(
+					't.topic_last_post_time > ' . $this->user->data['user_lastvisit'],
+					't.topic_moved_id = 0',
 				),
-				'WHERE'		=> 't.topic_last_post_time > ' . $this->user->data['user_lastvisit'] . '
-					AND t.topic_moved_id = 0',
 			);
 		}
 		else
@@ -77,11 +71,17 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 				'FROM'		=> array(
 					POSTS_TABLE		=> 'p',
 				),
-				'WHERE'		=> 't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
+				'WHERE'		=> array(
+					't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
+				),
 			);
 		}
 
-		$this->forum->build_query($options, $sql_array);
+		$this->forum->query()
+			->set_sorting(($topics_only) ? 't.topic_last_post_time' : 'p.post_time')
+			->fetch_custom($sql_array)
+			->build(true, false);
+
 		$topic_data = $this->forum->get_topic_data($db_data['settings']['max_topics']);
 
 		if (sizeof($topic_data) || $edit_mode !== false)

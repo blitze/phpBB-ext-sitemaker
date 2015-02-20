@@ -121,11 +121,11 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
 			'legend2'			=> $this->user->lang['DISPLAY'],
-			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
+			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
+			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
 			'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'params' => array($preview_options, $preview), 'default' => '', 'explain' => false),
 			'preview_max_chars'	=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 125),
-			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
 		);
 	}
 
@@ -135,7 +135,6 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	public function display($bdata, $edit_mode = false)
 	{
 		$this->settings = $bdata['settings'];
-		$enable_tracking = ($this->user->data['is_registered'] && $this->config['load_db_lastread'] && $this->settings['enable_tracking']) ? true : false;
 
 		switch ($this->settings['topic_type'])
 		{
@@ -165,19 +164,21 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 			$lang_var = 'TOPICS_LAST_READ';
 		}
 
-		$options = array(
-			'forum_id'			=> $this->settings['forum_ids'],
-			'topic_type'		=> $this->settings['topic_type'],
-			'sort_key'			=> $sort_order[$this->settings['order_by']],
-			'topic_tracking'	=> $enable_tracking,
-		);
+		$range_info = $this->primetime->get_date_range($this->settings['date_range']);
 
-		$sql_array = array(
-			'WHERE'		=> 'f.display_on_index = 1'
-		);
+		$this->forum->query()
+			->fetch_forum($this->settings['forum_ids'])
+			->fetch_topic_type($this->settings['topic_type'])
+			->fetch_tracking_info($this->settings['enable_tracking'])
+			->fetch_date_range($range_info['start'], $range_info['stop'])
+			->set_sorting($sort_order[$this->settings['order_by']])
+			->fetch_custom(array(
+				'WHERE'		=> array('f.display_on_index = 1'),
+			))
+			->build();
 
-		$this->forum->build_query($options, $sql_array);
 		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);
+		$this->topic_tracking_info = $this->forum->get_topic_tracking_info();
 
 		if (sizeof($topic_data) || $edit_mode !== false)
 		{
@@ -208,11 +209,6 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 					$this->fields['username'] = 'topic_first_poster_name';
 					$this->fields['user_colour'] = 'topic_first_poster_colour';
 				}
-			}
-
-			if ($enable_tracking)
-			{
-				$this->topic_tracking_info = $this->forum->get_topic_tracking_info();
 			}
 
 			$view = 'S_' . strtoupper($this->settings['template']);

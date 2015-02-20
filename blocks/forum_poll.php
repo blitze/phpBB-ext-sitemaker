@@ -127,27 +127,31 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 			FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
 			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
 		);
-		$options = array(
-			'forum_id'		=> $this->settings['forum_ids'],
-			'topic_type'	=> $this->settings['topic_type'],
-			'sort_key'		=> (isset($sort_order[$this->settings['order_by']])) ? $sort_order[$this->settings['order_by']] : 'RAND()',
-		);
+
 		$from_users_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['user_ids'])));
 		$from_topics_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['topic_ids'])));
 
 		$sql_array = array(
-			'WHERE'		=> 't.poll_start <> 0' .
-				(sizeof($from_topics_ary) ? ' AND ' . $this->db->sql_in_set('t.topic_id', $from_topics_ary) : '') .
-				(sizeof($from_users_ary) ? ' AND ' . $this->db->sql_in_set('t.user_id', $from_users_ary) : '')
+			'WHERE'		=> array(
+				't.poll_start <> 0',
+				(sizeof($from_topics_ary) ? $this->db->sql_in_set('t.topic_id', $from_topics_ary) : ''),
+				(sizeof($from_users_ary) ? $this->db->sql_in_set('t.user_id', $from_users_ary) : ''),
+			),
 		);
 
 		if (!empty($this->settings['group_ids']))
 		{
 			$sql_array['FROM'][USER_GROUP_TABLE] = 'ug';
-			$sql_array['WHERE'] .= ' AND t.topic_poster = ug.user_id AND ' . $this->db->sql_in_set('ug.group_id', $this->settings['group_ids']);
+			$sql_array['WHERE'][] = 't.topic_poster = ug.user_id AND ' . $this->db->sql_in_set('ug.group_id', $this->settings['group_ids']);
 		}
 
-		$this->forum->build_query($options, $sql_array);
+		$this->forum->query()
+			->fetch_forum($this->settings['forum_ids'])
+			->fetch_topic_type($this->settings['topic_type'])
+			->set_sorting((isset($sort_order[$this->settings['order_by']])) ? $sort_order[$this->settings['order_by']] : 'RAND()')
+			->fetch_custom($sql_array)
+			->build();
+
 		$topic_data = $this->forum->get_topic_data(1);
 		$topic_data = array_shift($topic_data);
 

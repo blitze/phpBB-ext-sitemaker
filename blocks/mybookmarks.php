@@ -57,19 +57,21 @@ class mybookmarks  extends \primetime\core\services\blocks\driver\block
 			return array();
 		}
 
-		$options = array(
-			'enable_caching'	=> false,
-			'sort_key'			=> 't.topic_last_post_time',
-		);
-
 		$sql_array = array(
 			'FROM'		=> array(
 				BOOKMARKS_TABLE		=> 'b',
 			),
-			'WHERE'		=> 'b.user_id = ' . $this->user->data['user_id'] . ' AND b.topic_id = t.topic_id',
+			'WHERE'		=> array(
+				'b.user_id = ' . $this->user->data['user_id'],
+				'b.topic_id = t.topic_id',
+			),
 		);
 
-		$this->forum->build_query($options, $sql_array);
+		$this->forum->query()
+			->set_sorting('t.topic_last_post_time')
+			->fetch_custom($sql_array)
+			->build(true, false);
+
 		$topic_data = $this->forum->get_topic_data($db_data['settings']['max_topics']);
 
 		if (sizeof($topic_data) || $edit_mode !== false)
