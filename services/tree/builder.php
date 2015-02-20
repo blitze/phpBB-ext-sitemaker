@@ -567,9 +567,13 @@ abstract class builder extends \primetime\core\services\tree\display
 		return $indexed[0]['children'];
 	}
 
+	/**
+	 * This function does nothing but can be over-written
+	 * to do something whenever the tree changes
+	 */
 	public function on_tree_change($data)
 	{
-		return true;
+		return $data;
 	}
 
 	/**
@@ -582,7 +586,7 @@ abstract class builder extends \primetime\core\services\tree\display
 		$diff = sizeof($moved_items) * 2;
 
 		$moved_ids = array();
-		for ($i = 0; $i < sizeof($moved_items); ++$i)
+		for ($i = 0, $size = sizeof($moved_items); $i < $size; ++$i)
 		{
 			$moved_ids[] = $moved_items[$i][$this->pk];
 		}
