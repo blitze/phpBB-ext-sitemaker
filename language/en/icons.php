@@ -54,5 +54,3 @@ $lang = array_merge($lang, array(
 
 	'NO_ICON'				=> 'No Icon',
 ));
-
-?>

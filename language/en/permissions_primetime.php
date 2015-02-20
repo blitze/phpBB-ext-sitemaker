@@ -25,5 +25,3 @@ $lang = array_merge($lang, array(
 	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',
 	'ACL_CAT_PRIMETIME'		=> 'Primetime',
 ));
-
-?>

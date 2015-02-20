@@ -87,5 +87,3 @@ $lang = array_merge($lang, array(
 	'WHATS_NEW'						=> 'What’s New?',
 	'WORDGRAPH'						=> 'Wordgraph',
 ));
-
-?>

@@ -211,5 +211,3 @@ $lang = array_merge($lang, array(
 	'WORD_NUMBER'							=> 'Number of words',
 	'WORD_NUMBER_EXPLAIN'					=> 'Select the number of words to display in wordgraph. A higher number could make server load slower in wordgraph page.',
 ));
-
-?>
