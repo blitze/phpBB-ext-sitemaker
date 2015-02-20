@@ -67,7 +67,7 @@ class query
 
 	/**
 	 * Begin query
-	 * 
+	 *
 	 * @return	\primetime\core\forum\query		This object for chaining calls
 	 */
 	public function query()
@@ -105,10 +105,8 @@ class query
 	 */
 	public function fetch_forum($forum_id)
 	{
-		if (!empty($forum_id))
-		{
-			$this->store['sql_array']['WHERE'][] = (is_array($forum_id)) ? $this->db->sql_in_set('f.forum_id', $forum_id) : 'f.forum_id = ' . (int) $forum_id;
-		}
+		$this->_fetch($forum_id, 'f.forum_id');
+
 		return $this;
 	}
 
@@ -120,10 +118,8 @@ class query
 	 */
 	public function fetch_topic($topic_id)
 	{
-		if (!empty($topic_id))
-		{
-			$this->store['sql_array']['WHERE'][] = (is_array($topic_id)) ? $this->db->sql_in_set('t.topic_id', $topic_id) : 't.topic_id = ' . (int) $topic_id;
-		}
+		$this->_fetch($topic_id, 't.topic_id');
+
 		return $this;
 	}
 
@@ -135,7 +131,7 @@ class query
 	 */
 	public function fetch_topic_poster($user_id)
 	{
-		$this->store['sql_array']['WHERE'][] = (is_array($user_id)) ? $this->db->sql_in_set('t.topic_poster', $user_id) : 't.topic_poster = ' . (int) $user_id;
+		$this->_fetch($user_id, 't.topic_poster');
 
 		return $this;
 	}
@@ -563,5 +559,13 @@ class query
 	public function get_topic_post_ids($first_or_last_post = 'first')
 	{
 		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->topic_post_ids[$first_or_last_post] : array();
+	}
+
+	private function _fetch($column_id, $column)
+	{
+		if (!empty($column_id))
+		{
+			$this->store['sql_array']['WHERE'][] = (is_array($column_id)) ? $this->db->sql_in_set($column, $column_id) : $column . ' = ' . (int) $column_id;
+		}
 	}
 }
