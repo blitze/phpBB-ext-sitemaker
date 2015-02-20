@@ -121,6 +121,7 @@ services:
         arguments:
             - @dbal.conn
             - @user
+            - @primetime.core.util
             - @primetime.core.template
             - %core.root_path%
             - %core.php_ext%

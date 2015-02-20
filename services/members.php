@@ -17,6 +17,9 @@ class members
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \primetime\core\services\util */
+	protected $primetime;
+
 	/** @var \primetime\core\services\template driver_interface */
 	protected $ptemplate;
 
@@ -31,14 +34,16 @@ class members
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
+	 * @param \primetime\core\services\util			$primetime			Primetime object
 	 * @param \primetime\core\services\template		$ptemplate			Primetime template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\core\services\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
+		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -121,61 +126,12 @@ class members
 
 		if ($get['date_range'] && $sql_between)
 		{
-			$time = $this->user->create_datetime();
-			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
+			$range_info = $this->primetime->get_date_range($get['date_range']);
 
-			switch($get['date_range'])
+			if ($range_info['start'] && $range_info['stop'])
 			{
-				case 'today':
-					$start = $this->user->create_datetime()
-						->setDate($now['year'], $now['mon'], $now['mday'])
-						->setTime(0, 0, 0)
-						->getTimestamp();
-					$stop = $start + 86399;
-					$date = $this->user->format_date($start, 'Y-m-d', true);
-				break;
-
-				case 'week':
-					$info = getdate($now[0] - (86400 * $now['wday']));
-					$start = $this->user->create_datetime()
-						->setDate($info['year'], $info['mon'], $info['mday'])
-						->setTime(0, 0, 0)
-						->getTimestamp();
-					$stop = $start + 604799;
-					$date = $this->user->format_date($start, 'Y-m-d', true) . '&amp;dsp=week';
-				break;
-
-				case 'month':
-					$start = $this->user->create_datetime()
-						->setDate($now['year'], $now['mon'], 1)
-						->setTime(0, 0, 0)
-						->getTimestamp();
-					$num_days = gmdate('t', $start);
-					$stop = $start + (86400 * $num_days) - 1;
-					$date = $this->user->format_date($start, 'Y-m', true);
-				break;
-
-				case 'year':
-					$start = $this->user->create_datetime()
-						->setDate($now['year'], 1, 1)
-						->setTime(0, 0, 0)
-						->getTimestamp();
-					$leap_year = gmdate('L', $start);
-					$num_days = ($leap_year) ? 366 : 365;
-					$stop = $start + (86400 * $num_days) - 1;
-					$date = $this->user->format_date($start, 'Y', true);
-				break;
-
-				default:
-					$start = $stop = 0;
-					$date = '';
-				break;
-			}
-
-			if ($start && $stop)
-			{
-				$append = '&amp;date=' . $date;
-				$sql_ary['WHERE'] .= " AND $sql_between BETWEEN $start AND $stop";
+				$append = '&amp;date=' . $range_info['date'];
+				$sql_ary['WHERE'] .= " AND $sql_between BETWEEN {$range_info['start']} AND {$range_info['stop']}";
 			}
 		}
 
