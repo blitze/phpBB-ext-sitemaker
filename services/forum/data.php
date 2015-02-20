@@ -70,7 +70,7 @@ class data
 	 *
 	 * @return	\primetime\core\forum\query		This object for chaining calls
 	 */
-	public function init()
+	public function query()
 	{
 		$this->store = array(
 			'attachments'	=> array(),
