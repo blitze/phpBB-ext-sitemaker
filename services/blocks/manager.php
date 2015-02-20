@@ -892,6 +892,8 @@ class manager extends route
 
 	private function save_settings($bid, $cfg_array, $df_settings)
 	{
+		$cfg_array = array_intersect_key($cfg_array, $df_settings);
+
 		$sql_ary = $settings = array();
 		foreach ($cfg_array as $var => $val)
 		{
