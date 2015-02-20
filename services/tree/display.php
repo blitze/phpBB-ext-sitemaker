@@ -17,9 +17,6 @@ abstract class display
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
-
 	/** @var string */
 	protected $items_table;
 
@@ -39,18 +36,16 @@ abstract class display
 	* Construct
 	*
 	* @param \phpbb\db\driver\driver_interface		$db             Database connection
-	* @param \primetime\core\services\util			$primetime		Primetime object
 	* @param string									$items_table	Table name
 	* @param string									$pk				Primary key
 	* @param string									$sql_where		Column restriction
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $items_table, $pk, $sql_where = '')
+	public function __construct(\phpbb\db\driver\driver_interface $db, $items_table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
 		$this->pk = $pk;
 		$this->items_table = $items_table;
 		$this->sql_where = $sql_where;
-		$this->primetime = $primetime;
 	}
 
 	/**
@@ -135,19 +130,39 @@ abstract class display
 		return $rows;
 	}
 
-	public function qet_tree_sql($start = 0, $level = false, $sql_array = array())
+	/**
+	 * Get Tree Query
+	 *
+	 * @param	integer	$start			Starting level
+	 * @param	integer $level			Max depth
+	 * @param	array	$sql_array		Array of elements to merge into query
+	 * 										array(
+	 * 											'SELECT'	=> array('p.*'),
+	 * 											'WHERE'		=> array('p.post_id = 2'),
+	 * 										)
+	 * @return	string		The sql query
+	 */
+	public function qet_tree_sql($start = 0, $level = 0, $sql_array = array())
 	{
-		$sql_query = array(
-			'SELECT'	=> 't.*',
-			'FROM'		=> array(
-				$this->items_table => ' t'
+		$sql_array = array_merge_recursive(
+			array(
+				'SELECT'	=> array('t.*'),
+				'FROM'		=> array(
+					$this->items_table => ' t'
+				),
+				'WHERE'		=> array(
+					't.depth ' . (($level) ? " BETWEEN $start AND " . ($start + $level) : ' >= ' . $start),
+					(($this->sql_where) ? 't.' . $this->sql_where : ''),
+				),
+				'ORDER_BY'	=> 't.left_id ASC',
 			),
-			'WHERE'		=> 't.depth ' . (($level) ? " BETWEEN $start AND " . ($start + $level) : ' >= ' . $start) .
-							(($this->sql_where) ? ' AND t.' . $this->sql_where : ''),
-			'ORDER_BY'	=> 't.left_id ASC'
+			$sql_array
 		);
 
-		return $this->db->sql_build_query('SELECT', $this->primetime->merge_dbal_arrays($sql_query, $sql_array));
+		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
+		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
+
+		return $this->db->sql_build_query('SELECT', $sql_array);
 	}
 
 	public function get_tree_array($start = 0, $level = false, $sql_array = array())

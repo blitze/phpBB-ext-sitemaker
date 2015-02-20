@@ -95,36 +95,6 @@ class util
 	}
 
 	/**
-	 * Merge dbal query arrays
-	 */
-	public function merge_dbal_arrays($sql_ary1, $sql_ary2)
-	{
-		if (sizeof($sql_ary2))
-		{
-			$sql_ary1['SELECT'] .= (!empty($sql_ary2['SELECT'])) ? ', ' . $sql_ary2['SELECT'] : '';
-			$sql_ary1['FROM'] += (!empty($sql_ary2['FROM'])) ? $sql_ary2['FROM'] : array();
-			$sql_ary1['WHERE'] .= (!empty($sql_ary2['WHERE'])) ? ' AND ' . $sql_ary2['WHERE'] : '';
-
-			if (!empty($sql_ary2['LEFT_JOIN']))
-			{
-				$sql_ary1['LEFT_JOIN'] = (!empty($sql_ary1['LEFT_JOIN'])) ? array_merge($sql_ary1['LEFT_JOIN'], $sql_ary2['LEFT_JOIN']) : $sql_ary2['LEFT_JOIN'];
-			}
-
-			if (!empty($sql_ary2['GROUP_BY']))
-			{
-				$sql_ary1['GROUP_BY'] = $sql_ary2['GROUP_BY'];
-			}
-
-			if (!empty($sql_ary2['ORDER_BY']))
-			{
-				$sql_ary1['ORDER_BY'] = $sql_ary2['ORDER_BY'];
-			}
-		}
-
-		return $sql_ary1;
-	}
-
-	/**
 	 * Add a secret token to the form (requires the S_FORM_TOKEN template variable)
 	 * @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
 	 */

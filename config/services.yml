@@ -131,7 +131,6 @@ services:
         arguments:
             - @cache
             - @dbal.conn
-            - @primetime.core.util
             - %tables.primetime.menu%
             - %tables.primetime.menu_items%
             - 'item_id'
@@ -140,7 +139,6 @@ services:
         class: primetime\core\services\menu\display
         arguments:
             - @dbal.conn
-            - @primetime.core.util
             - %tables.primetime.menu_items%
             - 'item_id'
 

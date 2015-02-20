@@ -102,7 +102,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) === false)
 		{
 			$sql_array = array(
-				'WHERE'	=> 't.menu_id = ' . (int) $menu_id,
+				'WHERE'	=> array('t.menu_id = ' . (int) $menu_id),
 			);
 
 			$this->tree->set_sql_condition("item_title <> ''");
