@@ -660,6 +660,7 @@ class manager extends route
 			break;
 			case 'hidden':
 				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
+				$vars['explain'] = '';
 				$type[0] = 'custom';
 			break;
 		}
