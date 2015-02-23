@@ -2,11 +2,11 @@
 
 phpBB Primetime is an Extension for [phpBB 3.1](https://www.phpbb.com/)
 
-[![Build Status](https://scrutinizer-ci.com/g/blitze/primetime/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/blitze/primetime/build-status/develop) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/blitze/primetime/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/blitze/primetime/?branch=develop)
-
 ## Description
 
 phpBB Primetime creates a CMS base around your phpBB 3.1 installation
+
+[![Travis](https://img.shields.io/travis/blitze/primetime.svg?style=flat)](https://travis-ci.org/blitze/primetime?branch=develop) [![Scrutinizer](https://img.shields.io/scrutinizer/g/blitze/primetime.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/primetime)
 
 ## Features
 
@@ -19,7 +19,6 @@ phpBB Primetime creates a CMS base around your phpBB 3.1 installation
 * Limit access to specific blocks based on group memberships
 * Create Menus with nested lists
 * Create blocks with your own content using html/bbcode
-
 
 ## Installation
 
