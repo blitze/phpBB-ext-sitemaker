@@ -16,9 +16,6 @@ class manager extends route
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -65,7 +62,6 @@ class manager extends route
 		parent::__construct($cache, $config, $db, $phpbb_container, $request, $user, $php_ext);
 
 		$this->cache = $cache;
-		$this->config = $config;
 		$this->db = $db;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
@@ -89,9 +85,9 @@ class manager extends route
 		$position = $this->request->variable('position', '');
 		$weight = $this->request->variable('weight', 0);
 
-		$b = $this->phpbb_container->get($service);
-		$b->set_template($this->ptemplate);
-		$df_settings = $b->get_config(array());
+		$block = $this->phpbb_container->get($service);
+		$block->set_template($this->ptemplate);
+		$df_settings = $block->get_config(array());
 
 		$block_settings = $this->get_block_settings($df_settings);
 		$route_id = (int) $this->get_route_id($route);
@@ -121,7 +117,7 @@ class manager extends route
 		return array_merge(
 			array('id' => $block_data['bid']),
 			$block_data,
-			$this->display($b, $block_data)
+			$this->display($block, $block_data)
 		);
 	}
 
@@ -146,8 +142,8 @@ class manager extends route
 			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
-		$b = $this->phpbb_container->get($bdata['name']);
-		$df_settings = $b->get_config($db_settings);
+		$block = $this->phpbb_container->get($bdata['name']);
+		$df_settings = $block->get_config($db_settings);
 		$bdata['settings'] = $this->get_block_settings($df_settings, $db_settings);
 
 		return array_merge(
@@ -156,7 +152,7 @@ class manager extends route
 				'id'		=> $bid,
 				'message'	=> $this->user->lang['BLOCK_UPDATED'],
 			),
-			$this->display($b, $bdata)
+			$this->display($block, $bdata)
 		);
 	}
 
@@ -190,36 +186,16 @@ class manager extends route
 			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
-		$b = $this->phpbb_container->get($bdata['name']);
-		$b->set_template($this->ptemplate);
-		$default_settings = $b->get_config($db_settings);
-
-		// Output relevant settings
-		$this->generate_config_fields($db_settings, $default_settings);
-
-		$bdata['settings'] = $db_settings;
-		$bdata['no_wrap'] = (bool) $bdata['no_wrap'];
-		$bdata['hide_title'] = (bool) $bdata['hide_title'];
-
-		$this->template->assign_vars(array(
-			'S_ACTIVE'		=> $bdata['status'],
-			'S_TYPE'		=> $bdata['type'],
-			'S_NO_WRAP'		=> $bdata['no_wrap'],
-			'S_HIDE_TITLE'	=> $bdata['hide_title'],
-			'S_BLOCK_CLASS'	=> trim($bdata['class']),
-			'S_GROUP_OPS'	=> $this->get_groups('options', $bdata['permission']))
-		);
-
-		$this->template->set_filenames(array(
-			'block_settings' => 'block_settings.html',
-		));
+		$block = $this->phpbb_container->get($bdata['name']);
+		$block->set_template($this->ptemplate);
+		$default_settings = $block->get_config($db_settings);
 
 		return array_merge(
 			$bdata,
 			array(
-				'form'		=> $this->template->assign_display('block_settings'),
+				'form'	=> $this->get_edit_form($bdata, $db_settings, $default_settings),
 			),
-			$this->display($b, $bdata)
+			$this->display($block, $bdata)
 		);
 	}
 
@@ -245,22 +221,16 @@ class manager extends route
 			return array('errors' => 'BLOCK_NOT_FOUND');
 		}
 
-		$b = $this->phpbb_container->get($bdata['name']);
-		$b->set_template($this->ptemplate);
-		$df_settings = $b->get_config($settings);
+		$block = $this->phpbb_container->get($bdata['name']);
+		$block->set_template($this->ptemplate);
+		$df_settings = $block->get_config($settings);
 
 		$class = $this->request->variable('class', '');
 		$permission_ary = $this->request->variable('permission', array(0));
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
-		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
 		$update_similar = $this->request->variable('similar', false);
 
-		$multi_select = array_filter($multi_select);
-		foreach ($multi_select as $key => $values)
-		{
-			$cfg_array[$key] = array_filter($values, 'strlen');
-			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
-		}
+		$cfg_array += $this->get_multi_select($df_settings);
 
 		$this->add_block_admin_lang();
 
@@ -283,7 +253,7 @@ class manager extends route
 		);
 
 		$updated_blocks = array();
-		if (is_array($cfg_array) && sizeof($cfg_array))
+		if (sizeof($cfg_array))
 		{
 			$bdata['settings'] = $this->save_settings($bid, $cfg_array, $df_settings);
 
@@ -291,22 +261,7 @@ class manager extends route
 			$new_hash = md5(join('', $bdata['settings']));
 
 			// settings have changed and we want to update similar blocks
-			if ($update_similar && $new_hash != $old_hash)
-			{
-				$similar_blocks = $this->update_similar_blocks($bid, $cfg_array, $bdata['settings'], $old_hash, $new_hash);
-
-				// Get similar blocks for this route
-				if (sizeof($similar_blocks))
-				{
-					$updated_blocks = array_intersect_key(
-						$similar_blocks,
-						$this->get_blocks($route, 'data', array(
-							'b.style = ' . (int) $this->style_id,
-							$this->db->sql_in_set('b.bid', array_keys($similar_blocks))
-						))
-					);
-				}
-			}
+			$updated_blocks = $this->update_similar_blocks($update_similar, $bid, $cfg_array, $bdata['settings'], $old_hash, $new_hash);
 
 			$sql_data['hash'] = $new_hash;
 		}
@@ -396,80 +351,12 @@ class manager extends route
 		{
 			$db_settings = $this->copy_blocks($style_id, $route_id, $new_blocks);
 		}
-
-		// Now let's select the new blocks and return data
-		$data = array();
-		for ($i = 0, $size = sizeof($new_blocks); $i < $size; $i++)
-		{
-			$row = $new_blocks[$i];
-			$bid = $row['bid'];
-			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
-
-			$b = $this->phpbb_container->get($row['name']);
-			$df_settings = $b->get_config($db_settings[$bid]);
-			$row['settings'] = $this->get_block_settings($df_settings, $db_settings[$bid]);
-
-			$data[$row['position']][] = array_merge(
-				array(
-					'id'			=> $row['bid'],
-					'icon'			=> $row['icon'],
-					'class'			=> $row['class'],
-					'status'		=> (bool) $row['status'],
-					'no_wrap'		=> (bool) $row['no_wrap'],
-					'hide_title'	=> (bool) $row['hide_title'],
-				),
-				$this->display($b, $row)
-			);
-		}
-
 		$this->cache->destroy('primetime_blocks');
 
 		return array(
-			'data'		=> $data,
+			'data'		=> $this->show_blocks($new_blocks, $db_settings),
 			'config'	=> $route_info,
 		);
-	}
-
-	/**
-	 * Get all blocks for specified route
-	 */
-	public function get_blocks($route, $return = 'data', $sql_where_array = array())
-	{
-		$def_sql_where = array(
-			'b.style = ' . $this->style_id,
-		);
-
-		if ($route)
-		{
-			$def_sql_where[] = "r.route = '" . $this->db->sql_escape($route) . "'";
-		}
-
-		$sql_where = (sizeof($sql_where_array)) ? $sql_where_array : $def_sql_where;
-
-		$sql_array = array(
-			'SELECT'	=> 'b.*',
-
-			'FROM'	  => array(
-				PT_BLOCKS_TABLE			=> 'b',
-				PT_BLOCK_ROUTES_TABLE	=> 'r',
-			),
-
-			'WHERE'	 => 'b.route_id = r.route_id' . ((sizeof($sql_where)) ? ' AND ' . join(' AND ', $sql_where) : ''),
-
-			'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-
-		$blocks = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$blocks[$row['bid']] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return ($return == 'id') ? array_keys($blocks) : $blocks;
 	}
 
 	public function set_style($style_id)
@@ -553,12 +440,54 @@ class manager extends route
 	}
 
 	/**
+	 * Get all blocks for specified route
+	 */
+	private function get_blocks($route, $return = 'data', $sql_where_array = array())
+	{
+		$def_sql_where = array(
+			'b.style = ' . $this->style_id,
+		);
+
+		if ($route)
+		{
+			$def_sql_where[] = "r.route = '" . $this->db->sql_escape($route) . "'";
+		}
+
+		$sql_where = (sizeof($sql_where_array)) ? $sql_where_array : $def_sql_where;
+
+		$sql_array = array(
+			'SELECT'	=> 'b.*',
+
+			'FROM'	  => array(
+				PT_BLOCKS_TABLE			=> 'b',
+				PT_BLOCK_ROUTES_TABLE	=> 'r',
+			),
+
+			'WHERE'	 => 'b.route_id = r.route_id' . ((sizeof($sql_where)) ? ' AND ' . join(' AND ', $sql_where) : ''),
+
+			'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
+		);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+
+		$blocks = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$blocks[$row['bid']] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return ($return == 'id') ? array_keys($blocks) : $blocks;
+	}
+
+	/**
 	 * Check if block exists
 	 *
 	 * @param	string	$service_name	Service name of block
 	 * @return	bool
 	 */
-	public function block_exists($service_name)
+	private function block_exists($service_name)
 	{
 		if (!$this->phpbb_container->has($service_name))
 		{
@@ -612,8 +541,6 @@ class manager extends route
 
 	private function get_config_field($config_key, &$db_settings, &$vars)
 	{
-		$type = explode(':', $vars['type']);
-
 		$l_explain = '';
 		if (!empty($vars['explain']))
 		{
@@ -633,6 +560,15 @@ class manager extends route
 		{
 			$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
 		}
+
+		$type = $this->get_field_type($config_key, $db_settings, $vars);
+
+		return build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
+	}
+
+	private function get_field_type($config_key, &$db_settings, &$vars)
+	{
+		$type = explode(':', $vars['type']);
 
 		if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
 		{
@@ -665,7 +601,7 @@ class manager extends route
 			break;
 		}
 
-		return build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
+		return $type;
 	}
 
 	private function add_lang_vars($options)
@@ -835,6 +771,35 @@ class manager extends route
 		);
 	}
 
+	private function display_blocks($blocks, $db_settings)
+	{
+		$data = array();
+		for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
+		{
+			$row = $blocks[$i];
+			$bid = $row['bid'];
+			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
+
+			$block = $this->phpbb_container->get($row['name']);
+			$df_settings = $block->get_config($db_settings[$bid]);
+			$row['settings'] = $this->get_block_settings($df_settings, $db_settings[$bid]);
+
+			$data[$row['position']][] = array_merge(
+				array(
+					'id'			=> $row['bid'],
+					'icon'			=> $row['icon'],
+					'class'			=> $row['class'],
+					'status'		=> (bool) $row['status'],
+					'no_wrap'		=> (bool) $row['no_wrap'],
+					'hide_title'	=> (bool) $row['hide_title'],
+				),
+				$this->display($block, $row)
+			);
+		}
+
+		return $data;
+	}
+
 	private function get_groups($mode = 'data', $selected = '')
 	{
 		if (!is_array($selected))
@@ -863,8 +828,13 @@ class manager extends route
 		return ($mode == 'data') ? $data : $options;
 	}
 
-	private function update_similar_blocks($block_id, $cfg_array, $settings, $old_hash, $new_hash)
+	private function update_similar_blocks($update_similar, $block_id, $cfg_array, $settings, $old_hash, $new_hash)
 	{
+		if (!$update_similar || $new_hash === $old_hash)
+		{
+			return array();
+		}
+
 		// grab all blocks with same settings
 		$similar_blocks = $this->get_blocks('', 'data', array(
 			'b.bid <> ' . (int) $block_id,
@@ -924,5 +894,74 @@ class manager extends route
 		}
 
 		return $settings;
+	}
+
+	private function get_multi_select($df_settings)
+	{
+		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
+
+		$multi_select = array_filter($multi_select);
+		$cfg_array = array();
+
+		foreach ($multi_select as $key => $values)
+		{
+			$cfg_array[$key] = array_filter($values, 'strlen');
+			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
+		}
+
+		return $cfg_array;
+	}
+
+	private function get_edit_form(&$bdata, $db_settings, $default_settings)
+	{
+		$this->generate_config_fields($db_settings, $default_settings);
+
+		$bdata['settings'] = $db_settings;
+		$bdata['no_wrap'] = (bool) $bdata['no_wrap'];
+		$bdata['hide_title'] = (bool) $bdata['hide_title'];
+
+		$this->template->assign_vars(array(
+			'S_ACTIVE'		=> $bdata['status'],
+			'S_TYPE'		=> $bdata['type'],
+			'S_NO_WRAP'		=> $bdata['no_wrap'],
+			'S_HIDE_TITLE'	=> $bdata['hide_title'],
+			'S_BLOCK_CLASS'	=> trim($bdata['class']),
+			'S_GROUP_OPS'	=> $this->get_groups('options', $bdata['permission']))
+		);
+
+		$this->template->set_filenames(array(
+			'block_settings' => 'block_settings.html',
+		));
+
+		return $this->template->assign_display('block_settings');
+	}
+
+	private function show_blocks($blocks, $db_settings)
+	{
+		$data = array();
+		for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
+		{
+			$row = $blocks[$i];
+			$bid = $row['bid'];
+			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
+
+			$block = $this->phpbb_container->get($row['name']);
+			$df_settings = $block->get_config($db_settings[$bid]);
+			$row['settings'] = $this->get_block_settings($df_settings, $db_settings[$bid]);
+
+			$data[$row['position']][] = array_merge(
+				array(
+					'id'			=> $row['bid'],
+					'icon'			=> $row['icon'],
+					'class'			=> $row['class'],
+					'status'		=> (bool) $row['status'],
+					'no_wrap'		=> (bool) $row['no_wrap'],
+					'hide_title'	=> (bool) $row['hide_title'],
+				),
+				$this->display($block, $row)
+			);
+		}
+
+		return $data;
 	}
 }
