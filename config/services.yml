@@ -109,9 +109,6 @@ services:
             - @user
             - @primetime.core.util
             - @primetime.core.blocks.display
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_routes%
             - %core.root_path%
         tags:
             - { name: event.listener }
