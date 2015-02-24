@@ -50,10 +50,12 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
+  - mkdir build/logs
+  - chmod +wx build/logs
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ../../phpBB3/build/logs/clover.xml
+  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
