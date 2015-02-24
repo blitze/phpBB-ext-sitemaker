@@ -43,9 +43,6 @@ branches:
 
 install:
   - travis_retry composer install --dev --no-interaction --prefer-source
-  - npm install
-  - bower install
-  - gulp build
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../../phpBB3
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
@@ -53,6 +50,10 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
+  - npm install -g bower
+  - npm install -g gulp
+  - bower install
+  - gulp build
   - mkdir build/logs
   - chmod +wx build/logs
 
