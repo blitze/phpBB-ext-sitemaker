@@ -97,7 +97,7 @@ class blocks_admin
 				$return_data = $this->blocks->edit($id);
 			break;
 			case 'save':
-				$return_data = $this->blocks->save($id, $route);
+				$return_data = $this->blocks->save($id);
 			break;
 			case 'update':
 				$field = $this->request->variable('field', 'icon');

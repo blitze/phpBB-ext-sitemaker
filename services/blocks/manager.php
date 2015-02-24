@@ -203,10 +203,9 @@ class manager extends route
 	 * Save Edit Form
 	 *
 	 * @param	integer		$bid		Block id
-	 * @param	string		$route		Routte
 	 * @return	array		Return array of all updated blocks 
 	 */
-	public function save($bid, $route)
+	public function save($bid)
 	{
 		if (!function_exists('validate_config_vars'))
 		{
@@ -769,35 +768,6 @@ class manager extends route
 			'title'		=> (!empty($settings['title'])) ? $settings['title'] : ((isset($this->user->lang[$data['title']])) ? $this->user->lang[$data['title']] : $data['title']),
 			'content'	=> (!empty($data['content'])) ? $data['content'] : $this->user->lang['BLOCK_NO_DATA']
 		);
-	}
-
-	private function display_blocks($blocks, $db_settings)
-	{
-		$data = array();
-		for ($i = 0, $size = sizeof($blocks); $i < $size; $i++)
-		{
-			$row = $blocks[$i];
-			$bid = $row['bid'];
-			$db_settings[$bid] = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
-
-			$block = $this->phpbb_container->get($row['name']);
-			$df_settings = $block->get_config($db_settings[$bid]);
-			$row['settings'] = $this->get_block_settings($df_settings, $db_settings[$bid]);
-
-			$data[$row['position']][] = array_merge(
-				array(
-					'id'			=> $row['bid'],
-					'icon'			=> $row['icon'],
-					'class'			=> $row['class'],
-					'status'		=> (bool) $row['status'],
-					'no_wrap'		=> (bool) $row['no_wrap'],
-					'hide_title'	=> (bool) $row['hide_title'],
-				),
-				$this->display($block, $row)
-			);
-		}
-
-		return $data;
 	}
 
 	private function get_groups($mode = 'data', $selected = '')
