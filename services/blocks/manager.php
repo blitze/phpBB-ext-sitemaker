@@ -439,6 +439,22 @@ class manager extends route
 	}
 
 	/**
+	 * Check if block exists
+	 *
+	 * @param	string	$service_name	Service name of block
+	 * @return	bool
+	 */
+	public function block_exists($service_name)
+	{
+		if (!$this->phpbb_container->has($service_name))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get all blocks for specified route
 	 */
 	private function get_blocks($route, $return = 'data', $sql_where_array = array())
@@ -478,22 +494,6 @@ class manager extends route
 		$this->db->sql_freeresult($result);
 
 		return ($return == 'id') ? array_keys($blocks) : $blocks;
-	}
-
-	/**
-	 * Check if block exists
-	 *
-	 * @param	string	$service_name	Service name of block
-	 * @return	bool
-	 */
-	private function block_exists($service_name)
-	{
-		if (!$this->phpbb_container->has($service_name))
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
