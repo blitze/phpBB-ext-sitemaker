@@ -34,6 +34,10 @@ env:
     - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.1.x"
 
+addons:
+  code_climate:
+    repo_token: 54e1b30169568078ca000948
+
 branches:
   only:
     - master
@@ -52,17 +56,9 @@ before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
   - mkdir build/logs
   - chmod +wx build/logs
-  - cd phpBB/ext/$EXTNAME
-  - npm install -g bower
-  - npm install -g gulp
-  - npm install
-  - bower install
-  - gulp build
-  - cd ../../../../
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+  - vendor/bin/test-reporter
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
