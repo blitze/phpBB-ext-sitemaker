@@ -55,7 +55,7 @@ before_script:
   - cd phpBB/ext/$EXTNAME
   - npm install -g bower
   - npm install -g gulp
-  - pwd
+  - npm install
   - bower install
   - gulp build
   - cd ../../../../
