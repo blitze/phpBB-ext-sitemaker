@@ -36,7 +36,7 @@ env:
 
 addons:
   code_climate:
-    repo_token: 54e1b30169568078ca000948
+    repo_token: ef4174c8678f80602ed41951befb86576baee6cbc28aed2bb06fe3fd5fb61b3c
 
 branches:
   only:
@@ -54,8 +54,8 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
-  - mkdir build/logs
-  - chmod +wx build/logs
+  - mkdir phpBB/ext/$EXTNAME/build/logs
+  - chmod +wx phpBB/ext/$EXTNAME/build/logs
 
 after_script:
   - phpBB/ext/$EXTNAME/vendor/bin/test-reporter --stdout > codeclimate.json
@@ -64,5 +64,10 @@ after_script:
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
   - sh -c "if [ '$IMAGE_ICC' != '0' ]; then travis/check-image-icc-profiles.sh $DB $TRAVIS_PHP_VERSION; fi"
-  - phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5" -a "$DB" == "mysqli" ];
+    then
+		phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/build/logs/clover.xml;
+	else
+		phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php;
+	fi
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTNAME/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/'; fi"
