@@ -7,7 +7,7 @@
  *
  */
 
-namespace primetime\core\tests\functional\controller;
+namespace primetime\core\tests\functional;
 
 /**
  * @group functional
