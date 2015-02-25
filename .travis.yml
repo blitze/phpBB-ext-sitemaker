@@ -58,7 +58,8 @@ before_script:
   - chmod +wx build/logs
 
 after_script:
-  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter
+  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter --stdout > codeclimate.json
+  - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
