@@ -54,8 +54,8 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
-  - mkdir phpBB/ext/$EXTNAME/build/logs
-  - chmod +wx phpBB/ext/$EXTNAME/build/logs
+  - mkdir build/logs
+  - chmod +wx build/logs
 
 after_script:
   - phpBB/ext/$EXTNAME/vendor/bin/test-reporter --stdout > codeclimate.json
@@ -66,7 +66,7 @@ script:
   - sh -c "if [ '$IMAGE_ICC' != '0' ]; then travis/check-image-icc-profiles.sh $DB $TRAVIS_PHP_VERSION; fi"
   - if [ "$TRAVIS_PHP_VERSION" == "5.5" -a "$DB" == "mysqli" ];
     then
-        phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover phpBB/ext/$EXTNAME/build/logs/clover.xml;
+        phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml;
     else
         phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/travis/phpunit-$DB-travis.xml --bootstrap ./tests/bootstrap.php;
     fi
