@@ -34,10 +34,6 @@ env:
     - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.1.x"
 
-addons:
-  code_climate:
-    repo_token: ef4174c8678f80602ed41951befb86576baee6cbc28aed2bb06fe3fd5fb61b3c
-
 branches:
   only:
     - master
@@ -61,8 +57,11 @@ before_script:
   - cd ../../../../
 
 after_script:
-  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter
-  - phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5" -a "$DB" == "mysqli" ];
+    then
+        phpBB/ext/$EXTNAME/vendor/bin/test-reporter
+		phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
+    fi
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
