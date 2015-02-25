@@ -57,7 +57,7 @@ before_script:
   - cd ../../../../
 
 after_script:
-  - ../blitze/primetime/travis/send_coverage.sh $DB $TRAVIS_PHP_VERSION
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5" -a "$DB" == "mysqli" ]; then phpBB/ext/$EXTNAME/vendor/bin/coveralls -v fi
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
