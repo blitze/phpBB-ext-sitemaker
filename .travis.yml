@@ -54,12 +54,15 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
-  - mkdir build/logs
-  - chmod +wx build/logs
+  - mkdir -p build/logs
+  - cd phpBB/ext/$EXTNAME
+  - composer require codeclimate/php-test-reporter --dev
+  - composer update satooshi/php-coveralls --dev
+  - cd ../../../../
 
 after_script:
-  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter --stdout > codeclimate.json
-  - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
+  - php phpBB/ext/$EXTNAME/vendor/bin/test-reporter
+  - php phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
