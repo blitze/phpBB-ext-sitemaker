@@ -58,7 +58,7 @@ before_script:
   - chmod +wx build/logs
 
 after_script:
-  - vendor/bin/test-reporter
+  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
