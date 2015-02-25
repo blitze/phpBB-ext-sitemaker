@@ -12,7 +12,7 @@ namespace primetime\core\tests\functional;
 /**
  * @group functional
  */
-class forum_controller_test extends \phpbb_functional_test_case
+class startpage_test extends \phpbb_functional_test_case
 {
 	protected $phpbb_extension_manager;
 
