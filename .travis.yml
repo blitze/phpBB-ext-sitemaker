@@ -57,12 +57,12 @@ before_script:
   - mkdir -p build/logs
   - cd phpBB/ext/$EXTNAME
   - composer require codeclimate/php-test-reporter --dev
-  - composer update satooshi/php-coveralls --dev
+  - composer require satooshi/php-coveralls --dev
   - cd ../../../../
 
 after_script:
-  - php phpBB/ext/$EXTNAME/vendor/bin/test-reporter
-  - php phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
+  - phpBB/ext/$EXTNAME/vendor/bin/test-reporter
+  - phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
