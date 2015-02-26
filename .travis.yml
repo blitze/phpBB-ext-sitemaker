@@ -58,7 +58,7 @@ before_script:
   - cd ../../../../
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.5" -a "$DB" == "mysqli" ]; then phpBB/ext/$EXTNAME/vendor/bin/coveralls -v fi
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTNAME/vendor/bin/coveralls'; fi"
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
