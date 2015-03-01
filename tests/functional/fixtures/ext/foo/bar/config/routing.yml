@@ -1,0 +1,3 @@
+foo_bar_controller:
+    path: /foo/bar
+    defaults: { _controller: foo_bar.controller:handle }

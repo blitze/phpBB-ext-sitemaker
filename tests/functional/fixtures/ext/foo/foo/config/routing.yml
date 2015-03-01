@@ -1,3 +1,0 @@
-foo_foo.general:
-    resource: "resource.yml"
-    prefix: /foo
