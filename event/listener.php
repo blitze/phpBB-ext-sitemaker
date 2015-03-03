@@ -87,12 +87,6 @@ class listener implements EventSubscriberInterface
 
 	public function init($event)
 	{
-		// Define tables
-		define('PT_BLOCKS_TABLE', $this->phpbb_container->getParameter('tables.primetime.blocks'));
-		define('PT_BLOCKS_CONFIG_TABLE', $this->phpbb_container->getParameter('tables.primetime.blocks_config'));
-		define('PT_BLOCK_ROUTES_TABLE', $this->phpbb_container->getParameter('tables.primetime.block_routes'));
-		define('PT_CUSTOM_BLOCKS_TABLE', $this->phpbb_container->getParameter('tables.primetime.cblocks'));
-
 		// Define forum options
 		define('FORUMS_PREVIEW_FIRST_POST', 1);
 		define('FORUMS_PREVIEW_LAST_POST', 2);

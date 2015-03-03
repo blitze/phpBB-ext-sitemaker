@@ -25,6 +25,9 @@ abstract class route extends base
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $block_routes_table;
+
 	/** @var integer */
 	protected $style_id = 0;
 
@@ -37,8 +40,10 @@ abstract class route extends base
 	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\user								$user					User object
+	 * @param string									$php_ext				phpEx
+	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, $php_ext, $block_routes_table)
 	{
 		parent::__construct($config, $phpbb_container, $user, $php_ext);
 
@@ -46,6 +51,7 @@ abstract class route extends base
 		$this->db = $db;
 		$this->request = $request;
 		$this->user = $user;
+		$this->block_routes_table = $block_routes_table;
 	}
 
 	/**
@@ -54,7 +60,7 @@ abstract class route extends base
 	public function get_all_routes()
 	{
 		$sql = 'SELECT *
-				FROM ' . PT_BLOCK_ROUTES_TABLE;
+				FROM ' . $this->block_routes_table;
 		$result = $this->db->sql_query($sql);
 
 		$routes = array();
@@ -103,7 +109,7 @@ abstract class route extends base
 			'has_blocks'	=> false,
 			'ex_positions'	=> '',
 		);
-		$this->db->sql_query('INSERT INTO ' . PT_BLOCK_ROUTES_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
+		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 		$sql_data['route_id'] = $this->db->sql_nextid();
 
 		$this->cache->destroy('primetime_block_routes');
@@ -145,7 +151,7 @@ abstract class route extends base
 			return array();
 		}
 
-		$this->db->sql_query('UPDATE ' . PT_BLOCK_ROUTES_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
+		$this->db->sql_query('UPDATE ' . $this->block_routes_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
 		$this->cache->destroy('primetime_block_routes');
 		$this->cache->destroy('primetime_blocks');
 
@@ -160,7 +166,7 @@ abstract class route extends base
 	 */
 	public function delete_route($route_id)
 	{
-		$this->db->sql_query('DELETE FROM ' . PT_BLOCK_ROUTES_TABLE . '
+		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . '
 			WHERE route_id = ' . (int) $route_id . '
 				AND style = ' . $this->style_id);
 

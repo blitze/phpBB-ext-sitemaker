@@ -40,6 +40,12 @@ class builder extends base
 	/** @var string phpEx */
 	protected $php_ext;
 
+	/** @var string */
+	protected $blocks_table;
+
+	/** @var string */
+	protected $block_routes_table;
+
 	/**
 	 * Constructor
 	 *
@@ -52,8 +58,10 @@ class builder extends base
 	 * @param \primetime\core\services\icon_picker		$icons					Primetime icon picker object
 	 * @param \primetime\core\services\util				$primetime				Template object
 	 * @param string									$php_ext				phpEx
+	 * @param string									$blocks_table			Name of the blocks database table
+	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\icon_picker $icons, \primetime\core\services\util $primetime, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\icon_picker $icons, \primetime\core\services\util $primetime, $php_ext, $blocks_table, $block_routes_table)
 	{
 		parent::__construct($config, $phpbb_container, $user, $php_ext);
 
@@ -66,6 +74,8 @@ class builder extends base
 		$this->icons = $icons;
 		$this->primetime = $primetime;
 		$this->php_ext = $php_ext;
+		$this->blocks_table = $blocks_table;
+		$this->block_routes_table = $block_routes_table;
 	}
 
 	/**
@@ -211,8 +221,8 @@ class builder extends base
 			'SELECT'	=> 'r.route',
 
 			'FROM'	  => array(
-				PT_BLOCKS_TABLE			=> 'b',
-				PT_BLOCK_ROUTES_TABLE	=> 'r',
+				$this->blocks_table			=> 'b',
+				$this->block_routes_table	=> 'r',
 			),
 
 			'WHERE'	 => 'b.route_id = r.route_id',

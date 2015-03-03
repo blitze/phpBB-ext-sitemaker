@@ -43,6 +43,15 @@ class display
 	/** @var \primetime\core\services\template */
 	protected $ptemplate;
 
+	/** @var string */
+	protected $blocks_table;
+
+	/** @var string */
+	protected $blocks_config_table;
+
+	/** @var string */
+	protected $block_routes_table;
+
 	/** @var bool */
 	private $is_subpage;
 
@@ -65,8 +74,11 @@ class display
 	 * @param \phpbb\user								$user					User object
 	 * @param \primetime\core\services\util				$primetime				Primetime object
 	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
+ 	 * @param string									$blocks_table			Name of the blocks database table
+ 	 * @param string									$blocks_config_table	Name of the blocks_config database table
+ 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -78,6 +90,9 @@ class display
 		$this->user = $user;
 		$this->primetime = $primetime;
 		$this->ptemplate = $ptemplate;
+		$this->blocks_table = $blocks_table;
+		$this->blocks_config_table = $blocks_config_table;
+		$this->block_routes_table = $block_routes_table;
 	}
 
 	public function show()
@@ -253,7 +268,7 @@ class display
 		if (($route_info = $this->cache->get('primetime_block_routes')) === false)
 		{
 			$sql = 'SELECT *
-				FROM ' . PT_BLOCK_ROUTES_TABLE;
+				FROM ' . $this->block_routes_table;
 			$result = $this->db->sql_query($sql);
 
 			$route_info = array();
@@ -285,8 +300,8 @@ class display
 				'SELECT'	=> 'b.*, r.route_id',
 
 				'FROM'	  => array(
-					PT_BLOCKS_TABLE			=> 'b',
-					PT_BLOCK_ROUTES_TABLE	=> 'r',
+					$this->blocks_table			=> 'b',
+					$this->block_routes_table	=> 'r',
 				),
 
 				'WHERE'	 => 'b.route_id = r.route_id' .
@@ -377,7 +392,7 @@ class display
 	public function get_blocks_config($sql_where = array())
 	{
 		$sql = 'SELECT bid, bvar, bval
-			FROM ' . PT_BLOCKS_CONFIG_TABLE .
+			FROM ' . $this->blocks_config_table.
 			(($sql_where) ? ' WHERE ' . $sql_where : '');
 		$result = $this->db->sql_query($sql);
 
