@@ -120,6 +120,7 @@ services:
             - @primetime.core.util
             - @primetime.core.blocks.display
             - %core.root_path%
+            - %core.php_ext%
         tags:
             - { name: event.listener }
 

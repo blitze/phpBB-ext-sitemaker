@@ -41,6 +41,9 @@ class listener implements EventSubscriberInterface
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
+	/** @var string */
+	protected $php_ext;
+
 	/* @var bool */
 	protected $startpage = false;
 
@@ -56,8 +59,9 @@ class listener implements EventSubscriberInterface
 	 * @param \primetime\core\services\util				$primetime				Primetime helper object
 	 * @param \primetime\core\services\blocks\display	$blocks					Blocks display object
 	 * @param string									$root_path				phpBB root path
+	 * @param string									$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -68,6 +72,7 @@ class listener implements EventSubscriberInterface
 		$this->primetime = $primetime;
 		$this->blocks = $blocks;
 		$this->phpbb_root_path = $root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	static public function getSubscribedEvents()
