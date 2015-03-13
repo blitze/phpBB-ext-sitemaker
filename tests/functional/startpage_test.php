@@ -27,7 +27,7 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$helper = new \phpbb_test_case_helpers(self);
 
 		// First, move any extensions setup on the board to a temp directory
-		// self::$helper->copy_dir($phpbb_root_path . 'ext/', $phpbb_root_path . 'store/temp_ext/');
+		self::$helper->copy_dir($phpbb_root_path . 'ext/', $phpbb_root_path . 'store/temp_ext/');
 
 		// Create our fake extension
 		self::$helper->copy_dir(dirname(__FILE__) . '/fixtures/ext/', $phpbb_root_path . 'ext/');
@@ -39,7 +39,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		parent::tearDownAfterClass();
 
-		//self::$helper->restore_original_ext_dir();
+		self::$helper->restore_original_ext_dir();
 	}
 
 	/**
