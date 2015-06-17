@@ -24,7 +24,9 @@
 
 	<filter>
 		<blacklist>
+			<directory>./components/</directory>
 			<directory>./tests/</directory>
+			<directory>./vendor/</directory>
 		</blacklist>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
@@ -32,8 +34,6 @@
 				<directory suffix=".php">./language/</directory>
 				<directory suffix=".php">./migrations/</directory>
 				<directory suffix=".php">./tests/</directory>
-                <directory>./vendor</directory>
-                <directory>./tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>
