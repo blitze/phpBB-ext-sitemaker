@@ -244,7 +244,7 @@ class manager extends route
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 		$update_similar = $this->request->variable('similar', false);
 
-		$cfg_array += $this->get_multi_select($df_settings);
+		$this->get_multi_select($cfg_array, $df_settings);
 
 		$this->add_block_admin_lang();
 
@@ -472,7 +472,7 @@ class manager extends route
 	/**
 	 * Get all blocks for specified route
 	 */
-	private function get_blocks($route, $return = 'data', $sql_where_array = array())
+	public function get_blocks($route, $return = 'data', $sql_where_array = array())
 	{
 		$def_sql_where = array(
 			'b.style = ' . $this->style_id,
@@ -881,20 +881,17 @@ class manager extends route
 		return $settings;
 	}
 
-	private function get_multi_select($df_settings)
+	private function get_multi_select(&$cfg_array, $df_settings)
 	{
 		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
 
 		$multi_select = array_filter($multi_select);
-		$cfg_array = array();
 
 		foreach ($multi_select as $key => $values)
 		{
 			$cfg_array[$key] = array_filter($values, 'strlen');
 			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(',', $cfg_array[$key]) : $df_settings[$key]['default'];
 		}
-
-		return $cfg_array;
 	}
 
 	private function get_edit_form(&$bdata, $db_settings, $default_settings)
