@@ -54,6 +54,7 @@ class dashboard_module
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				$asset_path . 'ext/primetime/core/components/jquery-knob/js/jquery.knob.min.js',
 				$asset_path . 'ext/primetime/core/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/primetime/core/components/moment/moment.min.js',
 				$asset_path . 'ext/primetime/core/components/jquery-rss/dist/jquery.rss.min.js',
 				$asset_path . 'ext/primetime/core/components/jquery.sparkline/index.min.js',
 				'@primetime_core/assets/adm/dashboard.min.js',
