@@ -28,6 +28,9 @@ class menu_admin
 	/** @var string */
 	private $menus_table;
 
+	/** @var string */
+	private $board_url;
+
 	/**
 	 * Constructor
 	 *
@@ -44,6 +47,7 @@ class menu_admin
 		$this->user = $user;
 		$this->manager = $manager;
 		$this->menus_table = $menus_table;
+		$this->board_url = generate_board_url();
 	}
 
 	public function handle($action, $item_id = 0)
@@ -91,6 +95,11 @@ class menu_admin
 
 				$tree = $this->manager->string_to_nestedset($bulk_list, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
 
+				foreach ($tree as $key => $row)
+				{
+					$tree[$key]['item_url'] = $this->sanitize_url($row['item_url']);
+				}
+
 				if (sizeof($tree))
 				{
 					$return['items'] = $this->manager->add_branch($tree, $parent_id);
@@ -110,7 +119,7 @@ class menu_admin
 					'item_status'	=> $this->request->variable('item_status', 1),
 				);
 
-				$return['item_url'] = ltrim($return['item_url'], './');
+				$return['item_url'] = $this->sanitize_url($return['item_url']);
 				$return = array_filter($return);
 
 				$this->manager->save_node($item_id, $return);
@@ -184,5 +193,18 @@ class menu_admin
 		$response->headers->set('Content-Type', 'application/json');
 
 		return $response;
+	}
+
+	private function sanitize_url($url)
+	{
+		$url = ltrim(str_replace($this->board_url, '', $url), './');
+		$parts = parse_url($url);
+
+		if ($url && empty($parts['host']) && strpos($parts['path'], '.') === false)
+		{
+			$url = 'app.php/' . $url;
+		}
+
+		return $url;
 	}
 }
