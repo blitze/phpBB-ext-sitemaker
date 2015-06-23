@@ -35,6 +35,7 @@ $lang = array_merge($lang, array(
 	'ICON_FLOAT_RIGHT'		=> 'Right',
 	'ICON_FONT'				=> 'Font Icons',
 	'ICON_FORM_CONTROL'		=> 'Form Control',
+	'ICON_GENDER'			=> 'Gender',
 	'ICON_IMAGE'			=> 'Image',
 	'ICON_INSERT_UPDATE'	=> 'Insert/Update',
 	'ICON_MEDICAL'			=> 'Medical',
@@ -49,6 +50,7 @@ $lang = array_merge($lang, array(
 	'ICON_SIZE_LARGER'		=> 'Larger',
 	'ICON_SPINNER'			=> 'Spinner',
 	'ICON_TEXT_EDITOR'		=> 'Text Editor',
+	'ICON_TRANSPORTATION'	=> 'Transportation',
 	'ICON_VIDEO_PLAYER'		=> 'Video Player',
 	'ICON_WEB_APPLICATION'	=> 'Web Application',
 

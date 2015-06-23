@@ -16,7 +16,7 @@
 }
 
 .icon-picker-container .tab-content {
-	height: 325px;
+	height: 380px;
 }
 
 .icon-picker-container .icons-bottom-tabs {
@@ -38,6 +38,15 @@
 .icon-picker-container .icons-bottom-tabs .ui-tabs-nav .ui-tabs-active {
 	margin-top: -1px;
 	padding-top: 1px;
+}
+
+.icon-picker-container .icon-filter {
+	margin: 2px auto;
+	width: 150px;
+}
+
+.icon-picker-container .icon-filter .search {
+	border-radius: 4px;
 }
 
 .icon-picker-container .preview-container {

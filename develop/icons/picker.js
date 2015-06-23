@@ -26,7 +26,9 @@
 			this.item = {};
 			this.selectedIcon = '';
 			this.iconsDiv = $('#icon-picker');
+			this.iconsSearch = this.iconsDiv.find('#icons-search');
 			this.fontList = this.iconsDiv.find('#icons-font-list');
+			this.icons = this.fontList.find('.filter-icon');
 			this.colorBoxes = this.iconsDiv.find('.icons-color-container');
 			this.customization = this.iconsDiv.find('#icon-customization');
 			this.preview = this.iconsDiv.find('#icon-picker-preview');
@@ -46,25 +48,38 @@
 				}
 			});
 
-			this.fontList.find('i').click(function(e) {
+			this.icons.find('i').click(function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
 				self.selectIcon($(this));
 			});
 
+			this.iconsSearch.keyup(function() {
+				var keyword = $(this).val();
+				if (keyword.length) {
+					self.icons.hide().filter('div[data-filter*="' + keyword + '"]').show();
+				} else {
+					self.icons.show();
+				}
+			});
+
 			this.iconsDiv.find('#icons-font-cat-list').find('a').click(function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
+				self.iconsSearch.val('');
+				self.icons.show();
 				self._scrollToIcon($($(this).attr('href')));
 			});
 
 			this.iconsDiv.find('#icon-picker-insert').click(function(e) {
 				e.preventDefault();
+				e.stopImmediatePropagation();
 				self.insertIcon(self.selectedIcon);
 			});
 
 			this.iconsDiv.find('#icon-picker-none').click(function(e) {
 				e.preventDefault();
+				e.stopImmediatePropagation();
 				self.insertIcon('');
 			});
 
@@ -105,12 +120,8 @@
 		},
 
 		insertIcon : function(icon) {
-			var iconHtml = '';
 			var iconClass = this.getIconProps(icon);
-
-			if (iconClass) {
-				iconHtml = '<i class="' + iconClass + '"></i>';
-			}
+			var iconHtml = (iconClass) ? '<i class="' + iconClass + '"></i>' : '';
 
 			this.item.html(iconHtml);
 			this.options.onSelect.call(this, this.item, iconHtml, iconClass);
@@ -142,7 +153,6 @@
 				var iconInfo = currIcon.attr('class').split(' ');
 				iconInfo.shift();
 
-				var self = this;
 				var iconClass = iconInfo.shift();
 				var icon = this.fontList.find('.' + iconClass);
 
