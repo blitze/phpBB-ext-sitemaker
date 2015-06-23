@@ -1,10 +1,12 @@
-$(function() {
+;(function($, window, document, undefined) {
+	'use strict';
+
 	$('.inlinebar').sparkline('html', {
 		type: 'bar',
 		barColor: 'red',
 		tooltipFormat: '{{offset:weekdays}} ({{value}})',
 		tooltipValueLookups: {
-			'weekdays': weekdays
+			weekdays: window.weekdays || {}
 		}
 	});
 	$('.knob').knob({
@@ -20,4 +22,4 @@ $(function() {
 	$(window).load(function() {
 		$('.scrollable').mCustomScrollbar();
 	});
-});
+})(jQuery, window, document);
