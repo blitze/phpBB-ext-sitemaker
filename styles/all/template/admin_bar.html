@@ -18,7 +18,7 @@
 			    </div>
 			</li>
 			<li class="hmenu-item">
-				<a class="menu-item has_dropdown" href="#">{L_TOOLS}</a>
+				<a class="menu-item has_dropdown" href="#">{L_LAYOUT}</a>
 				<div class="dropdown">
 					<h3>{L_TOOLS}</h3>
 					<div class="line">
@@ -133,13 +133,15 @@
 
 <script type="text/javascript">
 // <![CDATA[
-	var ajaxUrl = '{UA_AJAX_URL}';
-	var appUrl = '{UA_APP_URL}';
-	var boardUrl = '{UA_BOARD_URL}';
-	var route = '{UA_ROUTE}';
-	var ext = '{UA_EXTENSION}';
-	var style = '{UA_STYLE_ID}';
 	var editMode = {S_EDIT_MODE};
+	var config = {
+		ajaxUrl: '{UA_AJAX_URL}',
+		appUrl: '{UA_APP_URL}',
+		boardUrl: '{UA_BOARD_URL}',
+		route: '{UA_ROUTE}',
+		ext: '{UA_EXTENSION}',
+		style: '{UA_STYLE_ID}'
+	};
 	var lang = {
 		edit:   '{LA_EDIT_BLOCK}',
 		copy: '{LA_COPY}',
@@ -148,7 +150,7 @@
 		deleteAll: '{LA_DELETE_ALL}',
 		hidingBlocks: '{LA_ROUTE_HIDDEN_BLOCKS}',
 		hidingPos: '{LA_ROUTE_HIDDEN_POSITIONS}',
-		ajaxERROR: '{LA_AJAX_ERROR}',
+		ajaxError: '{LA_AJAX_ERROR}',
 		ajaxLoading: '{LA_AJAX_LOADING}',
 		leaveConfirm: '{LA_LEAVE_CONFIRM}',
 		updateSimilar: '{LA_UPDATE_SIMILAR}',
