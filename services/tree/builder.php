@@ -14,6 +14,43 @@ namespace primetime\core\services\tree;
 */
 abstract class builder extends \primetime\core\services\tree\display
 {
+	/** @var \primetime\core\services\util */
+	protected $primetime;
+
+	/**
+	 * Construct
+	 * 
+	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
+	 * @param \primetime\core\services\util			$primetime			Primetime Object
+	 * @param string								$menu_items_table	Menu Items table
+	 * @param string								$pk					Primary key
+	 */
+	public function __construct(\phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $menu_items_table, $pk)
+	{
+		parent::__construct($db, $menu_items_table, $pk);
+
+		$this->primetime = $primetime;
+	}
+
+	public function init()
+	{
+		$asset_path = $this->primetime->asset_path;
+		$this->primetime->add_assets(array(
+			'js'        => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
+				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
+				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				$asset_path . 'ext/primetime/core/components/jquery.populate/jquery.populate.min.js',
+				$asset_path . 'ext/primetime/core/components/nestedSortable2/jquery.ui.nestedSortable.min.js',
+				'@primetime_core/assets/tree/builder.min.js',
+			),
+			'css'   => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
+				'@primetime_core/assets/tree/builder.min.css',
+			)
+		));
+	}
+
 	/**
 	 * Adds a single node as the child of a given parent node
 	 * 

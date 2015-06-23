@@ -29,7 +29,7 @@ class menu_module
 	/** @var \primetime\core\services\menu\builder */
 	protected $manager;
 
-	/** @var \primetime\core\util */
+	/** @var \primetime\core\services\util */
 	protected $primetime;
 
 	/** @var string phpBB root path */
@@ -67,23 +67,7 @@ class menu_module
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
-			'js'        => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/core/components/jquery.populate/jquery.populate.min.js',
-				$asset_path . 'ext/primetime/core/components/nestedSortable/jquery.ui.nestedSortable.min.js',
-				'@primetime_core/assets/tree/builder.min.js',
-				'@primetime_core/assets/menu/admin.min.js',
-			),
-			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				'@primetime_core/assets/tree/builder.min.css',
-				'@primetime_core/assets/menu/admin.min.css',
-			)
-		));
+		$this->manager->init();
 
 		// Get all menus
 		$menus = $this->manager->menu_get();
@@ -106,6 +90,16 @@ class menu_module
 				);
 			}
 		}
+
+		$asset_path = $this->primetime->asset_path;
+		$this->primetime->add_assets(array(
+			'js'        => array(
+				'@primetime_core/assets/menu/admin.min.js',
+			),
+			'css'   => array(
+				'@primetime_core/assets/menu/admin.min.css',
+			)
+		));
 
 		$this->template->assign_vars(array(
 			'S_MENU'		=> true,

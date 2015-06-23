@@ -26,13 +26,14 @@ class builder extends \primetime\core\services\tree\builder
 	 * 
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
+	 * @param \primetime\core\services\util			$primetime			Primetime Object
 	 * @param string								$menus_table		Menus table
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, $menus_table, $menu_items_table, $pk)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $menus_table, $menu_items_table, $pk)
 	{
-		parent::__construct($db, $menu_items_table, $pk);
+		parent::__construct($db, $primetime, $menu_items_table, $pk);
 
 		$this->menus_table = $menus_table;
 		$this->cache = $cache;

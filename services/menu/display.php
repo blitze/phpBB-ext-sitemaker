@@ -46,6 +46,7 @@ class display extends \primetime\core\services\tree\display
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
 			$row = $data[$i];
+
 			if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
 			{
 				$active_depth = $row['depth'];

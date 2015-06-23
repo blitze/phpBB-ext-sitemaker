@@ -139,6 +139,7 @@ services:
         arguments:
             - @cache
             - @dbal.conn
+            - @primetime.core.util
             - %tables.primetime.menu%
             - %tables.primetime.menu_items%
             - 'item_id'
