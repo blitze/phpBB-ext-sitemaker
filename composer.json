@@ -19,7 +19,7 @@
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master",
-		"satooshi/php-coveralls": "dev-master"
+		"codeclimate/php-test-reporter": "dev-master"
 	},
 	"extra": {
 		"display-name": "phpBB Primetime",
