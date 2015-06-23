@@ -121,12 +121,12 @@
 		<fieldset>
 			<p class="small">{L_PT_REQUIRED_FIELDS}</p><br />
 			<dl>
-				<dt><label>{L_ITEM_NAME}*</label></dt>
-				<dd><input id="item_title" class="required" type="text" name="item_title" size="25" value="" /></dd>
+				<dt><label>{L_ITEM_NAME}*</label><br /><span class="small">{L_ITEM_NAME_EXPLAIN}</span></dt>
+				<dd><input id="item_title" class="required" type="text" name="item_title" value="" /></dd>
 			</dl>
 			<dl>
-				<dt><label>{L_ITEM_URL}*</label></dt>
-				<dd><input id="item_url" class="required" type="text" name="item_url" size="25" value="" /></dd>
+				<dt><label>{L_ITEM_URL}</label><br /><span class="small">{L_ITEM_URL_EXPLAIN}</span></dt>
+				<dd><input id="item_url" type="text" name="item_url" value="" /></dd>
 			</dl>
 			<dl>
 				<dt><label>{L_ITEM_TARGET}*</label></dt>
@@ -151,7 +151,7 @@
 // <![CDATA[
 	var ajaxUrl	= '{UA_AJAX_URL}';
 	var menuId	= {UA_MENU_ID};
-	var LANG = {
+	var lang = {
 		none				: '{LA_NONE}',
 		changeMe			: '{LA_CHANGE_ME}',
 		editNode			: '{LA_EDIT}',

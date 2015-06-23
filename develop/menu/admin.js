@@ -2,8 +2,12 @@
 	'use strict';
 
 	$(document).ready(function() {
-		var menuAdmin = {};
+		var ajaxUrl = window.ajaxUrl || '';
+		var menuId = window.menuId || 0;
+		var lang = window.lang || {};
+
 		var dButtons = {};
+		var menuAdmin = {};
 		var dialogConfirmDelete = {};
 		var currentMenuTitle = '';
 
@@ -63,8 +67,8 @@
 				var html = '<li id="menu-' + menuId + '" class="row3 current-menu">';
 				html += '<a href="#" class="menu-option"><span class="menu-editable">' + data.title + '</span></a>';
 				html += '<div class="menu-actions">';
-				html += '<a href="#" class="menu-edit left" title="' + LANG.edit + '"><span class="ui-icon ui-icon-gear"></span></a>';
-				html += '<a href="#" class="menu-delete left" title="' + LANG.remove + '"><span class="ui-icon ui-icon-trash"></span></a>';
+				html += '<a href="#" class="menu-edit left" title="' + lang.edit + '"><span class="ui-icon ui-icon-gear"></span></a>';
+				html += '<a href="#" class="menu-delete left" title="' + lang.remove + '"><span class="ui-icon ui-icon-trash"></span></a>';
 				html += '</span></li>';
 				menuDivObj.children('li').removeClass('row3 current-menu');
 				menuDivObj.append(html);
@@ -109,10 +113,10 @@
 			e.preventDefault();
 		});
 
-		dButtons[LANG.remove] = function() {
+		dButtons[lang.remove] = function() {
 			if (menuId) {
 				$.post(ajaxUrl + 'delete_menu', function(resp) {
-					if (resp.id == menuId) {
+					if (resp.id === menuId) {
 						var menu = $('#menu-' + menuId);
 						var up = menu.prev();
 						var down = menu.next();
@@ -131,7 +135,7 @@
 			$(this).dialog('close');
 		};
 
-		dButtons[LANG.cancel] = function() {
+		dButtons[lang.cancel] = function() {
 			$(this).dialog('close');
 		};
 
@@ -144,7 +148,7 @@
 		});
 
 		// cloud9 editor for yaml
-		var aceEditor = ace.edit('build_editor');
+		var aceEditor = window.ace.edit('build_editor');
 		var textarea = document.getElementById('add_list');
 
 		textarea.style.display = 'none';

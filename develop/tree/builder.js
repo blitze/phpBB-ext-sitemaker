@@ -7,6 +7,8 @@
 ;(function($, window, document, undefined) {
 	'use strict';
 
+	var lang = window.lang || {};
+
 	$.widget('primetime.treeBuilder', {
 		options : {
 			ajaxUrl			: '',
@@ -43,7 +45,6 @@
 
 		_create : function() {
 			var self = this;
-			var eventType = '';
 			var eButtons = {};
 			var dButtons = {};
 			var sButtons = {};
@@ -71,25 +72,27 @@
 			});
 
 			// register dialogs
-			dButtons[LANG.deleteChildNodes] = function() {
+			dButtons[lang.deleteChildNodes] = function() {
 				$('li#item-' + self.itemID).remove();
 				$(this).dialog('close');
 				self._saveTree();
 			};
 
-			dButtons[LANG.deleteNode] = function() {
+			dButtons[lang.deleteNode] = function() {
 				var o = $('#item-' + self.itemID);
-				o.parent(self.options.listType).parent('li').append('<' + self.options.listType + '>' + o.children(self.options.listType).html() + '</' + self.options.listType + '>');
+				if (o.children(self.options.listType).length) {
+					o.parent(self.options.listType).parent('li').append('<' + self.options.listType + '>' + o.children(self.options.listType).html() + '</' + self.options.listType + '>');
+				}
 				o.remove();
 				$(this).dialog('close');
 				self._saveTree();
 			};
 
-			dButtons[LANG.cancel] = function() {
+			dButtons[lang.cancel] = function() {
 				$(this).dialog('close');
 			};
 
-			eButtons[LANG.editNode] = function(event) {
+			eButtons[lang.editNode] = function() {
 				if (self._checkRequired()) {
 					if (self.itemID) {
 						self._updateItem(self.itemID);
@@ -98,11 +101,11 @@
 				}
 			};
 
-			eButtons[LANG.cancel] = function() {
+			eButtons[lang.cancel] = function() {
 				$(self.dialogID).dialog('close');
 			};
 
-			sButtons[LANG.deleteNode] = function() {
+			sButtons[lang.deleteNode] = function() {
 				self.element.find(self.options.selectItemClass + ':checked').parentsUntil('li').parent().remove();
 				self._saveTree();
 				$(this).dialog('close');
@@ -112,7 +115,7 @@
 				}
 			};
 
-			sButtons[LANG.cancel] = function() {
+			sButtons[lang.cancel] = function() {
 				$(this).dialog('close');
 			};
 
@@ -129,7 +132,7 @@
 
 			// register events
 			this.msgObj = this.element.find(this.options.ajaxMessage).ajaxError(function() {
-				self.showMessage(LANG.errorMessage);
+				self.showMessage(lang.errorMessage);
 				return false;
 			});
 
@@ -150,7 +153,7 @@
 			});
 
 			var events = {};
-			events['click' + this.options.selectItemClass] = function(event) {
+			events['click' + this.options.selectItemClass] = function() {
 				var numSelected = this.element.find(this.options.selectItemClass + ':checked').length;
 				if (numSelected > 0) {
 					this.deleteSelBtn.button('enable');
@@ -177,7 +180,7 @@
 				this.dialogID = this.options.dialogEdit;
 				this.itemID = $(event.currentTarget).attr('id').substring('5');
 				this._populateForm(this.itemID);
-				$(this.dialogID).dialog({buttons : eButtons}).dialog('option', 'title', LANG.editNode).dialog('open');
+				$(this.dialogID).dialog({buttons : eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
 			};
 			events['click' + this.options.deleteClass] = function(event) {
 				var buttons = $.extend({}, dButtons);
@@ -186,7 +189,7 @@
 				this.itemID = $(event.currentTarget).attr('id').substring('7');
 
 				if ($('#item-' + this.itemID).children(this.options.listType).children('li').length < 1) {
-					delete buttons[LANG.deleteChildNodes];
+					delete buttons[lang.deleteChildNodes];
 				}
 				$(this.dialogID).dialog({buttons: buttons}).dialog('open');
 			};
@@ -197,7 +200,7 @@
 				icons: {
 					primary: 'ui-icon-plus'
 				}
-			}).click(function(event) {
+			}).click(function() {
 				self.addItem();
 				return false;
 			});
@@ -216,14 +219,14 @@
 				});
 
 				if ($(event.currentTarget).hasClass('dropped') === true) {
-					var options = '<option value="0">' + LANG.none + '</option>';
+					var options = '<option value="0">' + lang.none + '</option>';
 					form.find('select').html(self._getOptions(self.nestedList, '', options)).next().val();
 				}
 
 				return false;
 			});
 
-			this.addBulkBtn.parent().buttonset().show().next().hide().find('#cancel').click(function(event) {
+			this.addBulkBtn.parent().buttonset().show().next().hide().find('#cancel').click(function() {
 				self.addBulkBtn.trigger('click');
 			}).next().click(function(event) {
 				var form = $(event.target).parentsUntil('form').parent();
@@ -242,7 +245,7 @@
 				icons: {
 					primary: 'ui-icon-refresh'
 				}
-			}).click(function(event) {
+			}).click(function() {
 				self.rebuildTree();
 				return false;
 			});
@@ -252,7 +255,7 @@
 				icons: {
 					primary: 'ui-icon-trash'
 				}
-			}).click(function(event) {
+			}).click(function() {
 				self.dialogID = self.options.dialogConfirm;
 				$(self.dialogID).dialog({buttons: sButtons}).dialog('open');
 				return false;
@@ -263,7 +266,7 @@
 				icons: {
 					primary: 'ui-icon-check'
 				}
-			}).click(function(event) {
+			}).click(function() {
 				if (self.itemsChanged === true) {
 					self._saveTree();
 				}
@@ -305,7 +308,7 @@
 			this.nestedList.empty();
 			this._resetActions();
 
-			$.getJSON(ajaxUrl + 'rebuild_tree', function(data) {
+			$.getJSON(this.options.ajaxUrl + 'rebuild_tree', function(data) {
 				self._showActions();
 				self._addToTree(data.items);
 			});
@@ -339,7 +342,7 @@
 				var html = {};
 				var item = items.shift();
 
-				item['item_title'] = (item['item_title']) ? item['item_title'] : LANG.changeMe;
+				item['item_title'] = (item['item_title']) ? item['item_title'] : lang.changeMe;
 
 				if (item['parent_id'] > 0) {
 					var parentObj = $('#item-' + item['parent_id']);
@@ -376,7 +379,7 @@
 
 			$(this.dialogID + ' .required').each(function() {
 				if (!$(this).val()) {
-					$('<div class="error">' + LANG.required + '</div>').insertAfter(this);
+					$('<div class="error">' + lang.required + '</div>').insertAfter(this);
 					response = false;
 				}
 			});
@@ -406,7 +409,7 @@
 			}
 
 			this.editing = true;
-			this.editorVal = (element.text() !== LANG.changeMe) ? element.text() : '';
+			this.editorVal = (element.text() !== lang.changeMe) ? element.text() : '';
 
 			element.replaceWith('<form id="inline-form"><input type="text" id="inline-edit" value="' + this.editorVal + '" /></form>');
 			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();
@@ -436,7 +439,7 @@
 				data[field] = val;
 				this._saveItem('edit', data, id, field);
 			} else {
-				this._undoEditable(this.editorVal ? this.editorVal : LANG.changeMe);
+				this._undoEditable(this.editorVal ? this.editorVal : lang.changeMe);
 			}
 
 			return false;
