@@ -475,14 +475,12 @@ ul.pt-list > li > ul.pt-list {
 
 nav ul.pt-list > li {
 	font-size: 12px;
-	margin: 5px 0;
+	padding-top: 5px;
 	position: relative;
 }
 
 nav ul.pt-list li > a {
 	display: block;
-	padding: 5px;
-	margin: 0;
 }
 
 nav ul.pt-list .active > a,
@@ -494,7 +492,7 @@ nav ul.pt-list li > a:hover {
 
 nav ul.pt-list > li.nav-header {
 	list-style-type: none;
-	padding: 5px 0;
+	margin-top: 5px;
 }
 
 .pt-list-square nav ul.pt-list li.nav-header,
@@ -538,9 +536,9 @@ nav ul.pt-list > li.nav-header > a:hover {
 	display: inline-block;
 	padding: 0 10px;
 	vertical-align: top;
-	        box-sizing: border-box;
-	   -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 
 .list-block-auto ul.pt-list > li {
