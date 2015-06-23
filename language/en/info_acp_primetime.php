@@ -50,6 +50,7 @@ $lang = array_merge($lang, array(
 	'CHANGE_ME'					=> 'Change Me',
 
 	'DELETE_ITEM'				=> 'Delete Item',
+	'DELETE_KIDS'				=> 'Delete Branch',
 	'DELETE_MENU'				=> 'Delete Menu',
 	'DELETE_MENU_CONFIRM'		=> 'Are you sure you want to delete this menu?<br />This will delete the menu and all its items',
 	'DELETE_MENU_ITEM'			=> 'Delete Item',
@@ -61,9 +62,11 @@ $lang = array_merge($lang, array(
 	'ITEM_ACTIVE'				=> 'Active',
 	'ITEM_INACTIVE'				=> 'Inactive',
 	'ITEM_NAME'					=> 'Item Name',
+	'ITEM_NAME_EXPLAIN'			=> 'Set as ’-’ for divider',
 	'ITEM_STATUS'				=> 'Item Status',
 	'ITEM_TARGET'				=> 'Item Target',
 	'ITEM_URL'					=> 'Item URL',
+	'ITEM_URL_EXPLAIN'			=> 'Leave empty for headings',
 
 	'LOADING'					=> 'Loading...',
 
