@@ -117,7 +117,7 @@ class util
 		$time = $this->user->create_datetime();
 		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
-		switch($range)
+		switch ($range)
 		{
 			case 'today':
 			$start = $this->user->create_datetime()

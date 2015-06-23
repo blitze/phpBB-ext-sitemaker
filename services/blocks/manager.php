@@ -65,9 +65,9 @@ class manager extends route
 	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
- 	 * @param string									$blocks_table			Name of the blocks database table
- 	 * @param string									$blocks_config_table	Name of the blocks_config database table
- 	 * @param string									$block_routes_table		Name of the block_routes database table
+	 * @param string									$blocks_table			Name of the blocks database table
+	 * @param string									$blocks_config_table	Name of the blocks_config database table
+	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\template $ptemplate, $root_path, $php_ext, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
@@ -218,7 +218,7 @@ class manager extends route
 	 * Save Edit Form
 	 *
 	 * @param	integer		$bid		Block id
-	 * @return	array		Return array of all updated blocks 
+	 * @return	array		Return array of all updated blocks
 	 */
 	public function save($bid)
 	{

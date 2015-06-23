@@ -80,7 +80,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function get_config($settings)
 	{
@@ -130,7 +130,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function display($bdata, $edit_mode = false)
 	{

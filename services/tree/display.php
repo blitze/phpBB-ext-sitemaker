@@ -267,7 +267,7 @@ abstract class display
 
 	/**
 	 * Return errors
-	 * 
+	 *
 	 * @return array
 	 */
 	public function get_errors()

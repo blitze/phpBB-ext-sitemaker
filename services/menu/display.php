@@ -28,7 +28,7 @@ class display extends \primetime\core\services\tree\display
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function display_list($data, &$template, $handle = 'tree')
 	{

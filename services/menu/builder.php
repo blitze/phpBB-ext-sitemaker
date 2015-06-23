@@ -23,7 +23,7 @@ class builder extends \primetime\core\services\tree\builder
 
 	/**
 	 * Construct
-	 * 
+	 *
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
 	 * @param \primetime\core\services\util			$primetime			Primetime Object

@@ -43,7 +43,7 @@ abstract class base
 
 	/**
 	 * Add blocks_admin language file
-	 * 
+	 *
 	 * This is a modified copy of the add_mod_info in functions_module.php
 	 */
 	protected function add_block_admin_lang()

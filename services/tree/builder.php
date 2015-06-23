@@ -19,7 +19,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Construct
-	 * 
+	 *
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
 	 * @param \primetime\core\services\util			$primetime			Primetime Object
 	 * @param string								$menu_items_table	Menu Items table
@@ -53,7 +53,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Adds a single node as the child of a given parent node
-	 * 
+	 *
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
 	 * @return	mixed	Returns the ID of the newly inserted node or FALSE upon error.
 	 */
@@ -117,7 +117,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Save node data. If node exists, update it. If not, create it
-	 * 
+	 *
 	 * @param	int		$node_id	id of the node to be updated
 	 * @param	array	$sql_data	Other item attributes to insert in the database ex. array('title' => 'Item 1').
 	 * @return	null
@@ -136,7 +136,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Adds a new branch to the tree from an array
-	 * 
+	 *
 	 * @param	array	$branch		Array of nodes to add to tree of form:
 	 * 									array(
 	 * 										1   => array('title' => 'Home', 'url' => 'index.php', parent_id => 0),
@@ -248,7 +248,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Update a single node
-	 * 
+	 *
 	 * @param	int		$node_id		The ID of the node to update.
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
 	 * @return	null
@@ -278,8 +278,8 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Update a branch
-	 * 
-	 * @param	array	Array of nodes to be updated	 * 
+	 *
+	 * @param	array	Array of nodes to be updated
 	 * @return	null
 	 */
 	public function update_tree($tree)
@@ -311,9 +311,9 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Delete a node, branch, or leaf
-	 * 
+	 *
 	 * @param	int		$node_id	The ID of the node to delete
-	 * @param	string	$mode		Delete mode: node|branch|leaf	 * 
+	 * @param	string	$mode		Delete mode: node|branch|leaf
 	 * @return	null
 	 */
 	public function delete($node_id, $mode = 'leaf')
@@ -335,7 +335,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Jump from one branch to another
-	 * 
+	 *
 	 * @param	int		$node_id		The ID of the node to move to another branch
 	 * @param	int		$to_parent_id	The ID of the node's new parent node
 	 * @return	null
@@ -383,7 +383,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Move up / down the same branch
-	 * 
+	 *
 	 * @param	int		$node_id	The ID of the node to move
 	 * @param	string	$action		Direction: move_up|move_down
 	 * @param	int		$steps		Number of steps to move up/down
@@ -487,7 +487,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Recalculate Nested Set
-	 * 
+	 *
 	 * @param int	$new_id		first left_id (should start with 1)
 	 * @param int	$parent_id	parent_id of the current set (default = 0)
 	 * @param int	$depth		starting depth of the current set (default = 0)
@@ -537,7 +537,7 @@ abstract class builder extends \primetime\core\services\tree\display
 	 * @param	array	$table_fields	The expected information to get for each line (order is important) ex: array('title' => '', 'url' => '')
 	 *									This will then assign 'Home' to 'title' and 'index.php' to 'url' in example above (line 1)
 	 *
-	 * @return	array					associative array of parent/child relationships ex: the above examples will produce 
+	 * @return	array					associative array of parent/child relationships ex: the above examples will produce
 	 *										array(
 	 *											1   => array('title' => 'Home', 'url' => 'index.php', parent_id => 0),
 	 *											2   => array('title' => 'News', 'url' => 'index.php?p=news', parent_id => 0),
@@ -581,7 +581,7 @@ abstract class builder extends \primetime\core\services\tree\display
 
 	/**
 	 * Takes a flat array of parent/child relationships and converts it to a nested array
-	 * 
+	 *
 	 * @param	$flat	Flat array
 	 * @return	array	Nested array
 	 */

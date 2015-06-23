@@ -18,7 +18,7 @@ class template extends \phpbb\template\twig\twig
 
 	/**
 	 * Render Template View
-	 * 
+	 *
 	 * @param string $ext_name		extension name in form namespace/extension
 	 * @param string $tpl_file		html template file
 	 * @param string $handle		template handle

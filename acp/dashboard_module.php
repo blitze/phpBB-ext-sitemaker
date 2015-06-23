@@ -110,7 +110,7 @@ class dashboard_module
 
 	/**
 	 * Get stats
-	 * 
+	 *
 	 * @param string	$stat		Kind of stat to get: users/topics/posts/files
 	 * @param array		$weekdays	Array of weekdays
 	 * @param int		$lookback	Lookback period
@@ -161,7 +161,7 @@ class dashboard_module
 		{
 			$result = $this->db->sql_query($sql);
 
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$day = $this->user->format_date($row['time_field'], 'w', true);
 				$weekdays[$day]++;

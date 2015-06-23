@@ -335,7 +335,7 @@ class data
 		$sql = $this->db->sql_build_query('SELECT', $this->store['sql_array']);
 		$result = $this->db->sql_query_limit($sql, ($limit) ? $limit : false, $start, $this->cache_time);
 
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->store['topic'][$row['topic_id']] = $row;
 
@@ -384,7 +384,7 @@ class data
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		$post_data = array();
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
@@ -483,7 +483,7 @@ class data
 		$result = $this->db->sql_query($sql);
 
 		$user_cache = array();
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$poster_id = $row['user_id'];
 
