@@ -24,6 +24,16 @@
 	var msgObj = {};
 	var saveBtn = {};
 
+	// These variables are defined in template file
+	var lang = {};
+	var config = {};
+	var editMode = false;
+
+	// These objects are provided by third-party scripts
+	var phpbb = {};
+	var tinymce = {};
+	var twig = {};
+
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
 		var numCols = (items.parent().data('columns') !== undefined) ? ((items.parent().data('columns') <= 5) ? items.parent().data('columns') : 5) : 3;
@@ -81,22 +91,30 @@
 			.addClass('block')
 			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');
 
-		$.getJSON(ajaxUrl + 'add', {block: $.trim(blockName), weight: droppedElement.parent().find('.block').index(droppedElement), route: route, ext: ext, position: posID}, function(data) {
+		var data = {
+			block: $.trim(blockName),
+			weight: droppedElement.parent().find('.block').index(droppedElement),
+			route: config.route,
+			ext: config.ext,
+			position: posID
+		};
+
+		$.getJSON(config.ajaxUrl + 'add', data, function(result) {
 			updated = false;
-			if (data.id === '') {
+			if (result.id === '') {
 				$(droppedElement).remove();
 				return;
 			}
 
-			var html = template.render(data);
-			$(droppedElement).attr('id', 'block-' + data.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
+			var html = template.render(result);
+			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initIconPicker();
-			initTinyMce();
+			inittinymce();
 		});
 	};
 
 	var getEditForm = function(block) {
-		$.getJSON(ajaxUrl + 'edit', {id: block.attr('id').substring(6)}, function(resp) {
+		$.getJSON(config.ajaxUrl + 'edit', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
@@ -118,7 +136,7 @@
 		var form = $('#edit_form');
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 
-		$.getJSON(ajaxUrl + 'save?route=' + route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
+		$.getJSON(config.ajaxUrl + 'save?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, data) {
@@ -131,7 +149,7 @@
 		if (data.id === undefined) {
 			return false;
 		}
-		$.post(ajaxUrl + 'update' + '?route=' + route, data,
+		$.post(config.ajaxUrl + 'update' + '?route=' + config.route, data,
 			function(resp) {
 				if (editing === true) {
 					undoEditable(resp.title);
@@ -146,7 +164,7 @@
 			return;
 		}
 
-		$.getJSON(ajaxUrl + 'custom', data, function(resp) {
+		$.getJSON(config.ajaxUrl + 'custom', data, function(resp) {
 			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
 				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
 			}
@@ -154,20 +172,20 @@
 	};
 
 	var setDefaultLayout = function(set) {
-		$.post(ajaxUrl + 'set_default' + '?route=' + ((set === true) ? route : ''));
+		$.post(config.ajaxUrl + 'set_default' + '?route=' + ((set === true) ? config.route : ''));
 	};
 
 	var setStartPage = function(info) {
-		$.post(ajaxUrl + 'set_startpage', $.param(info));
+		$.post(config.ajaxUrl + 'set_startpage', $.param(info));
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(ajaxUrl + 'layout_settings' + '?route=' + route + '&ext=' + ext, form.serialize());
+		$.post(config.ajaxUrl + 'layout_settings' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
 	};
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(ajaxUrl + 'copy_layout?route=' + route + '&ext=' + ext + '&' + $.param(copyFrom), function(resp) {
+		$.getJSON(config.ajaxUrl + 'copy_layout?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -210,7 +228,7 @@
 			});
 		});
 
-		$.post(ajaxUrl + 'save_layout', {route: route, blocks: blocks}, function(resp) {
+		$.post(config.ajaxUrl + 'save_layout', {route: config.route, blocks: blocks}, function() {
 			saveBtn.button('disable');
 			updated = false;
 		});
@@ -276,7 +294,7 @@
 		});
 	};
 
-	var initTinyMce = function() {
+	var inittinymce = function() {
 		tinymce.init({
 			'selector': 'div.editable-block',
 			'inline': true,
@@ -290,7 +308,7 @@
 			'setup': function(editor) {
 				var editorPreview = '';
 				var editorContent = '';
-				editor.on('blur', function(e) {
+				editor.on('blur', function() {
 					var content = editor.getContent({format: 'raw'});
 
 					if (editor.getContent().length > 0) {
@@ -342,19 +360,34 @@
 	};
 
 	$(document).ready(function() {
+
+		editMode = window.editMode || false;
+		lang = window.lang || {};
+		phpbb = window.phpbb || {};
+		tinymce = window.tinymce || {};
+		twig = window.twig || {};
+		config = window.config || {
+			ajaxUrl: '',
+			appUrl: '',
+			boardUrl: '',
+			route: '',
+			ext: '',
+			style: ''
+		};
+
 		var copyFrom = '';
 		var blocksPanel = {};
 		var exPositions = {};
 		var isHidingBlocks = false;
 
 		var loader = $('#admin-bar').delay(300).slideDown().find('#admin-control').click(function() {
-			if (typeof editMode !== undefined && editMode) {
+			if (editMode) {
 				$(this).prev().toggle();
 				return false;
 			}
 		}).find('i');
 
-		if (typeof editMode !== undefined && editMode) {
+		if (editMode) {
 			inlineForm = $('<form class="inline-form"><input type="text" class="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
 			$('#add-block-panel').find('.primetime-block').draggable({
@@ -364,10 +397,10 @@
 				opacity: 0.7,
 				helper: 'clone',
 				connectToSortable: '.block-position',
-				start: function(event, ui) {
+				start: function() {
 					showAllPositions();
 				},
-				stop: function(event, ui) {
+				stop: function() {
 					window.setTimeout(function() {
 						if (updated === false) {
 							hideEmptyPositions();
@@ -426,7 +459,7 @@
 			}).on('submit', '.inline-form', function(e) {
 				e.preventDefault();
 				$(this).find('.inline-edit').trigger('blur');
-			}).on('focusout', '.inline-edit', function(e) {
+			}).on('focusout', '.inline-edit', function() {
 				processInput($(this));
 			}).on('click', '.edit-block', function(e) {
 				e.preventDefault();
@@ -483,7 +516,7 @@
 				// add style id to ajax requests
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
-					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + style;
+					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
 				},
 				'complete'   : function() {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
@@ -496,8 +529,7 @@
 						showMessage(message);
 					}
 				},
-				'error': function(e) {
-					e.preventDefault();
+				'error': function() {
 					showMessage(lang.ajaxError);
 				}
 			});
@@ -578,7 +610,7 @@
 				var fromStyle = copyFrom[1].value;
 				var layoutAction = $(this).data('action');
 
-				if (fromRoute === '' || (fromRoute ===  route && fromStyle === style)) {
+				if (fromRoute === '' || (fromRoute ===  config.route && fromStyle === config.style)) {
 					return false;
 				}
 
@@ -588,7 +620,7 @@
 				} else {
 					var url = '';
 
-					url += ((fromRoute.substring(0, 1) === '/') ? appUrl : boardUrl + '/') + fromRoute;
+					url += ((fromRoute.substring(0, 1) === '/') ? config.appUrl : config.boardUrl + '/') + fromRoute;
 					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle + '&edit_mode=1';
 
 					location.href = url;
@@ -596,7 +628,7 @@
 			});
 
 			// Events for edit block dialog
-			defDialog.open = function(e, ui) {
+			defDialog.open = function() {
 				if (dialogEditOpened === false) {
 					var pane = $(this).dialog('widget').find('.ui-dialog-buttonpane');
 					dialogEditOpened = true;
@@ -609,11 +641,9 @@
 				switch ($(this).data('action')) {
 					case 'clear':
 						dialogEdit.find('#block_class').val('').change();
-						e.preventDefault();
 					break;
 					case 'toggle':
 						dialogEdit.find('#css-class-options').slideToggle();
-						e.preventDefault();
 					break;
 				}
 			}).on('click', '.class-cat', function(e) {
@@ -629,7 +659,7 @@
 				classes = ((classes) ? classes + ' ' : '') + $(this).text();
 				classObj.val(classes).change();
 				e.preventDefault();
-			}).on('change', '.block-preview', function(e) {
+			}).on('change', '.block-preview', function() {
 				previewBlock();
 			});
 
@@ -659,7 +689,7 @@
 					info = {
 						controller: $(this).data('controller'),
 						method: $(this).data('method'),
-						params: $(this).data('params'),
+						params: $(this).data('params')
 					};
 					setStartPage(info);
 				} else {
@@ -687,7 +717,7 @@
 			};
 
 			initIconPicker();
-			initTinyMce();
+			inittinymce();
 		}
 	});
 })(jQuery, window, document);
