@@ -256,12 +256,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbb/epv.git",
-                "reference": "75df9936ffbb8f05a1351cf622cf6f41c7d2d9f2"
+                "reference": "d837a835dfdfdac233854d9e50d58565542764cb"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpbb/epv/zipball/d837a835dfdfdac233854d9e50d58565542764cb",
-                "reference": "75df9936ffbb8f05a1351cf622cf6f41c7d2d9f2",
+                "reference": "d837a835dfdfdac233854d9e50d58565542764cb",
                 "shasum": ""
             },
             "require": {
@@ -297,20 +297,20 @@
                 }
             ],
             "description": "A extension validator for phpBB extensions. Extensions are required to pass the validator when submitted to the extension database.",
-            "time": "2015-02-12 12:13:06"
+            "time": "2015-05-31 21:41:23"
         },
         {
             "name": "sensiolabs/ansi-to-html",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/ansi-to-html.git",
-                "reference": "92d2ef7ffba5418be060d8ba8adaf7223d741f93"
+                "reference": "fd0aa98170e12131ab989c39252df076cff60121"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/ansi-to-html/zipball/92d2ef7ffba5418be060d8ba8adaf7223d741f93",
-                "reference": "92d2ef7ffba5418be060d8ba8adaf7223d741f93",
+                "url": "https://api.github.com/repos/sensiolabs/ansi-to-html/zipball/fd0aa98170e12131ab989c39252df076cff60121",
+                "reference": "fd0aa98170e12131ab989c39252df076cff60121",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 }
             ],
             "description": "A library to convert a text with ANSI codes to HTML",
-            "time": "2014-08-01 14:02:39"
+            "time": "2015-03-17 06:34:10"
         },
         {
             "name": "symfony/console",
