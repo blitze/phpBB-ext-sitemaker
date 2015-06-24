@@ -8,6 +8,6 @@ TRAVIS_PHP_VERSION=$2
 
 if [ "$TRAVIS_PHP_VERSION" == "5.4" -a "$DB" == "mysqli" ]
 then
-    phpBB/ext/$EXTNAME/vendor/bin/test-reporter
-    phpBB/ext/$EXTNAME/vendor/bin/coveralls -v
+    wget https://scrutinizer-ci.com/ocular.phar
+    php ocular.phar code-coverage:upload --format=php-clover ../../phpBB3/build/logs/clover.xml
 fi

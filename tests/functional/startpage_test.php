@@ -63,37 +63,8 @@ class startpage_test extends \phpbb_functional_test_case
 		));
 
 		$this->phpbb_extension_manager = $this->get_extension_manager();
-		$this->phpbb_extension_manager->enable('foo/bar');
 
-		$this->login();
 		$this->purge_cache();
-	}
-
-	public function tearDown()
-	{
-		parent::tearDown();
-
-		$this->phpbb_extension_manager->disable('foo/bar');
-		$this->phpbb_extension_manager->purge('foo/bar');
-	}
-
-	/**
-	 * Check path controller for extension foo/bar.
-	 */
-	public function test_foo_controller()
-	{
-		$crawler = self::request('GET', 'app.php/foo/bar', array(), false);
-		self::assert_response_status_code();
-		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
-	}
-
-	/**
-	 * Check default forum index.
-	 */
-	public function test_default_index()
-	{
-		$crawler = self::request('GET', 'index.php');
-		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 	}
 
 	/**
@@ -101,6 +72,18 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	public function test_set_default_startpage()
 	{
+		$this->phpbb_extension_manager->enable('foo/bar');
+		$this->login();
+
+		// Confirm forum index is initial start page
+		$crawler = self::request('GET', 'index.php');
+		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
+
+		// Confirm foo/bar path exists and displays content
+		$crawler = self::request('GET', 'app.php/foo/bar', array(), false);
+		self::assert_response_status_code();
+		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
+
 		$crawler = self::request('GET', 'app.php/foo/bar?edit_mode=1');
 
 		// Go to extension page and set as start page
@@ -108,19 +91,12 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$client->click($link);
 		$this->assert_response_status_code('200');
 
-		// Go to home and make assertions
+		// Go to index.php
 		$link = $crawler->selectLink('Home')->link();
 		self::$client->click($link);
-		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
-	}
 
-	/**
-	 * Check remove default start page.
-	 * @depends test_set_default_startpage
-	 */
-	public function test_remove_default_startpage()
-	{
-		$crawler = self::request('GET', 'app.php/foo/bar?edit_mode=1');
+		// Confirm it now displays the contents of foo/bar controller
+		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
 
 		// Remove as startpage
 		$link = $crawler->selectLink('Remove As Start Page')->link();
@@ -129,5 +105,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		$crawler = self::request('GET', 'index.php');
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
+
+		$this->phpbb_extension_manager->purge('foo/bar');
 	}
 }

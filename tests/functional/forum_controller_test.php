@@ -29,7 +29,6 @@ class forum_controller_test extends \phpbb_functional_test_case
 	{
 		parent::setUp();
 
-		// Load all of Pages language files
 		$this->add_lang_ext('primetime/core', array(
 			'common',
 		));

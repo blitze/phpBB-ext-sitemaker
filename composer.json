@@ -15,11 +15,10 @@
 	"require": {
 		"urodoz/truncate-html" : "@stable",
 		"composer/installers": "~1.0",
-		"php": ">=5.3"
+		"php": ">=5.3.3"
 	},
 	"require-dev": {
-		"phpbb/epv": "dev-master",
-		"codeclimate/php-test-reporter": "dev-master"
+		"phpbb/epv": "dev-master"
 	},
 	"extra": {
 		"display-name": "phpBB Primetime",
