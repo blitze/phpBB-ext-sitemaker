@@ -13,9 +13,9 @@
 			"role": "Lead Developer"
 		}],
 	"require": {
-		"urodoz/truncate-html" : "@stable",
+		"php": ">=5.3.3",
 		"composer/installers": "~1.0",
-		"php": ">=5.3.3"
+		"urodoz/truncate-html": "^1.0"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master"
