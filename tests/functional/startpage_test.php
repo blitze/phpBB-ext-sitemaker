@@ -26,11 +26,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		self::$helper = new \phpbb_test_case_helpers(self);
 
-		// First, move any extensions setup on the board to a temp directory
-		self::$helper->copy_dir($phpbb_root_path . 'ext/', $phpbb_root_path . 'store/temp_ext/');
-
-		// Create our fake extension
-		self::$helper->copy_dir(dirname(__FILE__) . '/fixtures/ext/', $phpbb_root_path . 'ext/');
+		self::$helper->copy_dir($phpbb_root_path . '../tests/functional/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
 	static public function tearDownAfterClass()
@@ -39,7 +35,8 @@ class startpage_test extends \phpbb_functional_test_case
 
 		parent::tearDownAfterClass();
 
-		self::$helper->restore_original_ext_dir();
+		self::$helper->empty_dir($phpbb_root_path . 'ext/foo');
+		rmdir($phpbb_root_path . 'ext/foo');
 	}
 
 	/**
@@ -80,11 +77,11 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
 		// Confirm foo/bar path exists and displays content
-		$crawler = self::request('GET', 'app.php/foo/bar', array(), false);
-		self::assert_response_status_code();
-		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
+		$crawler = self::request('GET', 'app.php/foo/template');
+		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
-		$crawler = self::request('GET', 'app.php/foo/bar?edit_mode=1');
+		// Switch to edit mode
+		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
 
 		// Go to extension page and set as start page
 		$link = $crawler->selectLink('Set As Start Page')->link();
@@ -96,7 +93,7 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$client->click($link);
 
 		// Confirm it now displays the contents of foo/bar controller
-		$this->assertContains("foo/bar controller handle() method", $crawler->filter('#foo-bar-content')->text());
+		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
 		// Remove as startpage
 		$link = $crawler->selectLink('Remove As Start Page')->link();
