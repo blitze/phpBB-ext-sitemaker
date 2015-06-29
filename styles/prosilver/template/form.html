@@ -1,0 +1,28 @@
+<form id="{FORM_NAME}" method="{FORM_METHOD}" action="{FORM_ACTION}">
+	<fieldset class="fields2">
+	<!-- IF FORM_LEGEND --><legend>{FORM_LEGEND}</legend><!-- ENDIF -->
+		<!-- IF ERRORS --><br /><div class="panel rules small">{ERRORS}</div><!-- ENDIF -->
+	<!-- BEGIN element -->
+		<dl>	
+			<dt><label for="{element.FIELD_ID}">{element.FIELD_LABEL}<!-- IF element.FIELD_REQUIRED --><abbr class="req" title="required">*</abbr><!-- ENDIF -->{L_COLON}</label><br /><span>{element.FIELD_EXPLAIN}</span></dt>
+		<!-- IF not element.FULL_WIDTH -->
+			<dd>{element.FIELD_VIEW}</dd>
+		<!-- ELSE -->
+			<dd></dd>
+			{element.FIELD_VIEW}
+		<!-- ENDIF -->
+		</dl>
+	<!-- END element -->
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		{FORM_KEY}
+	<!-- BEGIN hidden -->
+		{hidden.FIELD_VIEW}
+	<!-- END hidden -->
+
+	<!-- BEGIN button -->
+		{button.FIELD_VIEW}
+	<!-- END button -->
+	</fieldset>
+</form>

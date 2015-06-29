@@ -1,0 +1,466 @@
+/* CMS blocks layout
+------------------ */
+.cms-block-spacing, .unit .cms-block-spacing {
+	margin: 0;
+    margin-bottom: 10px;
+}
+
+.horizontal > .unit > .cms-block-spacing {
+    margin-right: 10px;
+}
+
+.horizontal > .lastUnit > .cms-block-spacing {
+    margin-right: 0;
+}
+
+.post .cms-block-spacing {
+    margin: 0.6em;
+}
+
+.cms-block-content {
+    display: block;
+    overflow: hidden;
+    word-wrap: break-word;
+    _zoom: 1;
+}
+
+.right-spacer {
+    margin-right: 1.5em;
+}
+
+.left-spacer {
+    margin-left: 1.5em;
+}
+
+#pos-sidebar {
+	padding-right: 10px;
+}
+
+#pos-subcontent {
+	padding-left: 10px;
+}
+
+/* Footer */
+#pos-footer {
+	padding: 15px;
+}
+
+#pos-footer .panel {
+	background: transparent;
+}
+
+#pos-footer  .cms-block-spacing {
+    border-right: 1px solid #ccc;
+}
+
+#pos-footer .lastUnit .cms-block-spacing {
+    border: 0;
+}
+
+/* CMS Misc
+--------------- */
+.cms-block-container .postbody {
+    width: 100%;
+}
+
+.cms-block-container .header {
+    font-weight: bold;
+}
+
+.cms-block-container .postbody .codebox {
+    display: inline-block;
+    position: relative;
+    width: 99%;
+    margin: 10px 0;
+}
+
+/* Remove focus */
+*:focus {
+    outline: none;
+}
+
+*::-moz-focus-inner {
+    border: none;
+}
+
+/* CMS image sizes
+---------------------------------------- */
+.img-ui {
+    float: left;
+    width: 55px;
+    margin-right: 1em;
+    overflow: hidden;
+    text-align: center;
+}
+
+.img-ui img {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    *zoom: 1;
+}
+
+/* CMS avatar sizes
+---------------------------------------- */
+.tiny-avatar img {
+    vertical-align: middle;
+    max-width: 16px;
+    width: auto !important;
+    width: 16px;
+    max-height: 16px;
+    height: auto !important;
+    height: 16px;
+}
+
+.small-avatar img {
+    vertical-align: top;
+    max-width: 45px;
+    width: auto !important;
+    width: 45px;
+    max-height: 45px;
+    height: auto !important;
+    height: 45px;
+}
+
+.medium-avatar img {
+    vertical-align: top;
+    max-width: 65px;
+    width: auto !important;
+    width: 65px;
+    max-height: 65px;
+    height: auto !important;
+    height: 65px;
+}
+
+.default-avatar-font {
+	font-size: 6em;
+	color: #ccc;
+}
+
+.post img {
+    max-width: 100% !important;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+.feeds img {
+    max-width: 99%;
+    margin: 0 5px;
+}
+
+/* Grids
+ * Copyright (c) 2009, Nicole Sullivan. All rights reserved.
+ * Code licensed under the BSD License:
+----------------------------------------------------------- */
+.line,.lastUnit{overflow:hidden; *overflow:visible;*zoom:1;}
+.unit{float:left;}
+.unitRight{float:right;}
+.size1of1{float:none;}
+.size1of2{width:50%;}
+.size1of3{width:33.33333%;}
+.size2of3{width:66.66666%;}
+.size1of4{width:25%;}
+.size2of4{width:50%;}
+.size3of4{width:75%;}
+.size1of5{width:20%;}
+.size2of5{width:40%;}
+.size3of5{width:60%;}
+.size4of5{width:80%;}
+.lastUnit{float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
+
+/* Block Views
+----------------------*/
+/* images */
+.small-img .img-ui {width: 55px;}
+.medium-img .img-ui {width: 95px;}
+.large-img .img-ui {max-width: 200px; width: auto !important; width: 200px;}
+.landscape-img .img-ui {width: 97%; height: 3.5em; text-align: center !important; margin: 0 0 5px 0;}
+.landscape-img .img-ui img {width: 100%; margin: -50% auto; vertical-align: middle;}
+.img-align-left .img-ui{float: left; margin: 0 2.5% 0 0;}
+.img-align-right .img-ui{float: right; margin: 0 0 0 2.5%;}
+.img-border .img-ui, .img-border-padding .img-ui {border: 1px solid #ccc;}
+.img-border-padding .img-ui {padding: 3px !important;}
+
+/* text alignment */
+.align-right {text-align: right;}
+.align-center {text-align: center;}
+.align-left {text-align: left;}
+
+.inner-spacing {padding: 1em;}
+.no-padding {padding: 0 !important;}
+
+.cms-block-content .info {
+	float: right;
+}
+
+/* labels & badges */
+.label .info,
+.badge .info {
+	display: inline-block;
+	border: 1px solid #ccc;
+	line-height: 11px;
+	text-align: center;
+	padding: 3px;
+	margin: 1px 0;
+	font-size: 0.85em;
+}
+
+.badge .info {
+	padding: 3px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+
+/* Colors */
+i.white {color: #fff;}
+i.black {color: #000;}
+i.blue{color: #0000ff;}
+i.orange {color: #ffa500;}
+i.yellow {color: #ffff00;}
+i.red {color: #ff0000;}
+i.green {color: #90af45;}
+i.purple {color: #820182;}
+
+.label.blue .info,
+.badge.blue .info {
+	background: blue;
+}
+
+.label.red .info,
+.badge.red .info {
+	background: red;
+}
+
+.label.green .info,
+.badge.green .info {
+	background: green;
+}
+
+.label.purple .info,
+.badge.purple .info {
+	background: purple;
+}
+
+.label.blue .info,
+.badge.blue .info,
+.label.red .info,
+.badge.red .info,
+.label.green .info,
+.badge.green .info,
+.label.purple .info,
+.badge.purple .info {
+	color: #ffffff;
+}
+
+.label.blue .info a,
+.badge.blue .info a,
+.label.red .info a,
+.badge.red .info a,
+.label.green .info a,
+.badge.green .info a,
+.label.purple .info a,
+.badge.purple .info a {
+	color: #fff;
+}
+
+/* Lists
+----------*/
+.cms-block-container ul,
+.cms-block-container ol {
+	width: auto;
+	overflow: hidden;
+}
+
+ul.pt-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.pt-list > li {
+    margin: 5px 0;
+    font-size: 11px;
+	vertical-align: middle;
+	clear: both;
+}
+
+ul.pt-list > li > ul.pt-list {
+    margin-left: 15px;
+}
+
+.pt-list-square ul.pt-list,
+.pt-list-disc ul.pt-list,
+.pt-list-circle ul.pt-list {
+    list-style-position: inside;
+}
+
+.pt-list-circle ul.pt-list > li {
+    list-style-type: circle;
+}
+
+.pt-list-disc ul.pt-list > li {
+    list-style-type: disc;
+}
+
+.pt-list-square ul.pt-list > li {
+    list-style-type: square;
+}
+
+.pt-list-numbered ul.pt-list > li {
+    list-style: decimal inside;
+}
+
+.pt-list-inline ul.pt-list > li {
+    display: inline;
+    padding: 5px;
+}
+
+.pt-list-inline-sep ul.pt-list > li {
+    display: inline;
+}
+
+.pt-list-inline-sep ul.pt-list > li:after {
+    content: ", ";
+}
+
+.pt-list-inline-sep ul.pt-list > li:last-child:after {
+    content: "";
+}
+
+.pt-list-flat ul.pt-list > li > ul.pt-list {
+    margin: 0;
+}
+
+.pt-list-arrow ul.pt-list > li:before {
+	content: "\00BB \0020";
+}
+
+.pt-list-hover ul.pt-list > li:hover,
+.pt-list-striped ul.pt-list > li:nth-child(odd) {
+    background-color: #ddd;
+}
+
+.pt-x-divider-dotted ul.pt-list > li {
+    border-top: 1px dotted #ccc;
+    padding-top: 5px;
+    margin: 5px 0;
+}
+
+.pt-x-divider-line ul.pt-list > li {
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+    margin: 5px 0;
+}
+
+.pt-y-divider-dotted ul.pt-list > li {
+    border-left: 1px dotted #ccc;
+    padding: 0.8em 1.2em;
+}
+
+.pt-y-divider-line ul.pt-list > li {
+    border-left: 1px solid #ccc;
+    padding: 0.8em 1.2em;
+}
+
+.pt-x-divider-line ul.pt-list:first-child > li:first-child,
+.pt-x-divider-dotted ul.pt-list:first-child > li:first-child {
+    border-top: 0;
+}
+
+.pt-y-divider-line ul.pt-list > li:first-child,
+.pt-y-divider-dotted ul.pt-list > li:first-child {
+    border-left: 0;
+}
+
+.pt-list-stacked ul.pt-list > li {
+	padding: 5px;
+	border: 1px solid #ccc !important;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+nav ul.pt-list > li {
+    font-size: 12px;
+    margin: 5px 0;
+    position: relative;
+}
+
+nav ul.pt-list li > a {
+    display: block;
+    padding: 5px;
+    margin: 0;
+}
+
+nav ul.pt-list li.active > a,
+nav ul.pt-list li > a:hover {
+    background-color: #ddd;
+    text-decoration: none;
+} 
+
+nav ul.pt-list > li.nav-header {
+	list-style-type: none;
+    padding: 5px 0;
+}
+
+.pt-list-square nav ul.pt-list li.nav-header,
+.pt-list-disc nav ul.pt-list li.nav-header,
+.pt-list-circle nav ul.pt-list li.nav-header {
+	margin-left: 15px;
+}
+
+nav ul.pt-list > li.nav-header > a {
+	border-bottom: 1px solid #ccc;
+}
+
+nav ul.pt-list > li.nav-header > a:hover {
+	background-color: inherit;
+}
+
+.pt-x-divider-line nav ul.pt-list > li.nav-header > a,
+.pt-x-divider-dotted nav ul.pt-list > li.nav-header > a,
+.pt-y-divider-line nav ul.pt-list > li.nav-header > a,
+.pt-y-divider-dotted nav ul.pt-list > li.nav-header > a {
+	border: 0;
+}
+
+/* 
+ * Transform vertical list to horizontal blocks 
+ * Based on technique by Ali Jafarian
+ */
+.list-block-auto ul.pt-list,
+.list-block-2cols ul.pt-list,
+.list-block-3cols ul.pt-list,
+.list-block-4cols ul.pt-list,
+.list-block-5cols ul.pt-list {
+	font-size: 0;
+	margin-left: -2.5%;
+}
+
+.list-block-auto ul.pt-list > li,
+.list-block-2cols ul.pt-list > li,
+.list-block-3cols ul.pt-list > li,
+.list-block-4cols ul.pt-list > li,
+.list-block-5cols ul.pt-list > li {
+	display: inline-block;
+	padding: 10px;
+	margin: 0 0 2.5% 2.5%;
+	vertical-align: top;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.list-block-auto ul.pt-list > li {width: auto;}
+.list-block-2cols ul.pt-list > li {width: 47.5%;}
+.list-block-3cols ul.pt-list > li {width: 30.83%;}
+.list-block-4cols ul.pt-list > li {width: 22.5%}
+.list-block-5cols ul.pt-list > li {width: 17.5%;}
+
+.list-block-2cols ul.pt-list > li:nth-child(odd) {border-left: 0}
+.list-block-3cols ul.pt-list > li:nth-child(4n) {border-left: 0}
+.list-block-4cols ul.pt-list > li:nth-child(5n) {border-left: 0}
+.list-block-5cols ul.pt-list > li:nth-child(6n) {border-left: 0}
