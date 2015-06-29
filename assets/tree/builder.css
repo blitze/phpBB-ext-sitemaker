@@ -1,0 +1,124 @@
+.tree-builder {
+	min-height: 550px;
+}
+
+.tree-builder ol {
+    margin: 0;
+    padding: 0;
+    padding-left: 25px;
+    list-style-type: none;
+}
+
+.tree-builder ol ol {
+    margin: 0 0 0 4px;
+}
+
+.tree-builder ol {
+    margin: 4em 0;
+}
+
+.tree-builder li {
+    margin: 2px 0 0 0;
+    padding: 0;
+}
+
+.tree-builder li div {
+    font-weight: bold;
+    padding: 5px;
+    height: 20px;
+    margin: 0;
+    cursor: move;
+}
+
+.tree-builder li .editable,
+.tree-builder li input {
+	display: inline-block;
+    margin-right: 4px;
+    height: 16px;
+    line-height: 16px;
+    cursor: pointer;
+	cursor: hand;
+}
+
+.tree-builder li .editable:hover {
+    border: 1px solid #d5f8a0;
+}
+
+.tree-builder .icon img, #icon-prev img {
+    width: 15px;
+    max-width: 15px;
+    margin-right: 2px;
+    vertical-align: central;
+    height: auto;
+}
+
+.tree-builder #loading, .tree-builder #ajax-message {
+    display: none;
+    border: 2px solid #ccc;
+    background-color: #d5f8a0;
+    padding: 5px;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.tree-builder #ajax-message {
+    color: #e11414;
+    font-weight: bold;
+}
+
+.tree-builder #inline-form {
+    display: inline-block;
+}
+
+.tree-builder #no-items {
+    margin: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tree-builder .icon-select {
+    width: 20px;
+    height: 18px;
+    display: block;
+    margin-right: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.tree-builder .placeholder {
+    background-color: #cfcfcf;
+}
+
+.tree-builder .ui-nestedSortable-error {
+    background: #fbe3e4;
+    color: #8a1f11;
+}
+
+.tree-builder .error {
+    color: red;
+    font-weight: bolder;
+    font-size: 9px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.tree-builder .item-action {
+    cursor: auto;
+}
+
+.tree-builder .item-action span:hover {
+    border: 1px solid #ccc;
+}
+
+.tree-builder select, .tree-builder option {
+	width: 100%;
+	overflow: auto;
+}
