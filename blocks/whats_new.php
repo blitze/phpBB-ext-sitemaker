@@ -1,24 +1,24 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
 * Menu Block
-* @package phpBB Primetime Menu
+* @package phpBB Sitemaker Menu
 */
-class whats_new  extends \primetime\core\services\blocks\driver\block
+class whats_new  extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\forum\data */
+	/** @var \blitze\sitemaker\services\forum\data */
 	protected $forum;
 
 	/** @var string */
@@ -31,11 +31,11 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\core\services\forum\data	$forum				Forum Data object
+	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \primetime\core\services\forum\data $forum, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, $phpbb_root_path, $php_ext)
 	{
 		$this->user = $user;
 		$this->forum = $forum;
@@ -105,7 +105,7 @@ class whats_new  extends \primetime\core\services\blocks\driver\block
 
 		return array(
 			'title'     => 'WHATS_NEW',
-			'content'   => $this->ptemplate->render_view('primetime/core', 'blocks/topiclist.html', 'whats_new'),
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
 		);
 	}
 }

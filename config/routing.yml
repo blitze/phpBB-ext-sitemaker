@@ -1,16 +1,16 @@
-primetime_core_blocks_admin:
+blitze_sitemaker_blocks_admin:
     path: /blocks/{action}
-    defaults: { _controller: primetime.core.blocks.admin.controller:handle, _format: json }
+    defaults: { _controller: blitze.sitemaker.blocks.admin.controller:handle, _format: json }
     requirements:
         _format: json
 
-primetime_core_menu_admin:
+blitze_sitemaker_menu_admin:
     path: /menu/admin/{action}/{item_id}
-    defaults: { _controller: primetime.core.menu.admin.controller:handle, item_id: 0 }
+    defaults: { _controller: blitze.sitemaker.menu.admin.controller:handle, item_id: 0 }
     requirements:
         item_id: \d+
         _format: json
 
-primetime_core_forum:
+blitze_sitemaker_forum:
     path: /forum
-    defaults: { _controller: primetime.core.forum.controller:handle }
+    defaults: { _controller: blitze.sitemaker.forum.controller:handle }

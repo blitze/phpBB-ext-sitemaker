@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\acp;
+namespace blitze\sitemaker\acp;
 
 /**
 * @package acp
@@ -23,14 +23,14 @@ class menu_module
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \primetime\core\services\icon_picker */
+	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
-	/** @var \primetime\core\services\menu\builder */
+	/** @var \blitze\sitemaker\services\menu\builder */
 	protected $manager;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
@@ -58,9 +58,9 @@ class menu_module
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
-		$this->manager = $phpbb_container->get('primetime.core.menu.builder');
-		$this->icon = $phpbb_container->get('primetime.core.icon_picker');
-		$this->primetime = $phpbb_container->get('primetime.core.util');
+		$this->manager = $phpbb_container->get('blitze.sitemaker.menu.builder');
+		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
+		$this->sitemaker = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
 	public function main()
@@ -91,13 +91,12 @@ class menu_module
 			}
 		}
 
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
+		$this->sitemaker->add_assets(array(
 			'js'        => array(
-				'@primetime_core/assets/menu/admin.min.js',
+				'@blitze_sitemaker/assets/menu/admin.min.js',
 			),
 			'css'   => array(
-				'@primetime_core/assets/menu/admin.min.css',
+				'@blitze_sitemaker/assets/menu/admin.min.css',
 			)
 		));
 

@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\migrations\v20x;
+namespace blitze\sitemaker\migrations\v20x;
 
 class m1_initial_schema extends \phpbb\db\migration\migration
 {
@@ -17,8 +17,8 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\core\migrations\converter\c3_update_tables',
-			'\primetime\core\migrations\v20x\m3_initial_permission',
+			'\blitze\sitemaker\migrations\converter\c3_update_tables',
+			'\blitze\sitemaker\migrations\v20x\m3_initial_permission',
 		);
 	}
 

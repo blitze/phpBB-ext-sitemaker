@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\cron;
+namespace blitze\sitemaker\cron;
 
 class blocks_cleanup extends \phpbb\cron\task\base
 {
@@ -17,7 +17,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \primetime\core\services\blocks\manager */
+	/** @var \blitze\sitemaker\services\blocks\manager */
 	protected $manager;
 
 	/** @var string */
@@ -31,11 +31,11 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 *
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param \primetime\core\services\blocks\manager	$manager				Blocks manager object
+	 * @param \blitze\sitemaker\services\blocks\manager	$manager				Blocks manager object
 	 * @param string									$blocks_table			Name of blocks database table
 	 * @param string									$cblocks_table			Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \primetime\core\services\blocks\manager $manager, $blocks_table, $cblocks_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, $blocks_table, $cblocks_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -51,7 +51,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	public function run()
 	{
-		$this->config->set('primetime_blocks_cleanup_last_gc', time());
+		$this->config->set('sitemaker_blocks_cleanup_last_gc', time());
 
 		$routes = $this->clean_styles();
 		$this->clean_routes($routes);
@@ -77,7 +77,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	public function should_run()
 	{
-		return $this->config['primetime_blocks_cleanup_last_gc'] < time() - $this->config['primetime_blocks_cleanup_gc'];
+		return $this->config['sitemaker_blocks_cleanup_last_gc'] < time() - $this->config['sitemaker_blocks_cleanup_gc'];
 	}
 
 	private function clean_styles()

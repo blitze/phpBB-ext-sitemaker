@@ -1,17 +1,17 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\blocks\driver;
+namespace blitze\sitemaker\services\blocks\driver;
 
 /**
  * Base class for block drivers
- * @package primetime
+ * @package sitemaker
  */
 abstract class block implements block_interface
 {
@@ -22,8 +22,8 @@ abstract class block implements block_interface
 	protected $name;
 
 	/**
-	 * Template object for Primetime blocks
-	 * @var \primetime\core\services\template
+	 * Template object for Sitemaker blocks
+	 * @var \blitze\sitemaker\services\template
 	 */
 	protected $ptemplate;
 
@@ -32,7 +32,7 @@ abstract class block implements block_interface
 	 *
 	 * @param \phpbb\template\template	$ptemplate	Template object
 	 */
-	public function set_template(\primetime\core\services\template $ptemplate)
+	public function set_template(\blitze\sitemaker\services\template $ptemplate)
 	{
 		$this->ptemplate = $ptemplate;
 	}

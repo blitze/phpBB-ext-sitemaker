@@ -1,19 +1,19 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\menu;
+namespace blitze\sitemaker\services\menu;
 
 /**
  * Manage nested sets
- * @package phpBB Primetime
+ * @package phpBB Sitemaker
  */
-class builder extends \primetime\core\services\tree\builder
+class builder extends \blitze\sitemaker\services\tree\builder
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -26,14 +26,14 @@ class builder extends \primetime\core\services\tree\builder
 	 *
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
-	 * @param \primetime\core\services\util			$primetime			Primetime Object
+	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
 	 * @param string								$menus_table		Menus table
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \primetime\core\services\util $primetime, $menus_table, $menu_items_table, $pk)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\util $sitemaker, $menus_table, $menu_items_table, $pk)
 	{
-		parent::__construct($db, $primetime, $menu_items_table, $pk);
+		parent::__construct($db, $sitemaker, $menu_items_table, $pk);
 
 		$this->menus_table = $menus_table;
 		$this->cache = $cache;
@@ -132,6 +132,6 @@ class builder extends \primetime\core\services\tree\builder
 	public function on_tree_change($data)
 	{
 		$row = array_pop($data);
-		$this->cache->destroy('primetime_menu_data_' . $row['menu_id']);
+		$this->cache->destroy('sitemaker_menu_data_' . $row['menu_id']);
 	}
 }

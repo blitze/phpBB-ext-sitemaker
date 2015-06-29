@@ -1,18 +1,18 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
  * Featured Member Block
  */
-class member_menu extends \primetime\core\services\blocks\driver\block
+class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -67,12 +67,12 @@ class member_menu extends \primetime\core\services\blocks\driver\block
 				'U_PRIVATE_MSG'	=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'i=pm&amp;folder=inbox'),
 				'U_LOGOUT'		=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'mode=logout', true, $this->user->session_id),
 				'U_MCP' 		=> ($this->auth->acl_get('m_')) ? append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id) : '',
-				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-primetime-core-acp-dashboard_module', true, $this->user->session_id) : '')
+				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-blitze-sitemaker-acp-dashboard_module', true, $this->user->session_id) : '')
 			);
 
 			return array(
 				'title'		=> $this->user->lang['WELCOME'],
-				'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/member_menu.html', 'member_menu_block'),
+				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block'),
 			);
 		}
 	}

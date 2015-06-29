@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\blocks;
+namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -31,11 +31,11 @@ class builder extends base
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\icon_picker */
+	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icons;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
 	/** @var string phpEx */
 	protected $php_ext;
@@ -55,13 +55,13 @@ class builder extends base
 	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\core\services\icon_picker		$icons					Primetime icon picker object
-	 * @param \primetime\core\services\util				$primetime				Template object
+	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
+	 * @param \blitze\sitemaker\services\util				$sitemaker				Template object
 	 * @param string									$php_ext				phpEx
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\icon_picker $icons, \primetime\core\services\util $primetime, $php_ext, $blocks_table, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $sitemaker, $php_ext, $blocks_table, $block_routes_table)
 	{
 		parent::__construct($config, $phpbb_container, $user, $php_ext);
 
@@ -72,7 +72,7 @@ class builder extends base
 		$this->template = $template;
 		$this->user = $user;
 		$this->icons = $icons;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->php_ext = $php_ext;
 		$this->blocks_table = $blocks_table;
 		$this->block_routes_table = $block_routes_table;
@@ -83,7 +83,7 @@ class builder extends base
 	 */
 	public function handle($route_info)
 	{
-		$this->user->add_lang_ext('primetime/core', 'block_manager');
+		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
 		$this->add_block_admin_lang();
 
 		$route = $route_info['route'];
@@ -95,10 +95,10 @@ class builder extends base
 		$u_disp_mode = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
 
 		$is_default_route = $u_default_route = false;
-		if ($this->config['primetime_default_layout'])
+		if ($this->config['sitemaker_default_layout'])
 		{
-			$is_default_route = ($this->config['primetime_default_layout'] === $route) ? true : false;
-			$u_default_route .= $board_url . '/' . $this->config['primetime_default_layout'];
+			$is_default_route = ($this->config['sitemaker_default_layout'] === $route) ? true : false;
+			$u_default_route .= $board_url . '/' . $this->config['sitemaker_default_layout'];
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
@@ -130,16 +130,16 @@ class builder extends base
 	}
 
 	/**
-	 * Get all available primetime blocks
+	 * Get all available sitemaker blocks
 	 */
 	public function get_available_blocks()
 	{
-		if (($blocks = $this->cache->get('primetime_available_blocks')) === false)
+		if (($blocks = $this->cache->get('sitemaker_available_blocks')) === false)
 		{
-			$factory = $this->phpbb_container->get('primetime.core.blocks.factory');
+			$factory = $this->phpbb_container->get('blitze.sitemaker.blocks.factory');
 
 			$blocks = $factory->get_all_blocks();
-			$this->cache->put('primetime_available_blocks', $blocks);
+			$this->cache->put('sitemaker_available_blocks', $blocks);
 		}
 
 		foreach ($blocks as $service => $name)
@@ -164,7 +164,7 @@ class builder extends base
 		$symfony_request = $this->phpbb_container->get('symfony_request');
 		$controller = $symfony_request->attributes->get('_controller');
 
-		if ($controller && $controller !== 'primetime.core.forum.controller:handle')
+		if ($controller && $controller !== 'blitze.sitemaker.forum.controller:handle')
 		{
 			list($controller_service, $controller_method) = explode(':', $controller);
 			$controller_params	= $symfony_request->attributes->get('_route_params');
@@ -188,7 +188,7 @@ class builder extends base
 				'CONTROLLER_NAME'	=> $controller_service,
 				'CONTROLLER_METHOD'	=> $controller_method,
 				'CONTROLLER_PARAMS'	=> $controller_arguments,
-				'S_IS_STARTPAGE'	=> ($this->config['primetime_startpage_controller'] == $controller_service && $this->config['primetime_startpage_params'] == $controller_arguments) ? true : false,
+				'S_IS_STARTPAGE'	=> ($this->config['sitemaker_startpage_controller'] == $controller_service && $this->config['sitemaker_startpage_params'] == $controller_arguments) ? true : false,
 				'UA_EXTENSION'		=> $namespace . '/' . $extension,
 			));
 		}
@@ -196,18 +196,18 @@ class builder extends base
 
 	public function set_assets()
 	{
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
+		$asset_path = $this->sitemaker->asset_path;
+		$this->sitemaker->add_assets(array(
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.1/tinymce.min.js',
-				$asset_path . 'ext/primetime/core/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/primetime/core/components/twig.js/twig.min.js',
-				100 =>  '@primetime_core/assets/blocks/manager.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
+				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				'@primetime_core/assets/blocks/manager.min.css',
+				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			)
 		));
 	}

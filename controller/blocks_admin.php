@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\controller;
+namespace blitze\sitemaker\controller;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +29,7 @@ class blocks_admin
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\blocks\manager */
+	/** @var \blitze\sitemaker\services\blocks\manager */
 	protected $blocks;
 
 	/**
@@ -40,9 +40,9 @@ class blocks_admin
 	 * @param Container										$phpbb_container	Service container
 	 * @param \phpbb\request\request_interface				$request			Request object
 	 * @param \phpbb\user									$user				User object
-	 * @param \primetime\core\services\blocks\manager		$blocks				Block manager object
+	 * @param \blitze\sitemaker\services\blocks\manager		$blocks				Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\core\services\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -51,7 +51,7 @@ class blocks_admin
 		$this->user = $user;
 		$this->blocks = $blocks;
 
-		$this->user->add_lang_ext('primetime/core', 'block_manager');
+		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
 	}
 
 	public function handle($action)
@@ -132,12 +132,12 @@ class blocks_admin
 				$return_data = $this->blocks->set_route_prefs($route, $data);
 			break;
 			case 'set_default':
-				$this->config->set('primetime_default_layout', $route);
+				$this->config->set('sitemaker_default_layout', $route);
 			break;
 			case 'set_startpage':
-				$this->config->set('primetime_startpage_controller', $this->request->variable('controller', ''));
-				$this->config->set('primetime_startpage_method', $this->request->variable('method', ''));
-				$this->config->set('primetime_startpage_params', $this->request->variable('params', ''));
+				$this->config->set('sitemaker_startpage_controller', $this->request->variable('controller', ''));
+				$this->config->set('sitemaker_startpage_method', $this->request->variable('method', ''));
+				$this->config->set('sitemaker_startpage_params', $this->request->variable('params', ''));
 			break;
 			case 'custom':
 				$service = $this->request->variable('service', '');

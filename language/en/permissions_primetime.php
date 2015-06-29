@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Primetime [English]
+* @package phpBB Sitemaker [English]
 * @copyright (c) 2013 Pico88
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -23,5 +23,5 @@ if (empty($lang) || !is_array($lang))
 // Admin Permissions
 $lang = array_merge($lang, array(
 	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',
-	'ACL_CAT_PRIMETIME'		=> 'Primetime',
+	'ACL_CAT_SITEMAKER'		=> 'Sitemaker',
 ));

@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\blocks;
+namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -37,10 +37,10 @@ class display
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
-	/** @var \primetime\core\services\template */
+	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
 
 	/** @var string */
@@ -72,13 +72,13 @@ class display
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\core\services\util				$primetime				Primetime object
-	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
+	 * @param \blitze\sitemaker\services\util				$sitemaker				Sitemaker object
+	 * @param \blitze\sitemaker\services\template			$ptemplate				Sitemaker template object
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -88,7 +88,7 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->ptemplate = $ptemplate;
 		$this->blocks_table = $blocks_table;
 		$this->blocks_config_table = $blocks_config_table;
@@ -97,9 +97,9 @@ class display
 
 	public function show()
 	{
-		$this->primetime->add_assets(array(
+		$this->sitemaker->add_assets(array(
 			'css'   => array(
-				$this->primetime->asset_path . 'ext/primetime/core/components/fontawesome/css/font-awesome.min.css',
+				$this->sitemaker->asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
 			)
 		));
 
@@ -115,7 +115,7 @@ class display
 
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
-		$this->default_route = $this->config['primetime_default_layout'];
+		$this->default_route = $this->config['sitemaker_default_layout'];
 		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
 
 		if ($this->is_subpage === false)
@@ -146,7 +146,7 @@ class display
 					SHOW_BLOCK_SUBPAGE	=> true,
 				);
 
-				$this->phpbb_container->get('primetime.core.blocks.builder')->handle($route_info);
+				$this->phpbb_container->get('blitze.sitemaker.blocks.builder')->handle($route_info);
 			}
 			else
 			{
@@ -210,7 +210,7 @@ class display
 		}
 
 		$this->template->assign_vars(array_merge(array(
-				'S_PRIMETIME'		=> true,
+				'S_SITEMAKER'		=> true,
 				'S_HAS_BLOCKS'		=> sizeof($blocks),
 				'U_EDIT_MODE'		=> $u_edit_mode,
 			),
@@ -265,7 +265,7 @@ class display
 			'has_blocks'	=> false,
 		);
 
-		if (($route_info = $this->cache->get('primetime_block_routes')) === false)
+		if (($route_info = $this->cache->get('sitemaker_block_routes')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->block_routes_table;
@@ -279,7 +279,7 @@ class display
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('primetime_block_routes', $route_info);
+			$this->cache->put('sitemaker_block_routes', $route_info);
 		}
 
 		$route_info = (isset($route_info[$style_id][$route])) ? $route_info[$style_id][$route] : (($edit_mode === false && $this->default_route && isset($route_info[$style_id][$this->default_route])) ? $route_info[$style_id][$this->default_route] : $default_info);
@@ -289,12 +289,12 @@ class display
 
 	public function clear_blocks_cache()
 	{
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_blocks');
 	}
 
 	public function get_blocks($route_info, $style_id, $edit_mode)
 	{
-		if (($blocks = $this->cache->get('primetime_blocks')) === false || $edit_mode)
+		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
 		{
 			$sql_array = array(
 				'SELECT'	=> 'b.*, r.route_id',
@@ -373,7 +373,7 @@ class display
 
 			if (!$edit_mode)
 			{
-				$this->cache->put('primetime_blocks', $blocks);
+				$this->cache->put('sitemaker_blocks', $blocks);
 			}
 		}
 

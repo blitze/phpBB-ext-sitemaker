@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2015 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\tests\functional;
+namespace blitze\sitemaker\tests\functional;
 
 /**
  * @group functional
@@ -22,14 +22,14 @@ class forum_controller_test extends \phpbb_functional_test_case
 	 */
 	static protected function setup_extensions()
 	{
-		return array('primetime/core');
+		return array('blitze/sitemaker');
 	}
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->add_lang_ext('primetime/core', array(
+		$this->add_lang_ext('blitze/sitemaker', array(
 			'common',
 		));
 	}

@@ -1,23 +1,23 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
  * Login Block
  */
-class members extends \primetime\core\services\blocks\driver\block
+class members extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	private $user;
 
-	/** @var \primetime\core\services\members */
+	/** @var \blitze\sitemaker\services\members */
 	private $members;
 
 	/** @var array */
@@ -30,9 +30,9 @@ class members extends \primetime\core\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user		User object
-	 * @param \primetime\core\services\members		$members	Members object
+	 * @param \blitze\sitemaker\services\members		$members	Members object
 	 */
-	public function __construct(\phpbb\user $user, \primetime\core\services\members $members)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\members $members)
 	{
 		$this->user = $user;
 		$this->members = $members;

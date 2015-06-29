@@ -1,29 +1,29 @@
 services:
-    primetime.core.block.birthday:
-        class: primetime\core\blocks\birthday
+    blitze.sitemaker.block.birthday:
+        class: blitze\sitemaker\blocks\birthday
         arguments:
             - @cache
             - @dbal.conn
             - @user
         calls:
-            - [set_name, [primetime.core.block.birthday]]
+            - [set_name, [blitze.sitemaker.block.birthday]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.blocks.custom:
-        class: primetime\core\blocks\custom
+    blitze.sitemaker.blocks.custom:
+        class: blitze\sitemaker\blocks\custom
         arguments:
             - @cache
             - @dbal.conn
             - @user
-            - %tables.primetime.cblocks%
+            - %tables.sitemaker.cblocks%
         calls:
-            - [set_name, [primetime.core.block.custom]]
+            - [set_name, [blitze.sitemaker.block.custom]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.featured_member:
-        class: primetime\core\blocks\featured_member
+    blitze.sitemaker.block.featured_member:
+        class: blitze\sitemaker\blocks\featured_member
         arguments:
             - @cache
             - @config
@@ -31,14 +31,14 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - %tables.primetime.blocks_config%
+            - %tables.sitemaker.blocks_config%
         calls:
-            - [set_name, [primetime.core.block.featured_member]]
+            - [set_name, [blitze.sitemaker.block.featured_member]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.forum_poll:
-        class: primetime\core\blocks\forum_poll
+    blitze.sitemaker.block.forum_poll:
+        class: blitze\sitemaker\blocks\forum_poll
         arguments:
             - @auth
             - @cache
@@ -46,33 +46,33 @@ services:
             - @dbal.conn
             - @request
             - @user
-            - @primetime.core.forum.data
-            - @primetime.core.util
+            - @blitze.sitemaker.forum.data
+            - @blitze.sitemaker.util
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.forum_poll]]
+            - [set_name, [blitze.sitemaker.block.forum_poll]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.forum_topics:
-        class: primetime\core\blocks\forum_topics
+    blitze.sitemaker.block.forum_topics:
+        class: blitze\sitemaker\blocks\forum_topics
         arguments:
             - @auth
             - @cache
             - @config
             - @user
-            - @primetime.core.forum.data
-            - @primetime.core.util
+            - @blitze.sitemaker.forum.data
+            - @blitze.sitemaker.util
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.forum_topics]]
+            - [set_name, [blitze.sitemaker.block.forum_topics]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.member_menu:
-        class: primetime\core\blocks\member_menu
+    blitze.sitemaker.block.member_menu:
+        class: blitze\sitemaker\blocks\member_menu
         arguments:
             - @auth
             - @dbal.conn
@@ -80,81 +80,81 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.member_menu]]
+            - [set_name, [blitze.sitemaker.block.member_menu]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.login:
-        class: primetime\core\blocks\login
+    blitze.sitemaker.block.login:
+        class: blitze\sitemaker\blocks\login
         arguments:
             - @user
             - %core.root_path%
             - .%core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.login]]
+            - [set_name, [blitze.sitemaker.block.login]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.members:
-        class: primetime\core\blocks\members
+    blitze.sitemaker.block.members:
+        class: blitze\sitemaker\blocks\members
         arguments:
             - @user
-            - @primetime.core.members
+            - @blitze.sitemaker.members
         calls:
-            - [set_name, [primetime.core.block.members]]
+            - [set_name, [blitze.sitemaker.block.members]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.menu:
-        class: primetime\core\blocks\menu
+    blitze.sitemaker.block.menu:
+        class: blitze\sitemaker\blocks\menu
         arguments:
             - @cache
             - @config
             - @dbal.conn
             - @user
-            - @primetime.core.menu.display
-            - %tables.primetime.menu%
+            - @blitze.sitemaker.menu.display
+            - %tables.sitemaker.menu%
         calls:
-            - [set_name, [primetime.core.block.menu]]
+            - [set_name, [blitze.sitemaker.block.menu]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.mybookmarks:
-        class: primetime\core\blocks\mybookmarks
+    blitze.sitemaker.block.mybookmarks:
+        class: blitze\sitemaker\blocks\mybookmarks
         arguments:
             - @user
-            - @primetime.core.forum.data
+            - @blitze.sitemaker.forum.data
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.mybookmarks]]
+            - [set_name, [blitze.sitemaker.block.mybookmarks]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.blocks.stats:
-        class: primetime\core\blocks\stats
+    blitze.sitemaker.blocks.stats:
+        class: blitze\sitemaker\blocks\stats
         arguments:
             - @config
             - @user
         calls:
-            - [set_name, [primetime.core.block.stats]]
+            - [set_name, [blitze.sitemaker.block.stats]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.block.whats_new:
-        class: primetime\core\blocks\whats_new
+    blitze.sitemaker.block.whats_new:
+        class: blitze\sitemaker\blocks\whats_new
         arguments:
             - @user
-            - @primetime.core.forum.data
+            - @blitze.sitemaker.forum.data
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.whats_new]]
+            - [set_name, [blitze.sitemaker.block.whats_new]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.blocks.whois:
-        class: primetime\core\blocks\whois
+    blitze.sitemaker.blocks.whois:
+        class: blitze\sitemaker\blocks\whois
         arguments:
             - @auth
             - @config
@@ -163,12 +163,12 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.whois]]
+            - [set_name, [blitze.sitemaker.block.whois]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }
 
-    primetime.core.blocks.wordgraph:
-        class: primetime\core\blocks\wordgraph
+    blitze.sitemaker.blocks.wordgraph:
+        class: blitze\sitemaker\blocks\wordgraph
         arguments:
             - @auth
             - @content.visibility
@@ -177,6 +177,6 @@ services:
             - %core.root_path%
             - %core.php_ext%
         calls:
-            - [set_name, [primetime.core.block.wordgraph]]
+            - [set_name, [blitze.sitemaker.block.wordgraph]]
         tags:
-            - { name: primetime.block }
+            - { name: sitemaker.block }

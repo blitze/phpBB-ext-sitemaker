@@ -1,17 +1,17 @@
 services:
 
-    primetime.core.blocks.admin.controller:
-        class: primetime\core\controller\blocks_admin
+    blitze.sitemaker.blocks.admin.controller:
+        class: blitze\sitemaker\controller\blocks_admin
         arguments:
             - @auth
             - @config
             - @service_container
             - @request
             - @user
-            - @primetime.core.blocks.manager
+            - @blitze.sitemaker.blocks.manager
 
-    primetime.core.forum.controller:
-        class: primetime\core\controller\forum
+    blitze.sitemaker.forum.controller:
+        class: blitze\sitemaker\controller\forum
         arguments:
             - @config
             - @controller.helper
@@ -20,11 +20,11 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.core.menu.admin.controller:
-        class: primetime\core\controller\menu_admin
+    blitze.sitemaker.menu.admin.controller:
+        class: blitze\sitemaker\controller\menu_admin
         arguments:
             - @request
             - @user
             - @template
-            - @primetime.core.menu.builder
-            - %tables.primetime.menu%
+            - @blitze.sitemaker.menu.builder
+            - %tables.sitemaker.menu%

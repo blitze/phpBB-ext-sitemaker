@@ -1,15 +1,15 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
-class forum_poll extends \primetime\core\services\blocks\driver\block
+class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -29,11 +29,11 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\forum\data */
+	/** @var \blitze\sitemaker\services\forum\data */
 	protected $forum;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -53,12 +53,12 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 	 * @param \phpbb\db\driver\driver_interface		$db	 				Database connection
 	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\core\services\forum\data	$forum				Forum Data object
-	 * @param \primetime\core\services\util			$primetime			Primetime Object
+	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
+	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\core\services\forum\data $forum, \primetime\core\services\util $primetime, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -67,7 +67,7 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 		$this->request = $request;
 		$this->user = $user;
 		$this->forum = $forum;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -275,7 +275,7 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 			'S_DISPLAY_RESULTS'	=> $s_display_results,
 			'S_IS_MULTI_CHOICE'	=> ($topic_data['poll_max_options'] > 1) ? true : false,
 			'S_POLL_ACTION'		=> $viewtopic_url,
-			'S_FORM_TOKEN'		=> $this->primetime->get_form_key('posting'),
+			'S_FORM_TOKEN'		=> $this->sitemaker->get_form_key('posting'),
 
 			'U_VIEW_RESULTS'	=> $viewtopic_url . '&amp;view=viewpoll',
 		));
@@ -283,7 +283,7 @@ class forum_poll extends \primetime\core\services\blocks\driver\block
 
 		return array(
 			'title'		=> $this->user->lang['POLL'],
-			'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/forum_poll.html', 'forum_poll_block')
+			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_poll.html', 'forum_poll_block')
 		);
 	}
 }

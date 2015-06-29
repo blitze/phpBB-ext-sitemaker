@@ -5,8 +5,8 @@ imports:
 
 services:
 
-    primetime.core.blocks.builder:
-        class: primetime\core\services\blocks\builder
+    blitze.sitemaker.blocks.builder:
+        class: blitze\sitemaker\services\blocks\builder
         arguments:
             - @cache
             - @config
@@ -14,14 +14,14 @@ services:
             - @service_container
             - @template
             - @user
-            - @primetime.core.icon_picker
-            - @primetime.core.util
+            - @blitze.sitemaker.icon_picker
+            - @blitze.sitemaker.util
             - %core.php_ext%
-            - %tables.primetime.blocks%
-            - %tables.primetime.block_routes%
+            - %tables.sitemaker.blocks%
+            - %tables.sitemaker.block_routes%
 
-    primetime.core.blocks.display:
-        class: primetime\core\services\blocks\display
+    blitze.sitemaker.blocks.display:
+        class: blitze\sitemaker\services\blocks\display
         arguments:
             - @auth
             - @cache
@@ -31,26 +31,26 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.core.util
-            - @primetime.core.template
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_routes%
+            - @blitze.sitemaker.util
+            - @blitze.sitemaker.template
+            - %tables.sitemaker.blocks%
+            - %tables.sitemaker.blocks_config%
+            - %tables.sitemaker.block_routes%
 
-    primetime.core.block_collection:
+    blitze.sitemaker.block_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
-            - { name: service_collection, tag: primetime.block }
+            - { name: service_collection, tag: sitemaker.block }
 
-    primetime.core.blocks.factory:
-        class: primetime\core\services\blocks\factory
+    blitze.sitemaker.blocks.factory:
+        class: blitze\sitemaker\services\blocks\factory
         arguments:
-            - @primetime.core.block_collection
+            - @blitze.sitemaker.block_collection
 
-    primetime.core.blocks.manager:
-        class: primetime\core\services\blocks\manager
+    blitze.sitemaker.blocks.manager:
+        class: blitze\sitemaker\services\blocks\manager
         arguments:
             - @cache
             - @config
@@ -59,28 +59,28 @@ services:
             - @request
             - @template
             - @user
-            - @primetime.core.template
+            - @blitze.sitemaker.template
             - %core.root_path%
             - %core.php_ext%
-            - %tables.primetime.blocks%
-            - %tables.primetime.blocks_config%
-            - %tables.primetime.block_routes%
+            - %tables.sitemaker.blocks%
+            - %tables.sitemaker.blocks_config%
+            - %tables.sitemaker.block_routes%
 
-    primetime.core.cron.blocks_cleanup:
-        class: primetime\core\cron\blocks_cleanup
+    blitze.sitemaker.cron.blocks_cleanup:
+        class: blitze\sitemaker\cron\blocks_cleanup
         arguments:
             - @config
             - @dbal.conn
-            - @primetime.core.blocks.manager
-            - %tables.primetime.blocks%
-            - %tables.primetime.cblocks%
+            - @blitze.sitemaker.blocks.manager
+            - %tables.sitemaker.blocks%
+            - %tables.sitemaker.cblocks%
         calls:
-            - [set_name, [primetime.core.cron.blocks_cleanup]]
+            - [set_name, [blitze.sitemaker.cron.blocks_cleanup]]
         tags:
             - { name: cron.task }
 
-    primetime.core.forum.data:
-        class: primetime\core\services\forum\data
+    blitze.sitemaker.forum.data:
+        class: blitze\sitemaker\services\forum\data
         arguments:
             - @auth
             - @config
@@ -90,8 +90,8 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.core.forum.manager:
-        class: primetime\core\services\forum\manager
+    blitze.sitemaker.forum.manager:
+        class: blitze\sitemaker\services\forum\manager
         arguments:
             - @auth
             - @cache
@@ -101,15 +101,15 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.core.icon_picker:
-        class: primetime\core\services\icon_picker
+    blitze.sitemaker.icon_picker:
+        class: blitze\sitemaker\services\icon_picker
         arguments:
             - @user
-            - @primetime.core.util
-            - @primetime.core.template
+            - @blitze.sitemaker.util
+            - @blitze.sitemaker.template
 
-    primetime.core.listener:
-        class: primetime\core\event\listener
+    blitze.sitemaker.listener:
+        class: blitze\sitemaker\event\listener
         arguments:
             - @cache
             - @config
@@ -117,54 +117,54 @@ services:
             - @service_container
             - @template
             - @user
-            - @primetime.core.util
-            - @primetime.core.blocks.display
+            - @blitze.sitemaker.util
+            - @blitze.sitemaker.blocks.display
             - %core.root_path%
             - %core.php_ext%
         tags:
             - { name: event.listener }
 
-    primetime.core.members:
-        class: primetime\core\services\members
+    blitze.sitemaker.members:
+        class: blitze\sitemaker\services\members
         arguments:
             - @dbal.conn
             - @user
-            - @primetime.core.util
-            - @primetime.core.template
+            - @blitze.sitemaker.util
+            - @blitze.sitemaker.template
             - %core.root_path%
             - %core.php_ext%
 
-    primetime.core.menu.builder:
-        class: primetime\core\services\menu\builder
+    blitze.sitemaker.menu.builder:
+        class: blitze\sitemaker\services\menu\builder
         arguments:
             - @cache
             - @dbal.conn
-            - @primetime.core.util
-            - %tables.primetime.menu%
-            - %tables.primetime.menu_items%
+            - @blitze.sitemaker.util
+            - %tables.sitemaker.menu%
+            - %tables.sitemaker.menu_items%
             - 'item_id'
 
-    primetime.core.menu.display:
-        class: primetime\core\services\menu\display
+    blitze.sitemaker.menu.display:
+        class: blitze\sitemaker\services\menu\display
         arguments:
             - @dbal.conn
-            - %tables.primetime.menu_items%
+            - %tables.sitemaker.menu_items%
             - 'item_id'
 
-    primetime.core.template:
-        class: primetime\core\services\template
+    blitze.sitemaker.template:
+        class: blitze\sitemaker\services\template
         arguments:
             - @path_helper
             - @config
             - @user
-            - @primetime.core.template_context
+            - @blitze.sitemaker.template_context
             - @ext.manager
 
-    primetime.core.template_context:
+    blitze.sitemaker.template_context:
         class: phpbb\template\context
 
-    primetime.core.util:
-        class: primetime\core\services\util
+    blitze.sitemaker.util:
+        class: blitze\sitemaker\services\util
         arguments:
             - @path_helper
             - @template

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package phpBB Primetime [English]
+ * @package phpBB Sitemaker [English]
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
@@ -45,7 +45,7 @@ $lang = array_merge($lang, array(
 
 	'LAST_VISITED'					=> 'Last Visited',
 
-	'MCP_PRIMETIME_CONTENT'			=> 'Contents',
+	'MCP_SITEMAKER_CONTENT'			=> 'Contents',
 	'MEMBERS_DATE'					=> 'Date',
 	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Member of the month',
@@ -77,7 +77,7 @@ $lang = array_merge($lang, array(
 	'TOPIC_LAST_READ'				=> 'Last read %s',
 	'TOP_POSTERS'					=> 'Top Posters',
 
-	'UCP_PRIMETIME_CONTENT'			=> 'My Stuff',
+	'UCP_SITEMAKER_CONTENT'			=> 'My Stuff',
 
 	'VIEW_DETAILS'					=> 'View Details',
 	'VIEW_USER_PROFILE'				=> 'All about %s',

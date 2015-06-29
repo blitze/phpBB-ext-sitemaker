@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\blocks;
+namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -31,7 +31,7 @@ class manager extends route
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\block_template */
+	/** @var \blitze\sitemaker\services\block_template */
 	protected $ptemplate;
 
 	/** @var string phpBB root path */
@@ -62,14 +62,14 @@ class manager extends route
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\core\services\template			$ptemplate				Primetime template object
+	 * @param \blitze\sitemaker\services\template			$ptemplate				Sitemaker template object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\template $ptemplate, $root_path, $php_ext, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, $root_path, $php_ext, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		parent::__construct($cache, $config, $db, $phpbb_container, $request, $user, $php_ext, $block_routes_table);
 
@@ -88,7 +88,7 @@ class manager extends route
 	}
 
 	/**
-	 * Add a primetime block
+	 * Add a sitemaker block
 	 */
 	public function add($service, $route)
 	{
@@ -147,7 +147,7 @@ class manager extends route
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_blocks');
 
 		$bdata = $this->get_block_data($bid);
 		$db_settings = $this->get_block_config($bid);
@@ -178,7 +178,7 @@ class manager extends route
 	{
 		if (!function_exists('build_multi_select'))
 		{
-			include($this->root_path . 'ext/primetime/core/blocks.' . $this->php_ext);
+			include($this->root_path . 'ext/blitze/sitemaker/blocks.' . $this->php_ext);
 		}
 
 		if (!function_exists('build_cfg_template'))
@@ -326,7 +326,7 @@ class manager extends route
 		{
 			$this->delete_route($route_info['route_id']);
 		}
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_blocks');
 
 		return array('message' => $this->user->lang['LAYOUT_SAVED']);
 	}
@@ -365,7 +365,7 @@ class manager extends route
 		{
 			$db_settings = $this->copy_blocks($style_id, $route_id, $new_blocks);
 		}
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_blocks');
 
 		return array(
 			'data'		=> $this->show_blocks($new_blocks, $db_settings),
@@ -389,7 +389,7 @@ class manager extends route
 
 		// Delete all routes for this style
 		$this->db->sql_query('DELETE FROM ' . $this->block_routes_table . ' WHERE style = ' . (int) $style_id);
-		$this->cache->destroy('primetime_block_routes');
+		$this->cache->destroy('sitemaker_block_routes');
 	}
 
 	/**
@@ -771,7 +771,7 @@ class manager extends route
 			$this->delete_block_config($block_ids);
 		}
 
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_blocks');
 	}
 
 	private function display($block, $settings)

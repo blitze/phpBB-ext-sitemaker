@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\blocks;
+namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\Container;
 
@@ -112,7 +112,7 @@ abstract class route extends base
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
 		$sql_data['route_id'] = $this->db->sql_nextid();
 
-		$this->cache->destroy('primetime_block_routes');
+		$this->cache->destroy('sitemaker_block_routes');
 
 		return ($return == 'id') ? $sql_data['route_id'] : $sql_data;
 	}
@@ -152,8 +152,8 @@ abstract class route extends base
 		}
 
 		$this->db->sql_query('UPDATE ' . $this->block_routes_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE route_id = ' . (int) $route_id);
-		$this->cache->destroy('primetime_block_routes');
-		$this->cache->destroy('primetime_blocks');
+		$this->cache->destroy('sitemaker_block_routes');
+		$this->cache->destroy('sitemaker_blocks');
 
 		return array_merge(
 			$sql_data,
@@ -170,6 +170,6 @@ abstract class route extends base
 			WHERE route_id = ' . (int) $route_id . '
 				AND style = ' . $this->style_id);
 
-		$this->cache->destroy('primetime_block_routes');
+		$this->cache->destroy('sitemaker_block_routes');
 	}
 }

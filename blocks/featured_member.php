@@ -1,18 +1,18 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
  * Featured Member Block
  */
-class featured_member extends \primetime\core\services\blocks\driver\block
+class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -125,7 +125,7 @@ class featured_member extends \primetime\core\services\blocks\driver\block
 		$rotation_str = array('hourly' => 'hour', 'daily' => 'day', 'weekly' => 'week', 'monthly' => 'month');
 
 		$error = false;
-		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || defined('PRIMETIME_FORUM_CHANGED')) ? true : false;
+		$reload = (($row = $this->cache->get('pt_block_data_' . $bid)) === false || defined('SITEMAKER_FORUM_CHANGED')) ? true : false;
 		$change = ($rotation == 'pageload' || $lastchange < strtotime('-1 ' . $rotation_str[$rotation])) ? true : false;
 
 		if ($change === true || $reload === true)
@@ -294,7 +294,7 @@ class featured_member extends \primetime\core\services\blocks\driver\block
 			'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"))
 		);
 
-		$block = $this->ptemplate->render_view('primetime/core', 'blocks/featured_member.html', 'featured_member_block');
+		$block = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block');
 
 		return array(
 			'title'		=> $this->user->lang[strtoupper($query_type) . '_MEMBER'],

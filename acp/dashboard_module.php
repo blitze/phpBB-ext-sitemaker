@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\acp;
+namespace blitze\sitemaker\acp;
 
 class dashboard_module
 {
@@ -23,8 +23,8 @@ class dashboard_module
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\util */
+	protected $sitemaker;
 
 	/** @var string */
 	var $tpl_name;
@@ -43,27 +43,27 @@ class dashboard_module
 		$this->db = $db;
 		$this->template = $template;
 		$this->user = $user;
-		$this->primetime = $phpbb_container->get('primetime.core.util');
+		$this->sitemaker = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
 	public function main()
 	{
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
+		$asset_path = $this->sitemaker->asset_path;
+		$this->sitemaker->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				$asset_path . 'ext/primetime/core/components/jquery-knob/js/jquery.knob.min.js',
-				$asset_path . 'ext/primetime/core/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
-				$asset_path . 'ext/primetime/core/components/moment/moment.min.js',
-				$asset_path . 'ext/primetime/core/components/jquery-rss/dist/jquery.rss.min.js',
-				$asset_path . 'ext/primetime/core/components/jquery.sparkline/index.min.js',
-				'@primetime_core/assets/adm/dashboard.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/jquery-knob/js/jquery.knob.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/moment/moment.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/jquery-rss/dist/jquery.rss.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/jquery.sparkline/index.min.js',
+				'@blitze_sitemaker/assets/adm/dashboard.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
-				$asset_path . 'ext/primetime/core/components/fontawesome/css/font-awesome.min.css',
-				$asset_path . 'ext/primetime/core/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
-				'@primetime_core/assets/adm/dashboard.min.css',
+				$asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
+				$asset_path . 'ext/blitze/sitemaker/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
+				'@blitze_sitemaker/assets/adm/dashboard.min.css',
 			)
 		));
 
@@ -105,7 +105,7 @@ class dashboard_module
 
 		// Set up the page
 		$this->tpl_name = 'acp_dashboard';
-		$this->page_title = 'PRIMETIME_DASHBOARD';
+		$this->page_title = 'SITEMAKER_DASHBOARD';
 	}
 
 	/**

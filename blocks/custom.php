@@ -1,18 +1,18 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
  * Custom Block
  */
-class custom extends \primetime\core\services\blocks\driver\block
+class custom extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -104,7 +104,7 @@ class custom extends \primetime\core\services\blocks\driver\block
 		if ($edit_mode !== false)
 		{
 			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
-			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable-block" data-service="primetime.core.blocks.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
+			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable-block" data-service="blitze.sitemaker.blocks.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
 		}
 
 		return array(

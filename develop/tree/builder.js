@@ -1,5 +1,5 @@
 /*!
- * Primetime treeBuilder
+ * Sitemaker treeBuilder
  * Author: @blitze
  * Licensed under the GPL license
  */
@@ -9,7 +9,7 @@
 
 	var lang = window.lang || {};
 
-	$.widget('primetime.treeBuilder', {
+	$.widget('sitemaker.treeBuilder', {
 		options : {
 			ajaxUrl			: '',
 			loadSpeed		: 10,
@@ -296,7 +296,7 @@
 				self.nestedList.empty();
 				self._resetActions();
 
-				if (data.items.length > 0) {
+				if (data !== undefined && data.items.length > 0) {
 					self._showActions();
 					self._addToTree(data.items);
 				}

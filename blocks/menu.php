@@ -1,19 +1,19 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
 * Menu Block
-* @package phpBB Primetime Menu
+* @package phpBB Sitemaker Menu
 */
-class menu extends \primetime\core\services\blocks\driver\block
+class menu extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -27,7 +27,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\menu\display */
+	/** @var \blitze\sitemaker\services\menu\display */
 	protected $tree;
 
 	/** @var string */
@@ -40,10 +40,10 @@ class menu extends \primetime\core\services\blocks\driver\block
 	 * @param \phpbb\config\config						$config			Config object
 	 * @param \phpbb\db\driver\driver_interface			$db     		Database connection
 	 * @param \phpbb\template\template					$user			User object
-	 * @param \primetime\core\services\menu\display		$tree			Menu tree display object
+	 * @param \blitze\sitemaker\services\menu\display		$tree			Menu tree display object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\core\services\menu\display $tree, $menus_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\menu\display $tree, $menus_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -79,7 +79,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 		return array(
 			'legend1'       => $this->user->lang['SETTINGS'],
-			'cache_name'	=> 'primetime_menu_data_' . $menu_id,
+			'cache_name'	=> 'sitemaker_menu_data_' . $menu_id,
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => $menu_id, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
 			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_ary, $max_depth), 'default' => 3, 'explain' => false),
@@ -99,7 +99,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 			);
 		}
 
-		if (($data = $this->cache->get('primetime_menu_data_' . $menu_id)) === false)
+		if (($data = $this->cache->get('sitemaker_menu_data_' . $menu_id)) === false)
 		{
 			$sql_array = array(
 				'WHERE'	=> array('t.menu_id = ' . (int) $menu_id),
@@ -125,7 +125,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 			$this->db->sql_freeresult($result);
 
 			$data = array_values($data);
-			$this->cache->put('primetime_menu_data_' . $menu_id, $data);
+			$this->cache->put('sitemaker_menu_data_' . $menu_id, $data);
 		}
 
 		$this->tree->set_params($db_data['settings']);
@@ -133,7 +133,7 @@ class menu extends \primetime\core\services\blocks\driver\block
 
 		return array(
 			'title'     => $title,
-			'content'   => $this->ptemplate->render_view('primetime/core', 'blocks/menu.html', 'menu_block'),
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/menu.html', 'menu_block'),
 		);
 	}
 

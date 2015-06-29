@@ -94,7 +94,7 @@
 	overflow: auto;
 }
 
-.primetime-block {
+.sitemaker-block {
 	float: left;
 	text-align: center;
 	font-weight: bolder;
@@ -103,7 +103,7 @@
 	cursor: move;
 }
 
-.primetime-block .inner {
+.sitemaker-block .inner {
 	margin: 5px 10px 5px 0;
 	padding: 10px;
 	border: 1px solid #ccc;
@@ -111,18 +111,18 @@
 	background-color: #f0faf4;
 }
 
-.primetime-block .inner:hover {
+.sitemaker-block .inner:hover {
 	background-color: #1d9c73;
 	color: #fff;
 	opacity: 0.8;
 }
 
-.primetime-block i {
+.sitemaker-block i {
 	float: left;
 	color: #1d9c73;
 }
 
-.admin-bar-container .primetime-block:hover i {
+.admin-bar-container .sitemaker-block:hover i {
 	color: #000;
 }
 

@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\migrations\v20x;
+namespace blitze\sitemaker\migrations\v20x;
 
 /**
  * Initial schema changes needed for Extension installation
@@ -20,8 +20,8 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\core\migrations\converter\c2_update_data',
-			'\primetime\core\migrations\v20x\m1_initial_schema'
+			'\blitze\sitemaker\migrations\converter\c2_update_data',
+			'\blitze\sitemaker\migrations\v20x\m1_initial_schema'
 		);
 	}
 
@@ -33,15 +33,15 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		return array(
 			array('custom', array(array($this, 'create_forum_cat'))),
 
-			array('config.add', array('primetime_last_changed', 0)),
-			array('config.add', array('primetime_default_layout', '')),
-			array('config.add', array('primetime_parent_forum_id', 0)),
-			array('config.add', array('primetime_core_forum_perm_from', 0)),
-			array('config.add', array('primetime_blocks_cleanup_gc', 604800)),
-			array('config.add', array('primetime_blocks_cleanup_last_gc', 0, 1)),
-			array('config.add', array('primetime_startpage_controller', '')),
-			array('config.add', array('primetime_startpage_method', '')),
-			array('config.add', array('primetime_startpage_params', '')),
+			array('config.add', array('sitemaker_last_changed', 0)),
+			array('config.add', array('sitemaker_default_layout', '')),
+			array('config.add', array('sitemaker_parent_forum_id', 0)),
+			array('config.add', array('blitze_sitemaker_forum_perm_from', 0)),
+			array('config.add', array('sitemaker_blocks_cleanup_gc', 604800)),
+			array('config.add', array('sitemaker_blocks_cleanup_last_gc', 0, 1)),
+			array('config.add', array('sitemaker_startpage_controller', '')),
+			array('config.add', array('sitemaker_startpage_method', '')),
+			array('config.add', array('sitemaker_startpage_params', '')),
 		);
 	}
 
@@ -51,15 +51,15 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	public function revert_data()
 	{
 		return array(
-			array('config.remove', array('primetime_last_changed')),
-			array('config.remove', array('primetime_default_layout')),
-			array('config.remove', array('primetime_parent_forum_id')),
-			array('config.remove', array('primetime_core_forum_perm_from')),
-			array('config.remove', array('primetime_blocks_cleanup_gc')),
-			array('config.remove', array('primetime_blocks_cleanup_last_gc')),
-			array('config.remove', array('primetime_startpage_controller')),
-			array('config.remove', array('primetime_startpage_method')),
-			array('config.remove', array('primetime_startpage_params')),
+			array('config.remove', array('sitemaker_last_changed')),
+			array('config.remove', array('sitemaker_default_layout')),
+			array('config.remove', array('sitemaker_parent_forum_id')),
+			array('config.remove', array('blitze_sitemaker_forum_perm_from')),
+			array('config.remove', array('sitemaker_blocks_cleanup_gc')),
+			array('config.remove', array('sitemaker_blocks_cleanup_last_gc')),
+			array('config.remove', array('sitemaker_startpage_controller')),
+			array('config.remove', array('sitemaker_startpage_method')),
+			array('config.remove', array('sitemaker_startpage_params')),
 		);
 	}
 
@@ -80,7 +80,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			'type_action'			=> '',
 			'forum_status'			=> ITEM_UNLOCKED,
 			'forum_parents'			=> '',
-			'forum_name'			=> 'phpBB Primetime Extensions',
+			'forum_name'			=> 'phpBB Sitemaker Extensions',
 			'forum_link'			=> '',
 			'forum_link_track'		=> false,
 			'forum_desc'			=> '',
@@ -114,9 +114,9 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			'forum_password_unset'	=> false,
 		);
 
-		if (!empty($this->config['primetime_parent_forum_id']))
+		if (!empty($this->config['sitemaker_parent_forum_id']))
 		{
-			$forum_data['forum_id'] = (int) $this->config['primetime_parent_forum_id'];
+			$forum_data['forum_id'] = (int) $this->config['sitemaker_parent_forum_id'];
 		}
 
 		$acp_forum = new \acp_forums();
@@ -124,7 +124,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 
 		if (!sizeof($errors))
 		{
-			$this->config->set('primetime_parent_forum_id', $forum_data['forum_id']);
+			$this->config->set('sitemaker_parent_forum_id', $forum_data['forum_id']);
 		}
 	}
 }

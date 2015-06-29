@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\migrations\v20x;
+namespace blitze\sitemaker\migrations\v20x;
 
 class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 {
@@ -28,7 +28,7 @@ class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\primetime\core\migrations\v20x\m1_initial_schema',
+			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',
 		);
 	}
 

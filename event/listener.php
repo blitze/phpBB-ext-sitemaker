@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\event;
+namespace blitze\sitemaker\event;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -32,10 +32,10 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/* @var \primetime\core\services\util */
-	protected $primetime;
+	/* @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
-	/* @var \primetime\core\services\blocks\display */
+	/* @var \blitze\sitemaker\services\blocks\display */
 	protected $blocks;
 
 	/** @var string phpBB root path */
@@ -56,12 +56,12 @@ class listener implements EventSubscriberInterface
 	 * @param Container									$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \primetime\core\services\util				$primetime				Primetime helper object
-	 * @param \primetime\core\services\blocks\display	$blocks					Blocks display object
+	 * @param \blitze\sitemaker\services\util				$sitemaker				Sitemaker helper object
+	 * @param \blitze\sitemaker\services\blocks\display	$blocks					Blocks display object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\blocks\display $blocks, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -69,7 +69,7 @@ class listener implements EventSubscriberInterface
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
 		$this->user = $user;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->blocks = $blocks;
 		$this->phpbb_root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -81,7 +81,7 @@ class listener implements EventSubscriberInterface
 			'core.user_setup'			=> 'init',
 			'core.permissions'			=> 'load_permission_language',
 			'core.append_sid'			=> 'add_edit_mode',
-			'core.page_footer'			=> 'show_primetime',
+			'core.page_footer'			=> 'show_sitemaker',
 			'core.adm_page_footer'		=> 'set_assets',
 			'core.submit_post_end'		=> 'clear_cached_queries',
 			'core.delete_posts_after'	=> 'clear_cached_queries',
@@ -114,7 +114,7 @@ class listener implements EventSubscriberInterface
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'primetime/core',
+			'ext_name' => 'blitze/sitemaker',
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
@@ -123,12 +123,12 @@ class listener implements EventSubscriberInterface
 	public function load_permission_language($event)
 	{
 		$categories = $event['categories'];
-		$categories = array_merge($categories, array('primetime' => 'ACL_CAT_PRIMETIME'));
+		$categories = array_merge($categories, array('sitemaker' => 'ACL_CAT_SITEMAKER'));
 		$event['categories'] = $categories;
 
 		$permissions = $event['permissions'];
 		$permissions = array_merge($permissions, array(
-			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'primetime'),
+			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'sitemaker'),
 		));
 		$event['permissions'] = $permissions;
 	}
@@ -153,11 +153,11 @@ class listener implements EventSubscriberInterface
 
 	public function clear_cached_queries()
 	{
-		define('PRIMETIME_FORUM_CHANGED', true);
+		define('SITEMAKER_FORUM_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
-	public function show_primetime()
+	public function show_sitemaker()
 	{
 		$this->blocks->show();
 		$this->set_assets();
@@ -178,12 +178,12 @@ class listener implements EventSubscriberInterface
 
 	public function set_assets()
 	{
-		$this->primetime->set_assets();
+		$this->sitemaker->set_assets();
 	}
 
 	public function set_startpage()
 	{
-		$controller_service = $this->config['primetime_startpage_controller'];
+		$controller_service = $this->config['sitemaker_startpage_controller'];
 
 		if ($this->user->page['page_name'] == 'index.php' && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
 		{
@@ -202,8 +202,8 @@ class listener implements EventSubscriberInterface
 				}
 			}
 
-			$method = $this->config['primetime_startpage_method'];
-			$arguments = explode('/', $this->config['primetime_startpage_params']);
+			$method = $this->config['sitemaker_startpage_method'];
+			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
 			$this->startpage = true;
 
 			$response = call_user_func_array(array($controller_object, $method), $arguments);
@@ -215,9 +215,9 @@ class listener implements EventSubscriberInterface
 
 	public function prepend_breadcrump()
 	{
-		if ($this->phpbb_container->has($this->config['primetime_startpage_controller']))
+		if ($this->phpbb_container->has($this->config['sitemaker_startpage_controller']))
 		{
-			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('primetime_core_forum');
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 
 			$this->template->assign_vars(array(
 				'S_PT_SHOW_FORUM_NAV'	=> true,

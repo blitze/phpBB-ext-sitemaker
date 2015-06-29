@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\forum;
+namespace blitze\sitemaker\services\forum;
 
 class data
 {
@@ -68,7 +68,7 @@ class data
 	/**
 	 * Begin query
 	 *
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function query()
 	{
@@ -101,7 +101,7 @@ class data
 	 * Fetch Forum by id(s)
 	 *
 	 * @param	mixed	$forum_id	Limit by forum id: single id or array of forum ids
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_forum($forum_id)
 	{
@@ -114,7 +114,7 @@ class data
 	 * Fetch Topic by id(s)
 	 *
 	 * @param	mixed	$topic_id	Limit by topic id: single id or array of topic ids
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_topic($topic_id)
 	{
@@ -127,7 +127,7 @@ class data
 	 * Fetch Topic by Poster id(s)
 	 *
 	 * @param	mixed	$user_id	User id of topic poster: single id or array of user ids
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_topic_poster($user_id)
 	{
@@ -140,7 +140,7 @@ class data
 	 * Fetch Post by id(s)
 	 *
 	 * @param	mixed	$post_id	Limit by post id: single id or array of post ids
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_post($post_id)
 	{
@@ -155,7 +155,7 @@ class data
 	 * Fetch by Topic Type
 	 *
 	 * @param	mixed	$topic_type		Limit by post id: single id or array of post ids
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_topic_type($topic_type)
 	{
@@ -173,7 +173,7 @@ class data
 	/**
 	 * Fetch Topic Watch info
 	 *
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_watch_status()
 	{
@@ -198,7 +198,7 @@ class data
 	/**
 	 * Fetch Topic Bookmark Info
 	 *
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_bookmark_status()
 	{
@@ -217,7 +217,7 @@ class data
 	/**
 	 * Fetch Topic Tracking Info
 	 *
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_tracking_info($track = true)
 	{
@@ -245,7 +245,7 @@ class data
 	 *
 	 * @param	integer		$start		Unix start time
 	 * @param	integer		$start		Unix stop time
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_date_range($start, $stop, $mode = 'topic')
 	{
@@ -265,7 +265,7 @@ class data
 	 * 											'SELECT'	=> array('p.*'),
 	 * 											'WHERE'		=> array('p.post_id = 2'),
 	 * 										)
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function fetch_custom($sql_array)
 	{
@@ -279,7 +279,7 @@ class data
 	 *
 	 * @param	string	$sort_key	The sorting key e.g. t.topic_time
 	 * @param	string	$sort_dir	Sort direction: ASC/DESC
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function set_sorting($sort_key, $sort_dir = 'DESC')
 	{
@@ -293,7 +293,7 @@ class data
 	 *
 	 * @param	bool	$check_visibility	Should we only return data from forums the user is allowed to see?
 	 * @param	bool	$enable_caching		Should the query be cached where possible?
-	 * @return	\primetime\core\forum\query		This object for chaining calls
+	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
 	 */
 	public function build($check_visibility = true, $enable_caching = true)
 	{

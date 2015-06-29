@@ -1,5 +1,5 @@
 /*!
- * Primetime iconPicker
+ * Sitemaker iconPicker
  * Author: @blitze
  * Licensed under the GPL license
  */

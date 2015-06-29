@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\controller;
+namespace blitze\sitemaker\controller;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +22,7 @@ class menu_admin
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\menu\builder */
+	/** @var \blitze\sitemaker\services\menu\builder */
 	protected $manager;
 
 	/** @var string */
@@ -37,10 +37,10 @@ class menu_admin
 	 * @param \phpbb\request\request_interface			$request 		Request object
 	 * @param \phpbb\user                				$user       	User object
 	 * @param \phpbb\template							$template		Template object
-	 * @param \primetime\core\services\menu\builder		$manager		Tree builder Object
+	 * @param \blitze\sitemaker\services\menu\builder		$manager		Tree builder Object
 	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \primetime\core\services\menu\builder $manager, $menus_table)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \blitze\sitemaker\services\menu\builder $manager, $menus_table)
 	{
 		$this->request = $request;
 		$this->template = $template;

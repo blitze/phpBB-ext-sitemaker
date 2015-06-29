@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services\forum;
+namespace blitze\sitemaker\services\forum;
 
 class manager
 {
@@ -68,7 +68,7 @@ class manager
 	public function add(&$forum_data, $forum_perm_from = 0)
 	{
 		$forum_data += array(
-			'parent_id'				=> $this->config['primetime_parent_forum_id'],
+			'parent_id'				=> $this->config['sitemaker_parent_forum_id'],
 			'forum_type'			=> FORUM_POST,
 			'type_action'			=> '',
 			'forum_status'			=> ITEM_UNLOCKED,

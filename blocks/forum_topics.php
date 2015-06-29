@@ -1,20 +1,20 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 use Urodoz\Truncate\TruncateService;
 
 /**
  * Forum Topics Block
  */
-class forum_topics extends \primetime\core\services\blocks\driver\block
+class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -28,11 +28,11 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\forum\data */
+	/** @var \blitze\sitemaker\services\forum\data */
 	protected $forum;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
 	/** @var \Urodoz\Truncate\TruncateService */
 	protected $truncate;
@@ -59,19 +59,19 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\core\services\forum\data	$forum				Forum Data object
-	 * @param \primetime\core\services\util			$primetime			Primetime Object
+	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
+	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \primetime\core\services\forum\data $forum, \primetime\core\services\util $primetime, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->user = $user;
 		$this->forum = $forum;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->truncate = new TruncateService();
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -164,7 +164,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 			$lang_var = 'TOPICS_LAST_READ';
 		}
 
-		$range_info = $this->primetime->get_date_range($this->settings['date_range']);
+		$range_info = $this->sitemaker->get_date_range($this->settings['date_range']);
 
 		$this->forum->query()
 			->fetch_forum($this->settings['forum_ids'])
@@ -227,7 +227,7 @@ class forum_topics extends \primetime\core\services\blocks\driver\block
 
 			return array(
 				'title'		=> $this->user->lang[$lang_var],
-				'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/forum_topics.html', 'forum_topics_block')
+				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block')
 			);
 		}
 	}

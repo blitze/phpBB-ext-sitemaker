@@ -1,18 +1,18 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
 * Stats Block
 */
-class stats extends \primetime\core\services\blocks\driver\block
+class stats extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/**
 	* phpBB configuration

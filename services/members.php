@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services;
+namespace blitze\sitemaker\services;
 
 class members
 {
@@ -17,10 +17,10 @@ class members
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \primetime\core\services\util */
-	protected $primetime;
+	/** @var \blitze\sitemaker\services\util */
+	protected $sitemaker;
 
-	/** @var \primetime\core\services\template driver_interface */
+	/** @var \blitze\sitemaker\services\template driver_interface */
 	protected $ptemplate;
 
 	/** @var string */
@@ -34,16 +34,16 @@ class members
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
-	 * @param \primetime\core\services\util			$primetime			Primetime object
-	 * @param \primetime\core\services\template		$ptemplate			Primetime template object
+	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker object
+	 * @param \blitze\sitemaker\services\template		$ptemplate			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->ptemplate = $ptemplate;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -126,7 +126,7 @@ class members
 
 		if ($get['date_range'] && $sql_between)
 		{
-			$range_info = $this->primetime->get_date_range($get['date_range']);
+			$range_info = $this->sitemaker->get_date_range($get['date_range']);
 
 			if ($range_info['start'] && $range_info['stop'])
 			{
@@ -155,7 +155,7 @@ class members
 				'L_INFO'	=> $l_info)
 			);
 
-			$list = $this->ptemplate->render_view('primetime/core', 'blocks/members.html', 'members_block');
+			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
 		}
 
 		return $list;

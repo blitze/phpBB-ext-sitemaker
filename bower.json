@@ -1,5 +1,5 @@
 {
-  "name": "phpBB Primetime",
+  "name": "phpBB Sitemaker",
   "dependencies": {
     "malihu-custom-scrollbar-plugin": "~3.0.9",
     "jquery-knob": "~1.2.11",

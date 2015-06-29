@@ -1,12 +1,12 @@
-# phpBB Primetime Extension
+# phpBB Site Maker Extension
 
-phpBB Primetime is an Extension for [phpBB 3.1](https://www.phpbb.com/)
+phpBB Site Maker is an Extension for [phpBB 3.1](https://www.phpbb.com/)
 
 ## Description
 
-phpBB Primetime creates a CMS base around your phpBB 3.1 installation
+phpBB Site Maker allows you to transform your phpBB3 board into a full-blown site.
 
-[![Travis](https://img.shields.io/travis/blitze/primetime.svg?style=flat)](https://travis-ci.org/blitze/primetime?branch=develop) [![Scrutinizer](https://img.shields.io/scrutinizer/g/blitze/primetime.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/primetime)
+[![Travis](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker?branch=develop) [![Scrutinizer](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker) [![Code Climate](https://img.shields.io/codeclimate/github/blitze/phpBB-ext-sitemaker/badges/gpa.svg)](https://codeclimate.com/github/blitze/phpBB-ext-sitemaker)
 
 ## Features
 
@@ -22,39 +22,25 @@ phpBB Primetime creates a CMS base around your phpBB 3.1 installation
 
 ## Installation
 
-Requires npm
+Clone into phpBB/ext/blitze/sitemaker:
 
-Clone into phpBB/ext/primetime/core:
+    git clone https://github.com/blitze/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
 
-    git clone https://github.com/blitze/primetime.git phpBB/ext/primetime/core
+From command line go to sitemaker directory:
 
-From command line go to primetime directory: 
-
-    cd phpBB/ext/primetime/core
-
-Install nodejs modules
-
-    npm install
-
-Install bower components
-
-    bower install
+    cd phpBB/ext/blitze/sitemaker
 
 Install vendors
 
     php composer.phar install --dev
 
-Build scripts
-
-    gulp build
-
-Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Primetime" extension.
+Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
 
 ## Collaborate
 
-* Create a issue in the [tracker](https://github.com/blitze/primetime/issues)
+* Create a issue in the [tracker](https://github.com/blitze/phpBB-ext-sitemaker/issues)
 * Note the restrictions for [branch names](https://wiki.phpbb.com/Git#Branch_Names) and [commit messages](https://wiki.phpbb.com/Git#Commit_Messages) are similar to phpBB3
-* Submit a [pull-request](https://github.com/blitze/primetime/pulls)
+* Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
 
 ## Testing
 

@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\controller;
+namespace blitze\sitemaker\controller;
 
 class forum
 {
@@ -57,7 +57,7 @@ class forum
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang['FORUM'],
-			'U_VIEW_FORUM'	=> $this->helper->route('primetime_core_forum')
+			'U_VIEW_FORUM'	=> $this->helper->route('blitze_sitemaker_forum')
 		));
 
 		return $this->helper->render('index_body.html', $this->user->lang['FORUM_INDEX']);

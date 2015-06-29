@@ -1,16 +1,16 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\services;
+namespace blitze\sitemaker\services;
 
 /**
- * Primetime icons - Font-awesome
+ * Sitemaker icons - Font-awesome
  */
 class icon_picker
 {
@@ -21,14 +21,14 @@ class icon_picker
 	protected $user;
 
 	/**
-	 * Primetime object
-	 * @var \primetime\core\services\util
+	 * Sitemaker object
+	 * @var \blitze\sitemaker\services\util
 	 */
-	protected $primetime;
+	protected $sitemaker;
 
 	/**
-	 * Primetime template object
-	 * @var \primetime\core\services\template
+	 * Sitemaker template object
+	 * @var \blitze\sitemaker\services\template
 	 */
 	protected $ptemplate;
 
@@ -36,13 +36,13 @@ class icon_picker
 	 * Constructor
 	 *
 	 * @param \phpbb\user                			$user       	User object
-	 * @param \primetime\core\services\util			$primetime		Primetime object
-	 * @param \primetime\core\services\ptemplate	$ptemplate		Primetime Template object
+	 * @param \blitze\sitemaker\services\util			$sitemaker		Sitemaker object
+	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
 	 */
-	public function __construct(\phpbb\user $user, \primetime\core\services\util $primetime, \primetime\core\services\template $ptemplate)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
 	{
 		$this->user = $user;
-		$this->primetime = $primetime;
+		$this->sitemaker = $sitemaker;
 		$this->ptemplate = $ptemplate;
 	}
 
@@ -51,20 +51,20 @@ class icon_picker
 	 */
 	public function picker()
 	{
-		$this->user->add_lang_ext('primetime/core', 'icons');
+		$this->user->add_lang_ext('blitze/sitemaker', 'icons');
 
-		$asset_path = $this->primetime->asset_path;
-		$this->primetime->add_assets(array(
+		$asset_path = $this->sitemaker->asset_path;
+		$this->sitemaker->add_assets(array(
 			'js'        => array(
-				'@primetime_core/assets/icons/picker.min.js',
+				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),
 			'css'   => array(
-				$asset_path . 'ext/primetime/core/components/fontawesome/css/font-awesome.min.css',
-				'@primetime_core/assets/icons/picker.min.css',
+				$asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
+				'@blitze_sitemaker/assets/icons/picker.min.css',
 			)
 		));
 
-		$this->ptemplate->set_style(array("ext/primetime/core/styles"));
+		$this->ptemplate->set_style(array("ext/blitze/sitemaker/styles"));
 
 		$this->ptemplate->set_filenames(array(
 			'icons'	=> 'icon_picker.html')

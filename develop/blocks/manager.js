@@ -390,7 +390,7 @@
 		if (editMode) {
 			inlineForm = $('<form class="inline-form"><input type="text" class="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
-			$('#add-block-panel').find('.primetime-block').draggable({
+			$('#add-block-panel').find('.sitemaker-block').draggable({
 				scroll: true,
 				revert: true,
 				addClasses: false,

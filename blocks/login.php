@@ -1,18 +1,18 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace primetime\core\blocks;
+namespace blitze\sitemaker\blocks;
 
 /**
  * Login Block
  */
-class login extends \primetime\core\services\blocks\driver\block
+class login extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	protected $user;
@@ -41,8 +41,8 @@ class login extends \primetime\core\services\blocks\driver\block
 	{
 		return array(
 			'legend1'			=> $this->user->lang['SETTINGS'],
-			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
-			'allow_autologin'	=> array('lang' => 'AUTO_LOGIN', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
+			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
+			'allow_autologin'	=> array('lang' => 'AUTO_LOGIN', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
 			'show_member_menu'	=> array('lang' => 'SHOW_MEMBER_MENU', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => false),
 		);
 	}
@@ -64,13 +64,13 @@ class login extends \primetime\core\services\blocks\driver\block
 
 			return array(
 				'title'		=> 'LOGIN',
-				'content'	=> $this->ptemplate->render_view('primetime/core', 'blocks/login.html', 'login_block')
+				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/login.html', 'login_block')
 			);
 		}
 		else if ($settings['show_member_menu'])
 		{
 			global $phpbb_container;
-			$block = $phpbb_container->get('primetime.core.block.member_menu');
+			$block = $phpbb_container->get('blitze.sitemaker.block.member_menu');
 			$block->set_template($this->ptemplate);
 			return $block->display(array(), $edit_mode);
 		}
