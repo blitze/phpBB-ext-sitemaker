@@ -58,4 +58,4 @@ script:
   - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.3.3' ] && [ '$DB' = 'mysqli' ]; then phpBB/ext/$EXTNAME/vendor/bin/EPV.php run --dir='phpBB/ext/$EXTNAME/'; fi"
 
 after_script:
-  - phpBB/ext/$EXTNAME/travis/send-coverage.sh $DB $TRAVIS_PHP_VERSION"
+  - phpBB/ext/$EXTNAME/travis/send-coverage.sh $DB $TRAVIS_PHP_VERSION
