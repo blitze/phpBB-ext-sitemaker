@@ -58,12 +58,10 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$sql = 'SELECT * FROM ' . $this->menus_table;
 		$result = $this->db->sql_query($sql);
 
-		$menu_id = 0;
 		$options = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$menu_id = $row['menu_id'];
-			$options[$menu_id] = $row['menu_name'];
+			$options[$row['menu_id']] = $row['menu_name'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -73,7 +71,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 			$depth_ary[$i] = $i;
 		}
 
-		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : $menu_id;
+		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : 0;
 		$expanded = (!empty($settings['expanded'])) ? $settings['expanded'] : 0;
 		$max_depth = (!empty($settings['max_depth'])) ? $settings['max_depth'] : 3;
 
