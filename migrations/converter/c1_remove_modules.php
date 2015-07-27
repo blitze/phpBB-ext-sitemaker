@@ -23,7 +23,7 @@ class c1_remove_modules extends \phpbb\db\migration\migration
 	}
 
 	/**
-	 * This realy should be update_data but migrator's 'effectively_installed' only seems to work with 'update_schema'
+	 * This really should be update_data but migrator's 'effectively_installed' only seems to work with 'update_schema'
 	 */
 	public function update_schema()
 	{
