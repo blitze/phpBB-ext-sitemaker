@@ -50,7 +50,7 @@ class menu_admin_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config(array());
-		$cache = new \phpbb\cache\service(new \phpbb\cache\driver\apc, $config, $db, $phpbb_root_path, $phpEx);
+		$cache = new \phpbb\cache\service(new \phpbb\cache\driver\null, $config, $db, $phpbb_root_path, $phpEx);
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
 		$request = $this->getMock('\phpbb\request\request_interface');
