@@ -74,11 +74,17 @@ class menu_admin
 					'item_title'	=> $this->request->variable('item_title', '', true),
 				);
 
+				if (!$mnu_id)
+				{
+					$errors[] = $this->user->lang['MISSING_MENU_ID'];
+				}
+
 				if ($action == 'edit' && !$item_id)
 				{
 					$errors[] = $this->user->lang['MISSING_ITEM_ID'];
 				}
-				else
+
+				if (!sizeof($errors))
 				{
 					$return['item_title'] = ucwords($return['item_title']);
 
