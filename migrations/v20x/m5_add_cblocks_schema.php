@@ -12,14 +12,14 @@ namespace blitze\sitemaker\migrations\v20x;
 class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 {
 	/**
-	 * Skip this migration if the pt_cblocks table already exists
+	 * Skip this migration if the sm_cblocks table already exists
 	 *
 	 * @return bool True to skip this migration, false to run it
 	 * @access public
 	 */
 	public function effectively_installed()
 	{
-		return $this->db_tools->sql_table_exists($this->table_prefix . 'pt_cblocks');
+		return $this->db_tools->sql_table_exists($this->table_prefix . 'sm_cblocks');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables'	=> array(
-				$this->table_prefix . 'pt_cblocks' => array(
+				$this->table_prefix . 'sm_cblocks' => array(
 					'COLUMNS'		=> array(
 						'block_id'			=> array('UINT', null, 'auto_increment'),
 						'block_content'		=> array('TEXT_UNI', ''),
@@ -61,7 +61,7 @@ class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 	{
 		return array(
 			'drop_tables'	=> array(
-				$this->table_prefix . 'pt_cblocks',
+				$this->table_prefix . 'sm_cblocks',
 			),
 		);
 	}
