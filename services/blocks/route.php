@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class route extends base
 {
@@ -37,13 +37,13 @@ abstract class route extends base
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param Container									$phpbb_container		Service container
+	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\user								$user					User object
 	 * @param string									$php_ext				phpEx
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, $php_ext, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, $php_ext, $block_routes_table)
 	{
 		parent::__construct($config, $phpbb_container, $user, $php_ext);
 

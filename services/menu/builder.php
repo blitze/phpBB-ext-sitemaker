@@ -26,7 +26,7 @@ class builder extends \blitze\sitemaker\services\tree\builder
 	 *
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
-	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
+	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
 	 * @param string								$menus_table		Menus table
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key

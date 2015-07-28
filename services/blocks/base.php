@@ -9,14 +9,14 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class base
 {
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var Container */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var \phpbb\user */
@@ -29,11 +29,11 @@ abstract class base
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config						$config					Config object
-	 * @param Container									$phpbb_container		Service container
+	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\user								$user					User object
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, Container $phpbb_container, \phpbb\user $user, $php_ext)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\user $user, $php_ext)
 	{
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;

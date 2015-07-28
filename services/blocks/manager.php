@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class manager extends route
 {
@@ -19,7 +19,7 @@ class manager extends route
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var Container */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var \phpbb\request\request_interface */
@@ -58,18 +58,18 @@ class manager extends route
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param Container									$phpbb_container		Service container
+	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\template			$ptemplate				Sitemaker template object
+	 * @param \blitze\sitemaker\services\template		$ptemplate				Sitemaker template object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				phpEx
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$blocks_config_table	Name of the blocks_config database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, $root_path, $php_ext, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, $root_path, $php_ext, $blocks_table, $blocks_config_table, $block_routes_table)
 	{
 		parent::__construct($cache, $config, $db, $phpbb_container, $request, $user, $php_ext, $block_routes_table);
 

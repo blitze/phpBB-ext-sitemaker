@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\controller;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class blocks_admin
@@ -20,7 +20,7 @@ class blocks_admin
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var Container */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var \phpbb\request\request_interface */
@@ -37,12 +37,12 @@ class blocks_admin
 	 *
 	 * @param \phpbb\auth\auth								$auth				Auth object
 	 * @param \phpbb\config\config							$config				Config object
-	 * @param Container										$phpbb_container	Service container
+	 * @param ContainerInterface							$phpbb_container	Service container
 	 * @param \phpbb\request\request_interface				$request			Request object
 	 * @param \phpbb\user									$user				User object
 	 * @param \blitze\sitemaker\services\blocks\manager		$blocks				Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, Container $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -73,7 +73,7 @@ class blocks_admin
 			}
 
 			$json_data['message'] = $this->user->lang['NOT_AUTHORISED'];
-			return new Response(json_encode($json_data));
+			return new Response(json_encode($json_data), 401);
 		}
 
 		$id		= $this->request->variable('id', 0);

@@ -37,7 +37,7 @@ class menu_admin
 	 * @param \phpbb\request\request_interface			$request 		Request object
 	 * @param \phpbb\user                				$user       	User object
 	 * @param \phpbb\template							$template		Template object
-	 * @param \blitze\sitemaker\services\menu\builder		$manager		Tree builder Object
+	 * @param \blitze\sitemaker\services\menu\builder	$manager		Tree builder Object
 	 * @param string									$menus_table	Menus table
 	 */
 	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \blitze\sitemaker\services\menu\builder $manager, $menus_table)

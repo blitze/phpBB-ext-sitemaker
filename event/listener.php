@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\event;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
@@ -20,7 +20,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var Container */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var \phpbb\request\request_interface */
@@ -53,7 +53,7 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\request\request_interface			$request				Request object
-	 * @param Container									$phpbb_container		Service container
+	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 * @param \blitze\sitemaker\services\util				$sitemaker				Sitemaker helper object
@@ -61,7 +61,7 @@ class listener implements EventSubscriberInterface
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

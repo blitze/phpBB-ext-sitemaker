@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class builder extends base
 {
@@ -22,7 +22,7 @@ class builder extends base
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var Container */
+	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	/** @var \phpbb\template\template */
@@ -52,16 +52,16 @@ class builder extends base
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param Container									$phpbb_container		Service container
+	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
-	 * @param \blitze\sitemaker\services\util				$sitemaker				Template object
+	 * @param \blitze\sitemaker\services\icon_picker	$icons					Sitemaker icon picker object
+	 * @param \blitze\sitemaker\services\util			$sitemaker				Template object
 	 * @param string									$php_ext				phpEx
 	 * @param string									$blocks_table			Name of the blocks database table
 	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, Container $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $sitemaker, $php_ext, $blocks_table, $block_routes_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $sitemaker, $php_ext, $blocks_table, $block_routes_table)
 	{
 		parent::__construct($config, $phpbb_container, $user, $php_ext);
 
@@ -90,8 +90,7 @@ class builder extends base
 		$style_id = $route_info['style'];
 
 		$board_url = generate_board_url();
-		$app_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
-		$ajax_url = $app_url . '/blocks/';
+		$ajax_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
 		$u_disp_mode = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
 
 		$is_default_route = $u_default_route = false;
@@ -114,6 +113,7 @@ class builder extends base
 			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_IS_DEFAULT'		=> $is_default_route,
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
+			'S_FORM_KEY'		=> $this->sitemaker->get_form_key('add_edit_page'),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
 			'PAGE_URL'			=> build_url(array('style')),
@@ -121,7 +121,6 @@ class builder extends base
 			'UA_STYLE_ID'		=> $style_id,
 			'UA_ROUTE'			=> $route,
 			'UA_AJAX_URL'		=> $ajax_url,
-			'UA_APP_URL'		=> $app_url,
 			'UA_BOARD_URL'		=> $board_url,
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
@@ -188,6 +187,7 @@ class builder extends base
 				'CONTROLLER_NAME'	=> $controller_service,
 				'CONTROLLER_METHOD'	=> $controller_method,
 				'CONTROLLER_PARAMS'	=> $controller_arguments,
+				'S_IS_PAGE'			=> ($controller === 'phpbb.pages.controller:display') ? true : false,
 				'S_IS_STARTPAGE'	=> ($this->config['sitemaker_startpage_controller'] == $controller_service && $this->config['sitemaker_startpage_params'] == $controller_arguments) ? true : false,
 				'UA_EXTENSION'		=> $namespace . '/' . $extension,
 			));
@@ -200,14 +200,16 @@ class builder extends base
 		$this->sitemaker->add_assets(array(
 			'js'		=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'//tinymce.cachefly.net/4.1/tinymce.min.js',
+				'//tinymce.cachefly.net/4.2/tinymce.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
+				101 =>  '@blitze_sitemaker/assets/page/manager.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
+				'@blitze_sitemaker/assets/page/manager.min.css',
 			)
 		));
 	}

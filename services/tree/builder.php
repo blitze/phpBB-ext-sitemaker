@@ -21,7 +21,7 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 	 * Construct
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
-	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
+	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key
 	 */
