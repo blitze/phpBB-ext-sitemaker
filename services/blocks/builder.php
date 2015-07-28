@@ -198,18 +198,16 @@ class builder extends base
 	{
 		$asset_path = $this->sitemaker->asset_path;
 		$this->sitemaker->add_assets(array(
-			'js'		=> array(
+			'js'	=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.2/tinymce.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
-				101 =>  '@blitze_sitemaker/assets/page/manager.min.js',
 			),
 			'css'   => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
-				'@blitze_sitemaker/assets/page/manager.min.css',
 			)
 		));
 	}
