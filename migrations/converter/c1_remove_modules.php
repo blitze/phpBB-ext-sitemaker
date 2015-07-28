@@ -28,7 +28,7 @@ class c1_remove_modules extends \phpbb\db\migration\migration
 	public function update_schema()
 	{
 		$sql = 'SELECT *
-			FROM ' . MODULES_TABLE . "
+			FROM ' . $this->table_prefix . "modules
 			WHERE module_dir <> ''
 				OR " . $this->db->sql_in_set('module_langname', array('CMS', 'GCP', 'GRP', 'PRO')) . '
 			ORDER BY right_id ASC';
