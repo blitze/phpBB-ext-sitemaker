@@ -130,7 +130,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 	/**
 	 * @return array
 	 */
-	public function test_data()
+	public function sample_data()
 	{
 		return array(
 
@@ -265,7 +265,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * @dataProvider test_data
+	 * @dataProvider sample_data
 	 *
 	 * @param array $auth_map
 	 * @param array $variable_map
