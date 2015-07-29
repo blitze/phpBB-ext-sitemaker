@@ -124,7 +124,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			$block_routes_table
 		);
 
-		return new blocks_admin($auth, $config, $container, $request, $user, $manager);
+		return new blocks_admin($auth, $config, $request, $user, $manager);
 	}
 
 	/**

@@ -373,9 +373,29 @@ class manager extends route
 		);
 	}
 
+	/**
+	 * Set the current working style
+	 */
 	public function set_style($style_id)
 	{
 		$this->style_id = (int) $style_id;
+	}
+
+	/**
+	 * Run a custom block handler
+	 */
+	public function custom_handler($service, $method, $block_id)
+	{
+		if ($this->block_exists($service))
+		{
+			return $this->phpbb_container->get($service)->$method($block_id);
+		}
+		else
+		{
+			return array(
+				'errors' => $this->user->lang['SERVICE_NOT_FOUND']
+			);
+		}
 	}
 
 	/**

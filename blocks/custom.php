@@ -20,6 +20,9 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\request\request_interface */
+	protected $request;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -31,19 +34,23 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	 *
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\db\driver\driver_interface		$db					Database object
+	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\user							$user				User object
 	 * @param string								$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $cblocks_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, $cblocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
+		$this->request = $request;
 		$this->user = $user;
 		$this->cblocks_table = $cblocks_table;
 	}
 
-	public function save($id, $content)
+	public function save($id)
 	{
+		$content = $this->request->variable('content', '', true);
+
 		// Delete block data
 		$this->db->sql_query('DELETE FROM ' . $this->cblocks_table . ' WHERE block_id = ' . (int) $id);
 

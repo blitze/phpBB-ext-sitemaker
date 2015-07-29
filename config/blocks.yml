@@ -15,6 +15,7 @@ services:
         arguments:
             - @cache
             - @dbal.conn
+            - @request
             - @user
             - %tables.sitemaker.cblocks%
         calls:

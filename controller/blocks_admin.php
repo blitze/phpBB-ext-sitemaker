@@ -9,7 +9,6 @@
 
 namespace blitze\sitemaker\controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class blocks_admin
@@ -19,9 +18,6 @@ class blocks_admin
 
 	/** @var \phpbb\config\config */
 	protected $config;
-
-	/** @var ContainerInterface */
-	protected $phpbb_container;
 
 	/** @var \phpbb\request\request_interface */
 	protected $request;
@@ -37,25 +33,23 @@ class blocks_admin
 	 *
 	 * @param \phpbb\auth\auth								$auth				Auth object
 	 * @param \phpbb\config\config							$config				Config object
-	 * @param ContainerInterface							$phpbb_container	Service container
 	 * @param \phpbb\request\request_interface				$request			Request object
 	 * @param \phpbb\user									$user				User object
 	 * @param \blitze\sitemaker\services\blocks\manager		$blocks				Block manager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\manager $blocks)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\manager $blocks)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
-		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->user = $user;
 		$this->blocks = $blocks;
-
-		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
 	}
 
 	public function handle($action)
 	{
+		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
+
 		$return_data = array();
 		$json_data = array(
 			'id'		=> '',
@@ -93,12 +87,15 @@ class blocks_admin
 			case 'add':
 				$return_data = $this->blocks->add($block, $route);
 			break;
+
 			case 'edit':
 				$return_data = $this->blocks->edit($id);
 			break;
+
 			case 'save':
 				$return_data = $this->blocks->save($id);
 			break;
+
 			case 'update':
 				$field = $this->request->variable('field', 'icon');
 
@@ -113,17 +110,21 @@ class blocks_admin
 				}
 				$return_data = $this->blocks->update($id, $data);
 			break;
+
 			case 'delete_blocks':
 				$this->blocks->delete_blocks_by_route($route);
 			break;
+
 			case 'save_layout':
 				$return_data = $this->blocks->save_layout($route);
 			break;
+
 			case 'copy_layout':
 				$from_route = $this->request->variable('from_route', '');
 				$from_style = $this->request->variable('from_style', $style);
 				$return_data = $this->blocks->copy_layout($route, $from_route, $from_style);
 			break;
+
 			case 'layout_settings':
 				$data = array(
 					'hide_blocks'	=> $this->request->variable('hide_blocks', false),
@@ -131,27 +132,22 @@ class blocks_admin
 				);
 				$return_data = $this->blocks->set_route_prefs($route, $data);
 			break;
+
 			case 'set_default':
 				$this->config->set('sitemaker_default_layout', $route);
 			break;
+
 			case 'set_startpage':
 				$this->config->set('sitemaker_startpage_controller', $this->request->variable('controller', ''));
 				$this->config->set('sitemaker_startpage_method', $this->request->variable('method', ''));
 				$this->config->set('sitemaker_startpage_params', $this->request->variable('params', ''));
 			break;
+
 			case 'custom':
 				$service = $this->request->variable('service', '');
 				$method = $this->request->variable('method', '');
-				$content = $this->request->variable('content', '', true);
 
-				if ($this->phpbb_container->has($service))
-				{
-					$return_data = $this->phpbb_container->get($service)->$method($id, $content);
-				}
-				else
-				{
-					$json_data['errors'] = $this->user->lang['SERVICE_NOT_FOUND'];
-				}
+				$return_data = $this->blocks->custom_handler($service, $method, $id);
 			break;
 		}
 
