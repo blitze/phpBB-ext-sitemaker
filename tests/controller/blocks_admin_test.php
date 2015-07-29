@@ -16,8 +16,6 @@ use blitze\sitemaker\services\blocks\manager;
 
 class blocks_admin_test extends \phpbb_database_test_case
 {
-	protected $manager;
-
 	/**
 	* Define the extensions to be tested
 	*
@@ -110,7 +108,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			new \phpbb_mock_extension_manager($phpbb_root_path)
 		);
 
-		$this->manager = new manager(
+		$manager = new manager(
 			$cache,
 			$config,
 			$db,
@@ -126,7 +124,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			$block_routes_table
 		);
 
-		return  new blocks_admin($auth, $config, $container, $request, $user, $this->manager);
+		return new blocks_admin($auth, $config, $container, $request, $user, $manager);
 	}
 
 	/**
@@ -136,7 +134,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 	{
 		return array(
 
-			// Add stats block
+			// User not authorized
 			array(
 				array(
 					array('a_manage_blocks', 0, false),
