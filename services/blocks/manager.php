@@ -384,7 +384,7 @@ class manager extends route
 	public function delete_blocks_by_style($style_id)
 	{
 		$this->set_style($style_id);
-		$block_ids = $this->get_blocks('', 'data');
+		$block_ids = $this->get_blocks('', 'id');
 		$this->delete_blocks($block_ids);
 
 		// Delete all routes for this style
@@ -407,7 +407,7 @@ class manager extends route
 
 			$this->set_route_prefs($route, array(
 				'hide_blocks'	=> (bool) $route_info['hide_blocks'],
-				'ex_positions'	=> join(',', $route_info['ex_positions']),
+				'ex_positions'	=> $route_info['ex_positions'],
 			));
 		}
 	}
