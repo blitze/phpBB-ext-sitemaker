@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\cron;
 
+use blitze\sitemaker\cron\url;
+
 class blocks_cleanup extends \phpbb\cron\task\base
 {
 	/** @var \phpbb\config\config */
@@ -19,6 +21,9 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 	/** @var \blitze\sitemaker\services\blocks\manager */
 	protected $manager;
+
+	/** @var \blitze\sitemaker\services\url_checker */
+	protected $url_checker;
 
 	/** @var string */
 	protected $blocks_table;
@@ -32,14 +37,16 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db						Database object
 	 * @param \blitze\sitemaker\services\blocks\manager	$manager				Blocks manager object
+	 * @param \blitze\sitemaker\services\url_checker	$url_checker			Url checker object
 	 * @param string									$blocks_table			Name of blocks database table
 	 * @param string									$cblocks_table			Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, $blocks_table, $cblocks_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, \blitze\sitemaker\services\url_checker $url_checker, $blocks_table, $cblocks_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->manager = $manager;
+		$this->url_checker = $url_checker;
 		$this->blocks_table = $blocks_table;
 		$this->cblocks_table = $cblocks_table;
 	}
@@ -80,6 +87,10 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		return $this->config['sitemaker_blocks_cleanup_last_gc'] < time() - $this->config['sitemaker_blocks_cleanup_gc'];
 	}
 
+	/**
+	 * Removes all block routes and blocks belonging to these routes
+	 * for styles that no longer exist
+	 */
 	private function clean_styles()
 	{
 		$routes_ary	= $this->manager->get_all_routes();
@@ -102,18 +113,19 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		return $routes;
 	}
 
+	/**
+	 * Removes all blocks for routes that no longer exist
+	 */
 	private function clean_routes($routes)
 	{
-		$board_url	= generate_board_url();
+		$board_url = generate_board_url();
 
 		foreach ($routes as $route => $row)
 		{
 			$url = $board_url . '/' . (($row['ext_name']) ? 'app.php' : '') . $row['route'];
 
-			$file_headers = @get_headers($url);
-
 			// Route no longer exists => remove all blocks for route
-			if ($file_headers[0] !== 'HTTP/1.1 200 OK')
+			if ($this->url_checker->exists($url) !== true)
 			{
 				$this->manager->set_style($row['style']);
 				$this->manager->delete_blocks_by_route($route);
@@ -121,6 +133,9 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		}
 	}
 
+	/**
+	 * Removes all blocks that (the service) no longer exist
+	 */
 	private function clean_blocks()
 	{
 		$sql = $this->db->sql_build_query('SELECT', array(
@@ -148,6 +163,9 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		}
 	}
 
+	/**
+	 * Removes from custom blocks table, any custom blocks no longer present in blocks table
+	 */
 	private function clean_custom_blocks()
 	{
 		$sql = $this->db->sql_build_query('SELECT', array(

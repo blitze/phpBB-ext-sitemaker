@@ -72,6 +72,7 @@ services:
             - @config
             - @dbal.conn
             - @blitze.sitemaker.blocks.manager
+            - @blitze.sitemaker.url_checker
             - %tables.sitemaker.blocks%
             - %tables.sitemaker.cblocks%
         calls:
@@ -162,6 +163,9 @@ services:
 
     blitze.sitemaker.template_context:
         class: phpbb\template\context
+
+    blitze.sitemaker.url_checker:
+        class: blitze\sitemaker\services\url_checker
 
     blitze.sitemaker.util:
         class: blitze\sitemaker\services\util
