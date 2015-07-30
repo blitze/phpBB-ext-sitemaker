@@ -13,7 +13,7 @@ namespace blitze\sitemaker\blocks;
 * Menu Block
 * @package phpBB Sitemaker Menu
 */
-class mybookmarks  extends \blitze\sitemaker\services\blocks\driver\block
+class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 {
 	/** @var \phpbb\user */
 	protected $user;
