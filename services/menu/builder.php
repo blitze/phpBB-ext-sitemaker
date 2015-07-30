@@ -54,7 +54,7 @@ class builder extends \blitze\sitemaker\services\tree\builder
 		$menu_id = $this->db->sql_nextid();
 
 		return array(
-			'id'	=> $menu_id,
+			'id'	=> (int) $menu_id,
 			'title'	=> $data['menu_name']
 		);
 	}
