@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\cron;
 
-use blitze\sitemaker\cron\url;
-
 class blocks_cleanup extends \phpbb\cron\task\base
 {
 	/** @var \phpbb\config\config */
