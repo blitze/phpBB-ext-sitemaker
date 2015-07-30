@@ -91,7 +91,11 @@ class menu_admin_test extends \phpbb_database_test_case
 				'add_menu',
 				0,
 				array(),
-				'{"id":1,"title":"Menu 1","errors":""}',
+				array(
+					'id'		=> 1,
+					'title'		=> 'Menu 1',
+					'errors'	=> '',
+				),
 				200
 			),
 
@@ -102,7 +106,11 @@ class menu_admin_test extends \phpbb_database_test_case
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 1),
 				),
-				'{"menu_id":1,"item_title":null,"errors":""}',
+				array(
+					'menu_id'		=> 1,
+					'item_title'	=> null,
+					'errors'		=> '',
+				),
 				200
 			)
 		);
@@ -123,7 +131,7 @@ class menu_admin_test extends \phpbb_database_test_case
 		$response = $controller->handle($action, $item_id);
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertSame($content, $response->getContent());
+		$this->assertSame($content, json_decode($response->getContent(), true));
 		$this->assertEquals($status_code, $response->getStatusCode());
 	}
 }
