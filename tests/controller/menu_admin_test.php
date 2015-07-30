@@ -108,7 +108,12 @@ class menu_admin_test extends \phpbb_database_test_case
 				),
 				array(
 					'menu_id'		=> 1,
-					'item_title'	=> null,
+					'item_title'	=> '',
+					'left_id'		=> 1,
+					'right_id'		=> 2,
+					'parent_id'		=> 0,
+					'depth'			=> 0,
+					'item_id'		=> 1,
 					'errors'		=> '',
 				),
 				200
