@@ -74,7 +74,7 @@ class menu_admin
 					'item_title'	=> $this->request->variable('item_title', '', true),
 				);
 
-				if (!$mnu_id)
+				if (!$menu_id)
 				{
 					$errors[] = $this->user->lang['MISSING_MENU_ID'];
 				}
