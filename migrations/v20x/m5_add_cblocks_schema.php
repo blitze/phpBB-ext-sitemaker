@@ -25,7 +25,7 @@ class m5_add_cblocks_schema extends \phpbb\db\migration\migration
 	/**
 	 * @inheritdoc
 	 */
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array(
 			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',

@@ -17,7 +17,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	/**
 	 * @inheritdoc
 	 */
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array(
 			'\blitze\sitemaker\migrations\converter\c2_update_data',
