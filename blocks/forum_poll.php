@@ -181,7 +181,6 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		{
 			$poll_info[] = $row;
 			$option_id = (int) $row['poll_option_id'];
-			$vote_counts[$option_id] = (int) $row['poll_option_total'];
 		}
 		$this->db->sql_freeresult($result);
 
