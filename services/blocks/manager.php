@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use blitze\sitemaker\services\blocks\cfg_fields;
 
 class manager extends route
 {
