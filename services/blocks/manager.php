@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use blitze\sitemaker\services\blocks\cfg_fields;
 
 class manager extends route
 {
@@ -176,10 +177,11 @@ class manager extends route
 	 */
 	public function edit($bid)
 	{
-		if (!function_exists('build_multi_select'))
-		{
-			include($this->root_path . 'ext/blitze/sitemaker/blocks.' . $this->php_ext);
-		}
+		global $module;
+
+		// We fake this class as it is needed by the build_cfg_template function
+		$module = new \stdClass();
+		$module->module = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_fields');
 
 		if (!function_exists('build_cfg_template'))
 		{
@@ -619,7 +621,7 @@ class manager extends route
 			break;
 			case 'checkbox':
 			case 'multi_select':
-				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : (($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select');
+				$vars['method'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
 				$vars['params'][] = $config_key;
 				$type[0] = 'custom';
 
@@ -629,8 +631,12 @@ class manager extends route
 				}
 			break;
 			case 'hidden':
-				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_hidden';
+				$vars['method'] = 'build_hidden';
 				$vars['explain'] = '';
+				$type[0] = 'custom';
+			break;
+			case 'custom':
+				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 				$type[0] = 'custom';
 			break;
 		}
