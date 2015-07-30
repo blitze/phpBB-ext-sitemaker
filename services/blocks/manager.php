@@ -122,7 +122,7 @@ class manager extends route
 		$this->db->sql_query('UPDATE ' . $this->blocks_table . " SET weight = weight + 1 WHERE weight >= $weight AND route_id = $route_id AND style = " . (int) $this->style_id);
 		$this->db->sql_query('INSERT INTO ' . $this->blocks_table . ' ' . $this->db->sql_build_array('INSERT', $block_data));
 
-		$block_data['bid'] = $this->db->sql_nextid();
+		$block_data['bid'] = (int) $this->db->sql_nextid();
 		$block_data['settings'] = $block_settings;
 
 		// update route info

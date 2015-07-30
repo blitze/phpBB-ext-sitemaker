@@ -51,10 +51,10 @@ class builder extends \blitze\sitemaker\services\tree\builder
 		}
 
 		$this->db->sql_query('INSERT INTO ' . $this->menus_table . ' ' . $this->db->sql_build_array('INSERT', $data));
-		$menu_id = $this->db->sql_nextid();
+		$menu_id = (int) $this->db->sql_nextid();
 
 		return array(
-			'id'	=> (int) $menu_id,
+			'id'	=> $menu_id,
 			'title'	=> $data['menu_name']
 		);
 	}

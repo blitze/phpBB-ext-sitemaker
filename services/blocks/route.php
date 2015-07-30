@@ -110,7 +110,7 @@ abstract class route extends base
 			'ex_positions'	=> '',
 		);
 		$this->db->sql_query('INSERT INTO ' . $this->block_routes_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
-		$sql_data['route_id'] = $this->db->sql_nextid();
+		$sql_data['route_id'] = (int) $this->db->sql_nextid();
 
 		$this->cache->destroy('sitemaker_block_routes');
 
