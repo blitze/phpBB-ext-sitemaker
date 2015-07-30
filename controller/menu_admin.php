@@ -26,9 +26,6 @@ class menu_admin
 	protected $manager;
 
 	/** @var string */
-	private $menus_table;
-
-	/** @var string */
 	private $board_url;
 
 	/**
@@ -38,15 +35,13 @@ class menu_admin
 	 * @param \phpbb\user                				$user       	User object
 	 * @param \phpbb\template							$template		Template object
 	 * @param \blitze\sitemaker\services\menu\builder	$manager		Tree builder Object
-	 * @param string									$menus_table	Menus table
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \blitze\sitemaker\services\menu\builder $manager, $menus_table)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\template\template $template, \blitze\sitemaker\services\menu\builder $manager)
 	{
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->manager = $manager;
-		$this->menus_table = $menus_table;
 		$this->board_url = generate_board_url();
 	}
 

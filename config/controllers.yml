@@ -5,7 +5,6 @@ services:
         arguments:
             - @auth
             - @config
-            - @service_container
             - @request
             - @user
             - @blitze.sitemaker.blocks.manager
@@ -27,4 +26,3 @@ services:
             - @user
             - @template
             - @blitze.sitemaker.menu.builder
-            - %tables.sitemaker.menu%
