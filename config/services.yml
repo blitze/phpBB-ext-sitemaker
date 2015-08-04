@@ -20,6 +20,11 @@ services:
             - %tables.sitemaker.blocks%
             - %tables.sitemaker.block_routes%
 
+    blitze.sitemaker.blocks.cfg_fields:
+        class: blitze\sitemaker\services\blocks\cfg_fields
+        arguments:
+            - @user
+
     blitze.sitemaker.blocks.display:
         class: blitze\sitemaker\services\blocks\display
         arguments:
