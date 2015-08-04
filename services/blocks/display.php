@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class display
 {
