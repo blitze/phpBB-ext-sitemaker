@@ -89,34 +89,36 @@ class listener_base extends \phpbb_database_test_case
 				return ($service_name === 'foo.bar.controller') ? true : false;
 			}));
 
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$controller_helper->expects($this->any())
+			->method('route')
+			->willReturnCallback(function ($route, array $params = array()) {
+				return $route . '#' . serialize($params);
+			});
+
+		$dummy_extension = $this->getMockbuilder('stdClass')
+			->setMockClassName('foo_bar_controller')
+			->setMethods(array('handle'))
+			->getMock();
+		$dummy_extension->expects($this->any())
+			->method('handle')
+			->willReturnCallback(function ($page) {
+				return new Response('Viewing page: ' . $page);
+			});
+
 		$this->container->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($service_name) {
+			->will($this->returnCallback(function($service_name) use (&$controller_helper, &$dummy_extension) {
 				switch ($service_name)
 				{
 					case 'controller.helper':
-						$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
-							->disableOriginalConstructor()
-							->getMock();
-
-						$controller_helper->expects($this->any())
-							->method('route')
-							->willReturnCallback(function ($route, array $params = array()) {
-								return $route . '#' . serialize($params);
-							});
 						return $controller_helper;
 
 					case 'foo.bar.controller':
-						$dummy = $this->getMockbuilder('stdClass')
-							->setMockClassName('foo_bar_controller')
-							->setMethods(array('handle'))
-							->getMock();
-						$dummy->expects($this->any())
-							->method('handle')
-							->willReturnCallback(function ($page) {
-								return new Response('Viewing page: ' . $page);
-							});
-						return $dummy;
+						return $dummy_extension;
 				}
 			}));
 

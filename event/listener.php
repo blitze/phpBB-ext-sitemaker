@@ -195,30 +195,35 @@ class listener implements EventSubscriberInterface
 		if ($this->user->page['page_name'] == 'index.php' && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
 		{
 			$controller_object = $this->phpbb_container->get($controller_service);
-			$controller_dir = explode('\\', get_class($controller_object));
-			define('STARTPAGE_IS_SET', 1);
-
-			if (!is_null($this->template) && isset($controller_dir[1]))
-			{
-				$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
-
-				if (is_dir($this->phpbb_root_path . $controller_style_dir))
-				{
-					$this->template->set_style(array($controller_style_dir, 'styles'));
-				}
-			}
-
 			$method = $this->config['sitemaker_startpage_method'];
-			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
-			$this->startpage = true;
 
-			$response = call_user_func_array(array($controller_object, $method), $arguments);
-			$response->send();
-
-			// This is really used to prevent exiting during tests
-			if (!defined('DONT_EXIT'))
+			// fail silently if startpage is not callable
+			if (is_callable(array($controller_object, $method)))
 			{
-				exit_handler();
+				$controller_dir = explode('\\', get_class($controller_object));
+				define('STARTPAGE_IS_SET', 1);
+
+				if (!is_null($this->template) && isset($controller_dir[1]))
+				{
+					$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
+
+					if (is_dir($this->phpbb_root_path . $controller_style_dir))
+					{
+						$this->template->set_style(array($controller_style_dir, 'styles'));
+					}
+				}
+
+				$arguments = explode('/', $this->config['sitemaker_startpage_params']);
+				$this->startpage = true;
+
+				$response = call_user_func_array(array($controller_object, $method), $arguments);
+				$response->send();
+
+				// This is really used to prevent exiting during tests
+				if (!defined('DONT_EXIT'))
+				{
+					exit_handler();
+				}
 			}
 		}
 	}
