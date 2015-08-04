@@ -91,7 +91,6 @@ class builder extends base
 
 		$board_url = generate_board_url();
 		$ajax_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
-		$u_disp_mode = $board_url . '/' . ltrim(rtrim(build_url(array('edit_mode')), '?'), './../');
 
 		$is_default_route = $u_default_route = false;
 		if ($this->config['sitemaker_default_layout'])
@@ -124,7 +123,6 @@ class builder extends base
 			'UA_BOARD_URL'		=> $board_url,
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
-			'U_DISP_MODE'		=> $u_disp_mode,
 		));
 	}
 

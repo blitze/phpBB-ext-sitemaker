@@ -2,7 +2,7 @@
 	<div id="admin-options" class="admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
 			<li class="hmenu-item">
-				<a class="menu-item has_dropdown" href="#">{L_BLOCKS}</a>
+				<a class="menu-item has-dropdown" href="#">{L_BLOCKS}</a>
 				<div id="add-block-panel" class="dropdown">
 					<div class="ui-state-default align-center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
 
@@ -18,7 +18,7 @@
 			    </div>
 			</li>
 			<li class="hmenu-item">
-				<a class="menu-item has_dropdown" href="#">{L_LAYOUT}</a>
+				<a class="menu-item has-dropdown" href="#">{L_LAYOUT}</a>
 				<div class="dropdown">
 					<h3>{L_SETTINGS}</h3>
 					<div class="line">
@@ -64,7 +64,7 @@
 			</li>
 			<!-- EVENT admin_bar_append -->
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_DISP_MODE}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {L_EXIT_EDIT_MODE}</span></a></li>
+			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_EDIT_MODE}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {L_EXIT_EDIT_MODE}</span></a></li>
 			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {L_SAVE_CHANGES}</span></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
@@ -136,7 +136,6 @@
 	var editMode = {S_EDIT_MODE};
 	var config = {
 		ajaxUrl: '{UA_AJAX_URL}',
-		appUrl: '{UA_APP_URL}',
 		boardUrl: '{UA_BOARD_URL}',
 		route: '{UA_ROUTE}',
 		ext: '{UA_EXTENSION}',
