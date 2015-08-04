@@ -56,7 +56,7 @@ class listener implements EventSubscriberInterface
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\util				$sitemaker				Sitemaker helper object
+	 * @param \blitze\sitemaker\services\util			$sitemaker				Sitemaker object
 	 * @param \blitze\sitemaker\services\blocks\display	$blocks					Blocks display object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				php file extension
@@ -75,12 +75,12 @@ class listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 	}
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'			=> 'init',
+			'core.user_setup'			=> 'init_sitemaker',
 			'core.permissions'			=> 'load_permission_language',
-			'core.append_sid'			=> 'add_edit_mode',
+			'core.page_header'			=> 'prepend_breadcrump',
 			'core.page_footer'			=> 'show_sitemaker',
 			'core.adm_page_footer'		=> 'set_assets',
 			'core.submit_post_end'		=> 'clear_cached_queries',
@@ -90,7 +90,7 @@ class listener implements EventSubscriberInterface
 		);
 	}
 
-	public function init($event)
+	public function init_sitemaker($event)
 	{
 		// Define forum options
 		define('FORUMS_PREVIEW_FIRST_POST', 1);
@@ -106,11 +106,6 @@ class listener implements EventSubscriberInterface
 		define('SHOW_BLOCK_SUBPAGE', 2);
 
 		define('JQUI_VERSION', '1.11.2');
-
-		if (!defined('ADMIN_START'))
-		{
-			$this->prepend_breadcrump();
-		}
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -133,21 +128,33 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 
-	public function add_edit_mode($event)
+	/**
+	 * if site startpage is something other than index.php
+	 * - Add "Forum" to navbar when we are not on the forum page (viewforum/viewtopic)
+	 * - Add "Forum" to the breadcrump when viewing forum page (viewforum/viewtopic)
+	 */
+	public function prepend_breadcrump()
 	{
-		if ($this->request->is_set('edit_mode') && !preg_match('/ucp|mcp|adm/', $event['url']))
+		if ($this->phpbb_container->has($this->config['sitemaker_startpage_controller']))
 		{
-			$params = $event['params'];
-			$amp = ($event['is_amp']) ? '&amp;' : '&';
-			if (!is_array($params))
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
+
+			// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
+			if ($this->request->is_set('f'))
 			{
-				$params .= (($params) ? $amp : '') . 'edit_mode=1';
+				$this->template->alter_block_array('navlinks', array(
+					'FORUM_NAME'	=> $this->user->lang['FORUM'],
+					'U_VIEW_FORUM'	=> $u_viewforum,
+				));
 			}
-			else
+			// Add "Forum" to navbar when not on forum pages
+			else if ($this->user->page['page'] !== 'app.php/forum')
 			{
-				$params[] = 'edit_mode=1';
+				$this->template->assign_vars(array(
+					'S_PT_SHOW_FORUM_NAV'	=> true,
+					'U_PT_VIEWFORUM'		=> $u_viewforum,
+				));
 			}
-			$event['params'] = $params;
 		}
 	}
 
@@ -191,7 +198,6 @@ class listener implements EventSubscriberInterface
 			$controller_dir = explode('\\', get_class($controller_object));
 			define('STARTPAGE_IS_SET', 1);
 
-			// 0 vendor, 1 extension name, ...
 			if (!is_null($this->template) && isset($controller_dir[1]))
 			{
 				$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
@@ -209,37 +215,20 @@ class listener implements EventSubscriberInterface
 			$response = call_user_func_array(array($controller_object, $method), $arguments);
 			$response->send();
 
-			exit_handler();
-		}
-	}
-
-	public function prepend_breadcrump()
-	{
-		if ($this->phpbb_container->has($this->config['sitemaker_startpage_controller']))
-		{
-			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
-
-			$this->template->assign_vars(array(
-				'S_PT_SHOW_FORUM_NAV'	=> true,
-				'U_PT_VIEWFORUM'		=> $u_viewforum,
-			));
-
-			if ($this->request->is_set('f') && isset($this->user->lang['FORUM']))
+			// This is really used to prevent exiting during tests
+			if (!defined('DONT_EXIT'))
 			{
-				$this->template->assign_block_vars('navlinks', array(
-					'FORUM_NAME'	=> $this->user->lang['FORUM'],
-					'U_VIEW_FORUM'	=> $u_viewforum,
-				));
+				exit_handler();
 			}
 		}
 	}
 
 	public function add_viewonline_location($event)
 	{
-		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.php' . $this->php_ext . '/forum') === 0)
+		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
-			$event['location'] = $this->user->lang['FORUM_INDEX'];
-			$event['location_url'] = $event['row']['session_page'];
+			$event['location'] = $this->user->lang('FORUM_INDEX');
+			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 		}
 	}
 }

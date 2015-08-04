@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class display
 {
@@ -97,6 +98,8 @@ class display
 
 	public function show()
 	{
+		$edit_mode = $this->request->variable($this->config['cookie_name'] . '_sm_edit_mode', false, false, \phpbb\request\request_interface::COOKIE);
+
 		$this->sitemaker->add_assets(array(
 			'css'   => array(
 				$this->sitemaker->asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
@@ -111,7 +114,11 @@ class display
 			return;
 		}
 
-		$edit_mode = $this->request->variable('edit_mode', false);
+		if ($this->request->is_set('edit_mode'))
+		{
+			$edit_mode = $this->request->variable('edit_mode', false);
+			$this->user->set_cookie('sm_edit_mode', $edit_mode, 0);
+		}
 
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
@@ -148,10 +155,8 @@ class display
 
 				$this->phpbb_container->get('blitze.sitemaker.blocks.builder')->handle($route_info);
 			}
-			else
-			{
-				$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=1');
-			}
+
+			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (($edit_mode) ? 0 : 1));
 		}
 		else
 		{
