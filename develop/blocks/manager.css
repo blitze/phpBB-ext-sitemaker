@@ -207,10 +207,6 @@
 	overflow: visible;
 }
 
-.block-receiver .block-title:hover {
-	border: 1px solid #d5f8a0;
-}
-
 .block-controls,
 .block-receiver .block .block-controls {
 	display: none;
@@ -242,7 +238,7 @@
 }
 
 .block-receiver .block-icon:hover {
-	border: 1px solid #ccc;
+	outline: 1px solid #060703;
 }
 
 .dialog-check-button {
@@ -252,12 +248,13 @@
 	margin-top: 1em;
 }
 
-.editable-block {
-	margin: 1px;
+.editable {
+	margin: 1px 1px 7px 1px;
+	overflow: hidden;
 }
 
-.editable-block:hover {
-	outline: 1px solid #d5f8a0;
+.editable:hover {
+	outline: 1px dashed #060703;
 }
 
 .message-container {

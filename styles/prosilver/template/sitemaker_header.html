@@ -1,4 +1,5 @@
 {% if S_EDIT_MODE %}
+	{% set EDITABLE_CLASS = ' editable' %}
 	{% set S_BLOCK_CONTROLS %}
 		<div class="block-controls">
 			<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
@@ -24,7 +25,7 @@
 					<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 					<h2>
 						<span class="block-icon"><i class="{panel.ICON}"></i></span>
-						<span class="block-title">{panel.TITLE}</span>
+						<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
 					</h2>
 					<!-- ENDIF -->
 					<div class="cms-block-content">
@@ -37,7 +38,7 @@
 				<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 				<h2>
 					<span class="block-icon"><i class="{panel.ICON}"></i></span>
-					<span class="block-title">{panel.TITLE}</span>
+					<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
 				</h2>
 				<!-- ENDIF -->
 				{panel.CONTENT}
@@ -60,7 +61,7 @@
 						<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
 							<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
-							<span class="block-title">{sidebar.TITLE}</span>
+							<span class="block-title{EDITABLE_CLASS}">{sidebar.TITLE}</span>
 						</h2>
 						<!-- ENDIF -->
 						<div class="cms-block-content">
@@ -73,7 +74,7 @@
 					<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 					<h2>
 						<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
-						<span class="block-title">{sidebar.TITLE}</span>
+						<span class="block-title{EDITABLE_CLASS}">{sidebar.TITLE}</span>
 					</h2>
 					<!-- ENDIF -->
 					{sidebar.CONTENT}
@@ -109,7 +110,7 @@
 							<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 							<h2>
 								<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
-								<span class="block-title">{top_hor.TITLE}</span>
+								<span class="block-title{EDITABLE_CLASS}">{top_hor.TITLE}</span>
 							</h2>
 							<!-- ENDIF -->
 							<div class="cms-block-content">
@@ -122,7 +123,7 @@
 						<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
 							<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
-							<span class="block-title">{top_hor.TITLE}</span>
+							<span class="block-title{EDITABLE_CLASS}">{top_hor.TITLE}</span>
 						</h2>
 						<!-- ENDIF -->
 						{top_hor.CONTENT}
@@ -149,7 +150,7 @@
 									<!-- IF top.TITLE and not top.HIDE_TITLE -->
 									<h2>
 										<span class="block-icon"><i class="{top.ICON}"></i></span>
-										<span class="block-title">{top.TITLE}</span>
+										<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
 									</h2>
 									<!-- ENDIF -->
 									<div class="cms-block-content">
@@ -162,7 +163,7 @@
 								<!-- IF top.TITLE and not top.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{top.ICON}"></i></span>
-									<span class="block-title">{top.TITLE}</span>
+									<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
 								</h2>
 								<!-- ENDIF -->
 								{top.CONTENT}

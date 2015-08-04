@@ -99,7 +99,7 @@
 			position: posID
 		};
 
-		$.getJSON(config.ajaxUrl + 'add', data, function(result) {
+		$.getJSON(config.ajaxUrl + '/blocks/add', data, function(result) {
 			updated = false;
 			if (result.id === '') {
 				$(droppedElement).remove();
@@ -109,12 +109,12 @@
 			var html = template.render(result);
 			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initIconPicker();
-			inittinymce();
+			initTinyMce();
 		});
 	};
 
 	var getEditForm = function(block) {
-		$.getJSON(config.ajaxUrl + 'edit', {id: block.attr('id').substring(6)}, function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/edit', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
@@ -136,7 +136,7 @@
 		var form = $('#edit_form');
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 
-		$.getJSON(config.ajaxUrl + 'save?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/save?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, data) {
@@ -149,7 +149,7 @@
 		if (data.id === undefined) {
 			return false;
 		}
-		$.post(config.ajaxUrl + 'update' + '?route=' + config.route, data,
+		$.post(config.ajaxUrl + '/blocks/update' + '?route=' + config.route, data,
 			function(resp) {
 				if (editing === true) {
 					undoEditable(resp.title);
@@ -164,7 +164,7 @@
 			return;
 		}
 
-		$.getJSON(config.ajaxUrl + 'custom', data, function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/custom', data, function(resp) {
 			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
 				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
 			}
@@ -172,20 +172,20 @@
 	};
 
 	var setDefaultLayout = function(set) {
-		$.post(config.ajaxUrl + 'set_default' + '?route=' + ((set === true) ? config.route : ''));
+		$.post(config.ajaxUrl + '/blocks/set_default' + '?route=' + ((set === true) ? config.route : ''));
 	};
 
 	var setStartPage = function(info) {
-		$.post(config.ajaxUrl + 'set_startpage', $.param(info));
+		$.post(config.ajaxUrl + '/blocks/set_startpage', $.param(info));
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(config.ajaxUrl + 'layout_settings' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
+		$.post(config.ajaxUrl + '/blocks/layout_settings' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
 	};
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(config.ajaxUrl + 'copy_layout?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/copy_layout?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -228,7 +228,7 @@
 			});
 		});
 
-		$.post(config.ajaxUrl + 'save_layout', {route: config.route, blocks: blocks}, function() {
+		$.post(config.ajaxUrl + '/blocks/save_layout', {route: config.route, blocks: blocks}, function() {
 			saveBtn.button('disable');
 			updated = false;
 		});
@@ -240,7 +240,7 @@
 			return;
 		}
 		editing = true;
-		editorVal = element.removeClass('block-title').text();
+		editorVal = element.removeClass('editable').text();
 		inlineForm.show().appendTo(element.text('')).children(':input').val(editorVal).focus().select().end();
 	};
 
@@ -249,7 +249,7 @@
 
 		editing = false;
 		editorVal = '';
-		element.addClass('block-title').text(v);
+		element.addClass('editable').text(v);
 		inlineForm.hide().appendTo($('body'));
 	};
 
@@ -294,17 +294,18 @@
 		});
 	};
 
-	var inittinymce = function() {
+	var initTinyMce = function() {
 		tinymce.init({
 			'selector': 'div.editable-block',
 			'inline': true,
+			'image_advtab': true,
 			'plugins': [
-				'advlist autolink lists link image charmap print preview anchor',
-				'searchreplace visualblocks code fullscreen',
-				'insertdatetime media table contextmenu paste'
+				'advlist autolink lists link image imagetools charmap anchor',
+				'visualblocks code hr',
+				'media table contextmenu paste'
 			],
 			'valid_elements' : '*[*]',
-			'toolbar': 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+			'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr link image | code',
 			'setup': function(editor) {
 				var editorPreview = '';
 				var editorContent = '';
@@ -368,7 +369,6 @@
 		twig = window.twig || {};
 		config = window.config || {
 			ajaxUrl: '',
-			appUrl: '',
 			boardUrl: '',
 			route: '',
 			ext: '',
@@ -411,7 +411,6 @@
 
 			exPositions = $('#ex_positions');
 			blockPositions = $('.block-position').addClass('block-receiver').sortable({
-				revert: true,
 				placeholder: 'ui-state-highlight cms-block-spacing sorting',
 				forcePlaceholderSize: true,
 				items: '.block',
@@ -488,7 +487,7 @@
 				saveLayout();
 			});
 
-			$('.has_dropdown').click(function(e) {
+			$('.has-dropdown').click(function(e) {
 				e.preventDefault();
 				$(this).parentsUntil('ul').parent().find('.dropped').not($(this)).removeClass('dropped').next().hide();
 				blocksPanel = $(this).toggleClass('dropped');
@@ -620,7 +619,7 @@
 				} else {
 					var url = '';
 
-					url += ((fromRoute.substring(0, 1) === '/') ? config.appUrl : config.boardUrl + '/') + fromRoute;
+					url += ((fromRoute.substring(0, 1) === '/') ? config.ajaxUrl : config.boardUrl + '/') + fromRoute;
 					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle + '&edit_mode=1';
 
 					location.href = url;
@@ -717,7 +716,7 @@
 			};
 
 			initIconPicker();
-			inittinymce();
+			initTinyMce();
 		}
 	});
 })(jQuery, window, document);

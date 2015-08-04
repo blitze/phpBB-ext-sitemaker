@@ -111,7 +111,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 		if ($edit_mode !== false)
 		{
 			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
-			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable-block" data-service="blitze.sitemaker.blocks.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
+			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable editable-block" data-service="blitze.sitemaker.blocks.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
 		}
 
 		return array(
