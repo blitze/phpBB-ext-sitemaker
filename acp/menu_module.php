@@ -50,7 +50,7 @@ class menu_module
 	public function __construct()
 	{
 		global $db, $phpbb_container, $request, $template;
-		global $phpbb_root_path, $phpEx;
+		global $phpbb_root_path;
 
 		$this->db = $db;
 		$this->request = $request;
@@ -92,10 +92,10 @@ class menu_module
 		}
 
 		$this->sitemaker->add_assets(array(
-			'js'        => array(
+			'js'	=> array(
 				'@blitze_sitemaker/assets/menu/admin.min.js',
 			),
-			'css'   => array(
+			'css'	=> array(
 				'@blitze_sitemaker/assets/menu/admin.min.css',
 			)
 		));
