@@ -192,7 +192,7 @@ class listener implements EventSubscriberInterface
 	{
 		$controller_service = $this->config['sitemaker_startpage_controller'];
 
-		if ($this->user->page['page_name'] == 'index.php' && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext  && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
 		{
 			$controller_object = $this->phpbb_container->get($controller_service);
 			$method = $this->config['sitemaker_startpage_method'];
@@ -203,15 +203,8 @@ class listener implements EventSubscriberInterface
 				$controller_dir = explode('\\', get_class($controller_object));
 				define('STARTPAGE_IS_SET', 1);
 
-				if (!is_null($this->template) && isset($controller_dir[1]))
-				{
-					$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
-
-					if (is_dir($this->phpbb_root_path . $controller_style_dir))
-					{
-						$this->template->set_style(array($controller_style_dir, 'styles'));
-					}
-				}
+				$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
+				$this->template->set_style(array($controller_style_dir, 'styles'));
 
 				$arguments = explode('/', $this->config['sitemaker_startpage_params']);
 				$this->startpage = true;
