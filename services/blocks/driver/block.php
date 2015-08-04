@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\services\blocks\driver;
 
+use blitze\sitemaker\services\blocks\driver\block_interface;
+
 /**
  * Base class for block drivers
  * @package sitemaker
