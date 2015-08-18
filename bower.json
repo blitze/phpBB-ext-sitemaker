@@ -5,17 +5,24 @@
     "jquery-knob": "~1.2.11",
     "jquery-rss": "~1.5.1",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
-    "fontawesome": "~4.3.0",
+    "fontawesome": "~4.4.0",
     "jquery.wheel": "*",
     "twig.js": "~0.8.2",
     "jquery.sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
     "nestedSortable2": "*",
-    "jqueryui-touch-punch": "*"
+    "jqueryui-touch-punch": "*",
+    "toast-grid": "https://github.com/daneden/Toast.git#master"
   },
   "overrides": {
     "malihu-custom-scrollbar-plugin": {
       "dependencies": null
     },
+    "fontawesome": {
+		"main": [
+            "./css/font-awesome.css",
+            "./fonts/*"
+        ]
+	},
     "jquery-knob": {
       "dependencies": null
     },
@@ -37,6 +44,9 @@
     "jqueryui-touch-punch": {
       "main": "jquery.ui.touch-punch.min.js",
       "dependencies": null
+    },
+    "toast-grid": {
+      "main": []
     }
   }
 }
