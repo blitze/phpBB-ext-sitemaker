@@ -1,0 +1,45 @@
+$admin-bar-height: 38px !default;
+$admin-bar-bgcolor: #c33 !default;
+
+$gutter-width: 10px !default;
+$sidebar-bgcolor: #9e9e9e !default;
+$border-color: #ccc !default;
+
+// List settings
+$list-bgcolor: #ddd !default;
+$nav-list-active-color: #282525 !default;
+
+// Avatar sizes
+$tiny-avatar-size: 12px !default;
+$small-avatar-size: 45px !default;
+$medium-avatar-size: 65px !default;
+
+// Image sizes
+$small-image-size: 55px !default;
+$medium-image-size: 95px !default;
+$large-image-size: 45% !default;
+$image-border-color: #ccc !default;
+
+// badges/label colors
+$primary-color: #7b7bb5 !default;
+$info-color: #c0daed !default;
+$success-color: #a3b579 !default;
+$warning-color: #c18920 !default;
+$danger-color: #ff0000 !default;
+
+// font icon colors
+$icon-color-blue: #0000ff !default;
+$icon-color-grey: #9b9595 !default;
+$icon-color-green: #90af45 !default;
+$icon-color-orange: #ffa500 !default;
+$icon-color-purple: #820182 !default;
+$icon-color-red: #ff0000 !default;
+
+@function set-text-color($color) {
+    @if (lightness($color) > 60) {
+      @return #000;
+    }
+    @else {
+      @return #fff;
+    }
+}

@@ -1,0 +1,144 @@
+@import "globals";
+
+.sidebar-control {
+	width: auto;
+	padding: 5px;
+	margin: 4px 0;
+	background-color: $sidebar-bgcolor;
+	color: set-text-color($sidebar-bgcolor);
+	border-radius: 4px;
+}
+
+/* blocks layout */
+.sm-block-spacing {
+	margin-bottom: $gutter-width;
+
+	.post & {
+		margin: 0.6em;
+	}
+}
+
+.sm-block-content {
+	display: block;
+	clear: both;
+	overflow: hidden;
+	word-wrap: break-word;
+
+	.info {
+		float: right;
+	}
+
+	ul, ol {
+		margin-bottom: 1em;
+	}
+
+	li {
+		list-style-type: inherit;
+	}
+}
+
+.sm-block-container {
+	.postbody {
+		@extend .sm-postbody;
+
+		.codebox {
+			display: inline-block;
+			position: relative;
+			width: 99%;
+			margin: 10px 0;
+		}
+	}
+
+	.content {
+		overflow-x: hidden;
+	}
+
+	.header {
+		font-weight: bold;
+	}
+}
+
+.inner-spacing {
+	padding: 1em;
+}
+
+.no-padding {
+	padding: 0;
+}
+
+/* Footer */
+.footer {
+	padding: 15px;
+
+	.panel {
+		background: transparent;
+	}
+
+	.sm-block-spacing {
+		border-right: 1px solid #ccc;
+
+		&:nth-child(3),
+		&:last-child {
+			border: 0;
+		}
+	}
+}
+
+.grid {
+	.grid__col {
+		margin-right: -0.25rem;
+	}
+
+	@media screen and (max-width : 940px) {
+		.sidebar {
+			display: none;
+			position: absolute;
+			width: 50%;
+			max-width: 200px;
+			background-color: $sidebar-bgcolor;
+			border-radius: 4px;
+			z-index: 100;
+			top: -8px;
+
+			&.grid__col {
+				padding: 5px 5px 0 5px;
+				overflow-x: hidden;
+				overflow-y: auto;
+			}
+
+			.block {
+				.sm-block-spacing {
+					margin-bottom: 5px;
+				}
+			}
+		}
+
+		.sidebar-left {
+			left: 0;
+		}
+
+		.sidebar-right {
+			right: 4px;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.grid__col {
+			margin-right: 0;
+		}
+
+		.sidebar {
+			&.grid__col {
+				padding: 5px 10px 0 10px;
+			}
+		}
+
+		.sidebar-left {
+			left: -5px;
+		}
+
+		.sidebar-right {
+			right: -5px;
+		}
+	}
+}

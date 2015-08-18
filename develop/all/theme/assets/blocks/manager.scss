@@ -1,0 +1,296 @@
+@import "../_partials/globals";
+
+.admin-bar-container {
+	.admin-bar-inner {
+		display: block;
+		width: 100%;
+		height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		position: relative;
+	}
+
+	.hmenu {
+		margin: 0;
+		padding: 1px 10px;
+		width: auto;
+		list-style: none;
+
+		li {
+			float: left;
+			display: block;
+			margin-left: 4px;
+			text-align: center;
+			position: relative;
+			line-height: $admin-bar-height - 2;
+
+			.dropdown {
+				margin-right: -500px;
+				line-height: normal;
+
+				p {
+					display: block;
+					margin-top: 1em;
+				}
+			}
+
+			.menu-item {
+				padding: 10px;
+				color: #ccc;
+				text-transform: uppercase;
+				text-decoration: none;
+				text-shadow: 0 1px 0 #000;
+			}
+
+			.btn,
+			.menu-item {
+				font: bold 1.2em Arial, Helvetica;
+			}
+
+			.btn {
+				margin: 5px 0 5px 5px;
+			}
+
+			.dropped,
+			&:hover > .menu-item {
+				color: #333;
+				background-color: #fff;
+				border-radius: 5px;
+			}
+
+			.dropped,
+			&:hover > .dropped {
+				padding-bottom: 14px;
+				border-radius: 5px 5px 0 0;
+				z-index: 1;
+			}
+
+			.dropdown {
+				display: none;
+				margin-top: 36px;
+				margin-left: -6px;
+				padding: 10px;
+				background-color: #fff;
+				border: 1px solid #c33;
+				border-top: 0;
+				position: absolute;
+				top: 0;
+				text-align: left;
+				border-radius: 5px;
+			}
+
+			.spacing {
+				width: 25px;
+			}
+		}
+
+		.right {
+			float: right;
+			position: relative;
+		}
+	}
+
+	.blocks-gallery {
+		margin: 0;
+		padding: 0;
+		height: 160px;
+		overflow: auto;
+	}
+}
+
+.sitemaker-block {
+	text-align: center;
+	font-weight: bolder;
+	cursor: move;
+
+	.inner {
+		margin: 5px 10px 5px 0;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: #f0faf4;
+
+		&:hover {
+			background-color: #1d9c73;
+			color: #fff;
+			opacity: 0.8;
+		}
+	}
+
+	i {
+		float: left;
+		color: #1d9c73;
+	}
+
+	&:hover i {
+		color: #000;
+	}
+}
+
+.block-controls {
+	display: none;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: auto;
+}
+
+.block-receiver {
+	min-height: 55px;
+
+	.block-controls {
+		.item-action {
+			float: right;
+		}
+	}
+
+	.block {
+		position: relative;
+
+		.inline-form {
+			display: inline;
+			font-size: 0.8em;
+
+			input {
+				width: 65%;
+				cursor: pointer;
+				cursor: hand;
+			}
+		}
+
+		.editable {
+			margin: 1px 1px 7px 1px;
+			overflow: hidden;
+
+			&:hover {
+				outline: 1px dashed #060703;
+			}
+		}
+
+		&:hover {
+			.block-controls {
+				display: block;
+
+				a {
+					&:hover {
+						border: 1px solid #ccc;
+					}
+				}
+			}
+		}
+	}
+
+	.block-title {
+		height: 20px;
+		width: auto;
+		max-width: 90%;
+		cursor: pointer;
+		overflow: visible;
+	}
+
+	.block-icon {
+		display: inline-block;
+		width: 15px;
+		height: 15px;
+		margin-right: 2px;
+		text-align: center;
+		cursor: pointer;
+		outline: 1px solid #ddd;
+
+		&:hover {
+			outline: 1px solid #968787;
+		}
+	}
+
+	.placeholder {
+		display: block;
+		position: relative;
+		height: 100px;
+		width: 100%;
+	}
+
+	&.horizontal {
+		.sortable {
+			float: left;
+			height: 70px;
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		.placeholder {
+			@extend .sortable;
+			margin-left: 10px;
+			width: 15px;
+		}
+
+		&:after {
+			content: ' ';
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+
+	&.show-position {
+		outline: 1px dashed #ccc;
+
+		&.sidebar {
+			min-height: 450px;
+		}
+	}
+
+	&.empty-position {
+		display: none;
+	}
+
+	&.lastUnit {
+		width: 100%;
+	}
+}
+
+.dragging {
+	white-space: nowrap;
+	width: 150px;
+}
+
+.modifiers {
+	overflow: auto;
+	margin-top: 0;
+	display: none;
+
+	dl {
+		display: block;
+		height: auto;
+	}
+}
+
+.block-admin-button-active {
+	background: none;
+	background-color: #ffffff;
+	border-bottom: 0;
+	z-index: 1000;
+}
+
+.dialog-check-button {
+	float: left;
+	display: block;
+	margin-right: 5px;
+	margin-top: 1em;
+}
+
+.message-container {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: both;
+	font-size: 1.2em;
+	text-align: left;
+
+	.flash-message {
+		display: none;
+		background-color: #d5f8a0;
+		padding: 5px 10px;
+		position: relative;
+		left: -50%;
+		text-align: left;
+	}
+}

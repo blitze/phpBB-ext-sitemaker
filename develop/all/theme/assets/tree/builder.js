@@ -10,40 +10,40 @@
 	var lang = window.lang || {};
 
 	$.widget('sitemaker.treeBuilder', {
-		options : {
-			ajaxUrl			: '',
-			loadSpeed		: 10,
-			primaryKey		: 'item_id',
+		options: {
+			ajaxUrl: '',
+			loadSpeed: 10,
+			primaryKey: 'item_id',
 
-			listType		: 'ol',
-			noNesting		: '.no-nest',
-			nestedList		: '#sortable',
-			editForm		: '#edit-form',
-			noItems			: '#no-items',
+			listType: 'ol',
+			noNesting: '.no-nest',
+			nestedList: '#sortable',
+			editForm: '#edit-form',
+			noItems: '#no-items',
 
-			addBtn			: '#add-new',
-			addBulkBtn		: '#add-bulk',
-			saveBtn			: '#save',
-			deleteSelBtn	: '#delete-selected',
-			rebuildBtn		: '#rebuild-tree',
+			addBtn: '#add-new',
+			addBulkBtn: '#add-bulk',
+			saveBtn: '#save',
+			deleteSelBtn: '#delete-selected',
+			rebuildBtn: '#rebuild-tree',
 
-			selectAll		: '#select-all',
-			loading			: '#loading',
-			ajaxMessage		: '#ajax-message',
-			itemTemplate	: '#item-template',
-			editClass		: '.edit-item',
-			deleteClass		: '.delete-item',
-			selectItemClass	: '.select-item',
-			iconSelectClass	: '.icon-select',
+			selectAll: '#select-all',
+			loading: '#loading',
+			ajaxMessage: '#ajax-message',
+			itemTemplate: '#item-template',
+			editClass: '.edit-item',
+			deleteClass: '.delete-item',
+			selectItemClass: '.select-item',
+			iconSelectClass: '.icon-select',
 
-			dialogEdit		: '#dialog-edit',
-			dialogConfirm	: '#dialog-confirm',
+			dialogEdit: '#dialog-edit',
+			dialogConfirm: '#dialog-confirm',
 
-			loaded			: function() {},
-			updated			: function() {}
+			loaded: function() {},
+			updated: function() {}
 		},
 
-		_create : function() {
+		_create: function() {
 			var self = this;
 			var eButtons = {};
 			var dButtons = {};
@@ -180,7 +180,7 @@
 				this.dialogID = this.options.dialogEdit;
 				this.itemID = $(event.currentTarget).attr('id').substring('5');
 				this._populateForm(this.itemID);
-				$(this.dialogID).dialog({buttons : eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+				$(this.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
 			};
 			events['click' + this.options.deleteClass] = function(event) {
 				var buttons = $.extend({}, dButtons);
@@ -281,15 +281,15 @@
 			this.getItems();
 		},
 
-		addItem : function() {
+		addItem: function() {
 			this._saveItem('add', {});
 		},
 
-		updateItem : function(data, id) {
+		updateItem: function(data, id) {
 			this._saveItem('update', data, id);
 		},
 
-		getItems : function() {
+		getItems: function() {
 			var self = this;
 
 			$.getJSON(this.options.ajaxUrl + 'get_all_items', function(data) {
@@ -303,7 +303,7 @@
 			});
 		},
 
-		rebuildTree : function() {
+		rebuildTree: function() {
 			var self = this;
 			this.nestedList.empty();
 			this._resetActions();
@@ -314,14 +314,14 @@
 			});
 		},
 
-		showMessage : function(message) {
+		showMessage: function(message) {
 			if (message) {
 				this.msgObj.text(message);
 				this.msgObj.fadeIn().delay(3000).fadeOut();
 			}
 		},
 
-		_addBulk : function(data) {
+		_addBulk: function(data) {
 			var self = this;
 			$.post(this.options.ajaxUrl + 'add_bulk', data,
 				function(resp) {
@@ -336,7 +336,7 @@
 			);
 		},
 
-		_addToTree : function(items, callback) {
+		_addToTree: function(items, callback) {
 			/* jshint sub: true */
 			if (items.length > 0) {
 				var html = {};
@@ -372,7 +372,7 @@
 			this._trigger('loaded', null, {items: items});
 		},
 
-		_checkRequired : function() {
+		_checkRequired: function() {
 			$(this.dialogID + ' .error').remove();
 
 			var response = true;
@@ -387,7 +387,7 @@
 			return response;
 		},
 
-		_getOptions : function(list, padding, options) {
+		_getOptions: function(list, padding, options) {
 			var self = this;
 
 			list.children('li').each(function(i, element) {
@@ -402,7 +402,7 @@
 			return options;
 		},
 
-		_makeEditable : function(element) {
+		_makeEditable: function(element) {
 			if (this.editing === true) {
 				this.editor.trigger('blur');
 				return;
@@ -415,7 +415,7 @@
 			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();
 		},
 
-		_populateForm : function(id) {
+		_populateForm: function(id) {
 			var self = this;
 			$.get(this.options.ajaxUrl + 'get_item/' + id, function(data) {
 				self.showMessage(data.message);
@@ -425,7 +425,7 @@
 			return {};
 		},
 
-		_processEditable : function(e) {
+		_processEditable: function(e) {
 			if (this.editing === false) {
 				return;
 			}
@@ -445,7 +445,7 @@
 			return false;
 		},
 
-		_resetActions : function() {
+		_resetActions: function() {
 			this.noItems.show();
 			this.nestedList.hide();
 			this.addBulkBtn.parent().next().slideUp();
@@ -455,7 +455,7 @@
 			this.saveBtn.button('disable').hide();
 		},
 
-		_saveItem : function(mode, data, id, field) {
+		_saveItem: function(mode, data, id, field) {
 			var self = this;
 			$.post(this.options.ajaxUrl + mode + '/' + ((id !== undefined) ? id : 0), data,
 				function(resp) {
@@ -493,12 +493,12 @@
 			);
 		},
 
-		_saveTree : function() {
+		_saveTree: function() {
 			var data = this.nestedList.nestedSortable('toArray');
 			var itemsCount = data.length;
 
 			this._saveItem('save_tree', {
-				'tree' : data
+				'tree': data
 			});
 
 			this.itemsChanged = false;
@@ -511,17 +511,17 @@
 			}
 		},
 
-		_scrollTo : function(element, fromHeight, callback) {
+		_scrollTo: function(element, fromHeight, callback) {
 			var offset = element.offset();
 			var offsetTop = offset.top;
 			var totalScroll = offsetTop - fromHeight;
 
 			this.nestedList.animate({
-				scrollTop : totalScroll
+				scrollTop: totalScroll
 			}, 1000, callback);
 		},
 
-		_showActions : function() {
+		_showActions: function() {
 			this.noItems.hide();
 			this.nestedList.show();
 			this.selectAllObj.parent().show();
@@ -530,19 +530,19 @@
 			this.rebuildBtn.button('enable').show();
 		},
 
-		_template : function(tokens, tpl) {
+		_template: function(tokens, tpl) {
 			return tpl.replace(/<%=(.+?)%>/g, function(token, match) {
 				return (tokens[match] !== undefined) ? tokens[match] : '';
 			});
 		},
 
-		_undoEditable : function(v) {
+		_undoEditable: function(v) {
 			this.editorVal = '';
 			this.editing = false;
 			this.editor.parent().replaceWith('<span class="editable" data-field="' + this.editor.data('field') + '">' + v + '</span>');
 		},
 
-		_updateItem : function(itemID) {
+		_updateItem: function(itemID) {
 			this._saveItem('update', this.editForm.serializeArray(), itemID);
 		}
 	});

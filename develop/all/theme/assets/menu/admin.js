@@ -26,7 +26,7 @@
 		});
 
 		// menu list
-		var menuDivObj = $('#pt-menus').on('click', '.menu-option', function(e) {
+		var menuDivObj = $('#sm-menus').on('click', '.menu-option', function(e) {
 			menuId = $(this).parent().attr('id').substring(5);
 			$(this).parent().parent().children().removeClass('row3 current-menu');
 			$(this).parent().addClass('row3 current-menu');
@@ -38,14 +38,14 @@
 
 		// manage menu items
 		menuAdmin = $('#nested-tree').treeBuilder({
-			ajaxUrl			: ajaxUrl,
-			editForm		: '#edit-menu-item-form',
-			dialogEdit		: '#dialog-edit-menu-item',
-			dialogConfirm	: '#dialog-confirm-menu-item',
-			loaded			: function() {
+			ajaxUrl: ajaxUrl,
+			editForm: '#edit-menu-item-form',
+			dialogEdit: '#dialog-edit-menu-item',
+			dialogConfirm: '#dialog-confirm-menu-item',
+			loaded: function() {
 				initIconPicker();
 			},
-			updated			: function() {
+			updated: function() {
 				initIconPicker();
 			}
 		});
@@ -79,7 +79,7 @@
 			e.preventDefault();
 		});
 
-		$('#pt-menus').on('click', '.menu-edit', function(e) {
+		$('#sm-menus').on('click', '.menu-edit', function(e) {
 			var element = $(this).parent().prev().removeClass('menu-option').parent().removeClass('current-menu').find('.menu-editable');
 			currentMenuTitle = element.text();
 			inlineMenuForm.show().appendTo(element.text('')).children(':input').val(currentMenuTitle).focus().select().end();

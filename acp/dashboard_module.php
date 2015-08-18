@@ -119,14 +119,14 @@ class dashboard_module
 	public function get_stats($stat, $weekdays, $lookback, $boarddays)
 	{
 		$sql = '';
-		$total	= $this->config['num_' . $stat];
+		$total = $this->config['num_' . $stat];
 		$per_day = sprintf('%.2f', $total / $boarddays);
 		$per_day = ($per_day > $total) ? $total : $per_day;
 
 		switch ($stat)
 		{
 			case 'users':
-				$sql = 'SELECT user_regdate AS time_field
+			$sql = 'SELECT user_regdate AS time_field
 					FROM ' . USERS_TABLE . '
 					WHERE user_type IN (' . USER_NORMAL . ',' . USER_FOUNDER . ')
 						AND user_regdate > ' . $lookback . '
@@ -134,14 +134,14 @@ class dashboard_module
 			break;
 
 			case 'topics':
-				$sql = 'SELECT topic_time AS time_field
+			$sql = 'SELECT topic_time AS time_field
 					FROM ' . TOPICS_TABLE . '
 					WHERE topic_visibility = ' . ITEM_APPROVED . '
 						AND topic_time > ' . $lookback;
 			break;
 
 			case 'posts':
-				$sql = 'SELECT p.post_time AS time_field
+			$sql = 'SELECT p.post_time AS time_field
 					FROM ' . POSTS_TABLE . ' p, ' . TOPICS_TABLE . ' t
 					WHERE p.post_id <> t.topic_first_post_id
 						AND p.topic_id = t.topic_id
@@ -150,7 +150,7 @@ class dashboard_module
 			break;
 
 			case 'files':
-				$sql = 'SELECT filetime AS time_field
+			$sql = 'SELECT filetime AS time_field
 					FROM ' . ATTACHMENTS_TABLE  . '
 					WHERE is_orphan = 0
 						AND filetime > ' . $lookback;

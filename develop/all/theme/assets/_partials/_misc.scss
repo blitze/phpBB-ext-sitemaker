@@ -1,0 +1,96 @@
+@import "globals";
+
+.sitemaker {
+	position: relative;
+}
+
+.admin-bar-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	z-index: 1000;
+
+	.admin-bar-control {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 35px;
+		height: $admin-bar-height;
+		line-height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		color: invert($admin-bar-bgcolor);
+		font-size: 18px;
+		text-align: center;
+
+		&:hover {
+			text-decoration: none;
+			font-weight: bolder;
+			color: #ddd;
+		}
+	}
+}
+
+/* Misc */
+.field-label {
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.label-hidden {
+	display: none;
+}
+
+.label-inline {
+	display: inline;
+}
+
+.label-newline {
+	display: block;
+}
+
+.topic-title {
+	float: none;
+	display: inline;
+}
+
+.sm-postbody {
+	width: 100%;
+}
+
+/* text alignment */
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.sm-responsive-show {
+	display: none;
+	overflow: hidden;
+}
+
+.sm-responsive-hide {
+	display: block;
+}
+
+@media screen and (max-width : 940px) {
+	.sm-responsive-show {
+		display: block;
+	}
+
+	.sm-responsive-hide {
+		display: none;
+	}
+
+	.sm-responsive-full-width {
+		width: 100%;
+	}
+}

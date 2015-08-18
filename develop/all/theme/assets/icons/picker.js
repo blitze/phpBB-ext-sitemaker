@@ -104,7 +104,7 @@
 			tabs.find('.icons-bottom-tabs .ui-tabs-nav').appendTo('.icons-bottom-tabs');
 		},
 
-		getIconProps : function(iconClass) {
+		getIconProps: function(iconClass) {
 			if (iconClass) {
 				$.each(this.customization.serializeArray(), function(i, field) {
 					iconClass += (field.value) ? ' ' + field.value : '';
@@ -114,12 +114,12 @@
 			return iconClass;
 		},
 
-		hidePicker : function() {
+		hidePicker: function() {
 			this.iconsDiv.slideUp();
 			this.element.removeClass('icons-drop');
 		},
 
-		insertIcon : function(icon) {
+		insertIcon: function(icon) {
 			var iconClass = this.getIconProps(icon);
 			var iconHtml = (iconClass) ? '<i class="' + iconClass + '"></i>' : '';
 
@@ -128,18 +128,18 @@
 			this.hidePicker();
 		},
 
-		previewIcon : function() {
+		previewIcon: function() {
 			this.preview.children('i').attr('class', this.getIconProps(this.selectedIcon));
 		},
 
-		selectIcon : function(element) {
+		selectIcon: function(element) {
 			this.fontList.find('a').removeClass('icon-selected');
 			this.selectedIcon = element.attr('class');
 			this.previewIcon(this.selectedIcon);
 			element.parent().addClass('icon-selected');
 		},
 
-		setCurrentIcon : function(element) {
+		setCurrentIcon: function(element) {
 			var currIcon = element.find('i');
 			var $inputs = this.customization.find(':input');
 
@@ -179,7 +179,7 @@
 			this.previewIcon();
 		},
 
-		showPicker : function(element) {
+		showPicker: function(element) {
 			var pos = element.offset();
 			var height = element.height();
 
@@ -192,7 +192,7 @@
 			this.setCurrentIcon(element);
 		},
 
-		_scrollToIcon : function(element) {
+		_scrollToIcon: function(element) {
 			this.fontList.animate({
 				scrollTop: this.fontList.scrollTop() + element.position().top - 12
 			}, 1000);

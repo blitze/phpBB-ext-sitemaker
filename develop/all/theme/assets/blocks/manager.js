@@ -55,41 +55,46 @@
 			itemsLeft = 0;
 		}
 
-		items.removeClass('unit size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().children('.clear').remove();
+		removeGrid(items);
 
 		if (divisibleItems > 0) {
-			items.slice(0, divisibleItems).addClass('unit size1of' + numCols)
-				.filter(':nth-child(' + numCols + 'n)')
-					.addClass('lastUnit')
-					.after('<div class="clear"></div>');
+			items.slice(0, divisibleItems).addClass('grid__col grid__col--1-of-' + numCols);
 		}
 
 		if (itemsLeft) {
+			var n = 1;
+			if (itemsLeft < 2) {
+				n = 5;
+				itemsLeft = 5;
+			}
 			items.slice(divisibleItems, numItems)
-				.addClass('unit size1of' + itemsLeft)
-				.last()
-					.addClass('lastUnit');
+				.addClass('grid__col grid__col--' + n + '-of-' + itemsLeft);
 		}
+	};
+
+	var removeGrid = function(items) {
+		items.removeClass(function() {
+			var matches = this.className.match(/grid__col+(\S+)?/gi);
+			return (matches) ? matches.join(' ') : '';
+		});
 	};
 
 	var showAllPositions = function() {
-		blockPositions.addClass('show-positions');
-		mainContentObj.removeClass('lastUnit');
-		emptyPositionsObj.removeClass('empty-position');
+		blockPositions.addClass('show-position');
+		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col').removeClass('lastUnit');
 	};
 
 	var hideEmptyPositions = function() {
-		blockPositions.removeClass('show-positions');
-		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
-		if (!subcontentObj.find('.block').size()) {
-			mainContentObj.addClass('lastUnit');
-		}
+		blockPositions.removeClass('show-position');
+		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function(i, pos) {
+			$(pos).siblings('.grid__col').last().addClass('lastUnit');
+		});
 	};
 
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('block')
-			.html('<div class="ui-state-highlight cms-block-spacing sorting" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');
+			.html('<div class="ui-state-highlight sm-block-spacing sortable" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');
 
 		var data = {
 			block: $.trim(blockName),
@@ -304,7 +309,7 @@
 				'visualblocks code hr',
 				'media table contextmenu paste'
 			],
-			'valid_elements' : '*[*]',
+			'valid_elements': '*[*]',
 			'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr link image | code',
 			'setup': function(editor) {
 				var editorPreview = '';
@@ -405,25 +410,35 @@
 						if (updated === false) {
 							hideEmptyPositions();
 						}
-					}, 1000);
+					}, 600);
 				}
 			});
 
+			var overPos;
 			exPositions = $('#ex_positions');
 			blockPositions = $('.block-position').addClass('block-receiver').sortable({
-				placeholder: 'ui-state-highlight cms-block-spacing sorting',
-				forcePlaceholderSize: true,
+				placeholder: 'ui-state-highlight grid__col sm-block-spacing block sortable placeholder',
+				forcePlaceholderSize: false,
 				items: '.block',
 				cancel: '.editable-block, .inline-edit',
 				delay: 150,
 				dropOnEmpty: true,
 				tolerance: 'pointer',
 				connectWith: '.block-position',
-				cursorAt: {left: 5},
+				cursorAt: {
+					top: -10,
+					left: -10
+				},
 				start: function(event, ui) {
 					origin = $(ui.item).addClass('dragging').parent('.horizontal');
 					showAllPositions();
 					blockPositions.sortable('refresh');
+				},
+				over: function(event, ui) {
+					overPos = ui.placeholder.parent('.horizontal').children('.block').addClass('sortable');
+				},
+				out: function() {
+					overPos.removeClass('sortable');
 				},
 				update: function(event, ui) {
 					updated = true;
@@ -437,19 +452,22 @@
 						saveBtn.button('enable');
 					}
 
-					var items = $(ui.item).removeAttr('style').parent('.horizontal').find('.block');
-					$(ui.item).removeClass('unit size1of1 size1of2 size1of3 size1of4 size1of5 lastUnit').parent().removeClass('empty-position');
+					var items = $(ui.item).removeAttr('style').parent('.horizontal').children('.block');
+					var item = $(ui.item);
+
+					item.parent().removeClass('empty-position');
+					removeGrid(item);
 
 					if (items.length > 0) {
 						sortHorizontal(items);
 					}
 
 					if (origin.attr('id') !== $(ui.item).parent('.horizontal').attr('id')) {
-						sortHorizontal(origin.find('.block'));
+						sortHorizontal(origin.find('.block').removeClass('sortable'));
 					}
 				},
 				stop: function(event, ui) {
-					$(ui.item).removeClass('dragging');
+					$(ui.item).removeClass('dragging sortable').removeAttr('style');
 					hideEmptyPositions();
 					$('body').trigger('layoutChanged');
 				}
@@ -517,7 +535,7 @@
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
 				},
-				'complete'   : function() {
+				'complete': function() {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 				},
 				// Display any returned message
@@ -679,7 +697,7 @@
 			});
 
 			// Set start page
-			$('.pt-startpage').button().click(function(e) {
+			$('.sm-startpage').button().click(function(e) {
 				e.preventDefault();
 				var info = {};
 				if ($(this).attr('id') === 'set-startpage') {

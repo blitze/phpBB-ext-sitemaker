@@ -1,0 +1,58 @@
+$toast-col-groups: (5);
+$toast-gutter-width: 5px;
+
+.menus-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-top: 40px;
+	margin-right: -2px;
+
+	li {
+		padding: 4px;
+		position: relative;
+
+		&.current-menu {
+			.menu-actions {
+				position: absolute;
+				right: 10px;
+				top: 2px;
+				display: none;
+			}
+
+			&:hover .menu-actions {
+				display: block;
+			}
+		}
+
+		a {
+			height: 30px;
+			position: relative;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		form {
+			display: inline-block;
+
+			input {
+				position: relative;
+				width: 95%;
+			}
+		}
+	}
+
+	.menu-actions {
+		display: none;
+	}
+}
+
+@import "bower_components/toast-grid/scss/grid";
+
+.grid {
+	.grid__col {
+		margin-right: -0.25rem;
+	}
+}

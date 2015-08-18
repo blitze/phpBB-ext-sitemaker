@@ -1,0 +1,225 @@
+@import "globals";
+
+/* Lists
+----------*/
+ul {
+	&.sm-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		> li {
+			margin: 5px 0;
+			font-size: 11px;
+			vertical-align: top;
+			clear: both;
+		}
+
+		& > li > & {
+			margin-left: 15px;
+		}
+
+		/* List Types */
+		.sm-list-circle & {
+			list-style-position: inside;
+
+			> li {
+				list-style-type: circle;
+			}
+		}
+
+		.sm-list-disc & {
+			list-style-position: inside;
+
+			> li {
+				list-style-type: disc;
+			}
+		}
+
+		.sm-list-square & {
+			list-style-position: inside;
+
+			> li {
+				list-style-type: square;
+			}
+		}
+
+		.sm-list-numbered & {
+			> li {
+				list-style: decimal inside;
+			}
+		}
+
+		.sm-list-inline & {
+			> li {
+				display: inline;
+				padding: 5px;
+			}
+		}
+
+		.sm-list-inline-sep & {
+			> li {
+				display: inline;
+
+				&:after {
+					content: ', ';
+				}
+
+				&:last-child:after {
+					content: '';
+				}
+			}
+		}
+
+		.sm-list-flat & > li > & {
+			margin: 0;
+		}
+
+		.sm-list-arrow & > li:before {
+			content: '\00BB \0020';
+		}
+
+		.sm-list-hover & > li:hover,
+		.sm-list-striped & > li:nth-child(odd) {
+			background-color: $list-bgcolor;
+		}
+
+		.sm-list-stacked & > li {
+			padding: 5px;
+			border: 1px solid $border-color;
+		}
+
+		/* Dividers */
+		.sm-x-divider-dotted & > li {
+			border-top: 1px dotted $border-color;
+			padding-top: 5px;
+			margin: 5px 0;
+		}
+
+		.sm-x-divider-line & > li {
+			border-top: 1px solid $border-color;
+			padding-top: 5px;
+			margin: 5px 0;
+		}
+
+		.sm-y-divider-dotted & > li {
+			border-left: 1px dotted $border-color;
+		}
+
+		.sm-y-divider-line & > li {
+			border-left: 1px solid $border-color;
+		}
+
+		.sm-x-divider-line &:first-child > li:first-child,
+		.sm-x-divider-dotted &:first-child > li:first-child {
+			border-top: 0;
+		}
+
+		.sm-y-divider-line & > li:first-child,
+		.sm-y-divider-dotted & > li:first-child {
+			border-left: 0;
+		}
+
+		/* Nav lists */
+		nav & {
+			.active > a {
+				font-weight: bold;
+				color: $nav-list-active-color;
+				text-decoration: none;
+			}
+
+			.sm-list-circle & li.nav-header,
+			.sm-list-disc & li.nav-header,
+			.sm-list-square & li.nav-header {
+				margin-left: 15px;
+			}
+
+			> li {
+				font-size: 12px;
+				padding-top: 5px;
+				position: relative;
+
+				&.nav-header {
+					list-style-type: none;
+					margin-top: 5px;
+
+					> a {
+						border-bottom: 1px solid $border-color;
+
+						&:hover {
+							background-color: inherit;
+						}
+
+						.sm-x-divider-line &,
+						.sm-x-divider-dotted &,
+						.sm-y-divider-line &,
+						.sm-y-divider-dotted & {
+							border: 0;
+						}
+					}
+				}
+
+				> a {
+					display: block;
+				}
+			}
+
+			.active > a,
+			li > a:hover {
+				font-weight: bold;
+				color: $nav-list-active-color;
+				text-decoration: none;
+			}
+		}
+
+		/*
+		 * Transform vertical list to horizontal blocks
+		 * Based on technique by Ali Jafarian
+		 */
+		.list-block-auto &,
+		.list-block-2cols &,
+		.list-block-3cols &,
+		.list-block-4cols &,
+		.list-block-5cols & {
+			font-size: 0;
+		}
+
+		.list-block-auto & > li,
+		.list-block-2cols & > li,
+		.list-block-3cols & > li,
+		.list-block-4cols & > li,
+		.list-block-5cols & > li {
+			display: inline-block;
+			padding: 0 10px;
+			vertical-align: top;
+			box-sizing: border-box;
+
+			@media screen and (max-width: 480px) {
+				& {
+					width: auto;
+					margin: 0 0 10px 0;
+				}
+			}
+		}
+
+		.list-block-auto & > li {
+			width: auto;
+		}
+
+		.list-block-2cols & > li {
+			width: 50%;
+		}
+
+		.list-block-3cols & > li {
+			width: 33.33333%;
+		}
+
+		.list-block-4cols & > li {
+			width: 25%;
+		}
+
+		.list-block-5cols & > li {
+			width: 20%;
+		}
+	}
+}

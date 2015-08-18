@@ -7,7 +7,6 @@
 							</div>
 						{% endset %}
 					{% endif %}
-						<div class="clear"></div>
 					</div>
 					<!-- IF .boxes or S_EDIT_MODE -->
 						<!-- IF (S_BOXES_COUNT % 3) eq 0 -->
@@ -19,23 +18,23 @@
 						<!-- ELSE -->
 							<!-- DEFINE $DIV = 1 -->
 						<!-- ENDIF -->
-					<div id="pos-boxes" class="block-position horizontal equal line">
+					<div id="pos-boxes" class="block-position horizontal equal grid">
 						<!-- BEGIN boxes -->
-						<div id="block-{boxes.BID}" class="unit size1of{$DIV}<!-- IF (boxes.S_ROW_COUNT % $DIV + 1) eq $DIV --> lastUnit<!-- ENDIF --> block">
+						<div id="block-{boxes.BID}" class="block grid__col grid__col--1-of-{$DIV}">
 							<!-- IF not boxes.NO_WRAP -->
-							<div class="panel post{boxes.CLASS} cms-block-spacing">
+							<div class="panel post{boxes.CLASS} sm-block-spacing">
 								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{boxes.ICON}"></i></span>
 									<span class="block-title{EDITABLE_CLASS}">{boxes.TITLE}</span>
 								</h2>
 								<!-- ENDIF -->
-								<div class="cms-block-content">
+								<div class="sm-block-content">
 									{boxes.CONTENT}
 								</div>
 							</div>
 							<!-- ELSE -->
-							<div class="post{boxes.CLASS} cms-block-spacing">
+							<div class="post{boxes.CLASS} sm-block-spacing">
 								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{boxes.ICON}"></i></span>
@@ -47,9 +46,6 @@
 							<!-- ENDIF -->
 							{S_BLOCK_CONTROLS}
 						</div>
-							<!-- IF (boxes.S_ROW_COUNT % $DIV + 1) eq $DIV -->
-						<div class="clear"></div>
-							<!-- ENDIF -->
 						<!-- END boxes -->
 					</div>
 					<!-- ENDIF -->
@@ -57,9 +53,9 @@
 					<!-- IF .bottom or S_EDIT_MODE -->
 					<div id="pos-bottom" class="block-position">
 						<!-- BEGIN bottom -->
-						<div id="block-{bottom.BID}" class="unit size1of1 lastUnit block">
+						<div id="block-{bottom.BID}" class="block">
 							<!-- IF not bottom.NO_WRAP -->
-							<div class="panel post cms-block-container{bottom.CLASS} cms-block-spacing">
+							<div class="panel post sm-block-container{bottom.CLASS} sm-block-spacing">
 								<div class="inner">
 									<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
 									<h2>
@@ -67,13 +63,13 @@
 										<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
 									</h2>
 									<!-- ENDIF -->
-									<div class="cms-block-content">
+									<div class="sm-block-content">
 										{bottom.CONTENT}
 									</div>
 								</div>
 							</div>
 							<!-- ELSE -->
-							<div class="post{bottom.CLASS} cms-block-spacing">
+							<div class="post{bottom.CLASS} sm-block-spacing">
 								<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{bottom.ICON}"></i></span>
@@ -91,11 +87,11 @@
 				</div>
 
 				<!-- IF .subcontent or S_EDIT_MODE -->
-				<div id="pos-subcontent" class="block-position sidebar sidebar-right unit size1of4 lastUnit">
+				<div id="pos-subcontent" class="block-position sidebar sidebar-right grid__col grid__col--1-of-4">
 					<!-- BEGIN subcontent -->
-					<div id="block-{subcontent.BID}" class="unit size1of1 block">
+					<div id="block-{subcontent.BID}" class="block">
 						<!-- IF not subcontent.NO_WRAP -->
-						<div class="panel post cms-block-container{subcontent.CLASS} cms-block-spacing">
+						<div class="panel post sm-block-container{subcontent.CLASS} sm-block-spacing">
 							<div class="inner">
 								<!-- IF subcontent.TITLE and not subcontent.HIDE_TITLE -->
 								<h2>
@@ -103,13 +99,13 @@
 									<span class="block-title{EDITABLE_CLASS}">{subcontent.TITLE}</span>
 								</h2>
 								<!-- ENDIF -->
-								<div class="cms-block-content">
+								<div class="sm-block-content">
 									{subcontent.CONTENT}
 								</div>
 							</div>
 						</div>
 						<!-- ELSE -->
-						<div class="post{subcontent.CLASS} cms-block-spacing">
+						<div class="post{subcontent.CLASS} sm-block-spacing">
 							<!-- IF subcontent.TITLE and not subcontent.HIDE_TITLE -->
 							<h2>
 								<span class="block-icon"><i class="{subcontent.ICON}"></i></span>
@@ -127,55 +123,53 @@
 			</div>
 		</div>
 	</div>
-</div>
 
-<!-- IF .footer or S_EDIT_MODE -->
-<div class="clear"></div>
-<div id="pos-footer" class="footer panel bg3 block-position horizontal equal line">
-	<!-- IF (S_FOOTER_COUNT % 3) eq 0 -->
-		<!-- DEFINE $DIV = 3 -->
-	<!-- ELSEIF (S_FOOTER_COUNT % 2) eq 0 -->
-		<!-- DEFINE $DIV = 2 -->
-	<!-- ELSEIF S_FOOTER_COUNT > 3 -->
-		<!-- DEFINE $DIV = 3 -->
-	<!-- ELSE -->
-		<!-- DEFINE $DIV = 1 -->
-	<!-- ENDIF -->
-	<!-- BEGIN footer -->
-	<div id="block-{footer.BID}" class="unit size1of{$DIV}<!-- IF (footer.S_ROW_COUNT % $DIV + 1) eq $DIV --> lastUnit<!-- ENDIF --> block">
-		<!-- IF not footer.NO_WRAP -->
-		<div class="panel post{footer.CLASS} cms-block-spacing">
-			<div class="inner">
-				<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
-				<h2>
-					<span class="block-icon"><i class="{footer.ICON}"></i></span>
-					<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
-				</h2>
-				<!-- ENDIF -->
-				<div class="cms-block-content">
+	<!-- IF .footer or S_EDIT_MODE -->
+	<div class="footer panel bg3">
+		<div id="pos-footer" class="block-position horizontal equal grid">
+			<!-- IF (S_FOOTER_COUNT % 3) eq 0 -->
+				<!-- DEFINE $DIV = 3 -->
+			<!-- ELSEIF (S_FOOTER_COUNT % 2) eq 0 -->
+				<!-- DEFINE $DIV = 2 -->
+			<!-- ELSEIF S_FOOTER_COUNT > 3 -->
+				<!-- DEFINE $DIV = 3 -->
+			<!-- ELSE -->
+				<!-- DEFINE $DIV = 1 -->
+			<!-- ENDIF -->
+			<!-- BEGIN footer -->
+			<div id="block-{footer.BID}" class="block grid__col grid__col--1-of-{$DIV}">
+				<!-- IF not footer.NO_WRAP -->
+				<div class="panel post{footer.CLASS} sm-block-spacing">
+					<div class="inner">
+						<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
+						<h2>
+							<span class="block-icon"><i class="{footer.ICON}"></i></span>
+							<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
+						</h2>
+						<!-- ENDIF -->
+						<div class="sm-block-content">
+							{footer.CONTENT}
+						</div>
+					</div>
+				</div>
+				<!-- ELSE -->
+				<div class="post{footer.CLASS} sm-block-spacing">
+					<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
+					<h2>
+						<span class="block-icon"><i class="{footer.ICON}"></i></span>
+						<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
+					</h2>
+					<!-- ENDIF -->
 					{footer.CONTENT}
 				</div>
+				<!-- ENDIF -->
+				{S_BLOCK_CONTROLS}
 			</div>
+			<!-- END footer -->
 		</div>
-		<!-- ELSE -->
-		<div class="post{footer.CLASS} cms-block-spacing">
-			<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
-			<h2>
-				<span class="block-icon"><i class="{footer.ICON}"></i></span>
-				<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
-			</h2>
-			<!-- ENDIF -->
-			{footer.CONTENT}
-		</div>
-		<!-- ENDIF -->
-		{S_BLOCK_CONTROLS}
 	</div>
-		<!-- IF (footer.S_ROW_COUNT % $DIV + 1) eq $DIV and not footer.S_LAST_ROW -->
-	<div class="clear"></div>
-		<!-- ENDIF -->
-	<!-- END footer -->
+	<!-- ENDIF -->
 </div>
-<!-- ENDIF -->
 
 <!-- IF U_EDIT_MODE -->
 <div class="admin-bar-container">

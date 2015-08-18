@@ -1,0 +1,159 @@
+.tree-builder {
+	ol {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+
+		ol {
+			margin: 0 0 0 20px;
+		}
+
+		li {
+			margin: 2px 0 0 0;
+			padding: 0;
+
+			> div {
+				font-weight: bold;
+				padding: 5px;
+				margin: 0;
+				cursor: move;
+			}
+
+			form {
+				display: inline-block;
+			}
+
+			input {
+				display: inline-block;
+				margin: auto 4px;
+				height: 16px;
+				line-height: 16px;
+				cursor: pointer;
+				cursor: hand;
+			}
+
+			.editable {
+				@extend input;
+
+				&:hover {
+					border: 1px solid #d5f8a0;
+				}
+			}
+
+			.icon-container {
+				border: 1px solid #ccc;
+				width: auto;
+			}
+
+			.icon-select {
+				display: block;
+				text-align: center;
+				width: 16px;
+				height: 16px;
+			}
+		}
+
+		.icon img {
+			width: 15px;
+			max-width: 15px;
+			margin-right: 2px;
+			vertical-align: central;
+			height: auto;
+		}
+	}
+
+	.loader {
+		display: none;
+		border: 2px solid #ccc;
+		background-color: #d5f8a0;
+		padding: 5px;
+		z-index: 100;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.message {
+		@extend .loader;
+		color: #e11414;
+		font-weight: bold;
+	}
+
+	.placeholder {
+		background-color: #cfcfcf;
+	}
+
+	.items-container {
+		margin: 1px 0;
+		height: 550px;
+		overflow: auto;
+		transform-style: preserve-3d;
+	}
+
+	.center {
+		position: relative;
+		text-align: center;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.items-list {
+		padding: 4px;
+	}
+
+	.ui-nestedSortable-error {
+		background: #fbe3e4;
+		color: #8a1f11;
+	}
+
+	.bulk-container {
+		margin-bottom: 5px;
+		position: relative;
+
+		.bulk-editor {
+			width: 100%;
+			height: 300px;
+			position: relative;
+		}
+	}
+
+	.bulk-dropdown {
+		width: 350px;
+		height: auto;
+		display: none;
+		position: absolute;
+		z-index: 1000;
+	}
+
+	.error {
+		color: #f70909;
+		font-weight: bolder;
+		font-size: 9px;
+	}
+
+	.item-action {
+		cursor: auto;
+
+		span:hover {
+			border: 1px solid #ccc;
+		}
+	}
+
+	select,
+	option {
+		width: 100%;
+		overflow: auto;
+	}
+}
+
+.align-right {
+	text-align: right;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}

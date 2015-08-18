@@ -7,20 +7,20 @@
 		</div>
 	{% endset %}
 {% endif %}
-<div class="cms-block-spacing"></div>
+<div class="sm-block-spacing"></div>
 
-<div class="pt-responsive-show" style="overflow: hidden;">
-	<!-- IF .sidebar or S_EDIT_MODE --><a class="panel left-box" href="#" onclick="phpbb.toggleDisplay('pos-sidebar'); return false;"><i class="fa fa-exchange"></i></a><!-- ENDIF -->
-	<!-- IF .subcontent or S_EDIT_MODE --><a class="panel right-box" href="#" onclick="phpbb.toggleDisplay('pos-subcontent'); return false;"><i class="fa fa-exchange"></i></a><!-- ENDIF -->
+<div class="sm-responsive-show">
+	<!-- IF .sidebar or S_EDIT_MODE --><a class="sidebar-control left-box" href="#" onclick="phpbb.toggleDisplay('pos-sidebar'); phpbb.toggleDisplay('pos-subcontent', -1); return false;"><i class="fa fa-exchange fa-lg"></i></a><!-- ENDIF -->
+	<!-- IF .subcontent or S_EDIT_MODE --><a class="sidebar-control right-box" href="#" onclick="phpbb.toggleDisplay('pos-subcontent'); phpbb.toggleDisplay('pos-sidebar', -1); return false;"><i class="fa fa-exchange fa-lg"></i></a><!-- ENDIF -->
 </div>
 
-<div style="position: relative">
+<div class="sitemaker">
 	<!-- IF .panel or S_EDIT_MODE -->
-	<div id="pos-panel" class="block-position line">
+	<div id="pos-panel" class="block-position">
 		<!-- BEGIN panel -->
-		<div id="block-{panel.BID}" class="unit size1of1 lastUnit block">
+		<div id="block-{panel.BID}" class="block">
 			<!-- IF not panel.NO_WRAP -->
-			<div class="panel post cms-block-container{panel.CLASS} cms-block-spacing">
+			<div class="panel post sm-block-container{panel.CLASS} sm-block-spacing">
 				<div class="inner">
 					<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 					<h2>
@@ -28,13 +28,13 @@
 						<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
 					</h2>
 					<!-- ENDIF -->
-					<div class="cms-block-content">
+					<div class="sm-block-content">
 						{panel.CONTENT}
 					</div>
 				</div>
 			</div>
 			<!-- ELSE -->
-			<div class="post{panel.CLASS} cms-block-spacing">
+			<div class="post{panel.CLASS} sm-block-spacing">
 				<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 				<h2>
 					<span class="block-icon"><i class="{panel.ICON}"></i></span>
@@ -50,13 +50,13 @@
 	</div>
 	<!-- ENDIF -->
 
-	<div class="line">
+	<div class="grid">
 		<!-- IF .sidebar or S_EDIT_MODE -->
-		<div id="pos-sidebar" class="block-position sidebar sidebar-left unit size1of5">
+		<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5 sidebar sidebar-left">
 			<!-- BEGIN sidebar -->
 			<div id="block-{sidebar.BID}" class="block">
 				<!-- IF not sidebar.NO_WRAP -->
-				<div class="panel post cms-block-container{sidebar.CLASS} cms-block-spacing">
+				<div class="panel post sm-block-container{sidebar.CLASS} sm-block-spacing">
 					<div class="inner">
 						<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
@@ -64,13 +64,13 @@
 							<span class="block-title{EDITABLE_CLASS}">{sidebar.TITLE}</span>
 						</h2>
 						<!-- ENDIF -->
-						<div class="cms-block-content">
+						<div class="sm-block-content">
 							{sidebar.CONTENT}
 						</div>
 					</div>
 				</div>
 				<!-- ELSE -->
-				<div class="post{sidebar.CLASS} cms-block-spacing">
+				<div class="post{sidebar.CLASS} sm-block-spacing">
 					<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 					<h2>
 						<span class="block-icon"><i class="{sidebar.ICON}"></i></span>
@@ -86,11 +86,11 @@
 		</div>
 		<!-- ENDIF -->
 
-		<div class="unit <!-- IF .sidebar or S_EDIT_MODE -->size4of5<!-- ELSE --> size1of1<!-- ENDIF --> pt-responsive-full-width lastUnit">
+		<div class="grid__col <!-- IF .sidebar or S_EDIT_MODE -->grid__col--4-of-5<!-- IF not .sidebar --> lastUnit<!-- ENDIF --><!-- ELSE --> grid__col--5-of-5<!-- ENDIF --> sm-responsive-full-width">
 			<!-- IF .top_hor or S_EDIT_MODE -->
 				{% set DIV = 0 %}
 				{% set SIZE = 3 %}
-			<div id="pos-top_hor" class="block-position horizontal line">
+			<div id="pos-top_hor" class="block-position horizontal grid">
 				<!-- BEGIN top_hor -->
 					<!-- IF DIV eq 0 -->
 						<!-- IF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 3 eq 0 or (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) > 3 -->
@@ -103,9 +103,9 @@
 							{% set SIZE = 1 %}
 						<!-- ENDIF -->
 					<!-- ENDIF -->
-				<div id="block-{top_hor.BID}" class="unit size1of{SIZE}<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV or top_hor.S_LAST_ROW --> lastUnit<!-- ENDIF --> block">
+				<div id="block-{top_hor.BID}" class="block grid__col <!-- IF SIZE > 1 -->grid__col--1-of-{SIZE}<!-- ELSE -->grid__col--3-of-3<!-- ENDIF -->">
 					<!-- IF not top_hor.NO_WRAP -->
-					<div class="panel post cms-block-container{top_hor.CLASS} cms-block-spacing">
+					<div class="panel post sm-block-container{top_hor.CLASS} sm-block-spacing">
 						<div class="inner">
 							<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 							<h2>
@@ -113,13 +113,13 @@
 								<span class="block-title{EDITABLE_CLASS}">{top_hor.TITLE}</span>
 							</h2>
 							<!-- ENDIF -->
-							<div class="cms-block-content">
+							<div class="sm-block-content">
 								{top_hor.CONTENT}
 							</div>
 						</div>
 					</div>
 					<!-- ELSE -->
-					<div class="post{top_hor.CLASS} cms-block-spacing">
+					<div class="post{top_hor.CLASS} sm-block-spacing">
 						<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
 							<span class="block-icon"><i class="{top_hor.ICON}"></i></span>
@@ -133,19 +133,18 @@
 				</div>
 					<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV and not top_hor.S_LAST_ROW -->
 						{% set DIV = 0 %}
-						<div class="clear"></div>
 					<!-- ENDIF -->
 				<!-- END top_hor -->
 			</div>
 			<!-- ENDIF -->
-			<div class="line">
-				<div id="main-content" class="unit <!-- IF S_EDIT_MODE or .subcontent -->size3of4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->size1of1 lastUnit<!-- ENDIF --> pt-responsive-full-width">
+			<div class="grid">
+				<div id="main-content" class="grid__col <!-- IF S_EDIT_MODE or .subcontent -->grid__col--3-of-4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->grid__col--4-of-4<!-- ENDIF --> sm-responsive-full-width">
 					<!-- IF .top or S_EDIT_MODE -->
 					<div id="pos-top" class="block-position">
 						<!-- BEGIN top -->
-						<div id="block-{top.BID}" class="unit size1of1 block">
+						<div id="block-{top.BID}" class="block">
 							<!-- IF not top.NO_WRAP -->
-							<div class="panel post cms-block-container{top.CLASS} cms-block-spacing">
+							<div class="panel post sm-block-container{top.CLASS} sm-block-spacing">
 								<div class="inner">
 									<!-- IF top.TITLE and not top.HIDE_TITLE -->
 									<h2>
@@ -153,13 +152,13 @@
 										<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
 									</h2>
 									<!-- ENDIF -->
-									<div class="cms-block-content">
+									<div class="sm-block-content">
 										{top.CONTENT}
 									</div>
 								</div>
 							</div>
 							<!-- ELSE -->
-							<div class="post{top.CLASS} cms-block-spacing">
+							<div class="post{top.CLASS} sm-block-spacing">
 								<!-- IF top.TITLE and not top.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{top.ICON}"></i></span>
@@ -175,4 +174,4 @@
 					</div>
 					<!-- ENDIF -->
 
-					<div<!-- IF S_EDIT_MODE or not .module --> class="cms-block-spacing"<!-- ENDIF -->>
+					<div<!-- IF S_EDIT_MODE or not .module --> class="sm-block-spacing"<!-- ENDIF -->>

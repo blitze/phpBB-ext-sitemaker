@@ -50,7 +50,7 @@ class menu_module
 	public function __construct()
 	{
 		global $db, $phpbb_container, $request, $template;
-		global $phpbb_root_path;
+		global $phpbb_root_path, $phpEx;
 
 		$this->db = $db;
 		$this->request = $request;

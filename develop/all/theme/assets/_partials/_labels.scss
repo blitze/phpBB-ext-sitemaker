@@ -1,0 +1,61 @@
+@import "globals";
+
+/* labels & badges */
+.label {
+	@mixin label-color($color) {
+		$text-color: set-text-color($color);
+		background-color: $color;
+		color: $text-color;
+
+		a {
+			color: $text-color;
+		}
+	}
+
+	.info {
+		display: inline-block;
+		border: 1px solid $border-color;
+		line-height: 11px;
+		text-align: center;
+		padding: 3px;
+		margin: 1px 0;
+		font-size: 0.85em;
+	}
+
+	&.primary-color .info {
+		@include label-color($primary-color);
+	}
+
+	&.secondary-color .info {
+		@include label-color(complement($primary-color));
+	}
+
+	&.grayscale-color .info {
+		@include label-color(grayscale($primary-color));
+	}
+
+	&.info-color .info {
+		@include label-color($info-color);
+	}
+
+	&.success-color .info {
+		@include label-color($success-color);
+	}
+
+	&.warning-color .info {
+		@include label-color($warning-color);
+	}
+
+	&.danger-color .info {
+		@include label-color($danger-color);
+	}
+}
+
+.badge {
+	@extend .label;
+
+	.info {
+		padding: 3px 10px;
+		border-radius: 10px;
+	}
+}

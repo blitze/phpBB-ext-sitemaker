@@ -1,0 +1,98 @@
+@import "globals";
+
+/* Avatar sizes */
+img {
+	@mixin set-avatar-size($size, $valign) {
+		vertical-align: $valign;
+		max-width: $size;
+		width: auto;
+		width: $size;
+		max-height: $size;
+		height: auto;
+		height: $size;
+	}
+
+	.tiny-avatar & {
+		@include set-avatar-size($tiny-avatar-size, middle);
+	}
+
+	.small-avatar & {
+		@include set-avatar-size($small-avatar-size, top);
+	}
+
+	.medium-avatar & {
+		@include set-avatar-size($medium-avatar-size, top);
+	}
+
+	.post & {
+		max-width: 100%;
+		height: auto;
+		-ms-interpolation-mode: bicubic;
+	}
+
+	.feeds & {
+		max-width: 100%;
+		margin: 0 0.25rem;
+	}
+}
+
+.sm-block-content .default-avatar-font {
+	font-size: 6em;
+	color: #ccc;
+}
+
+/* Block images */
+.img-ui {
+	display: block;
+	margin: 0 0 0.25rem 0;
+
+	.small-img & {
+		width: $small-image-size;
+	}
+
+	.medium-img & {
+		width: $medium-image-size;
+	}
+
+	.large-img & {
+		max-width: $large-image-size;
+		width: auto;
+		width: $large-image-size;
+	}
+
+	.landscape-img & {
+		width: 97%;
+		height: 4.5rem;
+		text-align: center;
+		margin: 0;
+
+		img {
+			width: 100%;
+			margin: -50% auto;
+			vertical-align: middle;
+		}
+	}
+
+	.img-align-left & {
+		float: left;
+		margin: 0 2.5em 0 0;
+	}
+
+	.img-align-right & {
+		float: right;
+		margin: 0 0 0 2.5em;
+	}
+
+	.img-border &,
+	.img-border-padding & {
+		border: 1px solid $border-color;
+	}
+
+	.img-border-padding & {
+		padding: 4px;
+	}
+
+	.img-circle & {
+		border-radius: 50%;
+	}
+}

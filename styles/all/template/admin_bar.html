@@ -7,11 +7,13 @@
 					<div class="ui-state-default align-center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
 
 					<div id="blocks-list" class="blocks-gallery">
-						<!-- BEGIN block -->
-						<div data-block="{block.SERVICE}" class="sitemaker-block">
-							<div class="inner"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+						<div class="grid">
+							<!-- BEGIN block -->
+							<div data-block="{block.SERVICE}" class="grid__col grid__col--1-of-3 sitemaker-block">
+								<div class="inner"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+							</div>
+							<!-- END block -->
 						</div>
-						<!-- END block -->
 					</div>
 
 					<div class="ui-state-default align-center">&nbsp;</div>
@@ -21,11 +23,11 @@
 				<a class="menu-item has-dropdown" href="#">{L_LAYOUT}</a>
 				<div class="dropdown">
 					<h3>{L_SETTINGS}</h3>
-					<div class="line">
-						<div class="unit size1of2">
+					<div class="grid">
+						<div class="grid__col grid__col--1-of-2">
 							<!-- IF CONTROLLER_NAME -->
-								<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="pt-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
-								<p<!-- IF not S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="pt-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
+								<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
+								<p<!-- IF not S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
 							<!-- ENDIF -->
 
 							<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true" title="{L_DEFAULT_LAYOUT_EXPLAIN}">{L_MAKE_DEFAULT_LAYOUT}</a></p>
@@ -43,15 +45,17 @@
 								</p>
 							</form>
 						</div>
-						<div class="unit size1of2 lastUnit">
+						<div class="grid__col grid__col--1-of-2">
 							<p<!-- IF not S_HAS_BLOCKS || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" id="delete-blocks" data-set="false">{L_DELETE_ALL_BLOCKS}</a></p>
 							<form id="route-settings">
 								<input type="checkbox" id="hide_blocks" name="hide_blocks"<!-- IF S_HIDE_BLOCKS --> checked="checked"<!-- ENDIF --> /> {L_HIDE_ALL_BLOCKS}<br /><br />
-								<div class="column1">{L_HIDE_BLOCK_POSITIONS}</div>
-								<div class="column2">
-									<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
-										{S_POSITION_OPS}
-									</select>
+								<div class="grid">
+									<div class="grid__col grid__col--1-of-2">{L_HIDE_BLOCK_POSITIONS}</div>
+									<div class="grid__col grid__col--1-of-2">
+										<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
+											{S_POSITION_OPS}
+										</select>
+									</div>
 								</div>
 								<div class="clear"></div>
 								<p class="align-center">
@@ -100,7 +104,7 @@
 <script id="block-template-container" type="text/x-jquery-tmpl">
 	{% verbatim %}
 	{% if no_wrap == false %}
-		<div class="panel post cms-block-container {{ class }} cms-block-spacing">
+		<div class="panel post sm-block-container {{ class }} sm-block-spacing">
 			<div class="inner">
 				{% if title is not empty and hide_title == false %}
 				<h2>
@@ -108,13 +112,13 @@
 					<span class="block-title">{{ title }}</span>
 				</h2>
 				{% endif %}
-				<div class="cms-block-content">
+				<div class="sm-block-content">
 					{{ content }}
 				</div>
 			</div>
 		</div>
 	{% else %}
-		<div class="post {{ class }} cms-block-spacing">
+		<div class="post {{ class }} sm-block-spacing">
 			{% if title is not empty and hide_title == false %}
 			<h2>
 				<span class="block-icon"><i class="{{ icon }}"></i></span>
