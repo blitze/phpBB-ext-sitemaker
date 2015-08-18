@@ -105,7 +105,7 @@ class listener implements EventSubscriberInterface
 		define('SHOW_BLOCK_LANDING', 1);
 		define('SHOW_BLOCK_SUBPAGE', 2);
 
-		define('JQUI_VERSION', '1.11.2');
+		define('JQUI_VERSION', '1.11.4');
 
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -148,7 +148,7 @@ class listener implements EventSubscriberInterface
 				));
 			}
 			// Add "Forum" to navbar when not on forum pages
-			else if ($this->user->page['page'] !== 'app.php/forum')
+			else if ($this->user->page['page'] !== 'app.' . $this->php_ext . '/forum')
 			{
 				$this->template->assign_vars(array(
 					'S_PT_SHOW_FORUM_NAV'	=> true,
@@ -192,7 +192,7 @@ class listener implements EventSubscriberInterface
 	{
 		$controller_service = $this->config['sitemaker_startpage_controller'];
 
-		if ($this->user->page['page_name'] == 'index.' . $this->php_ext  && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
 		{
 			$controller_object = $this->phpbb_container->get($controller_service);
 			$method = $this->config['sitemaker_startpage_method'];
