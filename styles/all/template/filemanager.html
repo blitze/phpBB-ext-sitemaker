@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-gb">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filemanager ui</title>
+    <link rel="stylesheet" type="text/css" href="./../../phpBB/ext/blitze/sitemaker/components/filemanager-ui/dist/css/filemanager-ui.min.css">
+</head>
+<body>
+    <div id="filemanager" class="filemanager"></div>
+
+    <script type="text/javascript" src="./../../phpBB/ext/blitze/sitemaker/components/filemanager-ui/dist/js/filemanager-ui.min.js"></script>
+    <script type="text/javascript">
+			$(document).ready(function() {
+				$("#filemanager").filemanager({
+					url:'filemanager/connection',
+					languaje: "ES",
+					upload_max: 5,
+					views:'thumbs',
+					insertButton:true,
+					token:"jashd4a5sd4sa"
+				});
+			});
+    </script>
+</body>
+</html>
