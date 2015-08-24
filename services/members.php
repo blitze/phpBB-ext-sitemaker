@@ -34,8 +34,8 @@ class members
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
-	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker object
-	 * @param \blitze\sitemaker\services\template		$ptemplate			Sitemaker template object
+	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker object
+	 * @param \blitze\sitemaker\services\template	$ptemplate			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
@@ -116,7 +116,7 @@ class members
 				$sql_ary['FROM'] += array(POSTS_TABLE => 'p');
 				$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = ' . ITEM_APPROVED . ' AND p.poster_id = u.user_id';
 				$sql_ary['GROUP_BY'] = 'p.poster_id';
-				$sql_ary['ORDER_BY'] = 'user_posts DESC';
+				$sql_ary['ORDER_BY'] = 'user_posts DESC, u.username ASC';
 			break;
 
 			default:
@@ -148,9 +148,8 @@ class members
 
 		if ($members !== false)
 		{
-			$this->ptemplate->assign_var('S_LIST', $get['query_type']);
-
 			$this->ptemplate->assign_vars(array(
+				'S_LIST'	=> $get['query_type'],
 				'L_USER'	=> $l_user,
 				'L_INFO'	=> $l_info)
 			);

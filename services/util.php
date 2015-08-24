@@ -49,10 +49,10 @@ class util
 	{
 		foreach ($scripts as $type => $paths)
 		{
-			$count = (isset($this->scripts[$type])) ? count($this->scripts[$type]) : 0;
+			$count = (isset($this->scripts[$type])) ? sizeof($this->scripts[$type]) : 0;
 			foreach ($paths as $key => $script)
 			{
-				if (isset($this->scripts[$type][$key]))
+				if (isset($this->scripts[$type][$key]) && $this->scripts[$type][$key] !== $script)
 				{
 					$this->scripts[$type][$count++] = $script;
 				}
@@ -120,48 +120,48 @@ class util
 		switch ($range)
 		{
 			case 'today':
-			$start = $this->user->create_datetime()
-				->setDate($now['year'], $now['mon'], $now['mday'])
-				->setTime(0, 0, 0)
-				->getTimestamp();
-			$stop = $start + 86399;
-			$date = $this->user->format_date($start, 'Y-m-d', true);
+				$start = $this->user->create_datetime()
+					->setDate($now['year'], $now['mon'], $now['mday'])
+					->setTime(0, 0, 0)
+					->getTimestamp();
+				$stop = $start + 86399;
+				$date = $this->user->format_date($start, 'Y-m-d', true);
 			break;
 
 			case 'week':
-			$info = getdate($now[0] - (86400 * $now['wday']));
-			$start = $this->user->create_datetime()
-				->setDate($info['year'], $info['mon'], $info['mday'])
-				->setTime(0, 0, 0)
-				->getTimestamp();
-			$stop = $start + 604799;
-			$date = $this->user->format_date($start, 'Y-m-d', true) . '&amp;dsp=week';
+				$info = getdate($now[0] - (86400 * $now['wday']));
+				$start = $this->user->create_datetime()
+					->setDate($info['year'], $info['mon'], $info['mday'])
+					->setTime(0, 0, 0)
+					->getTimestamp();
+				$stop = $start + 604799;
+				$date = $this->user->format_date($start, 'Y-m-d', true);
 			break;
 
 			case 'month':
-			$start = $this->user->create_datetime()
-				->setDate($now['year'], $now['mon'], 1)
-				->setTime(0, 0, 0)
-				->getTimestamp();
-			$num_days = gmdate('t', $start);
-			$stop = $start + (86400 * $num_days) - 1;
-			$date = $this->user->format_date($start, 'Y-m', true);
+				$start = $this->user->create_datetime()
+					->setDate($now['year'], $now['mon'], 1)
+					->setTime(0, 0, 0)
+					->getTimestamp();
+				$num_days = gmdate('t', $start);
+				$stop = $start + (86400 * $num_days) - 1;
+				$date = $this->user->format_date($start, 'Y-m', true);
 			break;
 
 			case 'year':
-			$start = $this->user->create_datetime()
-				->setDate($now['year'], 1, 1)
-				->setTime(0, 0, 0)
-				->getTimestamp();
-			$leap_year = gmdate('L', $start);
-			$num_days = ($leap_year) ? 366 : 365;
-			$stop = $start + (86400 * $num_days) - 1;
-			$date = $this->user->format_date($start, 'Y', true);
+				$start = $this->user->create_datetime()
+					->setDate($now['year'], 1, 1)
+					->setTime(0, 0, 0)
+					->getTimestamp();
+				$leap_year = gmdate('L', $start);
+				$num_days = ($leap_year) ? 366 : 365;
+				$stop = $start + (86400 * $num_days) - 1;
+				$date = $this->user->format_date($start, 'Y', true);
 			break;
 
 			default:
-			$start = $stop = 0;
-			$date = '';
+				$start = $stop = 0;
+				$date = '';
 			break;
 		}
 

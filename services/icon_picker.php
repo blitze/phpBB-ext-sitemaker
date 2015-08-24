@@ -36,7 +36,7 @@ class icon_picker
 	 * Constructor
 	 *
 	 * @param \phpbb\user                			$user       	User object
-	 * @param \blitze\sitemaker\services\util			$sitemaker		Sitemaker object
+	 * @param \blitze\sitemaker\services\util		$sitemaker		Sitemaker object
 	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
 	 */
 	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
@@ -67,8 +67,8 @@ class icon_picker
 		$this->ptemplate->set_style(array("ext/blitze/sitemaker/styles"));
 
 		$this->ptemplate->set_filenames(array(
-			'icons'	=> 'icon_picker.html')
-		);
+			'icons'	=> 'icon_picker.html'
+		));
 
 		return $this->ptemplate->assign_display('icons');
 	}
