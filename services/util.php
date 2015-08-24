@@ -49,10 +49,10 @@ class util
 	{
 		foreach ($scripts as $type => $paths)
 		{
-			$count = (isset($this->scripts[$type])) ? count($this->scripts[$type]) : 0;
+			$count = (isset($this->scripts[$type])) ? sizeof($this->scripts[$type]) : 0;
 			foreach ($paths as $key => $script)
 			{
-				if (isset($this->scripts[$type][$key]))
+				if (isset($this->scripts[$type][$key]) && $this->scripts[$type][$key] !== $script)
 				{
 					$this->scripts[$type][$count++] = $script;
 				}
