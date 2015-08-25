@@ -25,8 +25,8 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var ContainerInterface */
-	protected $phpbb_container;
+	/** @var \phpbb\content_visibility */
+	protected $content_visiblity;
 
 	/** @var \phpbb\user */
 	protected $user;

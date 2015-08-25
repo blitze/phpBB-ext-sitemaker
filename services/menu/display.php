@@ -50,7 +50,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	public function display_list($data, &$template, $handle = 'tree')
 	{
-		$curr_page = $user->page['page_name'];
+		$curr_page = $this->user->page['page_name'];
 		$curr_parts = explode('&', $user->page['query_string']);
 
 		$prev_depth = 0;
