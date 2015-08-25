@@ -111,11 +111,11 @@ class members
 				$sql_between = 'p.post_time';
 				$l_info = $this->user->lang['POSTS'];
 
-				$sql_ary['SELECT'] .= ', p.post_id, COUNT(p.post_id) as user_posts';
+				$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
 				$sql_ary['FROM'] += array(TOPICS_TABLE => 't');
 				$sql_ary['FROM'] += array(POSTS_TABLE => 'p');
 				$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = ' . ITEM_APPROVED . ' AND p.poster_id = u.user_id';
-				$sql_ary['GROUP_BY'] = 'p.poster_id';
+				$sql_ary['GROUP_BY'] = 'u.user_id';
 				$sql_ary['ORDER_BY'] = 'user_posts DESC, u.username ASC';
 			break;
 
