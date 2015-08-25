@@ -39,11 +39,11 @@ class url_checker
 	{
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL,            $url);
-		curl_setopt($ch, CURLOPT_HEADER,         TRUE);
-		curl_setopt($ch, CURLOPT_NOBODY,         TRUE);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_TIMEOUT,        10);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
 		$info = curl_exec($ch);
 
