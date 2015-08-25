@@ -26,7 +26,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	protected $config;
 
 	/** @var \phpbb\content_visibility */
-	protected $content_visiblity;
+	protected $content_visibility;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -68,12 +68,12 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visiblity, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->content_visibility = $content_visiblity;
+		$this->content_visibility = $content_visibility;
 		$this->user = $user;
 		$this->forum = $forum;
 		$this->sitemaker = $sitemaker;
