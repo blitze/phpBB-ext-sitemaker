@@ -59,20 +59,17 @@ class menu_admin_test extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			new \phpbb\filesystem(),
-			$request,
-			$phpbb_root_path,
-			$phpEx
-		);
+		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$template_context = $this->getMockBuilder('phpbb\template\context')
+			->getMock();
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$util = new util($path_helper, $template, $user);
+		$util = new util($path_helper, $template, $template_context, $user);
 
 		$tree_manager = new builder($cache, $db, $util, 'phpbb_sm_menus', 'phpbb_sm_menu_items', 'item_id');
 

@@ -256,9 +256,9 @@ class util_test extends \phpbb_test_case
 			array(
 				'month',
 				array(
-					'start'	=> gmdate('Y-m-d', strtotime('first day of this month')) . ' 00:00',
-					'stop'	=> gmdate('Y-m-d', strtotime('last day of this month')) . ' 23:59',
-					'date'	=> gmdate('Y-m', strtotime('first day of this month')),
+					'start'	=> gmdate('Y-m') . '-01 00:00',
+					'stop'	=> gmdate('Y-m-t') . ' 23:59',
+					'date'	=> gmdate('Y-m'),
 				),
 			),
 			array(
