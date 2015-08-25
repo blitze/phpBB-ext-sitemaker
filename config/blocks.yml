@@ -29,6 +29,7 @@ services:
             - @cache
             - @config
             - @dbal.conn
+            - @profilefields.manager
             - @user
             - %core.root_path%
             - %core.php_ext%
@@ -62,6 +63,7 @@ services:
             - @auth
             - @cache
             - @config
+            - @content.visibility
             - @user
             - @blitze.sitemaker.forum.data
             - @blitze.sitemaker.util
@@ -88,6 +90,7 @@ services:
     blitze.sitemaker.block.login:
         class: blitze\sitemaker\blocks\login
         arguments:
+            - @service_container
             - @user
             - %core.root_path%
             - .%core.php_ext%

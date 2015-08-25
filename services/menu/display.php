@@ -15,11 +15,29 @@ namespace blitze\sitemaker\services\menu;
  */
 class display extends \blitze\sitemaker\services\tree\display
 {
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var bool */
 	private $expanded = false;
 
 	/** @var int */
 	private $max_depth = 0;
+
+	/**
+	 * Construct
+	 *
+	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
+	 * @param \phpbb\user							$user				User Object
+	 * @param string								$menu_items_table	Menu Items table
+	 * @param string								$pk					Primary key
+	 */
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $menu_items_table, $pk)
+	{
+		parent::__construct($db, $menu_items_table, $pk);
+
+		$this->user = $user;
+	}
 
 	public function set_params($data)
 	{
@@ -32,8 +50,6 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	public function display_list($data, &$template, $handle = 'tree')
 	{
-		global $user;
-
 		$curr_page = $user->page['page_name'];
 		$curr_parts = explode('&', $user->page['query_string']);
 

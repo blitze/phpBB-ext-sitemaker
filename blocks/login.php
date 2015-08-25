@@ -9,11 +9,16 @@
 
 namespace blitze\sitemaker\blocks;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Login Block
  */
 class login extends \blitze\sitemaker\services\blocks\driver\block
 {
+	/** @var ContainerInterface */
+	protected $phpbb_container;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -26,15 +31,17 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user	$user				User object
-	 * @param string 		$phpbb_root_path	Relative path to phpBB root
-	 * @param string 		$php_ext			PHP extension (php)
+	 * @param ContainerInterface	$phpbb_container		Service container
+	 * @param \phpbb\user			$user					User object
+	 * @param string 				$phpbb_root_path		Relative path to phpBB root
+	 * @param string 				$php_ext				PHP extension (php)
 	 */
-	public function __construct(\phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $phpbb_container, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
+		$this->phpbb_container = $phpbb_container;
+		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-		$this->user = $user;
 	}
 
 	public function get_config($data)
@@ -69,8 +76,7 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 		}
 		else if ($settings['show_member_menu'])
 		{
-			global $phpbb_container;
-			$block = $phpbb_container->get('blitze.sitemaker.block.member_menu');
+			$block = $this->phpbb_container->get('blitze.sitemaker.block.member_menu');
 			$block->set_template($this->ptemplate);
 			return $block->display(array(), $edit_mode);
 		}

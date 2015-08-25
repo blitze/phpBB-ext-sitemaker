@@ -25,6 +25,9 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var ContainerInterface */
+	protected $phpbb_container;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -58,17 +61,19 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\auth\auth						$auth				Permission object
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\config\config					$config				Config object
+	 * @param \phpbb\content_visibility				$content_visiblity	Content visibility object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
-	 * @param \blitze\sitemaker\services\util			$sitemaker			Sitemaker Object
+	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visiblity, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->content_visibility = $content_visiblity;
 		$this->user = $user;
 		$this->forum = $forum;
 		$this->sitemaker = $sitemaker;
@@ -280,10 +285,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 	protected function forum_topics_mini(&$topic_data, &$post_data)
 	{
-		global $phpbb_container;
-
-		$phpbb_content_visibility = $phpbb_container->get('content.visibility');
-
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row =& $topic_data[$i];
@@ -300,7 +301,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 				'TOPIC_PREVIEW'		=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
 				'ATTACH_ICON_IMG'	=> ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id) && $row['topic_attachment']) ? $this->user->img('icon_topic_attach', $this->user->lang['TOTAL_ATTACHMENTS']) : '',
-				'REPLIES'			=> $phpbb_content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
+				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
 				'VIEWS'				=> $row['topic_views'],
 				'S_UNREAD_TOPIC'	=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
 

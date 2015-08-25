@@ -23,6 +23,9 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\profilefields\manager */
+	protected $profile_fields;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -41,16 +44,18 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\cache\service					$cache					Cache object
 	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\db\driver\driver_interface		$db	 					Database connection
+	 * @param \phpbb\profilefields\manager			$profile_fields			Profile fields manager object
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
 	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
+		$this->profile_fields = $profile_fields;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -186,15 +191,11 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 			{
 				if (is_array($show_cpf))
 				{
-					global $phpbb_container;
+					$fields = $this->profile_fields->grab_profile_fields_data($row['user_id']);
 
-					$cp = $phpbb_container->get('profilefields.manager');
-
-					$profile_fields = $cp->grab_profile_fields_data($row['user_id']);
-
-					if (sizeof($profile_fields))
+					if (sizeof($fields))
 					{
-						$row['profile_fields'] = array_intersect_key(array_shift($profile_fields), array_flip($show_cpf));
+						$row['profile_fields'] = array_intersect_key(array_shift($fields), array_flip($show_cpf));
 					}
 				}
 
@@ -216,8 +217,6 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 
 			if (($change && $rotation != 'pageload') || $query_type == 'featured')
 			{
-				global $phpbb_container;
-
 				if (is_array($userlist))
 				{
 					$userlist = join(',', $userlist);
@@ -252,11 +251,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 
 		if (!empty($row['profile_fields']))
 		{
-			global $phpbb_container;
-
-			$cp = $phpbb_container->get('profilefields.manager');
-
-			$cp_row = $cp->generate_profile_fields_template_data($row['profile_fields']);
+			$cp_row = $this->profile_fields->generate_profile_fields_template_data($row['profile_fields']);
 
 			$this->ptemplate->assign_vars($cp_row['row']);
 
