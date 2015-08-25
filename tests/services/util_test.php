@@ -36,7 +36,7 @@ class util_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
-		global $phpbb_container, $phpbb_dispatcher, $template;
+		global $phpbb_dispatcher, $template;
 
 		parent::setUp();
 
@@ -56,25 +56,19 @@ class util_test extends \phpbb_test_case
 				return array('S_FORM_TOKEN' => '12345');
 			}));
 
-		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
-		$phpbb_container->expects($this->any())
-			->method('get')
-			->with('template_context')
-			->will($this->returnCallback(function($service_name) use ($template_context) {
-				return $template_context;
-			}));
-
+		$temp_data = array();
+		$this->tpl_data = &$temp_data;
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) {
-				$this->tpl_data[$key][] = $data;
+			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
+				$temp_data[$key][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) {
-				$this->tpl_data['.'][] = $data;
+			->will($this->returnCallback(function($data) use (&$temp_data) {
+				$temp_data['.'][] = $data;
 			}));
 
 		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
@@ -86,7 +80,7 @@ class util_test extends \phpbb_test_case
 				return './';
 			}));
 
-		$this->util = new util($path_helper, $template, $this->user);
+		$this->util = new util($path_helper, $template, $template_context, $this->user);
 	}
 
 	/**
@@ -255,7 +249,7 @@ class util_test extends \phpbb_test_case
 				'week',
 				array(
 					'start'	=> gmdate('Y-m-d', strtotime('last sunday')) . ' 00:00',
-					'stop'	=> gmdate('Y-m-d', strtotime('last sunday') + 604799) . ' 23:59',
+					'stop'	=> gmdate('Y-m-d', strtotime('last sunday') + 518400) . ' 23:59',
 					'date'	=> gmdate('Y-m-d', strtotime('last sunday')),
 				),
 			),

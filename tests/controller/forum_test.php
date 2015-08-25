@@ -69,10 +69,9 @@ class forum_test extends \phpbb_database_test_case
 			->getMock();
 		$controller_helper->expects($this->any())
 			->method('render')
-			->willReturnCallback(function ($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
+			->willReturnCallback(function($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
-			})
-		;
+			});
 
 		return  new forum($config, $controller_helper, $template, $user, $phpbb_root_path, $phpEx);
 	}
