@@ -6,9 +6,7 @@
 	var updated = false;
 	var dialogEditOpened = false;
 	var blockPositions = {};
-	var mainContentObj = {};
 	var emptyPositionsObj = {};
-	var subcontentObj = {};
 	var template = {};
 	var origin = {};
 	var inlineForm = {};
@@ -366,7 +364,6 @@
 	};
 
 	$(document).ready(function() {
-
 		editMode = window.editMode || false;
 		lang = window.lang || {};
 		phpbb = window.phpbb || {};
@@ -383,6 +380,7 @@
 		var copyFrom = '';
 		var blocksPanel = {};
 		var exPositions = {};
+		var overPosition = {};
 		var isHidingBlocks = false;
 
 		var loader = $('#admin-bar').delay(300).slideDown().find('#admin-control').click(function() {
@@ -395,15 +393,26 @@
 		if (editMode) {
 			inlineForm = $('<form class="inline-form"><input type="text" class="inline-edit" value="" /></form>').hide().appendTo($('body'));
 
+			msgObj = $('#ajax-message');
+			emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
+
+			template = twig({
+				data: $.trim($('#block-template-container').html())
+			});
+
 			$('#add-block-panel').find('.sitemaker-block').draggable({
-				scroll: true,
-				revert: true,
 				addClasses: false,
+				iframeFix: true,
 				opacity: 0.7,
 				helper: 'clone',
+				appendTo: 'body',
+				revert: 'invalid',
 				connectToSortable: '.block-position',
-				start: function() {
+				start: function(event, ui) {
+					$(ui.helper).addClass('dragging');
 					showAllPositions();
+					blockPositions.sortable('refresh');
+					blocksPanel.trigger('click');
 				},
 				stop: function() {
 					window.setTimeout(function() {
@@ -414,17 +423,15 @@
 				}
 			});
 
-			var overPos;
 			exPositions = $('#ex_positions');
 			blockPositions = $('.block-position').addClass('block-receiver').sortable({
+				revert: true,
 				placeholder: 'ui-state-highlight grid__col sm-block-spacing block sortable placeholder',
-				forcePlaceholderSize: false,
-				items: '.block',
-				cancel: '.editable-block, .inline-edit',
-				delay: 150,
-				dropOnEmpty: true,
-				tolerance: 'pointer',
 				connectWith: '.block-position',
+				cancel: '.editable-block, .inline-edit',
+				items: '.block',
+				tolerance: 'pointer',
+				cursor: 'move',
 				cursorAt: {
 					top: -10,
 					left: -10
@@ -435,10 +442,12 @@
 					blockPositions.sortable('refresh');
 				},
 				over: function(event, ui) {
-					overPos = ui.placeholder.parent('.horizontal').children('.block').addClass('sortable');
+					overPosition = ui.placeholder.parent('.horizontal').children('.block').addClass('sortable');
 				},
 				out: function() {
-					overPos.removeClass('sortable');
+					if ($.isEmptyObject(overPosition) === false) {
+						overPosition.removeClass('sortable');
+					}
 				},
 				update: function(event, ui) {
 					updated = true;
@@ -446,7 +455,6 @@
 						var posID = $(this).attr('id').substring('4');
 						var blockName = $(ui.item).attr('data-block');
 						var replace = $(this).find('div[data-block="' + blockName + '"]');
-						blocksPanel.trigger('click');
 						addBlock(posID, blockName, replace);
 					} else {
 						saveBtn.button('enable');
@@ -519,14 +527,6 @@
 					return str.length;
 				});
 				showCurrentState(isHidingBlocks, exPos);
-			});
-
-			msgObj = $('#ajax-message');
-			mainContentObj = $('#main-content');
-			subcontentObj = $('#pos-subcontent');
-			emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
-			template = twig({
-				data: $.trim($('#block-template-container').html())
 			});
 
 			$.ajaxSetup({

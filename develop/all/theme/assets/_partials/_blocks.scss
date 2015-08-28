@@ -68,10 +68,16 @@
 
 /* Footer */
 .footer {
-	padding: 15px;
+	margin-left: 10px;
 
-	.panel {
-		background: transparent;
+	> .panel {
+		padding: 15px;
+	}
+
+	.block {
+		.panel {
+			background: transparent;
+		}
 	}
 
 	.sm-block-spacing {

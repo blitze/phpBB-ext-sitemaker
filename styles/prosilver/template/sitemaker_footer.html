@@ -1,3 +1,5 @@
+						<div class="clear"></div>
+					</div>
 					{% if S_EDIT_MODE %}
 						{% set EDITABLE_CLASS = ' editable' %}
 						{% set S_BLOCK_CONTROLS %}
@@ -7,7 +9,6 @@
 							</div>
 						{% endset %}
 					{% endif %}
-					</div>
 					<!-- IF .boxes or S_EDIT_MODE -->
 						<!-- IF (S_BOXES_COUNT % 3) eq 0 -->
 							<!-- DEFINE $DIV = 3 -->
@@ -20,7 +21,7 @@
 						<!-- ENDIF -->
 					<div id="pos-boxes" class="block-position horizontal equal grid">
 						<!-- BEGIN boxes -->
-						<div id="block-{boxes.BID}" class="block grid__col grid__col--1-of-{$DIV}">
+						<div id="block-{boxes.BID}" class="block grid__col <!-- IF $DIV > 1 -->grid__col--1-of-{$DIV}<!-- ELSE -->grid__col--5-of-5<!-- ENDIF -->">
 							<!-- IF not boxes.NO_WRAP -->
 							<div class="panel post{boxes.CLASS} sm-block-spacing">
 								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
@@ -51,37 +52,39 @@
 					<!-- ENDIF -->
 
 					<!-- IF .bottom or S_EDIT_MODE -->
-					<div id="pos-bottom" class="block-position">
-						<!-- BEGIN bottom -->
-						<div id="block-{bottom.BID}" class="block">
-							<!-- IF not bottom.NO_WRAP -->
-							<div class="panel post sm-block-container{bottom.CLASS} sm-block-spacing">
-								<div class="inner">
+					<div class="grid">
+						<div id="pos-bottom" class="grid__col grid__col--5-of-5 block-position">
+							<!-- BEGIN bottom -->
+							<div id="block-{bottom.BID}" class="block">
+								<!-- IF not bottom.NO_WRAP -->
+								<div class="panel post sm-block-container{bottom.CLASS} sm-block-spacing">
+									<div class="inner">
+										<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
+										<h2>
+											<span class="block-icon"><i class="{bottom.ICON}"></i></span>
+											<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
+										</h2>
+										<!-- ENDIF -->
+										<div class="sm-block-content">
+											{bottom.CONTENT}
+										</div>
+									</div>
+								</div>
+								<!-- ELSE -->
+								<div class="post{bottom.CLASS} sm-block-spacing">
 									<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
 									<h2>
 										<span class="block-icon"><i class="{bottom.ICON}"></i></span>
 										<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
 									</h2>
 									<!-- ENDIF -->
-									<div class="sm-block-content">
-										{bottom.CONTENT}
-									</div>
+									{bottom.CONTENT}
 								</div>
-							</div>
-							<!-- ELSE -->
-							<div class="post{bottom.CLASS} sm-block-spacing">
-								<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
-								<h2>
-									<span class="block-icon"><i class="{bottom.ICON}"></i></span>
-									<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
-								</h2>
 								<!-- ENDIF -->
-								{bottom.CONTENT}
+								{S_BLOCK_CONTROLS}
 							</div>
-							<!-- ENDIF -->
-							{S_BLOCK_CONTROLS}
+							<!-- END bottom -->
 						</div>
-						<!-- END bottom -->
 					</div>
 					<!-- ENDIF -->
 				</div>
@@ -125,8 +128,8 @@
 	</div>
 
 	<!-- IF .footer or S_EDIT_MODE -->
-	<div class="footer panel bg3">
-		<div id="pos-footer" class="block-position horizontal equal grid">
+	<div class="footer">
+		<div id="pos-footer" class="panel bg3 block-position horizontal equal grid">
 			<!-- IF (S_FOOTER_COUNT % 3) eq 0 -->
 				<!-- DEFINE $DIV = 3 -->
 			<!-- ELSEIF (S_FOOTER_COUNT % 2) eq 0 -->
@@ -137,7 +140,7 @@
 				<!-- DEFINE $DIV = 1 -->
 			<!-- ENDIF -->
 			<!-- BEGIN footer -->
-			<div id="block-{footer.BID}" class="block grid__col grid__col--1-of-{$DIV}">
+			<div id="block-{footer.BID}" class="block grid__col <!-- IF $DIV > 1 -->grid__col--1-of-{$DIV}<!-- ELSE -->grid__col--5-of-5<!-- ENDIF -->">
 				<!-- IF not footer.NO_WRAP -->
 				<div class="panel post{footer.CLASS} sm-block-spacing">
 					<div class="inner">

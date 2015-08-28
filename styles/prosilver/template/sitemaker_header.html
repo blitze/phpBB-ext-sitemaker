@@ -16,37 +16,39 @@
 
 <div class="sitemaker">
 	<!-- IF .panel or S_EDIT_MODE -->
-	<div id="pos-panel" class="block-position">
-		<!-- BEGIN panel -->
-		<div id="block-{panel.BID}" class="block">
-			<!-- IF not panel.NO_WRAP -->
-			<div class="panel post sm-block-container{panel.CLASS} sm-block-spacing">
-				<div class="inner">
+	<div class="grid">
+		<div id="pos-panel" class="grid__col grid__col--5-of-5 block-position">
+			<!-- BEGIN panel -->
+			<div id="block-{panel.BID}" class="block">
+				<!-- IF not panel.NO_WRAP -->
+				<div class="panel post sm-block-container{panel.CLASS} sm-block-spacing">
+					<div class="inner">
+						<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
+						<h2>
+							<span class="block-icon"><i class="{panel.ICON}"></i></span>
+							<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
+						</h2>
+						<!-- ENDIF -->
+						<div class="sm-block-content">
+							{panel.CONTENT}
+						</div>
+					</div>
+				</div>
+				<!-- ELSE -->
+				<div class="post{panel.CLASS} sm-block-spacing">
 					<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 					<h2>
 						<span class="block-icon"><i class="{panel.ICON}"></i></span>
 						<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
 					</h2>
 					<!-- ENDIF -->
-					<div class="sm-block-content">
-						{panel.CONTENT}
-					</div>
+					{panel.CONTENT}
 				</div>
-			</div>
-			<!-- ELSE -->
-			<div class="post{panel.CLASS} sm-block-spacing">
-				<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
-				<h2>
-					<span class="block-icon"><i class="{panel.ICON}"></i></span>
-					<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
-				</h2>
 				<!-- ENDIF -->
-				{panel.CONTENT}
+				{S_BLOCK_CONTROLS}
 			</div>
-			<!-- ENDIF -->
-			{S_BLOCK_CONTROLS}
+			<!-- END panel -->
 		</div>
-		<!-- END panel -->
 	</div>
 	<!-- ENDIF -->
 
@@ -90,7 +92,8 @@
 			<!-- IF .top_hor or S_EDIT_MODE -->
 				{% set DIV = 0 %}
 				{% set SIZE = 3 %}
-			<div id="pos-top_hor" class="block-position horizontal grid">
+			<div class="grid">
+				<div id="pos-top_hor" class="block-position horizontal">
 				<!-- BEGIN top_hor -->
 					<!-- IF DIV eq 0 -->
 						<!-- IF (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) % 3 eq 0 or (S_TOP_HOR_COUNT - top_hor.S_ROW_COUNT) > 3 -->
@@ -136,41 +139,44 @@
 					<!-- ENDIF -->
 				<!-- END top_hor -->
 			</div>
+			</div>
 			<!-- ENDIF -->
 			<div class="grid">
 				<div id="main-content" class="grid__col <!-- IF S_EDIT_MODE or .subcontent -->grid__col--3-of-4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->grid__col--4-of-4<!-- ENDIF --> sm-responsive-full-width">
 					<!-- IF .top or S_EDIT_MODE -->
-					<div id="pos-top" class="block-position">
-						<!-- BEGIN top -->
-						<div id="block-{top.BID}" class="block">
-							<!-- IF not top.NO_WRAP -->
-							<div class="panel post sm-block-container{top.CLASS} sm-block-spacing">
-								<div class="inner">
+					<div class="grid">
+						<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
+							<!-- BEGIN top -->
+							<div id="block-{top.BID}" class="block">
+								<!-- IF not top.NO_WRAP -->
+								<div class="panel post sm-block-container{top.CLASS} sm-block-spacing">
+									<div class="inner">
+										<!-- IF top.TITLE and not top.HIDE_TITLE -->
+										<h2>
+											<span class="block-icon"><i class="{top.ICON}"></i></span>
+											<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
+										</h2>
+										<!-- ENDIF -->
+										<div class="sm-block-content">
+											{top.CONTENT}
+										</div>
+									</div>
+								</div>
+								<!-- ELSE -->
+								<div class="post{top.CLASS} sm-block-spacing">
 									<!-- IF top.TITLE and not top.HIDE_TITLE -->
 									<h2>
 										<span class="block-icon"><i class="{top.ICON}"></i></span>
 										<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
 									</h2>
 									<!-- ENDIF -->
-									<div class="sm-block-content">
-										{top.CONTENT}
-									</div>
+									{top.CONTENT}
 								</div>
-							</div>
-							<!-- ELSE -->
-							<div class="post{top.CLASS} sm-block-spacing">
-								<!-- IF top.TITLE and not top.HIDE_TITLE -->
-								<h2>
-									<span class="block-icon"><i class="{top.ICON}"></i></span>
-									<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
-								</h2>
 								<!-- ENDIF -->
-								{top.CONTENT}
+								{S_BLOCK_CONTROLS}
 							</div>
-							<!-- ENDIF -->
-							{S_BLOCK_CONTROLS}
+							<!-- END top -->
 						</div>
-						<!-- END top -->
 					</div>
 					<!-- ENDIF -->
 
