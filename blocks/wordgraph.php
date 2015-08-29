@@ -55,7 +55,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config($settings)
 	{
 		return array(
-			'legend1'				=> $this->user->lang['SETTINGS'],
+			'legend1'				=> $this->user->lang('SETTINGS'),
 			'wordgraph_word_count'	=> array('lang' => 'ALLOW_WORD_COUNT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => 0),
 			'wordgraph_word_number'	=> array('lang' => 'WORD_NUMBER', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 2, 'explain' => true, 'default' => 15, 'append' => 'WORDS'),
 			'wordgraph_max_size'	=> array('lang' => 'WORD_MAX_SIZE', 'validate' => 'int:0:55', 'type' => 'number:0:55', 'maxlength' => 2, 'explain' => true, 'default' => 25, 'append' => 'PIXEL'),
@@ -143,7 +143,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		return array(
-			'title'		=> $this->user->lang['WORDGRAPH'],
+			'title'		=> $this->user->lang('WORDGRAPH'),
 			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block')
 		);
 	}

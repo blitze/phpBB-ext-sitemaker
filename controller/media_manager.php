@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\controller;
 
-class forum
+use GuillermoMartinez\Filemanager\Filemanager;
+
+class media_manager
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -51,15 +53,40 @@ class forum
 
 	public function handle()
 	{
-		include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		return $this->helper->render('filemanager.html');
+	}
 
-		display_forums('', $this->config['load_moderators']);
+	public function get()
+	{
+		$extra = array(
+			// path after of root folder
+			// if /var/www/public_html is your document root web server
+			// then source= usefiles o filemanager/usefiles
+			"source" => "../../../../../files/blitze_sitemaker/source",
+			// url domain
+			// so that the files and show well http://php-filemanager.rhcloud.com/userfiles/imagen.jpg
+			// o http://php-filemanager.rhcloud.com/filemanager/userfiles/imagen.jpg
+			"url" => "http://localhost/",
+		);
 
-		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $this->user->lang('FORUM'),
-			'U_VIEW_FORUM'	=> $this->helper->route('blitze_sitemaker_forum')
-		));
+		$f = new Filemanager($extra);
+		$f->run();
+	}
 
-		return $this->helper->render('index_body.html', $this->user->lang('FORUM_INDEX'));
+	public function post()
+	{
+		$extra = array(
+			// path after of root folder
+			// if /var/www/public_html is your document root web server
+			// then source= usefiles o filemanager/usefiles
+			"source" => "github/filemanagertest/laravel/public/userfiles",
+			// url domain
+			// so that the files and show well http://php-filemanager.rhcloud.com/userfiles/imagen.jpg
+			// o http://php-filemanager.rhcloud.com/filemanager/userfiles/imagen.jpg
+			"url" => "http://localhost/",
+		);
+
+		$f = new Filemanager($extra);
+		$f->run();
 	}
 }

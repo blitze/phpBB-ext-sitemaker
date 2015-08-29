@@ -71,12 +71,12 @@ class menu_admin
 
 				if (!$menu_id)
 				{
-					$errors[] = $this->user->lang['MISSING_MENU_ID'];
+					$errors[] = $this->user->lang('MISSING_MENU_ID');
 				}
 
 				if ($action == 'edit' && !$item_id)
 				{
-					$errors[] = $this->user->lang['MISSING_ITEM_ID'];
+					$errors[] = $this->user->lang('MISSING_ITEM_ID');
 				}
 
 				if (!sizeof($errors))

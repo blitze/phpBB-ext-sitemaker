@@ -71,7 +71,7 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 			);
 
 			return array(
-				'title'		=> $this->user->lang['WELCOME'],
+				'title'		=> $this->user->lang('WELCOME'),
 				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block'),
 			);
 		}

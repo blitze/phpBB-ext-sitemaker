@@ -76,7 +76,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$max_depth = (!empty($settings['max_depth'])) ? $settings['max_depth'] : 3;
 
 		return array(
-			'legend1'       => $this->user->lang['SETTINGS'],
+			'legend1'       => $this->user->lang('SETTINGS'),
 			'cache_name'	=> 'sitemaker_menu_data_' . $menu_id,
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($options, $menu_id), 'default' => $menu_id, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
@@ -86,14 +86,14 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 
 	public function display($db_data, $editing = false)
 	{
-		$title = $this->user->lang['MENU'];
+		$title = $this->user->lang('MENU');
 		$menu_id = $db_data['settings']['menu_id'];
 
 		if (!$menu_id)
 		{
 			return array(
 				'title'		=> $title,
-				'content'	=> ($editing) ? $this->user->lang['SELECT_MENU'] : ''
+				'content'	=> ($editing) ? $this->user->lang('SELECT_MENU') : ''
 			);
 		}
 

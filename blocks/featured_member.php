@@ -269,16 +269,16 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 		$rank_title = $rank_img = $rank_img_src = '';
 		get_user_rank($row['user_rank'], $row['user_posts'], $rank_title, $rank_img, $rank_img_src);
 		$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
-		$date_format = $this->user->lang['DATE_FORMAT'];
+		$date_format = $this->user->lang('DATE_FORMAT');
 
 		$this->ptemplate->assign_vars(array(
-			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->user->lang['QTYPE_' . strtoupper($query_type)] : '',
-			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->user->lang[strtoupper($rotation) . '_MEMBER'] : '',
+			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->user->lang('QTYPE_' . strtoupper($query_type)) : '',
+			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->user->lang(strtoupper($rotation) . '_MEMBER') : '',
 			'USERNAME'			=> $username,
 			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-			'POSTS_DAY'			=> sprintf($this->user->lang['POST_DAY'], $posts_per_day),
-			'POSTS_PCT'			=> sprintf($this->user->lang['POST_PCT'], $percentage),
-			'L_VIEW_PROFILE'	=> sprintf($this->user->lang['VIEW_USER_PROFILE'], $username),
+			'POSTS_DAY'			=> sprintf($this->user->lang('POST_DAY'), $posts_per_day),
+			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $percentage),
+			'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
 			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
 			'VISITED'			=> $this->user->format_date($row['user_lastvisit'], "|$date_format|"),
 			'POSTS'				=> ($row['user_posts']) ? $row['user_posts'] : 0,
@@ -292,7 +292,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 		$block = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block');
 
 		return array(
-			'title'		=> $this->user->lang[strtoupper($query_type) . '_MEMBER'],
+			'title'		=> $this->user->lang(strtoupper($query_type) . '_MEMBER'),
 			'content'	=> $block,
 		);
 	}

@@ -96,7 +96,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		$group_options = array('' => 'ALL');
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$group_options[$row['group_id']] = $this->user->lang['G_' . $row['group_name']];
+			$group_options[$row['group_id']] = $this->user->lang('G_' . $row['group_name']);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -109,7 +109,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : 0;
 
 		return array(
-			'legend1'		=> $this->user->lang['SETTINGS'],
+			'legend1'		=> $this->user->lang('SETTINGS'),
 			'group_ids'		=> array('lang' => 'POLL_FROM_GROUPS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($group_options, $group_ids), 'default' => '', 'explain' => true),
 			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => true),
 			'topic_ids'		=> array('lang' => 'POLL_FROM_TOPICS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
@@ -158,7 +158,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		if (!sizeof($topic_data))
 		{
 			return array(
-				'title'		=> $this->user->lang['POLL'],
+				'title'		=> $this->user->lang('POLL'),
 			);
 		}
 
@@ -267,7 +267,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 			'POLL_RIGHT_CAP_IMG'=> $this->user->img('poll_right'),
 
 			'L_MAX_VOTES'		=> $this->user->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
-			'L_POLL_LENGTH'		=> ($topic_data['poll_length']) ? sprintf($this->user->lang[($poll_end > time()) ? 'POLL_RUN_TILL' : 'POLL_ENDED_AT'], $this->user->format_date($poll_end)) : '',
+			'L_POLL_LENGTH'		=> ($topic_data['poll_length']) ? sprintf($this->user->lang(($poll_end > time()) ? 'POLL_RUN_TILL' : 'POLL_ENDED_AT'), $this->user->format_date($poll_end)) : '',
 
 			'S_HAS_POLL'		=> true,
 			'S_CAN_VOTE'		=> $s_can_vote,
@@ -281,7 +281,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		unset($poll_end, $poll_info, $topic_data);
 
 		return array(
-			'title'		=> $this->user->lang['POLL'],
+			'title'		=> $this->user->lang('POLL'),
 			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_poll.html', 'forum_poll_block')
 		);
 	}

@@ -91,7 +91,7 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 			}
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang['NO_BOOKMARKS']);
+		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang('NO_BOOKMARKS'));
 
 		return array(
 			'title'     => 'MY_BOOKMARKS',

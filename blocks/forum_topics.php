@@ -118,14 +118,14 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$preview = (!empty($preview)) ? $preview : (($template == 'context') ? 'first' : '');
 
 		return array(
-			'legend1'			=> $this->user->lang['SETTINGS'],
+			'legend1'			=> $this->user->lang('SETTINGS'),
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => false),
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
 			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
-			'legend2'			=> $this->user->lang['DISPLAY'],
+			'legend2'			=> $this->user->lang('DISPLAY'),
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
@@ -205,7 +205,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 					$this->fields['username'] = 'topic_last_poster_name';
 					$this->fields['user_colour'] = 'topic_last_poster_colour';
 
-					$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang['LAST_POST_BY_AUTHOR']);
+					$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang('LAST_POST_BY_AUTHOR'));
 				}
 				else
 				{
@@ -231,7 +231,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			));
 
 			return array(
-				'title'		=> $this->user->lang[$lang_var],
+				'title'		=> $this->user->lang($lang_var),
 				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block')
 			);
 		}
@@ -273,7 +273,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 			$tpl_ary = array(
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_READ'		=> sprintf($this->user->lang['TOPIC_LAST_READ'], $this->user->format_date($row['topic_last_view_time'], $this->user->lang['DATE_FORMAT'])),
+				'TOPIC_READ'		=> $this->user->lang('TOPIC_LAST_READ', $this->user->format_date($row['topic_last_view_time'], $this->user->lang['DATE_FORMAT'])),
 				'S_UNREAD_TOPIC'	=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 			);

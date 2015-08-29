@@ -46,7 +46,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config($settings)
 	{
 		return array(
-			'legend1'		=> $this->user->lang['SETTINGS'],
+			'legend1'		=> $this->user->lang('SETTINGS'),
 			'topics_only'	=> array('lang' => 'TOPICS_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);

@@ -66,7 +66,7 @@ class blocks_admin
 				trigger_error('NOT_AUTHORISED');
 			}
 
-			$json_data['message'] = $this->user->lang['NOT_AUTHORISED'];
+			$json_data['message'] = $this->user->lang('NOT_AUTHORISED');
 			return new Response(json_encode($json_data), 401);
 		}
 

@@ -143,7 +143,7 @@ class listener implements EventSubscriberInterface
 			if ($this->request->is_set('f'))
 			{
 				$this->template->alter_block_array('navlinks', array(
-					'FORUM_NAME'	=> $this->user->lang['FORUM'],
+					'FORUM_NAME'	=> $this->user->lang('FORUM'),
 					'U_VIEW_FORUM'	=> $u_viewforum,
 				));
 			}

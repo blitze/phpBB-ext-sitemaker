@@ -105,7 +105,7 @@ class display
 			)
 		));
 
-		$this->template->assign_var('L_INDEX', $this->user->lang['HOME']);
+		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));
 
 		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
 		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
@@ -194,7 +194,7 @@ class display
 					{
 						if ($edit_mode && isset($block['title']))
 						{
-							$block['content'] = $this->user->lang['BLOCK_NO_DATA'];
+							$block['content'] = $this->user->lang('BLOCK_NO_DATA');
 						}
 						else
 						{

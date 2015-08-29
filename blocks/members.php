@@ -61,7 +61,7 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 		$date_range = (!empty($settings['date_range'])) ? $settings['date_range'] : 'month';
 
 		return array(
-			'legend1'		=> $this->user->lang['SETTINGS'],
+			'legend1'		=> $this->user->lang('SETTINGS'),
 			'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->query_type_options, $query_type), 'default' => 'recent', 'explain' => false),
 			'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'params' => array($this->range_options, $date_range), 'default' => 'month', 'explain' => false),
 			'max_members'	=> array('lang' => 'MAX_MEMBERS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
@@ -72,7 +72,7 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
 
-		$this->ptemplate->assign_var('RANGE', $this->user->lang[$this->range_options[$bdata['settings']['range']]]);
+		$this->ptemplate->assign_var('RANGE', $this->user->lang($this->range_options[$bdata['settings']['range']]));
 
 		return array(
 			'title'		=> $this->query_type_options[$bdata['settings']['query_type']],

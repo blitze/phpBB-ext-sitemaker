@@ -84,7 +84,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 		}
 		else if ($edit_mode !== false)
 		{
-			$content = $this->user->lang['BLOCK_NO_DATA'];
+			$content = $this->user->lang('BLOCK_NO_DATA');
 		}
 
 		return array(

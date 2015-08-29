@@ -67,8 +67,8 @@ class members
 
 		$method = 'member_date';
 		$append = $list = '';
-		$l_user = $this->user->lang['USERNAME'];
-		$l_info = $this->user->lang['MEMBERS_DATE'];
+		$l_user = $this->user->lang('USERNAME');
+		$l_info = $this->user->lang('MEMBERS_DATE');
 
 		$sql_ary = array(
 			'SELECT'		=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
@@ -97,7 +97,7 @@ class members
 			break;
 
 			case 'recent':
-				$l_info = $this->user->lang['JOIN_DATE'];
+				$l_info = $this->user->lang('JOIN_DATE');
 			// no break;
 			case 'tenured':
 				$get['date_range'] = '';
@@ -109,7 +109,7 @@ class members
 			case 'posts':
 				$method = 'member_posts';
 				$sql_between = 'p.post_time';
-				$l_info = $this->user->lang['POSTS'];
+				$l_info = $this->user->lang('POSTS');
 
 				$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
 				$sql_ary['FROM'] += array(TOPICS_TABLE => 't');

@@ -157,7 +157,7 @@ abstract class route extends base
 
 		return array_merge(
 			$sql_data,
-			array('message' => $this->user->lang['ROUTE_UPDATED'])
+			array('message' => $this->user->lang('ROUTE_UPDATED'))
 		);
 	}
 

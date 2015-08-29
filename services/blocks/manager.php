@@ -165,7 +165,7 @@ class manager extends route
 			$bdata,
 			array(
 				'id'		=> $bid,
-				'message'	=> $this->user->lang['BLOCK_UPDATED'],
+				'message'	=> $this->user->lang('BLOCK_UPDATED'),
 			),
 			$this->display($block, $bdata)
 		);
@@ -189,7 +189,7 @@ class manager extends route
 
 		if (!$bid)
 		{
-			return array('errors' => $this->user->lang['BLOCK_NO_ID']);
+			return array('errors' => $this->user->lang('BLOCK_NO_ID'));
 		}
 
 		$this->add_block_admin_lang();
@@ -329,7 +329,7 @@ class manager extends route
 		}
 		$this->cache->destroy('sitemaker_blocks');
 
-		return array('message' => $this->user->lang['LAYOUT_SAVED']);
+		return array('message' => $this->user->lang('LAYOUT_SAVED'));
 	}
 
 	/**
@@ -394,7 +394,7 @@ class manager extends route
 		else
 		{
 			return array(
-				'errors' => $this->user->lang['SERVICE_NOT_FOUND']
+				'errors' => $this->user->lang('SERVICE_NOT_FOUND')
 			);
 		}
 	}
@@ -806,7 +806,7 @@ class manager extends route
 
 		return array(
 			'title'		=> (!empty($settings['title'])) ? $settings['title'] : ((isset($this->user->lang[$data['title']])) ? $this->user->lang[$data['title']] : $data['title']),
-			'content'	=> (!empty($data['content'])) ? $data['content'] : $this->user->lang['BLOCK_NO_DATA']
+			'content'	=> (!empty($data['content'])) ? $data['content'] : $this->user->lang('BLOCK_NO_DATA')
 		);
 	}
 
@@ -828,7 +828,7 @@ class manager extends route
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$selected_option = (in_array($row['group_id'], $selected)) ? ' selected="selected"' : '';
-			$group_name = ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : ucfirst($row['group_name']);
+			$group_name = ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
 
 			$data[$row['group_id']] = $group_name;
 			$options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '"' . $selected_option . '>' . $group_name . '</option>';

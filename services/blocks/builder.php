@@ -233,7 +233,7 @@ class builder extends base
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 
-		$options = '<option value="">' . $this->user->lang['SELECT'] . '</option>';
+		$options = '<option value="">' . $this->user->lang('SELECT') . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$selected = ($row['route'] == $route) ? " selected='selected'" : '';
@@ -249,7 +249,7 @@ class builder extends base
 	 */
 	public function get_position_options($selected_positions)
 	{
-		$options = '<option value=""' . ((!sizeof($selected_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang['NONE'] . '</option>';
+		$options = '<option value=""' . ((!sizeof($selected_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang('NONE') . '</option>';
 		foreach ($selected_positions as $position)
 		{
 			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';
