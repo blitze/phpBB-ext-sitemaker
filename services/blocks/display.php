@@ -152,7 +152,7 @@ class display
 					SHOW_BLOCK_SUBPAGE	=> true,
 				);
 
-				$this->phpbb_container->get('blitze.sitemaker.blocks.builder')->handle($route_info);
+				$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->set_admin_bar($route_info);
 			}
 
 			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (($edit_mode) ? 0 : 1));
@@ -203,7 +203,7 @@ class display
 					}
 
 					$data = array_merge($row, array(
-							'TITLE'		=> ($row['title']) ? $row['title'] : ((isset($this->user->lang[$block['title']])) ? $this->user->lang[$block['title']] : $block['title']),
+							'TITLE'		=> ($row['title']) ? $row['title'] : $this->user->lang($block['title']),
 							'CONTENT'	=> $block['content'],
 						)
 					);

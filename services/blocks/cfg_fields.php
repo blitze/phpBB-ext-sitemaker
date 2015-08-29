@@ -34,7 +34,7 @@ class cfg_fields
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
 		{
-			$title = (isset($this->user->lang[$title])) ? $this->user->lang[$title] : $title;
+			$title = $this->user->lang($title);
 			$selected = (in_array($value, $selected_items)) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $selected . '>' . $title . '</option>';
 		}
@@ -64,7 +64,7 @@ class cfg_fields
 			foreach ($row as $value => $title)
 			{
 				$selected = (in_array($value, $selected_items)) ? ' checked="checked"' : '';
-				$title = (isset($this->user->lang[$title])) ? $this->user->lang[$title] : $title;
+				$title = $this->user->lang($title);
 				$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . (($key) ? ' accesskey="' . $key . '"' : '') . ' class="checkbox" /> ' . $title . '</label><br />';
 				$id_assigned = true;
 			}

@@ -548,8 +548,8 @@ class manager extends route
 			{
 				$this->template->assign_block_vars('options', array(
 					'S_LEGEND'	=> $config_key,
-					'LEGEND'	=> (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
-				);
+					'LEGEND'	=> $this->user->lang($vars)
+				));
 
 				continue;
 			}
@@ -565,7 +565,7 @@ class manager extends route
 
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $config_key,
-				'TITLE'			=> (!empty($vars['lang'])) ? ((isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang']) : '',
+				'TITLE'			=> (!empty($vars['lang'])) ? $this->user->lang($vars['lang']) : '',
 				'S_EXPLAIN'		=> $vars['explain'],
 				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
 				'CONTENT'		=> $content)
@@ -579,21 +579,14 @@ class manager extends route
 		$l_explain = '';
 		if (!empty($vars['explain']))
 		{
-			if (isset($vars['lang_explain']))
-			{
-				$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
-			}
-			else
-			{
-				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
-			}
+			$l_explain = (isset($vars['lang_explain'])) ? $this->user->lang($vars['lang_explain']) : $this->user->lang($vars['lang'] . '_EXPLAIN');
 		}
 
 		$vars['lang_explain'] = $l_explain;
 
 		if (!empty($vars['append']))
 		{
-			$vars['append'] = (isset($this->user->lang[$vars['append']])) ? $this->user->lang[$vars['append']] : $vars['append'];
+			$vars['append'] = $this->user->lang($vars['append']);
 		}
 
 		$type = $this->get_field_type($config_key, $db_settings, $vars);
@@ -805,7 +798,7 @@ class manager extends route
 		$data = $block->display($settings, true);
 
 		return array(
-			'title'		=> (!empty($settings['title'])) ? $settings['title'] : ((isset($this->user->lang[$data['title']])) ? $this->user->lang[$data['title']] : $data['title']),
+			'title'		=> (!empty($settings['title'])) ? $settings['title'] : $this->user->lang($data['title']),
 			'content'	=> (!empty($data['content'])) ? $data['content'] : $this->user->lang('BLOCK_NO_DATA')
 		);
 	}
@@ -823,7 +816,7 @@ class manager extends route
 
 		$data = array();
 		$selected = array_filter($selected);
-		$options = '<option value="0"' . ((!sizeof($selected)) ? ' selected="selected"' : '') . '>' . $this->user->lang['ALL'] . '</option>';
+		$options = '<option value="0"' . ((!sizeof($selected)) ? ' selected="selected"' : '') . '>' . $this->user->lang('ALL') . '</option>';
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{

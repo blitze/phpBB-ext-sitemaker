@@ -1,4 +1,4 @@
-<?php
+b<?php
 /**
  *
  * @package sitemaker
@@ -79,7 +79,7 @@ class builder extends base
 	}
 
 	/**
-	 * Handle the admin bar
+	 * Set the admin bar
 	 */
 	public function handle($route_info)
 	{
@@ -142,7 +142,7 @@ class builder extends base
 		foreach ($blocks as $service => $name)
 		{
 			$lname = strtoupper(str_replace('.', '_', $name));
-			$blocks[$service] = (isset($this->user->lang[$lname])) ? $this->user->lang[$lname] : $name;
+			$blocks[$service] = $this->user->lang($lname);
 		}
 
 		asort($blocks);

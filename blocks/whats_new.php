@@ -101,7 +101,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 			}
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', ($topics_only) ? $this->user->lang['NO_NEW_TOPICS'] : $this->user->lang['NO_NEW_POSTS']);
+		$this->ptemplate->assign_var('NO_RECORDS', ($topics_only) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
 
 		return array(
 			'title'     => 'WHATS_NEW',
