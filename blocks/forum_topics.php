@@ -61,7 +61,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\auth\auth						$auth				Permission object
 	 * @param \phpbb\cache\service					$cache				Cache object
 	 * @param \phpbb\config\config					$config				Config object
-	 * @param \phpbb\content_visibility				$content_visiblity	Content visibility object
+	 * @param \phpbb\content_visibility				content_visibility	Content visibility object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
 	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
