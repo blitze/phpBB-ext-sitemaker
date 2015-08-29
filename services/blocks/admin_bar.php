@@ -1,4 +1,4 @@
-b<?php
+<?php
 /**
  *
  * @package sitemaker
@@ -11,7 +11,7 @@ namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class builder extends base
+class admin_bar extends base
 {
 	/** @var \phpbb\cache\service */
 	protected $cache;
@@ -81,7 +81,7 @@ class builder extends base
 	/**
 	 * Set the admin bar
 	 */
-	public function handle($route_info)
+	public function set_admin_bar($route_info)
 	{
 		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
 		$this->add_block_admin_lang();

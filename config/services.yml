@@ -5,8 +5,8 @@ imports:
 
 services:
 
-    blitze.sitemaker.blocks.builder:
-        class: blitze\sitemaker\services\blocks\builder
+    blitze.sitemaker.blocks.admin_bar:
+        class: blitze\sitemaker\services\blocks\admin_bar
         arguments:
             - @cache
             - @config
