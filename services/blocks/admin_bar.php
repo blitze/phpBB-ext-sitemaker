@@ -11,16 +11,10 @@ namespace blitze\sitemaker\services\blocks;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class admin_bar extends base
+class admin_bar
 {
-	/** @var \phpbb\cache\service */
-	protected $cache;
-
 	/** @var \phpbb\config\config */
 	protected $config;
-
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
 
 	/** @var ContainerInterface */
 	protected $phpbb_container;
@@ -35,60 +29,67 @@ class admin_bar extends base
 	protected $icons;
 
 	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
+	protected $util;
 
 	/** @var string phpEx */
 	protected $php_ext;
 
-	/** @var string */
-	protected $blocks_table;
-
-	/** @var string */
-	protected $block_routes_table;
-
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
-	 * @param \phpbb\db\driver\driver_interface			$db						Database object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 * @param \blitze\sitemaker\services\icon_picker	$icons					Sitemaker icon picker object
-	 * @param \blitze\sitemaker\services\util			$sitemaker				Template object
+	 * @param \blitze\sitemaker\services\util			$util					Sitemaker util object
 	 * @param string									$php_ext				phpEx
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $sitemaker, $php_ext, $blocks_table, $block_routes_table)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
 	{
-		parent::__construct($config, $phpbb_container, $user, $php_ext);
-
-		$this->cache = $cache;
 		$this->config = $config;
-		$this->db = $db;
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
 		$this->user = $user;
 		$this->icons = $icons;
-		$this->sitemaker = $sitemaker;
+		$this->util = $util;
 		$this->php_ext = $php_ext;
-		$this->blocks_table = $blocks_table;
-		$this->block_routes_table = $block_routes_table;
 	}
 
 	/**
-	 * Set the admin bar
+	 * Show admin bar
 	 */
-	public function set_admin_bar($route_info)
+	public function show($route_info)
 	{
 		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
-		$this->add_block_admin_lang();
+
+		$this->phpbb_container->get('blitze.sitemaker.auto_lang')->add('blocks_admin');
 
 		$route = $route_info['route'];
 		$style_id = $route_info['style'];
 
+		$this->get_available_blocks();
+		$this->get_startpage_options();
+		$this->set_javascript_data($route, $style_id);
+		$this->set_assets();
+
+		$this->template->assign_vars(array(
+			'S_EDIT_MODE'		=> true,
+			'S_ROUTE_OPS'		=> $this->get_route_options($route),
+			'S_HIDE_BLOCKS'		=> $route_info['hide_blocks'],
+			'S_POSITION_OPS'	=> $this->get_excluded_position_options($route_info['ex_positions']),
+			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
+			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
+
+			'ICON_PICKER'		=> $this->icons->picker(),
+		));
+	}
+
+	/**
+	 * Set data used in javascript
+	 */
+	public function set_javascript_data($route, $style_id)
+	{
 		$board_url = generate_board_url();
 		$ajax_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
 
@@ -100,27 +101,15 @@ class admin_bar extends base
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$this->get_available_blocks();
-		$this->get_startpage_options();
-		$this->set_assets();
-
 		$this->template->assign_vars(array(
-			'S_EDIT_MODE'		=> true,
-			'S_ROUTE_OPS'		=> $this->get_route_options($route),
-			'S_HIDE_BLOCKS'		=> $route_info['hide_blocks'],
-			'S_POSITION_OPS'	=> $this->get_position_options($route_info['ex_positions']),
-			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_IS_DEFAULT'		=> $is_default_route,
-			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
-			'S_FORM_KEY'		=> $this->sitemaker->get_form_key('add_edit_page'),
 
-			'ICON_PICKER'		=> $this->icons->picker(),
 			'PAGE_URL'			=> build_url(array('style')),
 
-			'UA_STYLE_ID'		=> $style_id,
 			'UA_ROUTE'			=> $route,
 			'UA_AJAX_URL'		=> $ajax_url,
 			'UA_BOARD_URL'		=> $board_url,
+			'UA_STYLE_ID'		=> $style_id,
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));
@@ -131,21 +120,7 @@ class admin_bar extends base
 	 */
 	public function get_available_blocks()
 	{
-		if (($blocks = $this->cache->get('sitemaker_available_blocks')) === false)
-		{
-			$factory = $this->phpbb_container->get('blitze.sitemaker.blocks.factory');
-
-			$blocks = $factory->get_all_blocks();
-			$this->cache->put('sitemaker_available_blocks', $blocks);
-		}
-
-		foreach ($blocks as $service => $name)
-		{
-			$lname = strtoupper(str_replace('.', '_', $name));
-			$blocks[$service] = $this->user->lang($lname);
-		}
-
-		asort($blocks);
+		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks.factory')->get_all_blocks();
 
 		foreach ($blocks as $service => $name)
 		{
@@ -194,8 +169,8 @@ class admin_bar extends base
 
 	public function set_assets()
 	{
-		$asset_path = $this->sitemaker->asset_path;
-		$this->sitemaker->add_assets(array(
+		$asset_path = $this->util->asset_path;
+		$this->util->add_assets(array(
 			'js'	=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.2/tinymce.min.js',
@@ -213,44 +188,35 @@ class admin_bar extends base
 	/**
 	 * Get routes with blocks
 	 */
-	public function get_route_options($route)
+	public function get_route_options($current_route)
 	{
-		$sql_array = array(
-			'SELECT'	=> 'r.route',
+		$factory = $this->phpbb_container->get('blitze.sitemaker.mapper.factory');
+		$collection = $factory->create('blocks', 'routes')->find();
 
-			'FROM'	  => array(
-				$this->blocks_table			=> 'b',
-				$this->block_routes_table	=> 'r',
-			),
-
-			'WHERE'	 => 'b.route_id = r.route_id',
-
-			'GROUP_BY'  => 'r.route',
-
-			'ORDER_BY'  => 'r.route',
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
+		$routes_ary = array();
+		foreach ($collection as $entity)
+		{
+			$route_name = $entity->get_route();
+			$routes_ary[$route_name] = $route_name;
+		}
 
 		$options = '<option value="">' . $this->user->lang('SELECT') . '</option>';
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($routes_ary as $route)
 		{
-			$selected = ($row['route'] == $route) ? " selected='selected'" : '';
-			$options .= '<option value="' . $row['route'] . '"' . $selected . '>' . $row['route'] . '</option>';
+			$selected = ($route == $current_route) ? ' selected="selected"' : '';
+			$options .= '<option value="' . $route . '"' . $selected . '>' . $route . '</option>';
 		}
-		$this->db->sql_freeresult($result);
 
 		return $options;
 	}
 
 	/**
-	 * Get position options
+	 * Get excluded position options
 	 */
-	public function get_position_options($selected_positions)
+	public function get_excluded_position_options($ex_positions)
 	{
-		$options = '<option value=""' . ((!sizeof($selected_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang('NONE') . '</option>';
-		foreach ($selected_positions as $position)
+		$options = '<option value=""' . ((!sizeof($ex_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang('NONE') . '</option>';
+		foreach ($ex_positions as $position)
 		{
 			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';
 		}

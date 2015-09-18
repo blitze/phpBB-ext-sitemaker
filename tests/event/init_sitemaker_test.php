@@ -85,9 +85,6 @@ class init_sitemaker_test extends listener_base
 			'FORUMS_ORDER_FIRST_POST',
 			'FORUMS_ORDER_LAST_POST',
 			'FORUMS_ORDER_LAST_READ',
-			'SHOW_BLOCK_BOTH',
-			'SHOW_BLOCK_LANDING',
-			'SHOW_BLOCK_SUBPAGE',
 		);
 
 		foreach ($defined_constants as $constant)

@@ -102,7 +102,7 @@
 			position: posID
 		};
 
-		$.getJSON(config.ajaxUrl + '/blocks/add', data, function(result) {
+		$.getJSON(config.ajaxUrl + '/blocks/add_block', data, function(result) {
 			updated = false;
 			if (result.id === '') {
 				$(droppedElement).remove();
@@ -117,7 +117,7 @@
 	};
 
 	var getEditForm = function(block) {
-		$.getJSON(config.ajaxUrl + '/blocks/edit', {id: block.attr('id').substring(6)}, function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/edit_block', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
@@ -139,7 +139,7 @@
 		var form = $('#edit_form');
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 
-		$.getJSON(config.ajaxUrl + '/blocks/save?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/save_block?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, data) {
@@ -152,7 +152,7 @@
 		if (data.id === undefined) {
 			return false;
 		}
-		$.post(config.ajaxUrl + '/blocks/update' + '?route=' + config.route, data,
+		$.post(config.ajaxUrl + '/blocks/update_block' + '?route=' + config.route, data,
 			function(resp) {
 				if (editing === true) {
 					undoEditable(resp.title);
@@ -167,7 +167,7 @@
 			return;
 		}
 
-		$.getJSON(config.ajaxUrl + '/blocks/custom', data, function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/handle_custom_action', data, function(resp) {
 			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
 				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
 			}
@@ -175,7 +175,7 @@
 	};
 
 	var setDefaultLayout = function(set) {
-		$.post(config.ajaxUrl + '/blocks/set_default' + '?route=' + ((set === true) ? config.route : ''));
+		$.post(config.ajaxUrl + '/blocks/set_default_route' + '?route=' + ((set === true) ? config.route : ''));
 	};
 
 	var setStartPage = function(info) {
@@ -183,12 +183,12 @@
 	};
 
 	var setRoutePrefs = function(form) {
-		$.post(config.ajaxUrl + '/blocks/layout_settings' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
+		$.post(config.ajaxUrl + '/blocks/set_route_prefs' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
 	};
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(config.ajaxUrl + '/blocks/copy_layout?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
+		$.getJSON(config.ajaxUrl + '/blocks/copy_route?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
 			if (resp.data.length === 0) {
 				return;
 			}
@@ -214,24 +214,24 @@
 	};
 
 	var saveLayout = function() {
-		var blocks = [];
+		var blocks = {};
 		$('.block-position').each(function() {
 			var weight = 0;
 			var pos = $(this).attr('id');
 			$(this).find('.block').each(function(i, e) {
 				var id = $(e).attr('id');
 				if (pos !== undefined && id !== undefined) {
-					blocks.push({
-						'bid': id.substring(6),
+					var bid = id.substring(6);
+					blocks[bid] = {
 						'position': pos.substring(4),
 						'weight': weight
-					});
+					};
 					weight++;
 				}
 			});
 		});
 
-		$.post(config.ajaxUrl + '/blocks/save_layout', {route: config.route, blocks: blocks}, function() {
+		$.post(config.ajaxUrl + '/blocks/save_blocks', {route: config.route, blocks: blocks}, function() {
 			saveBtn.button('disable');
 			updated = false;
 		});

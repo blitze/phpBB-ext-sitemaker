@@ -14,7 +14,7 @@ use blitze\sitemaker\services\blocks\manager;
 
 class blocks_cleanup_test extends \phpbb_database_test_case
 {
-	protected $blocks_manager;
+	protected $block_mapper;
 
 	protected $task_name = 'blitze.sitemaker.cron.blocks_cleanup';
 
@@ -68,7 +68,6 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$table_prefix = 'phpbb_';
 		$blocks_table = $table_prefix . 'sm_blocks';
-		$blocks_config_table = $table_prefix . 'sm_blocks_config';
 		$block_routes_table = $table_prefix . 'sm_block_routes';
 		$custom_blocks_table = $table_prefix . 'sm_cblocks';
 
@@ -85,50 +84,28 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$cache = new \phpbb\cache\service(new \phpbb\cache\driver\null, $config, $db, $phpbb_root_path, $phpEx);
 
-		$template = $this->getMockBuilder('\phpbb\template\template')
+		$blocks_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
+			->disableOriginalConstructor()
 			->getMock();
 
-		$container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
-		$container->expects($this->any())
-			->method('has')
+		$blocks_factory->expects($this->any())
+			->method('get_block')
 			->will($this->returnCallback(function($service_name) {
 				return ($service_name === 'blitze.sitemaker.blocks.stats') ? true : false;
 			}));
 
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			new \phpbb\filesystem(),
-			$request,
-			$phpbb_root_path,
-			$phpEx
+		$tables = array(
+			'mapper_tables'	=> array(
+				'blocks'	=> $blocks_table,
+				'routes'	=> $block_routes_table
+			)
 		);
 
-		$sitemaker_template = new \blitze\sitemaker\services\template(
-			$path_helper,
-			$config,
-			$user,
-			new \phpbb\template\context,
-			new \phpbb_mock_extension_manager($phpbb_root_path)
-		);
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($db, $tables);
 
-		$this->blocks_manager = new manager(
-			$cache,
-			$config,
-			$db,
-			$container,
-			$request,
-			$template,
-			$user,
-			$sitemaker_template,
-			$phpbb_root_path,
-			$phpEx,
-			$blocks_table,
-			$blocks_config_table,
-			$block_routes_table
-		);
-		$this->blocks_manager->set_style(1);
+		$this->block_mapper = $mapper_factory->create('blocks', 'blocks');
+
+		$blocks_manager = new manager($cache, $blocks_factory, $mapper_factory);
 
 		$url = $this->getMockBuilder('\blitze\sitemaker\services\url_checker')
 			->getMock();
@@ -139,7 +116,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 				return (strpos($url, 'index.php') !== false) ? true : false;
 			}));
 
-		$task = new blocks_cleanup($config, $db, $this->blocks_manager, $url, $blocks_table, $custom_blocks_table);
+		$task = new blocks_cleanup($config, $db, $blocks_manager, $url, $blocks_table, $custom_blocks_table);
 
 		// this is normally called automatically in the yaml service config
 		// but we have to do it manually here
@@ -168,16 +145,16 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 		// the task should be ready to run initially
 		$this->assertTrue($task->should_run());
 
-		// We start out with 3 blocks for style_id = 1 (see fixtures)
-		// the other blocks is of style_id = 2 but style does not exist
-		$blocks = $this->blocks_manager->get_blocks('', 'id');
-		$this->assertEquals(3, count($blocks));
+		// We start out with 4 blocks (see fixtures)
+		// 3 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
+		$blocks = $this->block_mapper->find();
+		$this->assertEquals(4, count($blocks));
 
 		// run the task
 		$task->run();
 
-		// After run cron trask, we end up with just 1 block
-		$blocks = $this->blocks_manager->get_blocks('', 'id');
+		// After run cron trask, we should end up with just 1 block
+		$blocks = $this->block_mapper->find();
 		$this->assertEquals(1, count($blocks));
 
 		// after successful run, the task should not be ready to run again until enough time has elapsed

@@ -22,9 +22,6 @@ class display
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -38,28 +35,17 @@ class display
 	protected $user;
 
 	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
-
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
-
-	/** @var string */
-	protected $blocks_table;
-
-	/** @var string */
-	protected $blocks_config_table;
-
-	/** @var string */
-	protected $block_routes_table;
+	protected $util;
 
 	/** @var bool */
 	private $is_subpage;
 
 	/** @var string */
-	private $default_route;
-
-	/** @var string */
 	public $route;
+
+	const SHOW_BLOCK_BOTH = 0;
+	const SHOW_BLOCK_LANDING = 1;
+	const SHOW_BLOCK_SUBPAGE = 2;
 
 	/**
 	 * Constructor
@@ -67,173 +53,60 @@ class display
 	 * @param \phpbb\auth\auth							$auth					Auth object
 	 * @param \phpbb\cache\service						$cache					Cache object
 	 * @param \phpbb\config\config						$config					Config object
-	 * @param \phpbb\db\driver\driver_interface			$db						Database object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\util			$sitemaker				Sitemaker object
-	 * @param \blitze\sitemaker\services\template		$ptemplate				Sitemaker template object
-	 * @param string									$blocks_table			Name of the blocks database table
-	 * @param string									$blocks_config_table	Name of the blocks_config database table
-	 * @param string									$block_routes_table		Name of the block_routes database table
+	 * @param \blitze\sitemaker\services\util			$util					Sitemaker Utility object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate, $blocks_table, $blocks_config_table, $block_routes_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $util)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->db = $db;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->sitemaker = $sitemaker;
-		$this->ptemplate = $ptemplate;
-		$this->blocks_table = $blocks_table;
-		$this->blocks_config_table = $blocks_config_table;
-		$this->block_routes_table = $block_routes_table;
+		$this->util = $util;
 	}
 
 	public function show()
 	{
-		$edit_mode = $this->request->variable($this->config['cookie_name'] . '_sm_edit_mode', false, false, \phpbb\request\request_interface::COOKIE);
-
-		$this->sitemaker->add_assets(array(
-			'css'   => array(
-				$this->sitemaker->asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
-			)
+		$this->util->add_assets(array(
+			'css' => array($this->util->asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css')
 		));
 
 		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));
 
-		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
-		if ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits))
+		if ($this->page_can_have_blocks() === false)
 		{
 			return;
 		}
 
-		if ($this->request->is_set('edit_mode'))
-		{
-			$edit_mode = $this->request->variable('edit_mode', false);
-			$this->user->set_cookie('sm_edit_mode', $edit_mode, 0);
-		}
+		$u_edit_mode = '';
 
+		$edit_mode = $this->get_edit_mode();
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
-		$this->default_route = $this->config['sitemaker_default_layout'];
-		$route_info = $this->get_route_info($route, $style_id, $edit_mode);
+		$display_mode = $this->get_display_modes($edit_mode, $u_edit_mode);
 
-		if ($this->is_subpage === false)
+		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
+		$route_info = $blocks->get_route_info($route, $style_id, $edit_mode);
+
+		// show admin bar
+		if ($edit_mode === true)
 		{
-			$show_block = array(
-				SHOW_BLOCK_BOTH		=> true,
-				SHOW_BLOCK_LANDING	=> true,
-				SHOW_BLOCK_SUBPAGE	=> false,
-			);
-		}
-		else
-		{
-			$show_block = array(
-				SHOW_BLOCK_BOTH		=> true,
-				SHOW_BLOCK_LANDING	=> false,
-				SHOW_BLOCK_SUBPAGE	=> true,
-			);
+			$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->show($route_info);
 		}
 
-		$u_edit_mode = '';
-		if ($this->auth->acl_get('a_manage_blocks'))
-		{
-			if ($edit_mode)
-			{
-				$show_block = array(
-					SHOW_BLOCK_BOTH		=> true,
-					SHOW_BLOCK_LANDING	=> true,
-					SHOW_BLOCK_SUBPAGE	=> true,
-				);
+		// show blocks
+		$blocks->display($edit_mode, $route_info, $style_id, $display_mode);
 
-				$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->set_admin_bar($route_info);
-			}
-
-			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (($edit_mode) ? 0 : 1));
-		}
-		else
-		{
-			$edit_mode = false;
-		}
-
-		$blocks = $this->get_blocks($route_info, $style_id, $edit_mode);
-		$users_groups = $this->get_users_groups();
-		$ex_positions = array_flip($route_info['ex_positions']);
-
-		$blocks_per_position = array();
-		foreach ($blocks as $position => $blocks_ary)
-		{
-			$pos_count_key = 's_' . $position . '_count';
-			$blocks_per_position[$pos_count_key] = 0;
-
-			if ($edit_mode === false && isset($ex_positions[$position]))
-			{
-				continue;
-			}
-
-			$blocks_ary = array_values($blocks_ary);
-			for ($i = 0, $size = sizeof($blocks_ary); $i < $size; $i++)
-			{
-				$row = $blocks_ary[$i];
-				$allowed_groups = explode(',', $row['permission']);
-				$block_service = $row['name'];
-
-				if ($show_block[$row['type']] && $this->phpbb_container->has($block_service) && (!$row['permission'] || sizeof(array_intersect($allowed_groups, $users_groups))))
-				{
-					$b = $this->phpbb_container->get($block_service);
-					$b->set_template($this->ptemplate);
-					$block = $b->display($row, $edit_mode);
-
-					if (empty($block['content']))
-					{
-						if ($edit_mode && isset($block['title']))
-						{
-							$block['content'] = $this->user->lang('BLOCK_NO_DATA');
-						}
-						else
-						{
-							continue;
-						}
-					}
-
-					$data = array_merge($row, array(
-							'TITLE'		=> ($row['title']) ? $row['title'] : $this->user->lang($block['title']),
-							'CONTENT'	=> $block['content'],
-						)
-					);
-					$this->template->assign_block_vars($position, array_change_key_case($data, CASE_UPPER));
-					$blocks_per_position[$pos_count_key]++;
-				}
-			}
-		}
-
-		$this->template->assign_vars(array_merge(array(
-				'S_SITEMAKER'		=> true,
-				'S_HAS_BLOCKS'		=> sizeof($blocks),
-				'U_EDIT_MODE'		=> $u_edit_mode,
-			),
-			array_change_key_case($blocks_per_position, CASE_UPPER))
-		);
-	}
-
-	public function get_style_id()
-	{
-		if ($this->request->is_set('style'))
-		{
-			$style_id = $this->request->variable('style', 0);
-		}
-		else
-		{
-			$style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
-		}
-
-		return $style_id;
+		$this->template->assign_vars(array(
+			'S_SITEMAKER'		=> true,
+			'U_EDIT_MODE'		=> $u_edit_mode,
+		));
 	}
 
 	public function get_route()
@@ -258,172 +131,76 @@ class display
 		return $this->route;
 	}
 
-	public function get_route_info($route, $style_id, $edit_mode = false)
+	protected function page_can_have_blocks()
 	{
-		$default_info = array(
-			'route_id'		=> 0,
-			'route'			=> $route,
-			'style'			=> $style_id,
-			'hide_blocks'	=> false,
-			'ex_positions'	=> array(),
-			'has_blocks'	=> false,
-		);
+		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
+		return ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits)) ? false : true;
+	}
 
-		if (($route_info = $this->cache->get('sitemaker_block_routes')) === false)
+	protected function get_style_id()
+	{
+		if ($this->request->is_set('style'))
 		{
-			$sql = 'SELECT *
-				FROM ' . $this->block_routes_table;
-			$result = $this->db->sql_query($sql);
-
-			$route_info = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$row['ex_positions'] = array_filter(explode(',', $row['ex_positions']));
-				$route_info[$row['style']][$row['route']] = $row;
-			}
-			$this->db->sql_freeresult($result);
-
-			$this->cache->put('sitemaker_block_routes', $route_info);
+			$style_id = $this->request->variable('style', 0);
+		}
+		else
+		{
+			$style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
 		}
 
-		$route_info = (isset($route_info[$style_id][$route])) ? $route_info[$style_id][$route] : (($edit_mode === false && $this->default_route && isset($route_info[$style_id][$this->default_route])) ? $route_info[$style_id][$this->default_route] : $default_info);
-
-		return $route_info;
+		return $style_id;
 	}
 
-	public function clear_blocks_cache()
+	protected function get_edit_mode()
 	{
-		$this->cache->destroy('sitemaker_blocks');
-	}
+		$edit_mode = $this->request->variable($this->config['cookie_name'] . '_sm_edit_mode', false, false, \phpbb\request\request_interface::COOKIE);
 
-	public function get_blocks($route_info, $style_id, $edit_mode)
-	{
-		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
+		if ($this->request->is_set('edit_mode'))
 		{
-			$sql_array = array(
-				'SELECT'	=> 'b.*, r.route_id',
+			$edit_mode = $this->request->variable('edit_mode', false);
+			$this->user->set_cookie('sm_edit_mode', $edit_mode, 0);
+		}
 
-				'FROM'	  => array(
-					$this->blocks_table			=> 'b',
-					$this->block_routes_table	=> 'r',
-				),
+		return $edit_mode;
+	}
 
-				'WHERE'	 => 'b.route_id = r.route_id' .
-					((!$edit_mode) ? ' AND b.status = 1' : ' AND r.style = ' . (int) $style_id),
-
-				'ORDER_BY'  => 'b.style, b.position, b.weight ASC',
+	protected function get_display_modes(&$edit_mode, &$u_edit_mode)
+	{
+		if ($this->is_subpage === false)
+		{
+			$modes = array(
+				self::SHOW_BLOCK_BOTH		=> true,
+				self::SHOW_BLOCK_LANDING	=> true,
+				self::SHOW_BLOCK_SUBPAGE	=> false,
 			);
-
-			$sql = $this->db->sql_build_query('SELECT', $sql_array);
-			$result = $this->db->sql_query($sql);
-
-			$blocks = $block_ids = $block_pos = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$block_ids[] = $row['bid'];
-				$block_pos[$row['style']][$row['route_id']][$row['bid']] = $row['position'];
-				$blocks[$row['style']][$row['route_id']][$row['position']][$row['bid']] = $row;
-				$blocks[$row['style']][$row['route_id']][$row['position']][$row['bid']]['settings'] = array();
-			}
-			$this->db->sql_freeresult($result);
-
-			$db_settings = array();
-			if (sizeof($block_ids))
-			{
-				$sql_where = $this->db->sql_in_set('bid', $block_ids);
-				$db_settings = $this->get_blocks_config($sql_where);
-			}
-
-			foreach ($block_pos as $style => $routes)
-			{
-				foreach ($routes as $route_id => $positions)
-				{
-					foreach ($positions as $bid => $position)
-					{
-						$block_service = $blocks[$style][$route_id][$position][$bid]['name'];
-						$block_config = (isset($db_settings[$bid])) ? $db_settings[$bid] : array();
-
-						if ($this->phpbb_container->has($block_service) === false)
-						{
-							continue;
-						}
-
-						$b = $this->phpbb_container->get($block_service);
-						$b->set_template($this->ptemplate);
-						$df_settings = $b->get_config($block_config);
-
-						if (sizeof($df_settings))
-						{
-							foreach ($df_settings as $key => $settings)
-							{
-								if (!is_array($settings))
-								{
-									continue;
-								}
-
-								$type = explode(':', $settings['type']);
-								$db_settings[$bid][$key] = (isset($db_settings[$bid][$key])) ? $db_settings[$bid][$key] : $settings['default'];
-
-								if ($db_settings[$bid][$key] && ($type[0] == 'checkbox' || $type[0] == 'multi_select'))
-								{
-									$db_settings[$bid][$key] = explode(',', $db_settings[$bid][$key]);
-								}
-								$blocks[$style][$route_id][$position][$bid]['settings'][$key] = $db_settings[$bid][$key];
-							}
-						}
-					}
-				}
-			}
-
-			if (!$edit_mode)
-			{
-				$this->cache->put('sitemaker_blocks', $blocks);
-			}
 		}
-
-		$route_id = $route_info['route_id'];
-		if ($edit_mode === false && !$route_info['has_blocks'])
+		else
 		{
-			$default_route = $this->get_route_info($this->default_route, $style_id, $edit_mode);
-			$route_id = $default_route['route_id'];
+			$modes = array(
+				self::SHOW_BLOCK_BOTH		=> true,
+				self::SHOW_BLOCK_LANDING	=> false,
+				self::SHOW_BLOCK_SUBPAGE	=> true,
+			);
 		}
 
-		$blocks = (isset($blocks[$style_id][$route_id]) && !$route_info['hide_blocks']) ? $blocks[$style_id][$route_id] : array();
-
-		return $blocks;
-	}
-
-	public function get_blocks_config($sql_where = array())
-	{
-		$sql = 'SELECT bid, bvar, bval
-			FROM ' . $this->blocks_config_table.
-			(($sql_where) ? ' WHERE ' . $sql_where : '');
-		$result = $this->db->sql_query($sql);
-
-		$data = array();
-		while ($row = $this->db->sql_fetchrow($result))
+		if ($this->auth->acl_get('a_manage_blocks'))
 		{
-			$data[$row['bid']][$row['bvar']] = $row['bval'];
+			if ($edit_mode)
+			{
+				$modes = array(
+					self::SHOW_BLOCK_BOTH		=> true,
+					self::SHOW_BLOCK_LANDING	=> true,
+					self::SHOW_BLOCK_SUBPAGE	=> true,
+				);
+			}
+
+			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (($edit_mode) ? 0 : 1));
 		}
-		$this->db->sql_freeresult($result);
-
-		return $data;
-	}
-
-	public function get_users_groups()
-	{
-		$sql = 'SELECT group_id
-            FROM ' . USER_GROUP_TABLE . '
-            WHERE user_id = ' . (int) $this->user->data['user_id'];
-		$result = $this->db->sql_query($sql);
-
-		$data = array();
-		while ($row = $this->db->sql_fetchrow($result))
+		else
 		{
-			$data[$row['group_id']] = $row['group_id'];
+			$edit_mode = false;
 		}
-		$this->db->sql_freeresult($result);
 
-		return $data;
+		return $modes;
 	}
 }

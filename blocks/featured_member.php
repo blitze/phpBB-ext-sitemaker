@@ -35,9 +35,6 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var string */
 	protected $php_ext;
 
-	/** @var string */
-	private $blocks_config_table;
-
 	/**
 	 * Constructor
 	 *
@@ -50,7 +47,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string								$php_ext				php file extension
 	 * @param string								$blocks_config_table	Blocks config table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext, $blocks_config_table)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -59,7 +56,6 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-		$this->blocks_config_table = $blocks_config_table;
 
 		if (!function_exists('get_user_rank'))
 		{
@@ -227,18 +223,6 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 				$bdata['settings']['show_cpf'] = (!empty($show_cpf)) ? join(',', $show_cpf) : '';
 				$bdata['settings']['current_user'] = (!empty($current_user)) ? $current_user : 0;
 
-				$sql_ary = array();
-				foreach ($bdata['settings'] as $var => $val)
-				{
-					$sql_ary[] = array(
-						'bid'	=> $bid,
-						'bvar'	=> $var,
-						'bval'	=> $val,
-					);
-				}
-
-				$this->db->sql_query('DELETE FROM ' . $this->blocks_config_table . ' WHERE bid = ' . (int) $bid);
-				$this->db->sql_multi_insert($this->blocks_config_table, $sql_ary);
 				$this->cache->destroy('pt_block_data_' . $bid);
 				unset($userlist);
 			}

@@ -39,35 +39,35 @@
 		<column>name</column>
 		<column>route_id</column>
 		<column>style</column>
+		<column>settings</column>
 		<row>
 			<value>1</value>
 			<value>blitze.sitemaker.blocks.stats</value>
 			<value>1</value>
 			<value>1</value>
+			<value></value>
 		</row>
 		<row>
 			<value>2</value>
 			<value>blitze.sitemaker.blocks.stats</value>
 			<value>2</value>
 			<value>1</value>
+			<value></value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>blitze.sitemaker.blocks.stats</value>
 			<value>3</value>
 			<value>2</value>
+			<value></value>
 		</row>
 		<row>
 			<value>4</value>
 			<value>foo.bar.blocks.noexist</value>
 			<value>1</value>
 			<value>1</value>
+			<value></value>
 		</row>
-	</table>
-	<table name="phpbb_sm_blocks_config">
-		<column>bid</column>
-		<column>bvar</column>
-		<column>bval</column>
 	</table>
 	<table name="phpbb_sm_cblocks">
 		<column>block_id</column>

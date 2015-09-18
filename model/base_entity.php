@@ -1,0 +1,124 @@
+<?php
+/**
+ *
+ * @package primetime
+ * @copyright (c) 2015 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+namespace blitze\sitemaker\model;
+
+abstract class base_entity
+{
+	/**
+     * Class constructor
+     */
+	public function __construct(array $data)
+	{
+		foreach ($data as $name => $value)
+		{
+			$mutator = 'set_' . $name;
+			$this->$mutator($value);
+		}
+	}
+
+	public function __call($name, $args)
+	{
+		if (preg_match('/^(get|set)_(\w+)/', strtolower($name), $match) && $attribute = $this->_attribute_exists($match[2]))
+		{
+			if ('get' == $match[1])
+			{
+				return $this->$attribute;
+			}
+			else
+			{
+				$this->$attribute = $this->_validate_attribute($match[2], $args[0]);
+				return $this;
+			}
+		}
+		else
+		{
+			throw new Exception('Call to undefined method ' . $name . '()');
+		}
+	}
+
+	/**
+     * Get an associative array with the values assigned to the fields of the entity
+     */
+	public function to_array()
+	{
+		$attributes = $this->_get_attributes();
+
+		$data = array();
+		foreach ($attributes as $attribute)
+		{
+			$accessor = 'get_' . $attribute;
+			$data[$attribute] = $this->$accessor();
+		}
+
+		return $data;
+	}
+
+	/**
+     * Get an associative array with the values assigned to the fields of the entity
+     */
+	public function to_db()
+	{
+		$attributes = $this->_get_attributes();
+
+		$db_data = array();
+		foreach ($attributes as $attribute)
+		{
+			$type = $this->_get_property_type($attribute);
+			if (in_array($type, array('boolean', 'integer', 'string')))
+			{
+				$db_data[$attribute] = $this->$attribute;
+			}
+		}
+
+		return $db_data;
+	}
+
+	protected function _get_attributes()
+	{
+		return array_keys(get_class_vars(get_class($this)));
+	}
+
+	protected function _attribute_exists($name)
+	{
+		if (in_array(strtolower($name), $this->_get_attributes()))
+		{
+			return strtolower($name);
+		}
+	}
+
+	protected function _validate_attribute($name, $value)
+	{
+		$type = $this->_get_property_type($name);
+
+		if (in_array($type, array('array','boolean', 'float', 'integer', 'string')))
+		{
+			settype($value, $type);
+			return $value;
+		}
+
+		if (!$type || !$value instanceof $type)
+		{
+			throw new EntityException("Invalid type specified for '$name'.");
+		}
+
+		return $value;
+	}
+
+	protected function _get_property_type($name)
+	{
+		$reflection = new \ReflectionObject($this);
+		$reflectionProperty = $reflection->getProperty($name);
+		$doc = $reflectionProperty->getDocComment();
+
+		preg_match_all('#\/\*\*\s@var\s(.*?)\s\*\/#s', $doc, $annotations);
+
+		return current($annotations[1]);
+	}
+}

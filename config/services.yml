@@ -5,25 +5,56 @@ imports:
 
 services:
 
-    blitze.sitemaker.blocks.admin_bar:
-        class: blitze\sitemaker\services\blocks\admin_bar
+    blitze.sitemaker.auto_lang:
+        class: blitze\sitemaker\services\auto_lang
+        arguments:
+            - @config
+            - @ext.manager
+            - @user
+            - %core.php_ext%
+
+    blitze.sitemaker.blocks:
+        class: blitze\sitemaker\services\blocks
         arguments:
             - @cache
             - @config
             - @dbal.conn
+            - @template
+            - @user
+            - @blitze.sitemaker.blocks.factory
+            - @blitze.sitemaker.mapper.factory
+
+    blitze.sitemaker.blocks.action_handler:
+        class: blitze\sitemaker\services\blocks\action_handler
+        arguments:
+            - @config
+            - @service_container
+            - @request
+            - @user
+            - @blitze.sitemaker.blocks
+            - @blitze.sitemaker.blocks.factory
+            - @blitze.sitemaker.mapper.factory
+
+    blitze.sitemaker.blocks.admin_bar:
+        class: blitze\sitemaker\services\blocks\admin_bar
+        arguments:
+            - @config
             - @service_container
             - @template
             - @user
             - @blitze.sitemaker.icon_picker
             - @blitze.sitemaker.util
             - %core.php_ext%
-            - %tables.sitemaker.blocks%
-            - %tables.sitemaker.block_routes%
 
     blitze.sitemaker.blocks.cfg_fields:
         class: blitze\sitemaker\services\blocks\cfg_fields
         arguments:
+            - @dbal.conn
+            - @request
+            - @template
             - @user
+            - %core.root_path%
+            - %core.php_ext%
 
     blitze.sitemaker.blocks.display:
         class: blitze\sitemaker\services\blocks\display
@@ -31,16 +62,11 @@ services:
             - @auth
             - @cache
             - @config
-            - @dbal.conn
             - @service_container
             - @request
             - @template
             - @user
             - @blitze.sitemaker.util
-            - @blitze.sitemaker.template
-            - %tables.sitemaker.blocks%
-            - %tables.sitemaker.blocks_config%
-            - %tables.sitemaker.block_routes%
 
     blitze.sitemaker.block_collection:
         class: phpbb\di\service_collection
@@ -52,24 +78,16 @@ services:
     blitze.sitemaker.blocks.factory:
         class: blitze\sitemaker\services\blocks\factory
         arguments:
+            - @user
+            - @blitze.sitemaker.template
             - @blitze.sitemaker.block_collection
 
     blitze.sitemaker.blocks.manager:
         class: blitze\sitemaker\services\blocks\manager
         arguments:
             - @cache
-            - @config
-            - @dbal.conn
-            - @service_container
-            - @request
-            - @template
-            - @user
-            - @blitze.sitemaker.template
-            - %core.root_path%
-            - %core.php_ext%
-            - %tables.sitemaker.blocks%
-            - %tables.sitemaker.blocks_config%
-            - %tables.sitemaker.block_routes%
+            - @blitze.sitemaker.blocks.factory
+            - @blitze.sitemaker.mapper.factory
 
     blitze.sitemaker.cron.blocks_cleanup:
         class: blitze\sitemaker\cron\blocks_cleanup
@@ -129,6 +147,14 @@ services:
             - %core.php_ext%
         tags:
             - { name: event.listener }
+
+    blitze.sitemaker.mapper.factory:
+        class: blitze\sitemaker\model\mapper_factory
+        arguments:
+            - @dbal.conn
+            - mappers:
+                blocks: %tables.sitemaker.blocks%
+                routes: %tables.sitemaker.block_routes%
 
     blitze.sitemaker.members:
         class: blitze\sitemaker\services\members

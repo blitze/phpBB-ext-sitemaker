@@ -100,11 +100,6 @@ class listener implements EventSubscriberInterface
 		define('FORUMS_ORDER_LAST_POST', 1);
 		define('FORUMS_ORDER_LAST_READ', 2);
 
-		// Define block views
-		define('SHOW_BLOCK_BOTH', 0);
-		define('SHOW_BLOCK_LANDING', 1);
-		define('SHOW_BLOCK_SUBPAGE', 2);
-
 		define('JQUI_VERSION', '1.11.4');
 
 		$lang_set_ext = $event['lang_set_ext'];

@@ -228,6 +228,8 @@ class util_test extends \phpbb_test_case
 	 */
 	public function get_date_range_test_data()
 	{
+		$week_start = (gmdate('D') !== 'Sun') ? strtotime('last sunday') : time();
+
 		return array(
 			array(
 				'',
@@ -240,17 +242,17 @@ class util_test extends \phpbb_test_case
 			array(
 				'today',
 				array(
-					'start'	=> gmdate('Y-m-d', time()) . ' 00:00',
-					'stop'	=> gmdate('Y-m-d', time()) . ' 23:59',
-					'date'	=> gmdate('Y-m-d', time()),
+					'start'	=> gmdate('Y-m-d') . ' 00:00',
+					'stop'	=> gmdate('Y-m-d') . ' 23:59',
+					'date'	=> gmdate('Y-m-d'),
 				),
 			),
 			array(
 				'week',
 				array(
-					'start'	=> gmdate('Y-m-d', strtotime('last sunday')) . ' 00:00',
-					'stop'	=> gmdate('Y-m-d', strtotime('last sunday') + 518400) . ' 23:59',
-					'date'	=> gmdate('Y-m-d', strtotime('last sunday')),
+					'start'	=> gmdate('Y-m-d', $week_start) . ' 00:00',
+					'stop'	=> gmdate('Y-m-d', $week_start + 518400) . ' 23:59',
+					'date'	=> gmdate('Y-m-d', $week_start),
 				),
 			),
 			array(

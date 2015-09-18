@@ -11,6 +11,18 @@ blitze_sitemaker_menu_admin:
         item_id: \d+
         _format: json
 
+blitze_sitemaker_filemanager:
+    path: /filemanager
+    defaults: { _controller: blitze.sitemaker.filemanager.controller:handle }
+
+blitze_sitemaker_filemanager_get:
+    path: /filemanager/connection
+    defaults: { _controller: blitze.sitemaker.filemanager.controller:get }
+
+blitze_sitemaker_filemanager_post:
+    path: /filemanager/connection
+    defaults: { _controller: blitze.sitemaker.filemanager.controller:post }
+
 blitze_sitemaker_forum:
     path: /forum
     defaults: { _controller: blitze.sitemaker.forum.controller:handle }

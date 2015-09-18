@@ -4,10 +4,9 @@ services:
         class: blitze\sitemaker\controller\blocks_admin
         arguments:
             - @auth
-            - @config
             - @request
             - @user
-            - @blitze.sitemaker.blocks.manager
+            - @blitze.sitemaker.blocks.action_handler
 
     blitze.sitemaker.forum.controller:
         class: blitze\sitemaker\controller\forum

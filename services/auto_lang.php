@@ -7,17 +7,15 @@
  *
  */
 
-namespace blitze\sitemaker\services\blocks;
+namespace blitze\sitemaker\services;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-abstract class base
+class auto_lang
 {
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var ContainerInterface */
-	protected $phpbb_container;
+	/** @var \phpbb\extension\manager */
+	protected $ext_manager;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -28,27 +26,27 @@ abstract class base
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config						$config					Config object
-	 * @param ContainerInterface						$phpbb_container		Service container
-	 * @param \phpbb\user								$user					User object
-	 * @param string									$php_ext				phpEx
+	 * @param \phpbb\config\config				$config				Config object
+	 * @param ContainerInterface				$ext_manager		Extension manager object
+	 * @param \phpbb\user						$user				User object
+	 * @param string							$php_ext			phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\user $user, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\extension\manager $ext_manager, \phpbb\user $user, $php_ext)
 	{
 		$this->config = $config;
-		$this->phpbb_container = $phpbb_container;
+		$this->ext_manager = $ext_manager;
 		$this->user = $user;
 		$this->php_ext = $php_ext;
 	}
 
 	/**
-	 * Add blocks_admin language file
+	 * Auto add the specified language file from across all extensions
 	 *
 	 * This is a modified copy of the add_mod_info in functions_module.php
 	 */
-	protected function add_block_admin_lang()
+	public function add($lang_file)
 	{
-		$finder = $this->phpbb_container->get('ext.manager')->get_finder();
+		$finder = $this->ext_manager->get_finder();
 
 		// We grab the language files from the default, English and user's language.
 		// So we can fall back to the other files like we do when using add_lang()
@@ -58,7 +56,7 @@ abstract class base
 		if ($this->config['default_lang'] != $this->user->lang_name)
 		{
 			$default_lang_files = $finder
-				->prefix('blocks_admin')
+				->prefix($lang_file)
 				->suffix(".$this->php_ext")
 				->extension_directory('/language/' . basename($this->config['default_lang']))
 				->core_path('language/' . basename($this->config['default_lang']) . '/')
@@ -69,7 +67,7 @@ abstract class base
 		if ($this->config['default_lang'] != 'en' && $this->user->lang_name != 'en')
 		{
 			$english_lang_files = $finder
-				->prefix('blocks_admin')
+				->prefix($lang_file)
 				->suffix(".$this->php_ext")
 				->extension_directory('/language/en')
 				->core_path('language/en/')
@@ -78,7 +76,7 @@ abstract class base
 
 		// Find files in the user's language
 		$user_lang_files = $finder
-			->prefix('blocks_admin')
+			->prefix($lang_file)
 			->suffix(".$this->php_ext")
 			->extension_directory('/language/' . $this->user->lang_name)
 			->core_path('language/' . $this->user->lang_name . '/')

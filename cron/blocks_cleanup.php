@@ -91,7 +91,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	private function clean_styles()
 	{
-		$routes_ary	= $this->manager->get_all_routes();
+		$routes_ary	= $this->manager->get_routes_per_style();
 		$style_ids	= $this->get_style_ids();
 
 		$routes = array();
@@ -125,7 +125,6 @@ class blocks_cleanup extends \phpbb\cron\task\base
 			// Route no longer exists => remove all blocks for route
 			if ($this->url_checker->exists($url) !== true)
 			{
-				$this->manager->set_style($row['style']);
 				$this->manager->delete_blocks_by_route($route);
 			}
 		}
@@ -136,24 +135,16 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	private function clean_blocks()
 	{
-		$sql = $this->db->sql_build_query('SELECT', array(
-			'SELECT'	=> 'b.name',
-			'FROM'		=> array(
-				$this->blocks_table    => 'b',
-			),
-			'GROUP_BY'	=> 'b.name'
-		));
-		$result = $this->db->sql_query($sql);
+		$block_names = $this->manager->get_unique_block_names();
 
 		$blocks = array();
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($block_names as $block_name)
 		{
-			if (!$this->manager->block_exists($row['name']))
+			if (!$this->manager->block_exists($block_name))
 			{
-				$blocks[] = $row['name'];
+				$blocks[] = $block_name;
 			}
 		}
-		$this->db->sql_freeresult($result);
 
 		if (sizeof($blocks))
 		{

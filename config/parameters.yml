@@ -1,6 +1,5 @@
 parameters:
     tables.sitemaker.blocks: %core.table_prefix%sm_blocks
-    tables.sitemaker.blocks_config: %core.table_prefix%sm_blocks_config
     tables.sitemaker.block_routes: %core.table_prefix%sm_block_routes
     tables.sitemaker.cblocks: %core.table_prefix%sm_cblocks
     tables.sitemaker.menu: %core.table_prefix%sm_menus

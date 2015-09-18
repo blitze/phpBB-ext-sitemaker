@@ -17,21 +17,40 @@ class factory
 	/**
 	 * Constructor
 	 */
-	public function __construct($blocks)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, $blocks)
 	{
-		$this->load_blocks($blocks);
+		$this->user = $user;
+		$this->ptemplate = $ptemplate;
+
+		$this->register_blocks($blocks);
 	}
 
 	/**
-	 * Load available blocks
+	 * Register available blocks
 	 */
-	public function load_blocks($blocks)
+	public function register_blocks($blocks)
 	{
 		$this->blocks = array();
 		foreach ($blocks as $service => $driver)
 		{
-			$this->blocks[$service] = $driver->get_name();
+			$this->blocks[$service] = $driver;
 		}
+	}
+
+	/**
+	 * Get block instance
+	 */
+	public function get_block($service_name)
+	{
+		if (!isset($this->blocks[$service_name]))
+		{
+			return null;
+		}
+
+		$block = $this->blocks[$service_name];
+		$block->set_template($this->ptemplate);
+
+		return $block;
 	}
 
 	/**
@@ -39,6 +58,15 @@ class factory
 	 */
 	public function get_all_blocks()
 	{
-		return $this->blocks;
+		$blocks = array();
+		foreach ($this->blocks as $service => $driver)
+		{
+			$lname = strtoupper(str_replace('.', '_', $driver->get_name()));
+			$blocks[$service] = $this->user->lang($lname);
+		}
+
+		asort($blocks);
+
+		return $blocks;
 	}
 }

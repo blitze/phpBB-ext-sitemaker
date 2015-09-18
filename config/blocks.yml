@@ -10,7 +10,7 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.blocks.custom:
+    blitze.sitemaker.block.custom:
         class: blitze\sitemaker\blocks\custom
         arguments:
             - @cache
@@ -33,7 +33,6 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
-            - %tables.sitemaker.blocks_config%
         calls:
             - [set_name, [blitze.sitemaker.block.featured_member]]
         tags:
@@ -99,7 +98,7 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.block.members:
+    blitze.sitemaker.blocks.members:
         class: blitze\sitemaker\blocks\members
         arguments:
             - @user
@@ -135,7 +134,7 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.blocks.stats:
+    blitze.sitemaker.block.stats:
         class: blitze\sitemaker\blocks\stats
         arguments:
             - @config
@@ -157,7 +156,7 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.blocks.whois:
+    blitze.sitemaker.block.whois:
         class: blitze\sitemaker\blocks\whois
         arguments:
             - @auth
@@ -171,7 +170,7 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.blocks.wordgraph:
+    blitze.sitemaker.block.wordgraph:
         class: blitze\sitemaker\blocks\wordgraph
         arguments:
             - @auth
