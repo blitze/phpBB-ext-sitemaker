@@ -17,7 +17,7 @@ class factory
 	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
 
-	/** @var \phpbb\di\service_collection */
+	/** @var array */
 	private $blocks;
 
 	/**
@@ -25,9 +25,9 @@ class factory
 	 *
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Template Object
-	 * @param \phpbb\di\service_collection			$blocks				Service Collection
+	 * @param array									$blocks				Service Collection
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, \phpbb\di\service_collection $blocks)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, array $blocks)
 	{
 		$this->user = $user;
 		$this->ptemplate = $ptemplate;
