@@ -12,8 +12,8 @@ namespace blitze\sitemaker\model;
 abstract class base_entity
 {
 	/**
-     * Class constructor
-     */
+	 * Class constructor
+	 */
 	public function __construct(array $data)
 	{
 		foreach ($data as $name => $value)
@@ -44,8 +44,8 @@ abstract class base_entity
 	}
 
 	/**
-     * Get an associative array with the values assigned to the fields of the entity
-     */
+	 * Get an associative array with the values assigned to the fields of the entity
+	 */
 	public function to_array()
 	{
 		$attributes = $this->_get_attributes();
@@ -61,8 +61,8 @@ abstract class base_entity
 	}
 
 	/**
-     * Get an associative array with the values assigned to the fields of the entity
-     */
+	 * Get an associative array with the values assigned to the fields of the entity
+	 */
 	public function to_db()
 	{
 		$attributes = $this->_get_attributes();

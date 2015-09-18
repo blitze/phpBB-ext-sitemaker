@@ -18,11 +18,11 @@ class mapper_factory
 	protected $mapper_tables;
 
 	/**
-     * Constructor
-     *
-     * @param \phpbb\db\driver\driver_interface		$db			Database object
-     * @param array									$tables		Tables for data mapping
-     */
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface		$db			Database object
+	 * @param array									$tables		Tables for data mapping
+	 */
 	public function  __construct(\phpbb\db\driver\driver_interface $db, array $tables)
 	{
 		$this->db = $db;

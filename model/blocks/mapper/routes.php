@@ -16,7 +16,7 @@ class routes extends model\base_mapper
 	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
 	protected $block_mapper;
 
-    protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\route';
+	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\route';
 	protected $_entity_pkey = 'route_id';
 
 	public function load(array $condition = array())

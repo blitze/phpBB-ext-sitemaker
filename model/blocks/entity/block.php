@@ -62,8 +62,8 @@ final class block extends model\base_entity
 	protected $settings = '';
 
 	/**
-     * Set block ID
-     */
+	 * Set block ID
+	 */
 	public function set_bid($bid)
 	{
 		if (!$this->bid)
@@ -74,8 +74,8 @@ final class block extends model\base_entity
 	}
 
 	/**
-     * Set css class
-     */
+	 * Set css class
+	 */
 	public function set_class($class)
 	{
 		$this->class = ($class) ? ' ' . $class : '';
@@ -83,8 +83,8 @@ final class block extends model\base_entity
 	}
 
 	/**
-     * Set permissions
-     */
+	 * Set permissions
+	 */
 	public function set_permission($permission)
 	{
 		$this->permission = is_array($permission) ? join(',', array_filter($permission)) : $permission;
@@ -92,16 +92,16 @@ final class block extends model\base_entity
 	}
 
 	/**
-     * Get permissions
-     */
+	 * Get permissions
+	 */
 	public function get_permission()
 	{
 		return array_filter(explode(',', $this->permission));
 	}
 
 	/**
-     * Set settings
-     */
+	 * Set settings
+	 */
 	public function set_settings($settings)
 	{
 		$this->settings = is_array($settings) ? serialize($settings) : $settings;
@@ -109,8 +109,8 @@ final class block extends model\base_entity
 	}
 
 	/**
-     * Get settings
-     */
+	 * Get settings
+	 */
 	public function get_settings()
 	{
 		return unserialize(stripslashes($this->settings));

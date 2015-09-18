@@ -27,13 +27,13 @@ abstract class base_mapper implements mapper_interface
 	protected $_entity_class;
 
 	/**
-     * Constructor
-     *
-     * @param \phpbb\db\driver\driver_interface				$db					Database object
-     * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
-     * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
-     * @param array											$options			Options
-     */
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface				$db					Database object
+	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
+	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
+	 * @param array
+	 */
 	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options = array())
 	{
 		$this->db = $db;
@@ -52,16 +52,16 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Get the collection
-     */
+	 * Get the collection
+	 */
 	public function get_collection()
 	{
 		return $this->_collection;
 	}
 
 	/**
-     * Set the entity table
-     */
+	 * Set the entity table
+	 */
 	public function set_entity_table($entity_table)
 	{
 		if (!is_string($entity_table) || empty($entity_table))
@@ -73,16 +73,16 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Get the entity table
-     */
+	 * Get the entity table
+	 */
 	public function get_entity_table()
 	{
 		return $this->_entity_table;
 	}
 
 	/**
-     * Set the entity class
-     */
+	 * Set the entity class
+	 */
 	public function set_entity_class($entity_class)
 	{
 		if (!class_exists($entity_class))
@@ -94,16 +94,16 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Get the entity class
-     */
+	 * Get the entity class
+	 */
 	public function get_entity_class()
 	{
 		return $this->_entity_class;
 	}
 
 	/**
-     * Find a single entity
-     */
+	 * Find a single entity
+	 */
 	public function load(array $condition = array())
 	{
 		$sql_where = $this->_get_condition($condition);
@@ -119,8 +119,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Find all the entities
-     */
+	 * Find all the entities
+	 */
 	public function find(array $condition = array())
 	{
 		$sql_where = $this->_get_condition($condition);
@@ -137,8 +137,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Save the block entity
-     */
+	 * Save the block entity
+	 */
 	public function save($entity)
 	{
 		$accessor = 'get_' . $this->_entity_pkey;
@@ -155,8 +155,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Delete from the database
-     */
+	 * Delete from the database
+	 */
 	public function delete($condition)
 	{
 		if ($condition instanceof $this->_entity_class)
@@ -170,8 +170,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Insert a new row in the table corresponding to the specified entity
-     */
+	 * Insert a new row in the table corresponding to the specified entity
+	 */
 	protected function _insert($entity)
 	{
 		if ($entity instanceof $this->_entity_class)
@@ -187,8 +187,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-     * Update the row in the table corresponding to the specified entity
-     */
+	 * Update the row in the table corresponding to the specified entity
+	 */
 	protected function _update($entity)
 	{
 		if ($entity instanceof $this->_entity_class)
@@ -226,14 +226,14 @@ abstract class base_mapper implements mapper_interface
 			switch (gettype($value))
 			{
 				case 'array':
-					$sql_where[] = $this->db->sql_in_set($field, $value);
+				$sql_where[] = $this->db->sql_in_set($field, $value);
 				break;
 				case 'string':
-					$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
+				$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
 				break;
 				case 'boolean':
 				case 'integer':
-					$sql_where[] = $field . ' = ' . (int) $value;
+				$sql_where[] = $field . ' = ' . (int) $value;
 				break;
 			}
 		}

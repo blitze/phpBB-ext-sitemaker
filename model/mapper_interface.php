@@ -11,11 +11,11 @@ namespace blitze\sitemaker\model;
 
 interface mapper_interface
 {
-    public function load(array $condition = array());
+	public function load(array $condition = array());
 
-    public function find(array $condition = array());
+	public function find(array $condition = array());
 
-    public function save($entity);
+	public function save($entity);
 
-    public function delete($condition);
+	public function delete($condition);
 }

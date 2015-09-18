@@ -15,8 +15,8 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	protected $_entity_class;
 
 	/**
-     * Constructor
-     */
+	 * Constructor
+	 */
 	public function  __construct(array $entities = array())
 	{
 		if (!empty($entities))
@@ -27,72 +27,72 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	}
 
 	/**
-     * Get the entities stored in the collection
-     */
+	 * Get the entities stored in the collection
+	 */
 	public function get_entities()
 	{
 		return $this->_entities;
 	}
 
 	/**
-     * Clear the collection
-     */
+	 * Clear the collection
+	 */
 	public function clear()
 	{
 		$this->_entities = array();
 	}
 
 	/**
-     * Reset the collection (implementation required by Iterator Interface)
-     */
+	 * Reset the collection (implementation required by Iterator Interface)
+	 */
 	public function rewind()
 	{
 		reset($this->_entities);
 	}
 
 	/**
-     * Get the current entity in the collection (implementation required by Iterator Interface)
-     */
+	 * Get the current entity in the collection (implementation required by Iterator Interface)
+	 */
 	public function current()
 	{
 		return current($this->_entities);
 	}
 
 	/**
-     * Move to the next entity in the collection (implementation required by Iterator Interface)
-     */
+	 * Move to the next entity in the collection (implementation required by Iterator Interface)
+	 */
 	public function next()
 	{
 		next($this->_entities);
 	}
 
 	/**
-     * Get the key of the current entity in the collection (implementation required by Iterator Interface)
-     */
+	 * Get the key of the current entity in the collection (implementation required by Iterator Interface)
+	 */
 	public function key()
 	{
 		return key($this->_entities);
 	}
 
 	/**
-     * Check if there’re more entities in the collection (implementation required by Iterator Interface)
-     */
+	 * Check if there’re more entities in the collection (implementation required by Iterator Interface)
+	 */
 	public function valid()
 	{
 		return ($this->current() !== false);
 	}
 
 	/**
-     * Count the number of entities in the collection (implementation required by Countable Interface)
-     */
+	 * Count the number of entities in the collection (implementation required by Countable Interface)
+	 */
 	public function count()
 	{
 		return count($this->_entities);
 	}
 
 	/**
-     * Add an entity to the collection (implementation required by ArrayAccess interface)
-     */
+	 * Add an entity to the collection (implementation required by ArrayAccess interface)
+	 */
 	public function offsetSet($key, $entity)
 	{
 		if ($entity instanceof $this->_entity_class)
@@ -111,8 +111,8 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	}
 
 	/**
-     * Remove an entity from the collection (implementation required by ArrayAccess interface)
-     */
+	 * Remove an entity from the collection (implementation required by ArrayAccess interface)
+	 */
 	public function offsetUnset($key)
 	{
 		if ($key instanceof $this->_entity_class)
@@ -136,16 +136,16 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	}
 
 	/**
-     * Get the specified entity in the collection (implementation required by ArrayAccess interface)
-     */
+	 * Get the specified entity in the collection (implementation required by ArrayAccess interface)
+	 */
 	public function offsetGet($key)
 	{
 		return isset($this->_entities[$key]) ? $this->_entities[$key] : null;
 	}
 
 	/**
-     * Check if the specified entity exists in the collection (implementation required by ArrayAccess interface)
-     */
+	 * Check if the specified entity exists in the collection (implementation required by ArrayAccess interface)
+	 */
 	public function offsetExists($key)
 	{
 		return isset($this->_entities[$key]);

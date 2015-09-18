@@ -38,8 +38,8 @@ final class route extends model\base_entity
 	protected $blocks = array();
 
 	/**
-     * Set route ID
-     */
+	 * Set route ID
+	 */
 	public function set_route_id($route_id)
 	{
 		if (!$this->route_id)
@@ -50,8 +50,8 @@ final class route extends model\base_entity
 	}
 
 	/**
-     * Set excluded positions
-     */
+	 * Set excluded positions
+	 */
 	public function set_ex_positions($ex_positions)
 	{
 		$this->ex_positions = is_array($ex_positions) ? join(',', array_filter($ex_positions)) : $ex_positions;
@@ -59,8 +59,8 @@ final class route extends model\base_entity
 	}
 
 	/**
-     * Get excluded positions
-     */
+	 * Get excluded positions
+	 */
 	public function get_ex_positions()
 	{
 		return array_filter(explode(',', $this->ex_positions));
