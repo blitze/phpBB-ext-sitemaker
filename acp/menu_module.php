@@ -49,7 +49,7 @@ class menu_module
 
 	public function __construct()
 	{
-		global $db, $phpbb_container, $request, $template, $phpbb_root_path;
+		global $db, $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
 
 		$this->db = $db;
 		$this->request = $request;
