@@ -131,8 +131,8 @@ class blocks
 	public function get_users_groups()
 	{
 		$sql = 'SELECT group_id
-            FROM ' . USER_GROUP_TABLE . '
-            WHERE user_id = ' . (int) $this->user->data['user_id'];
+			FROM ' . USER_GROUP_TABLE . '
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result = $this->db->sql_query($sql);
 
 		$groups = array();

@@ -11,6 +11,20 @@ namespace blitze\sitemaker\model\blocks\entity;
 
 use blitze\sitemaker\model as model;
 
+/**
+ * @method object set_ext_name($ext_name)
+ * @method string get_ext_name()
+ * @method object set_route($route)
+ * @method string get_route()
+ * @method object set_style($style)
+ * @method integer get_style()
+ * @method object set_hide_blocks($hide_blocks)
+ * @method boolean get_hide_blocks()
+ * @method object set_has_blocks($has_blocks)
+ * @method boolean get_has_blocks()
+ * @method object set_blocks(\blitze\sitemaker\model\blocks\collections\blocks $blocks)
+ * @method \blitze\sitemaker\model\blocks\collections\blocks get_blocks()
+ */
 final class route extends model\base_entity
 {
 	/** @var integer */

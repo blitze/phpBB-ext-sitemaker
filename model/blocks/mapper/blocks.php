@@ -13,7 +13,10 @@ use blitze\sitemaker\model as model;
 
 class blocks extends model\base_mapper
 {
+	/** @var string */
 	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\block';
+
+	/** @var string */
 	protected $_entity_pkey = 'bid';
 
 	protected function _find_sql(array $sql_where)

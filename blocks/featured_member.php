@@ -45,7 +45,6 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\user							$user					User object
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
-	 * @param string								$blocks_config_table	Blocks config table
 	 */
 	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{

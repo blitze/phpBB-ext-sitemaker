@@ -103,7 +103,7 @@ abstract class base_entity
 			return $value;
 		}
 
-		if (!$type || !$value instanceof $type)
+		if ($type === false || !$value instanceof $type)
 		{
 			throw new EntityException("Invalid type specified for '$name'.");
 		}

@@ -27,13 +27,13 @@ class dashboard_module
 	protected $sitemaker;
 
 	/** @var string */
-	var $tpl_name;
+	protected $tpl_name;
 
 	/** @var string */
-	var $page_title;
+	protected $page_title;
 
 	/** @var string */
-	var $u_action;
+	protected $u_action;
 
 	public function __construct()
 	{
@@ -50,7 +50,7 @@ class dashboard_module
 	{
 		$asset_path = $this->sitemaker->asset_path;
 		$this->sitemaker->add_assets(array(
-			'js'        => array(
+			'js'	=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jquery-knob/js/jquery.knob.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js',

@@ -26,6 +26,9 @@ abstract class base_mapper implements mapper_interface
 	/** @var string */
 	protected $_entity_class;
 
+	/** @var string */
+	protected $_entity_pkey;
+
 	/**
 	 * Constructor
 	 *

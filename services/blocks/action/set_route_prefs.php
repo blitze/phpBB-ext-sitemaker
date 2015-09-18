@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class set_route_prefs extends base_action
 {
+	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
+	protected $route_mapper;
+
 	public function execute($style_id)
 	{
 		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');

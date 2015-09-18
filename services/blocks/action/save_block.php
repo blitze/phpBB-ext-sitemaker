@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class save_block extends base_action
 {
+	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	protected $block_mapper;
+
 	public function execute($style_id)
 	{
 		$block_id = $this->request->variable('id', 0);
@@ -50,7 +53,6 @@ class save_block extends base_action
 		$updated_blocks = array();
 		$updated_blocks[$entity->get_bid()] = $this->render_block($entity);
 
-		$similar_blocks = array();
 		if ($update_similar && $new_hash !== $old_hash)
 		{
 			$updated_blocks += $this->_update_similar($old_hash, $new_hash, $submitted_settings);

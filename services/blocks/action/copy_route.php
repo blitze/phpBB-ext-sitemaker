@@ -11,6 +11,12 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class copy_route extends base_action
 {
+	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	protected $block_mapper;
+
+	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
+	protected $route_mapper;
+
 	public function execute($style_id)
 	{
 		$route	= $this->request->variable('route', '');

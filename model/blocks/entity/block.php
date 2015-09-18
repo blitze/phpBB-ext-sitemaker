@@ -11,6 +11,33 @@ namespace blitze\sitemaker\model\blocks\entity;
 
 use blitze\sitemaker\model as model;
 
+
+/**
+ * @method object set_icon($icon)
+ * @method string get_icon()
+ * @method object set_name($name)
+ * @method string get_name()
+ * @method object set_title($title)
+ * @method string get_title()
+ * @method object set_route_id(integer $route_id)
+ * @method integer get_route_id()
+ * @method object set_position($position)
+ * @method string get_position()
+ * @method object set_weight(integer $weight)
+ * @method integer get_weight()
+ * @method object set_style(integer $style)
+ * @method integer get_style()
+ * @method object set_status(boolean $status)
+ * @method boolean get_status()
+ * @method object set_type(integer $type)
+ * @method integer get_type()
+ * @method object set_no_wrap(boolean $no_wrap)
+ * @method boolean get_no_wrap()
+ * @method object set_hide_title(boolean $hide_title)
+ * @method boolean get_hide_title()
+ * @method object set_hash($hash)
+ * @method string get_hash()
+ */
 final class block extends model\base_entity
 {
 	/** @var integer */

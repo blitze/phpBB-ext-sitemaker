@@ -39,18 +39,17 @@ class menu_module
 	protected $php_ext;
 
 	/** @var string */
-	var $tpl_name;
+	protected $tpl_name;
 
 	/** @var string */
-	var $page_title;
+	protected $page_title;
 
 	/** @var string */
-	var $u_action;
+	protected $u_action;
 
 	public function __construct()
 	{
-		global $db, $phpbb_container, $request, $template;
-		global $phpbb_root_path, $phpEx;
+		global $db, $phpbb_container, $request, $template, $phpbb_root_path;
 
 		$this->db = $db;
 		$this->request = $request;
