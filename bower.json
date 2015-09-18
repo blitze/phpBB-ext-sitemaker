@@ -9,8 +9,8 @@
     "jquery.wheel": "*",
     "twig.js": "~0.8.2",
     "jquery.sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
-    "nestedSortable2": "*",
     "jqueryui-touch-punch": "*",
+    "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git",
     "toast-grid": "https://github.com/daneden/Toast.git#master"
   },
   "overrides": {
@@ -18,11 +18,11 @@
       "dependencies": null
     },
     "fontawesome": {
-		"main": [
-            "./css/font-awesome.css",
-            "./fonts/*"
-        ]
-	},
+      "main": [
+        "./css/font-awesome.css",
+        "./fonts/*"
+      ]
+    },
     "jquery-knob": {
       "dependencies": null
     },
@@ -32,8 +32,8 @@
     "jquery.wheel": {
       "dependencies": null
     },
-    "nestedSortable2": {
-      "main": "jquery.ui.nestedSortable.js"
+    "nestedSortable": {
+      "main": "jquery.mjs.nestedSortable.js"
     },
     "twig.js": {
       "main": [
