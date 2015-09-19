@@ -25,6 +25,9 @@ class blocks_admin
 	/** @var \blitze\sitemaker\services\blocks\action_handler */
 	protected $action_handler;
 
+	/** @var boolean */
+	protected $return_url;
+
 	/**
 	 * Constructor
 	 *
@@ -33,12 +36,13 @@ class blocks_admin
 	 * @param \phpbb\user										$user				User object
 	 * @param \blitze\sitemaker\services\blocks\action_handler	$action_handler		Handles block actions
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\action_handler $action_handler)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
 	{
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->user = $user;
 		$this->action_handler = $action_handler;
+		$this->return_url = $return_url;
 	}
 
 	public function handle($action)
@@ -58,7 +62,7 @@ class blocks_admin
 		{
 			if ($this->request->is_ajax() === false)
 			{
-				trigger_error('NOT_AUTHORISED');
+				redirect(generate_board_url(), $this->return_url);
 			}
 
 			$json_data['message'] = $this->user->lang('NOT_AUTHORISED');
