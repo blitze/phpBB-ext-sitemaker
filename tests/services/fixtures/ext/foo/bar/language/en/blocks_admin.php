@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Primetime [English]
+* @package sitemaker [English]
 * @copyright (c) 2012 Daniel A. (blitze)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
@@ -18,5 +18,5 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'FOO_BAR_BLOCK_NAME'	=> 'Bonjour',
+	'FOO_BAR_BLOCK_NAME'	=> 'Foo Foo',
 ));

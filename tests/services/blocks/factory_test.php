@@ -11,8 +11,8 @@ namespace blitze\sitemaker\tests\services\blocks;
 
 use blitze\sitemaker\services\blocks\factory;
 
-require_once dirname(__FILE__) . '/ext/foo/bar/blocks/foo_block.php';
-require_once dirname(__FILE__) . '/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
 
 class factory_test extends \phpbb_test_case
 {
@@ -33,12 +33,19 @@ class factory_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
+		global $phpbb_container;
+
 		parent::setUp();
 
-		$this->blocks = array(
-			'my.foo.block'	=> new \foo\bar\blocks\foo_block(),
-			'my.baz.block'	=> new \foo\bar\blocks\baz_block(),
-		);
+		$phpbb_container = new \phpbb_mock_container_builder();
+
+		$this->blocks = new \phpbb\di\service_collection($phpbb_container);
+
+		$this->blocks->add('my.foo.block');
+		$this->blocks->add('my.baz.block');
+
+		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
+		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 
 		$this->user = new \phpbb\user('\phpbb\datetime');
 
@@ -50,12 +57,9 @@ class factory_test extends \phpbb_test_case
 	/**
 	 * Test the constructor
 	 */
-	public function test_constructor_calls_load_blocks()
+	public function test_constructor_calls_register_blocks()
 	{
 		$classname = '\blitze\sitemaker\services\blocks\factory';
-		$blocks = array(
-			'foo.bar.block'	=> 'my_block'
-		);
 
 		$factory = $this->getMockBuilder($classname)
 			->disableOriginalConstructor()
@@ -63,11 +67,11 @@ class factory_test extends \phpbb_test_case
 
 		$factory->expects($this->once())
 			->method('register_blocks')
-			->with($blocks);
+			->with($this->blocks);
 
 		$reflectedClass = new \ReflectionClass($classname);
 		$constructor = $reflectedClass->getConstructor();
-		$constructor->invoke($factory, $this->user, $this->ptemplate, $blocks);
+		$constructor->invoke($factory, $this->user, $this->ptemplate, $this->blocks);
 	}
 
 	/**

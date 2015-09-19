@@ -52,11 +52,12 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 *
 	 * @return \blitze\sitemaker\controller\blocks_admin
 	 */
-	protected function get_controller($auth_map, $variable_map, $action, $call_count, $ajax_request = true)
+	protected function get_controller($auth_map, $variable_map, $action, $call_count, $ajax_request = true, $return_url = false)
 	{
-		global $phpbb_dispatcher;
+		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$auth->expects($this->any())
 			->method('acl_get')
@@ -81,6 +82,16 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
 			});
+
+		$phpbb_path_helper =  new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
+			),
+			new \phpbb\filesystem(),
+			$request,
+			$phpbb_root_path,
+			$phpEx
+		);
 
 		$dummy_object = $this->getMockBuilder('\stdClass')
 			->setMethods(array('execute'))
@@ -110,7 +121,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$this->action_handler->expects($this->exactly($call_count))
 			->method('clear_cache');
 
-		return new blocks_admin($auth, $request, $user, $this->action_handler);
+		return new blocks_admin($auth, $request, $user, $this->action_handler, $return_url);
 	}
 
 	/**
@@ -179,5 +190,19 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
 		$this->assertSame($expected,$response->getContent());
+	}
+
+
+	/**
+	 *
+	 */
+	public function test_request_is_not_ajax()
+	{
+		$action = 'edit_block';
+		$controller = $this->get_controller(array('a_manage_blocks', 0, true), array('style', 0, false, request_interface::REQUEST, 1), $action, 0, false, true);
+
+		$response = $controller->handle($action);
+
+		$this->assertEquals(401, $response->getStatusCode());
 	}
 }

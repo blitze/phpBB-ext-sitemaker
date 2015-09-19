@@ -12,7 +12,7 @@ namespace blitze\sitemaker\tests\services\blocks;
 use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\services\blocks\admin_bar;
 
-require_once dirname(__FILE__) . '/ext/foo/bar/foo_bar_controller.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/foo_bar_controller.php';
 
 class admin_bar_test extends \phpbb_database_test_case
 {

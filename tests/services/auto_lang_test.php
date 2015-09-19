@@ -48,7 +48,7 @@ class auto_lang_test extends \phpbb_test_case
 			}));
 
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
-			dirname(__FILE__) . '/blocks/',
+			dirname(__FILE__) . '/fixtures/',
 			array(
 				'foo/bar' => array(
 					'ext_name'		=> 'foo/bar',
