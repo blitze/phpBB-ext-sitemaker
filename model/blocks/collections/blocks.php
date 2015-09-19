@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package primetime
+ * @package sitemaker
  * @copyright (c) 2015 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
