@@ -25,9 +25,9 @@ class factory
 	 *
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Template Object
-	 * @param array									$blocks				Service Collection
+	 * @param \phpbb\di\service_collection			$blocks				Service Collection
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, array $blocks)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, \phpbb\di\service_collection $blocks)
 	{
 		$this->user = $user;
 		$this->ptemplate = $ptemplate;
@@ -38,7 +38,7 @@ class factory
 	/**
 	 * Register available blocks
 	 */
-	public function register_blocks($blocks)
+	public function register_blocks(\phpbb\di\service_collection $blocks)
 	{
 		$this->blocks = array();
 		foreach ($blocks as $service => $driver)
