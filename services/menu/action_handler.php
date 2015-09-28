@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\menu;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class action_handler
 {
 	/** @var \phpbb\cache\service */

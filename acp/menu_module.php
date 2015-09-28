@@ -16,9 +16,6 @@ use blitze\sitemaker\services\menu\nestedset;
 */
 class menu_module
 {
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -51,9 +48,8 @@ class menu_module
 
 	public function __construct()
 	{
-		global $db, $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
 
-		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;

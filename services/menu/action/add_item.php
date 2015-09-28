@@ -22,7 +22,7 @@ class add_item extends base_action
 
 		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
 
-		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
 		{
 			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
 		}
