@@ -282,17 +282,17 @@
 		},
 
 		addItem: function() {
-			this._saveItem('add', {});
+			this._saveItem('add_item', {});
 		},
 
 		updateItem: function(data, id) {
-			this._saveItem('update', data, id);
+			this._saveItem('update_item', data, id);
 		},
 
 		getItems: function() {
 			var self = this;
 
-			$.getJSON(this.options.ajaxUrl + 'get_all_items', function(data) {
+			$.getJSON(this.options.ajaxUrl + 'load_items', function(data) {
 				self.nestedList.empty();
 				self._resetActions();
 
@@ -417,7 +417,7 @@
 
 		_populateForm: function(id) {
 			var self = this;
-			$.get(this.options.ajaxUrl + 'get_item/' + id, function(data) {
+			$.get(this.options.ajaxUrl + 'load_item?item_id=' + id, function(data) {
 				self.showMessage(data.message);
 				self.editForm.populate(data);
 			}, 'json');
@@ -437,7 +437,8 @@
 
 			if (id && field && val && val !== this.editorVal) {
 				data[field] = val;
-				this._saveItem('edit', data, id, field);
+				data.field = field;
+				this._saveItem('update_item', data, id, field);
 			} else {
 				this._undoEditable(this.editorVal ? this.editorVal : lang.changeMe);
 			}
@@ -457,11 +458,11 @@
 
 		_saveItem: function(mode, data, id, field) {
 			var self = this;
-			$.post(this.options.ajaxUrl + mode + '/' + ((id !== undefined) ? id : 0), data,
+			$.post(this.options.ajaxUrl + mode + ((id) ? '?item_id=' + id : ''), data,
 				function(resp) {
 					if (!resp.error) {
 						switch (mode) {
-							case 'add':
+							case 'add_item':
 								self._addToTree([resp], function() {
 									var element = $('#item-' + resp[self.options.primaryKey]);
 
@@ -471,10 +472,12 @@
 									});
 								});
 							break;
-							case 'edit':
-								self._undoEditable(resp[field]);
+							case 'update_item':
+								if (self.editing) {
+									self._undoEditable(resp[field]);
+								}
 							break;
-							case 'update':
+							case 'save_item':
 								var element = $('#item-' + resp[self.options.primaryKey]);
 								var replacement = $(self._template(resp, self.itemTemplate)).children();
 								element.children(':first').replaceWith(replacement);
@@ -484,7 +487,7 @@
 					} else {
 						self.showMessage(resp.error);
 
-						if (mode === 'edit') {
+						if (self.editing) {
 							self._undoEditable(self.editorVal);
 						}
 					}
@@ -543,7 +546,7 @@
 		},
 
 		_updateItem: function(itemID) {
-			this._saveItem('update', this.editForm.serializeArray(), itemID);
+			this._saveItem('save_item', this.editForm.serializeArray(), itemID);
 		}
 	});
 })(jQuery, window, document);
