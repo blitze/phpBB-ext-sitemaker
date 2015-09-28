@@ -14,34 +14,16 @@ namespace blitze\sitemaker\services\tree;
 */
 abstract class builder extends \blitze\sitemaker\services\tree\display
 {
-	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
-
-	/**
-	 * Construct
-	 *
-	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
-	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
-	 * @param string								$menu_items_table	Menu Items table
-	 * @param string								$pk					Primary key
-	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\util $sitemaker, $menu_items_table, $pk)
+	public static function load_scripts(\blitze\sitemaker\services\util $util)
 	{
-		parent::__construct($db, $menu_items_table, $pk);
-
-		$this->sitemaker = $sitemaker;
-	}
-
-	public function init()
-	{
-		$asset_path = $this->sitemaker->asset_path;
-		$this->sitemaker->add_assets(array(
+		$asset_path = $util->asset_path;
+		$util->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jquery.populate/jquery.populate.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/nestedSortable2/jquery.ui.nestedSortable.min.js',
+				$asset_path . 'ext/blitze/sitemaker/components/nestedSortable/jquery.ui.nestedSortable.min.js',
 				'@blitze_sitemaker/assets/tree/builder.min.js',
 			),
 			'css'   => array(

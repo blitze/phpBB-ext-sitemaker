@@ -23,14 +23,14 @@ abstract class display
 	/** @var string */
 	protected $pk;
 
+	/** @var string */
+	protected $sql_where;
+
 	/** @var array */
 	protected $errors = array();
 
 	/** @var array */
 	protected $data = array();
-
-	/** @var string */
-	protected $sql_where;
 
 	/**
 	* Construct
