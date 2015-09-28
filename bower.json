@@ -10,7 +10,7 @@
     "twig.js": "~0.8.2",
     "jquery.sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
     "jqueryui-touch-punch": "*",
-    "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git",
+    "nestedSortable": "ilikenwf/nestedSortable",
     "toast-grid": "https://github.com/daneden/Toast.git#master"
   },
   "overrides": {
@@ -33,7 +33,7 @@
       "dependencies": null
     },
     "nestedSortable": {
-      "main": "jquery.mjs.nestedSortable.js"
+      "main": "jquery.ui.nestedSortable.js"
     },
     "twig.js": {
       "main": [
