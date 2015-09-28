@@ -73,7 +73,7 @@ class cfg_fields
 			'S_NO_WRAP'		=> $bdata['no_wrap'],
 			'S_HIDE_TITLE'	=> $bdata['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($bdata['class']),
-			'S_GROUP_OPS'	=> $this->get_group_options($bdata['permission']),
+			'S_GROUP_OPS'	=> $this->_get_group_options($bdata['permission']),
 		));
 
 		$this->template->set_filenames(array(
@@ -83,7 +83,7 @@ class cfg_fields
 		return $this->template->assign_display('block_settings');
 	}
 
-	public function get_settings($default_settings)
+	public function get_submitted_settings(array $default_settings)
 	{
 		if (!function_exists('validate_config_vars'))
 		{
@@ -108,9 +108,9 @@ class cfg_fields
 	/**
 	 * Used to add multi-select dropdown in blocks config
 	 */
-	public function build_multi_select($option_ary, $selected_items, $key)
+	public function build_multi_select(array $option_ary, $selected_items, $key)
 	{
-		$selected_items = explode("\n", $selected_items);
+		$selected_items = explode(self::$separator, $selected_items);
 
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
@@ -127,9 +127,9 @@ class cfg_fields
 	/**
 	 * Used to build multi-column checkboxes for blocks config
 	 */
-	public function build_checkbox($option_ary, $selected_items, $key)
+	public function build_checkbox(array $option_ary, $selected_items, $key)
 	{
-		$selected_items = explode("\n", $selected_items);
+		$selected_items = explode(self::$separator, $selected_items);
 		$column_class = 'grid__col grid__col--1-of-2 ';
 		$id_assigned = false;
 		$html = '';
@@ -181,26 +181,26 @@ class cfg_fields
 	/**
 	 * Generate block configuration fields
 	 */
-	private function _generate_config_fields(&$db_settings, $default_settings)
+	private function _generate_config_fields(array &$db_settings, array $default_settings)
 	{
-		foreach ($default_settings as $config_key => $vars)
+		foreach ($default_settings as $field => $vars)
 		{
-			if (!is_array($vars) && strpos($config_key, 'legend') === false)
+			if (!is_array($vars) && strpos($field, 'legend') === false)
 			{
 				continue;
 			}
 
-			if (strpos($config_key, 'legend') !== false)
+			if (strpos($field, 'legend') !== false)
 			{
 				$this->template->assign_block_vars('options', array(
-					'S_LEGEND'	=> $config_key,
+					'S_LEGEND'	=> $field,
 					'LEGEND'	=> $this->user->lang($vars)
 				));
 
 				continue;
 			}
 
-			$content = $this->_get_config_field($config_key, $db_settings, $vars);
+			$content = $this->_get_field_template($field, $db_settings, $vars);
 
 			if (empty($content))
 			{
@@ -208,27 +208,33 @@ class cfg_fields
 			}
 
 			$this->template->assign_block_vars('options', array(
-				'KEY'			=> $config_key,
+				'KEY'			=> $field,
 				'TITLE'			=> (!empty($vars['lang'])) ? $this->user->lang($vars['lang']) : '',
 				'S_EXPLAIN'		=> $vars['explain'],
 				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
 				'CONTENT'		=> $content)
 			);
-			unset($default_settings[$config_key]);
+			unset($default_settings[$field]);
 		}
 	}
 
-	private function _get_config_field($config_key, &$db_settings, &$vars)
+	private function _get_field_template($field, array &$db_settings, array &$vars)
 	{
 		$vars['lang_explain'] = $this->_explain_field($vars);
 		$vars['append'] = $this->_append_field($vars);
 
-		$type = $this->_get_field_type($config_key, $db_settings, $vars);
+		$type = explode(':', $vars['type']);
+		$method = '_prep_' . $type[0] . '_field_for_display';
 
-		return build_cfg_template($type, $config_key, $db_settings, $config_key, $vars);
+		if (is_callable(array($this, $method)))
+		{
+			$this->$method($vars, $type, $field, $db_settings);
+		}
+
+		return build_cfg_template($type, $field, $db_settings, $field, $vars);
 	}
 
-	private function _explain_field($vars)
+	private function _explain_field(array $vars)
 	{
 		$l_explain = '';
 		if (!empty($vars['explain']))
@@ -239,7 +245,7 @@ class cfg_fields
 		return $l_explain;
 	}
 
-	private function _append_field($vars)
+	private function _append_field(array $vars)
 	{
 		$append = '';
 		if (!empty($vars['append']))
@@ -250,49 +256,52 @@ class cfg_fields
 		return $append;
 	}
 
-	private function _get_field_type($config_key, &$db_settings, &$vars)
+	private function _prep_select_field_for_display(&$vars)
 	{
-		$type = explode(':', $vars['type']);
+		$this->_add_lang_vars($vars['params'][0]);
 
-		if (in_array($type[0], array('checkbox', 'multi_select', 'select')))
-		{
-			// this looks bad but its the only way without modifying phpbb code
-			// this is for select items that do not need to be translated
-			$options = $vars['params'][0];
-			$this->_add_lang_vars($options);
-		}
-
-		switch ($type[0])
-		{
-			case 'select':
-				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
-			break;
-			case 'checkbox':
-			case 'multi_select':
-				$vars['method'] = ($type[0] == 'checkbox') ? 'build_checkbox' : 'build_multi_select';
-				$vars['params'][] = $config_key;
-				$type[0] = 'custom';
-
-				if (!empty($db_settings[$config_key]))
-				{
-					$db_settings[$config_key] = explode(self::$separator, $db_settings[$config_key]);
-				}
-			break;
-			case 'hidden':
-				$vars['method'] = 'build_hidden';
-				$vars['explain'] = '';
-				$type[0] = 'custom';
-			break;
-			case 'custom':
-				$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
-				$type[0] = 'custom';
-			break;
-		}
-
-		return $type;
+		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
 	}
 
-	private function _add_lang_vars($options)
+	private function _prep_checkbox_field_for_display(&$vars, &$type, $field, &$db_settings)
+	{
+		$this->_add_lang_vars($vars['params'][0]);
+
+		$vars['method'] = 'build_checkbox';
+		$vars['params'][] = $field;
+		$type[0] = 'custom';
+
+		if (!empty($db_settings[$field]))
+		{
+			$db_settings[$field] = explode(self::$separator, $db_settings[$field]);
+		}
+	}
+
+	private function _prep_multi_select_field_for_display(&$vars, &$type, $field, &$db_settings)
+	{
+		$this->_prep_checkbox_field_for_display($vars, $type, $field, $db_settings);
+
+		$vars['method'] ='build_multi_select';
+	}
+
+	private function _prep_hidden_field_for_display(&$vars, &$type)
+	{
+		$vars['method'] = 'build_hidden';
+		$vars['explain'] = '';
+		$type[0] = 'custom';
+	}
+
+	private function _prep_custom_field_for_display(&$vars, &$type)
+	{
+		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
+		$type[0] = 'custom';
+	}
+
+	/**
+	 * this looks bad but its the only way without modifying phpbb code
+	 * this is for select items that do not need to be translated
+	 */
+	private function _add_lang_vars(array $options)
 	{
 		foreach ($options as $title)
 		{
@@ -307,7 +316,7 @@ class cfg_fields
 		}
 	}
 
-	private function _get_multi_select(&$cfg_array, $df_settings)
+	private function _get_multi_select(array &$cfg_array, array $df_settings)
 	{
 		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
 
@@ -320,7 +329,7 @@ class cfg_fields
 		}
 	}
 
-	private function get_group_options($selected = '')
+	private function _get_group_options($selected = '')
 	{
 		$selected = array_filter((!is_array($selected)) ? explode(',', $selected) : $selected);
 

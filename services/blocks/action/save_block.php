@@ -41,7 +41,7 @@ class save_block extends base_action
 		$cfg_fields = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_fields');
 		$block_instance = $this->block_factory->get_block($entity->get_name());
 		$default_settings = $block_instance->get_config(array());
-		$submitted_settings = $cfg_fields->get_settings($default_settings);
+		$submitted_settings = $cfg_fields->get_submitted_settings($default_settings);
 
 		$old_hash = $entity->get_hash();
 		$new_hash = md5(join('', $submitted_settings));
