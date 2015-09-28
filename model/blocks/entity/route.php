@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\model\blocks\entity;
 
-use blitze\sitemaker\model as model;
+use blitze\sitemaker\model\base_entity;
 
 /**
  * @method object set_ext_name($ext_name)
@@ -25,7 +25,7 @@ use blitze\sitemaker\model as model;
  * @method object set_blocks(\blitze\sitemaker\model\blocks\collections\blocks $blocks)
  * @method \blitze\sitemaker\model\blocks\collections\blocks get_blocks()
  */
-final class route extends model\base_entity
+final class route extends base_entity
 {
 	/** @var integer */
 	protected $route_id;

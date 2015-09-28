@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\model\blocks\entity;
 
-use blitze\sitemaker\model as model;
+use blitze\sitemaker\model\base_entity;
 
 
 /**
@@ -38,7 +38,7 @@ use blitze\sitemaker\model as model;
  * @method object set_hash($hash)
  * @method string get_hash()
  */
-final class block extends model\base_entity
+final class block extends base_entity
 {
 	/** @var integer */
 	protected $bid;
@@ -140,7 +140,7 @@ final class block extends model\base_entity
 	 */
 	public function get_settings()
 	{
-		return unserialize(stripslashes($this->settings));
+		return ($this->settings) ? unserialize(stripslashes($this->settings)) : array();
 	}
 
 	public function __clone()

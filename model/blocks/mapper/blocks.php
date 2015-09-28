@@ -9,9 +9,9 @@
 
 namespace blitze\sitemaker\model\blocks\mapper;
 
-use blitze\sitemaker\model as model;
+use blitze\sitemaker\model\base_mapper;
 
-class blocks extends model\base_mapper
+class blocks extends base_mapper
 {
 	/** @var string */
 	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\block';

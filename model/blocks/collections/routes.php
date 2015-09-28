@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\model\blocks\collections;
 
-class routes extends \blitze\sitemaker\model\base_collection
+use blitze\sitemaker\model\base_collection;
+
+class routes extends base_collection
 {
 	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\route';
 }
