@@ -93,7 +93,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		$sql_data[$this->pk] = $new_id;
 		$this->data[$new_id] = $sql_data;
 
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -222,7 +221,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		$sql_data = array_values($sql_data);
 		$this->db->sql_multi_insert($this->items_table, $sql_data);
 
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 
 		return $sql_data;
@@ -254,7 +252,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 
 		$sql_data = $this->get_row($node_id);
 		$this->data[$node_id] = $sql_data;
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -287,7 +284,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		$this->add_branch($tree, 0, true);
 
 		$this->data = $tree;
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -359,7 +355,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		$this->db->sql_query($sql);
 
 		$this->data[$node_id] = $this->get_row($node_id);
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -463,7 +458,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		$this->db->sql_query($sql);
 
 		$this->data[$node_id] = $this->get_row($node_id);
-		$this->on_tree_change($this->data);
 		$this->reset_data();
 	}
 
@@ -584,15 +578,6 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		}
 
 		return $indexed[0]['children'];
-	}
-
-	/**
-	 * This function does nothing but can be over-written
-	 * to do something whenever the tree changes
-	 */
-	public function on_tree_change($data)
-	{
-		return $data;
 	}
 
 	/**

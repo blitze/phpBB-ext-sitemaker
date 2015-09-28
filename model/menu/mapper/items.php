@@ -14,6 +14,9 @@ use blitze\sitemaker\services\menu\nestedset;
 
 class items extends base_mapper
 {
+	/** @var \blitze\sitemaker\services\menu\nestedset */
+	protected $tree;
+
 	/** @var string */
 	protected $_entity_class = 'blitze\sitemaker\model\menu\entity\item';
 

@@ -71,7 +71,7 @@ class menu_module
 
 		if ($collection->valid())
 		{
-			$menu = (isset($collection[$menu_id])) ? $collection[$menu_id] : $collection->current(); 
+			$menu = (isset($collection[$menu_id])) ? $collection[$menu_id] : $collection->current();
 			$menu_id = $menu->get_menu_id();
 
 			foreach ($collection as $entity)

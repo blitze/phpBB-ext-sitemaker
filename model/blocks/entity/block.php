@@ -11,7 +11,6 @@ namespace blitze\sitemaker\model\blocks\entity;
 
 use blitze\sitemaker\model\base_entity;
 
-
 /**
  * @method object set_icon($icon)
  * @method string get_icon()
