@@ -35,9 +35,11 @@ class cfg_fields_test extends \phpbb_database_test_case
 
 	protected function get_service()
 	{
-		global $db, $request, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $db, $request, $template, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		$db = $this->new_dbal();
+
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
@@ -59,13 +61,19 @@ class cfg_fields_test extends \phpbb_database_test_case
 		$template->expects($this->any())
 			->method('assign_vars')
 			->will($this->returnCallback(function($data) use (&$tpl_data) {
-				$tpl_data = $data;
+				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
 			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
 				$tpl_data[$key][] = $data;
+			}));
+
+		$template->expects($this->any())
+			->method('assign_display')
+			->will($this->returnCallback(function() use (&$tpl_data) {
+				return $tpl_data;
 			}));
 
 		return new cfg_fields($db, $request, $template, $user, $phpbb_root_path, $phpEx);

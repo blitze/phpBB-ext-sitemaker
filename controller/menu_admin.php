@@ -47,6 +47,9 @@ class menu_admin
 		if ($this->request->is_ajax() === false)
 		{
 			redirect(generate_board_url(), $this->return_url);
+
+			$return_data['message'] = $this->user->lang('NOT_AUTHORISED');
+			return new Response(json_encode($return_data), 401);
 		}
 
 		$command = $this->action_handler->create($action);

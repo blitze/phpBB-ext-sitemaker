@@ -12,13 +12,9 @@ namespace blitze\sitemaker\tests\controller;
 use phpbb\request\request_interface;
 use Symfony\Component\HttpFoundation\Response;
 use blitze\sitemaker\controller\menu_admin;
-use blitze\sitemaker\services\menu\builder;
-use blitze\sitemaker\services\util;
 
 class menu_admin_test extends \phpbb_database_test_case
 {
-	protected $manager;
-
 	/**
 	* Define the extensions to be tested
 	*
@@ -40,40 +36,80 @@ class menu_admin_test extends \phpbb_database_test_case
 	}
 
 	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
+	}
+
+	/**
 	 * Create the menu admin controller
 	 *
 	 * @return \blitze\sitemaker\controller\menu_admin
 	 */
-	protected function get_controller($variable_map)
+	protected function get_controller($action, $call_count, $ajax_request = true, $return_url = false)
 	{
-		global $phpbb_dispatcher, $request, $phpbb_root_path, $phpEx;
+		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
-		$db = $this->new_dbal();
-		$config = new \phpbb\config\config(array());
-		$cache = new \phpbb\cache\service(new \phpbb\cache\driver\null, $config, $db, $phpbb_root_path, $phpEx);
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$request->expects($this->any())
-			->method('variable')
-			->with($this->anything())
-			->will($this->returnValueMap($variable_map));
 
-		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+		$request->expects($this->once())
+			->method('is_ajax')
+			->will($this->returnValue($ajax_request));
+
+		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+
+		$user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
+
+		$phpbb_path_helper =  new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
+			),
+			new \phpbb\filesystem(),
+			$request,
+			$phpbb_root_path,
+			$phpEx
+		);
+
+		$dummy_object = $this->getMockBuilder('\stdClass')
+			->setMethods(array('execute'))
+			->getMock();
+
+		$dummy_object->expects($this->exactly($call_count))
+			->method('execute')
+			->will($this->returnCallback(function() use (&$dummy_object) {
+				return array(
+					'message' => 'Action: ' . $dummy_object->action,
+				);
+			}));
+
+		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\menu\action_handler')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$template_context = $this->getMockBuilder('phpbb\template\context')
-			->getMock();
+		$this->action_handler->expects($this->exactly($call_count))
+			->method('create')
+			->with()
+			->will($this->returnCallback(function($service) use (&$dummy_object, $action) {
+				$dummy_object->action = $action;
+				return $dummy_object;
+			}));
 
-		$template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
+		$this->action_handler->expects($this->exactly($call_count))
+			->method('clear_cache');
 
-		$util = new util($path_helper, $template, $template_context, $user);
-
-		$tree_manager = new builder($cache, $db, $util, 'phpbb_sm_menus', 'phpbb_sm_menu_items', 'item_id');
-
-		return  new menu_admin($request, $user, $template, $tree_manager, 'phpbb_sm_menus');
+		return new menu_admin($request, $user, $this->action_handler, $return_url);
 	}
 
 	/**
@@ -82,39 +118,18 @@ class menu_admin_test extends \phpbb_database_test_case
 	public function sample_data()
 	{
 		return array(
-
-			// add Menu
 			array(
 				'add_menu',
-				0,
-				array(),
-				array(
-					'id'		=> 1,
-					'title'		=> 'Menu 1',
-					'errors'	=> '',
-				),
-				200
+				1,
+				200,
+				'{"message":"Action: add_menu"}'
 			),
-
-			// add sing Menu Item
 			array(
-				'add',
-				0,
-				array(
-					array('menu_id', 0, false, request_interface::REQUEST, 1),
-				),
-				array(
-					'menu_id'		=> 1,
-					'item_title'	=> '',
-					'left_id'		=> 1,
-					'right_id'		=> 2,
-					'parent_id'		=> 0,
-					'depth'			=> 0,
-					'item_id'		=> 1,
-					'errors'		=> '',
-				),
-				200
-			)
+				'edit_menu',
+				1,
+				200,
+				'{"message":"Action: edit_menu"}'
+			),
 		);
 	}
 
@@ -122,18 +137,30 @@ class menu_admin_test extends \phpbb_database_test_case
 	 * @dataProvider sample_data
 	 *
 	 * @param string $action
-	 * @param int $item_id
-	 * @param array $variable_map
-	 * @param string $content
-	 * @param int $status_code
+	 * @param integer $call_count
+	 * @param integer $status_code
+	 * @param array $expected
 	 */
-	public function test_controller($action, $item_id, $variable_map, $content, $status_code)
+	public function test_controller($action, $call_count, $status_code, $expected)
 	{
-		$controller = $this->get_controller($variable_map);
-		$response = $controller->handle($action, $item_id);
+		$controller = $this->get_controller($action, $call_count);
+		$response = $controller->handle($action);
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertSame($content, json_decode($response->getContent(), true));
 		$this->assertEquals($status_code, $response->getStatusCode());
+		$this->assertSame($expected,$response->getContent());
+	}
+
+	/**
+	 *
+	 */
+	public function test_request_is_not_ajax()
+	{
+		$action = 'edit_menu';
+		$controller = $this->get_controller($action, 0, false, true);
+
+		$response = $controller->handle($action);
+
+		$this->assertEquals(401, $response->getStatusCode());
 	}
 }

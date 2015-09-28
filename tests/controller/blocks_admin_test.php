@@ -134,7 +134,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			// User not authorized
 			array(
 				array(
-					array('a_manage_blocks', 0, false),
+					array('a_sm_manage_blocks', 0, false),
 				),
 				array(
 					array('style', 0, false, request_interface::REQUEST, 1),
@@ -148,7 +148,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			// No style provided
 			array(
 				array(
-					array('a_manage_blocks', 0, true),
+					array('a_sm_manage_blocks', 0, true),
 				),
 				array(
 					array('style', 0, false, request_interface::REQUEST, 0),
@@ -162,7 +162,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			// Authorized, Style provided, action requested
 			array(
 				array(
-					array('a_manage_blocks', 0, true),
+					array('a_sm_manage_blocks', 0, true),
 				),
 				array(
 					array('style', 0, false, request_interface::REQUEST, 1),
@@ -180,7 +180,10 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 *
 	 * @param array $auth_map
 	 * @param array $variable_map
-	 * @param int $status_code
+	 * @param string $action
+	 * @param integer $call_count
+	 * @param integer $status_code
+	 * @param array $expected
 	 */
 	public function test_controller($auth_map, $variable_map, $action, $call_count, $status_code, $expected)
 	{
@@ -192,14 +195,13 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$this->assertSame($expected,$response->getContent());
 	}
 
-
 	/**
 	 *
 	 */
 	public function test_request_is_not_ajax()
 	{
 		$action = 'edit_block';
-		$controller = $this->get_controller(array('a_manage_blocks', 0, true), array('style', 0, false, request_interface::REQUEST, 1), $action, 0, false, true);
+		$controller = $this->get_controller(array('a_sm_manage_blocks', 0, true), array('style', 0, false, request_interface::REQUEST, 1), $action, 0, false, true);
 
 		$response = $controller->handle($action);
 
