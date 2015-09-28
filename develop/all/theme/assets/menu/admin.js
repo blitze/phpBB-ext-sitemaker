@@ -22,12 +22,13 @@
 
 		// add menu id to ajax requests
 		$(document).ajaxSend(function(event, xhr, settings) {
-			settings.url = settings.url + '?menu_id=' + menuId;
+			settings.url += (settings.url.indexOf('?') >= 0) ? '&' : '?';
+			settings.url += 'menu_id=' + menuId;
 		});
 
 		// menu list
 		var menuDivObj = $('#sm-menus').on('click', '.menu-option', function(e) {
-			menuId = $(this).parent().attr('id').substring(5);
+			menuId = +$(this).parent().attr('id').substring(5);
 			$(this).parent().parent().children().removeClass('row3 current-menu');
 			$(this).parent().addClass('row3 current-menu');
 			menuAdmin.treeBuilder('getItems');
@@ -57,6 +58,7 @@
 
 		// add new menu
 		$('#add-menu').button().click(function(e) {
+			menuId = 0;
 			$.getJSON(ajaxUrl + 'add_menu', function(data) {
 				if (data.id === null) {
 					return;
@@ -99,7 +101,7 @@
 			var element = $(this).val('').parent().parent();
 
 			if (menuId && menuTitle && menuTitle !== currentMenuTitle) {
-				$.post(ajaxUrl + 'update_menu', {'title': menuTitle}, function(menu) {
+				$.post(ajaxUrl + 'edit_menu', {'title': menuTitle}, function(menu) {
 					if (menu.name) {
 						element.text(menu.name);
 					}
@@ -115,7 +117,7 @@
 
 		dButtons[lang.remove] = function() {
 			if (menuId) {
-				$.post(ajaxUrl + 'delete_menu', function(resp) {
+				$.getJSON(ajaxUrl + 'delete_menu', function(resp) {
 					if (resp.id === menuId) {
 						var menu = $('#menu-' + menuId);
 						var up = menu.prev();

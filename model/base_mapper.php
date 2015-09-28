@@ -229,14 +229,14 @@ abstract class base_mapper implements mapper_interface
 			switch (gettype($value))
 			{
 				case 'array':
-				$sql_where[] = $this->db->sql_in_set($field, $value);
+					$sql_where[] = $this->db->sql_in_set($field, $value);
 				break;
 				case 'string':
-				$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
+					$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
 				break;
 				case 'boolean':
 				case 'integer':
-				$sql_where[] = $field . ' = ' . (int) $value;
+					$sql_where[] = $field . ' = ' . (int) $value;
 				break;
 			}
 		}

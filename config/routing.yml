@@ -5,23 +5,10 @@ blitze_sitemaker_blocks_admin:
         _format: json
 
 blitze_sitemaker_menu_admin:
-    path: /menu/admin/{action}/{item_id}
-    defaults: { _controller: blitze.sitemaker.menu.admin.controller:handle, item_id: 0 }
+    path: /menu/admin/{action}
+    defaults: { _controller: blitze.sitemaker.menu.admin.controller:handle, _format: json }
     requirements:
-        item_id: \d+
         _format: json
-
-blitze_sitemaker_filemanager:
-    path: /filemanager
-    defaults: { _controller: blitze.sitemaker.filemanager.controller:handle }
-
-blitze_sitemaker_filemanager_get:
-    path: /filemanager/connection
-    defaults: { _controller: blitze.sitemaker.filemanager.controller:get }
-
-blitze_sitemaker_filemanager_post:
-    path: /filemanager/connection
-    defaults: { _controller: blitze.sitemaker.filemanager.controller:post }
 
 blitze_sitemaker_forum:
     path: /forum

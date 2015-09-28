@@ -155,6 +155,8 @@ services:
             - mappers:
                 blocks: %tables.sitemaker.blocks%
                 routes: %tables.sitemaker.block_routes%
+                menus: %tables.sitemaker.menu%
+                items: %tables.sitemaker.menu_items%
 
     blitze.sitemaker.members:
         class: blitze\sitemaker\services\members
@@ -166,15 +168,13 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    blitze.sitemaker.menu.builder:
-        class: blitze\sitemaker\services\menu\builder
+    blitze.sitemaker.menu.action_handler:
+        class: blitze\sitemaker\services\menu\action_handler
         arguments:
             - @cache
-            - @dbal.conn
-            - @blitze.sitemaker.util
-            - %tables.sitemaker.menu%
-            - %tables.sitemaker.menu_items%
-            - 'item_id'
+            - @request
+            - @user
+            - @blitze.sitemaker.mapper.factory
 
     blitze.sitemaker.menu.display:
         class: blitze\sitemaker\services\menu\display

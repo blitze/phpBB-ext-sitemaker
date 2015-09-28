@@ -115,8 +115,8 @@ services:
             - @config
             - @dbal.conn
             - @user
+            - @blitze.sitemaker.mapper.factory
             - @blitze.sitemaker.menu.display
-            - %tables.sitemaker.menu%
         calls:
             - [set_name, [blitze.sitemaker.block.menu]]
         tags:

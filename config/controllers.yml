@@ -23,5 +23,4 @@ services:
         arguments:
             - @request
             - @user
-            - @template
-            - @blitze.sitemaker.menu.builder
+            - @blitze.sitemaker.menu.action_handler

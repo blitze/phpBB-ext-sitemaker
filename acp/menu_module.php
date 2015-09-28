@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\acp;
 
+use blitze\sitemaker\services\menu\nestedset;
+
 /**
 * @package acp
 */
@@ -26,11 +28,11 @@ class menu_module
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
-	/** @var \blitze\sitemaker\services\menu\builder */
-	protected $manager;
+	/** @var \blitze\sitemaker\model\mapper_factory */
+	protected $mapper_factory;
 
 	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
+	protected $util;
 
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
@@ -57,40 +59,39 @@ class menu_module
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
-		$this->manager = $phpbb_container->get('blitze.sitemaker.menu.builder');
+		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
-		$this->sitemaker = $phpbb_container->get('blitze.sitemaker.util');
+		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
 	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$this->manager->init();
+		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
 
 		// Get all menus
-		$menus = $this->manager->menu_get();
-		$menus = array_values(array_filter($menus));
+		$collection = $menu_mapper->find();
 
-		if (sizeof($menus))
+		if ($collection->valid())
 		{
-			if (!$menu_id)
-			{
-				$menu_id = (int) $menus[0]['menu_id'];
-			}
+			$menu = (isset($collection[$menu_id])) ? $collection[$menu_id] : $collection->current(); 
+			$menu_id = $menu->get_menu_id();
 
-			for ($i = 0, $size = sizeof($menus); $i < $size; $i++)
+			foreach ($collection as $entity)
 			{
-				$row = $menus[$i];
+				$id = $entity->get_menu_id();
 				$this->template->assign_block_vars('menu', array(
-					'ID'		=> $row['menu_id'],
-					'NAME'		=> $row['menu_name'],
-					'S_ACTIVE'	=> ($row['menu_id'] == $menu_id) ? true : false)
-				);
+					'ID'		=> $id,
+					'NAME'		=> $entity->get_menu_name(),
+					'S_ACTIVE'	=> ($id == $menu_id) ? true : false,
+				));
 			}
 		}
 
-		$this->sitemaker->add_assets(array(
+		nestedset::load_scripts($this->util);
+
+		$this->util->add_assets(array(
 			'js'	=> array(
 				'@blitze_sitemaker/assets/menu/admin.min.js',
 			),
