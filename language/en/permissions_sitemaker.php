@@ -22,6 +22,6 @@ if (empty($lang) || !is_array($lang))
 
 // Admin Permissions
 $lang = array_merge($lang, array(
-	'ACL_A_MANAGE_BLOCKS'	=> 'Can manage blocks',
-	'ACL_CAT_SITEMAKER'		=> 'Sitemaker',
+	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Can manage blocks',
+	'ACL_CAT_SITEMAKER'			=> 'Sitemaker',
 ));

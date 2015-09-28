@@ -18,7 +18,7 @@ class dashboard_info
 			'title'		=> 'ACP_SITEMAKER_DASHBOARD',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'dashboard'		=> array('title' => 'SITEMAKER_DASHBOARD', 'auth' => 'ext_blitze/sitemaker', 'cat' => array('ACP_CAT_CMS')),
+				'dashboard'		=> array('title' => 'SITEMAKER_DASHBOARD', 'auth' => 'ext_blitze/sitemaker', 'cat' => array('ACP_CAT_SITEMAKER')),
 			),
 		);
 	}

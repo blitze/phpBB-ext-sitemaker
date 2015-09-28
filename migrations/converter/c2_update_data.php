@@ -27,8 +27,8 @@ class c2_update_data extends \phpbb\db\migration\migration
 		return array(
 			array('config.remove', array('cms_enabled')),
 			array('config.remove', array('cms_version')),
-			array('config.remove', array('sitemaker_gc')),
-			array('config.remove', array('sitemaker_last_gc')),
+			array('config.remove', array('primetime_gc')),
+			array('config.remove', array('primetime_last_gc')),
 			array('config.remove', array('cms_forum_changed')),
 			array('config.remove', array('pt_parent_forum_id')),
 

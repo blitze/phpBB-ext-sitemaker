@@ -60,7 +60,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 						'no_wrap'		=> array('BOOL', 0),
 						'hide_title'	=> array('BOOL', 0),
 						'hash'			=> array('VCHAR:32', ''),
-						'settings'		=> array('MTEXT', ''),
 					),
 
 					'PRIMARY_KEY'	=> 'bid',

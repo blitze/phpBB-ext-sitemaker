@@ -20,8 +20,8 @@ class m3_initial_permission extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('permission.add', array('a_manage_blocks')),
-			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_manage_blocks')),
+			array('permission.add', array('a_sm_manage_blocks')),
+			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_sm_manage_blocks')),
 		);
 	}
 
@@ -31,7 +31,7 @@ class m3_initial_permission extends \phpbb\db\migration\migration
 	public function revert_data()
 	{
 		return array(
-			array('permission.remove', array('a_manage_blocks')),
+			array('permission.remove', array('a_sm_manage_blocks')),
 		);
 	}
 }

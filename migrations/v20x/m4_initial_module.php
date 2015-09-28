@@ -35,12 +35,12 @@ class m4_initial_module extends \phpbb\db\migration\migration
 			array('module.add', array('acp', 0, 'SITEMAKER')),
 
 			// Add Sitemaker Category
-			array('module.add', array('acp', 'SITEMAKER', 'ACP_CAT_CMS')),
+			array('module.add', array('acp', 'SITEMAKER', 'ACP_CAT_SITEMAKER')),
 
 			array('module.add', array('acp', 'SITEMAKER', 'ACP_SITEMAKER_EXTENSIONS')),
 
 			// Add the dashboard mode
-			array('module.add', array('acp', 'ACP_CAT_CMS', array(
+			array('module.add', array('acp', 'ACP_CAT_SITEMAKER', array(
 					'module_basename'	=> '\blitze\sitemaker\acp\dashboard_module',
 				),
 			)),

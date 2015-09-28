@@ -183,7 +183,7 @@ class display
 			);
 		}
 
-		if ($this->auth->acl_get('a_manage_blocks'))
+		if ($this->auth->acl_get('a_sm_manage_blocks'))
 		{
 			if ($edit_mode)
 			{

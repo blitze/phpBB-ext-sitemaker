@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_CAT_CMS'				=> 'Site Maker',
+	'ACP_CAT_SITEMAKER'			=> 'Site Maker',
 	'ACP_MENU'					=> 'Menu Management',
 	'ACP_MENU_EXPLAIN'			=> 'Here you can create and manage menus for your site',
 	'ACP_SITEMAKER_EXTENSIONS'	=> 'Extensions',

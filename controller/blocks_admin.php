@@ -58,7 +58,7 @@ class blocks_admin
 			'errors'	=> '',
 		);
 
-		if (!$this->auth->acl_get('a_manage_blocks') || $this->request->is_ajax() === false)
+		if (!$this->auth->acl_get('a_sm_manage_blocks') || $this->request->is_ajax() === false)
 		{
 			if ($this->request->is_ajax() === false)
 			{
