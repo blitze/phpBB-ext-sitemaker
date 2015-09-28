@@ -9,6 +9,7 @@
 
 	var pluginName = 'iconPicker';
 	var dataPlugin = 'plugin_' + pluginName;
+	var currentItem = {};
 	var defaults = {
 		onSelect: function() {}
 	};
@@ -23,7 +24,6 @@
 
 		init: function(options) {
 			var self = this;
-			this.item = {};
 			this.selectedIcon = '';
 			this.iconsDiv = $('#icon-picker');
 			this.iconsSearch = this.iconsDiv.find('#icons-search');
@@ -35,7 +35,6 @@
 
 			$.extend(this.options, options);
 
-			// $('body').on('click', '.' + this.element.attr('class'), function(e) {
 			this.element.on('click', function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
@@ -120,11 +119,14 @@
 		},
 
 		insertIcon: function(icon) {
-			var iconClass = this.getIconProps(icon);
-			var iconHtml = (iconClass) ? '<i class="' + iconClass + '"></i>' : '';
+			if ($.isEmptyObject(currentItem) !== true) {
+				var iconClass = this.getIconProps(icon);
+				var iconHtml = (iconClass) ? '<i class="' + iconClass + '"></i>' : '';
 
-			this.item.html(iconHtml);
-			this.options.onSelect.call(this, this.item, iconHtml, iconClass);
+				currentItem.html(iconHtml);
+				this.options.onSelect.call(this, currentItem, iconHtml, iconClass);
+			}
+
 			this.hidePicker();
 		},
 
@@ -184,12 +186,12 @@
 			var height = element.height();
 
 			this.element.removeClass('icons-drop');
-			this.item = element.addClass('icons-drop');
 			this.iconsDiv.slideToggle().offset({
 				top: pos.top + height,
 				left: pos.left - 15
 			});
 			this.setCurrentIcon(element);
+			currentItem = element.addClass('icons-drop');
 		},
 
 		_scrollToIcon: function(element) {
