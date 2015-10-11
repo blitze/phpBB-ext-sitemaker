@@ -63,10 +63,6 @@ class m2_initial_data extends \phpbb\db\migration\migration
 
 	public function create_forum_cat()
 	{
-		global $user;
-
-		$user->add_lang('acp/forums');
-
 		if (!class_exists('acp_forums'))
 		{
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);

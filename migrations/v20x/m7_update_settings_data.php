@@ -21,7 +21,7 @@ class m7_update_settings_data extends \phpbb\db\migration\migration
 	{
 		return array(
 			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',
-			'\blitze\sitemaker\migrations\v20x\m6_add_settings_field',
+			'\blitze\sitemaker\migrations\v20x\m6_add_block_settings_field',
 		);
 	}
 

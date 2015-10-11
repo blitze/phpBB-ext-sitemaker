@@ -12,7 +12,7 @@ namespace blitze\sitemaker\migrations\v20x;
 /**
  * Initial schema changes needed for Extension installation
  */
-class m6_add_settings_field extends \phpbb\db\migration\migration
+class m9_update_menu_items_fields extends \phpbb\db\migration\migration
 {
 	/**
 	 * @inheritdoc
@@ -25,7 +25,7 @@ class m6_add_settings_field extends \phpbb\db\migration\migration
 	}
 
 	/**
-	 * Update the sm_blocks schema
+	 * Update the sm_menu_items schema
 	 *
 	 * @return array Array of table schema
 	 * @access public
@@ -34,8 +34,13 @@ class m6_add_settings_field extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_columns'	=> array(
-				$this->table_prefix . 'sm_blocks'	=> array(
-					'settings'		=> array('MTEXT', ''),
+				$this->table_prefix . 'sm_menu_items'	=> array(
+					'item_parents'		=> array('MTEXT', ''),
+				),
+			),
+			'drop_columns'	=> array(
+				$this->table_prefix . 'sm_menu_items'	=> array(
+					'item_desc',
 				),
 			),
 		);
