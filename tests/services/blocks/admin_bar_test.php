@@ -108,7 +108,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				'blitze.sitemaker.block.members'	=> 'BLITZE_SITEMAKER_BLOCK_MEMBERS',
 			)));
 
-		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($db, $tables);
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
 		$container = new \phpbb_mock_container_builder();
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
