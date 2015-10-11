@@ -28,15 +28,10 @@ class save_item extends base_action
 		}
 
 		$entity->set_item_title($this->request->variable('item_title', '', true))
-			->set_item_icon($this->request->variable('item_icon', ''))
 			->set_item_url($this->request->variable('item_url', ''))
 			->set_item_target($this->request->variable('item_target', 0))
 			->set_item_status($this->request->variable('item_status', 1));
 
-		$data = $item_mapper->save($entity);
-
-		return array_merge($data, array(
-			'errors'	=> $item_mapper->get_errors()
-		));
+		return $item_mapper->save($entity);
 	}
 }

@@ -9,10 +9,6 @@
 
 namespace blitze\sitemaker\services\menu;
 
-/**
- * Manage nested sets
- * @package phpBB Sitemaker Categories
- */
 class display extends \blitze\sitemaker\services\tree\display
 {
 	/** @var \phpbb\user */
@@ -21,8 +17,11 @@ class display extends \blitze\sitemaker\services\tree\display
 	/** @var bool */
 	private $expanded = false;
 
-	/** @var int */
+	/** @var integer */
 	private $max_depth = 0;
+
+	/** @var array */
+	private $parental_depth_depth;
 
 	/**
 	 * Construct
@@ -48,50 +47,29 @@ class display extends \blitze\sitemaker\services\tree\display
 	/**
 	 *
 	 */
-	public function display_list($data, &$template, $handle = 'tree')
+	public function display_list($data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
-		$curr_page = $this->user->page['page_name'];
-		$curr_parts = explode('&', $this->user->page['query_string']);
+		$current_page = $this->user->page['page_name'];
+		$current_data = $this->get_current_item($data, $current_page);
 
 		$prev_depth = 0;
-		$parental_depth = array(0 => -1);
-		$active_left_id = 0;
-		$active_right_id = 0;
-		$active_depth = 0;
+		$this->parental_depth = array(0 => -1);
 
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
 			$row = $data[$i];
 
-			if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
-			{
-				$active_depth = $row['depth'];
-				$active_left_id = $row['left_id'];
-				$active_right_id = $row['right_id'];
-				$this->max_depth += ($this->count_descendants($row)) ? 0 : 1;
-				break;
-			}
-		}
-
-		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
-		{
-			$row 		= $data[$i];
-			$is_active	= ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
-
-			if (!isset($parental_depth[$row['parent_id']]))
+			if (!isset($this->parental_depth[$row['parent_id']]))
 			{
 				continue;
 			}
 
-			$this_depth	= $parental_depth[$row['parent_id']] + 1;
-			$repeat		= abs($prev_depth - $this_depth);
+			$is_current_item = $this->is_current_item($row, $current_data['item_id']);
+			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
 
-			if ($is_active === true || $this->expanded === true || !$row['item_url'] || ($row['left_id'] < $active_left_id && $row['right_id'] > $active_right_id))
-			{
-				$parental_depth[$row[$this->pk]] = $this_depth;
-			}
+			$this->set_parental_depth($row, $this_depth, $current_data, $is_current_item);
 
-			if (($active_depth - $row['depth'] + 2) > $this->max_depth)
+			if (($current_data['depth'] - $row['depth'] + 2) > $this->max_depth)
 			{
 				continue;
 			}
@@ -100,23 +78,61 @@ class display extends \blitze\sitemaker\services\tree\display
 				'S_PREV_DEPTH'	=> $prev_depth,
 				'S_THIS_DEPTH'	=> $this_depth,
 				'S_NUM_KIDS'	=> $this->count_descendants($row),
-				'S_ACTIVE'		=> $is_active,
+				'S_CURRENT'		=> $is_current_item,
 			);
 
-			$row['item_url'] = ($row['item_url']) ? append_sid($row['item_url']) : '';
+			$row['item_url'] = append_sid($row['item_url']);
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
 
-			for ($j = 0; $j < $repeat; $j++)
-			{
-				$template->assign_block_vars($handle . '.close', array());
-			}
-
+			$this->close_open_tags($template, $handle . '.close', abs($prev_depth - $this_depth));
 			$prev_depth = $this_depth;
 		}
 
-		for ($i = 0; $i < $prev_depth; $i++)
+		$this->close_open_tags($template, 'close_' . $handle, $prev_depth);
+	}
+
+	protected function get_current_item($data, $curr_page)
+	{
+		$curr_parts = explode('&', $this->user->page['query_string']);
+
+		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
-			$template->assign_block_vars('close_' . $handle, array());
+			$row = $data[$i];
+
+			if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
+			{
+				$this->max_depth += ($this->count_descendants($row)) ? 0 : 1;
+
+				return $row;
+			}
+		}
+
+		return array(
+			'item_id'	=> 0,
+			'left_id'	=> 0,
+			'right_id'	=> 0,
+			'depth'		=> 0,
+		);
+	}
+
+	protected function is_current_item($row, $current_item_id)
+	{
+		return ($row['item_id'] === $current_item_id) ? true : false;
+	}
+
+	protected function set_parental_depth($row, $depth, $current_data, $is_current_item)
+	{
+		if ($is_current_item || $this->expanded || !$row['item_url'] || ($row['left_id'] < $current_data['left_id'] && $row['right_id'] > $current_data['right_id']))
+		{
+			$this->parental_depth[$row[$this->pk]] = $depth;
+		}
+	}
+
+	protected function close_open_tags(\phpbb\template\twig\twig &$template, $handle, $repeat)
+	{
+		for ($i = 0; $i < $repeat; $i++)
+		{
+			$template->assign_block_vars($handle, array());
 		}
 	}
 }

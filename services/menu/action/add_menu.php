@@ -13,11 +13,13 @@ class add_menu extends base_action
 {
 	public function execute()
 	{
-		$entity = new \blitze\sitemaker\model\menu\entity\menu(array(
+
+		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
+
+		$entity = $menu_mapper->create_entity(array(
 			'menu_name' => $this->user->lang('MENU') . '-' . mt_rand(1000, 9999),
 		));
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
 		$entity = $menu_mapper->save($entity);
 
 		return array(

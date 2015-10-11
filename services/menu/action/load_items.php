@@ -17,7 +17,7 @@ class load_items extends base_action
 
 		if (!$menu_id)
 		{
-			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
+			return array();
 		}
 
 		$menu_mapper = $this->mapper_factory->create('menu', 'menus');

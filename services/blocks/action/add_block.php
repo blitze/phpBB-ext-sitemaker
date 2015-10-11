@@ -31,7 +31,9 @@ class add_block extends base_action
 		$default_settings = $block_instance->get_config(array());
 		$block_settings = $this->blocks->sync_settings($default_settings);
 
-		$entity = new \blitze\sitemaker\model\blocks\entity\block(array(
+		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+
+		$entity = $block_mapper->create_entity(array(
 			'name'			=> $name,
 			'weight'		=> $this->request->variable('weight', 0),
 			'position'		=> $this->request->variable('position', ''),
@@ -41,7 +43,6 @@ class add_block extends base_action
 			'settings'		=> $block_settings,
 		));
 
-		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 		$entity = $block_mapper->save($entity);
 
 		return $this->render_block($entity);

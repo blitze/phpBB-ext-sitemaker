@@ -64,7 +64,7 @@ abstract class base_action implements action_interface
 		{
 			$route_data['has_blocks'] = $has_blocks;
 
-			$entity = new \blitze\sitemaker\model\blocks\entity\route($route_data);
+			$entity = $route_mapper->create_entity($route_data);
 			$route = $route_mapper->save($entity);
 		}
 

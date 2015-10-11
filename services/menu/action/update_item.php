@@ -17,8 +17,9 @@ class update_item extends base_action
 		$field = $this->request->variable('field', 'item_icon');
 
 		$allowed_fields = array(
-			'item_title'	=> $this->request->variable('item_title', '', true),
 			'item_icon'		=> $this->request->variable('item_icon', ''),
+			'item_status'	=> $this->request->variable('item_status', 0),
+			'item_title'	=> $this->request->variable('item_title', '', true),
 		);
 
 		if (!$item_id)
