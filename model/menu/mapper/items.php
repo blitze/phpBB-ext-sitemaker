@@ -14,6 +14,9 @@ use blitze\sitemaker\services\menu\nestedset;
 
 class items extends base_mapper
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \blitze\sitemaker\services\menu\nestedset */
 	protected $tree;
 
@@ -29,40 +32,47 @@ class items extends base_mapper
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
+	 * @param \phpbb\config\config							$config				Config object
 	 * @param array
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options = array())
+	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options, \phpbb\config\config $config)
 	{
 		parent::__construct($db, $collection, $mapper_factory, $options);
 
-		$this->tree = new nestedset($db, $this->_entity_table, $this->_entity_pkey);
+		$this->config = $config;
+		$this->tree = new nestedset(
+			$db,
+			new \phpbb\lock\db('sitemaker.table_lock.menu_items_table', $this->config, $db),
+			$this->_entity_table
+		);
 	}
 
 	public function load(array $condition = array())
 	{
-		$node_id = $condition['item_id'];
-		$row = $this->tree->get_row($node_id);
+		$sql_where = join(' AND ', $this->_get_condition($condition));
+		$row = $this->tree
+			->set_sql_where($sql_where)
+			->get_item_info();
 
 		if ($row)
 		{
-			return $this->_create_entity($row);
+			return $this->create_entity($row);
 		}
 		return null;
 	}
 
 	public function find(array $condition = array())
 	{
-		$sql_where = $this->_get_condition($condition);
-		$this->tree->set_sql_condition(array_shift($sql_where));
-		$sql = $this->tree->qet_tree_sql();
-		$results = $this->db->sql_query($sql);
+		$sql_where = join(' AND ', $this->_get_condition($condition));
+		$tree_data = $this->tree
+			->set_sql_where($sql_where)
+			->get_all_tree_data();
 
 		$this->_collection->clear();
-		while ($row = $this->db->sql_fetchrow($results))
+		foreach ($tree_data as $id => $row)
 		{
-			$this->_collection[$row[$this->_entity_pkey]] = $this->_create_entity($row);
+			$this->_collection[$id] = $this->create_entity($row);
 		}
-		$this->db->sql_freeresult($results);
 
 		return $this->_collection;
 	}
@@ -71,19 +81,16 @@ class items extends base_mapper
 	{
 		$sql_data = $entity->to_db();
 
+		$this->tree->set_sql_where($this->get_sql_where($entity->get_menu_id()));
+
 		if ($entity->get_item_id())
 		{
-			unset($sql_data['parent_id']);
+			return $this->tree->update_item($entity->get_item_id(), $sql_data);
 		}
-
-		$this->tree->save_node($entity->get_item_id(), $sql_data);
-
-		return $sql_data;
-	}
-
-	public function delete($entity)
-	{
-		$this->tree->delete($entity->get_item_id());
+		else
+		{
+			return $this->tree->insert($sql_data);
+		}
 	}
 
 	public function add_items($menu_id, $parent_id, $string)
@@ -92,15 +99,13 @@ class items extends base_mapper
 
 		if (sizeof($items))
 		{
-			$branch = array();
-			foreach ($items as $key => $row)
-			{
-				$entity = $this->_create_entity($row);
-				$branch[$key] = $entity->to_db();
-			}
+			$branch = $this->prep_items($items, true);
+			$items = $this->tree
+				->set_sql_where($this->get_sql_where($menu_id))
+				->add_branch($branch, $parent_id);
 
 			return array(
-				'items' => $this->tree->add_branch($branch, $parent_id),
+				'items' => $this->prep_items($items),
 			);
 		}
 
@@ -109,22 +114,42 @@ class items extends base_mapper
 
 	public function update_items($menu_id, array $items)
 	{
-		$this->tree->set_sql_condition('menu_id = ' . $menu_id);
-		$this->tree->update_tree($items);
-
-		return array(
-			'errors' => $this->tree->get_errors(),
-		);
+		return $this->tree
+			->set_sql_where($this->get_sql_where($menu_id))
+			->update_tree($items);
 	}
 
 	public function reorder_items($menu_id)
 	{
-		$this->tree->set_sql_condition('menu_id = ' . $menu_id);
-		$this->tree->recalc_nestedset();
+		return $this->tree
+			->set_sql_where($this->get_sql_where($menu_id))
+			->regenerate_left_right_ids(1);
 	}
 
-	public function get_errors()
+	/**
+	 * Create the entity
+	 */
+	public function create_entity(array $row)
 	{
-		return $this->tree->get_errors();
+		return new $this->_entity_class($this->config['enable_mod_rewrite'], $row);
+	}
+
+	protected function prep_items($items, $db_mode = false)
+	{
+		$branch = array();
+		$method = ($db_mode) ? 'to_db' : 'to_array';
+
+		foreach ($items as $key => $row)
+		{
+			$entity = $this->create_entity($row);
+			$branch[$key] = $entity->$method();
+		}
+
+		return $branch;
+	}
+
+	protected function get_sql_where($menu_id)
+	{
+		return '%smenu_id = ' . (int) $menu_id;
 	}
 }

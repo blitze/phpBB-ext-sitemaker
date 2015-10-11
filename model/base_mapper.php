@@ -14,11 +14,11 @@ abstract class base_mapper implements mapper_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \blitze\sitemaker\model\mapper_factory */
-	protected $mapper_factory;
-
 	/** @var \blitze\sitemaker\model\base_collection */
 	protected $_collection;
+
+	/** @var \blitze\sitemaker\model\mapper_factory */
+	protected $mapper_factory;
 
 	/** @var string */
 	protected $_entity_table;
@@ -35,7 +35,6 @@ abstract class base_mapper implements mapper_interface
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
-	 * @param array
 	 */
 	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options = array())
 	{
@@ -71,37 +70,7 @@ abstract class base_mapper implements mapper_interface
 		{
 			throw new DataMapperException('The specified entity table is invalid.');
 		}
-
 		$this->_entity_table = $entity_table;
-	}
-
-	/**
-	 * Get the entity table
-	 */
-	public function get_entity_table()
-	{
-		return $this->_entity_table;
-	}
-
-	/**
-	 * Set the entity class
-	 */
-	public function set_entity_class($entity_class)
-	{
-		if (!class_exists($entity_class))
-		{
-			throw new DataMapperException('The specified entity class is invalid.');
-		}
-
-		$this->_entity_class = $entity_class;
-	}
-
-	/**
-	 * Get the entity class
-	 */
-	public function get_entity_class()
-	{
-		return $this->_entity_class;
 	}
 
 	/**
@@ -116,7 +85,7 @@ abstract class base_mapper implements mapper_interface
 
 		if ($row)
 		{
-			return $this->_create_entity($row);
+			return $this->create_entity($row);
 		}
 		return null;
 	}
@@ -132,7 +101,7 @@ abstract class base_mapper implements mapper_interface
 
 		while ($row = $this->db->sql_fetchrow($results))
 		{
-			$this->_collection[$row[$this->_entity_pkey]] = $this->_create_entity($row);
+			$this->_collection[$row[$this->_entity_pkey]] = $this->create_entity($row);
 		}
 		$this->db->sql_freeresult($results);
 
@@ -140,7 +109,7 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Save the block entity
+	 * Save the entity
 	 */
 	public function save($entity)
 	{
@@ -170,6 +139,14 @@ abstract class base_mapper implements mapper_interface
 
 		$sql_where = $this->_get_condition($condition);
 		$this->db->sql_query('DELETE FROM ' . $this->_entity_table . (sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : ''));
+	}
+
+	/**
+	 * Create the entity
+	 */
+	public function create_entity(array $row)
+	{
+		return new $this->_entity_class($row);
 	}
 
 	/**
@@ -205,14 +182,6 @@ abstract class base_mapper implements mapper_interface
 			return $this->db->sql_query('UPDATE ' . $this->_entity_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) .' WHERE ' . $this->_entity_pkey . ' = ' . $id);
 		}
 		throw new DataMapperException('The specified entity is not allowed for this mapper.');
-	}
-
-	/**
-	 * Create the entity
-	 */
-	protected function _create_entity(array $row)
-	{
-		return new $this->_entity_class($row);
 	}
 
 	protected function _find_sql(array $sql_where)

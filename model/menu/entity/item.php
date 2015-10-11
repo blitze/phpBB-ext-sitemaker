@@ -23,8 +23,6 @@ use blitze\sitemaker\model\base_entity;
  * @method string get_item_url()
  * @method object set_item_icon($item_icon)
  * @method string get_item_icon()
- * @method object set_item_desc($item_desc)
- * @method string get_item_desc()
  * @method object set_item_target($item_target)
  * @method integer get_item_target()
  * @method object set_item_status($item_status)
@@ -33,6 +31,8 @@ use blitze\sitemaker\model\base_entity;
  * @method integer get_left_id()
  * @method object set_right_id($right_id)
  * @method integer get_right_id()
+ * @method object item_parents($item_parents)
+ * @method integer get_item_parents()
  * @method object set_depth($depth)
  * @method integer get_depth()
  */
@@ -59,9 +59,6 @@ final class item extends base_entity
 	/** @var string */
 	protected $item_icon = '';
 
-	/** @var string */
-	protected $item_desc = '';
-
 	/** @var integer */
 	protected $item_target = 0;
 
@@ -74,8 +71,45 @@ final class item extends base_entity
 	/** @var integer */
 	protected $right_id = 0;
 
+	/** @var string */
+	protected $item_parents = '';
+
 	/** @var integer */
 	protected $depth = 0;
+
+	/** @var string */
+	protected $full_url = '';
+
+	/** @var boolean */
+	protected $mod_rewrite_enabled;
+
+	/** @var array */
+	protected $db_fields = array(
+		'item_id',
+		'menu_id',
+		'group_id',
+		'parent_id',
+		'item_title',
+		'item_url',
+		'item_icon',
+		'item_target',
+		'item_status',
+		'left_id',
+		'right_id',
+		'item_parents',
+		'depth',
+	);
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct($mod_rewrite_enabled, array $data)
+	{
+		$this->board_url = generate_board_url();
+		$this->mod_rewrite_enabled = $mod_rewrite_enabled;
+
+		parent::__construct($data);
+	}
 
 	/**
 	 * Set block ID
@@ -97,21 +131,32 @@ final class item extends base_entity
 
 	public function set_item_url($item_url)
 	{
-		$this->item_url = $this->sanitize_url($item_url);
+		$this->item_url = ltrim(str_replace($this->board_url, '', $item_url), './');
+		$parts = parse_url($this->item_url);
+
+		if ($this->item_url && empty($parts['host']) && strpos($parts['path'], '.') === false)
+		{
+			$this->item_url = 'app.php/' . $this->item_url;
+		}
+
 		return $this;
 	}
 
-	private function sanitize_url($url)
+	public function get_full_url()
 	{
-		$board_url = generate_board_url();
-		$url = ltrim(str_replace($board_url, '', $url), './');
-		$parts = parse_url($url);
-
-		if ($url && empty($parts['host']) && strpos($parts['path'], '.') === false)
+		$item_url = '';
+		if ($this->item_url)
 		{
-			$url = 'app.php/' . $url;
+			if (strpos($this->item_url, 'app.php') !== false && $this->mod_rewrite_enabled)
+			{
+				$item_url = $this->board_url . str_replace('app.php', '', $this->item_url);
+			}
+			else if (strpos($this->item_url, 'http') === false)
+			{
+				$item_url = $this->board_url . '/' . $this->item_url;
+			}
 		}
 
-		return $url;
+		return $item_url;
 	}
 }

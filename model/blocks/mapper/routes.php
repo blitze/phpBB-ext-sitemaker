@@ -22,13 +22,27 @@ class routes extends base_mapper
 	/** @var string */
 	protected $_entity_pkey = 'route_id';
 
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface					$db					Database object
+	 * @param \blitze\sitemaker\model\blocks\collections\routes	$collection			Route Entity collection
+	 * @param \blitze\sitemaker\model\blocks\entity\route		$entity				Route Entity object
+	 * @param string											$entity_table		Menu table
+	 */
+	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\blocks\collections\routes $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)
+	{
+		parent::__construct($db, $collection, $mapper_factory, $entity_table);
+
+		$this->block_mapper = $mapper_factory->create('blocks', 'blocks');
+	}
+
 	public function load(array $condition = array())
 	{
 		$entity = parent::load($condition);
 
 		if ($entity)
 		{
-			$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 			$collection = $this->block_mapper->find(array(
 				'style'		=> $entity->get_style(),
 				'route_id'	=> $entity->get_route_id(),

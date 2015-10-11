@@ -87,6 +87,26 @@ final class block extends base_entity
 	/** @var string */
 	protected $settings = '';
 
+	/** @var array */
+	protected $db_fields = array(
+		'bid',
+		'icon',
+		'name',
+		'title',
+		'route_id',
+		'position',
+		'weight',
+		'style',
+		'permission',
+		'class',
+		'status',
+		'type',
+		'no_wrap',
+		'hide_title',
+		'hash',
+		'settings'
+	);
+
 	/**
 	 * Set block ID
 	 */

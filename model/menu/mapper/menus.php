@@ -31,7 +31,7 @@ class menus extends base_mapper
 		{
 			$this->items_mapper = $this->mapper_factory->create('menu', 'items');
 			$collection = $this->items_mapper->find(array(
-				'menu_id'	=> $entity->get_menu_id(),
+				'%smenu_id'	=> $entity->get_menu_id(),
 			));
 			$entity->set_items($collection);
 		}
@@ -50,16 +50,5 @@ class menus extends base_mapper
 				'menu_id'	=> $condition->get_menu_id(),
 			));
 		}
-	}
-
-	public function add_item($menu_id)
-	{
-		$this->items_mapper = $this->mapper_factory->create('menu', 'items');
-
-		$entity = new item(array(
-			'menu_id'	=> $menu_id,
-		));
-
-		return $this->items_mapper->save($entity);
 	}
 }

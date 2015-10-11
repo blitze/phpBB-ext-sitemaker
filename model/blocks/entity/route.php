@@ -51,6 +51,17 @@ final class route extends base_entity
 	/** @var \blitze\sitemaker\model\blocks\collections\blocks */
 	protected $blocks = array();
 
+	/** @var array */
+	protected $db_fields = array(
+		'route_id',
+		'ext_name',
+		'route',
+		'style',
+		'hide_blocks',
+		'has_blocks',
+		'ex_positions',
+	);
+
 	/**
 	 * Set route ID
 	 */

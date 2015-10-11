@@ -29,6 +29,12 @@ final class menu extends base_entity
 	/** @var \blitze\sitemaker\model\menu\collections\items */
 	protected $items = array();
 
+	/** @var array */
+	protected $db_fields = array(
+		'menu_id',
+		'menu_name',
+	);
+
 	/**
 	 * Set menu ID
 	 */

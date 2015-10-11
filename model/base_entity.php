@@ -12,7 +12,7 @@ namespace blitze\sitemaker\model;
 abstract class base_entity
 {
 	/**
-	 * Class constructor
+	 * Populate the entity with data
 	 */
 	public function __construct(array $data)
 	{
@@ -39,12 +39,12 @@ abstract class base_entity
 		}
 		else
 		{
-			throw new Exception('Call to undefined method ' . $name . '()');
+			throw new \Exception('Call to undefined method ' . $name . '()');
 		}
 	}
 
 	/**
-	 * Get an associative array with the values assigned to the fields of the entity
+	 * Get an associative array with the values assigned to the fields of the entity, ready for display
 	 */
 	public function to_array()
 	{
@@ -56,19 +56,18 @@ abstract class base_entity
 			$accessor = 'get_' . $attribute;
 			$data[$attribute] = $this->$accessor();
 		}
+		unset($data['db_fields']);
 
 		return $data;
 	}
 
 	/**
-	 * Get an associative array with the values assigned to the fields of the entity
+	 * Get an associative array with the raw values assigned to the fields of the entity, ready for storage
 	 */
 	public function to_db()
 	{
-		$attributes = $this->_get_attributes();
-
 		$db_data = array();
-		foreach ($attributes as $attribute)
+		foreach ($this->db_fields as $attribute)
 		{
 			$type = $this->_get_property_type($attribute);
 			if (in_array($type, array('boolean', 'integer', 'string')))
@@ -105,7 +104,7 @@ abstract class base_entity
 
 		if ($type === false || !$value instanceof $type)
 		{
-			throw new EntityException("Invalid type specified for '$name'.");
+			throw new \EntityException("Invalid type specified for '$name'.");
 		}
 
 		return $value;

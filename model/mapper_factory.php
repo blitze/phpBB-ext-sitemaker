@@ -11,20 +11,16 @@ namespace blitze\sitemaker\model;
 
 class mapper_factory
 {
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
-	/** @var array */
-	protected $mapper_tables;
-
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config					$config		Config object
 	 * @param \phpbb\db\driver\driver_interface		$db			Database object
 	 * @param array									$tables		Tables for data mapping
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, array $tables)
+	public function  __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, array $tables)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->mapper_tables = array_shift($tables);
 	}
@@ -41,6 +37,6 @@ class mapper_factory
 		$mapper_class = 'blitze\\sitemaker\\model\\' . $entity . '\\mapper\\' . $mapper;
 		$collection = 'blitze\\sitemaker\\model\\' . $entity . '\\collections\\' . $mapper;
 
-		return new $mapper_class($this->db, new $collection, $this, $options);
+		return new $mapper_class($this->db, new $collection, $this, $options, $this->config);
 	}
 }

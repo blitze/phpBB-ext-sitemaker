@@ -18,7 +18,7 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	/**
 	 * Constructor
 	 */
-	public function  __construct(array $entities = array())
+	public function __construct(array $entities = array())
 	{
 		if (!empty($entities))
 		{
