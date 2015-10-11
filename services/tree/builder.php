@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\tree;
 /**
 * Manage nested sets
 */
-abstract class builder extends \blitze\sitemaker\services\tree\display
+abstract class builder extends \phpbb\tree\nestedset
 {
 	public static function load_scripts(\blitze\sitemaker\services\util $util)
 	{
@@ -21,6 +21,7 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
+				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/jquery.populate/jquery.populate.min.js',
 				$asset_path . 'ext/blitze/sitemaker/components/nestedSortable/jquery.ui.nestedSortable.min.js',
@@ -34,238 +35,57 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
-	 * Adds a single node as the child of a given parent node
+	* Set additional sql where restrictions
+	*/
+	public function set_sql_where($sql_where)
+	{
+		$this->sql_where = $sql_where;
+		return $this;
+	}
+
+	/**
+	 * Get item data
+	 */
+	public function get_item_info($item_id = 0)
+	{
+		$sql = 'SELECT * FROM ' . $this->table_name . ' ' .
+			(($item_id) ? "WHERE {$this->column_item_id} = " . (int) $item_id : $this->get_sql_where('WHERE'));
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		return $row;
+	}
+
+	/**
+	 * Update a single item
 	 *
+	 * @param	integer	$item_id		The ID of the item to update.
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
-	 * @return	mixed	Returns the ID of the newly inserted node or FALSE upon error.
+	 * @return	array
 	 */
-	public function add_node(&$sql_data)
+	public function update_item($item_id, $sql_data)
 	{
-		if (isset($sql_data['parent_id']) && $sql_data['parent_id'] > 0)
-		{
-			$row = $this->get_row($sql_data['parent_id']);
-
-			if (!$row)
-			{
-				$this->errors[] = 'PARENT_NO_EXIST';
-				return false;
-			}
-
-			$parents_right_id	= (int) $row['right_id'];
-			$parents_depth		= (int) $row['depth'];
-
-			$sql = "UPDATE $this->items_table 
-				SET left_id = CASE WHEN left_id > $parents_right_id
-						THEN left_id + 2
-						ELSE left_id 
-					END,
-					right_id = CASE WHEN right_id >= $parents_right_id
-						THEN right_id + 2
-						ELSE right_id 
-					END
-				WHERE right_id >= $parents_right_id" .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-			$this->db->sql_query($sql);
-
-			$sql_data['left_id']	= $parents_right_id;
-			$sql_data['right_id']	= $parents_right_id + 1;
-			$sql_data['depth']		= $parents_depth + 1;
-		}
-		else
-		{
-			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->items_table" .
-				(($this->sql_where) ? ' WHERE ' . $this->sql_where : '');
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			$sql_data['left_id']	= (int) $row['right_id'] + 1;
-			$sql_data['right_id']	= (int) $row['right_id'] + 2;
-			$sql_data['parent_id']	= 0;
-			$sql_data['depth']		= 0;
-		}
-
-		$sql = "INSERT INTO $this->items_table " . $this->db->sql_build_array('INSERT', $sql_data);
+		$sql = "UPDATE {$this->table_name}
+			SET " . $this->db->sql_build_array('UPDATE', $sql_data) . "
+			WHERE $this->column_item_id = " . (int) $item_id;
 		$this->db->sql_query($sql);
-
-		$new_id = (int) $this->db->sql_nextid();
-		$sql_data[$this->pk] = $new_id;
-		$this->data[$new_id] = $sql_data;
-
-		$this->reset_data();
-	}
-
-	/**
-	 * Save node data. If node exists, update it. If not, create it
-	 *
-	 * @param	int		$node_id	id of the node to be updated
-	 * @param	array	$sql_data	Other item attributes to insert in the database ex. array('title' => 'Item 1').
-	 * @return	null
-	 */
-	public function save_node($node_id, &$sql_data)
-	{
-		if ($node_id)
-		{
-			$this->update_node($node_id, $sql_data);
-		}
-		else
-		{
-			$this->add_node($sql_data);
-		}
-	}
-
-	/**
-	 * Adds a new branch to the tree from an array
-	 *
-	 * @param	array	$branch		Array of nodes to add to tree of form:
-	 * 									array(
-	 * 										1   => array('title' => 'Home', 'url' => 'index.php', parent_id => 0),
-	 * 										2   => array('title' => 'News', 'url' => 'index.php?p=news', parent_id => 0),
-	 * 										3   => array('title' => 'Texas', 'url' => 'index.php?p=news&cat=Texas', parent_id => 2),
-	 * 										4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
-	 * 									);
-	 * @param	int		$parent_id  Parent id of the branch we're adding
-	 * @return	array	newly added branch data
-	 */
-	public function add_branch($branch, $parent_id = 0, $retain_keys = false)
-	{
-		if ($parent_id)
-		{
-			$row = $this->get_row($parent_id);
-
-			if (!$row)
-			{
-				$this->errors[] = 'PARENT_NO_EXIST';
-				return array();
-			}
-
-			$right_id	= (int) $row['right_id'] - 1;
-			$depth		= (int) $row['depth'] + 1;
-
-			// Update existing tree
-			$diff = sizeof($branch) * 2;
-
-			$sql = "UPDATE $this->items_table
-				SET left_id = CASE WHEN left_id > $right_id 
-						THEN left_id + $diff
-						ELSE left_id
-					END,
-					right_id = CASE WHEN right_id > $right_id
-						THEN right_id + $diff
-						ELSE right_id
-					END
-				WHERE right_id > $right_id" .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-			$this->db->sql_query($sql);
-		}
-		else
-		{
-			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->items_table" .
-				(($this->sql_where) ? ' WHERE ' . $this->sql_where : '');
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			$right_id	= (int) $row['right_id'];
-			$parent_id	= 0;
-			$depth		= 0;
-		}
-
-		// Get the highest id
-		$max_id = 0;
-		if ($retain_keys === false)
-		{
-			$sql = "SELECT $this->pk 
-				FROM $this->items_table
-				ORDER BY $this->pk DESC";
-			$result = $this->db->sql_query($sql, 1);
-			$max_id = $this->db->sql_fetchfield($this->pk);
-			$this->db->sql_freeresult($result);
-		}
-
-		// lets start building the nested set
-		$sql_data = array();
-		foreach ($branch as $i => $row)
-		{
-			$left_id	= $right_id + 1;
-			$right_id   = $right_id + 2;
-
-			$sql_data[$i] = $row;
-			$sql_data[$i]['parent_id']	= $parent_id;
-			$sql_data[$i]['depth']		= $depth;
-			$sql_data[$i]['left_id']	= $left_id;
-			$sql_data[$i]['right_id']	= $right_id;
-
-			if ($retain_keys === false)
-			{
-				$sql_data[$i][$this->pk] += $max_id;
-			}
-
-			if ($row['parent_id'])
-			{
-				$left_id	= $sql_data[$row['parent_id']]['right_id'];
-				$right_id   = $left_id + 1;
-
-				$sql_data[$i]['parent_id']	= $row['parent_id'] + $max_id;
-				$sql_data[$i]['depth']		= $sql_data[$row['parent_id']]['depth'] + 1;
-				$sql_data[$i]['left_id']	= $left_id;
-				$sql_data[$i]['right_id']   = $right_id;
-
-				$this->update_right_side($sql_data, $right_id, $row['parent_id'], $branch);
-			}
-		}
-
-		$this->data += $sql_data;
-		$sql_data = array_values($sql_data);
-		$this->db->sql_multi_insert($this->items_table, $sql_data);
-
-		$this->reset_data();
 
 		return $sql_data;
 	}
 
 	/**
-	 * Update a single node
+	 * Update tree
 	 *
-	 * @param	int		$node_id		The ID of the node to update.
-	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
-	 * @return	null
-	 */
-	public function update_node($node_id, &$sql_data)
-	{
-		if (isset($sql_data['parent_id']))
-		{
-			$this->change_branch($node_id, $sql_data['parent_id']);
-
-			if (sizeof($this->errors))
-			{
-				return;
-			}
-		}
-
-		$sql = "UPDATE $this->items_table
-			SET " . $this->db->sql_build_array('UPDATE', $sql_data) . "
-			WHERE $this->pk = " . (int) $node_id;
-		$this->db->sql_query($sql);
-
-		$sql_data = $this->get_row($node_id);
-		$this->data[$node_id] = $sql_data;
-		$this->reset_data();
-	}
-
-	/**
-	 * Update a branch
-	 *
-	 * @param	array	Array of nodes to be updated
+	 * @param	array	$tree 	Array of parent-child items
 	 * @return	null
 	 */
 	public function update_tree($tree)
 	{
-		$items_data = $this->get_tree_array();
+		$items_data = $this->get_all_tree_data();
 
-		/** Remove any new nodes in the tree that did not exist before
+		/**
+		 * Remove any new nodes in the tree that did not exist before
 		 * The intent of this method is to update an existing tree, not add new nodes
 		 */
 		$tree = array_intersect_key($tree, $items_data);
@@ -276,229 +96,20 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 			$tree[$key] = array_merge($items_data[$key], $data);
 		}
 
+		$this->acquire_lock();
+		$this->db->sql_transaction('begin');
+
 		// Rather than updating each item individually, we will just delete all items
-		// then add them all over again with new parent_id|left_id|right_id|depth
-		$this->db->sql_query("DELETE FROM $this->items_table" . (($this->sql_where) ? ' WHERE ' . $this->sql_where : ''));
+		// then add them all over again with new parent_id|left_id|right_id
+		$this->db->sql_query("DELETE FROM {$this->table_name} " . $this->get_sql_where('WHERE'));
 
 		// Now we add it back
-		$this->add_branch($tree, 0, true);
+		$sql_data = $this->add_sub_tree($tree, 0, true);
 
-		$this->data = $tree;
-		$this->reset_data();
-	}
+		$this->db->sql_transaction('commit');
+		$this->lock->release();
 
-	/**
-	 * Delete a node, branch, or leaf
-	 *
-	 * @param	int		$node_id	The ID of the node to delete
-	 * @param	string	$mode		Delete mode: node|branch|leaf
-	 * @return	null
-	 */
-	public function delete($node_id, $mode = 'leaf')
-	{
-		switch ($mode)
-		{
-			case 'node':
-				$this->delete_node($node_id);
-			break;
-			case 'branch':
-				$this->delete_branch($node_id);
-			break;
-			case 'leaf':
-			default:
-				$this->delete_leaf($node_id);
-			break;
-		}
-	}
-
-	/**
-	 * Jump from one branch to another
-	 *
-	 * @param	int		$node_id		The ID of the node to move to another branch
-	 * @param	int		$to_parent_id	The ID of the node's new parent node
-	 * @return	null
-	 */
-	public function change_branch($node_id, $to_parent_id)
-	{
-		$row = $this->get_row($node_id);
-
-		if (!$row)
-		{
-			$this->errors[] = 'NODE_NOT_FOUND';
-			return false;
-		}
-
-		if ($row['parent_id'] == $to_parent_id)
-		{
-			return false;
-		}
-
-		$parent_row = $this->get_row($to_parent_id);
-
-		if ($to_parent_id && !sizeof($parent_row))
-		{
-			$this->errors[] = 'PARENT_NO_EXIST';
-			return false;
-		}
-
-		// Are we going to a new parent that was previously a child of this node?
-		if ($row['left_id'] < $parent_row['left_id'] && $row['right_id'] > $parent_row['left_id'])
-		{
-			$this->move_to_own_child($row, $to_parent_id);
-		}
-		else
-		{
-			$this->move_branch($node_id, $to_parent_id);
-		}
-
-		$sql = "UPDATE $this->items_table SET parent_id = $to_parent_id WHERE $this->pk = " . (int) $node_id;
-		$this->db->sql_query($sql);
-
-		$this->data[$node_id] = $this->get_row($node_id);
-		$this->reset_data();
-	}
-
-	/**
-	 * Move up / down the same branch
-	 *
-	 * @param	int		$node_id	The ID of the node to move
-	 * @param	string	$action		Direction: move_up|move_down
-	 * @param	int		$steps		Number of steps to move up/down
-	 * @return	null
-	 */
-	public function move_by($node_id, $action = 'move_up', $steps = 1)
-	{
-		/**
-		* Fetch all the siblings between the current spot
-		* and where we want to move it to. If there are less than $steps
-		* siblings between the current spot and the target then the
-		* node will move as far as possible
-		*/
-		$node_row = $this->get_row($node_id);
-
-		if (!$node_row)
-		{
-			$this->errors[] = 'NODE_NOT_FOUND';
-			return false;
-		}
-
-		$curr_parent_id = (int) $node_row['parent_id'];
-		$curr_right_id  = (int) $node_row['right_id'];
-		$curr_left_id   = (int) $node_row['left_id'];
-
-		$sql = "SELECT left_id, right_id
-			FROM $this->items_table
-			WHERE parent_id = $curr_parent_id
-				AND " . (($action == 'move_up') ? "right_id < $curr_right_id ORDER BY right_id DESC" : "left_id > $curr_left_id ORDER BY left_id ASC") .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$result = $this->db->sql_query_limit($sql, $steps);
-
-		$target = array();
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$target = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		if (!sizeof($target))
-		{
-			// The node is already on top or bottom
-			return false;
-		}
-		else
-		{
-			$target_left_id = (int) $target['left_id'];
-			$target_right_id = (int) $target['right_id'];
-		}
-
-		/**
-		* $left_id and $right_id define the scope of the nodes that are affected by the move.
-		* $diff_up and $diff_down are the values to substract or add to each node's left_id
-		* and right_id in order to move them up or down.
-		* $move_up_left and $move_up_right define the scope of the nodes that are moving
-		* up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
-		*/
-		if ($action == 'move_up')
-		{
-			$left_id = $target_left_id;
-			$right_id = $curr_right_id;
-
-			$diff_up = $curr_left_id - $target_left_id;
-			$diff_down = $curr_right_id + 1 - $curr_left_id;
-
-			$move_up_left = $curr_left_id;
-			$move_up_right = $curr_right_id;
-		}
-		else
-		{
-			$left_id = $curr_left_id;
-			$right_id = $target_right_id;
-
-			$diff_up = $curr_right_id + 1 - $curr_left_id;
-			$diff_down = $target_right_id - $curr_right_id;
-
-			$move_up_left = $curr_right_id + 1;
-			$move_up_right = $target_right_id;
-		}
-
-		// Now do the dirty job
-		$sql = "UPDATE $this->items_table
-			SET left_id = left_id + CASE
-					WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-					ELSE {$diff_down}
-				END,
-				right_id = right_id + CASE
-					WHEN right_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-					ELSE {$diff_down}
-				END
-			WHERE left_id BETWEEN {$left_id} AND {$right_id}
-				AND right_id BETWEEN {$left_id} AND {$right_id}" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$this->data[$node_id] = $this->get_row($node_id);
-		$this->reset_data();
-	}
-
-	/**
-	 * Recalculate Nested Set
-	 *
-	 * @param int	$new_id		first left_id (should start with 1)
-	 * @param int	$parent_id	parent_id of the current set (default = 0)
-	 * @param int	$depth		starting depth of the current set (default = 0)
-	 * @author EXreaction
-	 */
-	public function recalc_nestedset(&$new_id = 1, $parent_id = 0, $depth = 0)
-	{
-		$sql = "SELECT $this->pk, parent_id, depth, left_id, right_id
-			FROM $this->items_table
-			WHERE parent_id = " . (int) $parent_id .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '') . '
-			ORDER BY left_id ASC';
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			// First we update the left_id for this module
-			if ($row['left_id'] != $new_id)
-			{
-				$this->db->sql_query('UPDATE ' . $this->items_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('left_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
-			}
-			$new_id++;
-
-			// Then we go through any children and update their left/right id's
-			$this->recalc_nestedset($new_id, $row[$this->pk], $depth + 1);
-
-			// Then we come back and update the right_id for this module
-			if ($row['right_id'] != $new_id)
-			{
-				$this->db->sql_query('UPDATE ' . $this->items_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('right_id' => $new_id)) . " WHERE $this->pk = " . (int) $row[$this->pk]);
-			}
-			$new_id++;
-		}
-		$this->db->sql_freeresult($result);
-
-		$this->db->sql_query("UPDATE $this->items_table SET depth = $depth WHERE parent_id = " . (int) $parent_id);
+		return $tree;
 	}
 
 	/**
@@ -546,7 +157,7 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 			$field_values = array_map('trim', explode('|', trim($string))) + $values;
 
 			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
-			$adj_tree[$key][$this->pk] = $key;
+			$adj_tree[$key][$this->column_item_id] = $key;
 			$adj_tree[$key]['parent_id'] = $parent_id;
 
 			$parent_ary[$depth] = $key;
@@ -556,132 +167,138 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
-	 * Takes a flat array of parent/child relationships and converts it to a nested array
+	 * Adds a new branch to the tree from an array
 	 *
-	 * @param	$flat	Flat array
-	 * @return	array	Nested array
+	 * @param	array	$branch		Array of nodes to add to tree of form:
+	 * 									array(
+	 * 										1   => array('title' => 'Home', 'url' => 'index.php', parent_id => 0),
+	 * 										2   => array('title' => 'News', 'url' => 'index.php?p=news', parent_id => 0),
+	 * 										3   => array('title' => 'Texas', 'url' => 'index.php?p=news&cat=Texas', parent_id => 2),
+	 * 										4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
+	 * 									);
+	 * @param	int		$parent_id  Parent id of the branch we're adding
+	 * @return	array	newly added branch data
 	 */
-	public function adjacent_to_nestedset($flat)
+	public function add_branch($branch, $parent_id = 0, $retain_keys = false)
 	{
-		$indexed = array();
-		// first pass - get the array indexed by the primary id
-		foreach ($flat as $row)
-		{
-			$indexed[$row[$this->pk]] = $row;
-			$indexed[$row[$this->pk]]['children'] = array();
-		}
+		$this->acquire_lock();
+		$this->db->sql_transaction('begin');
 
-		//second pass
-		foreach ($indexed as $id => $row)
-		{
-			$indexed[$row['parent_id']]['children'][$id] =& $indexed[$id];
-		}
+		$sql_data = $this->add_sub_tree($branch, $parent_id);
 
-		return $indexed[0]['children'];
+		$this->db->sql_transaction('commit');
+		$this->lock->release();
+
+		return $sql_data;
 	}
 
-	/**
-	 * Move a branch to a another branch
-	 */
-	private function move_branch($node_id, $to_parent_id)
+	protected function add_sub_tree($branch, $parent_id = 0, $retain_keys = false)
 	{
-		$moved_items = $this->get_branch($node_id, 'children', 'descending');
-		$from_data = $moved_items[0];
-		$diff = sizeof($moved_items) * 2;
+		$sql_data = $this->prepare_branch($parent_id, $branch, $retain_keys);
 
-		$moved_ids = array();
-		for ($i = 0, $size = sizeof($moved_items); $i < $size; ++$i)
+		$this->db->sql_multi_insert($this->table_name, $sql_data);
+
+		return $sql_data;
+	}
+
+	protected function prepare_branch($parent_id, array $branch, $retain_keys)
+	{
+		$starting_data = $this->get_starting_data($parent_id, $branch);
+
+		$depth = $starting_data['depth'];
+		$right_id = $starting_data['right_id'];
+		$max_item_id = $this->get_max_item_id($retain_keys);
+
+		$sql_data = array();
+		foreach ($branch as $i => $row)
 		{
-			$moved_ids[] = $moved_items[$i][$this->pk];
+			$left_id	= $right_id + 1;
+			$right_id   = $right_id + 2;
+
+			$sql_data[$i] = $row;
+			$sql_data[$i]['parent_id']	= $parent_id;
+			$sql_data[$i]['left_id']	= $left_id;
+			$sql_data[$i]['right_id']	= $right_id;
+			$sql_data[$i]['depth']		= $depth;
+			$sql_data[$i][$this->column_item_id] += $max_item_id;
+
+			if ($row['parent_id'])
+			{
+				$left_id	= $sql_data[$row['parent_id']]['right_id'];
+				$right_id   = $left_id + 1;
+
+				$sql_data[$i]['parent_id']	= $row['parent_id'] + $max_item_id;
+				$sql_data[$i]['depth'] 		=  $sql_data[$row['parent_id']]['depth'] + 1;
+				$sql_data[$i]['left_id']	= $left_id;
+				$sql_data[$i]['right_id']   = $right_id;
+
+				$this->update_right_side($sql_data, $right_id, $row['parent_id'], $branch);
+			}
 		}
 
-		// Resync parents
-		$sql = "UPDATE $this->items_table
-			SET right_id = right_id - $diff
-			WHERE left_id < " . (int) $from_data['right_id'] . '
-				AND right_id > ' . (int) $from_data['right_id'] .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
+		return array_values($sql_data);
+	}
 
-		// Resync righthand side of tree
-		$sql = "UPDATE $this->items_table
-			SET left_id = left_id - $diff, right_id = right_id - $diff
-			WHERE left_id > " . (int) $from_data['right_id'] .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		if ($to_parent_id > 0)
+	protected function get_starting_data($parent_id, $branch)
+	{
+		if ($parent_id)
 		{
-			$to_data = $this->get_row($to_parent_id);
+			$new_parent = $this->get_item_info($parent_id);
 
-			// Resync new parents
-			$sql = "UPDATE $this->items_table
-				SET right_id = right_id + $diff
-				WHERE " . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
-					AND ' . $this->db->sql_in_set($this->pk, $moved_ids, true) .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-			$this->db->sql_query($sql);
-
-			// Resync the righthand side of the tree
-			$sql = "UPDATE $this->items_table
-				SET left_id = left_id + $diff, right_id = right_id + $diff
-				WHERE left_id > " . (int) $to_data['right_id'] . '
-					AND ' . $this->db->sql_in_set($this->pk, $moved_ids, true) .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-			$this->db->sql_query($sql);
-
-			// Resync moved branch
-			$to_data['right_id'] += $diff;
-			if ($to_data['right_id'] > $from_data['right_id'])
+			if (!$new_parent)
 			{
-				$diff = '+ ' . ($to_data['right_id'] - $from_data['right_id'] - 1);
-			}
-			else
-			{
-				$diff = '- ' . abs($to_data['right_id'] - $from_data['right_id'] - 1);
+				$this->db->sql_transaction('rollback');
+				$this->lock->release();
+				throw new \OutOfBoundsException($this->message_prefix . 'INVALID_PARENT');
 			}
 
-			$to_parent_depth = $to_data['depth'];
+			// adjust items in affected branch
+			$this->prepare_adding_subset(array_keys($branch), $new_parent);
+
+			return array(
+				'depth'		=> $new_parent['depth'] + 1,
+				'right_id'	=> --$new_parent['right_id'],
+			);
 		}
 		else
 		{
-			$sql = "SELECT MAX(right_id) AS right_id
-				FROM $this->items_table
-				WHERE " . $this->db->sql_in_set($this->pk, $moved_ids, true) .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			$to_parent_depth = -1;
-			$diff = '+ ' . (int) ($row['right_id'] - $from_data['left_id'] + 1);
+			return array(
+				'depth'		=> 0,
+				'right_id'	=> $this->get_max_id($this->column_right_id),
+			);
 		}
-
-		$depth_diff = $to_parent_depth - $from_data['depth'] + 1;
-
-		$sql = "UPDATE $this->items_table
-			SET left_id = left_id $diff, right_id = right_id $diff, depth = depth + $depth_diff
-			WHERE " . $this->db->sql_in_set($this->pk, $moved_ids) .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$this->reset_data();
 	}
 
 	/**
-	* Make a node a child of its own child
-	*/
-	private function move_to_own_child($row, $to_parent_id)
+	 * Get the highest id
+	 */
+	protected function get_max_item_id($retain_keys = false)
 	{
-		$this->delete($row[$this->pk], 'node');
-		$row['parent_id'] = $to_parent_id;
-		$this->add_node($row);
+		$max_id = 0;
+		if ($retain_keys === false)
+		{
+			$max_id = $this->get_max_id($this->column_item_id, false);
+		}
+
+		return $max_id;
+	}
+
+	protected function get_max_id($column, $use_sql_where = true)
+	{
+		$sql = "SELECT MAX($column) AS $column
+			FROM {$this->table_name} " .
+			(($use_sql_where) ? $this->get_sql_where('WHERE') : '');
+		$result = $this->db->sql_query($sql);
+		$max_id = $this->db->sql_fetchfield($column);
+		$this->db->sql_freeresult($result);
+
+		return ($max_id) ? $max_id : 0;
 	}
 
 	/**
 	* Update right side of tree
 	*/
-	private function update_right_side(&$data, &$right_id, $index, $branch)
+	protected function update_right_side(&$data, &$right_id, $index, $branch)
 	{
 		$right_id++;
 		$data[$index]['right_id'] = $right_id;
@@ -690,142 +307,5 @@ abstract class builder extends \blitze\sitemaker\services\tree\display
 		{
 			$this->update_right_side($data, $right_id, $branch[$index]['parent_id'], $branch);
 		}
-	}
-
-	/**
-	* Delete single node that has no child nodes
-	*/
-	private function delete_leaf($node_id)
-	{
-		$row = $this->get_row($node_id);
-		$branch = $this->get_branch($node_id, 'children', 'descending', false);
-
-		if (sizeof($branch))
-		{
-			$this->errors[] = 'CANNOT_DELETE_NODE';
-			return false;
-		}
-
-		// Delete the node
-		$sql = "DELETE FROM $this->items_table
-			WHERE $this->pk = $node_id" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$right_id = (int) $row['right_id'];
-
-		// Resync tree
-		$sql = "UPDATE $this->items_table 
-			SET left_id = CASE WHEN left_id > $right_id
-					THEN left_id - 2
-					ELSE left_id
-				END,
-				right_id = CASE WHEN right_id > $right_id
-					THEN right_id - 2
-					ELSE right_id
-				END
-			WHERE (left_id > $right_id OR right_id > $right_id)" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$this->reset_data();
-	}
-
-	/**
-	* Delete a single node, moving any child nodes one level up
-	*/
-	private function delete_node($node_id)
-	{
-		$row = $this->get_row($node_id);
-
-		if (!$row)
-		{
-			$this->errors[] = 'NODE_NOT_FOUND';
-			return false;
-		}
-
-		$node_id	= (int) $node_id;
-		$parent_id	= (int) $row['parent_id'];
-		$left_id	= (int) $row['left_id'];
-		$right_id	= (int) $row['right_id'];
-
-		// Delete the node
-		$sql = "DELETE FROM $this->items_table
-			WHERE $this->pk = $node_id" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		// Move children 1 step up
-		$sql = "UPDATE $this->items_table
-			SET parent_id = $parent_id
-				WHERE parent_id = $node_id" .
-					(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		// Reduce depth by 1
-		$sql = "UPDATE $this->items_table
-			SET depth = depth - 1
-				WHERE left_id BETWEEN $left_id AND $right_id";
-		$this->db->sql_query($sql);
-
-		$sql = "UPDATE $this->items_table 
-			SET 
-				left_id = CASE 
-					WHEN left_id > $right_id
-						THEN left_id - 2
-					WHEN left_id BETWEEN $left_id AND $right_id
-						THEN left_id - 1
-					ELSE left_id
-				END,
-				right_id = CASE 
-					WHEN right_id > $right_id
-						THEN right_id - 2
-					WHEN left_id BETWEEN $left_id AND $right_id
-						THEN right_id - 1
-					ELSE right_id
-				END
-			WHERE (left_id > $left_id OR right_id > $right_id)" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$this->reset_data();
-	}
-
-	/**
-	* Delete an entire branch, the node and all its child nodes
-	*/
-	private function delete_branch($node_id)
-	{
-		$row = $this->get_row($node_id);
-
-		if (!$row)
-		{
-			$this->errors[] = 'NODE_NOT_FOUND';
-			return false;
-		}
-
-		$right_id   = (int) $row['right_id'];
-		$left_id	= (int) $row['left_id'];
-
-		$sql = "DELETE FROM $this->items_table 
-			WHERE left_id BETWEEN $left_id AND $right_id" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$sql = "UPDATE $this->items_table 
-			SET 
-				left_id = CASE WHEN left_id > $left_id
-					THEN left_id - ($right_id - $left_id + 1)
-					ELSE left_id 
-				END,
-				right_id = CASE WHEN right_id > $left_id
-					THEN right_id - ($right_id - $left_id + 1)
-					ELSE right_id 
-				END
-			WHERE (left_id > $left_id OR right_id > $left_id)" .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
-		$this->db->sql_query($sql);
-
-		$this->reset_data();
 	}
 }

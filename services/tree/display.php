@@ -67,22 +67,16 @@ abstract class display
 	/**
 	 * Get node row
 	 */
-	public function get_row($node_id)
+	public function get_node_info($node_id)
 	{
-		if (isset($this->data[$node_id]))
-		{
-			return $this->data[$node_id];
-		}
-
 		$sql = "SELECT *
-			FROM $this->items_table
-			WHERE $this->pk = " . (int) $node_id .
-				(($this->sql_where) ? ' AND ' . $this->sql_where : '');
+			FROM $this->table_name
+			WHERE $this->column_item_id = " . (int) $node_id ;
 		$result = $this->db->sql_query($sql);
-		$this->data[$node_id] = $this->db->sql_fetchrow($result);
+		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $this->data[$node_id];
+		return $row;
 	}
 
 	/**
@@ -180,7 +174,7 @@ abstract class display
 		return $data;
 	}
 
-	public function display_list($data, &$template, $handle = 'tree')
+	public function display_list($data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
 		$prev_depth = 0;
 		$parental_depth = array(0 => -1);
@@ -258,25 +252,5 @@ abstract class display
 		}
 
 		return ($return_mode == 'options') ? $return_options : $return_data;
-	}
-
-	public function set_sql_condition($where)
-	{
-		$this->sql_where = $where;
-	}
-
-	/**
-	 * Return errors
-	 *
-	 * @return array
-	 */
-	public function get_errors()
-	{
-		return $this->errors;
-	}
-
-	public function reset_data()
-	{
-		$this->data = array();
 	}
 }
