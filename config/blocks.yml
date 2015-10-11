@@ -113,7 +113,6 @@ services:
         arguments:
             - @cache
             - @config
-            - @dbal.conn
             - @user
             - @blitze.sitemaker.mapper.factory
             - @blitze.sitemaker.menu.display
