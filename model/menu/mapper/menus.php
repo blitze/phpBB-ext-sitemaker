@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\model\menu\mapper;
 
 use blitze\sitemaker\model\base_mapper;
-use blitze\sitemaker\model\menu\entity\item;
 
 class menus extends base_mapper
 {

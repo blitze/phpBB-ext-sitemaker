@@ -70,8 +70,8 @@ abstract class display
 	public function get_node_info($node_id)
 	{
 		$sql = "SELECT *
-			FROM $this->table_name
-			WHERE $this->column_item_id = " . (int) $node_id ;
+			FROM $this->items_table
+			WHERE $this->pk = " . (int) $node_id ;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);

@@ -35,22 +35,15 @@ abstract class base_mapper implements mapper_interface
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
+	 * @param string										$entity_table
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options = array())
+	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)
 	{
 		$this->db = $db;
 		$this->_collection = $collection;
 		$this->mapper_factory = $mapper_factory;
+		$this->_entity_table = $entity_table;
 
-		if (isset($options['entity_table']))
-		{
-			$this->set_entity_table($options['entity_table']);
-		}
-
-		if (isset($options['entity_class']))
-		{
-			$this->set_entity_class($options['entity_class']);
-		}
 	}
 
 	/**
@@ -59,18 +52,6 @@ abstract class base_mapper implements mapper_interface
 	public function get_collection()
 	{
 		return $this->_collection;
-	}
-
-	/**
-	 * Set the entity table
-	 */
-	public function set_entity_table($entity_table)
-	{
-		if (!is_string($entity_table) || empty($entity_table))
-		{
-			throw new DataMapperException('The specified entity table is invalid.');
-		}
-		$this->_entity_table = $entity_table;
 	}
 
 	/**

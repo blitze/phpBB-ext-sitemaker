@@ -109,7 +109,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$this->db->sql_transaction('commit');
 		$this->lock->release();
 
-		return $tree;
+		return $sql_data;
 	}
 
 	/**

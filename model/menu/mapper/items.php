@@ -32,12 +32,12 @@ class items extends base_mapper
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
+	 * @param string										$entity_table		Menu Items table
 	 * @param \phpbb\config\config							$config				Config object
-	 * @param array
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, array $options, \phpbb\config\config $config)
+	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table, \phpbb\config\config $config)
 	{
-		parent::__construct($db, $collection, $mapper_factory, $options);
+		parent::__construct($db, $collection, $mapper_factory, $entity_table);
 
 		$this->config = $config;
 		$this->tree = new nestedset(

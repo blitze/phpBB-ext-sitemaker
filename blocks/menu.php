@@ -100,8 +100,6 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 			));
 
 			$data = array();
-			$parents = array();
-
 			foreach ($collection as $entity)
 			{
 				if (!$entity->get_item_title())

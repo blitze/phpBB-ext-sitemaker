@@ -21,7 +21,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	private $max_depth = 0;
 
 	/** @var array */
-	private $parental_depth_depth;
+	private $parental_depth;
 
 	/**
 	 * Construct

@@ -27,7 +27,7 @@ class routes extends base_mapper
 	 *
 	 * @param \phpbb\db\driver\driver_interface					$db					Database object
 	 * @param \blitze\sitemaker\model\blocks\collections\routes	$collection			Route Entity collection
-	 * @param \blitze\sitemaker\model\blocks\entity\route		$entity				Route Entity object
+	 * @param \blitze\sitemaker\model\mapper_factory			$mapper_factory		Mapper factory object
 	 * @param string											$entity_table		Menu table
 	 */
 	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\blocks\collections\routes $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)

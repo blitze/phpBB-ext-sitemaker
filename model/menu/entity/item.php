@@ -80,6 +80,9 @@ final class item extends base_entity
 	/** @var string */
 	protected $full_url = '';
 
+	/** @var string */
+	protected $board_url;
+
 	/** @var boolean */
 	protected $mod_rewrite_enabled;
 

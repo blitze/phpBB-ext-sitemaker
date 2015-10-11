@@ -11,6 +11,15 @@ namespace blitze\sitemaker\model;
 
 class mapper_factory
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var array */
+	protected $mapper_tables;
+
 	/**
 	 * Constructor
 	 *
@@ -30,13 +39,9 @@ class mapper_factory
 		$entity = strtolower($entity);
 		$mapper = strtolower($mapper);
 
-		$options = array(
-			'entity_table' => $this->mapper_tables[$mapper]
-		);
-
 		$mapper_class = 'blitze\\sitemaker\\model\\' . $entity . '\\mapper\\' . $mapper;
 		$collection = 'blitze\\sitemaker\\model\\' . $entity . '\\collections\\' . $mapper;
 
-		return new $mapper_class($this->db, new $collection, $this, $options, $this->config);
+		return new $mapper_class($this->db, new $collection, $this, $this->mapper_tables[$mapper], $this->config);
 	}
 }

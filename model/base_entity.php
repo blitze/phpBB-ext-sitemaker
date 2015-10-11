@@ -11,6 +11,9 @@ namespace blitze\sitemaker\model;
 
 abstract class base_entity
 {
+	/** @var array */
+	protected $db_fields = array();
+
 	/**
 	 * Populate the entity with data
 	 */
