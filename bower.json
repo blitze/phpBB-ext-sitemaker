@@ -48,5 +48,8 @@
     "toast-grid": {
       "main": []
     }
+  },
+  "resolutions": {
+    "moment": "~2.9.0"
   }
 }
