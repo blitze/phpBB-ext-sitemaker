@@ -85,19 +85,25 @@
 		{ICON_PICKER}
 
 		<script id="item-template" type="text/x-jquery-tmpl">
-		<li id="item-<%=item_id%>">
-			<div class="ui-state-default ui-corner-all">
-				<span class="left ui-icon ui-icon-arrow-4"></span>
-				<span class="left icon-container">
-	            	<a href="#" id="icon-<%=item_id%>" class="item-action icon-select ui-dialog-titlebar-close ui-corner-all"><i class="<%=item_icon%>"></i></a>
-			</span>
-				<span class="editable" data-field="item_title"><%=item_title%></span>
-				<a href="<%=item_path%>" target="_blank" style="display: inline-block; margin-left: 5px" title="{L_GO_TO}"><span class="ui-icon ui-icon-newwin"></span></a>
-				<input type="checkbox" class="right select-item" style="margin-right: 5px; margin-left: 5px; vertical-align: central" />
-				<a href="#" id="delete-<%=item_id%>" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
-				<a href="#" id="edit-<%=item_id%>" class="right item-action edit-item ui-dialog-titlebar-close ui-corner-all" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
-			</div>
+			{% verbatim %}
+			<li id="item-{{ item_id }}">
+				<div class="ui-state-default ui-corner-all">
+					<span class="icon-container left">
+						<a href="#" id="icon-{{ item_id }}" class="icon-select ui-dialog-titlebar-close ui-corner-all"><i class="{{ item_icon }}"></i></a>
+					</span>
+					<span class="editable" data-field="item_title">{{ item_title }}</span>
+					<input type="checkbox" class="select-item right" />
+					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="delete" title="{L_deleteNode}"><i class="fa fa-close"></i></a>
+					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="edit" title="{L_editNode}"><i class="fa fa-cog"></i></a>
+					{% if item_status %}
+						<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="hide" title="{L_hideNode}"><i class="fa fa-toggle-on"></i></a>
+					{% else %}
+						<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="show" title="{L_showNode}"><i class="fa fa-toggle-off"></i></a>
+					{% endif %}
+					{% if item_url is not empty %}<a href="{{ full_url }}" target="_blank" class="right item-spacing" title="{L_visitPage}"><i class="fa fa-external-link"></i></a>{% endif %}
+				</div>
 			</li>
+			{% endverbatim %}
 		</script>
 
 		<div id="dialog-menu" class="dialog" title="{L_ADD_MENU}" style="display: none;">
@@ -160,15 +166,18 @@
 	var lang = {
 		none				: '{LA_NONE}',
 		changeMe			: '{LA_CHANGE_ME}',
+		addNode				: '{LA_ADD_ITEM}',
 		editNode			: '{LA_EDIT}',
+		hideNode			: '{LA_HIDE}',
+		showNode			: '{LA_SHOW}',
 		cancel				: '{LA_CANCEL}',
 		remove				: '{LA_DELETE}',
 		deleteNode			: '{LA_DELETE_ITEM}',
 		deleteChildNodes	: '{LA_DELETE_KIDS}',
 		required			: '{LA_REQUIRED}',
-		addNode				: '{LA_ADD_ITEM}',
 		unsavedChanges		: '{LA_UNSAVED_CHANGES}',
-		errorMessage		: '{LA_PROCESSING_ERROR}'
+		errorMessage		: '{LA_PROCESSING_ERROR}',
+		visitPage			: '{LA_VISIT_PAGE}'
 	};
 // ]]>
 </script>

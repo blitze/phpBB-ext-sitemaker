@@ -57,7 +57,7 @@ $lang = array_merge($lang, array(
 	'DELETE_MENU_ITEM_CONFIRM'	=> 'Are you sure you want to delete this menu item?',
 	'DELETE_SELECTED'			=> 'Delete Selected',
 
-	'GO_TO'						=> 'Go to',
+	'HIDE'						=> 'Hide',
 
 	'ITEM_ACTIVE'				=> 'Active',
 	'ITEM_INACTIVE'				=> 'Inactive',
@@ -85,9 +85,11 @@ $lang = array_merge($lang, array(
 	'SELECT_ALL'				=> 'Select All',
 	'SITEMAKER'					=> 'Site Maker',
 	'SITEMAKER_DASHBOARD'		=> 'Dashboard',
+	'SHOW'						=> 'Show',
 
 	'TARGET_BLANK'				=> 'Blank Page',
 	'TARGET_PARENT'				=> 'Parent',
 
 	'USER_ENGAGEMENT'			=> 'User Engagement',
+	'VISIT_PAGE'				=> 'Visit Page',
 ));
