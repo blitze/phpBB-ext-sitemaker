@@ -8,6 +8,7 @@
 	'use strict';
 
 	var lang = window.lang || {};
+	var twig = window.twig || {};
 
 	$.widget('sitemaker.treeBuilder', {
 		options: {
@@ -31,8 +32,7 @@
 			loading: '#loading',
 			ajaxMessage: '#ajax-message',
 			itemTemplate: '#item-template',
-			editClass: '.edit-item',
-			deleteClass: '.delete-item',
+			actionClass: '.item-action',
 			selectItemClass: '.select-item',
 			iconSelectClass: '.icon-select',
 
@@ -176,23 +176,35 @@
 				event.preventDefault();
 				$(event.target).find('#inline-edit').trigger('blur');
 			};
-			events['click' + this.options.editClass] = function(event) {
-				this.dialogID = this.options.dialogEdit;
-				this.itemID = $(event.currentTarget).attr('id').substring('5');
-				this._populateForm(this.itemID);
-				$(this.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
-			};
-			events['click' + this.options.deleteClass] = function(event) {
-				var buttons = $.extend({}, dButtons);
+			events['click' + this.options.actionClass] = function(event) {
+				var action = $(event.currentTarget).data('action');
 
-				this.dialogID = this.options.dialogConfirm;
-				this.itemID = $(event.currentTarget).attr('id').substring('7');
+				this.itemID = self._getItemId($(event.currentTarget));
 
-				if ($('#item-' + this.itemID).children(this.options.listType).children('li').length < 1) {
-					delete buttons[lang.deleteChildNodes];
+				switch (action) {
+					case 'edit':
+						this.dialogID = this.options.dialogEdit;
+						this._populateForm(this.itemID);
+						$(this.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+					break;
+					case 'delete':
+						var buttons = $.extend({}, dButtons);
+
+						this.dialogID = this.options.dialogConfirm;
+
+						if ($('#item-' + this.itemID).children(this.options.listType).children('li').length < 1) {
+							delete buttons[lang.deleteChildNodes];
+						}
+						$(this.dialogID).dialog({buttons: buttons}).dialog('open');
+					break;
+					case 'show':
+					case 'hide':
+						var status = (action === 'show') ? 1 : 0;
+						self._saveItem('update_item', {'item_status': status, 'field': 'item_status'}, this.itemID);
+					break;
 				}
-				$(this.dialogID).dialog({buttons: buttons}).dialog('open');
 			};
+
 			this._on(this.document, events);
 
 			// set button events
@@ -214,8 +226,8 @@
 				var pos = $(event.target).offset();
 				var height = $(event.target).height();
 				var form = $(event.currentTarget).toggleClass('dropped').blur().parent().next().slideToggle().offset({
-					top: pos.top + height / 2,
-					left: pos.left - 165
+					top: pos.top + height + 5,
+					left: pos.left - 167
 				});
 
 				if ($(event.currentTarget).hasClass('dropped') === true) {
@@ -275,8 +287,12 @@
 
 			this.addBtnOffset = this.addBtn.offset();
 			this.noItems = this.element.find(this.options.noItems);
-			this.itemTemplate = this.element.find(this.options.itemTemplate).html();
 			this.editForm = $(this.options.editForm);
+
+			twig({
+				id: 'item_template',
+				data: this.element.find(this.options.itemTemplate).html()
+			});
 
 			this.getItems();
 		},
@@ -296,7 +312,7 @@
 				self.nestedList.empty();
 				self._resetActions();
 
-				if (data !== undefined && data.items.length > 0) {
+				if (data.items !== undefined && data.items.length > 0) {
 					self._showActions();
 					self._addToTree(data.items);
 				}
@@ -349,14 +365,14 @@
 					var children = parentObj.children(this.options.listType);
 
 					if (children.length === 0) {
-						html = $('<' + this.options.listType + '>' + this._template(item, this.itemTemplate) + '</' + this.options.listType + '>').hide();
+						html = $('<' + this.options.listType + '>' + this._renderItem(item) + '</' + this.options.listType + '>').hide();
 						html.appendTo(parentObj);
 					} else {
-						html = $(this._template(item, this.itemTemplate)).hide();
+						html = $(this._renderItem(item)).hide();
 						html.appendTo(parentObj.children(this.options.listType));
 					}
 				} else {
-					html = $(this._template(item, this.itemTemplate)).hide();
+					html = $(this._renderItem(item)).hide();
 					html.appendTo(this.nestedList);
 				}
 
@@ -385,6 +401,10 @@
 			});
 
 			return response;
+		},
+
+		_getItemId: function(element) {
+			return element.attr('id').substring('5');
 		},
 
 		_getOptions: function(list, padding, options) {
@@ -430,7 +450,7 @@
 				return;
 			}
 
-			var id = $(e).parentsUntil('li').parent().attr('id').substring('5');
+			var id = this._getItemId($(e).parentsUntil('li').parent());
 			var field = $(e).data('field');
 			var val = $(e).val();
 			var data = {};
@@ -475,12 +495,12 @@
 							case 'update_item':
 								if (self.editing) {
 									self._undoEditable(resp[field]);
+								} else {
+									self._refreshItem(resp);
 								}
 							break;
 							case 'save_item':
-								var element = $('#item-' + resp[self.options.primaryKey]);
-								var replacement = $(self._template(resp, self.itemTemplate)).children();
-								element.children(':first').replaceWith(replacement);
+								var element = self._refreshItem(resp);
 								self._trigger('updated', null, element);
 							break;
 						}
@@ -506,6 +526,7 @@
 
 			this.itemsChanged = false;
 			this.saveBtn.button('option', 'disabled', true);
+			this.deleteSelBtn.button('option', 'disabled', true);
 
 			if (itemsCount > 0) {
 				this.noItems.hide();
@@ -533,10 +554,13 @@
 			this.rebuildBtn.button('enable').show();
 		},
 
-		_template: function(tokens, tpl) {
-			return tpl.replace(/<%=(.+?)%>/g, function(token, match) {
-				return (tokens[match] !== undefined) ? tokens[match] : '';
-			});
+		_renderItem: function(data) {
+			return twig({ref: 'item_template'}).render(data);
+		},
+
+		_refreshItem: function(data) {
+			var replacement = $(this._renderItem(data)).children();
+			return $('#item-' + data[this.options.primaryKey]).children(':first').replaceWith(replacement);
 		},
 
 		_undoEditable: function(v) {

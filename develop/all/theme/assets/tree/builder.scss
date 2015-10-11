@@ -26,8 +26,8 @@
 			input {
 				display: inline-block;
 				margin: auto 4px;
-				height: 16px;
-				line-height: 16px;
+				height: 10px;
+				line-height: 10px;
 				cursor: pointer;
 				cursor: hand;
 			}
@@ -36,7 +36,7 @@
 				@extend input;
 
 				&:hover {
-					border: 1px solid #d5f8a0;
+					outline: 1px solid #d5f8a0;
 				}
 			}
 
@@ -123,6 +123,10 @@
 		display: none;
 		position: absolute;
 		z-index: 1000;
+
+		fieldset {
+			margin: 0;
+		}
 	}
 
 	.error {
@@ -133,10 +137,10 @@
 
 	.item-action {
 		cursor: auto;
+	}
 
-		span:hover {
-			border: 1px solid #ccc;
-		}
+	.item-spacing {
+		margin: 0 5px;
 	}
 
 	select,

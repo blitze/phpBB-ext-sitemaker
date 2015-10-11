@@ -5,11 +5,16 @@
 		var ajaxUrl = window.ajaxUrl || '';
 		var menuId = window.menuId || 0;
 		var lang = window.lang || {};
+		var Twig = window.Twig || {};
 
 		var dButtons = {};
 		var menuAdmin = {};
 		var dialogConfirmDelete = {};
 		var currentMenuTitle = '';
+
+		Twig.extendFunction('lang', function(value) {
+			return (typeof lang[value] !== 'undefined') ? lang[value] : value;
+		});
 
 		var initIconPicker = function() {
 			$('.icon-select').iconPicker({
