@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\services\tree;
 
+use blitze\sitemaker\exception;
+
 /**
 * Manage nested sets
 */
@@ -40,6 +42,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	public function set_sql_where($sql_where)
 	{
 		$this->sql_where = $sql_where;
+
 		return $this;
 	}
 
@@ -138,6 +141,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$fields = array_keys($table_fields);
 		$values = array_fill(0, $field_size, '');
 		$lines = array_filter(explode("\n", $structure));
+		$max_id = $this->get_max_id($this->column_item_id, false);
 
 		$adj_tree = $parent_ary = array();
 		foreach ($lines as $i => $string)
@@ -153,7 +157,7 @@ abstract class builder extends \phpbb\tree\nestedset
 				return array();
 			}
 
-			$key = $i + 1;
+			$key = $i + $max_id + 1;
 			$field_values = array_map('trim', explode('|', trim($string))) + $values;
 
 			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
@@ -179,7 +183,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * @param	int		$parent_id  Parent id of the branch we're adding
 	 * @return	array	newly added branch data
 	 */
-	public function add_branch($branch, $parent_id = 0, $retain_keys = false)
+	public function add_branch($branch, $parent_id = 0)
 	{
 		$this->acquire_lock();
 		$this->db->sql_transaction('begin');
@@ -192,22 +196,21 @@ abstract class builder extends \phpbb\tree\nestedset
 		return $sql_data;
 	}
 
-	protected function add_sub_tree($branch, $parent_id = 0, $retain_keys = false)
+	protected function add_sub_tree($branch, $parent_id = 0)
 	{
-		$sql_data = $this->prepare_branch($parent_id, $branch, $retain_keys);
+		$sql_data = $this->prepare_branch($parent_id, $branch);
 
 		$this->db->sql_multi_insert($this->table_name, $sql_data);
 
 		return $sql_data;
 	}
 
-	protected function prepare_branch($parent_id, array $branch, $retain_keys)
+	protected function prepare_branch($parent_id, array $branch)
 	{
 		$starting_data = $this->get_starting_data($parent_id, $branch);
 
 		$depth = $starting_data['depth'];
 		$right_id = $starting_data['right_id'];
-		$max_item_id = $this->get_max_item_id($retain_keys);
 
 		$sql_data = array();
 		foreach ($branch as $i => $row)
@@ -220,17 +223,16 @@ abstract class builder extends \phpbb\tree\nestedset
 			$sql_data[$i]['left_id']	= $left_id;
 			$sql_data[$i]['right_id']	= $right_id;
 			$sql_data[$i]['depth']		= $depth;
-			$sql_data[$i][$this->column_item_id] += $max_item_id;
 
 			if ($row['parent_id'])
 			{
 				$left_id	= $sql_data[$row['parent_id']]['right_id'];
 				$right_id   = $left_id + 1;
 
-				$sql_data[$i]['parent_id']	= $row['parent_id'] + $max_item_id;
-				$sql_data[$i]['depth'] 		=  $sql_data[$row['parent_id']]['depth'] + 1;
+				$sql_data[$i]['parent_id']	= $row['parent_id'];
+				$sql_data[$i]['depth']		= $sql_data[$row['parent_id']]['depth'] + 1;
 				$sql_data[$i]['left_id']	= $left_id;
-				$sql_data[$i]['right_id']   = $right_id;
+				$sql_data[$i]['right_id']	= $right_id;
 
 				$this->update_right_side($sql_data, $right_id, $row['parent_id'], $branch);
 			}
@@ -267,20 +269,6 @@ abstract class builder extends \phpbb\tree\nestedset
 				'right_id'	=> $this->get_max_id($this->column_right_id),
 			);
 		}
-	}
-
-	/**
-	 * Get the highest id
-	 */
-	protected function get_max_item_id($retain_keys = false)
-	{
-		$max_id = 0;
-		if ($retain_keys === false)
-		{
-			$max_id = $this->get_max_id($this->column_item_id, false);
-		}
-
-		return $max_id;
 	}
 
 	protected function get_max_id($column, $use_sql_where = true)
