@@ -41,6 +41,7 @@ class m9_update_menu_items_fields extends \phpbb\db\migration\migration
 			'drop_columns'	=> array(
 				$this->table_prefix . 'sm_menu_items'	=> array(
 					'item_desc',
+					'group_id',
 				),
 			),
 		);
