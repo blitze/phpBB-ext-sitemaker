@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\model\menu\entity;
+namespace blitze\sitemaker\model\menus\entity;
 
 use blitze\sitemaker\model\base_entity;
 
@@ -15,8 +15,6 @@ use blitze\sitemaker\model\base_entity;
  * @method integer get_item_id()
  * @method object set_menu_id($menu_id)
  * @method integer get_menu_id()
- * @method object set_group_id($group_id)
- * @method integer get_group_id()
  * @method object set_parent_id($parent_id)
  * @method integer get_parent_id()
  * @method string get_item_title()
@@ -43,9 +41,6 @@ final class item extends base_entity
 
 	/** @var integer */
 	protected $menu_id;
-
-	/** @var integer */
-	protected $group_id = 0;
 
 	/** @var integer */
 	protected $parent_id = 0;
@@ -90,7 +85,6 @@ final class item extends base_entity
 	protected $db_fields = array(
 		'item_id',
 		'menu_id',
-		'group_id',
 		'parent_id',
 		'item_title',
 		'item_url',
@@ -106,7 +100,7 @@ final class item extends base_entity
 	/**
 	 * Class constructor
 	 */
-	public function __construct($mod_rewrite_enabled, array $data)
+	public function __construct(array $data, $mod_rewrite_enabled = false)
 	{
 		$this->board_url = generate_board_url();
 		$this->mod_rewrite_enabled = $mod_rewrite_enabled;
@@ -147,16 +141,16 @@ final class item extends base_entity
 
 	public function get_full_url()
 	{
-		$item_url = '';
-		if ($this->item_url)
+		$item_url = $this->item_url;
+		$host = parse_url($item_url, PHP_URL_HOST);
+
+		if ($item_url && !$host)
 		{
-			if (strpos($this->item_url, 'app.php') !== false && $this->mod_rewrite_enabled)
+			$item_url = $this->board_url . '/' . $item_url;
+
+			if ($this->mod_rewrite_enabled === true)
 			{
-				$item_url = $this->board_url . str_replace('app.php', '', $this->item_url);
-			}
-			else if (strpos($this->item_url, 'http') === false)
-			{
-				$item_url = $this->board_url . '/' . $this->item_url;
+				$item_url = str_replace('app.php/', '', $item_url);
 			}
 		}
 

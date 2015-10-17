@@ -43,7 +43,6 @@ abstract class base_mapper implements mapper_interface
 		$this->_collection = $collection;
 		$this->mapper_factory = $mapper_factory;
 		$this->_entity_table = $entity_table;
-
 	}
 
 	/**
@@ -144,7 +143,8 @@ abstract class base_mapper implements mapper_interface
 
 			return $entity;
 		}
-		throw new DataMapperException('The specified entity is not allowed for this mapper.');
+
+		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
 	}
 
 	/**
@@ -162,7 +162,8 @@ abstract class base_mapper implements mapper_interface
 
 			return $this->db->sql_query('UPDATE ' . $this->_entity_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) .' WHERE ' . $this->_entity_pkey . ' = ' . $id);
 		}
-		throw new DataMapperException('The specified entity is not allowed for this mapper.');
+
+		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
 	}
 
 	protected function _find_sql(array $sql_where)

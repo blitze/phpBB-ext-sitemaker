@@ -11,9 +11,9 @@ namespace blitze\sitemaker\tests\controller;
 
 use phpbb\request\request_interface;
 use Symfony\Component\HttpFoundation\Response;
-use blitze\sitemaker\controller\menu_admin;
+use blitze\sitemaker\controller\menus_admin;
 
-class menu_admin_test extends \phpbb_database_test_case
+class menus_admin_test extends \phpbb_database_test_case
 {
 	/**
 	* Define the extensions to be tested
@@ -94,7 +94,7 @@ class menu_admin_test extends \phpbb_database_test_case
 				);
 			}));
 
-		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\menu\action_handler')
+		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\menus\action_handler')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -109,7 +109,7 @@ class menu_admin_test extends \phpbb_database_test_case
 		$this->action_handler->expects($this->exactly($call_count))
 			->method('clear_cache');
 
-		return new menu_admin($request, $user, $this->action_handler, $return_url);
+		return new menus_admin($request, $user, $this->action_handler, $return_url);
 	}
 
 	/**

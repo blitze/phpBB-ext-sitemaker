@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class save_item extends base_action
 {
@@ -20,7 +20,7 @@ class save_item extends base_action
 			return array('errors' => $this->user->lang('MENU_ITEM_NOT_FOUND'));
 		}
 
-		$item_mapper = $this->mapper_factory->create('menu', 'items');
+		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 		if (($entity = $item_mapper->load(array('item_id' => $item_id))) === null)
 		{

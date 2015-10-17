@@ -18,9 +18,9 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    blitze.sitemaker.menu.admin.controller:
-        class: blitze\sitemaker\controller\menu_admin
+    blitze.sitemaker.menus.admin.controller:
+        class: blitze\sitemaker\controller\menus_admin
         arguments:
             - @request
             - @user
-            - @blitze.sitemaker.menu.action_handler
+            - @blitze.sitemaker.menus.action_handler

@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu;
+namespace blitze\sitemaker\services\menus;
 
 class display extends \blitze\sitemaker\services\tree\display
 {

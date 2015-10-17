@@ -120,6 +120,15 @@ final class block extends base_entity
 	}
 
 	/**
+	 * Set title
+	 */
+	public function set_title($title)
+	{
+		$this->title = ucwords(trim($title));
+		return $this;
+	}
+
+	/**
 	 * Set css class
 	 */
 	public function set_class($class)
@@ -142,7 +151,7 @@ final class block extends base_entity
 	 */
 	public function get_permission()
 	{
-		return array_filter(explode(',', $this->permission));
+		return array_map('intval', array_filter(explode(',', $this->permission)));
 	}
 
 	/**

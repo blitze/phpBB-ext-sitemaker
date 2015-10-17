@@ -7,21 +7,21 @@
  *
  */
 
-namespace blitze\sitemaker\model\menu\mapper;
+namespace blitze\sitemaker\model\menus\mapper;
 
 use blitze\sitemaker\model\base_mapper;
-use blitze\sitemaker\services\menu\nestedset;
+use blitze\sitemaker\services\menus\nestedset;
 
 class items extends base_mapper
 {
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \blitze\sitemaker\services\menu\nestedset */
+	/** @var \blitze\sitemaker\services\menus\nestedset */
 	protected $tree;
 
 	/** @var string */
-	protected $_entity_class = 'blitze\sitemaker\model\menu\entity\item';
+	protected $_entity_class = 'blitze\sitemaker\model\menus\entity\item';
 
 	/** @var string */
 	protected $_entity_pkey = 'item_id';
@@ -100,6 +100,7 @@ class items extends base_mapper
 		if (sizeof($items))
 		{
 			$branch = $this->prep_items($items, true);
+
 			$items = $this->tree
 				->set_sql_where($this->get_sql_where($menu_id))
 				->add_branch($branch, $parent_id);
@@ -131,7 +132,7 @@ class items extends base_mapper
 	 */
 	public function create_entity(array $row)
 	{
-		return new $this->_entity_class($this->config['enable_mod_rewrite'], $row);
+		return new $this->_entity_class($row, $this->config['enable_mod_rewrite']);
 	}
 
 	protected function prep_items($items, $db_mode = false)

@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\acp;
 
-use blitze\sitemaker\services\menu\nestedset;
+use blitze\sitemaker\services\menus\nestedset;
 
 /**
 * @package acp
@@ -64,7 +64,7 @@ class menu_module
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
 		// Get all menus
 		$collection = $menu_mapper->find();

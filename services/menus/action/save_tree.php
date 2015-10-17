@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class save_tree extends base_action
 {
@@ -16,7 +16,7 @@ class save_tree extends base_action
 		$menu_id = $this->request->variable('menu_id', 0);
 		$raw_tree = $this->request->variable('tree', array(0 => array('' => 0)));
 
-		$item_mapper = $this->mapper_factory->create('menu', 'items');
+		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 		$tree = array();
 		for ($i = 1, $size = sizeof($raw_tree); $i < $size; $i++)

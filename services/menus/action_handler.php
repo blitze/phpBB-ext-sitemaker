@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu;
+namespace blitze\sitemaker\services\menus;
 
 class action_handler
 {
@@ -41,7 +41,7 @@ class action_handler
 
 	public function create($action)
 	{
-		$action_class = 'blitze\\sitemaker\\services\\menu\\action\\' . $action;
+		$action_class = 'blitze\\sitemaker\\services\\menus\\action\\' . $action;
 
 		if (!class_exists($action_class))
 		{

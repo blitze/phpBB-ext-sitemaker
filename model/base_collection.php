@@ -60,11 +60,11 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	}
 
 	/**
-	 * Move to the next entity in the collection (implementation required by Iterator Interface)
+	 * Get the next entity in the collection (implementation required by Iterator Interface)
 	 */
 	public function next()
 	{
-		next($this->_entities);
+		return next($this->_entities);
 	}
 
 	/**
@@ -108,7 +108,8 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 			}
 			return true;
 		}
-		throw new CollectionException('The specified entity is not allowed for this collection.');
+
+		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
 	}
 
 	/**

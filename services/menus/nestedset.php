@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu;
+namespace blitze\sitemaker\services\menus;
 
 class nestedset extends \blitze\sitemaker\services\tree\builder
 {

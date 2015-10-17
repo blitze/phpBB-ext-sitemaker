@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 abstract class base_action implements action_interface
 {

@@ -7,11 +7,11 @@
  *
  */
 
-namespace blitze\sitemaker\model\menu\collections;
+namespace blitze\sitemaker\model\menus\collections;
 
 use blitze\sitemaker\model\base_collection;
 
 class items extends base_collection
 {
-	protected $_entity_class = 'blitze\sitemaker\model\menu\entity\item';
+	protected $_entity_class = 'blitze\sitemaker\model\menus\entity\item';
 }

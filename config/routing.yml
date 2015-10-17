@@ -4,9 +4,9 @@ blitze_sitemaker_blocks_admin:
     requirements:
         _format: json
 
-blitze_sitemaker_menu_admin:
+blitze_sitemaker_menus_admin:
     path: /menu/admin/{action}
-    defaults: { _controller: blitze.sitemaker.menu.admin.controller:handle, _format: json }
+    defaults: { _controller: blitze.sitemaker.menus.admin.controller:handle, _format: json }
     requirements:
         _format: json
 

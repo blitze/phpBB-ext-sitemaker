@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class load_items extends base_action
 {
@@ -20,7 +20,7 @@ class load_items extends base_action
 			return array();
 		}
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
 		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
 		{

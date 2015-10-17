@@ -7,14 +7,14 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class add_menu extends base_action
 {
 	public function execute()
 	{
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
 		$entity = $menu_mapper->create_entity(array(
 			'menu_name' => $this->user->lang('MENU') . '-' . mt_rand(1000, 9999),

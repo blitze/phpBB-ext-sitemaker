@@ -27,7 +27,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
-	/** @var \blitze\sitemaker\services\menu\display */
+	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
 
 	/**
@@ -37,9 +37,9 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\config\config						$config				Config object
 	 * @param \phpbb\template\template					$user				User object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
-	 * @param \blitze\sitemaker\services\menu\display	$tree				Menu tree display object
+	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menu\display $tree)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -93,7 +93,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		if (($data = $this->cache->get('sitemaker_menus')) === false)
 		{
-			$item_mapper = $this->mapper_factory->create('menu', 'items');
+			$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 			$collection = $item_mapper->find(array(
 				'item_status' => 1
@@ -124,7 +124,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 
 	protected function get_menu_options()
 	{
-		$collection = $this->mapper_factory->create('menu', 'menus')->find();
+		$collection = $this->mapper_factory->create('menus', 'menus')->find();
 
 		$options = array();
 		foreach ($collection as $entity)

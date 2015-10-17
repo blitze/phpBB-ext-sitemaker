@@ -42,7 +42,7 @@ abstract class base_entity
 		}
 		else
 		{
-			throw new \Exception('Call to undefined method ' . $name . '()');
+			throw new \blitze\sitemaker\exception\unexpected_value(array($name, 'UNDEFINED_METHOD'));
 		}
 	}
 

@@ -7,9 +7,9 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
-class add_item extends base_action
+class delete_menu extends base_action
 {
 	public function execute()
 	{
@@ -20,18 +20,17 @@ class add_item extends base_action
 			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
 		}
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
-		$items_mapper = $this->mapper_factory->create('menu', 'items');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
-		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
+		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
 		{
 			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
 		}
 
-		$entity = $items_mapper->create_entity(array(
-			'menu_id'	=> $menu_id,
-		));
+		$menu_mapper->delete($entity);
 
-		return $items_mapper->save($entity);
+		return array(
+			'id'	=> $entity->get_menu_id(),
+		);
 	}
 }

@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\model\menu\entity;
+namespace blitze\sitemaker\model\menus\entity;
 
 use blitze\sitemaker\model\base_entity;
 
@@ -15,8 +15,8 @@ use blitze\sitemaker\model\base_entity;
  * @method integer get_menu_id()
  * @method object set_menu_name($menu_name)
  * @method string get_menu_name()
- * @method object set_items(\blitze\sitemaker\model\menu\collections\items $items)
- * @method \blitze\sitemaker\model\menu\collections\items get_items()
+ * @method object set_items(\blitze\sitemaker\model\menus\collections\items $items)
+ * @method \blitze\sitemaker\model\menus\collections\items get_items()
  */
 final class menu extends base_entity
 {
@@ -26,7 +26,7 @@ final class menu extends base_entity
 	/** @var string */
 	protected $menu_name = '';
 
-	/** @var \blitze\sitemaker\model\menu\collections\items */
+	/** @var \blitze\sitemaker\model\menus\collections\items */
 	protected $items = array();
 
 	/** @var array */
@@ -44,6 +44,12 @@ final class menu extends base_entity
 		{
 			$this->menu_id = (int) $menu_id;
 		}
+		return $this;
+	}
+
+	public function set_menu_name($name)
+	{
+		$this->menu_name = ucwords(trim($name));
 		return $this;
 	}
 }

@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class edit_menu extends base_action
 {
@@ -21,7 +21,7 @@ class edit_menu extends base_action
 			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
 		}
 
-		$menu_mapper = $this->mapper_factory->create('menu', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
 		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
 		{

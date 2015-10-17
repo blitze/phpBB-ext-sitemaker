@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services\menu\action;
+namespace blitze\sitemaker\services\menus\action;
 
 class rebuild_tree extends base_action
 {
@@ -20,7 +20,7 @@ class rebuild_tree extends base_action
 			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
 		}
 
-		$item_mapper = $this->mapper_factory->create('menu', 'items');
+		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 		$item_mapper->reorder_items($menu_id);
 

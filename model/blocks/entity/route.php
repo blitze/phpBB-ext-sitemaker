@@ -37,7 +37,7 @@ final class route extends base_entity
 	protected $route = '';
 
 	/** @var integer */
-	protected $style = 0;
+	protected $style;
 
 	/** @var boolean */
 	protected $hide_blocks = false;
