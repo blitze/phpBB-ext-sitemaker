@@ -1,0 +1,197 @@
+<?php
+/**
+ *
+ * @package sitemaker
+ * @copyright (c) 2015 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+namespace blitze\sitemaker\tests\model\blocks\entity;
+
+use blitze\sitemaker\model\blocks\entity\block;
+
+class block_test extends \phpbb_test_case
+{
+	/**
+	 * Define the extension to be tested.
+	 *
+	 * @return string[]
+	 */
+	protected static function setup_extensions()
+	{
+		return array('blitze/sitemaker');
+	}
+
+	/**
+	 * Test that required fields start with a null 
+	 */
+	function test_required_fields_start_as_null()
+	{
+		$block = new block(array());
+
+		$required_fields = array('bid', 'route_id', 'style');
+
+		foreach ($required_fields as $field)
+		{
+			$accessor = 'get_' . $field;
+			$this->assertNull($block->$accessor());
+		}
+	}
+
+	function test_id_only_set_once()
+	{
+		$block = new block(array());
+
+		$id = 10;
+		$block->set_bid($id);
+		$this->assertEquals($id, $block->get_bid());
+
+		$another_id = 20;
+		$this->assertNotEquals($id, $another_id);
+
+		$block->set_bid($another_id);
+		$this->assertEquals($id, $block->get_bid());
+	}
+
+	/**
+	 * Data set for test_accessors_and_mutators
+	 *
+	 * @return array
+	 */
+	public function accessors_and_mutators_test_data()
+	{
+		return array(
+			array('icon', '', 'fa', 'fa', 'fa fa-check', 'fa fa-check'),
+			array('name', '', 'some string', 'some string', 'another string', 'another string'),
+			array('title', '', 'some title', 'Some Title', 'my block', 'My Block'),
+			array('route_id', null, 1, 1, 2, 2),
+			array('position', '', 'sidebar', 'sidebar', 'bottom', 'bottom'),
+			array('weight', 0, 1, 1, 2, 2),
+			array('style', null, 1, 1, 2, 2),
+			array('permission', array(), '', array(), array(1, 4), array(1, 4)),
+			array('class', '', '', '', 'bg1', ' bg1'),
+			array('status', true, 0, false, true, true),
+			array('type', 0, 1, 1, 2, 2),
+			array('no_wrap', false, 1, true, 0, false),
+			array('hide_title', false, 1, true, false, false),
+			array('hash', '', 'some string', 'some string', 'another string', 'another string'),
+			array('settings', array(), array(), array(), array('my_setting' => 2), array('my_setting' => 2)),
+		);
+	}
+
+	/**
+	 * Test entity accessor and mutator
+	 *
+	 * @dataProvider accessors_and_mutators_test_data
+	 */
+	public function test_accessors_and_mutators($property, $default, $value1, $expect1, $value2, $expect2)
+	{
+		$mutator = 'set_' . $property;
+		$accessor = 'get_' . $property;
+
+		$block = new block(array());
+
+		$this->assertSame($default, $block->$accessor());
+
+		$result = $block->$mutator($value1);
+		$this->assertSame($expect1, $block->$accessor());
+		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\entity\block', $result);
+
+		$block->$mutator($value2);
+		$this->assertNotSame($expect1, $block->$accessor());
+		$this->assertSame($expect2, $block->$accessor());
+	}
+
+	function test_bad_get_set_exceptions()
+	{
+		$block = new block(array());
+
+		try
+		{
+			$this->assertNull($block->get_foo());
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		{
+			$this->assertEquals('get_foo', $e->getMessage());
+		}
+
+		try
+		{
+			$this->assertNull($block->set_foo('bar'));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		{
+			$this->assertEquals('set_foo', $e->getMessage());
+		}
+	}
+
+	function test_cloning_entity()
+	{
+		$block = new block(array(
+			'bid' => 2,
+		));
+
+		$this->assertEquals(2, $block->get_bid());
+
+		$copy = clone $block;
+		$this->assertNull($copy->get_bid());
+	}
+
+	function test_to_array()
+	{
+		$block = new block(array(
+			'bid'		=> 1,
+			'route_id'	=> 1,
+			'style'		=> 1,
+			'name'		=> 'blitze.sitemaker.block.birthday',
+			'title'		=> 'my block',
+			'position'	=> 'sidebar',
+			'permission'	=> array(1, 4),
+			'settings'		=> array('my_setting' => 2),
+		));
+
+		$to_array_expected = array(
+			'bid'			=> 1,
+			'icon'			=> '',
+			'name'			=> 'blitze.sitemaker.block.birthday',
+			'title'			=> 'My Block',
+			'route_id'		=> 1,
+			'position'		=> 'sidebar',
+			'weight'		=> 0,
+			'style'			=> 1,
+			'permission'	=> array(1, 4),
+			'class'			=> '',
+			'status'		=> true,
+			'type'			=> 0,
+			'no_wrap'		=> false,
+			'hide_title'	=> false,
+			'hash'			=> '',
+			'settings'		=> array('my_setting' => 2),
+		);
+
+		$to_db_expected = array(
+			'bid'			=> 1,
+			'icon'			=> '',
+			'name'			=> 'blitze.sitemaker.block.birthday',
+			'title'			=> 'My Block',
+			'route_id'		=> 1,
+			'position'		=> 'sidebar',
+			'weight'		=> 0,
+			'style'			=> 1,
+			'permission'	=> '1,4',
+			'class'			=> '',
+			'status'		=> true,
+			'type'			=> 0,
+			'no_wrap'		=> false,
+			'hide_title'	=> false,
+			'hash'			=> '',
+			'settings'		=> 'a:1:{s:10:"my_setting";i:2;}',
+		);
+
+		$this->assertSame($to_array_expected, $block->to_array());
+		$this->assertSame($to_db_expected, $block->to_db());
+	}
+}
