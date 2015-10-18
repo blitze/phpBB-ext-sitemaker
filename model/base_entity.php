@@ -14,6 +14,9 @@ abstract class base_entity
 	/** @var array */
 	protected $db_fields = array();
 
+	/** @var array */
+	protected $required_fields = array();
+
 	/**
 	 * Populate the entity with data
 	 */
@@ -59,7 +62,7 @@ abstract class base_entity
 			$accessor = 'get_' . $attribute;
 			$data[$attribute] = $this->$accessor();
 		}
-		unset($data['db_fields']);
+		unset($data['db_fields'], $data['required_fields']);
 
 		return $data;
 	}
@@ -69,6 +72,8 @@ abstract class base_entity
 	 */
 	public function to_db()
 	{
+		$this->_check_required();
+
 		$db_data = array();
 		foreach ($this->db_fields as $attribute)
 		{
@@ -95,6 +100,18 @@ abstract class base_entity
 		}
 	}
 
+	protected function _check_required()
+	{
+		$missing = array();
+		foreach ($this->required_fields as $field)
+		{
+			if (!$this->$field)
+			{
+				throw new \blitze\sitemaker\exception\invalid_argument(array($field, 'FIELD_MISSING'));
+			}
+		}
+	}
+
 	protected function _validate_attribute($name, $value)
 	{
 		$type = $this->_get_property_type($name);
@@ -107,7 +124,7 @@ abstract class base_entity
 
 		if ($type === false || !$value instanceof $type)
 		{
-			throw new \EntityException("Invalid type specified for '$name'.");
+			throw new \blitze\sitemaker\exception\unexpected_value(array($name, 'INVALID_TYPE'));
 		}
 
 		return $value;

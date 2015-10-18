@@ -50,18 +50,32 @@ class item_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test that required fields start with a null 
+	 * Test exception on required fields
 	 */
-	function test_required_fields_start_as_null()
+	public function test_required_fields()
 	{
-		$item = new item(array());
-
-		$required_fields = array('item_id', 'menu_id');
+		$required_fields = array('menu_id', 'item_title');
+		$data = array(
+			'menu_id'		=> '2',
+			'item_title'	=> 'item 1',
+		);
 
 		foreach ($required_fields as $field)
 		{
-			$accessor = 'get_' . $field;
-			$this->assertNull($item->$accessor());
+			$test_data = $data;
+			unset($test_data[$field]);
+
+			$entity = new item($test_data);
+
+			try
+			{
+				$entity->to_db();
+				$this->fail('no exception thrown');
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
+				$this->assertEquals($field, $e->getMessage());
+			}
 		}
 	}
 
@@ -88,7 +102,7 @@ class item_test extends \phpbb_test_case
 	public function accessors_and_mutators_test_data()
 	{
 		return array(
-			array('menu_id', null, 1, 1, 2, 2),
+			array('menu_id', 0, 1, 1, 2, 2),
 			array('parent_id', 0, 1, 1, 2, 2),
 			array('item_title', '', 'some title', 'Some Title', 'another title', 'Another Title'),
 			array('item_url', '', 'index.php', 'index.php', 'forum', 'app.php/forum'),
@@ -186,7 +200,6 @@ class item_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'item_id'		=> 1,
 			'menu_id'		=> 1,
 			'parent_id'		=> 0,
 			'item_title'	=> 'Item 1',

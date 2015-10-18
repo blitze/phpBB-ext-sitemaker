@@ -57,14 +57,16 @@ class blocks_test extends base_mapper
 
 		$block = $mapper->create_entity(array(
 			'name'		=> 'blitze.sitemaker.blocks.whois',
+			'position'	=> 'sidebar',
 			'route_id'	=> 1,
 			'style'		=> 1,
 			'weight'	=> 1,
 		));
+
 		$result = $mapper->save($block);
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\entity\block', $result);
-		$this->assertEquals(6, $block->get_bid());
+		$this->assertEquals(6, $result->get_bid());
 	}
 
 	/**

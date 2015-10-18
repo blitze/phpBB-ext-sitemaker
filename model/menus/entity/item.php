@@ -40,7 +40,7 @@ final class item extends base_entity
 	protected $item_id;
 
 	/** @var integer */
-	protected $menu_id;
+	protected $menu_id = 0;
 
 	/** @var integer */
 	protected $parent_id = 0;
@@ -82,8 +82,10 @@ final class item extends base_entity
 	protected $mod_rewrite_enabled;
 
 	/** @var array */
+	protected $required_fields = array('menu_id', 'item_title');
+
+	/** @var array */
 	protected $db_fields = array(
-		'item_id',
 		'menu_id',
 		'parent_id',
 		'item_title',
@@ -144,7 +146,7 @@ final class item extends base_entity
 		$item_url = $this->item_url;
 		$host = parse_url($item_url, PHP_URL_HOST);
 
-		if ($item_url && !$host)
+		if ($item_url && empty($host))
 		{
 			$item_url = $this->board_url . '/' . $item_url;
 

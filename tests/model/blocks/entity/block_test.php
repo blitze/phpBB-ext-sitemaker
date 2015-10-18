@@ -24,18 +24,34 @@ class block_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test that required fields start with a null 
+	 * Test exception on required fields
 	 */
-	function test_required_fields_start_as_null()
+	public function test_required_fields()
 	{
-		$block = new block(array());
-
-		$required_fields = array('bid', 'route_id', 'style');
+		$required_fields = array('name', 'route_id', 'position', 'style');
+		$data = array(
+			'name'		=> 'blitze.sitemaker.block.whois',
+			'route_id'	=> '2',
+			'position'	=> 'sidebar',
+			'style'		=> 1,
+		);
 
 		foreach ($required_fields as $field)
 		{
-			$accessor = 'get_' . $field;
-			$this->assertNull($block->$accessor());
+			$test_data = $data;
+			unset($test_data[$field]);
+
+			$entity = new block($test_data);
+
+			try
+			{
+				$entity->to_db();
+				$this->fail('no exception thrown');
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
+				$this->assertEquals($field, $e->getMessage());
+			}
 		}
 	}
 
@@ -65,10 +81,10 @@ class block_test extends \phpbb_test_case
 			array('icon', '', 'fa', 'fa', 'fa fa-check', 'fa fa-check'),
 			array('name', '', 'some string', 'some string', 'another string', 'another string'),
 			array('title', '', 'some title', 'Some Title', 'my block', 'My Block'),
-			array('route_id', null, 1, 1, 2, 2),
+			array('route_id', 0, 1, 1, 2, 2),
 			array('position', '', 'sidebar', 'sidebar', 'bottom', 'bottom'),
 			array('weight', 0, 1, 1, 2, 2),
-			array('style', null, 1, 1, 2, 2),
+			array('style', 0, 1, 1, 2, 2),
 			array('permission', array(), '', array(), array(1, 4), array(1, 4)),
 			array('class', '', '', '', 'bg1', ' bg1'),
 			array('status', true, 0, false, true, true),
@@ -173,7 +189,6 @@ class block_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'bid'			=> 1,
 			'icon'			=> '',
 			'name'			=> 'blitze.sitemaker.block.birthday',
 			'title'			=> 'My Block',

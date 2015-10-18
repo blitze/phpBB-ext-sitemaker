@@ -71,7 +71,7 @@ class routes_test extends base_mapper
 		$result = $mapper->save($route);
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\entity\route', $result);
-		$this->assertEquals(4, $route->get_route_id());
+		$this->assertEquals(4, $result->get_route_id());
 	}
 
 	/**

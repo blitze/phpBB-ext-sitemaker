@@ -52,7 +52,7 @@ final class block extends base_entity
 	protected $title = '';
 
 	/** @var integer */
-	protected $route_id;
+	protected $route_id = 0;
 
 	/** @var string */
 	protected $position = '';
@@ -61,7 +61,7 @@ final class block extends base_entity
 	protected $weight = 0;
 
 	/** @var integer */
-	protected $style;
+	protected $style = 0;
 
 	/** @var string */
 	protected $permission = '';
@@ -88,8 +88,10 @@ final class block extends base_entity
 	protected $settings = '';
 
 	/** @var array */
+	protected $required_fields = array('name', 'route_id', 'position', 'style');
+
+	/** @var array */
 	protected $db_fields = array(
-		'bid',
 		'icon',
 		'name',
 		'title',

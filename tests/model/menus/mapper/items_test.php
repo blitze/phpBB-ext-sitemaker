@@ -55,7 +55,8 @@ class items_test extends base_mapper
 		$mapper = $this->get_mapper('items');
 
 		$item = $mapper->create_entity(array(
-			'menu_id'	=> 1,
+			'menu_id'		=> 1,
+			'item_title'	=> 'Test',
 		));
 		$result = $mapper->save($item);
 

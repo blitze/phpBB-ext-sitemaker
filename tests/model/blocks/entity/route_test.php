@@ -24,18 +24,32 @@ class route_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test that required fields start with a null 
+	 * Test exception on required fields
 	 */
-	function test_required_fields_start_as_null()
+	public function test_required_fields()
 	{
-		$route = new route(array());
-
-		$required_fields = array('route_id', 'style');
+		$required_fields = array('route', 'style');
+		$data = array(
+			'route'		=> 'index.php',
+			'style'		=> 1,
+		);
 
 		foreach ($required_fields as $field)
 		{
-			$accessor = 'get_' . $field;
-			$this->assertNull($route->$accessor());
+			$test_data = $data;
+			unset($test_data[$field]);
+
+			$entity = new route($test_data);
+
+			try
+			{
+				$entity->to_db();
+				$this->fail('no exception thrown');
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
+				$this->assertEquals($field, $e->getMessage());
+			}
 		}
 	}
 
@@ -64,7 +78,7 @@ class route_test extends \phpbb_test_case
 		return array(
 			array('ext_name', '', 'some string', 'some string', 'another string', 'another string'),
 			array('route', '', 'some string', 'some string', 'another string', 'another string'),
-			array('style', null, 1, 1, 2, 2),
+			array('style', 0, 1, 1, 2, 2),
 			array('hide_blocks', false, 1, true, false, false),
 			array('has_blocks', false, 0, false, true, true),
 			array('ex_positions', array(), array(), array(), array('sidebar', 'top'), array('sidebar', 'top')),
@@ -153,7 +167,6 @@ class route_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'route_id'	=> 1,
 			'ext_name'	=> 'phpbb/pages',
 			'route'		=> 'page/about_us',
 			'style'		=> 1,

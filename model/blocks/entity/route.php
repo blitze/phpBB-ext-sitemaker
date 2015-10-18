@@ -37,7 +37,7 @@ final class route extends base_entity
 	protected $route = '';
 
 	/** @var integer */
-	protected $style;
+	protected $style = 0;
 
 	/** @var boolean */
 	protected $hide_blocks = false;
@@ -52,8 +52,10 @@ final class route extends base_entity
 	protected $blocks = array();
 
 	/** @var array */
+	protected $required_fields = array('route', 'style');
+
+	/** @var array */
 	protected $db_fields = array(
-		'route_id',
 		'ext_name',
 		'route',
 		'style',

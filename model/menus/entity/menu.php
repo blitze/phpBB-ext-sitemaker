@@ -30,8 +30,10 @@ final class menu extends base_entity
 	protected $items = array();
 
 	/** @var array */
+	protected $required_fields = array('menu_name');
+
+	/** @var array */
 	protected $db_fields = array(
-		'menu_id',
 		'menu_name',
 	);
 

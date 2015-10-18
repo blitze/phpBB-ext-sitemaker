@@ -24,18 +24,31 @@ class menu_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test that required fields start with a null 
+	 * Test exception on required fields
 	 */
-	function test_required_fields_start_as_null()
+	public function test_required_fields()
 	{
-		$menu = new menu(array());
-
-		$required_fields = array('menu_id');
+		$required_fields = array('menu_name');
+		$data = array(
+			'menu_name'	=> 'menu 1',
+		);
 
 		foreach ($required_fields as $field)
 		{
-			$accessor = 'get_' . $field;
-			$this->assertNull($menu->$accessor());
+			$test_data = $data;
+			unset($test_data[$field]);
+
+			$entity = new menu($test_data);
+
+			try
+			{
+				$entity->to_db();
+				$this->fail('no exception thrown');
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
+				$this->assertEquals($field, $e->getMessage());
+			}
 		}
 	}
 
@@ -128,7 +141,6 @@ class menu_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'menu_id'	=> 1,
 			'menu_name'	=> 'Menu 1',
 		);
 
