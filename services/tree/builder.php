@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\tree;
 
-use blitze\sitemaker\exception;
-
 /**
 * Manage nested sets
 */
@@ -251,7 +249,7 @@ abstract class builder extends \phpbb\tree\nestedset
 			{
 				$this->db->sql_transaction('rollback');
 				$this->lock->release();
-				throw new \OutOfBoundsException($this->message_prefix . 'INVALID_PARENT');
+				throw new \blitze\sitemaker\exception\OutOfBoundsException($this->message_prefix . 'INVALID_PARENT');
 			}
 
 			// adjust items in affected branch

@@ -1,14 +1,13 @@
 <?php
 /**
-*
-* Pages extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * @package sitemaker
+ * @copyright (c) 2015 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
-namespace phpbb\pages\exception;
+namespace blitze\sitemaker\exception;
 
 /**
 * InvalidArgument exception
@@ -19,7 +18,7 @@ class invalid_argument extends base
 	* Translate this exception
 	*
 	* @param \phpbb\user $user
-	* @return string
+	* @return array|string
 	* @access public
 	*/
 	public function get_message(\phpbb\user $user)
