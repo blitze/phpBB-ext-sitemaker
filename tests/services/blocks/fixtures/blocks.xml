@@ -15,10 +15,14 @@
 		<column>ext_name</column>
 		<column>route</column>
 		<column>style</column>
+		<column>ex_positions</column>
+		<column>has_blocks</column>
 		<row>
 			<value>1</value>
 			<value></value>
 			<value>index.php</value>
+			<value>1</value>
+			<value>bottom</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -26,12 +30,24 @@
 			<value>foo/bar</value>
 			<value>app.php/foo/test/</value>
 			<value>1</value>
+			<value></value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>3</value>
 			<value></value>
 			<value>faq.php</value>
 			<value>2</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value></value>
+			<value>search.php</value>
+			<value>1</value>
+			<value>top</value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
@@ -41,28 +57,32 @@
 		<column>style</column>
 		<column>position</column>
 		<column>settings</column>
+		<column>hash</column>
 		<row>
 			<value>1</value>
-			<value>blitze.sitemaker.blocks.stats</value>
+			<value>my.baz.block</value>
 			<value>1</value>
 			<value>1</value>
 			<value>sidebar</value>
-			<value></value>
+			<value>a:2:{s:10:"my_setting";i:1;s:13:"other_setting";i:0;}</value>
+			<value>d3d9446802a44259755d38e6d163e820</value>
 		</row>
 		<row>
 			<value>2</value>
-			<value>blitze.sitemaker.blocks.stats</value>
+			<value>my.foo.block</value>
 			<value>2</value>
 			<value>1</value>
 			<value>subcontent</value>
 			<value></value>
+			<value></value>
 		</row>
 		<row>
 			<value>3</value>
-			<value>blitze.sitemaker.blocks.stats</value>
+			<value>my.foo.block</value>
 			<value>3</value>
 			<value>2</value>
-			<value>sidebar</value>
+			<value>bottom</value>
+			<value></value>
 			<value></value>
 		</row>
 		<row>
@@ -72,14 +92,25 @@
 			<value>1</value>
 			<value>top</value>
 			<value></value>
+			<value></value>
 		</row>
-	</table>
-	<table name="phpbb_sm_cblocks">
-		<column>block_id</column>
-		<column>block_content</column>
 		<row>
 			<value>5</value>
-			<value>test</value>
+			<value>my.baz.block</value>
+			<value>2</value>
+			<value>1</value>
+			<value>sidebar</value>
+			<value>a:2:{s:10:"my_setting";i:1;s:13:"other_setting";i:0;}</value>
+			<value>d3d9446802a44259755d38e6d163e820</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>my.baz.block</value>
+			<value>3</value>
+			<value>2</value>
+			<value>sidebar</value>
+			<value>a:2:{s:10:"my_setting";i:1;s:13:"other_setting";i:0;}</value>
+			<value>d3d9446802a44259755d38e6d163e820</value>
 		</row>
 	</table>
 </dataset>

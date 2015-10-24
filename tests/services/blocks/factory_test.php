@@ -11,11 +11,15 @@ namespace blitze\sitemaker\tests\services\blocks;
 
 use blitze\sitemaker\services\blocks\factory;
 
-require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
-require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/fixtures/ext/foo/bar/blocks/baz_block.php';
 
 class factory_test extends \phpbb_test_case
 {
+	protected $user;
+	protected $blocks;
+	protected $ptemplate;
+
 	/**
 	 * Define the extension to be tested.
 	 *

@@ -102,7 +102,6 @@ abstract class base_entity
 
 	protected function _check_required()
 	{
-		$missing = array();
 		foreach ($this->required_fields as $field)
 		{
 			if (!$this->$field)

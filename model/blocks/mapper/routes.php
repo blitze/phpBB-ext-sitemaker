@@ -22,28 +22,14 @@ class routes extends base_mapper
 	/** @var string */
 	protected $_entity_pkey = 'route_id';
 
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\db\driver\driver_interface					$db					Database object
-	 * @param \blitze\sitemaker\model\blocks\collections\routes	$collection			Route Entity collection
-	 * @param \blitze\sitemaker\model\mapper_factory			$mapper_factory		Mapper factory object
-	 * @param string											$entity_table		Menu table
-	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\blocks\collections\routes $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)
-	{
-		parent::__construct($db, $collection, $mapper_factory, $entity_table);
-
-		$this->block_mapper = $mapper_factory->create('blocks', 'blocks');
-	}
-
 	public function load(array $condition = array())
 	{
 		$entity = parent::load($condition);
 
 		if ($entity)
 		{
-			$collection = $this->block_mapper->find(array(
+			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+			$collection = $block_mapper->find(array(
 				'style'		=> $entity->get_style(),
 				'route_id'	=> $entity->get_route_id(),
 			));
@@ -60,7 +46,8 @@ class routes extends base_mapper
 		// delete blocks associated with this route and style
 		if ($condition instanceof $this->_entity_class)
 		{
-			$this->block_mapper->delete(array(
+			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+			$block_mapper->delete(array(
 				'style'		=> $condition->get_style(),
 				'route_id'	=> $condition->get_route_id(),
 			));

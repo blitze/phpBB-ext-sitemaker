@@ -34,22 +34,22 @@ class set_startpage_test extends listener_base
 	{
 		$listener = $this->get_listener();
 
+		if ($expected)
+		{
+			$listener->expects($this->once())
+				->method('exit_handler');
+		}
+
 		$this->config['sitemaker_startpage_controller'] = $controller_service;
 		$this->config['sitemaker_startpage_method'] = $controller_method;
 		$this->config['sitemaker_startpage_params'] = $controller_params;
 
 		$this->user->page['page_name'] = $current_page;
 
-		ob_start();
-		define('DONT_EXIT', true);
-
 		$dispatcher = new EventDispatcher();
 		$dispatcher->addListener('core.display_forums_modify_sql', array($listener, 'set_startpage'));
 		$dispatcher->dispatch('core.display_forums_modify_sql');
 
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertEquals($expected, $contents);
+		$this->expectOutputString($expected);
 	}
 }

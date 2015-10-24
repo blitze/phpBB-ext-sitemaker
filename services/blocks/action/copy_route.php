@@ -19,6 +19,7 @@ class copy_route extends base_action
 
 	public function execute($style_id)
 	{
+		$ext_name = $this->request->variable('ext', '');
 		$route	= $this->request->variable('route', '');
 		$from_route = $this->request->variable('from_route', '');
 		$from_style = $this->request->variable('from_style', $style_id);
@@ -26,59 +27,69 @@ class copy_route extends base_action
 		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		$template_route = $this->route_mapper->load(array(
+		$route_data = array(
+			'config'	=> array(),
+			'data'		=> array(),
+		);
+
+		$condition = array(
 			'route'	=> $from_route,
 			'style'	=> $from_style,
-		));
-		$template_blocks = $template_route->get_blocks();
+		);
+
+		if (!($from_entity = $this->route_mapper->load($condition)))
+		{
+			return $route_data;
+		}
 
 		// delete the current route and all it's blocks
 		$this->_delete_route($route, $style_id);
 
-		$copied_route = $this->_duplicate_route($template_route, $route, $style_id);
-		$copied_blocks = $this->_duplicate_blocks($template_blocks, $copied_route->get_route_id(), $copied_route->get_style());
+		$copied_route = $this->_duplicate_route($from_entity, $route, $ext_name, $style_id);
+		$copied_blocks = $this->_duplicate_blocks($from_entity->get_blocks(), $copied_route->get_route_id(), $copied_route->get_style());
 
-		return array(
-			'config'	=> $copied_route,
-			'data'		=> array_filter($copied_blocks),
-		);
+		$route_data['config'] = $copied_route->to_array();
+		$route_data['data'] = array_map('array_filter', $copied_blocks);
+
+		return $route_data;
 	}
 
 	protected function _delete_route($route, $style_id)
 	{
-		$route = $this->route_mapper->load(array(
+		$entity = $this->route_mapper->load(array(
 			'route'	=> $route,
 			'style'	=> $style_id,
 		));
 
-		if ($route)
+		if ($entity)
 		{
-			$this->route_mapper->delete($route);
+			$this->route_mapper->delete($entity);
 		}
 	}
 
-	protected function _duplicate_route($from_route, $to_route, $to_style)
+	protected function _duplicate_route(\blitze\sitemaker\model\blocks\entity\route $from_entity, $route, $ext_name, $style)
 	{
-		$copy = clone $from_route;
-		$copy->set_route($to_route);
-		$copy->set_style($to_style);
+		$copy = clone $from_entity;
+		$copy->set_route($route)
+			->set_ext_name($ext_name)
+			->set_style($style);
 
 		return $this->route_mapper->save($copy);
 	}
 
-	protected function _duplicate_blocks(\blitze\sitemaker\model\base_collection $collection, $route_id, $style_id)
+	protected function _duplicate_blocks(\blitze\sitemaker\model\blocks\collections\blocks $collection, $route_id, $style_id)
 	{
 		$blocks = array();
 		foreach ($collection as $entity)
 		{
 			$copy = clone $entity;
-			$copy->set_style($style_id);
-			$copy->set_route_id($route_id);
+			$copy->set_style($style_id)
+				->set_route_id($route_id);
 
-			$copy = $this->block_mapper->save($copy);
-			$position = $copy->get_position();
+			$copied = $this->block_mapper->save($copy);
+			$position = $copied->get_position();
 
-			$blocks[$position][] = $this->render_block($copy);
+			$blocks[$position][] = $this->render_block($copied);
 		}
 
 		return $blocks;

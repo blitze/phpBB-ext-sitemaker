@@ -5,7 +5,7 @@
 
 namespace foo\bar\blocks;
 
-class foo_block
+class foo_block extends \blitze\sitemaker\services\blocks\driver\block
 {
 	public function get_config($settings)
 	{
@@ -14,16 +14,14 @@ class foo_block
 
 	public function display($settings, $edit_mode = false)
 	{
-		return 'I am foo block';
+		return array(
+			'title'		=> 'I am foo block',
+			'content'	=> 'foo block content'
+		);
 	}
 
 	public function get_name()
 	{
 		return 'my.foo.block';
-	}
-
-	public function set_template($tpl)
-	{
-		$this->ptemplate = $tpl;
 	}
 }

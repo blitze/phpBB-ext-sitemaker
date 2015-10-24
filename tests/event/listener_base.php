@@ -130,6 +130,9 @@ class listener_base extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new listener($this->cache, $this->config, $this->request, $this->container, $this->template, $this->user, $this->sitemaker, $this->blocks, $phpbb_root_path, $phpEx);
+		return $this->getMockBuilder('\blitze\sitemaker\event\listener')
+            ->setConstructorArgs(array($this->cache, $this->config, $this->request, $this->container, $this->template, $this->user, $this->sitemaker, $this->blocks, $phpbb_root_path, $phpEx))
+            ->setMethods(array('exit_handler'))
+            ->getMock();
 	}
 }

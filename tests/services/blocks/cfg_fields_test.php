@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\services\blocks;
 
+use phpbb\request\request_interface;
 use blitze\sitemaker\services\blocks\cfg_fields;
 
 class cfg_fields_test extends \phpbb_database_test_case
@@ -30,18 +31,22 @@ class cfg_fields_test extends \phpbb_database_test_case
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/users.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
 	}
 
-	protected function get_service()
+	protected function get_service($variable_map = array())
 	{
-		global $db, $request, $template, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $db, $request, $template, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$db = $this->new_dbal();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$request = $this->getMock('\phpbb\request\request_interface');
+		$request->expects($this->any())
+			->method('variable')
+			->with($this->anything())
+			->will($this->returnValueMap($variable_map));
 
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()
@@ -80,21 +85,138 @@ class cfg_fields_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Call protected/private method of a class.
+	 * Data set for test_get_edit_form
 	 *
-	 * @param object &$object		Instantiated object that we will run method on.
-	 * @param string $methodName	Method name to call
-	 * @param array  $parameters	Array of parameters to pass into method.
-	 *
-	 * @return mixed Method return.
+	 * @return array
 	 */
-	public function invokeMethod(&$object, $methodName, array $parameters = array())
+	public function get_edit_form_test_data()
 	{
-		$reflection = new \ReflectionClass(get_class($object));
-		$method = $reflection->getMethod($methodName);
-		$method->setAccessible(true);
+		return array(
+			array(
+				'1',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<label><input type="radio" id="my_var" name="config[my_var]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_var]" value="0" class="radio" /> </label>',
+				),
+			),
+			array(
+				1,
+				array('lang' => 'MY_SETTING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => 1),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> true,
+					'TITLE_EXPLAIN'	=> 'MY_SETTING_EXPLAIN',
+					'CONTENT'		=> '<label><input type="radio" id="my_var" name="config[my_var]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_var]" value="0" class="radio" /> </label>',
+				),
+			),
+			array(
+				1,
+				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10, 'append' => 'YEARS'),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<input id="my_var" type="number" maxlength="2" max="20" name="config[my_var]" value="1" />YEARS',
+				),
+			),
+		);
+	}
 
-		return $method->invokeArgs($object, $parameters);
+	/**
+	 * Test the build_multi_select method
+	 *
+	 * @dataProvider get_edit_form_test_data
+	 */
+	public function test_get_edit_form($db_value, $default_settings, $expected)
+	{
+		$block_data = array(
+			'settings'		=> array(
+				'my_var'		=> $db_value,
+			),
+		);
+
+		$default_settings = array(
+			'legend1'	=> 'SETTINGS',
+			'my_var'	=> $default_settings,
+		);
+
+		$expected = array_merge(array(
+			array(
+				'S_LEGEND'	=> 'legend1',
+				'LEGEND'	=> 'SETTINGS',
+			)),
+			array($expected)
+		);
+
+		$cfg_fields = $this->get_service();
+		$html = $cfg_fields->get_edit_form($block_data, $default_settings);
+
+		$this->assertSame($expected, $html['options']);
+	}
+
+	/**
+	 * Data set for test_get_submitted_settings
+	 *
+	 * @return array
+	 */
+	public function get_submitted_settings_test_data()
+	{
+		$options = array(
+			'option1'	=> 'Option #1',
+			'option2'	=> 'Option #2',
+			'option3'	=> 'Option #3',
+			'option4'	=> 'Option #4',
+		);
+
+		return array(
+			array(
+				array(
+					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array(
+						'my_var' => array('option2', 'option4'),
+					)),
+					array('config', array('' => ''), true, request_interface::REQUEST, array()),
+				),
+				array('lang' => 'SELECT_OPTION', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($options, 'option1,option3'), 'default' => '', 'explain' => false),
+				array('my_var' => "option2\noption4"),
+			),
+			array(
+				array(
+					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 'option3')),
+				),
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'params' => array($options, 'option2'), 'explain' => false, 'default' => ''),
+				array('my_var' => 'option3'),
+			),
+			array(
+				array(
+					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 200)),
+				),
+				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10),
+				array('errors' => ''),
+			),
+		);
+	}
+
+	/**
+	 * Test the get_submitted_settings method
+	 *
+	 * @dataProvider get_submitted_settings_test_data
+	 */
+	public function test_get_submitted_settings($variable_map, $field_settings, $expected)
+	{
+		$cfg_fields = $this->get_service($variable_map);
+
+		$default_settings = array('my_var' => $field_settings);
+		$data = $cfg_fields->get_submitted_settings($default_settings);
+
+		$this->assertSame($expected, $data);
 	}
 
 	/**

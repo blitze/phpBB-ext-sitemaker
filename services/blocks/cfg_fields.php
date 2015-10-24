@@ -318,7 +318,7 @@ class cfg_fields
 
 	private function _get_multi_select(array &$cfg_array, array $df_settings)
 	{
-		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => ''))));
+		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => '')), true));
 
 		$multi_select = array_filter($multi_select);
 

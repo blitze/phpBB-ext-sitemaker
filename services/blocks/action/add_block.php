@@ -39,7 +39,7 @@ class add_block extends base_action
 			'position'		=> $this->request->variable('position', ''),
 			'route_id'		=> (int) $route->get_route_id(),
 			'style'			=> (int) $style_id,
-			'hash'			=> md5(join('', $block_settings)),
+			'hash'			=> $this->generate_hash($block_settings),
 			'settings'		=> $block_settings,
 		));
 

@@ -71,6 +71,11 @@ abstract class base_action implements action_interface
 		return $route;
 	}
 
+	protected function generate_hash(array $settings)
+	{
+		return (sizeof($settings)) ? md5(join('', $settings)) : '';
+	}
+
 	protected function render_block(\blitze\sitemaker\model\blocks\entity\block $entity)
 	{
 		$block_name = $entity->get_name();
@@ -89,7 +94,5 @@ abstract class base_action implements action_interface
 				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->user->lang('BLOCK_NO_DATA'),
 			));
 		}
-
-		return array();
 	}
 }

@@ -17,7 +17,7 @@ class update_block extends base_action
 		$field = $this->request->variable('field', 'icon');
 
 		$allowed_fields = array(
-			'title'	=> ucwords(trim($this->request->variable('title', '', true))),
+			'title'	=> $this->request->variable('title', '', true),
 			'icon'	=> $this->request->variable('icon', ''),
 		);
 
@@ -37,7 +37,7 @@ class update_block extends base_action
 		{
 			$mutator = 'set_' . $field;
 			$entity->$mutator($allowed_fields[$field]);
-			$block_mapper->save($entity);
+			$entity = $block_mapper->save($entity);
 		}
 
 		return $this->render_block($entity);

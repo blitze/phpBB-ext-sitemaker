@@ -44,7 +44,7 @@ class save_block extends base_action
 		$submitted_settings = $cfg_fields->get_submitted_settings($default_settings);
 
 		$old_hash = $entity->get_hash();
-		$new_hash = md5(join('', $submitted_settings));
+		$new_hash = $this->generate_hash($submitted_settings);
 
 		$entity->set_hash($new_hash);
 		$entity->set_settings($submitted_settings);

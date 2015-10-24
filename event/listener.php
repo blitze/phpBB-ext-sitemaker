@@ -207,11 +207,7 @@ class listener implements EventSubscriberInterface
 				$response = call_user_func_array(array($controller_object, $method), $arguments);
 				$response->send();
 
-				// This is really used to prevent exiting during tests
-				if (!defined('DONT_EXIT'))
-				{
-					exit_handler();
-				}
+				$this->exit_handler();
 			}
 		}
 	}
@@ -223,5 +219,10 @@ class listener implements EventSubscriberInterface
 			$event['location'] = $this->user->lang('FORUM_INDEX');
 			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 		}
+	}
+
+	protected function exit_handler()
+	{
+		exit_handler();
 	}
 }

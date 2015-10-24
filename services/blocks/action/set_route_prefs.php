@@ -28,27 +28,29 @@ class set_route_prefs extends base_action
 			'ex_positions'	=> array_filter($this->request->variable('ex_positions', array(0 => ''))),
 		);
 
+		// user has made choices that differ from defaults
 		if ($this->_route_is_customized($route_prefs))
 		{
+			// create/update route regardless of whether it has blocks or not
 			$entity = $this->_force_get_route($route);
 			$this->_update_route($entity, $route_prefs);
 		}
+		// user has made choices that match defaults, and route prefs exist in db
 		else if ($entity = $this->route_mapper->load($route))
 		{
+			// route has blocks, so update it
 			if ($this->_route_has_blocks($entity))
 			{
 				$this->_update_route($entity, $route_prefs);
 			}
+			// route has no blocks, so remove it from db
 			else
 			{
 				$this->route_mapper->delete($entity);
 			}
 		}
 
-		return array_merge(
-			$route_prefs,
-			array('message' => $this->user->lang('ROUTE_UPDATED'))
-		);
+		return array('message' => $this->user->lang('ROUTE_UPDATED'));
 	}
 
 	protected function _update_route(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)
