@@ -21,16 +21,11 @@ class update_block extends base_action
 			'icon'	=> $this->request->variable('icon', ''),
 		);
 
-		if (!$block_id)
-		{
-			return array('errors' => $this->user->lang('BLOCK_NOT_FOUND'));
-		}
-
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
 		if (($entity = $block_mapper->load(array('bid' => $block_id))) === null)
 		{
-			return array('errors' => $this->user->lang('BLOCK_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
 		}
 
 		if (isset($allowed_fields[$field]))

@@ -17,7 +17,7 @@ class rebuild_tree extends base_action
 
 		if (!$menu_id)
 		{
-			return array('errors' => $this->user->lang('MENU_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\invalid_argument(array('menu_id', 'MISSING_FIELD'));
 		}
 
 		$item_mapper = $this->mapper_factory->create('menus', 'items');

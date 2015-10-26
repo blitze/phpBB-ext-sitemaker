@@ -16,6 +16,11 @@ class save_tree extends base_action
 		$menu_id = $this->request->variable('menu_id', 0);
 		$raw_tree = $this->request->variable('tree', array(0 => array('' => 0)));
 
+		if (!$menu_id)
+		{
+			throw new \blitze\sitemaker\exception\invalid_argument(array('menu_id', 'MISSING_FIELD'));
+		}
+
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 		$tree = array();

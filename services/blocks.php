@@ -11,7 +11,7 @@ namespace blitze\sitemaker\services;
 
 class blocks
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -35,7 +35,7 @@ class blocks
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service							$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
 	 * @param \phpbb\db\driver\driver_interface				$db						Database object
 	 * @param \phpbb\template\template						$template				Template object
@@ -43,7 +43,7 @@ class blocks
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

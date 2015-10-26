@@ -16,7 +16,7 @@ services:
     blitze.sitemaker.blocks:
         class: blitze\sitemaker\services\blocks
         arguments:
-            - @cache
+            - @cache.driver
             - @config
             - @dbal.conn
             - @template
@@ -60,7 +60,7 @@ services:
         class: blitze\sitemaker\services\blocks\display
         arguments:
             - @auth
-            - @cache
+            - @cache.driver
             - @config
             - @service_container
             - @request
@@ -85,7 +85,7 @@ services:
     blitze.sitemaker.blocks.manager:
         class: blitze\sitemaker\services\blocks\manager
         arguments:
-            - @cache
+            - @cache.driver
             - @blitze.sitemaker.blocks.factory
             - @blitze.sitemaker.mapper.factory
 
@@ -118,7 +118,7 @@ services:
         class: blitze\sitemaker\services\forum\manager
         arguments:
             - @auth
-            - @cache
+            - @cache.driver
             - @config
             - @dbal.conn
             - @user
@@ -135,7 +135,7 @@ services:
     blitze.sitemaker.listener:
         class: blitze\sitemaker\event\listener
         arguments:
-            - @cache
+            - @cache.driver
             - @config
             - @request
             - @service_container
@@ -172,7 +172,7 @@ services:
     blitze.sitemaker.menus.action_handler:
         class: blitze\sitemaker\services\menus\action_handler
         arguments:
-            - @cache
+            - @cache.driver
             - @request
             - @user
             - @blitze.sitemaker.mapper.factory

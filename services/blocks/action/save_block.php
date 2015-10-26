@@ -19,16 +19,11 @@ class save_block extends base_action
 		$block_id = $this->request->variable('id', 0);
 		$update_similar = $this->request->variable('similar', false);
 
-		if (!$block_id)
-		{
-			return array('errors' => $this->user->lang('BLOCK_NOT_FOUND'));
-		}
-
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
 		if (($entity = $this->block_mapper->load(array('bid' => $block_id))) === null)
 		{
-			return array('errors' => $this->user->lang('BLOCK_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
 		}
 
 		$entity->set_permission($this->request->variable('permission', array(0)))

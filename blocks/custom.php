@@ -14,7 +14,7 @@ namespace blitze\sitemaker\blocks;
  */
 class custom extends \blitze\sitemaker\services\blocks\driver\block
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\db\driver\driver_interface */
@@ -32,13 +32,13 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service					$cache				Cache object
+	 * @param \phpbb\cache\driver\driver_interface	$cache				Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db					Database object
 	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\user							$user				User object
 	 * @param string								$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, $cblocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, $cblocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

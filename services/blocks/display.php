@@ -16,7 +16,7 @@ class display
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -51,7 +51,7 @@ class display
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
-	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
@@ -59,7 +59,7 @@ class display
 	 * @param \phpbb\user								$user					User object
 	 * @param \blitze\sitemaker\services\util			$util					Sitemaker Utility object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $util)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $util)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -84,23 +84,16 @@ class display
 			return;
 		}
 
-		$u_edit_mode = '';
-
-		$edit_mode = $this->get_edit_mode();
+		$edit_mode = $this->toggle_edit_mode();
 		$route = $this->get_route();
 		$style_id = $this->get_style_id();
-		$display_mode = $this->get_display_modes($edit_mode, $u_edit_mode);
+		$display_mode = $this->get_display_modes();
+		$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_mode);
 
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 		$route_info = $blocks->get_route_info($route, $style_id, $edit_mode);
 
-		// show admin bar
-		if ($edit_mode === true)
-		{
-			$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->show($route_info);
-		}
-
-		// show blocks
+		$this->show_admin_bar($edit_mode, $route_info);
 		$blocks->display($edit_mode, $route_info, $style_id, $display_mode);
 
 		$this->template->assign_vars(array(
@@ -141,17 +134,23 @@ class display
 	{
 		if ($this->request->is_set('style'))
 		{
-			$style_id = $this->request->variable('style', 0);
+			return $this->request->variable('style', 0);
 		}
 		else
 		{
-			$style_id = (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
+			return (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
 		}
-
-		return $style_id;
 	}
 
-	protected function get_edit_mode()
+	protected function show_admin_bar($edit_mode, array $route_info)
+	{
+		if ($edit_mode)
+		{
+			$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->show($route_info);
+		}
+	}
+
+	protected function toggle_edit_mode()
 	{
 		$edit_mode = $this->request->variable($this->config['cookie_name'] . '_sm_edit_mode', false, false, \phpbb\request\request_interface::COOKIE);
 
@@ -164,7 +163,7 @@ class display
 		return $edit_mode;
 	}
 
-	protected function get_display_modes(&$edit_mode, &$u_edit_mode)
+	protected function get_display_modes()
 	{
 		if ($this->is_subpage === false)
 		{
@@ -183,6 +182,12 @@ class display
 			);
 		}
 
+		return $modes;
+	}
+
+	protected function get_edit_mode_url(&$edit_mode, array &$modes)
+	{
+		$u_edit_mode = '';
 		if ($this->auth->acl_get('a_sm_manage_blocks'))
 		{
 			if ($edit_mode)
@@ -201,6 +206,6 @@ class display
 			$edit_mode = false;
 		}
 
-		return $modes;
+		return $u_edit_mode;
 	}
 }

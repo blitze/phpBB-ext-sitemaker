@@ -22,16 +22,11 @@ class update_item extends base_action
 			'item_title'	=> $this->request->variable('item_title', '', true),
 		);
 
-		if (!$item_id)
-		{
-			return array('errors' => $this->user->lang('MENU_ITEM_NOT_FOUND'));
-		}
-
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
 		if (($entity = $item_mapper->load(array('item_id' => $item_id))) === null)
 		{
-			return array('errors' => $this->user->lang('MENU_ITEM_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_ITEM_NOT_FOUND');
 		}
 
 		if (isset($allowed_fields[$field]))

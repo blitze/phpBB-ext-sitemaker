@@ -14,7 +14,7 @@ namespace blitze\sitemaker\blocks;
  */
 class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -38,7 +38,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service					$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface	$cache					Cache driver interface
 	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\db\driver\driver_interface		$db	 					Database connection
 	 * @param \phpbb\profilefields\manager			$profile_fields			Profile fields manager object
@@ -46,7 +46,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string								$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

@@ -11,7 +11,7 @@ namespace blitze\sitemaker\services\blocks;
 
 class manager
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \blitze\sitemaker\services\blocks\factory */
@@ -26,11 +26,11 @@ class manager
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service							$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->cache = $cache;
 		$this->block_factory = $block_factory;

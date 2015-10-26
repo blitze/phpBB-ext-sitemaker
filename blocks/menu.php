@@ -15,7 +15,7 @@ namespace blitze\sitemaker\blocks;
 */
 class menu extends \blitze\sitemaker\services\blocks\driver\block
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -33,13 +33,13 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service						$cache				Cache object
+	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
 	 * @param \phpbb\config\config						$config				Config object
 	 * @param \phpbb\template\template					$user				User object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
 	{
 		$this->cache = $cache;
 		$this->config = $config;

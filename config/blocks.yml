@@ -2,7 +2,7 @@ services:
     blitze.sitemaker.block.birthday:
         class: blitze\sitemaker\blocks\birthday
         arguments:
-            - @cache
+            - @cache.driver
             - @dbal.conn
             - @user
         calls:
@@ -13,7 +13,7 @@ services:
     blitze.sitemaker.block.custom:
         class: blitze\sitemaker\blocks\custom
         arguments:
-            - @cache
+            - @cache.driver
             - @dbal.conn
             - @request
             - @user
@@ -26,7 +26,7 @@ services:
     blitze.sitemaker.block.featured_member:
         class: blitze\sitemaker\blocks\featured_member
         arguments:
-            - @cache
+            - @cache.driver
             - @config
             - @dbal.conn
             - @profilefields.manager
@@ -42,7 +42,7 @@ services:
         class: blitze\sitemaker\blocks\forum_poll
         arguments:
             - @auth
-            - @cache
+            - @cache.driver
             - @config
             - @dbal.conn
             - @request
@@ -60,7 +60,7 @@ services:
         class: blitze\sitemaker\blocks\forum_topics
         arguments:
             - @auth
-            - @cache
+            - @cache.driver
             - @config
             - @content.visibility
             - @user
@@ -111,7 +111,7 @@ services:
     blitze.sitemaker.block.menu:
         class: blitze\sitemaker\blocks\menu
         arguments:
-            - @cache
+            - @cache.driver
             - @config
             - @user
             - @blitze.sitemaker.mapper.factory

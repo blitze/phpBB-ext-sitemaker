@@ -18,7 +18,7 @@ class add_block extends base_action
 
 		if (($block_instance = $this->block_factory->get_block($name)) === null)
 		{
-			return array('errors' => $this->user->lang('BLOCK_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\invalid_argument(array($name, 'BLOCK_NOT_FOUND'));
 		}
 
 		$route_data = array(

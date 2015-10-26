@@ -19,7 +19,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -59,7 +59,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth						$auth				Permission object
-	 * @param \phpbb\cache\service					$cache				Cache object
+	 * @param \phpbb\cache\driver\driver_interface	$cache				Cache driver interface
 	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\content_visibility				content_visibility	Content visibility object
 	 * @param \phpbb\user							$user				User object
@@ -68,7 +68,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;

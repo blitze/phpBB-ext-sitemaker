@@ -22,8 +22,6 @@ class handle_custom_action extends base_action
 			return $this->phpbb_container->get($service)->$method($block_id);
 		}
 
-		return array(
-			'errors' => $this->user->lang('SERVICE_NOT_FOUND'),
-		);
+		throw new \blitze\sitemaker\exception\out_of_bounds(array($service, 'SERVICE_NOT_FOUND'));
 	}
 }

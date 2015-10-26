@@ -14,7 +14,7 @@ namespace blitze\sitemaker\blocks;
  */
 class birthday extends \blitze\sitemaker\services\blocks\driver\block
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\db\driver\driver_interface */
@@ -26,11 +26,11 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service					$cache		Cache object
+	 * @param \phpbb\cache\driver\driver_interface	$cache		Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db     	Database connection
 	 * @param \phpbb\template\template				$user		User object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

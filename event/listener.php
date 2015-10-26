@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -50,7 +50,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service						$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param ContainerInterface						$phpbb_container		Service container
@@ -61,7 +61,7 @@ class listener implements EventSubscriberInterface
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
