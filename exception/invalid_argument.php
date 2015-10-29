@@ -23,6 +23,7 @@ class invalid_argument extends base
 	*/
 	public function get_message(\phpbb\user $user)
 	{
+		print_r('yes');
 		return $this->translate_portions($user, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
 	}
 }

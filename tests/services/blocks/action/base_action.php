@@ -9,8 +9,8 @@
 
 namespace blitze\sitemaker\tests\services\blocks\action;
 
-require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
-require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/baz_block.php';
 
 class base_action extends \phpbb_database_test_case
 {
@@ -34,11 +34,11 @@ class base_action extends \phpbb_database_test_case
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/blocks.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/../../fixtures/blocks.xml');
 	}
 
 	/**
-	 * Create the blocks mapper
+	 * Create the block command
 	 */
 	protected function get_command($action, $variable_map)
 	{
@@ -68,7 +68,7 @@ class base_action extends \phpbb_database_test_case
 		$user->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 
 		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks')

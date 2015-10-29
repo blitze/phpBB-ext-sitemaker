@@ -174,7 +174,7 @@ abstract class display
 		return $data;
 	}
 
-	public function display_list($data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
 		$prev_depth = 0;
 		$parental_depth = array(0 => -1);

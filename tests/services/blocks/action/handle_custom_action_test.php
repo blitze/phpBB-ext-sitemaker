@@ -22,16 +22,6 @@ class handle_custom_action_test extends base_action
 		return array(
 			array(
 				array(
-					array('id', 0, false, request_interface::REQUEST, 0),
-					array('service', '', false, request_interface::REQUEST, 'invalid.block.service'),
-					array('method', '', false, request_interface::REQUEST, 'display'),
-				),
-				array(
-					'errors' => 'SERVICE_NOT_FOUND',
-				),
-			),
-			array(
-				array(
 					array('id', 0, false, request_interface::REQUEST, 10),
 					array('service', '', false, request_interface::REQUEST, 'custom.block.service'),
 					array('method', '', false, request_interface::REQUEST, 'display'),
@@ -56,5 +46,29 @@ class handle_custom_action_test extends base_action
 		$result = $command->execute(1);
 
 		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * Test service does not exist
+	 */
+	public function test_invalid_service()
+	{
+		$variable_map = array(
+			array('id', 0, false, request_interface::REQUEST, 0),
+			array('service', '', false, request_interface::REQUEST, 'invalid.block.service'),
+			array('method', '', false, request_interface::REQUEST, 'display'),
+		);
+
+		$command = $this->get_command('handle_custom_action', $variable_map);
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('invalid.block.service', $e->getMessage());
+		}
 	}
 }

@@ -11,7 +11,7 @@ namespace blitze\sitemaker\services\menus;
 
 class action_handler
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\request\request_interface */
@@ -26,12 +26,12 @@ class action_handler
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service							$cache					Cache object
+	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache object
 	 * @param \phpbb\request\request_interface				$request				Request object
 	 * @param \phpbb\user									$user					User object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->cache = $cache;
 		$this->request = $request;
@@ -45,7 +45,7 @@ class action_handler
 
 		if (!class_exists($action_class))
 		{
-			return array();
+			throw new \blitze\sitemaker\exception\out_of_bounds(array($action, 'INVALID_REQUEST'));
 		}
 
 		return new $action_class($this->request, $this->user, $this->mapper_factory);

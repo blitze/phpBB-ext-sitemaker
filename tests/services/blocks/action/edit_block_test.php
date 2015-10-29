@@ -21,16 +21,6 @@ class edit_block_test extends base_action
 	{
 		return array(
 			array(
-				0,
-				array('errors' => 'BLOCK_NOT_FOUND'),
-				null,
-			),
-			array(
-				23,
-				array('errors' => 'BLOCK_NOT_FOUND'),
-				null,
-			),
-			array(
 				1,
 				array(
 					'title'		=> 'I am baz block',
@@ -92,5 +82,27 @@ class edit_block_test extends base_action
 
 		$this->assertSame($expected_block, array_intersect_key($result, $expected_block));
 		$this->assertSame($expected_form, $result['form']['options']);
+	}
+
+	/**
+	 * Test editing non-exitent block
+	 */
+	public function test_edit_invalid_block()
+	{
+		$variable_map = array(
+			array('id', 0, false, request_interface::REQUEST, 23),
+		);
+
+		$command = $this->get_command('edit_block', $variable_map);
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('BLOCK_NOT_FOUND', $e->getMessage());
+		}
 	}
 }

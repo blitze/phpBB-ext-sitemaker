@@ -25,8 +25,10 @@ class save_item extends base_action
 		$entity->set_item_title($this->request->variable('item_title', '', true))
 			->set_item_url($this->request->variable('item_url', ''))
 			->set_item_target($this->request->variable('item_target', 0))
-			->set_item_status($this->request->variable('item_status', 1));
+			->set_item_status($this->request->variable('item_status', 0));
 
-		return $item_mapper->save($entity);
+		$item_mapper->save($entity);
+
+		return $entity->to_array();
 	}
 }

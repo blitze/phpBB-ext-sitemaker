@@ -52,10 +52,17 @@ class menus_admin
 			return new Response(json_encode($return_data), 401);
 		}
 
-		$command = $this->action_handler->create($action);
-		$return_data = $command->execute();
+		try
+		{
+			$command = $this->action_handler->create($action);
+			$return_data = $command->execute();
 
-		$this->action_handler->clear_cache();
+			$this->action_handler->clear_cache();
+		}
+		catch (\Exception $e)
+		{
+			$return_data['message'] = $e->get_message($this->user);
+		}
 
 		return new Response(json_encode($return_data));
 	}

@@ -49,8 +49,9 @@ abstract class builder extends \phpbb\tree\nestedset
 	 */
 	public function get_item_info($item_id = 0)
 	{
-		$sql = 'SELECT * FROM ' . $this->table_name . ' ' .
-			(($item_id) ? "WHERE {$this->column_item_id} = " . (int) $item_id : $this->get_sql_where('WHERE'));
+		$sql = 'SELECT * FROM ' . $this->table_name . ' ' . $this->get_sql_where('WHERE') .
+			(($item_id) ? " AND {$this->column_item_id} = " . (int) $item_id : '');
+
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -151,8 +152,7 @@ abstract class builder extends \phpbb\tree\nestedset
 
 			if ($depth && !$parent_id)
 			{
-				$this->errors[] = 'MALFORMED_TREE';
-				return array();
+				throw new \RuntimeException($this->message_prefix . 'MALFORMED_TREE');
 			}
 
 			$key = $i + $max_id + 1;
@@ -179,7 +179,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * 										4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
 	 * 									);
 	 * @param	int		$parent_id  Parent id of the branch we're adding
-	 * @return	array	newly added branch data
+	 * @return	array	ids of newly added items
 	 */
 	public function add_branch($branch, $parent_id = 0)
 	{
@@ -191,7 +191,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$this->db->sql_transaction('commit');
 		$this->lock->release();
 
-		return $sql_data;
+		return array_keys($branch);
 	}
 
 	protected function add_sub_tree($branch, $parent_id = 0)
@@ -249,7 +249,8 @@ abstract class builder extends \phpbb\tree\nestedset
 			{
 				$this->db->sql_transaction('rollback');
 				$this->lock->release();
-				throw new \blitze\sitemaker\exception\OutOfBoundsException($this->message_prefix . 'INVALID_PARENT');
+
+				throw new \RuntimeException($this->message_prefix . 'INVALID_PARENT');
 			}
 
 			// adjust items in affected branch

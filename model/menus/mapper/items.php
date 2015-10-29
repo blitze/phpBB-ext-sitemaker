@@ -97,20 +97,17 @@ class items extends base_mapper
 	{
 		$items = $this->tree->string_to_nestedset($string, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
 
+		$new_item_ids = array();
 		if (sizeof($items))
 		{
-			$branch = $this->prep_items($items, true);
+			$branch = $this->prep_items_for_storage($items);
 
-			$items = $this->tree
+			$new_item_ids = $this->tree
 				->set_sql_where($this->get_sql_where($menu_id))
 				->add_branch($branch, $parent_id);
-
-			return array(
-				'items' => $this->prep_items($items),
-			);
 		}
 
-		return array();
+		return $this->find(array('item_id' => $new_item_ids));
 	}
 
 	public function update_items($menu_id, array $items)
@@ -135,15 +132,13 @@ class items extends base_mapper
 		return new $this->_entity_class($row, $this->config['enable_mod_rewrite']);
 	}
 
-	protected function prep_items($items, $db_mode = false)
+	protected function prep_items_for_storage($items)
 	{
 		$branch = array();
-		$method = ($db_mode) ? 'to_db' : 'to_array';
-
 		foreach ($items as $key => $row)
 		{
 			$entity = $this->create_entity($row);
-			$branch[$key] = $entity->$method();
+			$branch[$key] = $entity->to_db();
 		}
 
 		return $branch;

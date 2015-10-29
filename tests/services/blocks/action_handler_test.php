@@ -94,7 +94,6 @@ class action_handler_test extends \phpbb_test_case
 		$this->blocks->expects($this->once())
 			->method('clear_cache');
 
-
 		$handler->clear_cache();
 	}
 }

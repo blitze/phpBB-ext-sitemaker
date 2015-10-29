@@ -81,7 +81,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$data = $this->get_menu($menu_id);
 
 		$this->tree->set_params($db_data['settings']);
-		$this->tree->display_list(array_values($data), $this->ptemplate, 'tree');
+		$this->tree->display_list($data, $this->ptemplate, 'tree');
 
 		return array(
 			'title'     => $title,

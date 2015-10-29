@@ -92,8 +92,14 @@ class add_block_test extends base_action
 
 		$command = $this->get_command('add_block', $variable_map);
 
-		$expected = array('errors' => 'BLOCK_NOT_FOUND');
-
-		$this->assertSame($expected, $result = $command->execute(1));
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('my.invalid.block', $e->getMessage());
+		}
 	}
 }

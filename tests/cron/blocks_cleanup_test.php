@@ -64,7 +64,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 	 */
 	protected function create_blocks_cleanup_cron_task()
 	{
-		global $cache, $request, $phpbb_root_path, $phpEx;
+		global $cache, $request;
 
 		$table_prefix = 'phpbb_';
 		$blocks_table = $table_prefix . 'sm_blocks';
@@ -82,7 +82,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 			'sitemaker_blocks_cleanup_gc'		=> 604800
 		));
 
-		$cache = new \phpbb\cache\service(new \phpbb\cache\driver\null, $config, $db, $phpbb_root_path, $phpEx);
+		$cache = new \phpbb_mock_cache();
 
 		$blocks_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
 			->disableOriginalConstructor()

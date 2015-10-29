@@ -62,7 +62,7 @@ class action_handler
 
 		if (!class_exists($action_class))
 		{
-			return array();
+			throw new \blitze\sitemaker\exception\out_of_bounds(array($action, 'INVALID_REQUEST'));
 		}
 
 		return new $action_class($this->config, $this->phpbb_container, $this->request, $this->user, $this->blocks, $this->block_factory, $this->mapper_factory);

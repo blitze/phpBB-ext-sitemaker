@@ -36,20 +36,14 @@ abstract class base_action implements action_interface
 
 	protected function _get_items(\blitze\sitemaker\model\base_collection $collection)
 	{
-		$board_url = generate_board_url();
-
 		$items = array();
 		foreach ($collection as $item)
 		{
-			$id = $item->get_item_id();
-			$url = $item->get_item_url();
-
-			$items[$id] = $item->to_array();
-			$items[$id]['item_path'] = ($url && strpos($url, 'http') === false) ? $board_url . '/' . $url : $url;
+			$items[] = $item->to_array();
 		}
 
 		return array(
-			'items' => array_values($items),
+			'items' => $items,
 		);
 	}
 }

@@ -31,7 +31,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/users.xml');
 	}
 
 	protected function get_service($variable_map = array())

@@ -64,7 +64,7 @@ class listener_base extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 		$this->config = new \phpbb\config\config(array());
-		$this->cache = $cache = new \phpbb\cache\service(new \phpbb\cache\driver\null, $this->config, $db, $phpbb_root_path, $phpEx);
+		$this->cache = $cache = new \phpbb_mock_cache();
 
 		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 

@@ -247,5 +247,5 @@ class members_test extends \phpbb_database_test_case
 		$data = $members->get_list($query);
 
 		$this->assertEquals($expected, $data);
-	} 
+	}
 }

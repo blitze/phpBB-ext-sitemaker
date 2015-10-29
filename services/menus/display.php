@@ -38,17 +38,19 @@ class display extends \blitze\sitemaker\services\tree\display
 		$this->user = $user;
 	}
 
-	public function set_params($data)
+	public function set_params(array $params)
 	{
-		$this->expanded = (bool) $data['expanded'];
-		$this->max_depth = (int) $data['max_depth'];
+		$this->expanded = (bool) $params['expanded'];
+		$this->max_depth = (int) $params['max_depth'];
 	}
 
 	/**
 	 *
 	 */
-	public function display_list($data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
+		$data = array_values($data);
+
 		$current_page = $this->user->page['page_name'];
 		$current_data = $this->get_current_item($data, $current_page);
 
@@ -69,7 +71,7 @@ class display extends \blitze\sitemaker\services\tree\display
 
 			$this->set_parental_depth($row, $this_depth, $current_data, $is_current_item);
 
-			if (($current_data['depth'] - $row['depth'] + 2) > $this->max_depth)
+			if ($this->max_depth && ($current_data['depth'] - $row['depth']) > $this->max_depth)
 			{
 				continue;
 			}
@@ -81,7 +83,7 @@ class display extends \blitze\sitemaker\services\tree\display
 				'S_CURRENT'		=> $is_current_item,
 			);
 
-			$row['item_url'] = append_sid($row['item_url']);
+			$row['full_url'] = append_sid($row['full_url']);
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
 
 			$this->close_open_tags($template, $handle . '.close', abs($prev_depth - $this_depth));
@@ -101,7 +103,7 @@ class display extends \blitze\sitemaker\services\tree\display
 
 			if ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts))))
 			{
-				$this->max_depth += ($this->count_descendants($row)) ? 0 : 1;
+				$this->max_depth += ($this->count_descendants($row)) ? 1 : 0;
 
 				return $row;
 			}

@@ -17,8 +17,16 @@ class add_bulk extends base_action
 		$parent_id = $this->request->variable('parent_id', 0);
 		$bulk_list = $this->request->variable('add_list', '', true);
 
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
+		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+		$items_mapper = $this->mapper_factory->create('menus', 'items');
 
-		return $item_mapper->add_items($menu_id, $parent_id, $bulk_list);
+		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
+		{
+			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
+		}
+
+		$collection = $items_mapper->add_items($menu_id, $parent_id, $bulk_list);
+
+		return $this->_get_items($collection);
 	}
 }

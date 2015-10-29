@@ -52,7 +52,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 *
 	 * @return \blitze\sitemaker\controller\blocks_admin
 	 */
-	protected function get_controller($auth_map, $variable_map, $action, $call_count, $ajax_request = true, $return_url = false)
+	protected function get_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
 	{
 		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
@@ -97,10 +97,14 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->setMethods(array('execute'))
 			->getMock();
 
-		$dummy_object->expects($this->exactly($call_count))
+		$dummy_object->expects($this->exactly($action_call_count))
 			->method('execute')
 			->with($this->equalTo(1))
 			->will($this->returnCallback(function() use (&$dummy_object) {
+				if ($dummy_object->action === 'invalid_action')
+				{
+					throw new \blitze\sitemaker\exception\out_of_bounds(array($dummy_object->action, 'INVALID_REQUEST'));
+				}
 				return array(
 					'message' => 'Action: ' . $dummy_object->action,
 				);
@@ -110,7 +114,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->action_handler->expects($this->exactly($call_count))
+		$this->action_handler->expects($this->exactly($action_call_count))
 			->method('create')
 			->with()
 			->will($this->returnCallback(function($service) use (&$dummy_object, $action) {
@@ -118,7 +122,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				return $dummy_object;
 			}));
 
-		$this->action_handler->expects($this->exactly($call_count))
+		$this->action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
 		return new blocks_admin($auth, $request, $user, $this->action_handler, $return_url);
@@ -141,25 +145,12 @@ class blocks_admin_test extends \phpbb_database_test_case
 				),
 				'add_block',
 				0,
+				0,
 				401,
 				'{"id":"","title":"","content":"","message":"NOT_AUTHORISED","errors":""}'
 			),
 
-			// No style provided
-			array(
-				array(
-					array('a_sm_manage_blocks', 0, true),
-				),
-				array(
-					array('style', 0, false, request_interface::REQUEST, 0),
-				),
-				'add_block',
-				0,
-				200,
-				'{"id":"","title":"","content":"","message":"","errors":""}'
-			),
-
-			// Authorized, Style provided, action requested
+			// Authorized, action requested
 			array(
 				array(
 					array('a_sm_manage_blocks', 0, true),
@@ -169,8 +160,24 @@ class blocks_admin_test extends \phpbb_database_test_case
 				),
 				'add_block',
 				1,
+				1,
 				200,
 				'{"id":"","title":"","content":"","message":"Action: add_block","errors":""}'
+			),
+
+			// Invalid action
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, true),
+				),
+				array(
+					array('style', 0, false, request_interface::REQUEST, 1),
+				),
+				'invalid_action',
+				1,
+				0,
+				200,
+				'{"id":"","title":"","content":"","message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST","errors":""}'
 			),
 		);
 	}
@@ -181,13 +188,14 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 * @param array $auth_map
 	 * @param array $variable_map
 	 * @param string $action
-	 * @param integer $call_count
+	 * @param integer $action_call_count
+	 * @param integer $cache_call_count
 	 * @param integer $status_code
 	 * @param array $expected
 	 */
-	public function test_controller($auth_map, $variable_map, $action, $call_count, $status_code, $expected)
+	public function test_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count, $status_code, $expected)
 	{
-		$controller = $this->get_controller($auth_map, $variable_map, $action, $call_count);
+		$controller = $this->get_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count);
 		$response = $controller->handle($action);
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
@@ -196,12 +204,19 @@ class blocks_admin_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 *
+	 * Test request is not ajax
 	 */
 	public function test_request_is_not_ajax()
 	{
 		$action = 'edit_block';
-		$controller = $this->get_controller(array('a_sm_manage_blocks', 0, true), array('style', 0, false, request_interface::REQUEST, 1), $action, 0, false, true);
+		$auth_map = array(
+			array('a_sm_manage_blocks', 0, true),
+		);
+		$request_map = array(
+			array('style', 0, false, request_interface::REQUEST, 1),
+		);
+
+		$controller = $this->get_controller($auth_map, $request_map, $action, 0, 0, false, true);
 
 		$response = $controller->handle($action);
 

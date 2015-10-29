@@ -82,7 +82,7 @@ final class item extends base_entity
 	protected $mod_rewrite_enabled;
 
 	/** @var array */
-	protected $required_fields = array('menu_id', 'item_title');
+	protected $required_fields = array('menu_id');
 
 	/** @var array */
 	protected $db_fields = array(

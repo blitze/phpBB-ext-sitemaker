@@ -20,18 +20,6 @@ class update_block_test extends base_action
 	public function test_data()
 	{
 		return array(
-			// No block id provided
-			array(
-				array(),
-				array('errors' => 'BLOCK_NOT_FOUND'),
-			),
-			// block id provided, but block does not exist
-			array(
-				array(
-					array('id', 0, false, request_interface::REQUEST, 25),
-				),
-				array('errors' => 'BLOCK_NOT_FOUND'),
-			),
 			// Trying to upate invalid field
 			array(
 				array(
@@ -89,5 +77,27 @@ class update_block_test extends base_action
 		$result = $command->execute(1);
 
 		$this->assertSame($expected, array_intersect_key($result, $expected));
+	}
+
+	/**
+	 * Test non-exitent block
+	 */
+	public function test_block_no_exists()
+	{
+		$variable_map = array(
+			array('id', 0, false, request_interface::REQUEST, 45),
+		);
+
+		$command = $this->get_command('update_block', $variable_map);
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('BLOCK_NOT_FOUND', $e->getMessage());
+		}
 	}
 }

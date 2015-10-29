@@ -69,12 +69,18 @@ class blocks_admin
 			return new Response(json_encode($json_data), 401);
 		}
 
-		if ($style_id = $this->request->variable('style', 0))
+		$style_id = $this->request->variable('style', 0);
+
+		try
 		{
 			$command = $this->action_handler->create($action);
 			$return_data = $command->execute($style_id);
 
 			$this->action_handler->clear_cache();
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$json_data['message'] = $e->get_message($this->user);
 		}
 
 		return new Response(json_encode(array_merge($json_data, $return_data)));
