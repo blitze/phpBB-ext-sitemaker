@@ -184,7 +184,7 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '',
+			'hash'			=> '045b74543323b15336d3da03af8aa10c',
 			'settings'		=> array('my_setting' => 2),
 		);
 
@@ -202,7 +202,7 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '',
+			'hash'			=> '045b74543323b15336d3da03af8aa10c',
 			'settings'		=> 'a:1:{s:10:"my_setting";i:2;}',
 		);
 

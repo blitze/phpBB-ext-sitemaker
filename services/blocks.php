@@ -161,7 +161,7 @@ class blocks
 		{
 			$block = $block_instance->display($data, $edit_mode);
 
-			if (!($content = $this->_get_block_content($block['content'], $edit_mode)))
+			if (!($content = $this->_get_block_content($block, $edit_mode)))
 			{
 				return;
 			}
@@ -176,14 +176,16 @@ class blocks
 		}
 	}
 
-	protected function _get_block_content($content, $edit_mode)
+	protected function _get_block_content($block, $edit_mode)
 	{
-		if (empty($content) && $edit_mode)
+		if (!empty($block['content']))
 		{
-			$content = $this->user->lang('BLOCK_NO_DATA');
+			return $block['content'];
 		}
-
-		return $content;
+		else if ($edit_mode)
+		{
+			return $this->user->lang('BLOCK_NO_DATA');
+		}
 	}
 
 	protected function _get_all_blocks($edit_mode)

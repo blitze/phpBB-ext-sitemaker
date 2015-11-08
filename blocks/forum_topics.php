@@ -89,47 +89,26 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function get_config($settings)
 	{
-		if (!function_exists('make_forum_select'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
-		}
-
-		$forumlist = make_forum_select(false, false, true, false, false, false, true);
-
-		$forum_options = array('' => 'ALL');
-		foreach ($forumlist as $row)
-		{
-			$forum_options[$row['forum_id']] = $row['padding'] . $row['forum_name'];
-		}
-
+		$forum_options = $this->get_forum_options();
 		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
 		$preview_options = array('' => 'NO', 'first' => 'SHOW_FIRST_POST', 'last' => 'SHOW_LAST_POST');
 		$range_options = array('' => 'ALL_TIME', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
 		$sort_options = array(FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
 		$template_options = array('titles' => 'TITLES', 'mini' => 'MINI', 'context' => 'CONTEXT');
 
-		$forum_ids	= (isset($settings['forum_ids'])) ? $settings['forum_ids'] : '';
-		$topic_type	= (isset($settings['topic_type'])) ? $settings['topic_type'] : POST_NORMAL;
-		$preview	= (isset($settings['display_preview'])) ? $settings['display_preview'] : '';
-		$date_range	= (isset($settings['date_range'])) ? $settings['date_range'] : '';
-		$sorting	= (isset($settings['order_by'])) ? $settings['order_by'] : FORUMS_ORDER_LAST_POST;
-		$template	= (isset($settings['template'])) ? $settings['template'] : 'titles';
-
-		$preview = (!empty($preview)) ? $preview : (($template == 'context') ? 'first' : '');
-
 		return array(
 			'legend1'			=> $this->user->lang('SETTINGS'),
-			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($forum_options, $forum_ids), 'default' => '', 'explain' => false),
-			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($topic_type_options, $topic_type), 'default' => POST_NORMAL, 'explain' => false),
+			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
+			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(POST_NORMAL), 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'params' => array($range_options, $date_range), 'default' => '', 'explain' => false),
-			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'params' => array($sort_options, $sorting), 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
+			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
+			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
 			'legend2'			=> $this->user->lang('DISPLAY'),
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
-			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'params' => array($template_options, $template), 'default' => 'titles', 'explain' => false),
-			'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'params' => array($preview_options, $preview), 'default' => '', 'explain' => false),
+			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
+			'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => '', 'explain' => false),
 			'preview_max_chars'	=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 125),
 		);
 	}
@@ -338,5 +317,23 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
 			unset($topic_data[$i], $post_data[$topic_id]);
 		}
+	}
+
+	private function get_forum_options()
+	{
+		if (!function_exists('make_forum_select'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
+		}
+
+		$forumlist = make_forum_select(false, false, true, false, false, false, true);
+
+		$forum_options = array('' => 'ALL');
+		foreach ($forumlist as $row)
+		{
+			$forum_options[$row['forum_id']] = $row['padding'] . $row['forum_name'];
+		}
+
+		return $forum_options;
 	}
 }

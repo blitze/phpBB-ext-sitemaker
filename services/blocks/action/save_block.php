@@ -26,25 +26,23 @@ class save_block extends base_action
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
 		}
 
-		$entity->set_permission($this->request->variable('permission', array(0)))
-			->set_class($this->request->variable('class', ''))
-			->set_hide_title($this->request->variable('hide_title', 0))
-			->set_status($this->request->variable('status', 0))
-			->set_type($this->request->variable('type', 0))
-			->set_no_wrap($this->request->variable('no_wrap', 0));
+		$old_hash = $entity->get_hash();
 
 		$cfg_fields = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_fields');
 		$block_instance = $this->block_factory->get_block($entity->get_name());
 		$default_settings = $block_instance->get_config(array());
 		$submitted_settings = $cfg_fields->get_submitted_settings($default_settings);
 
-		$old_hash = $entity->get_hash();
-		$new_hash = $this->generate_hash($submitted_settings);
+		$entity->set_permission($this->request->variable('permission', array(0)))
+			->set_class($this->request->variable('class', ''))
+			->set_hide_title($this->request->variable('hide_title', 0))
+			->set_status($this->request->variable('status', 0))
+			->set_type($this->request->variable('type', 0))
+			->set_no_wrap($this->request->variable('no_wrap', 0))
+			->set_settings($submitted_settings);
+		$entity = $this->block_mapper->save($entity);
 
-		$entity->set_hash($new_hash);
-		$entity->set_settings($submitted_settings);
-		$this->block_mapper->save($entity);
-
+		$new_hash = $entity->get_hash();
 		$updated_blocks = array();
 		$updated_blocks[$entity->get_bid()] = $this->render_block($entity);
 

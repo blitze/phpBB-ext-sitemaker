@@ -53,15 +53,11 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$menu_options = $this->get_menu_options();
 		$depth_options = $this->get_depth_options();
 
-		$menu_id = (!empty($settings['menu_id'])) ? $settings['menu_id'] : 0;
-		$expanded = (!empty($settings['expanded'])) ? $settings['expanded'] : 0;
-		$max_depth = (!empty($settings['max_depth'])) ? $settings['max_depth'] : 3;
-
 		return array(
 			'legend1'       => $this->user->lang('SETTINGS'),
-			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'params' => array($menu_options, $menu_id), 'default' => $menu_id, 'explain' => false),
-			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'params' => array(array(1 => ''), $expanded), 'default' => 0, 'explain' => false),
-			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'params' => array($depth_options, $max_depth), 'default' => 3, 'explain' => false),
+			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
+			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'options' => array(1 => ''), 'default' => 0, 'explain' => false),
+			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
 		);
 	}
 

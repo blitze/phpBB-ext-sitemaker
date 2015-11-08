@@ -95,6 +95,10 @@ class base_action extends \phpbb_database_test_case
 			$this->assertNull($command->execute());
 			$this->fail('no exception thrown');
 		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals($expected, $e->getMessage());
+		}
 		catch (\Exception $e)
 		{
 			$this->assertEquals($expected, $e->getMessage());

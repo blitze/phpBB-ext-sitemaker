@@ -29,9 +29,6 @@ class cfg_fields
 	/** @var string phpEx */
 	protected $php_ext;
 
-	/** @var string */
-	private static $separator = "\n";
-
 	/**
 	 * Constructor
 	 *
@@ -92,8 +89,6 @@ class cfg_fields
 
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 
-		$this->_get_multi_select($cfg_array, $default_settings);
-
 		$errors = array();
 		validate_config_vars($default_settings, $cfg_array, $errors);
 
@@ -101,6 +96,8 @@ class cfg_fields
 		{
 			return array('errors' => join("\n", $errors));
 		}
+
+		$this->_get_multi_select($cfg_array, $default_settings);
 
 		return array_intersect_key($cfg_array, $default_settings);
 	}
@@ -110,7 +107,7 @@ class cfg_fields
 	 */
 	public function build_multi_select(array $option_ary, $selected_items, $key)
 	{
-		$selected_items = explode(self::$separator, $selected_items);
+		$selected_items = $this->_ensure_array($selected_items);
 
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
@@ -129,7 +126,7 @@ class cfg_fields
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $key)
 	{
-		$selected_items = explode(self::$separator, $selected_items);
+		$selected_items = $this->_ensure_array($selected_items);
 		$column_class = 'grid__col grid__col--1-of-2 ';
 		$id_assigned = false;
 		$html = '';
@@ -200,6 +197,7 @@ class cfg_fields
 				continue;
 			}
 
+			$db_settings[$field] = $this->_get_field_value($field, $vars['default'], $db_settings);
 			$content = $this->_get_field_template($field, $db_settings, $vars);
 
 			if (empty($content))
@@ -228,6 +226,7 @@ class cfg_fields
 
 		if (is_callable(array($this, $method)))
 		{
+			$this->_set_params($field, $vars, $db_settings);
 			$this->$method($vars, $type, $field, $db_settings);
 		}
 
@@ -256,6 +255,20 @@ class cfg_fields
 		return $append;
 	}
 
+	private function _set_params($field, &$vars, $settings)
+	{
+		if (!empty($vars['options']))
+		{
+			$vars['params'][] = $vars['options'];
+			$vars['params'][] = $settings[$field];
+		}
+	}
+
+	private function _get_field_value($field, $default, $db_settings)
+	{
+		return (!empty($db_settings[$field])) ? $db_settings[$field] : $default;
+	}
+
 	private function _prep_select_field_for_display(&$vars)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
@@ -263,28 +276,23 @@ class cfg_fields
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
 	}
 
-	private function _prep_checkbox_field_for_display(&$vars, &$type, $field, &$db_settings)
+	private function _prep_checkbox_field_for_display(&$vars, &$type, $field)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
 
 		$vars['method'] = 'build_checkbox';
 		$vars['params'][] = $field;
 		$type[0] = 'custom';
-
-		if (!empty($db_settings[$field]))
-		{
-			$db_settings[$field] = explode(self::$separator, $db_settings[$field]);
-		}
 	}
 
-	private function _prep_multi_select_field_for_display(&$vars, &$type, $field, &$db_settings)
+	private function _prep_multi_select_field_for_display(&$vars, &$type, $field)
 	{
-		$this->_prep_checkbox_field_for_display($vars, $type, $field, $db_settings);
+		$this->_prep_checkbox_field_for_display($vars, $type, $field);
 
 		$vars['method'] ='build_multi_select';
 	}
 
-	private function _prep_hidden_field_for_display(&$vars, &$type)
+	private function _prep_hidden_field_for_display(&$vars, &$type, $field, $db_settings)
 	{
 		$vars['method'] = 'build_hidden';
 		$vars['explain'] = '';
@@ -295,6 +303,11 @@ class cfg_fields
 	{
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 		$type[0] = 'custom';
+	}
+
+	private function _ensure_array($selected_items)
+	{
+		return is_array($selected_items) ? $selected_items : array($selected_items);
 	}
 
 	/**
@@ -318,14 +331,14 @@ class cfg_fields
 
 	private function _get_multi_select(array &$cfg_array, array $df_settings)
 	{
-		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => '')), true));
+		$multi_select = ($this->request->variable('config', array('' => array('' => '')), true));
 
 		$multi_select = array_filter($multi_select);
 
-		foreach ($multi_select as $key => $values)
+		foreach ($multi_select as $field => $settings)
 		{
-			$cfg_array[$key] = array_filter($values, 'strlen');
-			$cfg_array[$key] = (sizeof($cfg_array[$key])) ? join(self::$separator, $cfg_array[$key]) : $df_settings[$key]['default'];
+			//$cfg_array[$key] = array_filter($values, 'strlen');
+			$cfg_array[$field] = (!empty($settings)) ? $settings : $df_settings[$key]['default'];
 		}
 	}
 

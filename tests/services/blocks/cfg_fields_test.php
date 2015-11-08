@@ -182,15 +182,15 @@ class cfg_fields_test extends \phpbb_database_test_case
 					)),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
 				),
-				array('lang' => 'SELECT_OPTION', 'validate' => 'string', 'type' => 'multi_select', 'params' => array($options, 'option1,option3'), 'default' => '', 'explain' => false),
-				array('my_var' => "option2\noption4"),
+				array('lang' => 'SELECT_OPTION', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
+				array('my_var' => array('option2', 'option4')),
 			),
 			array(
 				array(
 					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 'option3')),
 				),
-				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'params' => array($options, 'option2'), 'explain' => false, 'default' => ''),
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
 				array('my_var' => 'option3'),
 			),
 			array(
@@ -239,7 +239,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 					'option2'	=> 'Option #2',
 					'option3'	=> 'Option #3',
 				),
-				"option1\noption2",
+				array('option1', 'option2'),
 				'topic_ids',
 				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple">' .
 				'<option value="option1" selected="selected">Option #1</option>' .

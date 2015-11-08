@@ -64,7 +64,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 
 	public function get_config($settings)
 	{
-		$rotation_ary = array(
+		$rotation_options = array(
 			'pageload'	=> 'ROTATE_PAGELOAD',
 			'hourly'	=> 'ROTATE_HOURLY',
 			'daily'		=> 'ROTATE_DAILY',
@@ -72,7 +72,7 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 			'monthly'	=> 'ROTATE_MONTHLY',
 		);
 
-		$qtype_ary = array(
+		$qtype_options = array(
 			'random'	=> 'RANDOM_MEMBER',
 			'recent'	=> 'RECENT_MEMBER',
 			'posts'		=> 'POSTS_MEMBER',
@@ -89,28 +89,22 @@ class featured_member extends \blitze\sitemaker\services\blocks\driver\block
 			ORDER BY f.field_order';
 		$result = $this->db->sql_query($sql);
 
-		$cpf_ary = false;
+		$cpf_options = false;
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$cpf_ary[$row['field_ident']] = $row['lang_name'];
+			$cpf_options[$row['field_ident']] = $row['lang_name'];
 		}
 		$this->db->sql_freeresult($result);
 
-		$qtype = (!empty($settings['qtype'])) ? $settings['qtype'] : 'recent';
-		$rotation = (!empty($settings['rotation'])) ? $settings['rotation'] : 'daily';
-		$cpf_fields	= (!empty($settings['show_cpf'])) ? $settings['show_cpf'] : '';
-		$current_user	= (!empty($settings['curren_user'])) ? $settings['curren_user'] : 0;
-		$lastchange	= (!empty($settings['lastchange'])) ? $settings['lastchange'] : 0;
-
 		return array(
 			'legend1'		=> 'SETTINGS',
-			'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'params' => array($qtype_ary, $qtype), 'default' => 'recent', 'explain' => false),
-			'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'params' => array($rotation_ary, $rotation), 'default' => 'daily', 'explain' => false),
+			'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'options' => $qtype_options, 'default' => 'recent', 'explain' => false),
+			'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'options' => $rotation_options, 'default' => 'daily', 'explain' => false),
 			'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
 			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
-			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'params' => array($cpf_ary, $cpf_fields), 'default' => '', 'explain' => true),
-			'lastchange'	=> array('type' => 'hidden', 'default' => $lastchange),
-			'current_user'	=> array('type' => 'hidden', 'default' => $current_user),
+			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'options' => $cpf_options, 'default' => array(), 'explain' => true),
+			'lastchange'	=> array('type' => 'hidden', 'default' => 0),
+			'current_user'	=> array('type' => 'hidden', 'default' => 0),
 		);
 	}
 

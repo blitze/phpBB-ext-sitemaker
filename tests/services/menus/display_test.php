@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\tests\services;
+namespace blitze\sitemaker\tests\services\menus;
 
 use blitze\sitemaker\services\menus\display;
 
