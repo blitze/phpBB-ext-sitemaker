@@ -14,6 +14,8 @@ use blitze\sitemaker\services\blocks\cfg_fields;
 
 class cfg_fields_test extends \phpbb_database_test_case
 {
+	protected $tpl_data;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -91,38 +93,67 @@ class cfg_fields_test extends \phpbb_database_test_case
 	 */
 	public function get_edit_form_test_data()
 	{
+		$options = array(
+			'option1'   => 'Option 1',
+			'option2'   => 'Option 2',
+			'option3'   => 'Option 3',
+		);
+
 		return array(
 			array(
-				'1',
-				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
+				array('option1', 'option3'),
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'explain' => false, 'default' => array()),
 				array(
 					'KEY'			=> 'my_var',
 					'TITLE'			=> 'MY_SETTING',
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<label><input type="radio" id="my_var" name="config[my_var]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_var]" value="0" class="radio" /> </label>',
+					'CONTENT'		=> '<div class="my_var-checkbox" id="my_var-col-0">' .
+						'<label><input type="checkbox" name="config[my_var][]" id="my_var" value="option1" checked="checked" accesskey="my_var" class="checkbox" /> Option 1</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option2" accesskey="my_var" class="checkbox" /> Option 2</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" accesskey="my_var" class="checkbox" /> Option 3</label><br />' .
+						'</div>',
 				),
 			),
 			array(
-				1,
-				array('lang' => 'MY_SETTING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => 1),
+				array('option1', 'option2'),
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'explain' => true, 'default' => array(), 'append' => 'YEARS'),
 				array(
 					'KEY'			=> 'my_var',
 					'TITLE'			=> 'MY_SETTING',
 					'S_EXPLAIN'		=> true,
 					'TITLE_EXPLAIN'	=> 'MY_SETTING_EXPLAIN',
-					'CONTENT'		=> '<label><input type="radio" id="my_var" name="config[my_var]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_var]" value="0" class="radio" /> </label>',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
+						'<option value="option1" selected="selected">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
+						'</select>YEARS',
 				),
 			),
 			array(
-				1,
-				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10, 'append' => 'YEARS'),
+				'option2',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
 					'KEY'			=> 'my_var',
 					'TITLE'			=> 'MY_SETTING',
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<input id="my_var" type="number" maxlength="2" max="20" name="config[my_var]" value="1" />YEARS',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var]">' .
+						'<option value="option1">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
+						'</select>',
+				),
+			),
+			array(
+				1,
+				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'hidden', 'default' => 0),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> '',
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<input type="hidden" name="config[my_var]" value="1" />',
 				),
 			),
 		);

@@ -9,18 +9,23 @@
 
 namespace blitze\sitemaker\services\blocks;
 
+use phpbb\db\driver\driver_interface;
+use phpbb\request\request_interface;
+use phpbb\template\template;
+use phpbb\user;
+
 class cfg_fields
 {
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var driver_interface */
 	protected $db;
 
-	/** @var \phpbb\request\request_interface */
+	/** @var request_interface */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var user */
 	protected $user;
 
 	/** @var string phpBB root path */
@@ -32,14 +37,14 @@ class cfg_fields
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface			$db						Database object
-	 * @param \phpbb\request\request_interface			$request				Request object
-	 * @param \phpbb\template\template					$template				Template object
-	 * @param \phpbb\user								$user					User object
-	 * @param string									$phpbb_root_path		phpBB root path
-	 * @param string									$php_ext				phpEx
+	 * @param driver_interface			$db						Database object
+	 * @param request_interface			$request				Request object
+	 * @param template					$template				Template object
+	 * @param user						$user					User object
+	 * @param string					$phpbb_root_path		phpBB root path
+	 * @param string					$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(driver_interface $db, request_interface $request, template $template, user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->request = $request;
@@ -49,7 +54,12 @@ class cfg_fields
 		$this->php_ext = $php_ext;
 	}
 
-	public function get_edit_form(array $bdata, array $default_settings)
+	/**
+	 * @param array $block_data
+	 * @param array $default_settings
+	 * @return template|string
+	 */
+	public function get_edit_form(array $block_data, array $default_settings)
 	{
 		global $module;
 
@@ -62,24 +72,28 @@ class cfg_fields
 		$module = new \stdClass();
 		$module->module = $this;
 
-		$this->_generate_config_fields($bdata['settings'], $default_settings);
+		$this->_generate_config_fields($block_data['settings'], $default_settings);
 
 		$this->template->assign_vars(array(
-			'S_ACTIVE'		=> $bdata['status'],
-			'S_TYPE'		=> $bdata['type'],
-			'S_NO_WRAP'		=> $bdata['no_wrap'],
-			'S_HIDE_TITLE'	=> $bdata['hide_title'],
-			'S_BLOCK_CLASS'	=> trim($bdata['class']),
-			'S_GROUP_OPS'	=> $this->_get_group_options($bdata['permission']),
+				'S_ACTIVE'		=> $block_data['status'],
+				'S_TYPE'		=> $block_data['type'],
+				'S_NO_WRAP'		=> $block_data['no_wrap'],
+				'S_HIDE_TITLE'	=> $block_data['hide_title'],
+				'S_BLOCK_CLASS'	=> trim($block_data['class']),
+				'S_GROUP_OPS'	=> $this->_get_group_options($block_data['permission']),
 		));
 
 		$this->template->set_filenames(array(
-			'block_settings' => 'block_settings.html',
+				'block_settings' => 'block_settings.html',
 		));
 
 		return $this->template->assign_display('block_settings');
 	}
 
+	/**
+	 * @param array $default_settings
+	 * @return array|void
+	 */
 	public function get_submitted_settings(array $default_settings)
 	{
 		if (!function_exists('validate_config_vars'))
@@ -103,17 +117,21 @@ class cfg_fields
 	}
 
 	/**
-	 * Used to add multi-select dropdown in blocks config
+	 * Used to add multi-select drop down in blocks config
+	 *
+	 * @param array $option_ary
+	 * @param $selected_items
+	 * @param $key
+	 * @return string
 	 */
 	public function build_multi_select(array $option_ary, $selected_items, $key)
 	{
 		$selected_items = $this->_ensure_array($selected_items);
-
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
 		{
 			$title = $this->user->lang($title);
-			$selected = (in_array($value, $selected_items)) ? ' selected="selected"' : '';
+			$selected = $this->_get_selected_option($value, $selected_items);
 			$html .= '<option value="' . $value . '"' . $selected . '>' . $title . '</option>';
 		}
 		$html .= '</select>';
@@ -123,10 +141,14 @@ class cfg_fields
 
 	/**
 	 * Used to build multi-column checkboxes for blocks config
+	 *
+	 * @param array $option_ary
+	 * @param $selected_items
+	 * @param $key
+	 * @return string
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $key)
 	{
-		$selected_items = $this->_ensure_array($selected_items);
 		$column_class = 'grid__col grid__col--1-of-2 ';
 		$id_assigned = false;
 		$html = '';
@@ -144,21 +166,18 @@ class cfg_fields
 		 * 		),
 		 * )
 		 */
-		$test = current($option_ary);
-		if (!is_array($test))
-		{
-			$column_class = '';
-			$option_ary = array($option_ary);
-		}
+
+		$selected_items = $this->_ensure_array($selected_items);
+		$option_ary = $this->_ensure_multi_array($option_ary, $column_class);
 
 		foreach ($option_ary as $col => $row)
 		{
 			$html .= '<div class="' . $column_class . $key . '-checkbox" id="' . $key . '-col-' . $col . '">';
 			foreach ($row as $value => $title)
 			{
-				$selected = (in_array($value, $selected_items)) ? ' checked="checked"' : '';
+				$selected = $this->_get_selected_option($value, $selected_items, 'checked');
 				$title = $this->user->lang($title);
-				$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . (($key) ? ' accesskey="' . $key . '"' : '') . ' class="checkbox" /> ' . $title . '</label><br />';
+				$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . ' accesskey="' . $key . '" class="checkbox" /> ' . $title . '</label><br />';
 				$id_assigned = true;
 			}
 			$html .= '</div>';
@@ -169,6 +188,9 @@ class cfg_fields
 
 	/**
 	 * build hidden field for blocks config
+	 * @param $value
+	 * @param $key
+	 * @return string
 	 */
 	public function build_hidden($value, $key)
 	{
@@ -177,6 +199,8 @@ class cfg_fields
 
 	/**
 	 * Generate block configuration fields
+	 * @param array $db_settings
+	 * @param array $default_settings
 	 */
 	private function _generate_config_fields(array &$db_settings, array $default_settings)
 	{
@@ -190,8 +214,8 @@ class cfg_fields
 			if (strpos($field, 'legend') !== false)
 			{
 				$this->template->assign_block_vars('options', array(
-					'S_LEGEND'	=> $field,
-					'LEGEND'	=> $this->user->lang($vars)
+						'S_LEGEND'	=> $field,
+						'LEGEND'	=> $this->user->lang($vars)
 				));
 
 				continue;
@@ -206,16 +230,22 @@ class cfg_fields
 			}
 
 			$this->template->assign_block_vars('options', array(
-				'KEY'			=> $field,
-				'TITLE'			=> (!empty($vars['lang'])) ? $this->user->lang($vars['lang']) : '',
-				'S_EXPLAIN'		=> $vars['explain'],
-				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
-				'CONTENT'		=> $content)
+							'KEY'			=> $field,
+							'TITLE'			=> (!empty($vars['lang'])) ? $this->user->lang($vars['lang']) : '',
+							'S_EXPLAIN'		=> $vars['explain'],
+							'TITLE_EXPLAIN'	=> $vars['lang_explain'],
+							'CONTENT'		=> $content)
 			);
 			unset($default_settings[$field]);
 		}
 	}
 
+	/**
+	 * @param $field
+	 * @param array $db_settings
+	 * @param array $vars
+	 * @return string
+	 */
 	private function _get_field_template($field, array &$db_settings, array &$vars)
 	{
 		$vars['lang_explain'] = $this->_explain_field($vars);
@@ -233,6 +263,10 @@ class cfg_fields
 		return build_cfg_template($type, $field, $db_settings, $field, $vars);
 	}
 
+	/**
+	 * @param array $vars
+	 * @return mixed|string
+	 */
 	private function _explain_field(array $vars)
 	{
 		$l_explain = '';
@@ -244,6 +278,10 @@ class cfg_fields
 		return $l_explain;
 	}
 
+	/**
+	 * @param array $vars
+	 * @return mixed|string
+	 */
 	private function _append_field(array $vars)
 	{
 		$append = '';
@@ -255,6 +293,11 @@ class cfg_fields
 		return $append;
 	}
 
+	/**
+	 * @param $field
+	 * @param $vars
+	 * @param $settings
+	 */
 	private function _set_params($field, &$vars, $settings)
 	{
 		if (!empty($vars['options']))
@@ -264,11 +307,20 @@ class cfg_fields
 		}
 	}
 
+	/**
+	 * @param $field
+	 * @param $default
+	 * @param $db_settings
+	 * @return mixed
+	 */
 	private function _get_field_value($field, $default, $db_settings)
 	{
 		return (!empty($db_settings[$field])) ? $db_settings[$field] : $default;
 	}
 
+	/**
+	 * @param $vars
+	 */
 	private function _prep_select_field_for_display(&$vars)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
@@ -276,6 +328,11 @@ class cfg_fields
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
 	}
 
+	/**
+	 * @param $vars
+	 * @param $type
+	 * @param $field
+	 */
 	private function _prep_checkbox_field_for_display(&$vars, &$type, $field)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
@@ -285,6 +342,11 @@ class cfg_fields
 		$type[0] = 'custom';
 	}
 
+	/**
+	 * @param $vars
+	 * @param $type
+	 * @param $field
+	 */
 	private function _prep_multi_select_field_for_display(&$vars, &$type, $field)
 	{
 		$this->_prep_checkbox_field_for_display($vars, $type, $field);
@@ -292,27 +354,31 @@ class cfg_fields
 		$vars['method'] ='build_multi_select';
 	}
 
-	private function _prep_hidden_field_for_display(&$vars, &$type, $field, $db_settings)
+	/**
+	 * @param $vars
+	 * @param $type
+	 */
+	private function _prep_hidden_field_for_display(&$vars, &$type)
 	{
 		$vars['method'] = 'build_hidden';
 		$vars['explain'] = '';
 		$type[0] = 'custom';
 	}
 
+	/**
+	 * @param $vars
+	 * @param $type
+	 */
 	private function _prep_custom_field_for_display(&$vars, &$type)
 	{
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 		$type[0] = 'custom';
 	}
 
-	private function _ensure_array($selected_items)
-	{
-		return is_array($selected_items) ? $selected_items : array($selected_items);
-	}
-
 	/**
 	 * this looks bad but its the only way without modifying phpbb code
 	 * this is for select items that do not need to be translated
+	 * @param array $options
 	 */
 	private function _add_lang_vars(array $options)
 	{
@@ -329,36 +395,86 @@ class cfg_fields
 		}
 	}
 
+	/**
+	 * @param array $cfg_array
+	 * @param array $df_settings
+	 */
 	private function _get_multi_select(array &$cfg_array, array $df_settings)
 	{
-		$multi_select = ($this->request->variable('config', array('' => array('' => '')), true));
-
+		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => '')), true));
 		$multi_select = array_filter($multi_select);
 
 		foreach ($multi_select as $field => $settings)
 		{
-			//$cfg_array[$key] = array_filter($values, 'strlen');
-			$cfg_array[$field] = (!empty($settings)) ? $settings : $df_settings[$key]['default'];
+			$cfg_array[$field] = (!empty($settings)) ? $settings : $df_settings[$field]['default'];
 		}
 	}
 
+	/**
+	 * @param string $selected
+	 * @return string
+	 */
 	private function _get_group_options($selected = '')
 	{
-		$selected = array_filter((!is_array($selected)) ? explode(',', $selected) : $selected);
+		$selected = $this->_ensure_array($selected);
 
-		$sql = 'SELECT group_id, group_name, group_type
-			FROM ' . GROUPS_TABLE;
+		$sql = 'SELECT group_id, group_name, group_type FROM ' . GROUPS_TABLE;
 		$result = $this->db->sql_query($sql);
 
-		$options = '<option value="0"' . ((!sizeof($selected)) ? ' selected="selected"' : '') . '>' . $this->user->lang('ALL') . '</option>';
+		$options = '<option value="0">' . $this->user->lang('ALL') . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$selected_option = (in_array($row['group_id'], $selected)) ? ' selected="selected"' : '';
-			$group_name = ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
+			$group_name = $this->_get_group_name($row);
+			$selected_option = $this->_get_selected_option($row['group_id'], $selected);
 			$options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '"' . $selected_option . '>' . $group_name . '</option>';
 		}
 		$this->db->sql_freeresult($result);
 
+		return $options;
+	}
+
+	/**
+	 * @param array $row
+	 * @return mixed|string
+	 */
+	private function _get_group_name(array $row)
+	{
+		return ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
+	}
+
+	/**
+	 * @param string $needle
+	 * @param array $haystack
+	 * @param string $type selected|checked
+	 * @return string
+	 */
+	private function _get_selected_option($needle, array $haystack, $type = 'selected')
+	{
+		return (in_array($needle, $haystack)) ? ' ' . $type . '="' . $type . '"' : '';
+	}
+
+	/**
+	 * @param $selected_items
+	 * @return array
+	 */
+	private function _ensure_array($selected_items)
+	{
+		return array_filter(is_array($selected_items) ? $selected_items : explode(',', $selected_items));
+	}
+
+	/**
+	 * @param $options
+	 * @param $css_class
+	 * @return array
+	 */
+	private function _ensure_multi_array($options, &$css_class)
+	{
+		$test = current($this->_ensure_array($options));
+		if (!is_array($test))
+		{
+			$css_class = '';
+			$options = array($options);
+		}
 		return $options;
 	}
 }
