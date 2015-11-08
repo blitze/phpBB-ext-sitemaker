@@ -59,9 +59,13 @@ class menus_admin
 
 			$this->action_handler->clear_cache();
 		}
-		catch (\Exception $e)
+		catch (\blitze\sitemaker\exception\base $e)
 		{
 			$return_data['message'] = $e->get_message($this->user);
+		}
+		catch (\Exception $e)
+		{
+			$return_data['message'] = $e->get_message();
 		}
 
 		return new Response(json_encode($return_data));
