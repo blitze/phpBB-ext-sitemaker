@@ -186,7 +186,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$this->acquire_lock();
 		$this->db->sql_transaction('begin');
 
-		$sql_data = $this->add_sub_tree($branch, $parent_id);
+		$this->add_sub_tree($branch, $parent_id);
 
 		$this->db->sql_transaction('commit');
 		$this->lock->release();
