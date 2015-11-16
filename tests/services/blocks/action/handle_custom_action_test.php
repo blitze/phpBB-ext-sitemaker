@@ -17,7 +17,7 @@ class handle_custom_action_test extends base_action
 	 * Data set for test_handle_custom_action
 	 * @return array
 	 */
-	public function test_data()
+	public function custom_action_test_data()
 	{
 		return array(
 			array(
@@ -37,7 +37,7 @@ class handle_custom_action_test extends base_action
 	/**
 	 * Test handle_custom_action
 	 *
-	 * @dataProvider test_data
+	 * @dataProvider custom_action_test_data
 	 */
 	public function test_handle_custom_action($variable_map, $expected)
 	{

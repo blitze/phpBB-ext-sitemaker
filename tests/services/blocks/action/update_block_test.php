@@ -17,7 +17,7 @@ class update_block_test extends base_action
 	 * Data set for test_update_block
 	 * @return array
 	 */
-	public function test_data()
+	public function update_block_test_data()
 	{
 		return array(
 			// Trying to upate invalid field
@@ -68,7 +68,7 @@ class update_block_test extends base_action
 	/**
 	 * Test update_block action
 	 *
-	 * @dataProvider test_data
+	 * @dataProvider update_block_test_data
 	 */
 	public function test_update_block($variable_map, $expected)
 	{
