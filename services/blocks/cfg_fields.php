@@ -75,16 +75,16 @@ class cfg_fields
 		$this->_generate_config_fields($block_data['settings'], $default_settings);
 
 		$this->template->assign_vars(array(
-				'S_ACTIVE'		=> $block_data['status'],
-				'S_TYPE'		=> $block_data['type'],
-				'S_NO_WRAP'		=> $block_data['no_wrap'],
-				'S_HIDE_TITLE'	=> $block_data['hide_title'],
-				'S_BLOCK_CLASS'	=> trim($block_data['class']),
-				'S_GROUP_OPS'	=> $this->_get_group_options($block_data['permission']),
+			'S_ACTIVE'		=> $block_data['status'],
+			'S_TYPE'		=> $block_data['type'],
+			'S_NO_WRAP'		=> $block_data['no_wrap'],
+			'S_HIDE_TITLE'	=> $block_data['hide_title'],
+			'S_BLOCK_CLASS'	=> trim($block_data['class']),
+			'S_GROUP_OPS'	=> $this->_get_group_options($block_data['permission']),
 		));
 
 		$this->template->set_filenames(array(
-				'block_settings' => 'block_settings.html',
+			'block_settings' => 'block_settings.html',
 		));
 
 		return $this->template->assign_display('block_settings');
@@ -142,45 +142,33 @@ class cfg_fields
 	/**
 	 * Used to build multi-column checkboxes for blocks config
 	 *
+	 * if multi-dimensional array, we break the checkboxes into columns ex.
+	 * array(
+	 * 		'news' => array(
+	 * 			'field1' => 'Label 1',
+	 * 			'field2' => 'Label 2',
+	 * 		),
+	 * 		'articles' => array(
+	 * 			'field1' => 'Label 1',
+	 * 			'field2' => 'Label 2',
+	 * 		),
+	 * )
 	 * @param array $option_ary
 	 * @param $selected_items
-	 * @param $key
+	 * @param $field
 	 * @return string
 	 */
-	public function build_checkbox(array $option_ary, $selected_items, $key)
+	public function build_checkbox(array $option_ary, $selected_items, $field)
 	{
 		$column_class = 'grid__col grid__col--1-of-2 ';
-		$id_assigned = false;
 		$html = '';
-
-		/** if multi-dimensional array, we break the checkboxes into columns
-		 * ex.
-		 * array(
-		 * 		'news' => array(
-		 * 			'field1' => 'Label 1',
-		 * 			'field2' => 'Label 2',
-		 * 		),
-		 * 		'articles' => array(
-		 * 			'field1' => 'Label 1',
-		 * 			'field2' => 'Label 2',
-		 * 		),
-		 * )
-		 */
 
 		$selected_items = $this->_ensure_array($selected_items);
 		$option_ary = $this->_ensure_multi_array($option_ary, $column_class);
 
 		foreach ($option_ary as $col => $row)
 		{
-			$html .= '<div class="' . $column_class . $key . '-checkbox" id="' . $key . '-col-' . $col . '">';
-			foreach ($row as $value => $title)
-			{
-				$selected = $this->_get_selected_option($value, $selected_items, 'checked');
-				$title = $this->user->lang($title);
-				$html .= '<label><input type="checkbox" name="config[' . $key . '][]"' . ((!$id_assigned) ? ' id="' . $key . '"' : '') . ' value="' . $value . '"' . $selected . ' accesskey="' . $key . '" class="checkbox" /> ' . $title . '</label><br />';
-				$id_assigned = true;
-			}
-			$html .= '</div>';
+			$html .= $this->_get_checkbox_column($row, $selected_items, $field, $col, $column_class);
 		}
 
 		return $html;
@@ -188,6 +176,7 @@ class cfg_fields
 
 	/**
 	 * build hidden field for blocks config
+	 *
 	 * @param $value
 	 * @param $key
 	 * @return string
@@ -199,6 +188,7 @@ class cfg_fields
 
 	/**
 	 * Generate block configuration fields
+	 *
 	 * @param array $db_settings
 	 * @param array $default_settings
 	 */
@@ -206,36 +196,21 @@ class cfg_fields
 	{
 		foreach ($default_settings as $field => $vars)
 		{
-			if (!is_array($vars) && strpos($field, 'legend') === false)
+			if ($this->_sets_legend($field, $vars) || !is_array($vars))
 			{
-				continue;
-			}
-
-			if (strpos($field, 'legend') !== false)
-			{
-				$this->template->assign_block_vars('options', array(
-						'S_LEGEND'	=> $field,
-						'LEGEND'	=> $this->user->lang($vars)
-				));
-
 				continue;
 			}
 
 			$db_settings[$field] = $this->_get_field_value($field, $vars['default'], $db_settings);
 			$content = $this->_get_field_template($field, $db_settings, $vars);
 
-			if (empty($content))
-			{
-				continue;
-			}
-
 			$this->template->assign_block_vars('options', array(
-							'KEY'			=> $field,
-							'TITLE'			=> (!empty($vars['lang'])) ? $this->user->lang($vars['lang']) : '',
-							'S_EXPLAIN'		=> $vars['explain'],
-							'TITLE_EXPLAIN'	=> $vars['lang_explain'],
-							'CONTENT'		=> $content)
-			);
+				'KEY'			=> $field,
+				'TITLE'			=> $this->user->lang($vars['lang']),
+				'S_EXPLAIN'		=> $vars['explain'],
+				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
+				'CONTENT'		=> $content,
+			));
 			unset($default_settings[$field]);
 		}
 	}
@@ -261,6 +236,48 @@ class cfg_fields
 		}
 
 		return build_cfg_template($type, $field, $db_settings, $field, $vars);
+	}
+
+	/**
+	 * @param array $row
+	 * @param array $selected_items
+	 * @param string $field
+	 * @param integer $column_count
+	 * @param string $column_class
+	 * @return string
+	 */
+	private function _get_checkbox_column(array $row, array $selected_items, $field, $column_count, $column_class)
+	{
+		$column = '<div class="' . $column_class . $field . '-checkbox" id="' . $field . '-col-' . $column_count . '">';
+		foreach ($row as $value => $title)
+		{
+			$title = $this->user->lang($title);
+			$selected = $this->_get_selected_option($value, $selected_items, 'checked');
+			$column .= '<label><input type="checkbox" name="config[' . $field . '][]" value="' . $value . '"' . $selected . ' accesskey="' . $field . '" class="checkbox" /> ' . $title . '</label><br />';
+		}
+		$column .= '</div>';
+
+		return $column;
+	}
+
+	/**
+	 * @param string $field
+	 * @param string|array $vars
+	 * @return boolean
+	 */
+	private function _sets_legend($field, $vars)
+	{
+		if (strpos($field, 'legend') !== false)
+		{
+			$this->template->assign_block_vars('options', array(
+				'S_LEGEND'	=> $field,
+				'LEGEND'	=> $this->user->lang($vars)
+			));
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -362,6 +379,7 @@ class cfg_fields
 	{
 		$vars['method'] = 'build_hidden';
 		$vars['explain'] = '';
+		$vars['lang'] = '';
 		$type[0] = 'custom';
 	}
 

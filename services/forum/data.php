@@ -9,21 +9,27 @@
 
 namespace blitze\sitemaker\services\forum;
 
+use phpbb\auth\auth;
+use phpbb\config\config;
+use phpbb\content_visibility;
+use phpbb\db\driver\driver_interface;
+use phpbb\user;
+
 class data
 {
-	/** @var \phpbb\auth\auth */
+	/** @var auth */
 	protected $auth;
 
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\content_visibility */
+	/** @var content_visibility */
 	protected $content_visibility;
 
-	/** @var \phpbb\db\driver\driver_interface */
+	/** @var driver_interface */
 	protected $db;
 
-	/** @var \phpbb\user */
+	/** @var user */
 	protected $user;
 
 	/** @var string */
@@ -44,15 +50,15 @@ class data
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth						$auth					Auth object
-	 * @param \phpbb\config\config					$config					Config object
-	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
-	 * @param \phpbb\db\driver\driver_interface		$db     				Database connection
-	 * @param \phpbb\user							$user					User object
-	 * @param string								$phpbb_root_path		Path to the phpbb includes directory.
-	 * @param string								$php_ext				php file extension
+	 * @param auth					$auth					Auth object
+	 * @param config				$config					Config object
+	 * @param content_visibility	$content_visibility		Content visibility
+	 * @param driver_interface		$db     				Database connection
+	 * @param user					$user					User object
+	 * @param string				$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string				$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(auth $auth, config $config, content_visibility $content_visibility, driver_interface $db, user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -68,18 +74,11 @@ class data
 	/**
 	 * Begin query
 	 *
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @return $this
 	 */
 	public function query()
 	{
-		$this->store = array(
-			'attachments'	=> array(),
-			'post_ids'		=> array(),
-			'poster_ids'	=> array(),
-			'sql_array'		=> array(),
-			'topic'			=> array(),
-			'tracking'		=> array(),
-		);
+		$this->_reset();
 
 		$this->store['sql_array'] = array(
 			'SELECT'	=> array('t.*, f.*'),
@@ -100,8 +99,8 @@ class data
 	/**
 	 * Fetch Forum by id(s)
 	 *
-	 * @param	mixed	$forum_id	Limit by forum id: single id or array of forum ids
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param $forum_id
+	 * @return $this
 	 */
 	public function fetch_forum($forum_id)
 	{
@@ -113,8 +112,8 @@ class data
 	/**
 	 * Fetch Topic by id(s)
 	 *
-	 * @param	mixed	$topic_id	Limit by topic id: single id or array of topic ids
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param mixed $topic_id	Limit by topic id: single id or array of topic ids
+	 * @return $this
 	 */
 	public function fetch_topic($topic_id)
 	{
@@ -126,8 +125,8 @@ class data
 	/**
 	 * Fetch Topic by Poster id(s)
 	 *
-	 * @param	mixed	$user_id	User id of topic poster: single id or array of user ids
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param mixed $user_id	User id of topic poster: single id or array of user ids
+	 * @return $this
 	 */
 	public function fetch_topic_poster($user_id)
 	{
@@ -139,8 +138,8 @@ class data
 	/**
 	 * Fetch Post by id(s)
 	 *
-	 * @param	mixed	$post_id	Limit by post id: single id or array of post ids
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param mixed $post_id	Limit by post id: single id or array of post ids
+	 * @return $this
 	 */
 	public function fetch_post($post_id)
 	{
@@ -154,8 +153,8 @@ class data
 	/**
 	 * Fetch by Topic Type
 	 *
-	 * @param	mixed	$topic_type		Limit by post id: single id or array of post ids
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param mixed $topic_type		Limit by post id: single id or array of post ids
+	 * @return $this
 	 */
 	public function fetch_topic_type($topic_type)
 	{
@@ -173,7 +172,7 @@ class data
 	/**
 	 * Fetch Topic Watch info
 	 *
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @return $this
 	 */
 	public function fetch_watch_status()
 	{
@@ -198,7 +197,7 @@ class data
 	/**
 	 * Fetch Topic Bookmark Info
 	 *
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @return $this
 	 */
 	public function fetch_bookmark_status()
 	{
@@ -217,7 +216,8 @@ class data
 	/**
 	 * Fetch Topic Tracking Info
 	 *
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param bool $track
+	 * @return $this
 	 */
 	public function fetch_tracking_info($track = true)
 	{
@@ -243,9 +243,10 @@ class data
 	/**
 	 * Fetch by Date Range
 	 *
-	 * @param	integer		$start		Unix start time
-	 * @param	integer		$start		Unix stop time
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param int $start	Unix start time
+	 * @param int $stop		Unix stop time
+	 * @param string $mode
+	 * @return $this
 	 */
 	public function fetch_date_range($start, $stop, $mode = 'topic')
 	{
@@ -260,14 +261,14 @@ class data
 	/**
 	 * Fetch by Custom Query
 	 *
-	 * @param	array	$sql_array		Array of elements to merge into query
+	 * @param array	$sql_array		Array of elements to merge into query
 	 * 										array(
 	 * 											'SELECT'	=> array('p.*'),
 	 * 											'WHERE'		=> array('p.post_id = 2'),
 	 * 										)
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @return $this
 	 */
-	public function fetch_custom($sql_array)
+	public function fetch_custom(array $sql_array)
 	{
 		$this->store['sql_array'] = array_merge_recursive($this->store['sql_array'], $sql_array);
 
@@ -277,9 +278,9 @@ class data
 	/**
 	 * Set Sorting Order
 	 *
-	 * @param	string	$sort_key	The sorting key e.g. t.topic_time
-	 * @param	string	$sort_dir	Sort direction: ASC/DESC
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param string $sort_key		The sorting key e.g. t.topic_time
+	 * @param string $sort_dir		Sort direction: ASC/DESC
+	 * @return $this
 	 */
 	public function set_sorting($sort_key, $sort_dir = 'DESC')
 	{
@@ -291,22 +292,14 @@ class data
 	/**
 	 * Build the query
 	 *
-	 * @param	bool	$check_visibility	Should we only return data from forums the user is allowed to see?
-	 * @param	bool	$enable_caching		Should the query be cached where possible?
-	 * @return	\blitze\sitemaker\forum\query		This object for chaining calls
+	 * @param bool|true $check_visibility	Should we only return data from forums the user is allowed to see?
+	 * @param bool|true $enable_caching		Should the query be cached where possible?
+	 * @return $this
 	 */
 	public function build($check_visibility = true, $enable_caching = true)
 	{
-		if ($enable_caching !== true)
-		{
-			$this->cache_time = 0;
-		}
-
-		if ($check_visibility)
-		{
-			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . time();
-			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
-		}
+		$this->_set_cache_time($enable_caching);
+		$this->_set_topic_visibility($check_visibility);
 
 		$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
 		$this->store['sql_array']['WHERE'][] = 't.topic_moved_id = 0';
@@ -320,7 +313,7 @@ class data
 	/**
 	 * Get the query array
 	 *
-	 * @return	array	The sql array that can be used with sql_build_query
+	 * @return array	The sql array that can be used with sql_build_query
 	 */
 	public function get_sql_array()
 	{
@@ -329,11 +322,15 @@ class data
 
 	/**
 	 * Get topic data
+	 *
+	 * @param mixed|false $limit
+	 * @param int $start
+	 * @return array
 	 */
-	public function get_topic_data($limit = 0, $start = 0)
+	public function get_topic_data($limit = false, $start = 0)
 	{
 		$sql = $this->db->sql_build_query('SELECT', $this->store['sql_array']);
-		$result = $this->db->sql_query_limit($sql, ($limit) ? $limit : false, $start, $this->cache_time);
+		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -351,27 +348,21 @@ class data
 
 	/**
 	 * Get post data
+	 *
+	 * @param string $topic_first_or_last_post
+	 * @param array $post_ids
+	 * @param bool|false $limit
+	 * @param int $start
+	 * @param array $sql_array
+	 * @return array
 	 */
 	public function get_post_data($topic_first_or_last_post = '', $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
-		$sql_where = array();
-		if (sizeof($this->store['topic']))
-		{
-			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->store['topic']));
-
-			if ($topic_first_or_last_post)
-			{
-				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last_post));
-				$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
-			}
-		}
-
-		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
-
-		$sql_array = array_merge_recursive(array(
+		$sql_array = array_merge_recursive(
+			array(
 				'SELECT'	=> array('p.*'),
 				'FROM'		=> array(POSTS_TABLE => 'p'),
-				'WHERE'		=> $sql_where,
+				'WHERE'		=> $this->_get_post_data_where($post_ids, $topic_first_or_last_post),
 				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
 			),
 			$sql_array
@@ -402,13 +393,16 @@ class data
 
 	/**
 	 * Get attachments...
+	 *
+	 * @param int $forum_id
+	 * @return array
 	 */
 	public function get_attachments($forum_id)
 	{
 		$this->store['attachments'] = array_flip(array_filter($this->store['attachments']));
 
 		$attachments = array();
-		if (sizeof($this->store['attachments']) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id))
+		if ($this->_attachments_allowed($forum_id))
 		{
 			$sql = 'SELECT *
 				FROM ' . ATTACHMENTS_TABLE . '
@@ -430,6 +424,9 @@ class data
 
 	/**
 	 * Get topic tracking info
+	 *
+	 * @param int $forum_id
+	 * @return array
 	 */
 	public function get_topic_tracking_info($forum_id = 0)
 	{
@@ -438,134 +435,175 @@ class data
 			return array();
 		}
 
-		$tracking_info = array();
-		if ($this->config['load_db_lastread'] && $this->user->data['is_registered'])
-		{
-			foreach ($this->store['tracking'] as $fid => $forum)
-			{
-				$tracking_info[$fid] = get_topic_tracking($fid, $forum['topic_list'], $this->store['topic'], array($fid => $forum['mark_time']));
-			}
-		}
-		else if ($this->config['load_anon_lastread'] || $this->user->data['is_registered'])
-		{
-			foreach ($this->store['tracking'] as $fid => $forum)
-			{
-				$tracking_info[$fid] = get_complete_topic_tracking($fid, $forum['topic_list']);
-			}
-		}
+		$tracking_info = $this->_get_tracking_info();
 
 		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
 	}
 
 	/**
 	 * Returns an array of topic first post or last post ids
+	 *
+	 * @return array
 	 */
 	public function get_posters_info()
 	{
 		$this->store['poster_ids'] = array_filter(array_unique($this->store['poster_ids']));
-
-		if (!function_exists('get_user_rank'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
-		}
-
-		if (!sizeof($this->store['poster_ids']))
-		{
-			return array();
-		}
-
-		$now = $this->user->create_datetime();
-		$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
 		$sql = 'SELECT *
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $this->store['poster_ids']);
 		$result = $this->db->sql_query($sql);
 
-		$user_cache = array();
+		$poster = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$poster_id = $row['user_id'];
-
-			$user_cache[$poster_id] = array(
-				'user_type'					=> $row['user_type'],
-				'user_inactive_reason'		=> $row['user_inactive_reason'],
-
-				'joined'			=> $this->user->format_date($row['user_regdate'], 'M d, Y'),
-				'posts'				=> $row['user_posts'],
-				'warnings'			=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
-
-				'viewonline'		=> $row['user_allow_viewonline'],
-				'allow_pm'			=> $row['user_allow_pm'],
-
-				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
-				'age'				=> '',
-
-				'rank_title'		=> '',
-				'rank_image'		=> '',
-				'rank_image_src'	=> '',
-
-				'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
-
-				'online'			=> false,
-				'jabber'			=> ($row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
-				'search'			=> ($this->auth->acl_get('u_search')) ? append_sid("{$this->phpbb_root_path}search.$this->php_ext", "author_id=$poster_id&amp;sr=posts") : '',
-
-				'username'			=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
-				'username_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
-				'user_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
-				'user_profile'		=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
-			);
-
-			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);
-
-			if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
-			{
-				$user_cache[$poster_id]['email'] = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
-			}
-			else
-			{
-				$user_cache[$poster_id]['email'] = '';
-			}
-
-			if ($this->config['allow_birthdays'] && !empty($row['user_birthday']))
-			{
-				list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $row['user_birthday']));
-
-				if ($bday_year)
-				{
-					$diff = $now['mon'] - $bday_month;
-					if ($diff == 0)
-					{
-						$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
-					}
-					else
-					{
-						$diff = ($diff < 0) ? 1 : 0;
-					}
-
-					$user_cache[$poster_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
-				}
-			}
+			$poster[$row['user_id']] = $row;
 		}
 		$this->db->sql_freeresult($result);
 
-		return $user_cache;
+		return $poster;
 	}
 
 	/**
 	 * Returns an array of topic first post or last post ids
+	 *
+	 * @param string $first_or_last_post
+	 * @return array
 	 */
 	public function get_topic_post_ids($first_or_last_post = 'first')
 	{
 		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->store['post_ids'][$first_or_last_post] : array();
 	}
 
+	/**
+	 * Reset data
+	 */
+	private function _reset()
+	{
+		$this->store = array(
+			'attachments'	=> array(),
+			'post_ids'		=> array(),
+			'poster_ids'	=> array(),
+			'sql_array'		=> array(),
+			'topic'			=> array(),
+			'tracking'		=> array(),
+		);
+	}
+
+	/**
+	 * @param int $column_id
+	 * @param string $column
+	 */
 	private function _fetch($column_id, $column)
 	{
 		if (!empty($column_id))
 		{
 			$this->store['sql_array']['WHERE'][] = (is_array($column_id)) ? $this->db->sql_in_set($column, $column_id) : $column . ' = ' . (int) $column_id;
 		}
+	}
+
+	/**
+	 * @param bool $enable_caching
+	 */
+	private function _set_cache_time($enable_caching)
+	{
+		if ($enable_caching !== true)
+		{
+			$this->cache_time = 0;
+		}
+	}
+
+	/**
+	 * @param bool $check_visibility
+	 */
+	private function _set_topic_visibility($check_visibility)
+	{
+		if ($check_visibility)
+		{
+			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . time();
+			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
+		}
+	}
+
+	/**
+	 * @param array $post_ids
+	 * @param string $topic_first_or_last_post
+	 * @return array
+	 */
+	private function _get_post_data_where(array $post_ids, $topic_first_or_last_post)
+	{
+		$sql_where = array();
+		if (sizeof($this->store['topic']))
+		{
+			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->store['topic']));
+
+			if ($topic_first_or_last_post)
+			{
+				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last_post));
+				$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
+			}
+		}
+
+		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
+
+		return $sql_where;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_tracking_info()
+	{
+		$info = array();
+		if ($this->_can_track_by_lastread())
+		{
+			$info = $this->_build_tracking_info('get_topic_tracking');
+		}
+		else if ($this->_can_track_anonymous())
+		{
+			$info = $this->_build_tracking_info('get_complete_topic_tracking');
+		}
+
+		return $info;
+	}
+
+	/**
+	 * @param string $function
+	 * @return array
+	 */
+	private function _build_tracking_info($function)
+	{
+		$tracking_info = array();
+		foreach ($this->store['tracking'] as $fid => $forum)
+		{
+			$tracking_info[$fid] = call_user_func_array($function, array($fid, $forum['topic_list'], $this->store['topic'], array($fid => $forum['mark_time'])));
+		}
+
+		return $tracking_info;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function _can_track_by_lastread()
+	{
+		return ($this->config['load_db_lastread'] && $this->user->data['is_registered']) ? true : false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function _can_track_anonymous()
+	{
+		return ($this->config['load_anon_lastread'] || $this->user->data['is_registered']) ? true : false;
+	}
+
+	/**
+	 * @param int $forum_id
+	 * @return bool
+	 */
+	private function _attachments_allowed($forum_id)
+	{
+		return (sizeof($this->store['attachments']) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id)) ? true : false;
 	}
 }

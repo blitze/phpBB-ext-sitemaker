@@ -33,6 +33,7 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
+            - %tables.sitemaker.blocks%
         calls:
             - [set_name, [blitze.sitemaker.block.featured_member]]
         tags:

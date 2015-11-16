@@ -109,7 +109,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<div class="my_var-checkbox" id="my_var-col-0">' .
-						'<label><input type="checkbox" name="config[my_var][]" id="my_var" value="option1" checked="checked" accesskey="my_var" class="checkbox" /> Option 1</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" accesskey="my_var" class="checkbox" /> Option 1</label><br />' .
 						'<label><input type="checkbox" name="config[my_var][]" value="option2" accesskey="my_var" class="checkbox" /> Option 2</label><br />' .
 						'<label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" accesskey="my_var" class="checkbox" /> Option 3</label><br />' .
 						'</div>',
@@ -150,7 +150,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'hidden', 'default' => 0),
 				array(
 					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
+					'TITLE'			=> '',
 					'S_EXPLAIN'		=> '',
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<input type="hidden" name="config[my_var]" value="1" />',
@@ -317,7 +317,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 				'',
 				'topic_ids',
 				'<div class="topic_ids-checkbox" id="topic_ids-col-0">' .
-				'<label><input type="checkbox" name="config[topic_ids][]" id="topic_ids" value="option1" accesskey="topic_ids" class="checkbox" /> Option #1</label><br />' .
+				'<label><input type="checkbox" name="config[topic_ids][]" value="option1" accesskey="topic_ids" class="checkbox" /> Option #1</label><br />' .
 				'<label><input type="checkbox" name="config[topic_ids][]" value="option2" accesskey="topic_ids" class="checkbox" /> Option #2</label><br />' .
 				'<label><input type="checkbox" name="config[topic_ids][]" value="option3" accesskey="topic_ids" class="checkbox" /> Option #3</label><br />' .
 				'</div>'
@@ -336,7 +336,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 				'',
 				'content_type',
 				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-news">' .
-				'<label><input type="checkbox" name="config[content_type][]" id="content_type" value="news_field1" accesskey="content_type" class="checkbox" /> News Label 1</label><br />' .
+				'<label><input type="checkbox" name="config[content_type][]" value="news_field1" accesskey="content_type" class="checkbox" /> News Label 1</label><br />' .
 				'<label><input type="checkbox" name="config[content_type][]" value="news_field2" accesskey="content_type" class="checkbox" /> News Label 2</label><br />' .
 				'</div>' .
 				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-articles">' .
