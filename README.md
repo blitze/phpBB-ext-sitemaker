@@ -36,6 +36,12 @@ Install vendors
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
 
+## Upgrade from phpBB Primetime
+
+* Disable (do not Purge) phpBB Primetime
+* Install phpBB Sitemaker as described above
+* Purge phpBB Primetime
+
 ## Collaborate
 
 * Create a issue in the [tracker](https://github.com/blitze/phpBB-ext-sitemaker/issues)
