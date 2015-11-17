@@ -101,7 +101,7 @@ class featured_member extends block
 			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
 			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'options' => $cpf_options, 'default' => array(), 'explain' => true),
 			'last_changed'	=> array('type' => 'hidden', 'default' => 0),
-			'current_user'	=> array('type' => 'hidden', 'default' => 0),
+			'current_user'	=> array('type' => 'hidden', 'default' => ''),
 		);
 	}
 
@@ -113,55 +113,38 @@ class featured_member extends block
 	public function display($bdata, $edit_mode = false)
 	{
 		$bid = $bdata['bid'];
-		$query_type =& $bdata['settings']['qtype'];
-		$rotation = $bdata['settings']['rotation'];
+		$settings = $this->_get_settings($bdata);
+		$query_type = $settings['qtype'];
+		$rotation = $settings['rotation'];
 
-		$change_user = false;
-		$row = $this->_get_cached_user_data($bid);
+		$change_user = $this->_change_user($rotation, $settings);
+		$block_title = $this->user->lang(strtoupper($query_type) . '_MEMBER');
 
-		if ($this->_reload($rotation, $row, $bdata, $change_user))
+		if (($row = $this->_get_user_data($settings, $change_user)) === false)
 		{
-			if (($row = $this->_get_user_data($bdata['settings'], $change_user)) !== false)
-			{
-				$row['profile_fields'] = $this->_get_profile_fields($bdata['settings']['show_cpf'], $row['user_id']);
-				$row['settings'] = $bdata['settings'];
-				$row['hash'] = $bdata['hash'];
-			}
-			else
-			{
-				return $this->_update_userlist($bdata, $edit_mode);
-			}
-
-			$this->_update_settings($bid, $bdata['settings']);
-			$this->cache->put('pt_block_data_' . $bid, $row);
+			$bdata['settings'] = $settings;
+			return $this->_update_userlist($block_title, $bdata, $edit_mode);
 		}
 
+		$row['profile_fields'] = $this->_get_profile_fields($settings['show_cpf'], $row['user_id']);
+
+		$this->_save_settings($bid, $settings, $change_user);
 		$this->_explain_view($query_type, $rotation);
-		$this->_set_profile_fields($row);
+		$this->_show_profile_fields($row);
 		$this->ptemplate->assign_vars($this->_display_user($row));
 
 		return array(
-			'title'		=> $this->user->lang(strtoupper($query_type) . '_MEMBER'),
+			'title'		=> $block_title,
 			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block'),
 		);
 	}
 
 	/**
-	 * @param $bid
-	 * @return bool|array
+	 * @param array $settings
+	 * @param bool $change_user
+	 * @return array|false
 	 */
-	private function _get_cached_user_data($bid)
-	{
-		$row = $this->cache->get('pt_block_data_' . $bid);
-		return (!$row || defined('SITEMAKER_FORUM_CHANGED')) ? false : $row;
-	}
-
-	/**
-	 * @param $settings
-	 * @param $change_user
-	 * @return mixed
-	 */
-	private function _get_user_data(&$settings, $change_user)
+	private function _get_user_data(array &$settings, $change_user)
 	{
 		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank
 			FROM ' . USERS_TABLE . '
@@ -179,7 +162,7 @@ class featured_member extends block
 			$sql .= 'ORDER BY RAND()';
 		}
 
-		$result = $this->db->sql_query_limit($sql, 1);
+		$result = $this->db->sql_query_limit($sql, 1, 0, $this->_get_cache_time($query_type, $settings['rotation']));
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
@@ -187,22 +170,20 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $sql
-	 * @param $settings
-	 * @param $change_user
+	 * @param string $sql
+	 * @param array $settings
+	 * @param bool $change_user
 	 */
-	private function _query_user_by_featured(&$sql, &$settings, $change_user)
+	private function _query_user_by_featured(&$sql, array &$settings, $change_user)
 	{
 		$userlist = $this->_get_userlist($settings);
-		$current_user = (int) $this->_get_featured_user($userlist, $settings, $change_user);
+		$current_user = (sizeof($userlist)) ? $this->_get_featured_user($userlist, $settings, $change_user) : 0;
 
-		$sql .= ' AND user_id = ' . $current_user;
-		$settings['current_user'] = $current_user;
-		$settings['last_changed'] = time();
+		$sql .= ' AND user_id = ' . (int) $current_user;
 	}
 
 	/**
-	 * @param $sql
+	 * @param string $sql
 	 */
 	private function _query_user_by_recent(&$sql)
 	{
@@ -210,7 +191,7 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $sql
+	 * @param string $sql
 	 */
 	private function _query_user_by_posts(&$sql)
 	{
@@ -218,31 +199,31 @@ class featured_member extends block
 	}
 
 	/**
+	 * @param string $query_type
 	 * @param string $rotation
-	 * @param bool|array $row
-	 * @param array $bdata
-	 * @param bool $change_user
-	 * @return bool
+	 * @return int
 	 */
-	private function _reload($rotation, $row, array &$bdata, &$change_user)
+	private function _get_cache_time($query_type, $rotation)
 	{
-		if ($row !== false && $row['hash'] == $bdata['hash'])
-		{
-			$bdata['settings'] = $row['settings'];
-		}
-		$change_user = $this->_change_user($rotation, $bdata['settings']['last_changed']);
-
-		return (!$row || $change_user) ? true : false;
+		return ($rotation !== 'pageload' || in_array($query_type, array('posts', 'recent'))) ? 3600 : 0;
 	}
 
 	/**
-	 * @param $rotation
-	 * @param $last_changed
+	 * @param string $rotation
+	 * @param array $settings
 	 * @return bool
 	 */
-	private function _change_user($rotation, $last_changed)
+	private function _change_user($rotation, array &$settings)
 	{
-		return ($rotation == 'pageload' || $last_changed < strtotime('-1 ' . self::$rotations[$rotation])) ? true : false;
+		if ($rotation == 'pageload' || $settings['last_changed'] < strtotime('-1 ' . self::$rotations[$rotation]))
+		{
+			$settings['last_changed'] = time();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -251,7 +232,7 @@ class featured_member extends block
 	 * @param $change_user
 	 * @return int
 	 */
-	private function _get_featured_user(array $userlist, array $settings, $change_user)
+	private function _get_featured_user(array $userlist, array &$settings, $change_user)
 	{
 		$current_user = $settings['current_user'];
 
@@ -259,6 +240,8 @@ class featured_member extends block
 		{
 			$next_key = $this->_get_next_user($current_user, $userlist);
 			$current_user = $userlist[$next_key];
+
+			$settings['current_user'] = $current_user;
 		}
 
 		return $current_user;
@@ -290,43 +273,42 @@ class featured_member extends block
 	}
 
 	/**
-	 * if we're selecting from a list and there is no result, we remove the culprit and update the list
-	 *
 	 * @param array $bdata
-	 * @param $edit_mode
 	 * @return array
 	 */
-	private function _update_userlist(array &$bdata, $edit_mode)
+	private function _get_settings(array $bdata)
 	{
-		$settings = &$bdata['settings'];
-		$userlist = $this->_get_userlist($settings);
+		$cached_settings = $this->cache->get('pt_block_data_' . $bdata['bid']);
+		$settings = ($cached_settings && $cached_settings['hash'] == $bdata['hash']) ? $cached_settings : $bdata['settings'];
+		$settings['hash'] = $bdata['hash'];
 
-		$content = '';
-		if ($bdata['settings']['qtype'] === 'featured' && sizeof($userlist))
-		{
-			$new_user_id = $this->_get_featured_user($userlist, $settings, true);
-			$settings['userlist'] = str_replace($settings['current_user'] . ',', '', $settings['userlist'] . ',');
-
-			$new_userlist = $this->_get_userlist($settings);
-			$settings['userlist'] = $this->_set_userlist($new_userlist);
-			$settings['current_user'] = $new_user_id;
-
-			$content = $this->display($bdata, $edit_mode);
-		}
-
-		return $content;
+		return $settings;
 	}
 
 	/**
 	 * @param $bid
 	 * @param array $settings
+	 * @param bool $change_user
 	 */
-	private function _update_settings($bid, array $settings)
+	private function _save_settings($bid, array $settings, $change_user)
 	{
-		$sql_data = array(
-			'settings'	=> serialize($settings)
-		);
-		$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
+		if ($change_user && ($settings['rotation'] !== 'pageload' || $settings['qtype'] === 'featured'))
+		{
+			$sql_data = array(
+				'settings'	=> serialize($settings)
+			);
+			$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
+			$this->cache->put('pt_block_data_' . $bid, $settings);
+		}
+	}
+
+	/**
+	 * @param array $userlist
+	 * @return string
+	 */
+	private function _set_userlist(array $userlist)
+	{
+		return join(',', $userlist);
 	}
 
 	/**
@@ -340,12 +322,36 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param array $userlist
-	 * @return string
+	 * if we're selecting from a list and there is no result, we remove the culprit and update the list
+	 *
+	 * @param string $title
+	 * @param array $bdata
+	 * @param bool $edit_mode
+	 * @return array
 	 */
-	private function _set_userlist(array $userlist)
+	private function _update_userlist($title, array &$bdata, $edit_mode)
 	{
-		return join(',', $userlist);
+		$userlist = $this->_get_userlist($bdata['settings']);
+
+		if ($bdata['settings']['qtype'] === 'featured' && sizeof($userlist))
+		{
+			$next_key = $this->_get_next_user($bdata['settings']['current_user'], $userlist);
+			$new_list = str_replace($bdata['settings']['current_user'] . ',', '', $bdata['settings']['userlist'] . ',');
+
+			$userlist = $this->_get_userlist($bdata['settings']);
+			$bdata['settings']['current_user'] = $userlist[$next_key];
+
+			$bdata['settings']['userlist'] = $new_list;
+
+			$new_userlist = $this->_get_userlist($bdata['settings']);
+			$bdata['settings']['userlist'] = $this->_set_userlist($new_userlist);
+
+			return $this->display($bdata, $edit_mode);
+		}
+
+		return array(
+			'title' => $title,
+		);
 	}
 
 	/**
@@ -371,7 +377,7 @@ class featured_member extends block
 	/**
 	 * @param array $row
 	 */
-	private function _set_profile_fields(array $row)
+	private function _show_profile_fields(array $row)
 	{
 		if (!empty($row['profile_fields']))
 		{
