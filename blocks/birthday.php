@@ -82,10 +82,6 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 			// we only check birthdays every hour, may make this an admin choice
 			$this->cache->put('pt_block_data_' . $bdata['bid'], $content, 3600);
 		}
-		else if ($edit_mode !== false)
-		{
-			$content = $this->user->lang('BLOCK_NO_DATA');
-		}
 
 		return array(
 			'title'		=> 'BIRTHDAYS',

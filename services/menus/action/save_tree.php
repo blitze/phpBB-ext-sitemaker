@@ -19,20 +19,35 @@ class save_tree extends base_action
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
-		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 		}
 
-		$tree = array();
-		foreach ($raw_tree as $id => $row)
-		{
-			$tree[$id] = array(
-				'item_id'	=> (int) $row['item_id'],
-				'parent_id' => (int) $row['parent_id'],
-			);
-		}
+		$tree = $this->prepare_tree($raw_tree);
 
 		return $item_mapper->update_items($menu_id, $tree);
+	}
+
+	protected function prepare_tree(array $raw_tree)
+	{
+		$tree = array();
+		$raw_tree = array_values($raw_tree);
+
+		for ($i = 0, $size = sizeof($raw_tree); $i < $size; $i++)
+		{
+			$item_id = (int) $raw_tree[$i]['item_id'];
+			$parent_id = (int) $raw_tree[$i]['parent_id'];
+
+			if ($item_id)
+			{
+				$tree[$item_id] = array(
+					'item_id'	=> $item_id,
+					'parent_id' => $parent_id,
+				);
+			}
+		}
+
+		return $tree;
 	}
 }

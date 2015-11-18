@@ -65,7 +65,7 @@ class menus_admin
 		}
 		catch (\Exception $e)
 		{
-			$return_data['message'] = $e->get_message();
+			$return_data['message'] = $this->user->lang($e->getMessage());
 		}
 
 		return new Response(json_encode($return_data));

@@ -423,7 +423,7 @@ class featured_member extends block
 	 */
 	private function _calculate_percent_posts($user_posts)
 	{
-		return ($this->config['num_posts'] && $user_posts) ? min(100, ($user_posts / $this->config['num_posts']) * 100) : 0;
+		return ($this->config['num_posts']) ? min(100, ($user_posts / $this->config['num_posts']) * 100) : 0;
 	}
 
 	/**

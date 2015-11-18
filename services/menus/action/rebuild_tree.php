@@ -18,7 +18,7 @@ class rebuild_tree extends base_action
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
-		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 		}

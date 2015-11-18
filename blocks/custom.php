@@ -90,7 +90,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put($cblock, 'pt_cblocks');
+			$this->cache->put('pt_cblocks', $cblock);
 		}
 
 		$content = '';

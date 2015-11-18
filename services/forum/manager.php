@@ -111,6 +111,8 @@ class manager
 
 		if (!sizeof($errors))
 		{
+			$forum_data['forum_id'] = (int) $forum_data['forum_id'];
+
 			// Copy permissions?
 			if ($forum_perm_from && $forum_perm_from != $forum_data['forum_id'])
 			{
