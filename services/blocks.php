@@ -54,7 +54,15 @@ class blocks
 		$this->mapper_factory = $mapper_factory;
 	}
 
-	public function display($edit_mode, array $route_info, $style_id, $display_mode)
+	/**
+	 * Display blocks for current route
+	 *
+	 * @param bool $edit_mode
+	 * @param array $route_info
+	 * @param int $style_id
+	 * @param $display_modes
+	 */
+	public function display($edit_mode, array $route_info, $style_id, array $display_modes)
 	{
 		$ex_positions = $route_info['ex_positions'];
 		$users_groups = $this->get_users_groups();
@@ -68,14 +76,14 @@ class blocks
 			$pos_count_key = 's_' . $position . '_count';
 			$blocks_per_position[$pos_count_key] = 0;
 
-			if ($edit_mode === false && isset($ex_positions[$position]))
+			if ($this->_exclude_position($position, $ex_positions, $edit_mode))
 			{
 				continue;
 			}
 
 			foreach ($blocks as $entity)
 			{
-				$this->render($display_mode, $edit_mode, $entity->to_array(), $users_groups, $blocks_per_position[$pos_count_key]);
+				$this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $blocks_per_position[$pos_count_key]);
 			}
 		}
 
@@ -83,51 +91,43 @@ class blocks
 		$this->template->assign_vars(array_change_key_case($blocks_per_position, CASE_UPPER));
 	}
 
+	/**
+	 * @param string $current_route
+	 * @param int $style_id
+	 * @param bool|false $edit_mode
+	 * @return array
+	 */
 	public function get_route_info($current_route, $style_id, $edit_mode = false)
 	{
-		if ($edit_mode || ($route_info = $this->cache->get('sitemaker_block_routes')) === false)
+		$all_routes = $this->_get_all_routes();
+
+		if (isset($all_routes[$style_id][$current_route]))
 		{
-			$route_mapper = $this->mapper_factory->create('blocks', 'routes');
-			$collection = $route_mapper->find();
-
-			$route_info = array();
-			foreach ($collection as $entity)
-			{
-				$route = $entity->get_route();
-				$style = $entity->get_style();
-				$route_info[$style][$route] = $entity->to_array();
-			}
-
-			$this->cache->put('sitemaker_block_routes', $route_info);
+			return $all_routes[$style_id][$current_route];
 		}
-
-		$default_info = array(
-			'route_id'		=> 0,
-			'route'			=> $current_route,
-			'style'			=> $style_id,
-			'hide_blocks'	=> false,
-			'ex_positions'	=> array(),
-			'has_blocks'	=> false,
-		);
-
-		$default_route = $this->config['sitemaker_default_layout'];
-		return (isset($route_info[$style_id][$current_route])) ? $route_info[$style_id][$current_route] : (($edit_mode === false && $default_route && isset($route_info[$style_id][$default_route])) ? $route_info[$style_id][$default_route] : $default_info);
+		else
+		{
+			return $this->_get_default_route_info($all_routes, $current_route, $style_id, $edit_mode);
+		}
 	}
 
+	/**
+	 * @param array $route_info
+	 * @param int $style_id
+	 * @param bool $edit_mode
+	 * @return array
+	 */
 	public function get_blocks_for_route(array $route_info, $style_id, $edit_mode)
 	{
-		$blocks = $this->_get_all_blocks($edit_mode);
-
-		$route_id = $route_info['route_id'];
-		if ($edit_mode === false && !$route_info['has_blocks'])
-		{
-			$default_route = $this->get_route_info($this->config['sitemaker_default_layout'], $style_id, $edit_mode);
-			$route_id = $default_route['route_id'];
-		}
+		$blocks = $this->_get_cached_blocks($edit_mode);
+		$route_id = $this->_get_display_route_id($route_info, $style_id, $edit_mode);
 
 		return (isset($blocks[$style_id][$route_id]) && !$route_info['hide_blocks']) ? $blocks[$style_id][$route_id] : array();
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_users_groups()
 	{
 		$sql = 'SELECT group_id
@@ -145,19 +145,30 @@ class blocks
 		return $groups;
 	}
 
+	/**
+	 * Clear blocks cache
+	 */
 	public function clear_cache()
 	{
 		$this->cache->destroy('sitemaker_blocks');
 		$this->cache->destroy('sitemaker_block_routes');
 	}
 
-	public function render($display_mode, $edit_mode, array $data, array $users_groups, &$position_counter)
+	/**
+	 * Render block
+	 *
+	 * @param array $display_modes
+	 * @param bool $edit_mode
+	 * @param array $data
+	 * @param array $users_groups
+	 * @param int $position_counter
+	 */
+	public function render(array $display_modes, $edit_mode, array $data, array $users_groups, &$position_counter)
 	{
-		$type = $data['type'];
 		$position = $data['position'];
 		$service_name = $data['name'];
 
-		if ($display_mode[$type] && ($edit_mode || empty($data['permission']) || sizeof(array_intersect($data['permission'], $users_groups))) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
+		if ($this->_block_is_viewable($data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
 			$block = $block_instance->display($data, $edit_mode);
 
@@ -167,7 +178,7 @@ class blocks
 			}
 
 			$tpl_data = array_merge($data, array(
-				'TITLE'		=> ($data['title']) ? $data['title'] : $this->user->lang($block['title']),
+				'TITLE'		=> $this->_get_block_title($data['title'], $block['title']),
 				'CONTENT'	=> $content,
 			));
 
@@ -176,52 +187,11 @@ class blocks
 		}
 	}
 
-	protected function _get_block_content($block, $edit_mode)
-	{
-		if (!empty($block['content']))
-		{
-			return $block['content'];
-		}
-		else if ($edit_mode)
-		{
-			return $this->user->lang('BLOCK_NO_DATA');
-		}
-	}
-
-	protected function _get_all_blocks($edit_mode)
-	{
-		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
-		{
-			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
-			$collection = $block_mapper->find();
-
-			$blocks = array();
-			foreach ($collection as $entity)
-			{
-				if ($block_instance = $this->block_factory->get_block($entity->get_name()))
-				{
-					$default_settings = $block_instance->get_config(array());
-					$settings = $this->sync_settings($default_settings, $entity->get_settings());
-
-					$entity->set_settings($settings);
-
-					$style = $entity->get_style();
-					$route_id = $entity->get_route_id();
-					$position = $entity->get_position();
-
-					$blocks[$style][$route_id][$position][] = $entity;
-				}
-			}
-
-			if (!$edit_mode)
-			{
-				$this->cache->put('sitemaker_blocks', $blocks);
-			}
-		}
-
-		return $blocks;
-	}
-
+	/**
+	 * @param array $df_settings
+	 * @param array $db_settings
+	 * @return array
+	 */
 	public function sync_settings(array $df_settings, array $db_settings = array())
 	{
 		$settings = array();
@@ -235,5 +205,193 @@ class blocks
 		}
 
 		return array_merge($settings, array_intersect_key($db_settings, $settings));
+	}
+
+	/**
+	 * @param string $db_title
+	 * @param string $df_title
+	 * @return string
+	 */
+	protected function _get_block_title($db_title, $df_title)
+	{
+		return ($db_title) ? $db_title : $this->user->lang($df_title);
+	}
+
+	/**
+	 * @param array $block
+	 * @param bool $edit_mode
+	 * @return string|null
+	 */
+	protected function _get_block_content(array $block, $edit_mode)
+	{
+		$content = '';
+		if (!empty($block['content']))
+		{
+			$content = $block['content'];
+		}
+		else if ($edit_mode)
+		{
+			$content = $this->user->lang('BLOCK_NO_DATA');
+		}
+
+		return $content;
+	}
+
+	/**
+	 * @param bool $edit_mode
+	 * @return array
+	 */
+	protected function _get_cached_blocks($edit_mode)
+	{
+		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
+		{
+			$blocks = $this->_get_all_blocks();
+			$this->_cache_block($blocks, $edit_mode);
+		}
+
+		return $blocks;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function _get_all_blocks()
+	{
+		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$collection = $block_mapper->find();
+
+		$blocks = array();
+		foreach ($collection as $entity)
+		{
+			if ($block_instance = $this->block_factory->get_block($entity->get_name()))
+			{
+				$default_settings = $block_instance->get_config(array());
+				$settings = $this->sync_settings($default_settings, $entity->get_settings());
+
+				$entity->set_settings($settings);
+
+				$style = $entity->get_style();
+				$route_id = $entity->get_route_id();
+				$position = $entity->get_position();
+
+				$blocks[$style][$route_id][$position][] = $entity;
+			}
+		}
+
+		return $blocks;
+	}
+
+	/**
+	 * @return array|mixed
+	 */
+	protected function _get_all_routes()
+	{
+		if (($all_routes = $this->cache->get('sitemaker_block_routes')) === false)
+		{
+			$route_mapper = $this->mapper_factory->create('blocks', 'routes');
+			$collection = $route_mapper->find();
+
+			$all_routes = array();
+			foreach ($collection as $entity)
+			{
+				$route = $entity->get_route();
+				$style = $entity->get_style();
+				$all_routes[$style][$route] = $entity->to_array();
+			}
+
+			$this->cache->put('sitemaker_block_routes', $all_routes);
+		}
+
+		return $all_routes;
+	}
+
+	/**
+	 * @param array $all_routes
+	 * @param string $current_route
+	 * @param int $style_id
+	 * @param bool $edit_mode
+	 * @return array
+	 */
+	protected function _get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode)
+	{
+		$default_route = $this->config['sitemaker_default_layout'];
+		$default_info = array(
+			'route_id'		=> 0,
+			'route'			=> $current_route,
+			'style'			=> $style_id,
+			'hide_blocks'	=> false,
+			'ex_positions'	=> array(),
+			'has_blocks'	=> false,
+		);
+
+		return ($edit_mode === false && isset($all_routes[$style_id][$default_route])) ? $all_routes[$style_id][$default_route] : $default_info;
+	}
+
+	/**
+	 * @param array $route_info
+	 * @param int $style_id
+	 * @param bool $edit_mode
+	 * @return int
+	 */
+	protected function _get_display_route_id(array $route_info, $style_id, $edit_mode)
+	{
+		$route_id = $route_info['route_id'];
+		if ($edit_mode === false && !$route_info['has_blocks'])
+		{
+			$default_route = $this->get_route_info($this->config['sitemaker_default_layout'], $style_id, $edit_mode);
+			$route_id = $default_route['route_id'];
+		}
+
+		return (int) $route_id;
+	}
+
+	/**
+	 * @param array $blocks
+	 * @param bool $edit_mode
+	 */
+	protected function _cache_block(array $blocks, $edit_mode)
+	{
+		if (!$edit_mode)
+		{
+			$this->cache->put('sitemaker_blocks', $blocks);
+		}
+	}
+
+	/**
+	 * Should we display this block?
+	 *
+	 * @param array $data
+	 * @param array $display_modes
+	 * @param array $users_groups
+	 * @param bool $edit_mode
+	 * @return bool
+	 */
+	protected function _block_is_viewable(array $data, array $display_modes, array $users_groups, $edit_mode)
+	{
+		$type = $data['type'];
+		$allowed_groups = $data['permission'];
+
+		return ($display_modes[$type] && ($edit_mode || $this->_user_is_permitted($allowed_groups, $users_groups))) ? true : false;
+	}
+
+	/**
+	 * @param mixed $allowed_groups
+	 * @param array $users_groups
+	 * @return bool
+	 */
+	protected function _user_is_permitted($allowed_groups, array $users_groups)
+	{
+		return (empty($allowed_groups) || sizeof(array_intersect($allowed_groups, $users_groups))) ? true : false;
+	}
+
+	/**
+	 * @param string $position
+	 * @param array $ex_positions
+	 * @param bool $edit_mode
+	 * @return bool
+	 */
+	protected function _exclude_position($position, array $ex_positions, $edit_mode)
+	{
+		return ($edit_mode === false && isset($ex_positions[$position])) ? true : false;
 	}
 }

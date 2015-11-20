@@ -85,16 +85,16 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 *
+	 * {@inheritdoc}
 	 */
 	public function get_config($settings)
 	{
-		$forum_options = $this->get_forum_options();
-		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
-		$preview_options = array('' => 'NO', 'first' => 'SHOW_FIRST_POST', 'last' => 'SHOW_LAST_POST');
-		$range_options = array('' => 'ALL_TIME', 'today' => 'TODAY', 'week' => 'THIS_WEEK', 'month' => 'THIS_MONTH', 'year' => 'THIS_YEAR');
-		$sort_options = array(FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
-		$template_options = array('titles' => 'TITLES', 'mini' => 'MINI', 'context' => 'CONTEXT');
+		$forum_options = $this->_get_forum_options();
+		$topic_type_options = $this->_get_topic_type_options();
+		$preview_options = $this->_get_preview_options();
+		$range_options = $this->_get_range_options();
+		$sort_options = $this->_get_sorting_options();
+		$template_options = $this->_get_view_options();
 
 		return array(
 			'legend1'			=> $this->user->lang('SETTINGS'),
@@ -114,39 +114,190 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 *
+	 * {@inheritdoc}
 	 */
 	public function display($bdata, $edit_mode = false)
 	{
 		$this->settings = $bdata['settings'];
 
-		switch ($this->settings['topic_type'])
+		$topic_data = $this->_get_topic_data();
+
+		$content = '';
+		if (sizeof($topic_data))
 		{
-			case POST_GLOBAL:
-				$lang_var = 'FORUM_GLOBAL_ANNOUNCEMENTS';
-			break;
-			case POST_ANNOUNCE:
-				$lang_var = 'FORUM_ANNOUNCEMENTS';
-			break;
-			case POST_STICKY:
-				$lang_var = 'FORUM_STICKY_POSTS';
-			break;
-			case POST_NORMAL:
-			default:
-				$lang_var = 'FORUM_RECENT_TOPICS';
-			break;
+			$this->_set_display_fields();
+
+			$view = 'S_' . strtoupper($this->settings['template']);
+			$method = 'forum_topics_' . $this->settings['template'];
+			$post_data = $this->_get_post_data($topic_data);
+			$topic_data = array_values($topic_data);
+
+			$this->$method($topic_data, $post_data);
+			unset($topic_data, $post_data);
+
+			$this->ptemplate->assign_vars(array(
+				$view				=> true,
+				'S_IS_BOT'			=> $this->user->data['is_bot'],
+				'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
+				'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
+			));
+
+			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block');
 		}
 
+		return array(
+			'title'		=> $this->get_block_title(),
+			'content'	=> $content,
+		);
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @param array $post_data
+	 */
+	protected function forum_topics_titles(array &$topic_data, array &$post_data)
+	{
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
+		{
+			$row =& $topic_data[$i];
+			$forum_id = $row['forum_id'];
+			$topic_id = $row['topic_id'];
+
+			$post_row = array_pop($post_data[$topic_id]);
+			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
+
+			$tpl_ary = array(
+				'FORUM_TITLE'	=> $row['forum_name'],
+				'TOPIC_TITLE'	=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
+				'TOPIC_AUTHOR'	=> get_username_string('full', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
+				'TOPIC_PREVIEW'	=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
+				'S_UNREAD_TOPIC'=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
+				'U_VIEWFORUM'	=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
+				'U_VIEWTOPIC'	=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			);
+
+			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
+			unset($topic_data[$i], $post_data[$topic_id]);
+		}
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @param array $post_data
+	 */
+	protected function forum_topics_lastread(array &$topic_data, array &$post_data)
+	{
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
+		{
+			$row =& $topic_data[$i];
+			$forum_id = $row['forum_id'];
+			$topic_id = $row['topic_id'];
+
+			$tpl_ary = array(
+				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
+				'TOPIC_READ'		=> $this->user->lang('TOPIC_LAST_READ', $this->user->format_date($row['topic_last_view_time'], $this->user->lang['DATE_FORMAT'])),
+				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
+				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			);
+
+			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
+			unset($topic_data[$i], $post_data[$topic_id]);
+		}
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @param array $post_data
+	 */
+	protected function forum_topics_mini(array &$topic_data, array &$post_data)
+	{
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
+		{
+			$row =& $topic_data[$i];
+			$forum_id = $row['forum_id'];
+			$topic_id = $row['topic_id'];
+
+			$post_row = array_pop($post_data[$topic_id]);
+			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
+
+			$tpl_ary = array(
+				'FORUM_TITLE'		=> $row['forum_name'],
+				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
+				'TOPIC_AUTHOR'		=> get_username_string('full', $row[$this->fields['user_id']], $row[$this->fields['username']], $row[$this->fields['user_colour']]),
+				'TOPIC_PREVIEW'		=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
+				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
+				'ATTACH_ICON_IMG'	=> $this->_get_attachment_icon($forum_id, $row['topic_attachment']),
+				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
+				'VIEWS'				=> $row['topic_views'],
+				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
+
+				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
+			);
+
+			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
+			unset($topic_data[$i], $post_data[$topic_id]);
+		}
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @param array $post_data
+	 */
+	protected function forum_topics_context(array &$topic_data, array &$post_data)
+	{
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
+		{
+			$topic_row =& $topic_data[$i];
+			$forum_id = $topic_row['forum_id'];
+			$topic_id = $topic_row['topic_id'];
+			$post_row = array_pop($post_data[$topic_id]);
+
+			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
+			$context = $this->truncate->truncate($context, $this->settings['preview_max_chars']);
+
+			$tpl_ary = array(
+				'TOPIC_TITLE'		=> truncate_string(censor_text($topic_row['topic_title']), $this->settings['topic_title_limit']),
+				'TOPIC_AUTHOR'		=> get_username_string('full', $topic_row[$this->fields['user_id']], $topic_row[$this->fields['username']], $topic_row[$this->fields['user_colour']]),
+				'TOPIC_POST_TIME'	=> $this->user->format_date($topic_row[$this->fields['time']], $this->user->lang['DATE_FORMAT']),
+				'TOPIC_CONTEXT'		=> $context,
+				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $topic_row['topic_last_post_time']),
+				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			);
+
+			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
+			unset($topic_data[$i], $post_data[$topic_id]);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_block_title()
+	{
+		$types = array(
+			POST_GLOBAL		=> 'FORUM_GLOBAL_ANNOUNCEMENTS',
+			POST_ANNOUNCE	=> 'FORUM_ANNOUNCEMENTS',
+			POST_STICKY		=> 'FORUM_STICKY_POSTS',
+			POST_NORMAL		=> 'FORUM_RECENT_TOPICS',
+		);
+
+		$topic_type = $this->settings['topic_type'];
+		$lang_var = ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
+
+		return $this->user->lang($lang_var);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_topic_data()
+	{
 		$sort_order = array(
 			FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
 			FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
 			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
 		);
-
-		if ($this->settings['order_by'] == FORUMS_ORDER_LAST_READ)
-		{
-			$lang_var = 'TOPICS_LAST_READ';
-		}
 
 		$range_info = $this->sitemaker->get_date_range($this->settings['date_range']);
 
@@ -164,162 +315,87 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);
 		$this->topic_tracking_info = $this->forum->get_topic_tracking_info();
 
-		if (sizeof($topic_data) || $edit_mode !== false)
+		return $topic_data;
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @return array
+	 */
+	private function _get_post_data(array $topic_data)
+	{
+		if ($this->settings['display_preview'])
 		{
-			if ($this->settings['display_preview'])
+			$post_data = $this->forum->get_post_data($this->settings['display_preview']);
+		}
+		else
+		{
+			$post_data = array_fill_keys(array_keys($topic_data), array(array('post_text' => '', 'bbcode_uid' => '', 'bbcode_bitfield' => '')));
+		}
+
+		return $post_data;
+	}
+
+	/**
+	 *
+	 */
+	private function _set_display_fields()
+	{
+		if ($this->settings['template'] == 'mini' || $this->settings['template'] == 'context')
+		{
+			if ($this->settings['display_preview'] == FORUMS_PREVIEW_LAST_POST)
 			{
-				$post_data = $this->forum->get_post_data($this->settings['display_preview']);
+				$this->fields['time'] = 'topic_last_post_time';
+				$this->fields['user_id'] = 'topic_last_poster_id';
+				$this->fields['username'] = 'topic_last_poster_name';
+				$this->fields['user_colour'] = 'topic_last_poster_colour';
+
+				$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang('LAST_POST_BY_AUTHOR'));
 			}
 			else
 			{
-				$post_data = array_fill_keys(array_keys($topic_data), array(array('post_text' => '', 'bbcode_uid' => '', 'bbcode_bitfield' => '')));
+				$this->fields['time'] = 'topic_time';
+				$this->fields['user_id'] = 'topic_poster';
+				$this->fields['username'] = 'topic_first_poster_name';
+				$this->fields['user_colour'] = 'topic_first_poster_colour';
 			}
-
-			if ($this->settings['template'] == 'mini' || $this->settings['template'] == 'context')
-			{
-				if ($this->settings['display_preview'] == FORUMS_PREVIEW_LAST_POST)
-				{
-					$this->fields['time'] = 'topic_last_post_time';
-					$this->fields['user_id'] = 'topic_last_poster_id';
-					$this->fields['username'] = 'topic_last_poster_name';
-					$this->fields['user_colour'] = 'topic_last_poster_colour';
-
-					$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang('LAST_POST_BY_AUTHOR'));
-				}
-				else
-				{
-					$this->fields['time'] = 'topic_time';
-					$this->fields['user_id'] = 'topic_poster';
-					$this->fields['username'] = 'topic_first_poster_name';
-					$this->fields['user_colour'] = 'topic_first_poster_colour';
-				}
-			}
-
-			$view = 'S_' . strtoupper($this->settings['template']);
-			$method = 'forum_topics_' . $this->settings['template'];
-			$topic_data = array_values($topic_data);
-
-			$this->$method($topic_data, $post_data);
-			unset($topic_data, $post_data);
-
-			$this->ptemplate->assign_vars(array(
-				$view				=> true,
-				'S_IS_BOT'			=> $this->user->data['is_bot'],
-				'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
-				'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest')
-			));
-
-			return array(
-				'title'		=> $this->user->lang($lang_var),
-				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block')
-			);
 		}
 	}
 
-	protected function forum_topics_titles(&$topic_data, &$post_data)
+	/**
+	 * @param int $forum_id
+	 * @param int $topic_attachment
+	 * @return string
+	 */
+	private function _get_attachment_icon($forum_id, $topic_attachment)
 	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$row =& $topic_data[$i];
-			$forum_id = $row['forum_id'];
-			$topic_id = $row['topic_id'];
-
-			$post_row = array_pop($post_data[$topic_id]);
-			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
-
-			$tpl_ary = array(
-				'FORUM_TITLE'	=> $row['forum_name'],
-				'TOPIC_TITLE'	=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_AUTHOR'	=> get_username_string('full', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
-				'TOPIC_PREVIEW'	=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
-				'S_UNREAD_TOPIC'=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
-				'U_VIEWFORUM'	=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
-				'U_VIEWTOPIC'	=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
+		return ($this->_user_can_view_attachments($forum_id) && $topic_attachment) ? $this->user->img('icon_topic_attach', $this->user->lang['TOTAL_ATTACHMENTS']) : '';
 	}
 
-	protected function forum_topics_lastread(&$topic_data, &$post_data)
+	/**
+	 * @param int $forum_id
+	 * @return bool
+	 */
+	private function _user_can_view_attachments($forum_id)
 	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$row =& $topic_data[$i];
-			$forum_id = $row['forum_id'];
-			$topic_id = $row['topic_id'];
-
-			$tpl_ary = array(
-				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_READ'		=> $this->user->lang('TOPIC_LAST_READ', $this->user->format_date($row['topic_last_view_time'], $this->user->lang['DATE_FORMAT'])),
-				'S_UNREAD_TOPIC'	=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
+		return ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id)) ? true : false;
 	}
 
-	protected function forum_topics_mini(&$topic_data, &$post_data)
+	/**
+	 * @param int $forum_id
+	 * @param int $topic_id
+	 * @param int $topic_last_post_time
+	 * @return bool
+	 */
+	private function _is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
 	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$row =& $topic_data[$i];
-			$forum_id = $row['forum_id'];
-			$topic_id = $row['topic_id'];
-
-			$post_row = array_pop($post_data[$topic_id]);
-			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
-
-			$tpl_ary = array(
-				'FORUM_TITLE'		=> $row['forum_name'],
-				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_AUTHOR'		=> get_username_string('full', $row[$this->fields['user_id']], $row[$this->fields['username']], $row[$this->fields['user_colour']]),
-				'TOPIC_PREVIEW'		=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
-				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
-				'ATTACH_ICON_IMG'	=> ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id) && $row['topic_attachment']) ? $this->user->img('icon_topic_attach', $this->user->lang['TOTAL_ATTACHMENTS']) : '',
-				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
-				'VIEWS'				=> $row['topic_views'],
-				'S_UNREAD_TOPIC'	=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
-
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
+		return (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_last_post_time > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false;
 	}
 
-	protected function forum_topics_context(&$topic_data, &$post_data)
-	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$topic_row =& $topic_data[$i];
-			$forum_id = $topic_row['forum_id'];
-			$topic_id = $topic_row['topic_id'];
-			$post_row = array_pop($post_data[$topic_id]);
-
-			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
-			$context = $this->truncate->truncate($context, $this->settings['preview_max_chars']);
-
-			$tpl_ary = array(
-				'TOPIC_TITLE'		=> truncate_string(censor_text($topic_row['topic_title']), $this->settings['topic_title_limit']),
-				'TOPIC_AUTHOR'		=> get_username_string('full', $topic_row[$this->fields['user_id']], $topic_row[$this->fields['username']], $topic_row[$this->fields['user_colour']]),
-				'TOPIC_POST_TIME'	=> $this->user->format_date($topic_row[$this->fields['time']], $this->user->lang['DATE_FORMAT']),
-				'TOPIC_CONTEXT'		=> $context,
-				'S_UNREAD_TOPIC'	=> (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_row['topic_last_post_time'] > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false,
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
-	}
-
-	private function get_forum_options()
+	/**
+	 * @return array
+	 */
+	private function _get_forum_options()
 	{
 		if (!function_exists('make_forum_select'))
 		{
@@ -335,5 +411,68 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		return $forum_options;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_topic_type_options()
+	{
+		return array(
+			POST_NORMAL     => 'POST_NORMAL',
+			POST_STICKY     => 'POST_STICKY',
+			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
+			POST_GLOBAL     => 'POST_GLOBAL',
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_preview_options()
+	{
+		return array(
+			''      => 'NO',
+			'first' => 'SHOW_FIRST_POST',
+			'last'  => 'SHOW_LAST_POST',
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_range_options()
+	{
+		return array(
+			''      => 'ALL_TIME',
+			'today' => 'TODAY',
+			'week'  => 'THIS_WEEK',
+			'month' => 'THIS_MONTH',
+			'year'  => 'THIS_YEAR',
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_sorting_options()
+	{
+		return array(
+			FORUMS_ORDER_FIRST_POST => 'FIRST_POST_TIME',
+			FORUMS_ORDER_LAST_POST  => 'LAST_POST_TIME',
+			FORUMS_ORDER_LAST_READ  => 'LAST_READ_TIME',
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_view_options()
+	{
+		return array(
+			'titles'    => 'TITLES',
+			'mini'      => 'MINI',
+			'context'   => 'CONTEXT',
+		);
 	}
 }
