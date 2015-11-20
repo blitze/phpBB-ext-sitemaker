@@ -125,30 +125,39 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$content = '';
 		if (sizeof($topic_data))
 		{
-			$this->_set_display_fields();
-
-			$view = 'S_' . strtoupper($this->settings['template']);
-			$method = 'forum_topics_' . $this->settings['template'];
-			$post_data = $this->_get_post_data($topic_data);
-			$topic_data = array_values($topic_data);
-
-			$this->$method($topic_data, $post_data);
-			unset($topic_data, $post_data);
-
-			$this->ptemplate->assign_vars(array(
-				$view				=> true,
-				'S_IS_BOT'			=> $this->user->data['is_bot'],
-				'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
-				'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
-			));
-
-			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block');
+			$content = $this->_get_block_content($topic_data);
 		}
 
 		return array(
 			'title'		=> $this->get_block_title(),
 			'content'	=> $content,
 		);
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @return string
+	 */
+	protected function _get_block_content(array $topic_data)
+	{
+		$this->_set_display_fields();
+
+		$view = 'S_' . strtoupper($this->settings['template']);
+		$method = 'forum_topics_' . $this->settings['template'];
+		$post_data = $this->_get_post_data($topic_data);
+		$topic_data = array_values($topic_data);
+
+		$this->$method($topic_data, $post_data);
+		unset($topic_data, $post_data);
+
+		$this->ptemplate->assign_vars(array(
+			$view				=> true,
+			'S_IS_BOT'			=> $this->user->data['is_bot'],
+			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
+			'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
+		));
+
+		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block');
 	}
 
 	/**

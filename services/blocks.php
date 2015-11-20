@@ -172,18 +172,16 @@ class blocks
 		{
 			$block = $block_instance->display($data, $edit_mode);
 
-			if (!($content = $this->_get_block_content($block, $edit_mode)))
+			if ($content = $this->_get_block_content($block, $edit_mode))
 			{
-				return;
+				$tpl_data = array_merge($data, array(
+					'TITLE'		=> $this->_get_block_title($data['title'], $block['title']),
+					'CONTENT'	=> $content,
+				));
+
+				$this->template->assign_block_vars($position, array_change_key_case($tpl_data, CASE_UPPER));
+				$position_counter++;
 			}
-
-			$tpl_data = array_merge($data, array(
-				'TITLE'		=> $this->_get_block_title($data['title'], $block['title']),
-				'CONTENT'	=> $content,
-			));
-
-			$this->template->assign_block_vars($position, array_change_key_case($tpl_data, CASE_UPPER));
-			$position_counter++;
 		}
 	}
 

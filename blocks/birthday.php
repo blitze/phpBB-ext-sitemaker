@@ -95,10 +95,10 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	 * Display birthdays of 29th february on 28th february in non-leap-years
 	 *
 	 * @param array $now
-	 * @param int $time
+	 * @param \phpbb\datetime $time
 	 * @return string
 	 */
-	private function _adjust_leap_year(array $now, $time)
+	private function _adjust_leap_year(array $now, \phpbb\datetime $time)
 	{
 		$leap_year_birthdays = '';
 		if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))

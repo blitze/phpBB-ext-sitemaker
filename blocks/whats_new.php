@@ -92,24 +92,12 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		if ($settings['topics_only'])
 		{
 			$sorting = 't.topic_last_post_time';
-			$sql_array = array(
-				'WHERE'		=> array(
-					't.topic_last_post_time > ' . $this->user->data['user_lastvisit'],
-					't.topic_moved_id = 0',
-				),
-			);
+			$sql_array = $this->_get_topics_sql();
 		}
 		else
 		{
 			$sorting = 'p.post_time';
-			$sql_array = array(
-				'FROM'		=> array(
-					POSTS_TABLE		=> 'p',
-				),
-				'WHERE'		=> array(
-					't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
-				),
-			);
+			$sql_array = $this->_get_posts_sql();
 		}
 
 		$this->forum->query()
@@ -119,5 +107,33 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		$topic_data = $this->forum->get_topic_data($settings['max_topics']);
 
 		return array_values($topic_data);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_topics_sql()
+	{
+		return array(
+			'WHERE'		=> array(
+				't.topic_last_post_time > ' . $this->user->data['user_lastvisit'],
+				't.topic_moved_id = 0',
+			),
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_posts_sql()
+	{
+		return array(
+			'FROM'		=> array(
+				POSTS_TABLE		=> 'p',
+			),
+			'WHERE'		=> array(
+				't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
+			),
+		);
 	}
 }

@@ -60,7 +60,8 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		if ($this->user->data['is_registered'])
 		{
-			$this->_show_bookmarks($bdata['settings']);
+			$topics_data = $this->_get_bookmarks($bdata['settings']);
+			$this->_show_bookmarks($topics_data);
 		}
 
 		return array(
@@ -72,26 +73,23 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $settings
 	 */
-	private function _show_bookmarks(array $settings)
+	private function _get_bookmarks(array $settings)
 	{
-		$sql_array = array(
-			'FROM'		=> array(
-				BOOKMARKS_TABLE		=> 'b',
-			),
-			'WHERE'		=> array(
-				'b.user_id = ' . $this->user->data['user_id'],
-				'b.topic_id = t.topic_id',
-			),
-		);
-
+		$sql_array = $this->_get_bookmarks_sql();
 		$this->forum->query()
 			->set_sorting('t.topic_last_post_time')
 			->fetch_custom($sql_array)
 			->build(true, false);
-
 		$topic_data = $this->forum->get_topic_data($settings['max_topics']);
 
-		$topic_data = array_values($topic_data);
+		return array_values($topic_data);
+	}
+
+	/**
+	 * @param array $topic_data
+	 */
+	private function _show_bookmarks(array $topic_data)
+	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row = $topic_data[$i];
@@ -106,5 +104,21 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang('NO_BOOKMARKS'));
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_bookmarks_sql()
+	{
+		return array(
+			'FROM'		=> array(
+				BOOKMARKS_TABLE		=> 'b',
+			),
+			'WHERE'		=> array(
+				'b.user_id = ' . $this->user->data['user_id'],
+				'b.topic_id = t.topic_id',
+			),
+		);
 	}
 }

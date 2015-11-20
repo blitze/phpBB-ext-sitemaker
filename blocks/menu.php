@@ -127,6 +127,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 			}
 
 			$row = $entity->to_array();
+			$this->_set_path_info($row);
 
 			$data[$row['menu_id']][$row['item_id']] = $row;
 		}

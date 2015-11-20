@@ -51,7 +51,8 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->context = $context;
-		$this->request = $request;		$this->user = $user;
+		$this->request = $request;
+		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}

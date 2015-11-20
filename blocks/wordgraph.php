@@ -82,6 +82,20 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 			);
 		}
 
+		$this->_show_graph($words_array, $settings);
+
+		return array(
+			'title'		=> $block_title,
+			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block')
+		);
+	}
+
+	/**
+	 * @param array $words_array
+	 * @param array $settings
+	 */
+	private function _show_graph(array $words_array, array $settings)
+	{
 		$max_sat = hexdec('f');
 		$min_sat = hexdec(0);
 
@@ -113,11 +127,6 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 				'WORD_URL'	=> append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word)),
 			));
 		}
-
-		return array(
-			'title'		=> $block_title,
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block')
-		);
 	}
 
 	/**
@@ -126,25 +135,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	private function _get_words(array $settings)
 	{
-		$sql_where = $this->_sql_exclude_words($settings['wordgraph_exclude']);
-		$sql_array = array(
-			'SELECT'	=> 'l.word_text, COUNT(*) AS word_count',
-			'FROM'		=> array(
-				SEARCH_WORDLIST_TABLE	=> 'l',
-				SEARCH_WORDMATCH_TABLE	=> 'm',
-				TOPICS_TABLE			=> 't',
-				POSTS_TABLE				=> 'p',
-			),
-			'WHERE'		=> 'm.word_id = l.word_id
-				AND m.post_id = p.post_id
-				AND t.topic_id = p.topic_id
-				AND t.topic_time <= ' . time() . '
-				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_keys($this->auth->acl_getf('!f_read', true)), 't.') .
-				$sql_where,
-			'GROUP_BY'	=> 'm.word_id',
-			'ORDER_BY'	=> 'word_count DESC'
-		);
-
+		$sql_array = $this->_get_words_sql($settings['wordgraph_exclude']);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $settings['wordgraph_word_number'], 0, 10800);
 
@@ -161,8 +152,34 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 
 	/**
 	 * @param string $exclude_words
+	 * @return array
 	 */
-	private function _sql_exclude_words($exclude_words)
+	private function _get_words_sql($exclude_words)
+	{
+		$sql_where = $this->_exclude_words_sql($exclude_words);
+		return array(
+			'SELECT'	=> 'l.word_text, COUNT(*) AS word_count',
+			'FROM'		=> array(
+				SEARCH_WORDLIST_TABLE	=> 'l',
+				SEARCH_WORDMATCH_TABLE	=> 'm',
+				TOPICS_TABLE			=> 't',
+				POSTS_TABLE				=> 'p',
+			),
+			'WHERE'		=> 'm.word_id = l.word_id
+				AND m.post_id = p.post_id
+				AND t.topic_id = p.topic_id
+				AND t.topic_time <= ' . time() . '
+				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_keys($this->auth->acl_getf('!f_read', true)), 't.') .
+				$sql_where,
+			'GROUP_BY'	=> 'm.word_id',
+			'ORDER_BY'	=> 'word_count DESC'
+		);
+	}
+
+	/**
+	 * @param string $exclude_words
+	 */
+	private function _exclude_words_sql($exclude_words)
 	{
 		$sql_where = '';
 		if ($exclude_words)
