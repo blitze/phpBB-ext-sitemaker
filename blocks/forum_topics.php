@@ -282,7 +282,9 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			POST_NORMAL		=> 'FORUM_RECENT_TOPICS',
 		);
 
-		$topic_type = $this->settings['topic_type'];
+		// if more than one topic type is selected, we default to RECENT_TOPICS
+		$topic_type = join(',', $this->settings['topic_type']);
+
 		$lang_var = ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
 
 		return $this->user->lang($lang_var);

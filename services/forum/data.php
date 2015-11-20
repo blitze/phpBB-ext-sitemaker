@@ -576,7 +576,7 @@ class data
 		$tracking_info = array();
 		foreach ($this->store['tracking'] as $fid => $forum)
 		{
-			$tracking_info[$fid] = call_user_func_array($function, array($fid, $forum['topic_list'], $this->store['topic'], array($fid => $forum['mark_time'])));
+			$tracking_info[$fid] = call_user_func_array($function, array($fid, $forum['topic_list'], &$this->store['topic'], array($fid => $forum['mark_time'])));
 		}
 
 		return $tracking_info;
