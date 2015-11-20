@@ -44,7 +44,10 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 		$this->php_ext = $php_ext;
 	}
 
-	public function get_config($data)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_config(array $settings)
 	{
 		return array(
 			'legend1'			=> $this->user->lang('SETTINGS'),
@@ -54,7 +57,10 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$settings = $bdata['settings'];
 

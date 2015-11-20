@@ -73,10 +73,9 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 * @param $settings
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function get_config($settings)
+	public function get_config(array $settings)
 	{
 		$forum_options = $this->_get_forum_options();
 		$group_options = $this->_get_group_options();
@@ -95,11 +94,9 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 * @param array $bdata
-	 * @param bool|false $edit_mode
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function display($bdata, $edit_mode = false)
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$this->user->add_lang('viewtopic');
 

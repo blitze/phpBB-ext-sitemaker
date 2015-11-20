@@ -7,12 +7,12 @@ namespace foo\bar\blocks;
 
 class foo_block extends \blitze\sitemaker\services\blocks\driver\block
 {
-	public function get_config($settings)
+	public function get_config(array $settings)
 	{
 		return array();
 	}
 
-	public function display($settings, $edit_mode = false)
+	public function display(array $settings, $edit_mode = false)
 	{
 		return array(
 			'title'		=> 'I am foo block',

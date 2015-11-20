@@ -50,9 +50,9 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 * Block config
+	 * {@inheritdoc}
 	 */
-	public function get_config($settings)
+	public function get_config(array $settings)
 	{
 		return array(
 			'legend1'				=> $this->user->lang('SETTINGS'),
@@ -64,48 +64,20 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$settings = $bdata['settings'];
 
-		$sql_array = array(
-			'SELECT'	=> 'l.word_text, COUNT(*) AS word_count',
-			'FROM'		=> array(
-				SEARCH_WORDLIST_TABLE	=> 'l',
-				SEARCH_WORDMATCH_TABLE	=> 'm',
-				TOPICS_TABLE			=> 't',
-				POSTS_TABLE				=> 'p',
-			),
-			'WHERE'		=> 'm.word_id = l.word_id
-				AND m.post_id = p.post_id
-				AND t.topic_id = p.topic_id
-				AND t.topic_time <= ' . time() . '
-				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_keys($this->auth->acl_getf('!f_read', true)), 't.'),
-			'GROUP_BY'	=> 'm.word_id',
-			'ORDER_BY'	=> 'word_count DESC'
-		);
-
-		if ($settings['wordgraph_exclude'])
-		{
-			$exclude_words = array_filter(explode(',', str_replace(' ', '', $settings['wordgraph_exclude'])));
-			$sql_array['WHERE'] .= (sizeof($exclude_words)) ? ' AND ' . $this->db->sql_in_set('l.word_text', $exclude_words, true) : '';
-		}
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query_limit($sql, $settings['wordgraph_word_number'], 0, 10800);
-
-		$words_array = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$word = ucwords(strtolower($row['word_text']));
-			$words_array[$word] = $row['word_count'];
-		}
-		$this->db->sql_freeresult($result);
+		$block_title = 'WORDGRAPH';
+		$words_array = $this->_get_words($settings);
 
 		if (!sizeof($words_array))
 		{
 			return array(
-				'title'		=> '',
+				'title'		=> $block_title,
 				'content'	=> '',
 			);
 		}
@@ -135,7 +107,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 			$g = 'c';
 
 			$this->ptemplate->assign_block_vars('wordgraph', array(
-				'WORD'		=> ($settings['wordgraph_word_count']) ? $word . '(' . $words_array[$word] . ')' : $word,
+				'WORD'		=> $this->_show_word($word, $words_array, $settings['wordgraph_word_count']),
 				'WORD_SIZE'	=> $settings['wordgraph_min_size'] + (($words_array[$word] - $min_count) * $size_step),
 				'WORD_COLOR'=> $r . $g . $b,
 				'WORD_URL'	=> append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word)),
@@ -143,8 +115,67 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		return array(
-			'title'		=> $this->user->lang('WORDGRAPH'),
+			'title'		=> $block_title,
 			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block')
 		);
+	}
+
+	/**
+	 * @param array $settings
+	 * @return array
+	 */
+	private function _get_words(array $settings)
+	{
+		$sql_where = $this->_sql_exclude_words($settings['wordgraph_exclude']);
+		$sql_array = array(
+			'SELECT'	=> 'l.word_text, COUNT(*) AS word_count',
+			'FROM'		=> array(
+				SEARCH_WORDLIST_TABLE	=> 'l',
+				SEARCH_WORDMATCH_TABLE	=> 'm',
+				TOPICS_TABLE			=> 't',
+				POSTS_TABLE				=> 'p',
+			),
+			'WHERE'		=> 'm.word_id = l.word_id
+				AND m.post_id = p.post_id
+				AND t.topic_id = p.topic_id
+				AND t.topic_time <= ' . time() . '
+				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_keys($this->auth->acl_getf('!f_read', true)), 't.') .
+				$sql_where,
+			'GROUP_BY'	=> 'm.word_id',
+			'ORDER_BY'	=> 'word_count DESC'
+		);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query_limit($sql, $settings['wordgraph_word_number'], 0, 10800);
+
+		$words_array = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$word = ucwords(strtolower($row['word_text']));
+			$words_array[$word] = $row['word_count'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return $words_array;
+	}
+
+	/**
+	 * @param string $exclude_words
+	 */
+	private function _sql_exclude_words($exclude_words)
+	{
+		$sql_where = '';
+		if ($exclude_words)
+		{
+			$exclude_words = array_filter(explode(',', str_replace(' ', '', $exclude_words)));
+			$sql_where = (sizeof($exclude_words)) ? ' AND ' . $this->db->sql_in_set('l.word_text', $exclude_words, true) : '';
+		}
+
+		return $sql_where;
+	}
+
+	private function _show_word($word, array $words_array, $show_count)
+	{
+		return ($show_count) ? $word . '(' . $words_array[$word] . ')' : $word;
 	}
 }

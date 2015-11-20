@@ -43,7 +43,10 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		$this->php_ext = $php_ext;
 	}
 
-	public function get_config($settings)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_config(array $settings)
 	{
 		return array(
 			'legend1'		=> $this->user->lang('SETTINGS'),
@@ -52,12 +55,43 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($db_data, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
-		$topics_only = $db_data['settings']['topics_only'];
+		$topic_data = $this->_get_topics($bdata['settings']);
 
-		if ($topics_only)
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
+			$row = $topic_data[$i];
+			$forum_id = $row['forum_id'];
+			$topic_id = $row['topic_id'];
+
+			$this->ptemplate->assign_block_vars('topicrow', array(
+				'TOPIC_TITLE'    => censor_text($row['topic_title']),
+				'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			));
+			unset($topic_data[$i]);
+		}
+
+		$this->ptemplate->assign_var('NO_RECORDS', ($bdata['settings']['topics_only']) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
+
+		return array(
+			'title'     => 'WHATS_NEW',
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
+		);
+	}
+
+	/**
+	 * @param array $settings
+	 * @return array
+	 */
+	private function _get_topics(array $settings)
+	{
+		if ($settings['topics_only'])
+		{
+			$sorting = 't.topic_last_post_time';
 			$sql_array = array(
 				'WHERE'		=> array(
 					't.topic_last_post_time > ' . $this->user->data['user_lastvisit'],
@@ -67,6 +101,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		}
 		else
 		{
+			$sorting = 'p.post_time';
 			$sql_array = array(
 				'FROM'		=> array(
 					POSTS_TABLE		=> 'p',
@@ -78,34 +113,11 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		$this->forum->query()
-			->set_sorting(($topics_only) ? 't.topic_last_post_time' : 'p.post_time')
+			->set_sorting($sorting)
 			->fetch_custom($sql_array)
 			->build(true, false);
+		$topic_data = $this->forum->get_topic_data($settings['max_topics']);
 
-		$topic_data = $this->forum->get_topic_data($db_data['settings']['max_topics']);
-
-		if (sizeof($topic_data) || $edit_mode !== false)
-		{
-			$topic_data = array_values($topic_data);
-			for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-			{
-				$row = $topic_data[$i];
-				$forum_id = $row['forum_id'];
-				$topic_id = $row['topic_id'];
-
-				$this->ptemplate->assign_block_vars('topicrow', array(
-					'TOPIC_TITLE'    => censor_text($row['topic_title']),
-					'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"))
-				);
-				unset($topic_data[$i]);
-			}
-		}
-
-		$this->ptemplate->assign_var('NO_RECORDS', ($topics_only) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
-
-		return array(
-			'title'     => 'WHATS_NEW',
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
-		);
+		return array_values($topic_data);
 	}
 }

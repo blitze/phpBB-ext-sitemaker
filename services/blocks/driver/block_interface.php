@@ -17,12 +17,19 @@ interface block_interface
 	public function get_name();
 
 	/**
-	 * Get block config
+	 * Get block default settings
+	 *
+	 * @param array $settings
+	 * @return array
 	 */
-	public function get_config($db_data);
+	public function get_config(array $settings);
 
 	/**
 	 * Display block
+	 *
+	 * @param array $settings
+	 * @param bool|false $edit_mode
+	 * @return array
 	 */
-	public function display($db_data);
+	public function display(array $settings, $edit_mode = false);
 }

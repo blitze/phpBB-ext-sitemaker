@@ -87,7 +87,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get_config($settings)
+	public function get_config(array $settings)
 	{
 		$forum_options = $this->_get_forum_options();
 		$topic_type_options = $this->_get_topic_type_options();
@@ -116,7 +116,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * {@inheritdoc}
 	 */
-	public function display($bdata, $edit_mode = false)
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$this->settings = $bdata['settings'];
 

@@ -48,7 +48,10 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$this->tree = $tree;
 	}
 
-	public function get_config($settings)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_config(array $settings)
 	{
 		$menu_options = $this->get_menu_options();
 		$depth_options = $this->get_depth_options();
@@ -61,7 +64,10 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($db_data, $editing = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $db_data, $editing = false)
 	{
 		$title = $this->user->lang('MENU');
 		$menu_id = $db_data['settings']['menu_id'];
@@ -74,7 +80,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 			);
 		}
 
-		$data = $this->get_menu($menu_id);
+		$data = $this->_get_menu($menu_id);
 
 		$this->tree->set_params($db_data['settings']);
 		$this->tree->display_list($data, $this->ptemplate, 'tree');
@@ -85,32 +91,15 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	private function get_menu($menu_id)
+	/**
+	 * @param int $menu_id
+	 * @return array
+	 */
+	private function _get_menu($menu_id)
 	{
 		if (($data = $this->cache->get('sitemaker_menus')) === false)
 		{
-			$item_mapper = $this->mapper_factory->create('menus', 'items');
-
-			$collection = $item_mapper->find(array(
-				'item_status' => 1
-			));
-
-			$data = array();
-			foreach ($collection as $entity)
-			{
-				if (!$entity->get_item_title())
-				{
-					continue;
-				}
-
-				$row = $entity->to_array();
-				$url_info = parse_url($row['item_url']);
-
-				$row['url_path']	= (isset($url_info['path'])) ? $url_info['path'] : '';
-				$row['url_query']	= (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
-
-				$data[$row['menu_id']][$row['item_id']] = $row;
-			}
+			$data = $this->_get_all_menus();
 
 			$this->cache->put('sitemaker_menus', $data);
 		}
@@ -118,6 +107,47 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		return (isset($data[$menu_id])) ? $data[$menu_id] : array();
 	}
 
+	/**
+	 * @return array
+	 */
+	private function _get_all_menus()
+	{
+		$item_mapper = $this->mapper_factory->create('menus', 'items');
+
+		$collection = $item_mapper->find(array(
+			'item_status' => 1
+		));
+
+		$data = array();
+		foreach ($collection as $entity)
+		{
+			if (!$entity->get_item_title())
+			{
+				continue;
+			}
+
+			$row = $entity->to_array();
+
+			$data[$row['menu_id']][$row['item_id']] = $row;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	private function _set_path_info(array &$data)
+	{
+		$url_info = parse_url($data['item_url']);
+
+		$data['url_path']	= (isset($url_info['path'])) ? $url_info['path'] : '';
+		$data['url_query']	= (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function get_menu_options()
 	{
 		$collection = $this->mapper_factory->create('menus', 'menus')->find();
@@ -131,6 +161,9 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		return $options;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_depth_options()
 	{
 		$options = array();

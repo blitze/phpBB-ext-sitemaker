@@ -48,7 +48,7 @@ abstract class block implements block_interface
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function set_name($name)
 	{
@@ -56,9 +56,9 @@ abstract class block implements block_interface
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
-	public function get_config($data)
+	public function get_config(array $settings)
 	{
 		return array();
 	}

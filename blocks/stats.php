@@ -38,7 +38,10 @@ class stats extends \blitze\sitemaker\services\blocks\driver\block
 		$this->user = $user;
 	}
 
-	public function display($settings, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $settings, $edit_mode = false)
 	{
 		$content = '';
 		$content .= $this->user->lang('TOTAL_POSTS_COUNT', (int) $this->config['num_posts']) . '<br />';

@@ -37,7 +37,10 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 		$this->user = $user;
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		if (($content = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
 		{

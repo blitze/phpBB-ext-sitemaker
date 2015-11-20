@@ -55,7 +55,10 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 
 	}
 
-	public function get_config($settings)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_config(array $settings)
 	{
 		return array(
 			'legend1'		=> $this->user->lang('SETTINGS'),
@@ -65,7 +68,10 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
 

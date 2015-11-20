@@ -43,20 +43,37 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 		$this->php_ext = $php_ext;
 	}
 
-	public function get_config($settings)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_config(array $settings)
 	{
 		return array(
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
 	}
 
-	public function display($db_data, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
-		if (!$this->user->data['is_registered'] || $this->user->data['is_bot'])
+		if ($this->user->data['is_registered'])
 		{
-			return array();
+			$this->_show_bookmarks($bdata['settings']);
 		}
 
+		return array(
+			'title'     => 'MY_BOOKMARKS',
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'mybookmarks'),
+		);
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	private function _show_bookmarks(array $settings)
+	{
 		$sql_array = array(
 			'FROM'		=> array(
 				BOOKMARKS_TABLE		=> 'b',
@@ -72,30 +89,22 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 			->fetch_custom($sql_array)
 			->build(true, false);
 
-		$topic_data = $this->forum->get_topic_data($db_data['settings']['max_topics']);
+		$topic_data = $this->forum->get_topic_data($settings['max_topics']);
 
-		if (sizeof($topic_data) || $edit_mode !== false)
+		$topic_data = array_values($topic_data);
+		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
-			$topic_data = array_values($topic_data);
-			for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-			{
-				$row = $topic_data[$i];
-				$forum_id = $row['forum_id'];
-				$topic_id = $row['topic_id'];
+			$row = $topic_data[$i];
+			$forum_id = $row['forum_id'];
+			$topic_id = $row['topic_id'];
 
-				$this->ptemplate->assign_block_vars('topicrow', array(
-					'TOPIC_TITLE'    => censor_text($row['topic_title']),
-					'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"))
-				);
-				unset($topic_data[$i]);
-			}
+			$this->ptemplate->assign_block_vars('topicrow', array(
+				'TOPIC_TITLE'    => censor_text($row['topic_title']),
+				'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			));
+			unset($topic_data[$i]);
 		}
 
 		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang('NO_BOOKMARKS'));
-
-		return array(
-			'title'     => 'MY_BOOKMARKS',
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'mybookmarks'),
-		);
 	}
 }

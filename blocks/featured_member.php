@@ -83,10 +83,9 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $settings
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function get_config($settings)
+	public function get_config(array $settings)
 	{
 		$rotation_options = $this->_get_rotation_frequencies();
 		$qtype_options = $this->_get_query_types();
@@ -106,11 +105,9 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $bdata
-	 * @param bool|false $edit_mode
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function display($bdata, $edit_mode = false)
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$bid = $bdata['bid'];
 		$settings = $this->_get_settings($bdata);

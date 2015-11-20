@@ -74,7 +74,10 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		// As this content is not expected to change frequently, we cache it
 		if (($cblock = $this->cache->get('pt_cblocks')) === false)

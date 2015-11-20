@@ -162,6 +162,7 @@ services:
             - @auth
             - @config
             - @template_context
+            - @request
             - @user
             - %core.root_path%
             - %core.php_ext%

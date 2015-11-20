@@ -52,7 +52,10 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 		}
 	}
 
-	public function display($bdata, $edit_mode = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function display(array $bdata, $edit_mode = false)
 	{
 		if ($this->user->data['is_registered'])
 		{

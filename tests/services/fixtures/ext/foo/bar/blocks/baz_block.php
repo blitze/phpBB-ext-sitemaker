@@ -7,7 +7,7 @@ namespace foo\bar\blocks;
 
 class baz_block extends \blitze\sitemaker\services\blocks\driver\block
 {
-	public function get_config($data)
+	public function get_config(array $data)
 	{
 		return array(
 			'legend1'			=> 'SETTINGS',
@@ -16,7 +16,7 @@ class baz_block extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	public function display($bdata, $edit_mode = false)
+	public function display(array $bdata, $edit_mode = false)
 	{
 		$content = array(
 			($bdata['settings']['my_setting']) ? ' myself' : '',
