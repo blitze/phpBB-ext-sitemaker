@@ -65,8 +65,8 @@ services:
             - @config
             - @content.visibility
             - @user
+            - @blitze.sitemaker.date_range
             - @blitze.sitemaker.forum.data
-            - @blitze.sitemaker.util
             - %core.root_path%
             - %core.php_ext%
         calls:

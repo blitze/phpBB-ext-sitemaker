@@ -17,9 +17,6 @@ class util
 	/** @var \phpbb\template\context */
 	protected $template_context;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** array */
 	protected $scripts;
 
@@ -32,13 +29,11 @@ class util
 	 * @param \phpbb\path_helper					$path_helper		Path helper object
 	 * @param \phpbb\template\template				$template			Template object
 	 * @param \phpbb\template\context				$template_context	Template context object
-	 * @param \phpbb\user							$user				User object
 	 */
-	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\template\context $template_context, \phpbb\user $user)
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\template\context $template_context)
 	{
 		$this->template = $template;
 		$this->template_context = $template_context;
-		$this->user = $user;
 		$this->asset_path = $path_helper->get_web_root_path();
 		$this->scripts = array(
 			'js'	=> array(),
@@ -57,14 +52,7 @@ class util
 			$count = (isset($this->scripts[$type])) ? sizeof($this->scripts[$type]) : 0;
 			foreach ($paths as $key => $script)
 			{
-				if (isset($this->scripts[$type][$key]) && $this->scripts[$type][$key] !== $script)
-				{
-					$this->scripts[$type][$count++] = $script;
-				}
-				else
-				{
-					$this->scripts[$type][$key] = $script;
-				}
+				$this->_add_asset($type, $script, $key, $count);
 			}
 		}
 	}
@@ -74,20 +62,7 @@ class util
 	 */
 	public function set_assets()
 	{
-		if (isset($this->scripts['js']))
-		{
-			ksort($this->scripts['js']);
-			$this->scripts['js'] = array_filter(array_unique($this->scripts['js']));
-		}
-
-		if (isset($this->scripts['css']))
-		{
-			ksort($this->scripts['css']);
-			$this->scripts['css'] = array_filter(array_unique($this->scripts['css']));
-		}
-
-		$this->scripts = array_filter($this->scripts);
-
+		$this->_prep_scripts();
 		foreach ($this->scripts as $type => $scripts)
 		{
 			foreach ($scripts as $file)
@@ -113,63 +88,32 @@ class util
 		return $s_form_token;
 	}
 
-	public function get_date_range($range)
+	protected function _add_asset($type, $script, $key, &$count)
 	{
-		$time = $this->user->create_datetime();
-		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
-
-		switch ($range)
+		if (isset($this->scripts[$type][$key]) && $this->scripts[$type][$key] !== $script)
 		{
-			case 'today':
-				$start = $this->user->create_datetime()
-					->setDate($now['year'], $now['mon'], $now['mday'])
-					->setTime(0, 0, 0)
-					->getTimestamp();
-				$stop = $start + 86399;
-				$date = $this->user->format_date($start, 'Y-m-d', true);
-			break;
+			$this->scripts[$type][$count++] = $script;
+		}
+		else
+		{
+			$this->scripts[$type][$key] = $script;
+		}
+	}
 
-			case 'week':
-				$info = getdate($now[0] - (86400 * $now['wday']));
-				$start = $this->user->create_datetime()
-					->setDate($info['year'], $info['mon'], $info['mday'])
-					->setTime(0, 0, 0)
-					->getTimestamp();
-				$stop = $start + 604799;
-				$date = $this->user->format_date($start, 'Y-m-d', true);
-			break;
-
-			case 'month':
-				$start = $this->user->create_datetime()
-					->setDate($now['year'], $now['mon'], 1)
-					->setTime(0, 0, 0)
-					->getTimestamp();
-				$num_days = gmdate('t', $start);
-				$stop = $start + (86400 * $num_days) - 1;
-				$date = $this->user->format_date($start, 'Y-m', true);
-			break;
-
-			case 'year':
-				$start = $this->user->create_datetime()
-					->setDate($now['year'], 1, 1)
-					->setTime(0, 0, 0)
-					->getTimestamp();
-				$leap_year = gmdate('L', $start);
-				$num_days = ($leap_year) ? 366 : 365;
-				$stop = $start + (86400 * $num_days) - 1;
-				$date = $this->user->format_date($start, 'Y', true);
-			break;
-
-			default:
-				$start = $stop = 0;
-				$date = '';
-			break;
+	protected function _prep_scripts()
+	{
+		if (isset($this->scripts['js']))
+		{
+			ksort($this->scripts['js']);
+			$this->scripts['js'] = array_filter(array_unique($this->scripts['js']));
 		}
 
-		return array(
-			'start'	=> $start,
-			'stop'	=> $stop,
-			'date'	=> $date,
-		);
+		if (isset($this->scripts['css']))
+		{
+			ksort($this->scripts['css']);
+			$this->scripts['css'] = array_filter(array_unique($this->scripts['css']));
+		}
+
+		$this->scripts = array_filter($this->scripts);
 	}
 }

@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\services;
 
+use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\members;
 
 class members_test extends \phpbb_database_test_case
@@ -82,9 +83,7 @@ class members_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 
-		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
-			->disableOriginalConstructor()
-			->getMock();
+		$date_range = new date_range($user, '24 February 2015');
 
 		$tpl_data = array();
 		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
@@ -116,7 +115,7 @@ class members_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new members($db, $user, $util, $ptemplate, $phpbb_root_path, $phpEx);
+		return new members($db, $user, $date_range, $ptemplate, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -231,6 +230,30 @@ class members_test extends \phpbb_database_test_case
 					'S_LIST'	=> 'posts',
 					'L_USER'	=> 'Username',
 					'L_INFO'	=> 'Posts'
+				),
+			),
+			array(
+				array(
+					'query_type'	=> 'tenured',
+					'max_members'	=> 2,
+					'date_range'	=> 'week',
+				),
+				array(
+					'member'	=> array(
+						array(
+							'USERNAME'		=> '<span class="username">founder</span>',
+							'USER_AVATAR'	=> '',
+							'USER_INFO'		=> '05 Jan 2015',
+						),
+						array(
+							'USERNAME'		=> '<span class="username">member1</span>',
+							'USER_AVATAR'	=> '',
+							'USER_INFO'		=> '30 Jan 2015',
+						),
+					),
+					'S_LIST'	=> 'tenured',
+					'L_USER'	=> 'Username',
+					'L_INFO'	=> 'Date'
 				),
 			),
 		);

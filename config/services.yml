@@ -103,6 +103,11 @@ services:
         tags:
             - { name: cron.task }
 
+    blitze.sitemaker.date_range:
+        class: blitze\sitemaker\services\date_range
+        arguments:
+            - @user
+
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data
         arguments:
@@ -164,7 +169,7 @@ services:
         arguments:
             - @dbal.conn
             - @user
-            - @blitze.sitemaker.util
+            - @blitze.sitemaker.date_range
             - @blitze.sitemaker.template
             - %core.root_path%
             - %core.php_ext%
@@ -206,4 +211,3 @@ services:
             - @path_helper
             - @template
             - @template_context
-            - @user

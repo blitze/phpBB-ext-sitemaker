@@ -13,9 +13,6 @@ use blitze\sitemaker\services\util;
 
 class util_test extends \phpbb_test_case
 {
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var array */
 	protected $tpl_data;
 
@@ -43,10 +40,6 @@ class util_test extends \phpbb_test_case
 		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$this->user = new \phpbb\user('\phpbb\datetime');
-		$this->user->timezone = new \DateTimeZone('UTC');
-		$this->user->lang['datetime'] = array();
 
 		$template_context = $this->getMockBuilder('phpbb\template\context')
 			->getMock();
@@ -80,7 +73,7 @@ class util_test extends \phpbb_test_case
 				return './';
 			}));
 
-		$this->util = new util($path_helper, $template, $template_context, $this->user);
+		$this->util = new util($path_helper, $template, $template_context);
 	}
 
 	/**
@@ -125,28 +118,6 @@ class util_test extends \phpbb_test_case
 	{
 		$form_key = $this->util->get_form_key('test_form');
 		$this->assertEquals($form_key, '12345');
-	}
-
-	/**
-	 * Test the get_date_range method
-	 *
-	 * @dataProvider get_date_range_test_data
-	 */
-	public function test_get_date_range($range, $expected)
-	{
-		$data = $this->util->get_date_range($range);
-
-		if ($data['start'])
-		{
-			$data['start'] = $this->user->format_date($data['start'], 'Y-m-d H:i', true);
-		}
-
-		if ($data['stop'])
-		{
-			$data['stop'] = $this->user->format_date($data['stop'], 'Y-m-d H:i', true);
-		}
-
-		$this->assertSame($expected, $data);
 	}
 
 	/**
@@ -216,59 +187,6 @@ class util_test extends \phpbb_test_case
 						array('UA_FILE' => 'my/file3.js'),
 						array('UA_FILE' => 'my/file4.js'),
 					),
-				),
-			),
-		);
-	}
-
-	/**
-	 * Data set for test_get_date_range
-	 *
-	 * @return array
-	 */
-	public function get_date_range_test_data()
-	{
-		$week_start = (gmdate('D') !== 'Sun') ? strtotime('last sunday') : time();
-
-		return array(
-			array(
-				'',
-				array(
-					'start'	=> 0,
-					'stop'	=> 0,
-					'date'	=> '',
-				),
-			),
-			array(
-				'today',
-				array(
-					'start'	=> gmdate('Y-m-d') . ' 00:00',
-					'stop'	=> gmdate('Y-m-d') . ' 23:59',
-					'date'	=> gmdate('Y-m-d'),
-				),
-			),
-			array(
-				'week',
-				array(
-					'start'	=> gmdate('Y-m-d', $week_start) . ' 00:00',
-					'stop'	=> gmdate('Y-m-d', $week_start + 518400) . ' 23:59',
-					'date'	=> gmdate('Y-m-d', $week_start),
-				),
-			),
-			array(
-				'month',
-				array(
-					'start'	=> gmdate('Y-m') . '-01 00:00',
-					'stop'	=> gmdate('Y-m-t') . ' 23:59',
-					'date'	=> gmdate('Y-m'),
-				),
-			),
-			array(
-				'year',
-				array(
-					'start'	=> gmdate('Y', strtotime('this year')) . '-01-01 00:00',
-					'stop'	=> gmdate('Y', strtotime('this year')) . '-12-31 23:59',
-					'date'	=> gmdate('Y', strtotime('this year')),
 				),
 			),
 		);
