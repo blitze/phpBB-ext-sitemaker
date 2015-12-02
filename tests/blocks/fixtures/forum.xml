@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="phpbb_forums">
+		<column>forum_id</column>
+		<column>forum_parents</column>
+		<column>forum_name</column>
+		<column>forum_desc</column>
+		<column>forum_rules</column>
+		<column>forum_last_post_id</column>
+		<column>forum_last_poster_id</column>
+		<column>forum_last_post_time</column>
+		<column>forum_last_poster_name</column>
+		<row>
+			<value>1</value>
+			<value></value>
+			<value>Your first category</value>
+			<value></value>
+			<value></value>
+			<value>1</value>
+			<value>2</value>
+			<value>1448405334</value>
+			<value>admin</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value>Your first forum</value>
+			<value>Description of your first forum.</value>
+			<value></value>
+			<value>10</value>
+			<value>48</value>
+			<value>1448811401</value>
+			<value>demo</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value></value>
+			<value>phpBB Sitemaker Extensions</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value>Second Forum</value>
+			<value></value>
+			<value></value>
+			<value>12</value>
+			<value>2</value>
+			<value>1448828299</value>
+			<value>admin</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value>Third Forum</value>
+			<value></value>
+			<value></value>
+			<value>5</value>
+			<value>2</value>
+			<value>1448406650</value>
+			<value>admin</value>
+		</row>
+	</table>
+	<table name="phpbb_topics">
+		<column>topic_id</column>
+		<column>forum_id</column>
+		<column>topic_attachment</column>
+		<column>topic_title</column>
+		<column>topic_poster</column>
+		<column>topic_time</column>
+		<column>topic_status</column>
+		<column>topic_type</column>
+		<column>topic_first_post_id</column>
+		<column>topic_first_poster_name</column>
+		<column>topic_last_post_id</column>
+		<column>topic_last_poster_id</column>
+		<column>topic_last_poster_name</column>
+		<column>topic_last_post_time</column>
+		<column>topic_last_view_time</column>
+		<column>poll_title</column>
+		<column>poll_max_options</column>
+		<column>poll_last_vote</column>
+		<column>topic_visibility</column>
+		<row>
+			<value>1</value>
+			<value>2</value>
+			<value>1</value>
+			<value>Welcome to phpBB3</value>
+			<value>2</value>
+			<value>1448405334</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>admin</value>
+			<value>10</value>
+			<value>48</value>
+			<value>demo</value>
+			<value>1448811401</value>
+			<value>1448828883</value>
+			<value>My Second Poll</value>
+			<value>2</value>
+			<value>1448828669</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>4</value>
+			<value>0</value>
+			<value>Sticky Topic</value>
+			<value>2</value>
+			<value>1448406332</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>6</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448411152</value>
+			<value>1448828174</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>4</value>
+			<value>0</value>
+			<value>Announcement Topic</value>
+			<value>2</value>
+			<value>1448406390</value>
+			<value>0</value>
+			<value>2</value>
+			<value>3</value>
+			<value>admin</value>
+			<value>3</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448406390</value>
+			<value>1448406391</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>4</value>
+			<value>0</value>
+			<value>Global Topic</value>
+			<value>2</value>
+			<value>1448406424</value>
+			<value>0</value>
+			<value>3</value>
+			<value>4</value>
+			<value>admin</value>
+			<value>4</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448406424</value>
+			<value>1448829397</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>5</value>
+			<value>0</value>
+			<value>Normal Topic</value>
+			<value>2</value>
+			<value>1448406650</value>
+			<value>0</value>
+			<value>0</value>
+			<value>5</value>
+			<value>admin</value>
+			<value>5</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448406650</value>
+			<value>1448411378</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>7</value>
+			<value>2</value>
+			<value>0</value>
+			<value>Unapproved Topic</value>
+			<value>48</value>
+			<value>1448416707</value>
+			<value>0</value>
+			<value>0</value>
+			<value>9</value>
+			<value>demo</value>
+			<value>9</value>
+			<value>48</value>
+			<value>demo</value>
+			<value>1448416707</value>
+			<value>1448416707</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value>4</value>
+			<value>0</value>
+			<value>Topic with poll</value>
+			<value>2</value>
+			<value>1448828299</value>
+			<value>0</value>
+			<value>0</value>
+			<value>12</value>
+			<value>admin</value>
+			<value>12</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448828299</value>
+			<value>1448832673</value>
+			<value>My First Poll</value>
+			<value>1</value>
+			<value>1448828640</value>
+			<value>1</value>
+		</row>
+	</table>
+	<table name="phpbb_posts">
+		<column>post_id</column>
+		<column>topic_id</column>
+		<column>forum_id</column>
+		<column>poster_id</column>
+		<column>post_time</column>
+		<column>post_username</column>
+		<column>post_subject</column>
+		<column>post_text</column>
+		<column>post_attachment</column>
+		<column>post_visibility</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>2</value>
+			<value>2</value>
+			<value>1448405334</value>
+			<value></value>
+			<value>Welcome to phpBB3</value>
+			<value>Welcome topic</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1448406332</value>
+			<value></value>
+			<value>Sticky Topic</value>
+			<value>This is a sticky topic</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>3</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1448406390</value>
+			<value></value>
+			<value>Announcement Topic</value>
+			<value>This is an announcement</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>4</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1448406424</value>
+			<value></value>
+			<value>Global Topic</value>
+			<value>This is a global topic</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>2</value>
+			<value>1448406650</value>
+			<value></value>
+			<value>Normal Topic</value>
+			<value>This is a normal topic</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>2</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1448411152</value>
+			<value></value>
+			<value>Re: Sticky Topic</value>
+			<value>This a reply</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>8</value>
+			<value>1</value>
+			<value>2</value>
+			<value>48</value>
+			<value>1448416680</value>
+			<value></value>
+			<value>Re: Welcome to phpBB3</value>
+			<value>Unapproved reply</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value>7</value>
+			<value>2</value>
+			<value>48</value>
+			<value>1448416707</value>
+			<value></value>
+			<value>Unapproved Topic</value>
+			<value>This is not approved</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>10</value>
+			<value>1</value>
+			<value>2</value>
+			<value>48</value>
+			<value>1448811401</value>
+			<value></value>
+			<value>Re: Welcome to phpBB3</value>
+			<value>Approved reply</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>12</value>
+			<value>9</value>
+			<value>4</value>
+			<value>2</value>
+			<value>1448828299</value>
+			<value></value>
+			<value>Topic with poll</value>
+			<value>This topic has a poll</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+	</table>
+	<table name="phpbb_attachments">
+		<column>attach_id</column>
+		<column>post_msg_id</column>
+		<column>topic_id</column>
+		<column>poster_id</column>
+		<column>physical_filename</column>
+		<column>real_filename</column>
+		<column>attach_comment</column>
+		<column>extension</column>
+		<column>mimetype</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2</value>
+			<value>2_20811e441032848ce0eb6265104d9c02</value>
+			<value>product_designer.PNG</value>
+			<value>some comment</value>
+			<value>png</value>
+			<value>image/png</value>
+		</row>
+	</table>
+	<table name="phpbb_poll_options">
+		<column>poll_option_id</column>
+		<column>topic_id</column>
+		<column>poll_option_text</column>
+		<column>poll_option_total</column>
+		<row>
+			<value>1</value>
+			<value>9</value>
+			<value>Great</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>9</value>
+			<value>Terrible</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>Option 1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>Option 2</value>
+			<value>1</value>
+		</row>
+	</table>
+	<table name="phpbb_poll_votes">
+		<column>topic_id</column>
+		<column>poll_option_id</column>
+		<column>vote_user_id</column>
+		<row>
+			<value>9</value>
+			<value>1</value>
+			<value>2</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>2</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>2</value>
+			<value>2</value>
+		</row>
+	</table>
+	<table name="phpbb_bookmarks">
+		<column>topic_id</column>
+		<column>user_id</column>
+		<row>
+			<value>1</value>
+			<value>2</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value>2</value>
+		</row>
+	</table>
+	<table name="phpbb_forums_track">
+		<column>user_id</column>
+		<column>forum_id</column>
+		<column>mark_time</column>
+		<row>
+			<value>2</value>
+			<value>4</value>
+			<value>1448828299</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>5</value>
+			<value>1448406650</value>
+		</row>
+	</table>
+	<table name="phpbb_topics_track">
+		<column>user_id</column>
+		<column>topic_id</column>
+		<column>forum_id</column>
+		<column>mark_time</column>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>2</value>
+			<value>1448828557</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>5</value>
+			<value>5</value>
+			<value>1448406650</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>9</value>
+			<value>4</value>
+			<value>1448832673</value>
+		</row>
+		<row>
+			<value>48</value>
+			<value>1</value>
+			<value>2</value>
+			<value>1448811401</value>
+		</row>
+		<row>
+			<value>48</value>
+			<value>7</value>
+			<value>2</value>
+			<value>1448416707</value>
+		</row>
+	</table>
+	<table name="phpbb_forums_watch">
+		<column>forum_id</column>
+		<column>user_id</column>
+		<column>notify_status</column>
+	</table>
+	<table name="phpbb_topics_watch">
+		<column>topic_id</column>
+		<column>user_id</column>
+		<column>notify_status</column>
+		<row>
+			<value>4</value>
+			<value>2</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_users">
+		<column>user_id</column>
+		<column>user_permissions</column>
+		<column>username</column>
+		<column>username_clean</column>
+		<column>user_avatar</column>
+		<column>user_avatar_type</column>
+		<column>user_sig</column>
+		<row>
+			<value>1</value>
+			<value></value>
+			<value>Anonymous</value>
+			<value>anonymous</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value></value>
+			<value>admin</value>
+			<value>admin</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>48</value>
+			<value></value>
+			<value>demo</value>
+			<value>demo</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
+</dataset>
