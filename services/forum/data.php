@@ -45,7 +45,7 @@ class data
 	protected $ex_fid_ary;
 
 	/** @var integer */
-	protected $cache_time = 10800; // caching for 3 hours
+	protected $cache_time = 0;
 
 	/**
 	 * Constructor
@@ -153,13 +153,15 @@ class data
 	/**
 	 * Fetch by Topic Type
 	 *
-	 * @param mixed $topic_type		Limit by post id: single id or array of post ids
+	 * @param array $topic_type
 	 * @return $this
 	 */
-	public function fetch_topic_type($topic_type)
+	public function fetch_topic_type(array $topic_type)
 	{
-		$topic_type = (is_array($topic_type)) ? $topic_type : array($topic_type);
-		$this->store['sql_array']['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
+		if (sizeof($topic_type))
+		{
+			$this->store['sql_array']['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
+		}
 
 		if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
 		{
@@ -505,11 +507,11 @@ class data
 	/**
 	 * @param bool $enable_caching
 	 */
-	private function _set_cache_time($enable_caching)
+	protected function _set_cache_time($enable_caching)
 	{
-		if ($enable_caching !== true)
+		if ($enable_caching === true)
 		{
-			$this->cache_time = 0;
+			$this->cache_time = 10800; // caching for 3 hours
 		}
 	}
 
