@@ -31,11 +31,11 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\date_range */
+	protected $date_range;
+
 	/** @var \blitze\sitemaker\services\forum\data */
 	protected $forum;
-
-	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
 
 	/** @var \Urodoz\Truncate\TruncateService */
 	protected $truncate;
@@ -63,21 +63,20 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\content_visibility				content_visibility	Content visibility object
 	 * @param \phpbb\user							$user				User object
+	 * @param \blitze\sitemaker\services\date_range	$date_range			Date Range Object
 	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
-	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->user = $user;
+		$this->date_range = $date_range;
 		$this->forum = $forum;
-		$this->sitemaker = $sitemaker;
-		$this->truncate = new TruncateService();
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -97,14 +96,14 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$template_options = $this->_get_view_options();
 
 		return array(
-			'legend1'			=> $this->user->lang('SETTINGS'),
+			'legend1'		=> $this->user->lang('SETTINGS'),
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
-			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(POST_NORMAL), 'explain' => false),
+			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
 			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
-			'legend2'			=> $this->user->lang('DISPLAY'),
+			'legend2'		=> $this->user->lang('DISPLAY'),
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
@@ -255,6 +254,8 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	protected function forum_topics_context(array &$topic_data, array &$post_data)
 	{
+		$truncate = new TruncateService();
+
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$topic_row =& $topic_data[$i];
@@ -263,7 +264,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			$post_row = array_pop($post_data[$topic_id]);
 
 			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
-			$context = $this->truncate->truncate($context, $this->settings['preview_max_chars']);
+			$context = $truncate->truncate($context, $this->settings['preview_max_chars']);
 
 			$tpl_ary = array(
 				'TOPIC_TITLE'		=> truncate_string(censor_text($topic_row['topic_title']), $this->settings['topic_title_limit']),
@@ -310,7 +311,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
 		);
 
-		$range_info = $this->sitemaker->get_date_range($this->settings['date_range']);
+		$range_info = $this->date_range->get($this->settings['date_range']);
 
 		$this->forum->query()
 			->fetch_forum($this->settings['forum_ids'])
@@ -318,9 +319,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			->fetch_tracking_info($this->settings['enable_tracking'])
 			->fetch_date_range($range_info['start'], $range_info['stop'])
 			->set_sorting($sort_order[$this->settings['order_by']])
-			->fetch_custom(array(
-				'WHERE'		=> array('f.display_on_index = 1'),
-			))
 			->build();
 
 		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);

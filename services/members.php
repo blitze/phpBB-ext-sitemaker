@@ -17,8 +17,8 @@ class members
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
+	/** @var \blitze\sitemaker\services\date_range */
+	protected $date_range;
 
 	/** @var \blitze\sitemaker\services\template driver_interface */
 	protected $ptemplate;
@@ -29,21 +29,28 @@ class members
 	/** @var string */
 	protected $php_ext;
 
+	protected $explain_range = '';
+	protected $sql_date_field = '';
+	protected $view_mode = 'member_date';
+	protected $user_header = 'USERNAME';
+	protected $info_header = 'MEMBERS_DATE';
+	protected $settings = array();
+
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
 	 * @param \phpbb\user							$user				User object
-	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker object
+	 * @param \blitze\sitemaker\services\date_range	$date_range			Date range object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->user = $user;
-		$this->sitemaker = $sitemaker;
+		$this->date_range = $date_range;
 		$this->ptemplate = $ptemplate;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -59,110 +66,29 @@ class members
 	 */
 	public function get_list($get = array())
 	{
-		$get += array(
+		$this->settings = $get + array(
 			'query_type'	=> 'recent',
-			'date_range'	=> 'month',
+			'date_range'	=> '',
 			'max_members'	=> 5,
 		);
 
-		$method = 'member_date';
-		$append = $list = '';
-		$l_user = $this->user->lang('USERNAME');
-		$l_info = $this->user->lang('MEMBERS_DATE');
+		$sql = $this->get_sql_statement();
+		$result = $this->db->sql_query_limit($sql, $this->settings['max_members']);
 
-		$sql_ary = array(
-			'SELECT'		=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
-			'FROM'			=> array(
-					USERS_TABLE => 'u'
-			),
-			'WHERE'			=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
-		);
-
-		switch ($get['query_type'])
-		{
-			case 'visits':
-			// no break
-			case 'bots':
-				$sql_between = 'user_lastvisit';
-				$sql_ary['SELECT'] .= ', u.user_lastvisit as member_date';
-				$sql_ary['ORDER_BY'] = 'u.user_lastvisit DESC';
-
-				if ($get['query_type'] == 'bots')
-				{
-					$l_user = $l_info = '';
-					$method = 'member_bots';
-					$sql_ary['WHERE'] = 'u.user_type = ' . USER_IGNORE;
-				}
-				$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0';
-			break;
-
-			case 'recent':
-				$l_info = $this->user->lang('JOIN_DATE');
-			// no break;
-			case 'tenured':
-				$get['date_range'] = '';
-				$sql_between = 'u.user_regdate';
-				$sql_ary['SELECT'] .= ', u.user_regdate as member_date';
-				$sql_ary['ORDER_BY'] = 'u.user_regdate ' . (($get['query_type'] == 'tenured') ? 'ASC' : 'DESC');
-			break;
-
-			case 'posts':
-				$method = 'member_posts';
-				$sql_between = 'p.post_time';
-				$l_info = $this->user->lang('POSTS');
-
-				$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
-				$sql_ary['FROM'] += array(TOPICS_TABLE => 't');
-				$sql_ary['FROM'] += array(POSTS_TABLE => 'p');
-				$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = ' . ITEM_APPROVED . ' AND p.poster_id = u.user_id';
-				$sql_ary['GROUP_BY'] = 'u.user_id';
-				$sql_ary['ORDER_BY'] = 'user_posts DESC, u.username ASC';
-			break;
-
-			default:
-				$sql_between = '';
-			break;
-		}
-
-		if ($get['date_range'] && $sql_between)
-		{
-			$range_info = $this->sitemaker->get_date_range($get['date_range']);
-
-			if ($range_info['start'] && $range_info['stop'])
-			{
-				$append = '&amp;date=' . $range_info['date'];
-				$sql_ary['WHERE'] .= " AND $sql_between BETWEEN {$range_info['start']} AND {$range_info['stop']}";
-			}
-		}
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query_limit($sql, $get['max_members']);
-
-		$members = false;
+		$has_results = false;
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$members = true;
-			$this->ptemplate->assign_block_vars('member', $this->$method($row, $append));
+			$has_results = true;
+			$this->ptemplate->assign_block_vars('member', call_user_func_array(array($this, $this->view_mode), array($row)));
 		}
 		$this->db->sql_freeresult($result);
 
-		if ($members !== false)
-		{
-			$this->ptemplate->assign_vars(array(
-				'S_LIST'	=> $get['query_type'],
-				'L_USER'	=> $l_user,
-				'L_INFO'	=> $l_info)
-			);
-
-			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
-		}
-
-		return $list;
+		return $this->show_results($has_results);
 	}
 
-	protected function member_posts($row, $append)
+	protected function member_posts($row)
 	{
-		$u_posts = append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts" . $append);
+		$u_posts = append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts" . $this->explain_range);
 		$user_posts = '<a href="' . $u_posts . '">' . $row['user_posts'] . '</a>';
 
 		return array(
@@ -187,5 +113,99 @@ class members
 			'USERNAME'	=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
 			'USER_INFO'	=> $this->user->format_date($row['member_date'])
 		);
+	}
+
+	protected function show_results($results)
+	{
+		$list = '';
+		if ($results)
+		{
+			$this->ptemplate->assign_vars(array(
+				'S_LIST'	=> $this->settings['query_type'],
+				'L_USER'	=> $this->user->lang($this->user_header),
+				'L_INFO'	=> $this->user->lang($this->info_header),
+			));
+
+			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
+		}
+
+		return $list;
+	}
+
+	protected function get_sql_statement()
+	{
+		$sql_ary = array(
+			'SELECT'		=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
+			'FROM'			=> array(
+					USERS_TABLE => 'u'
+			),
+			'WHERE'			=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
+		);
+
+		$sql_method = '_set_' . $this->settings['query_type'] . '_sql';
+		call_user_func_array(array($this, $sql_method), array(&$sql_ary));
+
+		$this->_set_range_sql($sql_ary);
+
+		return $this->db->sql_build_query('SELECT', $sql_ary);
+	}
+
+	protected function _set_visits_sql(array &$sql_ary)
+	{
+		$sql_ary['SELECT'] .= ', u.user_lastvisit as member_date';
+		$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0';
+		$sql_ary['ORDER_BY'] = 'u.user_lastvisit DESC';
+
+		$this->sql_date_field = 'user_lastvisit';
+	}
+
+	protected function _set_bots_sql(array &$sql_ary)
+	{
+		$this->_set_visits_sql($sql_ary);
+		$this->user_header = '';
+		$this->info_header = '';
+		$this->view_mode = 'member_bots';
+
+		$sql_ary['WHERE'] = 'u.user_type = ' . USER_IGNORE;
+	}
+
+	protected function _set_tenured_sql(array &$sql_ary)
+	{
+		$sql_ary['SELECT'] .= ', u.user_regdate as member_date';
+		$sql_ary['ORDER_BY'] = 'u.user_regdate ' . (($this->settings['query_type'] == 'tenured') ? 'ASC' : 'DESC');
+
+		$this->sql_date_field = 'u.user_regdate';
+		$this->settings['date_range'] = '';
+	}
+
+	protected function _set_recent_sql(array &$sql_ary)
+	{
+		$this->_set_tenured_sql($sql_ary);
+		$this->info_header = 'JOIN_DATE';
+	}
+
+	protected function _set_posts_sql(array &$sql_ary)
+	{
+		$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
+		$sql_ary['FROM'] += array(TOPICS_TABLE => 't');
+		$sql_ary['FROM'] += array(POSTS_TABLE => 'p');
+		$sql_ary['WHERE'] .= ' AND ' . time() . ' > t.topic_time AND t.topic_id = p.topic_id AND p.post_visibility = ' . ITEM_APPROVED . ' AND p.poster_id = u.user_id';
+		$sql_ary['GROUP_BY'] = 'u.user_id';
+		$sql_ary['ORDER_BY'] = 'user_posts DESC, u.username ASC';
+
+		$this->info_header = 'POSTS';
+		$this->view_mode = 'member_posts';
+		$this->sql_date_field = 'p.post_time';
+	}
+
+	protected function _set_range_sql(array &$sql_ary)
+	{
+		if ($this->settings['date_range'] && $this->sql_date_field)
+		{
+			$range = $this->date_range->get($this->settings['date_range']);
+			$this->explain_range = '&amp;date=' . $range['date'];
+
+			$sql_ary['WHERE'] .= " AND {$this->sql_date_field} BETWEEN {$range['start']} AND {$range['stop']}";
+		}
 	}
 }
