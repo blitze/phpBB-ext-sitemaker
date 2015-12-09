@@ -84,10 +84,10 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 
 		return array(
 			'legend1'		=> $this->user->lang('SETTINGS'),
-			'group_ids'		=> array('lang' => 'POLL_FROM_GROUPS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $group_options, 'default' => array(), 'explain' => true),
-			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => true),
-			'topic_ids'		=> array('lang' => 'POLL_FROM_TOPICS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
 			'user_ids'		=> array('lang' => 'POLL_FROM_USERS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'group_ids'		=> array('lang' => 'POLL_FROM_GROUPS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $group_options, 'default' => array(), 'explain' => true),
+			'topic_ids'		=> array('lang' => 'POLL_FROM_TOPICS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'forum_ids'		=> array('lang' => 'POLL_FROM_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => true),
 			'topic_type'	=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(POST_NORMAL), 'explain' => false),
 			'order_by'		=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => 0, 'explain' => false),
 		);
@@ -101,12 +101,12 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		$this->user->add_lang('viewtopic');
 
 		$this->settings = $bdata['settings'];
-		$block_title = $this->user->lang('POLL');
 
 		if (!($topic_data = $this->_get_topic_data()))
 		{
 			return array(
-				'title'		=> $block_title,
+				'title'		=> '',
+				'content'	=> '',
 			);
 		}
 
@@ -133,7 +133,6 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 			'L_MAX_VOTES'		=> $this->user->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
 			'L_POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
 
-			'S_HAS_POLL'		=> true,
 			'S_CAN_VOTE'		=> $s_can_vote,
 			'S_DISPLAY_RESULTS'	=> $this->_show_results($s_can_vote, $cur_voted_id),
 			'S_IS_MULTI_CHOICE'	=> $this->_poll_is_multiple_choice($topic_data['poll_max_options']),
@@ -144,7 +143,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		));
 
 		return array(
-			'title'		=> $block_title,
+			'title'		=> 'POLL',
 			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_poll.html', 'forum_poll_block')
 		);
 	}
@@ -258,7 +257,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	private function _limit_by_user(array &$sql_array)
 	{
 		$from_users_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['user_ids'])));
-		$sql_array['WHERE'][] = (sizeof($from_users_ary)) ? $this->db->sql_in_set('t.user_id', $from_users_ary) : '';
+		$sql_array['WHERE'][] = (sizeof($from_users_ary)) ? $this->db->sql_in_set('t.topic_poster', $from_users_ary) : '';
 	}
 
 	/**

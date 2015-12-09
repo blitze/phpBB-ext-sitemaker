@@ -193,30 +193,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $topic_data
 	 * @param array $post_data
 	 */
-	protected function forum_topics_lastread(array &$topic_data, array &$post_data)
-	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$row =& $topic_data[$i];
-			$forum_id = $row['forum_id'];
-			$topic_id = $row['topic_id'];
-
-			$tpl_ary = array(
-				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_READ'		=> $this->user->lang('TOPIC_LAST_READ', $this->user->format_date($row['topic_last_view_time'], $this->user->lang['DATE_FORMAT'])),
-				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
-	}
-
-	/**
-	 * @param array $topic_data
-	 * @param array $post_data
-	 */
 	protected function forum_topics_mini(array &$topic_data, array &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)

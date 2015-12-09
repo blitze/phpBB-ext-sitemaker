@@ -64,6 +64,7 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$settings = $bdata['settings'];
 
+		$content = '';
 		if (!$this->user->data['is_registered'] || $edit_mode === true)
 		{
 			$this->ptemplate->assign_vars(array(
@@ -75,10 +76,7 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 				'U_REDIRECT'			=> reapply_sid(ltrim(rtrim(build_url(array('edit_mode')), '?'), './../'))
 			));
 
-			return array(
-				'title'		=> 'LOGIN',
-				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/login.html', 'login_block')
-			);
+			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/login.html', 'login_block');
 		}
 		else if ($settings['show_member_menu'])
 		{
@@ -86,5 +84,10 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 			$block->set_template($this->ptemplate);
 			return $block->display(array(), $edit_mode);
 		}
+
+		return array(
+			'title'		=> 'LOGIN',
+			'content'	=> $content,
+		);
 	}
 }

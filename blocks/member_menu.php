@@ -24,10 +24,10 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 	protected $user;
 
 	/** @var string */
-	protected $phpbb_root_path = null;
+	protected $phpbb_root_path;
 
 	/** @var string */
-	protected $php_ext = null;
+	protected $php_ext;
 
 	/**
 	 * Constructor
@@ -45,11 +45,6 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-
-		if (!function_exists('get_user_rank'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
-		}
 	}
 
 	/**
@@ -57,6 +52,7 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
+		$content = '';
 		if ($this->user->data['is_registered'])
 		{
 			$this->ptemplate->assign_vars(array(
@@ -73,10 +69,12 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-blitze-sitemaker-acp-dashboard_module', true, $this->user->session_id) : '')
 			);
 
-			return array(
-				'title'		=> $this->user->lang('WELCOME'),
-				'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block'),
-			);
+			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block');
 		}
+
+		return array(
+			'title'		=> 'WELCOME',
+			'content'	=> $content,
+		);
 	}
 }

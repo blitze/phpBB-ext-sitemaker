@@ -45,7 +45,7 @@ class data
 	protected $ex_fid_ary;
 
 	/** @var integer */
-	protected $cache_time = 0;
+	protected $cache_time;
 
 	/**
 	 * Constructor
@@ -57,8 +57,9 @@ class data
 	 * @param user					$user					User object
 	 * @param string				$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string				$php_ext				php file extension
+	 * @param integer				$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(auth $auth, config $config, content_visibility $content_visibility, driver_interface $db, user $user, $phpbb_root_path, $php_ext)
+	public function __construct(auth $auth, config $config, content_visibility $content_visibility, driver_interface $db, user $user, $phpbb_root_path, $php_ext, $cache_time = 10800)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -67,6 +68,7 @@ class data
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+		$this->cache_time = $cache_time;
 
 		$this->ex_fid_ary = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
 	}
@@ -509,9 +511,9 @@ class data
 	 */
 	protected function _set_cache_time($enable_caching)
 	{
-		if ($enable_caching === true)
+		if ($enable_caching === false)
 		{
-			$this->cache_time = 10800; // caching for 3 hours
+			$this->cache_time = 0;
 		}
 	}
 

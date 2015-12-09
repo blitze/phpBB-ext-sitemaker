@@ -30,7 +30,7 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user		User object
-	 * @param \blitze\sitemaker\services\members		$members	Members object
+	 * @param \blitze\sitemaker\services\members	$members	Members object
 	 */
 	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\members $members)
 	{

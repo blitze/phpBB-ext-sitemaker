@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="phpbb_sm_cblocks">
+		<column>block_id</column>
+		<column>block_content</column>
+		<row>
+			<value>1</value>
+			<value>&lt;p&gt;my &lt;strong&gt;custom&lt;/strong&gt; content&lt;br&gt;&lt;/p&gt;</value>
+		</row>
+	</table>
+</dataset>

@@ -60,7 +60,30 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$topic_data = $this->_get_topics($bdata['settings']);
+		if (!$this->user->data['is_registered'])
+		{
+			return array(
+				'title'		=> '',
+				'content'	=> '',
+			);
+		}
+		else
+		{
+			$this->_fetch_new($bdata['settings']);
+
+			return array(
+				'title'     => 'WHATS_NEW',
+				'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
+			);
+		}
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	private function _fetch_new(array $settings)
+	{
+		$topic_data = $this->_get_topics($settings);
 
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -75,12 +98,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 			unset($topic_data[$i]);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', ($bdata['settings']['topics_only']) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
-
-		return array(
-			'title'     => 'WHATS_NEW',
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
-		);
+		$this->ptemplate->assign_var('NO_RECORDS', ($settings['topics_only']) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
 	}
 
 	/**

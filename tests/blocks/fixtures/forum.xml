@@ -23,7 +23,7 @@
 		</row>
 		<row>
 			<value>2</value>
-			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value></value>
 			<value>Your first forum</value>
 			<value>Description of your first forum.</value>
 			<value></value>
@@ -45,7 +45,7 @@
 		</row>
 		<row>
 			<value>4</value>
-			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value></value>
 			<value>Second Forum</value>
 			<value></value>
 			<value></value>
@@ -56,7 +56,7 @@
 		</row>
 		<row>
 			<value>5</value>
-			<value>a:1:{i:1;a:2:{i:0;s:19:"Your first category";i:1;i:0;}}</value>
+			<value></value>
 			<value>Third Forum</value>
 			<value></value>
 			<value></value>
@@ -86,6 +86,12 @@
 		<column>poll_max_options</column>
 		<column>poll_last_vote</column>
 		<column>topic_visibility</column>
+		<column>poll_title</column>
+		<column>poll_start</column>
+		<column>poll_length</column>
+		<column>poll_max_options</column>
+		<column>poll_last_vote</column>
+		<column>poll_vote_change</column>
 		<row>
 			<value>1</value>
 			<value>2</value>
@@ -103,6 +109,12 @@
 			<value>1448811401</value>
 			<value>1448828883</value>
 			<value>My Second Poll</value>
+			<value>2</value>
+			<value>1448828669</value>
+			<value>1</value>
+			<value>My Second Poll</value>
+			<value>1448828557</value>
+			<value>0</value>
 			<value>2</value>
 			<value>1448828669</value>
 			<value>1</value>
@@ -127,6 +139,12 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -148,6 +166,12 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -169,6 +193,12 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>5</value>
@@ -190,6 +220,12 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>7</value>
@@ -208,6 +244,12 @@
 			<value>1448416707</value>
 			<value>1448416707</value>
 			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -232,6 +274,12 @@
 			<value>1</value>
 			<value>1448828640</value>
 			<value>1</value>
+			<value>My First Poll</value>
+			<value>1448828299</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1448828640</value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="phpbb_posts">
@@ -550,6 +598,14 @@
 			<value></value>
 			<value></value>
 			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_user_group">
+		<column>group_id</column>
+		<column>user_id</column>
+		<row>
+			<value>1</value>
+			<value>2</value>
 		</row>
 	</table>
 </dataset>

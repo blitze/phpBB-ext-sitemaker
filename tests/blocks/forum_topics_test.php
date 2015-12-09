@@ -73,10 +73,7 @@ class forum_topics_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum = $this->getMockBuilder('\blitze\sitemaker\services\forum\data')
-			->setConstructorArgs(array($auth, $config, $content_visibility, $db, $user, $phpbb_root_path, $phpEx))
-			->setMethods(array('_set_cache_time'))
-			->getMock();
+		$forum = new data($auth, $config, $content_visibility, $db, $user, $phpbb_root_path, $phpEx, 0);
 
 		$date_range = new date_range($user, '24 November 2015');
 

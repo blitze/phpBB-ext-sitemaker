@@ -47,60 +47,18 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 		$this->cblocks_table = $cblocks_table;
 	}
 
-	public function save($id)
-	{
-		$content = $this->request->variable('content', '', true);
-
-		// Delete block data
-		$this->db->sql_query('DELETE FROM ' . $this->cblocks_table . ' WHERE block_id = ' . (int) $id);
-
-		$sql_data =	array(
-			'block_id'			=> $id,
-			'block_content'		=> $content,
-			'bbcode_bitfield'	=> '',
-			'bbcode_options'	=> 7,
-			'bbcode_uid'		=> '',
-		);
-
-		generate_text_for_storage($sql_data['block_content'], $sql_data['bbcode_uid'], $sql_data['bbcode_bitfield'], $sql_data['bbcode_options'], true, true, true);
-
-		$this->db->sql_query('INSERT INTO ' . $this->cblocks_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data));
-		$this->cache->destroy('pt_cblocks');
-
-		return array(
-			'id'		=> $id,
-			'content'	=> $this->parse($sql_data),
-			'callback'	=> 'previewCustomBlock',
-		);
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		// As this content is not expected to change frequently, we cache it
-		if (($cblock = $this->cache->get('pt_cblocks')) === false)
-		{
-			$sql = 'SELECT *
-				FROM ' . $this->cblocks_table;
-			$result = $this->db->sql_query($sql);
-
-			$cblock = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$cblock[$row['block_id']] = $row;
-			}
-			$this->db->sql_freeresult($result);
-
-			$this->cache->put('pt_cblocks', $cblock);
-		}
+		$cblock = $this->_get_custom_blocks();
 
 		$content = '';
 		if (isset($cblock[$bdata['bid']]))
 		{
 			$cblock = $cblock[$bdata['bid']];
-			$content = $this->parse($cblock);
+			$content = $this->_get_content($cblock);
 		}
 		else
 		{
@@ -111,11 +69,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 			);
 		}
 
-		if ($edit_mode !== false)
-		{
-			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
-			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
-		}
+		$this->_show_editor($cblock, $content, $edit_mode);
 
 		return array(
 			'title'		=> 'BLOCK_TITLE',
@@ -123,9 +77,82 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 		);
 	}
 
-	private function parse($data)
+	/**
+	 * @param int $block_id
+	 * @return array
+	 */
+	public function save($block_id)
+	{
+		$content = $this->request->variable('content', '', true);
+		$cblocks = $this->_get_custom_blocks();
+
+		$sql_data =	array(
+			'block_id'			=> $block_id,
+			'block_content'		=> $content,
+			'bbcode_bitfield'	=> '',
+			'bbcode_options'	=> 7,
+			'bbcode_uid'		=> '',
+		);
+
+		generate_text_for_storage($sql_data['block_content'], $sql_data['bbcode_uid'], $sql_data['bbcode_bitfield'], $sql_data['bbcode_options'], true, true, true);
+
+		$sql = (!isset($cblocks[$block_id])) ? 'INSERT INTO ' . $this->cblocks_table . ' ' . $this->db->sql_build_array('INSERT', $sql_data) : 'UPDATE ' . $this->cblocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE block_id = ' . (int) $block_id;
+		$this->db->sql_query($sql);
+		$this->cache->destroy('pt_cblocks');
+
+		return array(
+			'id'		=> $block_id,
+			'content'	=> $this->_get_content($sql_data),
+			'callback'	=> 'previewCustomBlock',
+		);
+	}
+
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	private function _get_content(array $data)
 	{
 		$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
 		return html_entity_decode($content);
+	}
+
+	/**
+	 * @param array $cblock
+	 * @param string $content
+	 * @param bool $edit_mode
+	 * @return string
+	 */
+	private function _show_editor(array $cblock, &$content, $edit_mode)
+	{
+		if ($edit_mode !== false)
+		{
+			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
+			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="save" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_custom_blocks()
+	{
+		if (($cblocks = $this->cache->get('pt_cblocks')) === false)
+		{
+			$sql = 'SELECT *
+				FROM ' . $this->cblocks_table;
+			$result = $this->db->sql_query($sql);
+
+			$cblocks = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$cblocks[$row['block_id']] = $row;
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->cache->put('pt_cblocks', $cblocks);
+		}
+
+		return $cblocks;
 	}
 }

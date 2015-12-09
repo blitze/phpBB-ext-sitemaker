@@ -48,7 +48,10 @@ class date_range_test extends \phpbb_test_case
 		$this->user->timezone = new \DateTimeZone('UTC');
 		$this->user->lang['datetime'] = array();
 
-		$this->date_range = new date_range($this->user, '25 November 2015');
+		// we force current date
+		$date = '25 November 2015';
+
+		$this->date_range = new date_range($this->user, $date);
 	}
 
 	/**

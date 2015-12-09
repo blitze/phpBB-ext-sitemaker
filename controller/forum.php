@@ -51,7 +51,10 @@ class forum
 
 	public function handle()
 	{
-		include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		if (!function_exists('display_forums'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
 
 		display_forums('', $this->config['load_moderators']);
 

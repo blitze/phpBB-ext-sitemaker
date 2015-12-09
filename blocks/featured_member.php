@@ -45,6 +45,9 @@ class featured_member extends block
 	/** @var string */
 	protected $blocks_table;
 
+	/** @var int */
+	protected $cache_time;
+
 	/** @var array */
 	private $settings;
 
@@ -67,8 +70,9 @@ class featured_member extends block
 	 * @param string			$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string			$php_ext				php file extension
 	 * @param string			$blocks_table			Name of blocks database table
+	 * @param int				$cache_time
 	 */
-	public function __construct(cache $cache, config $config, database $db, profile_fields $profile_fields, user $user, $phpbb_root_path, $php_ext, $blocks_table)
+	public function __construct(cache $cache, config $config, database $db, profile_fields $profile_fields, user $user, $phpbb_root_path, $php_ext, $blocks_table, $cache_time = 3600)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -78,6 +82,7 @@ class featured_member extends block
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->blocks_table = $blocks_table;
+		$this->cache_time = $cache_time;
 
 		if (!function_exists('phpbb_show_profile'))
 		{
@@ -122,11 +127,8 @@ class featured_member extends block
 			return $this->_update_userlist($block_title, $bdata, $edit_mode);
 		}
 
-		$row['profile_fields'] = $this->_get_profile_fields($this->settings['show_cpf'], $row['user_id']);
-
 		$this->_save_settings($bdata['bid'], $change_user);
 		$this->_explain_view();
-		$this->_show_profile_fields($row);
 		$this->ptemplate->assign_vars($this->_display_user($row));
 
 		return array(
@@ -169,7 +171,7 @@ class featured_member extends block
 	 */
 	private function _query_user_by_featured(&$sql, $change_user)
 	{
-		$userlist = $this->_get_userlist();
+		$userlist = $this->_get_userlist($this->settings['userlist']);
 		$current_user = (sizeof($userlist)) ? $this->_get_featured_user($userlist, $change_user) : 0;
 
 		$sql .= ' AND user_id = ' . (int) $current_user;
@@ -198,7 +200,7 @@ class featured_member extends block
 	 */
 	private function _get_cache_time($query_type, $rotation)
 	{
-		return ($rotation !== 'pageload' || in_array($query_type, array('posts', 'recent'))) ? 3600 : 0;
+		return ($rotation !== 'pageload' || in_array($query_type, array('posts', 'recent'))) ? $this->cache_time : 0;
 	}
 
 	/**
@@ -228,8 +230,7 @@ class featured_member extends block
 
 		if ($change_user && sizeof($userlist))
 		{
-			$next_key = $this->_get_next_user($current_user, $userlist);
-			$current_user = $userlist[$next_key];
+			$current_user = $this->_get_next_user($current_user, $userlist);
 
 			$this->settings['current_user'] = $current_user;
 		}
@@ -243,6 +244,22 @@ class featured_member extends block
 	 * @return int
 	 */
 	private function _get_next_user($current_user, array $userlist)
+	{
+		$key = 0;
+		if ($current_user)
+		{
+			$key = $this->_get_next_key($current_user, $userlist);
+		}
+
+		return $userlist[$key];
+	}
+
+	/**
+	 * @param $current_user
+	 * @param $userlist
+	 * @return int
+	 */
+	private function _get_next_key($current_user, array $userlist)
 	{
 		$end_key = sizeof($userlist) - 1;
 		$curr_key = (int) array_search($current_user, $userlist);
@@ -295,21 +312,13 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param array $userlist
-	 * @return string
-	 */
-	private function _set_userlist(array $userlist)
-	{
-		return join(',', $userlist);
-	}
-
-	/**
+	 * @param string $list
 	 * @return array
 	 */
-	private function _get_userlist()
+	private function _get_userlist($list)
 	{
-		$userlist = preg_replace("/\s*,?\s*(\r\n|\n\r|\n|\r)+\s*/", "\n", trim($this->settings['userlist']));
-		return array_filter(explode(',', $userlist));
+		$userlist = preg_replace("/\s*,?\s*(\r\n|\n\r|\n|\r)+\s*/", "\n", trim($list));
+		return array_map('intval', array_filter(explode(',', $userlist)));
 	}
 
 	/**
@@ -322,20 +331,21 @@ class featured_member extends block
 	 */
 	private function _update_userlist($title, array $bdata, $edit_mode)
 	{
-		$userlist = $this->_get_userlist();
+		$userlist = $this->_get_userlist($bdata['settings']['userlist']);
 
 		if ($this->settings['qtype'] === 'featured' && sizeof($userlist))
 		{
-			$next_key = $this->_get_next_user($this->settings['current_user'], $userlist);
+			$curr_key = (int) array_search($this->settings['current_user'], $userlist);
 
+			// Remove the invalid user from the list
 			$new_list = str_replace($this->settings['current_user'] . ',', '', $this->settings['userlist'] . ',');
-			$userlist = $this->_get_userlist();
+			$new_list = trim($new_list, ',');
 
-			$this->settings['current_user'] = $userlist[$next_key];
+			$new_userlist = $this->_get_userlist($new_list);
+			$current_user =& $new_userlist[$curr_key - 1];
+
+			$this->settings['current_user'] = (int) $current_user;
 			$this->settings['userlist'] = $new_list;
-
-			$new_userlist = $this->_get_userlist();
-			$this->settings['userlist'] = $this->_set_userlist($new_userlist);
 			$this->settings['last_changed'] = 0;
 
 			$bdata['settings'] = $this->settings;
@@ -350,33 +360,33 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $show_cpf
 	 * @param $user_id
-	 * @return array|string|void
+	 * @return array|string
 	 */
-	private function _get_profile_fields($show_cpf, $user_id)
+	private function _get_profile_fields($user_id)
 	{
-		if (is_array($show_cpf))
+		$fields = '';
+		if (sizeof($this->settings['show_cpf']))
 		{
 			$fields = $this->profile_fields->grab_profile_fields_data($user_id);
 
 			if (sizeof($fields))
 			{
-				return array_intersect_key(array_shift($fields), array_flip($show_cpf));
+				$fields = array_intersect_key(array_shift($fields), array_flip($this->settings['show_cpf']));
 			}
 		}
 
-		return '';
+		return $fields;
 	}
 
 	/**
-	 * @param array $row
+	 * @param int $user_id
 	 */
-	private function _show_profile_fields(array $row)
+	private function _show_profile_fields($user_id)
 	{
-		if (!empty($row['profile_fields']))
+		if ($profile_fields = $this->_get_profile_fields($user_id))
 		{
-			$cp_row = $this->profile_fields->generate_profile_fields_template_data($row['profile_fields']);
+			$cp_row = $this->profile_fields->generate_profile_fields_template_data($profile_fields);
 
 			$this->ptemplate->assign_vars($cp_row['row']);
 
@@ -393,22 +403,29 @@ class featured_member extends block
 	 */
 	private function _display_user(array $row)
 	{
+		if (!$row)
+		{
+			return array();
+		}
+
 		$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
 		$date_format = $this->user->lang('DATE_FORMAT');
+		$rank = phpbb_get_user_rank($row, $row['user_posts']);
 
-		return array_merge(
-			array(
-				'USERNAME'			=> $username,
-				'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-				'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
-				'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
-				'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
-				'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
-				'POSTS'				=> $row['user_posts'],
-				'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-				'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
-			),
-			phpbb_get_user_rank($row, $row['user_posts'])
+		$this->_show_profile_fields($row['user_id']);
+
+		return array(
+			'USERNAME'			=> $username,
+			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
+			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
+			'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
+			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
+			'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
+			'POSTS'				=> $row['user_posts'],
+			'RANK_TITLE'		=> $rank['title'],
+			'RANK_IMG'			=> $rank['img'],
+			'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+			'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
 		);
 	}
 

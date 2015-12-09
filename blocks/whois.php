@@ -23,9 +23,6 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\template\context */
 	protected $context;
 
-	/** @var \phpbb\request\request_interface */
-	protected $request;
-
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -41,17 +38,15 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\auth\auth					$auth				Permission object
 	 * @param \phpbb\config\config				$config				phpBB configuration
 	 * @param \phpbb\template\context			$context    		Template context
-	 * @param \phpbb\request\request_interface	$request			Request object
 	 * @param \phpbb\user						$user				User object
 	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string							$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\context $context, \phpbb\request\request_interface $request, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\context $context, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->context = $context;
-		$this->request = $request;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -64,7 +59,7 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$data = $this->context->get_data_ref();
 
-		if (!empty($data['.'][0]['TOTAL_USERS_ONLINE']) && !$this->request->is_set('f'))
+		if (!empty($data['.'][0]['TOTAL_USERS_ONLINE']))
 		{
 			$l_online_users	= $data['.'][0]['TOTAL_USERS_ONLINE'];
 			$online_userlist = $data['.'][0]['LOGGED_IN_USER_LIST'];

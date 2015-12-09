@@ -23,18 +23,23 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $time;
+
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\driver\driver_interface	$cache		Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db     	Database connection
 	 * @param \phpbb\template\template				$user		User object
+	 * @param string								$time		String in a format accepted by strtotime().
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $time = 'now')
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->user = $user;
+		$this->time = $time;
 	}
 
 	/**
@@ -65,7 +70,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	private function _find_birthday_users()
 	{
-		$time = $this->user->create_datetime();
+		$time = $this->user->create_datetime($this->time);
 		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
 		$leap_year_birthdays = $this->_adjust_leap_year($now, $time);
@@ -79,8 +84,10 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')';
 		$result = $this->db->sql_query($sql);
 
+		$show_birthday = false;
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			$show_birthday = true;
 			$this->ptemplate->assign_block_vars('birthday', array(
 				'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 				'USER_AGE'		=> $this->_get_user_age($row['user_birthday'], $now['year']),
@@ -88,7 +95,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
-		return (bool) $row;
+		return $show_birthday;
 	}
 
 	/**

@@ -22,8 +22,6 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ALL'										=> 'All',
-	'ALLOW_WORD_COUNT'							=> 'Enable word counter',
-	'ALLOW_WORD_COUNT_EXPLAIN'					=> 'Allow display the total number of words after each word, e.g. <samp>phpBB(33)</samp>',
 	'AUTO_LOGIN'								=> 'Allow auto login?',
 
 	'BLITZE_SITEMAKER_BLOCK_BIRTHDAY'			=> 'Birthday',
@@ -77,7 +75,9 @@ $lang = array_merge($lang, array(
 	'MAX_MEMBERS'								=> 'Max. Members',
 	'MAX_POSTS'									=> 'Maximum number of posts',
 	'MAX_TOPICS'								=> 'Maximum number of topics',
+	'MAX_WORDS'									=> 'Maximum number of words',
 	'MEMBERS_DATE'								=> 'Date',
+	'MENU_NO_ITEMS'								=> 'No active items to display',
 	'MINI'										=> 'Mini',
 
 	'NONE'										=> 'None',
@@ -121,6 +121,7 @@ $lang = array_merge($lang, array(
 	'SHOW_LAST_POST'							=> 'Yes - Last Post',
 	'SHOW_MEMBER_MENU'							=> 'Show user menu?',
 	'SHOW_MEMBER_MENU_EXPLAIN'					=> 'Replace login box with user menu if user is logged in',
+	'SHOW_WORD_COUNT'							=> 'Show word count?',
 
 	'TEMPLATE'									=> 'Template',
 	'TOPICS'									=> 'Topics',
@@ -129,11 +130,6 @@ $lang = array_merge($lang, array(
 	'TOPIC_TYPE'								=> 'Topic Type',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Select the topic types you’d like to display. Leave the boxes unchecked to select from all topic types',
 
-	'WORDS'										=> 'Words',
 	'WORD_MAX_SIZE'								=> 'Maximum font size',
-	'WORD_MAX_SIZE_EXPLAIN'						=> 'Set maximum value of font size for words in wordgraph.',
 	'WORD_MIN_SIZE'								=> 'Minimum font size',
-	'WORD_MIN_SIZE_EXPLAIN'						=> 'Set minimum value of font size for words in wordgraph.',
-	'WORD_NUMBER'								=> 'Number of words',
-	'WORD_NUMBER_EXPLAIN'						=> 'Select the number of words to display in wordgraph. A higher number could make server load slower in wordgraph page.',
 ));

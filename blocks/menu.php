@@ -72,15 +72,15 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		$title = $this->user->lang('MENU');
 		$menu_id = $db_data['settings']['menu_id'];
 
-		if (!$menu_id)
+		$data = $this->_get_menu($menu_id);
+
+		if (!sizeof($data))
 		{
 			return array(
 				'title'		=> $title,
-				'content'	=> ($editing) ? $this->user->lang('SELECT_MENU') : ''
+				'content'	=> $this->_get_message($menu_id, $editing),
 			);
 		}
-
-		$data = $this->_get_menu($menu_id);
 
 		$this->tree->set_params($db_data['settings']);
 		$this->tree->display_list($data, $this->ptemplate, 'tree');
@@ -133,6 +133,22 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param int $menu_id
+	 * @param bool $editing
+	 * @return string
+	 */
+	private function _get_message($menu_id, $editing)
+	{
+		$msg_key = '';
+		if ($editing)
+		{
+			$msg_key = ($menu_id) ? 'MENU_NO_ITEMS' : 'SELECT_MENU';
+		}
+
+		return $this->user->lang($msg_key);
 	}
 
 	/**
