@@ -73,12 +73,12 @@ class birthday_test extends blocks_base
 				array(
 					'birthday' => array(
 						array(
-							'USERNAME' => '<span class="username">demo1</span>',
-							'USER_AGE' => '',
-						),
-						array(
 							'USERNAME' => '<span class="username">admin</span>',
 							'USER_AGE' => 20,
+						),
+						array(
+							'USERNAME' => '<span class="username">demo1</span>',
+							'USER_AGE' => '',
 						),
 					),
 				),

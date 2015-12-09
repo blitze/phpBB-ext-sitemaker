@@ -81,7 +81,8 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 				WHERE (b.ban_id IS NULL
 					OR b.ban_exclude = 1)
 					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
-					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')';
+					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
+				ORDER BY u.username ASC';
 		$result = $this->db->sql_query($sql);
 
 		$show_birthday = false;
