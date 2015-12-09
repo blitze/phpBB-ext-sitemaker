@@ -62,7 +62,6 @@ $lang = array_merge($lang, array(
 	'QTYPE_POSTS'					=> 'Congratulations to:',
 	'QTYPE_RECENT'					=> 'Please welcome our newest member:',
 
-	'RANDOM_MEMBER'					=> 'Random Member',
 	'RECENT_BOTS'					=> 'Recent Search Engines',
 	'RECENT_MEMBER'					=> 'Recent Member',
 	'RECENT_MEMBERS'				=> 'Recent Members',

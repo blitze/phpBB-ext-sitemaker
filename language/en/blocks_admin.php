@@ -104,7 +104,6 @@ $lang = array_merge($lang, array(
 
 	'QUERY_TYPE'								=> 'Display Mode',
 
-	'RANDOM'									=> 'Random',
 	'ROTATE_DAILY'								=> 'Daily',
 	'ROTATE_HOURLY'								=> 'Hourly',
 	'ROTATE_MONTHLY'							=> 'Monthly',

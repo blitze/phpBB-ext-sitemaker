@@ -155,7 +155,7 @@ class featured_member extends block
 		}
 		else
 		{
-			$sql .= 'ORDER BY RAND()';
+			return array();
 		}
 
 		$result = $this->db->sql_query_limit($sql, 1, 0, $this->_get_cache_time($this->settings['qtype'], $this->settings['rotation']));
@@ -403,7 +403,7 @@ class featured_member extends block
 	 */
 	private function _display_user(array $row)
 	{
-		if (!$row)
+		if (!sizeof($row))
 		{
 			return array();
 		}
@@ -468,7 +468,6 @@ class featured_member extends block
 	private function _get_query_types()
 	{
 		return array(
-			'random'	=> 'RANDOM_MEMBER',
 			'recent'	=> 'RECENT_MEMBER',
 			'posts'		=> 'POSTS_MEMBER',
 			'featured'	=> 'FEATURED_MEMBER',

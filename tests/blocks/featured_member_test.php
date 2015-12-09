@@ -334,28 +334,4 @@ class featured_member_test extends blocks_base
 
 		$this->assertEquals($userlist, $settings['userlist']);
 	}
-
-	/**
-	 * Test random mode
-	 */
-	public function test_random_user()
-	{
-		$bdata = array(
-			array(
-				'settings' => array(
-					'qtype' => 'random',
-					'rotation' => 'pageload',
-					'userlist' => '',
-					'show_cpf' => array(),
-					'last_changed' => 0,
-					'current_user' => 0,
-				),
-			),
-		);
-
-		$block = $this->get_block();
-		$result = $block->display($bdata);
-
-		$this->assertNotNull($result['content']['USERNAME']);
-	}
 }
