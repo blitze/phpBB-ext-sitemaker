@@ -25,7 +25,7 @@
 	<filter>
 		<blacklist>
 			<directory>./tests/</directory>
-			<directory>./components/</directory>
+			<directory>./vendor</directory>
 		</blacklist>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
