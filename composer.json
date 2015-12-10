@@ -21,7 +21,7 @@
 		"phpbb/epv": "dev-master"
 	},
 	"extra": {
-		"display-name": "Site Maker",
+		"display-name": "SiteMaker",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.1.2,<3.2.*@dev"
 		},
