@@ -192,7 +192,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 				AND t.topic_time <= ' . time() . '
 				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_keys($this->auth->acl_getf('!f_read', true)), 't.') .
 				$sql_where,
-			'GROUP_BY'	=> 'l.word_text',
+			'GROUP_BY'	=> 'l.word_text, l.word_count',
 			'ORDER_BY'	=> 'l.word_count DESC'
 		);
 	}

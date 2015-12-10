@@ -35,7 +35,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	 *
 	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
 	 * @param \phpbb\config\config						$config				Config object
-	 * @param \phpbb\template\template					$user				User object
+	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 */
