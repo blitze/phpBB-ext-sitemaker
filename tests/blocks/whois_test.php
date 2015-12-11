@@ -11,8 +11,6 @@ namespace blitze\sitemaker\tests\blocks;
 
 use blitze\sitemaker\blocks\whois;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-
 class whois_test extends blocks_base
 {
 	/**

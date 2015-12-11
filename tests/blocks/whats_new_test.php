@@ -131,6 +131,31 @@ class whats_new_test extends blocks_base
 					),
 				),
 			),
+			array(
+				array(
+					'settings' => array(
+						'topics_only' => 1,
+						'max_topics' => 2,
+					),
+				),
+				array(
+					'user_id' => 48,
+					'is_registered' => true,
+					'user_lastvisit' => strtotime('27 November 2015'),
+				),
+				array(
+					'topicrow' => array(
+						array(
+							'TOPIC_TITLE' => 'Topic with poll',
+							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+						),
+						array(
+							'TOPIC_TITLE' => 'Welcome to phpBB3',
+							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
+						),
+					),
+				),
+			),
 		);
 	}
 

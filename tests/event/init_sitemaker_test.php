@@ -80,8 +80,6 @@ class init_sitemaker_test extends listener_base
 	public function test_defined_constants()
 	{
 		$defined_constants = array(
-			'FORUMS_PREVIEW_FIRST_POST',
-			'FORUMS_PREVIEW_LAST_POST',
 			'FORUMS_ORDER_FIRST_POST',
 			'FORUMS_ORDER_LAST_POST',
 			'FORUMS_ORDER_LAST_READ',

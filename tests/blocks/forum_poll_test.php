@@ -13,9 +13,6 @@ use phpbb\request\request_interface;
 use blitze\sitemaker\services\forum\data;
 use blitze\sitemaker\blocks\forum_poll;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-require_once dirname(__FILE__) . '/../../../../../includes/functions_content.php';
-
 class forum_poll_test extends blocks_base
 {
 	/**
@@ -45,7 +42,7 @@ class forum_poll_test extends blocks_base
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->lang['datetime'] =  array();
 		$user->data = array(
-			'user_id'		=> 48,
+			'user_id'		=> 2,
 			'is_registered'	=> $is_registered,
 		);
 

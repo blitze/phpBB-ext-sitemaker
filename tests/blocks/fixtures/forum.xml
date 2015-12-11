@@ -92,6 +92,8 @@
 		<column>poll_max_options</column>
 		<column>poll_last_vote</column>
 		<column>poll_vote_change</column>
+		<column>topic_posts_approved</column>
+		<column>topic_posts_unapproved</column>
 		<row>
 			<value>1</value>
 			<value>2</value>
@@ -117,6 +119,8 @@
 			<value>0</value>
 			<value>2</value>
 			<value>1448828669</value>
+			<value>1</value>
+			<value>2</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -145,6 +149,8 @@
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
+			<value>2</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -171,6 +177,8 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
+			<value>0</value>
+			<value>1</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -199,6 +207,8 @@
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
+			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>5</value>
@@ -225,6 +235,8 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
+			<value>0</value>
+			<value>1</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -253,6 +265,8 @@
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
+			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>9</value>
@@ -279,6 +293,8 @@
 			<value>0</value>
 			<value>1</value>
 			<value>1448828640</value>
+			<value>0</value>
+			<value>1</value>
 			<value>0</value>
 		</row>
 	</table>
@@ -473,7 +489,7 @@
 		<row>
 			<value>9</value>
 			<value>1</value>
-			<value>2</value>
+			<value>48</value>
 		</row>
 		<row>
 			<value>1</value>
@@ -597,6 +613,18 @@
 			<value>demo</value>
 			<value></value>
 			<value></value>
+			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_groups">
+		<column>group_id</column>
+		<column>group_type</column>
+		<column>group_name</column>
+		<column>group_desc</column>
+		<row>
+			<value>1</value>
+			<value>3</value>
+			<value>REGISTERED</value>
 			<value></value>
 		</row>
 	</table>

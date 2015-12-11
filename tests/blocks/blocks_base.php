@@ -30,8 +30,8 @@ abstract class blocks_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		define('FORUMS_PREVIEW_FIRST_POST', 1);
-		define('FORUMS_PREVIEW_LAST_POST', 2);
+		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
+		require_once dirname(__FILE__) . '/../../../../../includes/functions_content.php';
 
 		define('FORUMS_ORDER_FIRST_POST', 0);
 		define('FORUMS_ORDER_LAST_POST', 1);
