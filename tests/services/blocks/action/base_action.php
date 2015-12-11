@@ -116,7 +116,7 @@ class base_action extends \phpbb_database_test_case
 				);
 			}));
 
-		$cfg_fields = new \blitze\sitemaker\services\blocks\cfg_fields($db, $request, $template, $user, $phpbb_root_path, $phpEx);
+		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($db, $request, $template, $user, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -128,7 +128,7 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('custom.block.service', $dummy_object);
-		$phpbb_container->set('blitze.sitemaker.blocks.cfg_fields', $cfg_fields);
+		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($user, $ptemplate, $blocks_collection);
 

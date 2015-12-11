@@ -15,7 +15,7 @@ class edit_block extends base_action
 	{
 		$block_id = $this->request->variable('id', 0);
 
-		$cfg_fields = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_fields');
+		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
 
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 		if (($entity = $block_mapper->load(array('bid' => $block_id))) === null)
@@ -31,7 +31,7 @@ class edit_block extends base_action
 		$this->user->add_lang_ext($extension, 'blocks_admin');
 
 		return array_merge(array(
-				'form' => $cfg_fields->get_edit_form($entity->to_array(), $default_settings),
+				'form' => $cfg_handler->get_edit_form($entity->to_array(), $default_settings),
 			),
 			$this->render_block($entity)
 		);

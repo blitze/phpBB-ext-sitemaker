@@ -46,8 +46,8 @@ services:
             - @blitze.sitemaker.util
             - %core.php_ext%
 
-    blitze.sitemaker.blocks.cfg_fields:
-        class: blitze\sitemaker\services\blocks\cfg_fields
+    blitze.sitemaker.blocks.cfg_handler:
+        class: blitze\sitemaker\services\blocks\cfg_handler
         arguments:
             - @dbal.conn
             - @request

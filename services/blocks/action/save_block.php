@@ -28,10 +28,10 @@ class save_block extends base_action
 
 		$old_hash = $entity->get_hash();
 
-		$cfg_fields = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_fields');
+		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
 		$block_instance = $this->block_factory->get_block($entity->get_name());
 		$default_settings = $block_instance->get_config(array());
-		$submitted_settings = $cfg_fields->get_submitted_settings($default_settings);
+		$submitted_settings = $cfg_handler->get_submitted_settings($default_settings);
 
 		$entity->set_permission($this->request->variable('permission', array(0)))
 			->set_class($this->request->variable('class', ''))

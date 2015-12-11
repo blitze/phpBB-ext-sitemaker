@@ -10,9 +10,11 @@
 namespace blitze\sitemaker\tests\services\blocks;
 
 use phpbb\request\request_interface;
-use blitze\sitemaker\services\blocks\cfg_fields;
+use blitze\sitemaker\services\blocks\cfg_handler;
 
-class cfg_fields_test extends \phpbb_database_test_case
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/foo.php';
+
+class cfg_handler_test extends \phpbb_database_test_case
 {
 	protected $tpl_data;
 
@@ -33,7 +35,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/users.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/groups.xml');
 	}
 
 	protected function get_service($variable_map = array())
@@ -50,15 +52,13 @@ class cfg_fields_test extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMockBuilder('\phpbb\user')
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
 		$user->expects($this->any())
 			->method('lang')
-			->will($this->returnCallback(function($string) {
-				return $string;
-			}));
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
 
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -83,7 +83,7 @@ class cfg_fields_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new cfg_fields($db, $request, $template, $user, $phpbb_root_path, $phpEx);
+		return new cfg_handler($db, $request, $template, $user, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -154,6 +154,17 @@ class cfg_fields_test extends \phpbb_database_test_case
 					'S_EXPLAIN'		=> '',
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<input type="hidden" name="config[my_var]" value="1" />',
+				),
+			),
+			array(
+				'foo foo',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'custom', 'function' => 'foo', 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<div>Hello foo foo</div>',
 				),
 			),
 		);
