@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\services\blocks\action;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use blitze\sitemaker\services\blocks\action\action_interface;
 
 abstract class base_action implements action_interface
 {

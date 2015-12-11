@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\model;
 
+use blitze\sitemaker\model\mapper_interface;
+
 abstract class base_mapper implements mapper_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */

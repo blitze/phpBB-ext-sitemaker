@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\services\menus\action;
 
+use blitze\sitemaker\services\menus\action\action_interface;
+
 abstract class base_action implements action_interface
 {
 	/** @var \phpbb\request\request_interface */
