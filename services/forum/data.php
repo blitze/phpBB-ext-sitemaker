@@ -353,14 +353,14 @@ class data
 	/**
 	 * Get post data
 	 *
-	 * @param string $topic_first_or_last_post
+	 * @param mixed|false $topic_first_or_last_post (first|last)
 	 * @param array $post_ids
 	 * @param bool|false $limit
 	 * @param int $start
 	 * @param array $sql_array
 	 * @return array
 	 */
-	public function get_post_data($topic_first_or_last_post = '', $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
+	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
 		$sql_array = array_merge_recursive(
 			array(

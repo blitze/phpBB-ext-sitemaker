@@ -13,11 +13,6 @@ use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\forum\data;
 use blitze\sitemaker\blocks\forum_topics;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-require_once dirname(__FILE__) . '/../../../../../includes/functions_content.php';
-require_once dirname(__FILE__) . '/../../vendor/urodoz/truncate-html/src/TruncateInterface.php';
-require_once dirname(__FILE__) . '/../../vendor/urodoz/truncate-html/src/TruncateService.php';
-
 class forum_topics_test extends blocks_base
 {
 	/**
@@ -28,6 +23,18 @@ class forum_topics_test extends blocks_base
 	public function getDataSet()
 	{
 		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/forum.xml');
+	}
+
+	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		require_once dirname(__FILE__) . '/../../vendor/nickvergessen/phpbb-tool-trimmessage/src/Nickvergessen/TrimMessage/TrimMessage.php';
 	}
 
 	/**
@@ -136,6 +143,10 @@ class forum_topics_test extends blocks_base
 						'TOPIC_TITLE' => 'Topic with poll',
 						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
 						'TOPIC_PREVIEW' => 'This topic has a poll',
+						'TOPIC_POST_TIME' => '',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => '0',
 						'S_UNREAD_TOPIC' => true,
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
@@ -145,6 +156,10 @@ class forum_topics_test extends blocks_base
 						'TOPIC_TITLE' => 'Global Topic',
 						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
 						'TOPIC_PREVIEW' => 'This is a global topic',
+						'TOPIC_POST_TIME' => '',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => '0',
 						'S_UNREAD_TOPIC' => false,
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
@@ -169,11 +184,16 @@ class forum_topics_test extends blocks_base
 				'FORUM_RECENT_TOPICS',
 				array(
 					array(
-						'TOPIC_TITLE' => 'Topic with',
+						'FORUM_TITLE' => 'Second Forum',
+						'TOPIC_TITLE' => 'Topic w...',
 						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
-						'S_UNREAD_TOPIC' => true,
+						'TOPIC_PREVIEW' => 'This topic has a poll',
 						'TOPIC_POST_TIME' => '',
-						'TOPIC_CONTEXT' => 'This topic has a...',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => '0',
+						'S_UNREAD_TOPIC' => true,
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
 					),
 				),
@@ -203,7 +223,7 @@ class forum_topics_test extends blocks_base
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
-						'REPLIES' => -1,
+						'REPLIES' => 0,
 						'VIEWS' => '0',
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
@@ -228,13 +248,17 @@ class forum_topics_test extends blocks_base
 				'FORUM_RECENT_TOPICS',
 				array(
 					array(
-						'TOPIC_PREVIEW' => '',
-						'S_UNREAD_TOPIC' => false,
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
-						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
-						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
+						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_PREVIEW' => '',
+						'TOPIC_POST_TIME' => '',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => '0',
+						'S_UNREAD_TOPIC' => false,
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 					),
 				),
 			),

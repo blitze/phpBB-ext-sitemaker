@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\blocks;
 
-use Urodoz\Truncate\TruncateService;
+use Nickvergessen\TrimMessage\TrimMessage;
 
 /**
  * Forum Topics Block
@@ -146,7 +146,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$post_data = $this->_get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 
-		$this->$method($topic_data, $post_data);
+		$this->_show_topics($topic_data, $post_data);
 		unset($topic_data, $post_data);
 
 		$this->ptemplate->assign_vars(array(
@@ -163,52 +163,19 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $topic_data
 	 * @param array $post_data
 	 */
-	protected function forum_topics_titles(array &$topic_data, array &$post_data)
+	protected function _show_topics(array &$topic_data, array &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row =& $topic_data[$i];
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
-
-			$post_row = array_pop($post_data[$topic_id]);
-			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
-
-			$tpl_ary = array(
-				'FORUM_TITLE'	=> $row['forum_name'],
-				'TOPIC_TITLE'	=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_AUTHOR'	=> get_username_string('full', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
-				'TOPIC_PREVIEW'	=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
-				'S_UNREAD_TOPIC'=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
-				'U_VIEWFORUM'	=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
-				'U_VIEWTOPIC'	=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
-	}
-
-	/**
-	 * @param array $topic_data
-	 * @param array $post_data
-	 */
-	protected function forum_topics_mini(array &$topic_data, array &$post_data)
-	{
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$row =& $topic_data[$i];
-			$forum_id = $row['forum_id'];
-			$topic_id = $row['topic_id'];
-
-			$post_row = array_pop($post_data[$topic_id]);
-			strip_bbcode($post_row['post_text'], $post_row['bbcode_uid']);
 
 			$tpl_ary = array(
 				'FORUM_TITLE'		=> $row['forum_name'],
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
 				'TOPIC_AUTHOR'		=> get_username_string('full', $row[$this->fields['user_id']], $row[$this->fields['username']], $row[$this->fields['user_colour']]),
-				'TOPIC_PREVIEW'		=> truncate_string($post_row['post_text'], $this->settings['preview_max_chars'], 255, false, '...'),
+				'TOPIC_PREVIEW'		=> $this->_get_preview(array_pop($post_data[$topic_id])),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
 				'ATTACH_ICON_IMG'	=> $this->_get_attachment_icon($forum_id, $row['topic_attachment']),
 				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
@@ -217,38 +184,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
-			unset($topic_data[$i], $post_data[$topic_id]);
-		}
-	}
-
-	/**
-	 * @param array $topic_data
-	 * @param array $post_data
-	 */
-	protected function forum_topics_context(array &$topic_data, array &$post_data)
-	{
-		$truncate = new TruncateService();
-
-		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
-		{
-			$topic_row =& $topic_data[$i];
-			$forum_id = $topic_row['forum_id'];
-			$topic_id = $topic_row['topic_id'];
-			$post_row = array_pop($post_data[$topic_id]);
-
-			$context = generate_text_for_display($post_row['post_text'], $post_row['bbcode_uid'], $post_row['bbcode_bitfield'], 7);
-			$context = $truncate->truncate($context, $this->settings['preview_max_chars']);
-
-			$tpl_ary = array(
-				'TOPIC_TITLE'		=> truncate_string(censor_text($topic_row['topic_title']), $this->settings['topic_title_limit']),
-				'TOPIC_AUTHOR'		=> get_username_string('full', $topic_row[$this->fields['user_id']], $topic_row[$this->fields['username']], $topic_row[$this->fields['user_colour']]),
-				'TOPIC_POST_TIME'	=> $this->user->format_date($topic_row[$this->fields['time']], $this->user->lang['DATE_FORMAT']),
-				'TOPIC_CONTEXT'		=> $context,
-				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $topic_row['topic_last_post_time']),
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 			);
 
 			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
@@ -274,6 +209,26 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$lang_var = ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
 
 		return $this->user->lang($lang_var);
+	}
+
+	/**
+	 * @param array $row
+	 * @return string
+	 */
+	protected function _get_preview(array $row)
+	{
+		$preview = '';
+		if ($this->settings['display_preview'])
+		{
+			$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_max_chars']);
+			$row['post_text'] = $trim->message();
+			unset($trim);
+
+			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+			$preview = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+		}
+
+		return $preview;
 	}
 
 	/**
@@ -326,24 +281,21 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	private function _set_display_fields()
 	{
-		if ($this->settings['template'] == 'mini' || $this->settings['template'] == 'context')
+		if ($this->settings['display_preview'] == 'last')
 		{
-			if ($this->settings['display_preview'] == FORUMS_PREVIEW_LAST_POST)
-			{
-				$this->fields['time'] = 'topic_last_post_time';
-				$this->fields['user_id'] = 'topic_last_poster_id';
-				$this->fields['username'] = 'topic_last_poster_name';
-				$this->fields['user_colour'] = 'topic_last_poster_colour';
+			$this->fields['time'] = 'topic_last_post_time';
+			$this->fields['user_id'] = 'topic_last_poster_id';
+			$this->fields['username'] = 'topic_last_poster_name';
+			$this->fields['user_colour'] = 'topic_last_poster_colour';
 
-				$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang('LAST_POST_BY_AUTHOR'));
-			}
-			else
-			{
-				$this->fields['time'] = 'topic_time';
-				$this->fields['user_id'] = 'topic_poster';
-				$this->fields['username'] = 'topic_first_poster_name';
-				$this->fields['user_colour'] = 'topic_first_poster_colour';
-			}
+			$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->user->lang('LAST_POST_BY_AUTHOR'));
+		}
+		else
+		{
+			$this->fields['time'] = 'topic_time';
+			$this->fields['user_id'] = 'topic_poster';
+			$this->fields['username'] = 'topic_first_poster_name';
+			$this->fields['user_colour'] = 'topic_first_poster_colour';
 		}
 	}
 
