@@ -15,11 +15,9 @@ class menu_info
 	{
 		return array(
 			'filename'	=> '\blitze\sitemaker\acp\menu_module',
-			'title'		=> 'ACP_MENU_MANAGEMENT',
-			'parent'	=> 'ACP_MOD_MANAGEMENT',
-			'version'	=> '1.0.0',
+			'title'		=> 'ACP_SITEMAKER',
 			'modes'		=> array(
-				'menu'		=> array('title' => 'MENU', 'auth' => 'ext_blitze/sitemaker', 'cat' => array('ACP_MENU')),
+				'menu'		=> array('title' => 'ACP_MENU', 'auth' => 'ext_blitze/sitemaker', 'cat' => array('ACP_SITEMAKER')),
 			),
 		);
 	}

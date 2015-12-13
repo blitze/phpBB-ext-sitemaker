@@ -104,7 +104,7 @@ class member_menu_test extends blocks_base
 					'U_PRIVATE_MSG' => 'phpBB/ucp.php?i=pm&amp;folder=inbox',
 					'U_LOGOUT' => 'phpBB/ucp.php?mode=logout',
 					'U_MCP' => 'phpBB/mcp.php',
-					'U_ACP' => 'phpBB/adm/index.php?i=-blitze-sitemaker-acp-dashboard_module',
+					'U_ACP' => 'phpBB/adm/index.php?i=-blitze-sitemaker-acp-menu_module',
 				),
 			),
 		);

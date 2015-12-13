@@ -31,27 +31,7 @@ class m4_initial_module extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			// Add the Sitemaker tab in acp
-			array('module.add', array('acp', 0, 'SITEMAKER')),
-
-			// Add Sitemaker Category
-			array('module.add', array('acp', 'SITEMAKER', 'ACP_CAT_SITEMAKER')),
-
-			array('module.add', array('acp', 'SITEMAKER', 'ACP_SITEMAKER_EXTENSIONS')),
-
-			// Add the dashboard mode
-			array('module.add', array('acp', 'ACP_CAT_SITEMAKER', array(
-					'module_basename'	=> '\blitze\sitemaker\acp\dashboard_module',
-				),
-			)),
-
-			// Add Menu module
-			array('module.add', array('acp', 'ACP_SITEMAKER_EXTENSIONS', array(
-					'module_basename'	=> '\blitze\sitemaker\acp\menu_module',
-				),
-			)),
-
-			// Add the Sitemaker tab in ucp/mcp
+			// Add the Sitemaker tab in ucp/mcp. These will be used later
 			array('module.add', array('ucp', 0, 'UCP_SITEMAKER_CONTENT')),
 			array('module.add', array('mcp', 0, 'MCP_SITEMAKER_CONTENT')),
 		);

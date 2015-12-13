@@ -37,10 +37,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_CAT_SITEMAKER'			=> 'Site Maker',
-	'ACP_MENU'					=> 'Menu Management',
-	'ACP_MENU_EXPLAIN'			=> 'Here you can create and manage menus for your site',
-	'ACP_SITEMAKER_EXTENSIONS'	=> 'Extensions',
+	'ACP_SITEMAKER'				=> 'SiteMaker',
+	'ACP_MENU'					=> 'Menu',
+	'ACP_MENU_MANAGE'			=> 'Menu Management',
+	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Here you can create and manage menus for your site',
 	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|./index.php',
 	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
 	'ADD_MENU'					=> 'Add Menu',
@@ -76,20 +76,14 @@ $lang = array_merge($lang, array(
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
 
-	'PHPBB_NEWS'				=> 'phpBB News',
-
 	'REBUILD_TREE'				=> 'Rebuild Tree',
-	'REPLIES_PER_DAY'			=> 'Replies Per Day',
 
 	'SAVE_CHANGES'				=> 'Save Changes',
 	'SELECT_ALL'				=> 'Select All',
-	'SITEMAKER'					=> 'Site Maker',
-	'SITEMAKER_DASHBOARD'		=> 'Dashboard',
 	'SHOW'						=> 'Show',
 
 	'TARGET_BLANK'				=> 'Blank Page',
 	'TARGET_PARENT'				=> 'Parent',
 
-	'USER_ENGAGEMENT'			=> 'User Engagement',
 	'VISIT_PAGE'				=> 'Visit Page',
 ));
