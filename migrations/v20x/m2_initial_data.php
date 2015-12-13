@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\migrations\v20x;
 
+use blitze\sitemaker\services\forum\admin;
+
 /**
  * Initial schema changes needed for Extension installation
  */
@@ -69,43 +71,8 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		}
 
 		$forum_data = array(
-			'parent_id'				=> 0,
-			'forum_type'			=> FORUM_CAT,
-			'type_action'			=> '',
-			'forum_status'			=> ITEM_UNLOCKED,
-			'forum_parents'			=> '',
-			'forum_name'			=> 'phpBB Sitemaker Extensions',
-			'forum_link'			=> '',
-			'forum_link_track'		=> false,
-			'forum_desc'			=> '',
-			'forum_desc_uid'		=> '',
-			'forum_desc_options'	=> 7,
-			'forum_desc_bitfield'	=> '',
-			'forum_rules'			=> '',
-			'forum_rules_uid'		=> '',
-			'forum_rules_options'	=> 7,
-			'forum_rules_bitfield'	=> '',
-			'forum_rules_link'		=> '',
-			'forum_image'			=> '',
-			'forum_style'			=> 0,
-			'display_subforum_list'	=> false,
-			'display_on_index'		=> false,
-			'forum_topics_per_page'	=> 0,
-			'enable_indexing'		=> true,
-			'enable_icons'			=> false,
-			'enable_prune'			=> false,
-			'enable_post_review'	=> true,
-			'enable_quick_reply'	=> false,
-			'prune_days'			=> 7,
-			'prune_viewed'			=> 7,
-			'prune_freq'			=> 1,
-			'prune_old_polls'		=> false,
-			'prune_announce'		=> false,
-			'prune_sticky'			=> false,
-			'show_active'			=> false,
-			'forum_password'		=> '',
-			'forum_password_confirm'=> '',
-			'forum_password_unset'	=> false,
+			'forum_type'	=> FORUM_CAT,
+			'forum_name'	=> 'phpBB Sitemaker Extensions',
 		);
 
 		if (!empty($this->config['sitemaker_parent_forum_id']))
@@ -113,8 +80,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 			$forum_data['forum_id'] = (int) $this->config['sitemaker_parent_forum_id'];
 		}
 
-		$acp_forum = new \acp_forums();
-		$errors = $acp_forum->update_forum_data($forum_data);
+		$errors = admin::save($forum_data);
 
 		if (!sizeof($errors))
 		{

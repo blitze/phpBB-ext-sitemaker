@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\services\forum;
 
+use blitze\sitemaker\services\forum\admin;
+
 class manager
 {
 	/** @var \phpbb\auth\auth */
@@ -62,52 +64,13 @@ class manager
 		}
 
 		$this->user->add_lang('acp/forums');
-		$this->forum = new \acp_forums();
 	}
 
 	public function add(&$forum_data, $forum_perm_from = 0)
 	{
-		$forum_data += array(
-			'parent_id'				=> $this->config['sitemaker_parent_forum_id'],
-			'forum_type'			=> FORUM_POST,
-			'type_action'			=> '',
-			'forum_status'			=> ITEM_UNLOCKED,
-			'forum_parents'			=> '',
-			'forum_name'			=> '',
-			'forum_link'			=> '',
-			'forum_link_track'		=> false,
-			'forum_desc'			=> '',
-			'forum_desc_uid'		=> '',
-			'forum_desc_options'	=> 7,
-			'forum_desc_bitfield'	=> '',
-			'forum_rules'			=> '',
-			'forum_rules_uid'		=> '',
-			'forum_rules_options'	=> 7,
-			'forum_rules_bitfield'	=> '',
-			'forum_rules_link'		=> '',
-			'forum_image'			=> '',
-			'forum_style'			=> 0,
-			'display_subforum_list'	=> false,
-			'display_on_index'		=> false,
-			'forum_topics_per_page'	=> 0,
-			'enable_indexing'		=> true,
-			'enable_icons'			=> false,
-			'enable_prune'			=> false,
-			'enable_post_review'	=> true,
-			'enable_quick_reply'	=> false,
-			'prune_days'			=> 7,
-			'prune_viewed'			=> 7,
-			'prune_freq'			=> 1,
-			'prune_old_polls'		=> false,
-			'prune_announce'		=> false,
-			'prune_sticky'			=> false,
-			'show_active'			=> false,
-			'forum_password'		=> '',
-			'forum_password_confirm'=> '',
-			'forum_password_unset'	=> false,
-		);
+		$forum_data['parent_id'] = $this->config['sitemaker_parent_forum_id'];
 
-		$errors = $this->forum->update_forum_data($forum_data);
+		$errors = admin::save($forum_data);
 
 		if (!sizeof($errors))
 		{
@@ -129,6 +92,6 @@ class manager
 
 	public function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
-		$this->forum->delete_forum($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
+		admin::remove($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
 	}
 }
