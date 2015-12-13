@@ -142,7 +142,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$this->_set_display_fields();
 
 		$view = 'S_' . strtoupper($this->settings['template']);
-		$method = 'forum_topics_' . $this->settings['template'];
 		$post_data = $this->_get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 
