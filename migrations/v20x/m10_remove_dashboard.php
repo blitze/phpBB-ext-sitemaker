@@ -33,12 +33,12 @@ class m10_remove_dashboard extends \phpbb\db\migration\migration
 			// Remove all ACP modules
 			array('module.remove', array('acp', 'ACP_SITEMAKER_EXTENSIONS', array(
 				'module_langname'	=> 'MENU',
-                'module_mode'		=> 'menu',
+				'module_mode'		=> 'menu',
 			))),
 
 			array('module.remove', array('acp', 'ACP_CAT_SITEMAKER', array(
 				'module_langname'	=> 'SITEMAKER_DASHBOARD',
-                'module_mode'		=> 'dashboard',
+				'module_mode'		=> 'dashboard',
 			))),
 
 			array('module.remove', array('acp', 'SITEMAKER', 'ACP_SITEMAKER_EXTENSIONS')),
