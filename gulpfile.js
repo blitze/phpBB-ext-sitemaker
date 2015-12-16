@@ -18,8 +18,8 @@ var gulp = require('gulp'),
 			'vendor': 'bower_components/'
 		},
 		'prod': {
-			'scripts': 'styles/',
-			'vendor': 'components/'
+			'scripts': 'styles/all/theme/assets/',
+			'vendor': 'styles/all/theme/vendor/'
 		}
 	};
 

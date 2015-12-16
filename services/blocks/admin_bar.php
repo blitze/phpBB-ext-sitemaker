@@ -169,13 +169,12 @@ class admin_bar
 
 	public function set_assets()
 	{
-		$asset_path = $this->util->asset_path;
 		$this->util->add_assets(array(
 			'js'	=> array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'//tinymce.cachefly.net/4.2/tinymce.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
+				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(

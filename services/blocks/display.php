@@ -34,9 +34,6 @@ class display
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\util */
-	protected $util;
-
 	/** @var bool */
 	private $is_subpage;
 
@@ -57,9 +54,8 @@ class display
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\util			$util					Sitemaker Utility object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $util)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -68,13 +64,12 @@ class display
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
-		$this->util = $util;
 	}
 
 	public function show()
 	{
-		$this->util->add_assets(array(
-			'css' => array($this->util->asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css')
+		$this->phpbb_container->get('blitze.sitemaker.util')->add_assets(array(
+			'css' => array('@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css')
 		));
 
 		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));

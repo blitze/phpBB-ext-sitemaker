@@ -53,13 +53,12 @@ class icon_picker
 	{
 		$this->user->add_lang_ext('blitze/sitemaker', 'icons');
 
-		$asset_path = $this->sitemaker->asset_path;
 		$this->sitemaker->add_assets(array(
-			'js'        => array(
+			'js'	=> array(
 				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),
-			'css'   => array(
-				$asset_path . 'ext/blitze/sitemaker/components/fontawesome/css/font-awesome.min.css',
+			'css'	=> array(
+				'@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css',
 				'@blitze_sitemaker/assets/icons/picker.min.css',
 			)
 		));

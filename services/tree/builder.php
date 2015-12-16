@@ -16,15 +16,14 @@ abstract class builder extends \phpbb\tree\nestedset
 {
 	public static function load_scripts(\blitze\sitemaker\services\util $util)
 	{
-		$asset_path = $util->asset_path;
 		$util->add_assets(array(
 			'js'        => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
 				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
-				$asset_path . 'ext/blitze/sitemaker/components/twig.js/twig.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/jquery.populate/jquery.populate.min.js',
-				$asset_path . 'ext/blitze/sitemaker/components/nestedSortable/jquery.ui.nestedSortable.min.js',
+				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
+				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.min.js',
+				'@blitze_sitemaker/vendor/nestedSortable/jquery.ui.nestedSortable.min.js',
 				'@blitze_sitemaker/assets/tree/builder.min.js',
 			),
 			'css'   => array(
