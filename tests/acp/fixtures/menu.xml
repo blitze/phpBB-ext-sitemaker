@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="phpbb_sm_menus">
+		<column>menu_id</column>
+		<column>menu_name</column>
+		<row>
+			<value>1</value>
+			<value>Menu 1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>Menu 2</value>
+		</row>
+	</table>
+</dataset>

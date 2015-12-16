@@ -122,7 +122,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				'foo/bar' => array(
 					'ext_name'		=> 'foo/bar',
 					'ext_active'	=> '1',
-					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/blocks/ext/foo/bar/',
+					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/fixtures/ext/foo/bar/',
 				),
 			),
 			$container);
