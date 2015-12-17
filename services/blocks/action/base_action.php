@@ -26,7 +26,7 @@ abstract class base_action implements action_interface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\blocks */
+	/** @var \blitze\sitemaker\services\blocks\blocks */
 	protected $blocks;
 
 	/** @var \blitze\sitemaker\services\blocks\factory */
@@ -42,11 +42,11 @@ abstract class base_action implements action_interface
 	 * @param ContainerInterface							$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface				$request				Request object
 	 * @param \phpbb\user									$user					User object
-	 * @param \blitze\sitemaker\services\blocks				$blocks					Blocks object
+	 * @param \blitze\sitemaker\services\blocks\blocks		$blocks					Blocks object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;

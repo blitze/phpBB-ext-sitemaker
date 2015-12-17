@@ -14,7 +14,7 @@ services:
             - %core.php_ext%
 
     blitze.sitemaker.blocks:
-        class: blitze\sitemaker\services\blocks
+        class: blitze\sitemaker\services\blocks\blocks
         arguments:
             - @cache.driver
             - @config
@@ -60,7 +60,6 @@ services:
         class: blitze\sitemaker\services\blocks\display
         arguments:
             - @auth
-            - @cache.driver
             - @config
             - @service_container
             - @request

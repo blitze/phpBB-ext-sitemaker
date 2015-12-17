@@ -71,7 +71,7 @@ class base_action extends \phpbb_database_test_case
 				return implode('-', func_get_args());
 			});
 
-		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks')
+		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
 			->setMethods(null)
 			->getMock();

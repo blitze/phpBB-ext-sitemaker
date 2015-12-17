@@ -16,9 +16,6 @@ class display
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\driver\driver_interface */
-	protected $cache;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -48,17 +45,15 @@ class display
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
-	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->auth = $auth;
-		$this->cache = $cache;
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;

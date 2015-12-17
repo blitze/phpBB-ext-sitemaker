@@ -37,7 +37,7 @@ class action_handler_test extends \phpbb_test_case
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$user = new \phpbb\user('\phpbb\datetime');
 
-		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks')
+		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
 			->getMock();
 
