@@ -145,17 +145,10 @@ class admin_bar
 			$controller_class	= get_class($controller_object);
 
 			$r = new \ReflectionMethod($controller_class, $controller_method);
-			$params = $r->getParameters();
-
-			$arguments = array();
-			foreach ($params as $param)
-			{
-				$name = $param->getName();
-				$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
-			}
+			$class_params = $r->getParameters();
 
 			list($namespace, $extension) = explode('\\', $controller_class);
-			$controller_arguments = join('/', $arguments);
+			$controller_arguments = $this->_get_arguments($controller_params, $class_params);
 
 			$this->template->assign_vars(array(
 				'CONTROLLER_NAME'	=> $controller_service,
@@ -231,6 +224,23 @@ class admin_bar
 		}
 
 		return $routes_ary;
+	}
+
+	/**
+	 * @param array $controller_params
+	 * @param array $class_params
+	 * @return string
+	 */
+	protected function _get_arguments(array $controller_params, array $class_params)
+	{
+		$arguments = array();
+		foreach ($class_params as $param)
+		{
+			$name = $param->getName();
+			$arguments[$name] = ($param->isOptional()) ? $param->getDefaultValue() : $controller_params[$name];
+		}
+
+		return join('/', $arguments);
 	}
 
 	/**

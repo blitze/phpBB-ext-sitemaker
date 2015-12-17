@@ -138,26 +138,6 @@ class blocks extends routes
 	}
 
 	/**
-	 * @param array $df_settings
-	 * @param array $db_settings
-	 * @return array
-	 */
-	public function sync_settings(array $df_settings, array $db_settings = array())
-	{
-		$settings = array();
-		foreach ($df_settings as $field => $vars)
-		{
-			if (!is_array($vars))
-			{
-				continue;
-			}
-			$settings[$field] = $vars['default'];
-		}
-
-		return array_merge($settings, array_intersect_key($db_settings, $settings));
-	}
-
-	/**
 	 * @param string $db_title
 	 * @param string $df_title
 	 * @return string

@@ -96,7 +96,7 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
 		// Remove as startpage
-		$link = $crawler->selectLink('Remove As Start Page')->link();
+		$link = $crawler->selectLink('Remove Start Page')->link();
 		self::$client->click($link);
 		$this->assert_response_status_code('200');
 

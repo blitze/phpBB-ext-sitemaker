@@ -74,6 +74,26 @@ class routes
 	}
 
 	/**
+	 * @param array $df_settings
+	 * @param array $db_settings
+	 * @return array
+	 */
+	public function sync_settings(array $df_settings, array $db_settings = array())
+	{
+		$settings = array();
+		foreach ($df_settings as $field => $vars)
+		{
+			if (!is_array($vars))
+			{
+				continue;
+			}
+			$settings[$field] = $vars['default'];
+		}
+
+		return array_merge($settings, array_intersect_key($db_settings, $settings));
+	}
+
+	/**
 	 * Clear blocks cache
 	 */
 	public function clear_cache()
