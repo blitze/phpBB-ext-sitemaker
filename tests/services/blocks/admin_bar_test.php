@@ -218,6 +218,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_POSITION_OPS' => '<option value="" selected="selected">None</option>',
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
+					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
 				),
 			)
@@ -360,7 +361,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'CONTROLLER_NAME'	=> 'foo.bar.controller',
 					'CONTROLLER_METHOD'	=> 'handle',
 					'CONTROLLER_PARAMS'	=> '',
-					'S_IS_PAGE'			=> false,
 					'S_IS_STARTPAGE'	=> false,
 					'UA_EXTENSION'		=> 'foo/bar',
 				)
@@ -378,7 +378,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'CONTROLLER_NAME'	=> 'foo.bar.controller',
 					'CONTROLLER_METHOD'	=> 'handle',
 					'CONTROLLER_PARAMS'	=> 'test',
-					'S_IS_PAGE'			=> false,
 					'S_IS_STARTPAGE'	=> true,
 					'UA_EXTENSION'		=> 'foo/bar',
 				)

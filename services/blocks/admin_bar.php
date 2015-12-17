@@ -80,6 +80,7 @@ class admin_bar
 			'S_POSITION_OPS'	=> $this->get_excluded_position_options($route_info['ex_positions']),
 			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
+			'S_STARTPAGE'		=> $this->_startpage_is_set(),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
 		));
@@ -160,8 +161,7 @@ class admin_bar
 				'CONTROLLER_NAME'	=> $controller_service,
 				'CONTROLLER_METHOD'	=> $controller_method,
 				'CONTROLLER_PARAMS'	=> $controller_arguments,
-				'S_IS_PAGE'			=> ($controller === 'phpbb.pages.controller:display') ? true : false,
-				'S_IS_STARTPAGE'	=> ($this->config['sitemaker_startpage_controller'] == $controller_service && $this->config['sitemaker_startpage_params'] == $controller_arguments) ? true : false,
+				'S_IS_STARTPAGE'	=> $this->_is_startpage($controller_service, $controller_arguments),
 				'UA_EXTENSION'		=> $namespace . '/' . $extension,
 			));
 		}
@@ -189,15 +189,7 @@ class admin_bar
 	 */
 	public function get_route_options($current_route)
 	{
-		$factory = $this->phpbb_container->get('blitze.sitemaker.mapper.factory');
-		$collection = $factory->create('blocks', 'routes')->find();
-
-		$routes_ary = array();
-		foreach ($collection as $entity)
-		{
-			$route_name = $entity->get_route();
-			$routes_ary[$route_name] = $route_name;
-		}
+		$routes_ary = $this->_get_routes();
 
 		$options = '<option value="">' . $this->user->lang('SELECT') . '</option>';
 		foreach ($routes_ary as $route)
@@ -221,5 +213,41 @@ class admin_bar
 		}
 
 		return $options;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function _get_routes()
+	{
+		$factory = $this->phpbb_container->get('blitze.sitemaker.mapper.factory');
+		$collection = $factory->create('blocks', 'routes')->find();
+
+		$routes_ary = array();
+		foreach ($collection as $entity)
+		{
+			$route_name = $entity->get_route();
+			$routes_ary[$route_name] = $route_name;
+		}
+
+		return $routes_ary;
+	}
+
+	/**
+	 * @param string $controller_service
+	 * @param string $controller_arguments
+	 * @return bool
+	 */
+	protected function _is_startpage($controller_service, $controller_arguments)
+	{
+		return ($this->config['sitemaker_startpage_controller'] == $controller_service && $this->config['sitemaker_startpage_params'] == $controller_arguments) ? true : false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function _startpage_is_set()
+	{
+		return ($this->config['sitemaker_startpage_controller']) ? true : false;
 	}
 }

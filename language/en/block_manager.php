@@ -88,7 +88,7 @@ $lang = array_merge($lang, array(
 	'PT_REQUIRED_FIELDS'						=> '* Required Fields',
 
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
-	'REMOVE_STARTPAGE'							=> 'Remove As Start Page',
+	'REMOVE_STARTPAGE'							=> 'Remove Start Page',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Blocks are being hidden for this page',
 	'ROUTE_HIDDEN_POSITIONS'					=> 'Blocks are being hidden for the following positions',
 	'ROUTE_UPDATED'								=> 'Page settings successfully updated',

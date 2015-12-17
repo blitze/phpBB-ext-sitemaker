@@ -26,9 +26,9 @@
 					<div class="grid">
 						<div class="grid__col grid__col--1-of-2">
 							<!-- IF CONTROLLER_NAME -->
-								<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
-								<p<!-- IF not S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
+							<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
 							<!-- ENDIF -->
+							<p<!-- IF not S_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
 
 							<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true" title="{L_DEFAULT_LAYOUT_EXPLAIN}">{L_MAKE_DEFAULT_LAYOUT}</a></p>
 							<p<!-- IF not U_VIEW_DEFAULT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_VIEW_DEFAULT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
