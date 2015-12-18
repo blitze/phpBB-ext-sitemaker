@@ -42,18 +42,22 @@ abstract class blocks_base extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		// make sure we've set template file
 		$this->ptemplate->expects($this->any())
 			->method('assign_vars')
 			->will($this->returnCallback(function($data) use (&$tpl_data) {
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
-		// make sure we've set template file
 		$this->ptemplate->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
-				$tpl_data[$key][] = $data;
+			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
+				$tpl_data[$block][] = $data;
+			}));
+
+		$this->ptemplate->expects($this->any())
+			->method('assign_block_vars_array')
+			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
+				$tpl_data[$block] = $data;
 			}));
 
 		$this->ptemplate->expects($this->any())

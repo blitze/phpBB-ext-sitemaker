@@ -29,8 +29,8 @@ services:
             - @cache.driver
             - @config
             - @dbal.conn
-            - @profilefields.manager
             - @user
+            - @blitze.sitemaker.profilefields
             - %core.root_path%
             - %core.php_ext%
             - %tables.sitemaker.blocks%

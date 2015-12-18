@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\tests\blocks;
 
 use blitze\sitemaker\blocks\featured_member;
+use blitze\sitemaker\services\profilefields;
 
 class featured_member_test extends blocks_base
 {
@@ -66,7 +67,9 @@ class featured_member_test extends blocks_base
 
 		$cp_types_collection = new \phpbb\di\service_collection($phpbb_container);
 
-		$profile_fields = new \phpbb\profilefields\manager($auth, $db, $phpbb_dispatcher, $request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
+		$cpf_manager = new \phpbb\profilefields\manager($auth, $db, $phpbb_dispatcher, $request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
+
+		$profilefields = new profilefields($db, $cpf_manager, $user, $phpbb_root_path, $phpEx);
 
 		$cache = $this->getMockBuilder('\phpbb\cache\service')
 			->disableOriginalConstructor()
@@ -84,7 +87,7 @@ class featured_member_test extends blocks_base
 				),
 			));
 
-		$block = new featured_member($cache_interface, $config, $db, $profile_fields, $user, $phpbb_root_path, $phpEx, 'phpbb_sm_blocks', 0);
+		$block = new featured_member($cache_interface, $config, $db, $user, $profilefields, $phpbb_root_path, $phpEx, 'phpbb_sm_blocks', 0);
 		$block->set_template($this->ptemplate);
 
 		return $block;

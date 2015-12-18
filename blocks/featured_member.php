@@ -10,31 +10,27 @@
 namespace blitze\sitemaker\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
-use phpbb\cache\driver\driver_interface as cache;
-use phpbb\config\config;
-use phpbb\db\driver\driver_interface as database;
-use phpbb\profilefields\manager as profile_fields;
-use phpbb\user;
+use blitze\sitemaker\services\userlist;
 
 /**
  * Featured Member Block
  */
 class featured_member extends block
 {
-	/** @var cache */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
-	/** @var config */
+	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var database */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var profile_fields */
-	protected $profile_fields;
-
-	/** @var user */
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \blitze\sitemaker\services\profilefields */
+	protected $profilefields;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -62,32 +58,27 @@ class featured_member extends block
 	/**
 	 * Constructor
 	 *
-	 * @param cache				$cache					Cache driver interface
-	 * @param config			$config					Config object
-	 * @param database			$db	 					Database connection
-	 * @param profile_fields	$profile_fields			Profile fields manager object
-	 * @param user				$user					User object
-	 * @param string			$phpbb_root_path		Path to the phpbb includes directory.
-	 * @param string			$php_ext				php file extension
-	 * @param string			$blocks_table			Name of blocks database table
-	 * @param int				$cache_time
+	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
+	 * @param \phpbb\config\config						$config					Config object
+	 * @param \phpbb\db\driver\driver_interface			$db	 					Database connection
+	 * @param \blitze\sitemaker\services\profilefields	$profilefields			Profile fields manager object
+	 * @param \phpbb\user								$user					User object
+	 * @param string									$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string									$php_ext				php file extension
+	 * @param string									$blocks_table			Name of blocks database table
+	 * @param int										$cache_time
 	 */
-	public function __construct(cache $cache, config $config, database $db, profile_fields $profile_fields, user $user, $phpbb_root_path, $php_ext, $blocks_table, $cache_time = 3600)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\profilefields $profilefields, $phpbb_root_path, $php_ext, $blocks_table, $cache_time = 3600)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
-		$this->profile_fields = $profile_fields;
 		$this->user = $user;
+		$this->profilefields = $profilefields;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->blocks_table = $blocks_table;
 		$this->cache_time = $cache_time;
-
-		if (!function_exists('phpbb_show_profile'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
-		}
 	}
 
 	/**
@@ -97,7 +88,7 @@ class featured_member extends block
 	{
 		$rotation_options = $this->_get_rotation_frequencies();
 		$qtype_options = $this->_get_query_types();
-		$cpf_options = $this->_get_cpf_fields();
+		$cpf_options = $this->profilefields->get_all_fields();
 
 		return array(
 			'legend1'		=> 'SETTINGS',
@@ -124,7 +115,12 @@ class featured_member extends block
 
 		if (($row = $this->_get_user_data($change_user)) === false)
 		{
-			return $this->_update_userlist($block_title, $bdata, $edit_mode);
+			userlist::update($this->settings);
+
+			$bdata['settings'] = $this->settings;
+			$bdata['hash'] = 0;
+
+			return $this->display($bdata, $edit_mode);
 		}
 
 		$this->_save_settings($bdata['bid'], $change_user);
@@ -147,7 +143,7 @@ class featured_member extends block
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
 
-		$method = '_query_user_by_' . $this->settings['qtype'];
+		$method = '_query_' . $this->settings['qtype'];
 
 		if (is_callable(array($this, $method)))
 		{
@@ -169,18 +165,15 @@ class featured_member extends block
 	 * @param string $sql
 	 * @param bool $change_user
 	 */
-	private function _query_user_by_featured(&$sql, $change_user)
+	private function _query_featured(&$sql, $change_user)
 	{
-		$userlist = $this->_get_userlist($this->settings['userlist']);
-		$current_user = (sizeof($userlist)) ? $this->_get_featured_user($userlist, $change_user) : 0;
-
-		$sql .= ' AND user_id = ' . (int) $current_user;
+		$sql .= ' AND user_id = ' . userlist::get_user_id($this->settings, $change_user);
 	}
 
 	/**
 	 * @param string $sql
 	 */
-	private function _query_user_by_recent(&$sql)
+	private function _query_recent(&$sql)
 	{
 		$sql .= ' AND user_posts > 0 ORDER BY user_regdate DESC';
 	}
@@ -188,7 +181,7 @@ class featured_member extends block
 	/**
 	 * @param string $sql
 	 */
-	private function _query_user_by_posts(&$sql)
+	private function _query_posts(&$sql)
 	{
 		$sql .= ' AND user_posts > 0 ORDER BY user_posts DESC';
 	}
@@ -208,63 +201,14 @@ class featured_member extends block
 	 */
 	private function _change_user()
 	{
+		$change = false;
 		if ($this->settings['rotation'] == 'pageload' || $this->settings['last_changed'] < strtotime('-1 ' . self::$rotations[$this->settings['rotation']]))
 		{
 			$this->settings['last_changed'] = time();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * @param array $userlist
-	 * @param $change_user
-	 * @return int
-	 */
-	private function _get_featured_user(array $userlist, $change_user)
-	{
-		$current_user = $this->settings['current_user'];
-
-		if ($change_user && sizeof($userlist))
-		{
-			$current_user = $this->_get_next_user($current_user, $userlist);
-
-			$this->settings['current_user'] = $current_user;
+			$change = true;
 		}
 
-		return $current_user;
-	}
-
-	/**
-	 * @param $current_user
-	 * @param $userlist
-	 * @return int
-	 */
-	private function _get_next_user($current_user, array $userlist)
-	{
-		$key = 0;
-		if ($current_user)
-		{
-			$key = $this->_get_next_key($current_user, $userlist);
-		}
-
-		return $userlist[$key];
-	}
-
-	/**
-	 * @param $current_user
-	 * @param $userlist
-	 * @return int
-	 */
-	private function _get_next_key($current_user, array $userlist)
-	{
-		$end_key = sizeof($userlist) - 1;
-		$curr_key = (int) array_search($current_user, $userlist);
-
-		return ($curr_key >= 0 && $curr_key < $end_key) ? ($curr_key + 1) : 0;
+		return $change;
 	}
 
 	/**
@@ -312,92 +256,6 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param string $list
-	 * @return array
-	 */
-	private function _get_userlist($list)
-	{
-		$userlist = preg_replace("/\s*,?\s*(\r\n|\n\r|\n|\r)+\s*/", "\n", trim($list));
-		return array_map('intval', array_filter(explode(',', $userlist)));
-	}
-
-	/**
-	 * if we're selecting from a list and there is no result, we remove the culprit and update the list
-	 *
-	 * @param string $title
-	 * @param array $bdata
-	 * @param bool $edit_mode
-	 * @return array
-	 */
-	private function _update_userlist($title, array $bdata, $edit_mode)
-	{
-		$userlist = $this->_get_userlist($bdata['settings']['userlist']);
-
-		if ($this->settings['qtype'] === 'featured' && sizeof($userlist))
-		{
-			$curr_key = (int) array_search($this->settings['current_user'], $userlist);
-
-			// Remove the invalid user from the list
-			$new_list = str_replace($this->settings['current_user'] . ',', '', $this->settings['userlist'] . ',');
-			$new_list = trim($new_list, ',');
-
-			$new_userlist = $this->_get_userlist($new_list);
-			$current_user =& $new_userlist[$curr_key - 1];
-
-			$this->settings['current_user'] = (int) $current_user;
-			$this->settings['userlist'] = $new_list;
-			$this->settings['last_changed'] = 0;
-
-			$bdata['settings'] = $this->settings;
-			$bdata['hash'] = 0;
-
-			return $this->display($bdata, $edit_mode);
-		}
-
-		return array(
-			'title' => $title,
-		);
-	}
-
-	/**
-	 * @param $user_id
-	 * @return array|string
-	 */
-	private function _get_profile_fields($user_id)
-	{
-		$fields = '';
-		if (sizeof($this->settings['show_cpf']))
-		{
-			$fields = $this->profile_fields->grab_profile_fields_data($user_id);
-
-			if (sizeof($fields))
-			{
-				$fields = array_intersect_key(array_shift($fields), array_flip($this->settings['show_cpf']));
-			}
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * @param int $user_id
-	 */
-	private function _show_profile_fields($user_id)
-	{
-		if ($profile_fields = $this->_get_profile_fields($user_id))
-		{
-			$cp_row = $this->profile_fields->generate_profile_fields_template_data($profile_fields);
-
-			$this->ptemplate->assign_vars($cp_row['row']);
-
-			foreach ($cp_row['blockrow'] as $field_data)
-			{
-				$this->ptemplate->assign_block_vars('custom_fields', $field_data);
-			}
-		}
-	}
-
-	/**
 	 * @param array $row
 	 */
 	private function _display_user(array $row)
@@ -408,9 +266,9 @@ class featured_member extends block
 			$date_format = $this->user->lang('DATE_FORMAT');
 			$rank = phpbb_get_user_rank($row, $row['user_posts']);
 
-			$this->_show_profile_fields($row['user_id']);
+			$tpl_data = $this->profilefields->get_template_data($row['user_id'], $this->settings['show_cpf']);
 
-			$this->ptemplate->assign_vars(array(
+			$tpl_data['row'] += array(
 				'USERNAME'			=> $username,
 				'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
 				'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
@@ -422,7 +280,10 @@ class featured_member extends block
 				'RANK_IMG'			=> $rank['img'],
 				'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 				'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
-			));
+			);
+			$this->ptemplate->assign_vars($tpl_data['row']);
+			$this->ptemplate->assign_block_vars_array('custom_fields', $tpl_data['blockrow']);
+			unset($tpl_data);
 		}
 	}
 
@@ -469,30 +330,5 @@ class featured_member extends block
 			'posts'		=> 'POSTS_MEMBER',
 			'featured'	=> 'FEATURED_MEMBER',
 		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function _get_cpf_fields()
-	{
-		$sql = 'SELECT l.lang_name, f.field_ident
-			FROM ' . PROFILE_LANG_TABLE . ' l, ' . PROFILE_FIELDS_TABLE . ' f
-			WHERE l.lang_id = ' . $this->user->get_iso_lang_id() . '
-				AND f.field_active = 1
-				AND f.field_no_view = 0
-				AND f.field_hide = 0
-				AND l.field_id = f.field_id
-			ORDER BY f.field_order';
-		$result = $this->db->sql_query($sql);
-
-		$cpf_options = false;
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$cpf_options[$row['field_ident']] = $row['lang_name'];
-		}
-		$this->db->sql_freeresult($result);
-
-		return $cpf_options;
 	}
 }

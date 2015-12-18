@@ -188,6 +188,15 @@ services:
             - %tables.sitemaker.menu_items%
             - 'item_id'
 
+    blitze.sitemaker.profilefields:
+        class: blitze\sitemaker\services\profilefields
+        arguments:
+            - @dbal.conn
+            - @profilefields.manager
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
     blitze.sitemaker.template:
         class: blitze\sitemaker\services\template
         arguments:
