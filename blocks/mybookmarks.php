@@ -10,8 +10,7 @@
 namespace blitze\sitemaker\blocks;
 
 /**
-* Menu Block
-* @package phpBB Sitemaker Menu
+* My Bookmarks Block
 */
 class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 {
@@ -19,7 +18,7 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	protected $user;
 
 	/** @var \blitze\sitemaker\services\forum\data */
-	protected $forum;
+	protected $forum_data;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -31,14 +30,14 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\user							$user				User object
-	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
+	 * @param \blitze\sitemaker\services\forum\data	$forum_data			Forum Data object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\forum\data $forum, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
 	{
 		$this->user = $user;
-		$this->forum = $forum;
+		$this->forum_data = $forum_data;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -76,11 +75,11 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	private function _get_bookmarks(array $settings)
 	{
 		$sql_array = $this->_get_bookmarks_sql();
-		$this->forum->query()
+		$this->forum_data->query()
 			->set_sorting('t.topic_last_post_time')
 			->fetch_custom($sql_array)
 			->build(true, false);
-		$topic_data = $this->forum->get_topic_data($settings['max_topics']);
+		$topic_data = $this->forum_data->get_topic_data($settings['max_topics']);
 
 		return array_values($topic_data);
 	}

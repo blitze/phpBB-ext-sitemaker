@@ -18,10 +18,10 @@ services:
         arguments:
             - @cache.driver
             - @config
-            - @dbal.conn
             - @template
             - @user
             - @blitze.sitemaker.blocks.factory
+            - @blitze.sitemaker.groups
             - @blitze.sitemaker.mapper.factory
 
     blitze.sitemaker.blocks.action_handler:
@@ -49,10 +49,10 @@ services:
     blitze.sitemaker.blocks.cfg_handler:
         class: blitze\sitemaker\services\blocks\cfg_handler
         arguments:
-            - @dbal.conn
             - @request
             - @template
             - @user
+            - @blitze.sitemaker.groups
             - %core.root_path%
             - %core.php_ext%
 
@@ -114,8 +114,6 @@ services:
             - @content.visibility
             - @dbal.conn
             - @user
-            - %core.root_path%
-            - %core.php_ext%
 
     blitze.sitemaker.forum.manager:
         class: blitze\sitemaker\services\forum\manager
@@ -127,6 +125,18 @@ services:
             - @user
             - %core.root_path%
             - %core.php_ext%
+
+    blitze.sitemaker.forum.options:
+        class: blitze\sitemaker\services\forum\options
+        arguments:
+            - %core.root_path%
+            - %core.php_ext%
+
+    blitze.sitemaker.groups:
+        class: blitze\sitemaker\services\groups
+        arguments:
+            - @dbal.conn
+            - @user
 
     blitze.sitemaker.icon_picker:
         class: blitze\sitemaker\services\icon_picker
@@ -187,6 +197,18 @@ services:
             - @user
             - %tables.sitemaker.menu_items%
             - 'item_id'
+
+    blitze.sitemaker.poll:
+        class: blitze\sitemaker\services\poll
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @request
+            - @user
+            - @blitze.sitemaker.util
+            - %core.root_path%
+            - %core.php_ext%
 
     blitze.sitemaker.profilefields:
         class: blitze\sitemaker\services\profilefields

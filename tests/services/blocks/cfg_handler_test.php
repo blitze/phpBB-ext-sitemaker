@@ -14,7 +14,7 @@ use blitze\sitemaker\services\blocks\cfg_handler;
 
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/foo.php';
 
-class cfg_handler_test extends \phpbb_database_test_case
+class cfg_handler_test extends \phpbb_test_case
 {
 	protected $tpl_data;
 
@@ -28,21 +28,9 @@ class cfg_handler_test extends \phpbb_database_test_case
 		return array('blitze/sitemaker');
 	}
 
-	/**
-	 * Load required fixtures.
-	 *
-	 * @return mixed
-	 */
-	public function getDataSet()
-	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/groups.xml');
-	}
-
 	protected function get_service($variable_map = array())
 	{
-		global $db, $request, $template, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
-
-		$db = $this->new_dbal();
+		global $request, $template, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -83,7 +71,11 @@ class cfg_handler_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new cfg_handler($db, $request, $template, $user, $phpbb_root_path, $phpEx);
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
+			->disableOriginalConstructor()
+			->getMock();
+
+		return new cfg_handler($request, $template, $user, $groups, $phpbb_root_path, $phpEx);
 	}
 
 	/**

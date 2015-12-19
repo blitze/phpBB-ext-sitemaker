@@ -42,16 +42,11 @@ services:
     blitze.sitemaker.block.forum_poll:
         class: blitze\sitemaker\blocks\forum_poll
         arguments:
-            - @auth
-            - @cache.driver
-            - @config
             - @dbal.conn
-            - @request
-            - @user
             - @blitze.sitemaker.forum.data
-            - @blitze.sitemaker.util
-            - %core.root_path%
-            - %core.php_ext%
+            - @blitze.sitemaker.forum.options
+            - @blitze.sitemaker.groups
+            - @blitze.sitemaker.poll
         calls:
             - [set_name, [blitze.sitemaker.block.forum_poll]]
         tags:
@@ -61,12 +56,12 @@ services:
         class: blitze\sitemaker\blocks\forum_topics
         arguments:
             - @auth
-            - @cache.driver
             - @config
             - @content.visibility
             - @user
             - @blitze.sitemaker.date_range
             - @blitze.sitemaker.forum.data
+            - @blitze.sitemaker.forum.options
             - %core.root_path%
             - %core.php_ext%
         calls:

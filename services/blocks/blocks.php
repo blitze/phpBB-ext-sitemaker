@@ -16,9 +16,6 @@ class blocks extends routes
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -28,25 +25,28 @@ class blocks extends routes
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
 
+	/** @var \blitze\sitemaker\services\groups */
+	protected $groups;
+
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
-	 * @param \phpbb\db\driver\driver_interface				$db						Database object
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\user									$user					User object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
+	 * @param \blitze\sitemaker\services\groups				$groups					Groups Object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		parent::__construct($cache, $config, $block_factory, $mapper_factory);
 
-		$this->db = $db;
 		$this->template = $template;
 		$this->user = $user;
 		$this->block_factory = $block_factory;
+		$this->groups = $groups;
 	}
 
 	/**
@@ -60,7 +60,7 @@ class blocks extends routes
 	public function display($edit_mode, array $route_info, $style_id, array $display_modes)
 	{
 		$ex_positions = $route_info['ex_positions'];
-		$users_groups = $this->get_users_groups();
+		$users_groups = $this->groups->get_users_groups();
 
 		$positions = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
 
@@ -84,26 +84,6 @@ class blocks extends routes
 
 		$this->template->assign_var('S_HAS_BLOCKS', sizeof($positions));
 		$this->template->assign_vars(array_change_key_case($blocks_per_position, CASE_UPPER));
-	}
-
-	/**
-	 * @return array
-	 */
-	public function get_users_groups()
-	{
-		$sql = 'SELECT group_id
-			FROM ' . USER_GROUP_TABLE . '
-			WHERE user_id = ' . (int) $this->user->data['user_id'];
-		$result = $this->db->sql_query($sql);
-
-		$groups = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$groups[$row['group_id']] = $row['group_id'];
-		}
-		$this->db->sql_freeresult($result);
-
-		return $groups;
 	}
 
 	/**

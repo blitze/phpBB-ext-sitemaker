@@ -19,12 +19,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\cache\driver\driver_interface */
-	protected $cache;
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\content_visibility */
 	protected $content_visibility;
 
@@ -35,7 +29,10 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	protected $date_range;
 
 	/** @var \blitze\sitemaker\services\forum\data */
-	protected $forum;
+	protected $forum_data;
+
+	/** @var \blitze\sitemaker\services\forum\options */
+	protected $forum_options;
 
 	/** @var \Urodoz\Truncate\TruncateService */
 	protected $truncate;
@@ -58,25 +55,24 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth						$auth				Permission object
-	 * @param \phpbb\cache\driver\driver_interface	$cache				Cache driver interface
-	 * @param \phpbb\config\config					$config				Config object
-	 * @param \phpbb\content_visibility				content_visibility	Content visibility object
-	 * @param \phpbb\user							$user				User object
-	 * @param \blitze\sitemaker\services\date_range	$date_range			Date Range Object
-	 * @param \blitze\sitemaker\services\forum\data	$forum				Forum Data object
-	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
-	 * @param string								$php_ext			php file extension
+	 * @param \phpbb\auth\auth							$auth				Permission object
+	 * @param \phpbb\config\config						$config				Config object
+	 * @param \phpbb\content_visibility					content_visibility	Content visibility object
+	 * @param \phpbb\user								$user				User object
+	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
+	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
+	 * @param \blitze\sitemaker\services\forum\options	$forum_data			Forum Data object
+	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
-		$this->cache = $cache;
-		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->user = $user;
 		$this->date_range = $date_range;
-		$this->forum = $forum;
+		$this->forum_data = $forum_data;
+		$this->forum_options = $forum_options;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -88,7 +84,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function get_config(array $settings)
 	{
-		$forum_options = $this->_get_forum_options();
+		$forum_options = $this->forum_options->get_all();
 		$topic_type_options = $this->_get_topic_type_options();
 		$preview_options = $this->_get_preview_options();
 		$range_options = $this->_get_range_options();
@@ -243,7 +239,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 		$range_info = $this->date_range->get($this->settings['date_range']);
 
-		$this->forum->query()
+		$this->forum_data->query()
 			->fetch_forum($this->settings['forum_ids'])
 			->fetch_topic_type($this->settings['topic_type'])
 			->fetch_tracking_info($this->settings['enable_tracking'])
@@ -251,8 +247,8 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			->set_sorting($sort_order[$this->settings['order_by']])
 			->build();
 
-		$topic_data = $this->forum->get_topic_data($this->settings['max_topics']);
-		$this->topic_tracking_info = $this->forum->get_topic_tracking_info();
+		$topic_data = $this->forum_data->get_topic_data($this->settings['max_topics']);
+		$this->topic_tracking_info = $this->forum_data->get_topic_tracking_info();
 
 		return $topic_data;
 	}
@@ -265,7 +261,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		if ($this->settings['display_preview'])
 		{
-			$post_data = $this->forum->get_post_data($this->settings['display_preview']);
+			$post_data = $this->forum_data->get_post_data($this->settings['display_preview']);
 		}
 		else
 		{
@@ -326,27 +322,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	private function _is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
 	{
 		return (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_last_post_time > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false;
-	}
-
-	/**
-	 * @return array
-	 */
-	private function _get_forum_options()
-	{
-		if (!function_exists('make_forum_select'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
-		}
-
-		$forumlist = make_forum_select(false, false, true, false, false, false, true);
-
-		$forum_options = array('' => 'ALL');
-		foreach ($forumlist as $row)
-		{
-			$forum_options[$row['forum_id']] = $row['padding'] . $row['forum_name'];
-		}
-
-		return $forum_options;
 	}
 
 	/**

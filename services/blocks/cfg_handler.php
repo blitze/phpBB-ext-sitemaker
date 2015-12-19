@@ -9,24 +9,17 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use phpbb\db\driver\driver_interface;
-use phpbb\request\request_interface;
-use phpbb\template\template;
-use phpbb\user;
 use blitze\sitemaker\services\blocks\cfg_fields;
 
 class cfg_handler extends cfg_fields
 {
-	/** @var driver_interface */
-	protected $db;
-
-	/** @var request_interface */
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var template */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var user */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string phpBB root path */
@@ -38,21 +31,21 @@ class cfg_handler extends cfg_fields
 	/**
 	 * Constructor
 	 *
-	 * @param driver_interface			$db						Database object
-	 * @param request_interface			$request				Request object
-	 * @param template					$template				Template object
-	 * @param user						$user					User object
-	 * @param string					$phpbb_root_path		phpBB root path
-	 * @param string					$php_ext				phpEx
+	 * @param \phpbb\request\request_interface		$request				Request object
+	 * @param \phpbb\template\template				$template				Template object
+	 * @param \phpbb\user							$user					User object
+	 * @param \blitze\sitemaker\services\groups		$groups					Groups object
+	 * @param string								$phpbb_root_path		phpBB root path
+	 * @param string								$php_ext				phpEx
 	 */
-	public function __construct(driver_interface $db, request_interface $request, template $template, user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\groups $groups, $phpbb_root_path, $php_ext)
 	{
 		parent::__construct($user);
 
-		$this->db = $db;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
+		$this->groups = $groups;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -76,6 +69,7 @@ class cfg_handler extends cfg_fields
 		$module->module = $this;
 
 		$this->_generate_config_fields($block_data['settings'], $default_settings);
+		$selected_groups = $this->_ensure_array($block_data['permission']);
 
 		$this->template->assign_vars(array(
 			'S_ACTIVE'		=> $block_data['status'],
@@ -83,7 +77,7 @@ class cfg_handler extends cfg_fields
 			'S_NO_WRAP'		=> $block_data['no_wrap'],
 			'S_HIDE_TITLE'	=> $block_data['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($block_data['class']),
-			'S_GROUP_OPS'	=> $this->_get_group_options($block_data['permission']),
+			'S_GROUP_OPS'	=> $this->groups->get_options('special', $selected_groups),
 		));
 
 		$this->template->set_filenames(array(
@@ -333,37 +327,5 @@ class cfg_handler extends cfg_fields
 		{
 			$cfg_array[$field] = (!empty($settings)) ? $settings : $df_settings[$field]['default'];
 		}
-	}
-
-	/**
-	 * @param string $selected
-	 * @return string
-	 */
-	private function _get_group_options($selected = '')
-	{
-		$selected = $this->_ensure_array($selected);
-
-		$sql = 'SELECT group_id, group_name, group_type FROM ' . GROUPS_TABLE;
-		$result = $this->db->sql_query($sql);
-
-		$options = '<option value="0">' . $this->user->lang('ALL') . '</option>';
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$group_name = $this->_get_group_name($row);
-			$selected_option = $this->_get_selected_option($row['group_id'], $selected);
-			$options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '"' . $selected_option . '>' . $group_name . '</option>';
-		}
-		$this->db->sql_freeresult($result);
-
-		return $options;
-	}
-
-	/**
-	 * @param array $row
-	 * @return mixed|string
-	 */
-	private function _get_group_name(array $row)
-	{
-		return ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
 	}
 }

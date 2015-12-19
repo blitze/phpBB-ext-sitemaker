@@ -44,9 +44,8 @@ class forum_topics_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
-		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array('load_db_lastread' => true));
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
@@ -80,11 +79,15 @@ class forum_topics_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum = new data($auth, $config, $content_visibility, $db, $user, $phpbb_root_path, $phpEx, 0);
-
 		$date_range = new date_range($user, '24 November 2015');
 
-		$block = new forum_topics($auth, $cache, $config, $content_visibility, $user, $date_range, $forum, $phpbb_root_path, $phpEx);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $user, 0);
+
+		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$block = new forum_topics($auth, $config, $content_visibility, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

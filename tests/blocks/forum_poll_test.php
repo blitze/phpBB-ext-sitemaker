@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\tests\blocks;
 
 use phpbb\request\request_interface;
+use blitze\sitemaker\services\poll;
 use blitze\sitemaker\services\forum\data;
 use blitze\sitemaker\blocks\forum_poll;
 
@@ -32,9 +33,8 @@ class forum_poll_test extends blocks_base
 	 */
 	protected function get_block($is_registered = false)
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
-		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array('cookie_name' => 'phpbb'));
 		$db = $this->new_dbal();
 
@@ -93,9 +93,19 @@ class forum_poll_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum = new data($auth, $config, $content_visibility, $db, $user, $phpbb_root_path, $phpEx, 0);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $user, 0);
 
-		$block = new forum_poll($auth, $cache, $config, $db, $request, $user, $forum, $sitemaker, $phpbb_root_path, $phpEx);
+		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$poll = new poll($auth, $config, $db, $request, $user, $sitemaker, $phpbb_root_path, $phpEx);
+
+		$block = new forum_poll($db, $forum_data, $forum_options, $groups, $poll);
 		$block->set_template($this->ptemplate);
 
 		return $block;

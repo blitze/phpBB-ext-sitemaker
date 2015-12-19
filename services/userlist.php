@@ -12,8 +12,7 @@ namespace blitze\sitemaker\services;
 class userlist
 {
 	/**
-	 * @param string $list
-	 * @param int $current_user
+	 * @param array $settings
 	 * @param bool $change_user
 	 * @return int
 	 */

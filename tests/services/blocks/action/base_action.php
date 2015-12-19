@@ -116,7 +116,11 @@ class base_action extends \phpbb_database_test_case
 				);
 			}));
 
-		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($db, $request, $template, $user, $phpbb_root_path, $phpEx);
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $user, $groups, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
