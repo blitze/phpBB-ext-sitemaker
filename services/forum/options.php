@@ -21,7 +21,7 @@ class options
 	{
 		if (!function_exists('make_forum_select'))
 		{
-			include($phpbb_root_path . 'includes/functions_admin.' . $php_ext);
+			include($phpbb_root_path . 'includes/functions_admin.' . $php_ext); // @codeCoverageIgnore
 		}
 	}
 

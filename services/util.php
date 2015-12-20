@@ -52,7 +52,7 @@ class util
 			$count = (isset($this->scripts[$type])) ? sizeof($this->scripts[$type]) : 0;
 			foreach ($paths as $key => $script)
 			{
-				$this->_add_asset($type, $script, $key, $count);
+				$this->scripts[$type][$count++] = $script;
 			}
 		}
 	}
@@ -86,18 +86,6 @@ class util
 		$s_form_token = $rootref['S_FORM_TOKEN'];
 
 		return $s_form_token;
-	}
-
-	protected function _add_asset($type, $script, $key, &$count)
-	{
-		if (isset($this->scripts[$type][$key]) && $this->scripts[$type][$key] !== $script)
-		{
-			$this->scripts[$type][$count++] = $script;
-		}
-		else
-		{
-			$this->scripts[$type][$key] = $script;
-		}
 	}
 
 	protected function _prep_scripts()

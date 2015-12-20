@@ -218,6 +218,9 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * @codeCoverageIgnore
+	 */
 	protected function exit_handler()
 	{
 		exit_handler();

@@ -30,17 +30,22 @@ class save_blocks extends base_action
 			'style'	=> $style_id,
 		));
 
+		$this->_save_blocks($entity, $blocks);
+
+		return array('message' => $this->user->lang('LAYOUT_SAVED'));
+	}
+
+	protected function _save_blocks($route_entity, array $blocks)
+	{
 		// find all blocks for this route
-		$db_blocks = $this->_get_blocks($entity);
+		$db_blocks = $this->_get_blocks($route_entity);
 
 		$blocks_to_delete = array_filter(array_diff_key($db_blocks, $blocks));
 		$blocks_to_update = array_filter(array_intersect_key($db_blocks, $blocks));
 
 		$this->_delete_blocks($blocks_to_delete);
 		$this->_update_blocks($blocks_to_update, $blocks);
-		$this->_update_route($blocks_to_update, $entity);
-
-		return array('message' => $this->user->lang('LAYOUT_SAVED'));
+		$this->_update_route($blocks_to_update, $route_entity);
 	}
 
 	protected function _get_blocks($entity)
@@ -57,7 +62,7 @@ class save_blocks extends base_action
 		}
 	}
 
-	protected function _delete_blocks($blocks_to_delete)
+	protected function _delete_blocks(array $blocks_to_delete)
 	{
 		if (sizeof($blocks_to_delete))
 		{
@@ -67,7 +72,7 @@ class save_blocks extends base_action
 		}
 	}
 
-	protected function _update_blocks($blocks_to_update, array $data)
+	protected function _update_blocks(array $blocks_to_update, array $data)
 	{
 		foreach ($blocks_to_update as $entity)
 		{
@@ -79,20 +84,18 @@ class save_blocks extends base_action
 		}
 	}
 
-	protected function _update_route($blocks_to_update, $route)
+	protected function _update_route(array $blocks_to_update, $route_entity)
 	{
-		$ex_positions = $route->get_ex_positions();
-		$hiding_blocks = $route->get_hide_blocks();
 		$has_blocks = (sizeof($blocks_to_update)) ? true : false;
 
-		if (!$has_blocks && !$hiding_blocks && !sizeof($ex_positions))
+		if (!$has_blocks && !$this->_route_is_customized($route_entity->to_array()))
 		{
-			$this->route_mapper->delete($route);
+			$this->route_mapper->delete($route_entity);
 		}
 		else
 		{
-			$route->set_has_blocks($has_blocks);
-			$this->route_mapper->save($route);
+			$route_entity->set_has_blocks($has_blocks);
+			$this->route_mapper->save($route_entity);
 		}
 	}
 }

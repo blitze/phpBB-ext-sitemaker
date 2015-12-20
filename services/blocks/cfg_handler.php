@@ -22,6 +22,9 @@ class cfg_handler extends cfg_fields
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\groups */
+	protected $groups;
+
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
@@ -61,7 +64,7 @@ class cfg_handler extends cfg_fields
 
 		if (!function_exists('build_cfg_template'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
+			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext); // @codeCoverageIgnore
 		}
 
 		// We fake this class as it is needed by the build_cfg_template function
@@ -69,6 +72,44 @@ class cfg_handler extends cfg_fields
 		$module->module = $this;
 
 		$this->_generate_config_fields($block_data['settings'], $default_settings);
+
+		return $this->_get_form($block_data);
+	}
+
+	/**
+	 * @param array $default_settings
+	 * @return array|void
+	 */
+	public function get_submitted_settings(array $default_settings)
+	{
+		if (!function_exists('validate_config_vars'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext); // @codeCoverageIgnore
+		}
+
+		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
+
+		$errors = array();
+		validate_config_vars($default_settings, $cfg_array, $errors);
+
+		if (sizeof($errors))
+		{
+			return array('errors' => join("\n", $errors));
+		}
+
+		$this->_get_multi_select($cfg_array, $default_settings);
+
+		return array_intersect_key($cfg_array, $default_settings);
+	}
+
+	/**
+	 * Get the html form
+	 *
+	 * @param array $block_data
+	 * @return string
+	 */
+	private function _get_form(array $block_data)
+	{
 		$selected_groups = $this->_ensure_array($block_data['permission']);
 
 		$this->template->assign_vars(array(
@@ -85,32 +126,6 @@ class cfg_handler extends cfg_fields
 		));
 
 		return $this->template->assign_display('block_settings');
-	}
-
-	/**
-	 * @param array $default_settings
-	 * @return array|void
-	 */
-	public function get_submitted_settings(array $default_settings)
-	{
-		if (!function_exists('validate_config_vars'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
-		}
-
-		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
-
-		$errors = array();
-		validate_config_vars($default_settings, $cfg_array, $errors);
-
-		if (sizeof($errors))
-		{
-			return array('errors' => join("\n", $errors));
-		}
-
-		$this->_get_multi_select($cfg_array, $default_settings);
-
-		return array_intersect_key($cfg_array, $default_settings);
 	}
 
 	/**

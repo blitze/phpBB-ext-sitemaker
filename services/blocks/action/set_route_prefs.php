@@ -38,19 +38,24 @@ class set_route_prefs extends base_action
 		// user has made choices that match defaults, and route prefs exist in db
 		else if ($entity = $this->route_mapper->load($route))
 		{
-			// route has blocks, so update it
-			if ($this->_route_has_blocks($entity))
-			{
-				$this->_update_route($entity, $route_prefs);
-			}
-			// route has no blocks, so remove it from db
-			else
-			{
-				$this->route_mapper->delete($entity);
-			}
+			$this->_update_or_remove($entity, $route_prefs);
 		}
 
 		return array('message' => $this->user->lang('ROUTE_UPDATED'));
+	}
+
+	protected function _update_or_remove(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)
+	{
+		// route has blocks, so update it
+		if ($this->_route_has_blocks($entity))
+		{
+			$this->_update_route($entity, $route_prefs);
+		}
+		// route has no blocks, so remove it from db
+		else
+		{
+			$this->route_mapper->delete($entity);
+		}
 	}
 
 	protected function _update_route(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)
@@ -61,18 +66,8 @@ class set_route_prefs extends base_action
 		$this->route_mapper->save($entity);
 	}
 
-	protected function _route_has_blocks($entity)
+	protected function _route_has_blocks(\blitze\sitemaker\model\blocks\entity\route $entity)
 	{
 		return ($entity && sizeof($entity->get_blocks())) ? true : false;
-	}
-
-	protected function _route_is_customized($route_prefs)
-	{
-		$default_prefs = array(
-			'hide_blocks'	=> false,
-			'ex_positions'	=> array(),
-		);
-
-		return ($default_prefs !== $route_prefs) ? true : false;
 	}
 }

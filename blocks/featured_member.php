@@ -111,7 +111,7 @@ class featured_member extends block
 		$this->settings = $this->_get_settings($bdata);
 
 		$change_user = $this->_change_user();
-		$block_title = $this->user->lang(strtoupper($this->settings['qtype']) . '_MEMBER');
+		$block_title = $this->_get_block_title($this->settings['qtype']);
 
 		if (($row = $this->_get_user_data($change_user)) === false)
 		{
@@ -123,13 +123,9 @@ class featured_member extends block
 			return $this->display($bdata, $edit_mode);
 		}
 
-		$this->_save_settings($bdata['bid'], $change_user);
-		$this->_display_user($row);
-		$this->_explain_view();
-
 		return array(
 			'title'		=> $block_title,
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block'),
+			'content'	=> $this->_display_user($bdata['bid'], $row, $change_user),
 		);
 	}
 
@@ -258,37 +254,56 @@ class featured_member extends block
 	/**
 	 * @param array $row
 	 */
-	private function _display_user(array $row)
+	private function _display_user($block_id, array $row, $change_user)
 	{
+		$html = '';
 		if (sizeof($row))
 		{
-			$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
-			$date_format = $this->user->lang('DATE_FORMAT');
-			$rank = phpbb_get_user_rank($row, $row['user_posts']);
+			$this->_save_settings($block_id, $change_user);
+			$this->_explain_view();
 
-			$tpl_data = $this->profilefields->get_template_data($row['user_id'], $this->settings['show_cpf']);
-
-			$tpl_data['row'] += array(
-				'USERNAME'			=> $username,
-				'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-				'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
-				'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
-				'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
-				'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
-				'POSTS'				=> $row['user_posts'],
-				'RANK_TITLE'		=> $rank['title'],
-				'RANK_IMG'			=> $rank['img'],
-				'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-				'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
-			);
+			$tpl_data = $this->_get_template_data($row);
 			$this->ptemplate->assign_vars($tpl_data['row']);
 			$this->ptemplate->assign_block_vars_array('custom_fields', $tpl_data['blockrow']);
 			unset($tpl_data);
+
+			$html = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block');
 		}
+
+		return $html;
 	}
 
 	/**
-	 * @param $user_posts
+	 * @param array $row
+	 * @return array
+	 */
+	private function _get_template_data(array $row)
+	{
+		$date_format = $this->user->lang('DATE_FORMAT');
+		$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
+		$rank = phpbb_get_user_rank($row, $row['user_posts']);
+
+		$tpl_data = $this->profilefields->get_template_data($row['user_id'], $this->settings['show_cpf']);
+
+		$tpl_data['row'] += array(
+			'USERNAME'			=> $username,
+			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
+			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
+			'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
+			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
+			'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
+			'POSTS'				=> $row['user_posts'],
+			'RANK_TITLE'		=> $rank['title'],
+			'RANK_IMG'			=> $rank['img'],
+			'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+			'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
+		);
+
+		return $tpl_data;
+	}
+
+	/**
+	 * @param int $user_posts
 	 * @return int|mixed
 	 */
 	private function _calculate_percent_posts($user_posts)
@@ -304,6 +319,16 @@ class featured_member extends block
 	private function _get_last_visit_date($last_visited, $date_format)
 	{
 		return ($last_visited) ? $this->user->format_date($last_visited, "|$date_format|") : '';
+	}
+
+	/**
+	 * @param string $qtype
+	 * @return string
+	 */
+	private function _get_block_title($qtype)
+	{
+		$qtypes = $this->_get_query_types();
+		return isset($qtypes[$qtype]) ? $qtypes[$qtype] : 'FEATURED_MEMBER';
 	}
 
 	/**

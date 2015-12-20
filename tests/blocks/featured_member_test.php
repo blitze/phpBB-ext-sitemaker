@@ -337,4 +337,31 @@ class featured_member_test extends blocks_base
 
 		$this->assertEquals($userlist, $settings['userlist']);
 	}
+
+	/**
+	 * Test invalid query type
+	 */
+	public function test_invalid_qtype()
+	{
+		$expected = array(
+			'title'		=> 'FEATURED_MEMBER',
+			'content'	=> '',
+		);
+
+		$block = $this->get_block();
+		$result = $block->display(array(
+			array(
+				'settings' => array(
+					'qtype' => 'invalid',
+					'rotation' => 'pageload',
+					'userlist' => '',
+					'show_cpf' => array(),
+					'last_changed' => 0,
+					'current_user' => 0,
+				),
+			),
+		));
+
+		$this->assertEquals($expected, $result);
+	}
 }

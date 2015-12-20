@@ -26,6 +26,7 @@ class save_blocks_test extends base_action
 					array('route', '', false, request_interface::REQUEST, 'faq.php'),
 					array('blocks', array(0 => array('' => '')), false, request_interface::REQUEST, array()),
 				),
+				2,
 				null,
 				null,
 			),
@@ -40,6 +41,7 @@ class save_blocks_test extends base_action
 						),
 					)),
 				),
+				2,
 				array(
 					'route_id'		=> 3,
 					'style'			=> 2,
@@ -69,6 +71,7 @@ class save_blocks_test extends base_action
 						),
 					)),
 				),
+				2,
 				array(
 					'route_id'		=> 3,
 					'style'			=> 2,
@@ -89,6 +92,25 @@ class save_blocks_test extends base_action
 					),
 				),
 			),
+			// saving layout with atleast one block, but route has no blocks in db
+			array(
+				array(
+					array('route', '', false, request_interface::REQUEST, 'search.php'),
+					array('blocks', array(0 => array('' => '')), false, request_interface::REQUEST, array(
+						6 => array(
+							'position'	=> 'top_hor',
+							'weight'	=> 0,
+						),
+					)),
+				),
+				1,
+				array(
+					'route_id'		=> 4,
+					'style'			=> 1,
+					'has_blocks'	=> false,
+				),
+				array(),
+			),
 		);
 	}
 
@@ -97,16 +119,17 @@ class save_blocks_test extends base_action
 	 *
 	 * @dataProvider save_blocks_test_data
 	 */
-	public function test_save_blocks($variable_map, $expected_route, $expected_block)
+	public function test_save_blocks($variable_map, $style_id, $expected_route, $expected_block)
 	{
+		$route = $variable_map[0][4];
 		$command = $this->get_command('save_blocks', $variable_map);
 
-		$result = $command->execute(2);
+		$result = $command->execute($style_id);
 
 		$this->assertEquals('LAYOUT_SAVED', $result['message']);
 
 		$mapper = $this->mapper_factory->create('blocks', 'routes');
-		$entity = $mapper->load(array('route' => 'faq.php'));
+		$entity = $mapper->load(array('route' => $route));
 
 		if ($entity)
 		{

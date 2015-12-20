@@ -150,6 +150,8 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 		$blocks = $this->block_mapper->find();
 		$this->assertEquals(4, count($blocks));
 
+		$this->assertTrue($task->is_runnable());
+
 		// run the task
 		$task->run();
 

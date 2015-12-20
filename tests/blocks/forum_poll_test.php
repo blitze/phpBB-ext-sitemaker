@@ -144,6 +144,20 @@ class forum_poll_test extends blocks_base
 						'user_ids' => '',
 						'group_ids' => array(),
 						'topic_ids' => '',
+						'forum_ids' => array(54),
+						'order_by' => 0,
+					),
+				),
+				false,
+				'',
+			),
+			array(
+				array(
+					'settings' => array(
+						'topic_type' => array(0),
+						'user_ids' => '',
+						'group_ids' => array(),
+						'topic_ids' => '',
 						'forum_ids' => array(),
 						'order_by' => 0,
 					),

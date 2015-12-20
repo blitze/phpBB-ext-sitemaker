@@ -13,13 +13,22 @@ class url_checker
 {
 	public function exists($url, $curl = true)
 	{
-		if (!$url)
+		if (!filter_var($url, FILTER_VALIDATE_URL))
 		{
 			return false;
 		}
 
 		$status = array();
-		if (!extension_loaded('curl') && $curl)
+		$headers = $this->get_headers($url, $curl);
+
+		preg_match('/HTTP\/.* ([0-9]+) .*/', $headers , $status);
+
+		return ($status[1] == 200) ? true : false;
+	}
+
+	protected function get_headers($url, $curl)
+	{
+		if (extension_loaded('curl') && $curl)
 		{
 			$headers = $this->curl_header($url);
 		}
@@ -29,9 +38,7 @@ class url_checker
 			$headers = $headers[0];
 		}
 
-		preg_match('/HTTP\/.* ([0-9]+) .*/', $headers , $status);
-
-		return ($status[1] == 200) ? true : false;
+		return $headers;
 	}
 
 	// http://snipplr.com/view.php?codeview&id=61985

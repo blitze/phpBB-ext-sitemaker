@@ -26,6 +26,9 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \blitze\sitemaker\services\poll */
 	protected $poll;
 
+	/** @var array */
+	protected $settings;
+
 	/**
 	 * Constructor
 	 *

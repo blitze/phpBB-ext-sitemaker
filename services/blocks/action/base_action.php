@@ -35,6 +35,11 @@ abstract class base_action implements action_interface
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
+	protected static $default_prefs = array(
+		'hide_blocks'	=> false,
+		'ex_positions'	=> array(),
+	);
+
 	/**
 	 * Constructor
 	 *
@@ -63,6 +68,7 @@ abstract class base_action implements action_interface
 
 		if (($route = $route_mapper->load($route_data)) === null)
 		{
+			$route_data['ext_name'] = $this->request->variable('ext', '');
 			$route_data['has_blocks'] = $has_blocks;
 
 			$entity = $route_mapper->create_entity($route_data);
@@ -90,5 +96,11 @@ abstract class base_action implements action_interface
 				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->user->lang('BLOCK_NO_DATA'),
 			));
 		}
+	}
+
+	protected function _route_is_customized(array $route_prefs)
+	{
+		$route_prefs = array_intersect_key($route_prefs, self::$default_prefs);
+		return (self::$default_prefs !== $route_prefs) ? true : false;
 	}
 }

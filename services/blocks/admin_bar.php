@@ -196,8 +196,11 @@ class admin_bar
 
 	/**
 	 * Get excluded position options
+	 * 
+	 * @param array $ex_positions
+	 * @return string
 	 */
-	public function get_excluded_position_options($ex_positions)
+	public function get_excluded_position_options(array $ex_positions)
 	{
 		$options = '<option value=""' . ((!sizeof($ex_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang('NONE') . '</option>';
 		foreach ($ex_positions as $position)

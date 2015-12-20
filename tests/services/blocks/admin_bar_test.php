@@ -221,7 +221,33 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
 				),
-			)
+			),
+			array(
+				array(
+					'route_id' => 2,
+					'ext_name' => '',
+					'route' => 'index.php',
+					'style' => 1,
+					'hide_blocks' => 0,
+					'has_blocks' => 1,
+					'ex_positions' => array('panel', 'top'),
+				),
+				array(
+					'default_lang'				=> 'en',
+					'enable_mod_rewrite'		=> false,
+					'sitemaker_default_layout'	=> ''
+				),
+				array(
+					'S_EDIT_MODE' => true,
+					'S_ROUTE_OPS' => '<option value="">SELECT</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_HIDE_BLOCKS' => 0,
+					'S_POSITION_OPS' => '<option value="">None</option><option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
+					'S_EX_POSITIONS' => 'panel, top',
+					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
+					'S_STARTPAGE' => false,
+					'ICON_PICKER' => null,
+				),
+			),
 		);
 	}
 
