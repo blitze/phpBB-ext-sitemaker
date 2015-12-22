@@ -212,9 +212,9 @@
 				icons: {
 					primary: 'ui-icon-plus'
 				}
-			}).click(function() {
+			}).click(function(event) {
 				self.addItem();
-				return false;
+				event.preventDefault();
 			});
 
 			this.addBulkBtn = this.element.find(this.options.addBulkBtn).button({
@@ -235,7 +235,7 @@
 					form.find('select').html(self._getOptions(self.nestedList, '', options)).next().val();
 				}
 
-				return false;
+				event.preventDefault();
 			});
 
 			this.addBulkBtn.parent().buttonset().show().next().hide().find('#cancel').click(function() {
@@ -257,9 +257,9 @@
 				icons: {
 					primary: 'ui-icon-refresh'
 				}
-			}).click(function() {
-				self.rebuildTree();
-				return false;
+			}).click(function(event) {
+				self._saveTree();
+				event.preventDefault();
 			});
 
 			this.deleteSelBtn = this.element.find(this.options.deleteSelBtn).button({
@@ -267,10 +267,10 @@
 				icons: {
 					primary: 'ui-icon-trash'
 				}
-			}).click(function() {
+			}).click(function(event) {
 				self.dialogID = self.options.dialogConfirm;
 				$(self.dialogID).dialog({buttons: sButtons}).dialog('open');
-				return false;
+				event.preventDefault();
 			});
 
 			this.saveBtn = this.element.find(this.options.saveBtn).button({
@@ -278,11 +278,11 @@
 				icons: {
 					primary: 'ui-icon-check'
 				}
-			}).click(function() {
+			}).click(function(event) {
 				if (self.itemsChanged === true) {
 					self._saveTree();
 				}
-				return false;
+				event.preventDefault();
 			});
 
 			this.addBtnOffset = this.addBtn.offset();
@@ -316,17 +316,6 @@
 					self._showActions();
 					self._addToTree(data.items);
 				}
-			});
-		},
-
-		rebuildTree: function() {
-			var self = this;
-			this.nestedList.empty();
-			this._resetActions();
-
-			$.getJSON(this.options.ajaxUrl + 'rebuild_tree', function(data) {
-				self._showActions();
-				self._addToTree(data.items);
 			});
 		},
 

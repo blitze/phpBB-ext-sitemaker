@@ -117,13 +117,6 @@ class items extends base_mapper
 			->update_tree($items);
 	}
 
-	public function reorder_items($menu_id)
-	{
-		return $this->tree
-			->set_sql_where($this->get_sql_where($menu_id))
-			->regenerate_left_right_ids(1);
-	}
-
 	/**
 	 * Create the entity
 	 */

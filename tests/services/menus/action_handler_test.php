@@ -62,7 +62,6 @@ class action_handler_test extends \phpbb_test_case
 			array('edit_menu'),
 			array('load_item'),
 			array('load_items'),
-			array('rebuild_tree'),
 			array('save_item'),
 			array('save_tree'),
 			array('update_item'),
