@@ -68,18 +68,10 @@ class blocks extends routes
 
 		foreach ($positions as $position => $blocks)
 		{
-			$pos_count_key = 's_' . $position . '_count';
+			$pos_count_key = "s_{$position}_count";
 			$blocks_per_position[$pos_count_key] = 0;
 
-			if ($this->_exclude_position($position, $ex_positions, $edit_mode))
-			{
-				continue;
-			}
-
-			foreach ($blocks as $entity)
-			{
-				$this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $blocks_per_position[$pos_count_key]);
-			}
+			$this->show_position($position, $blocks, $ex_positions, $users_groups, $blocks_per_position[$pos_count_key], $display_modes, $edit_mode);
 		}
 
 		$this->template->assign_var('S_HAS_BLOCKS', sizeof($positions));
@@ -113,6 +105,26 @@ class blocks extends routes
 
 				$this->template->assign_block_vars($position, array_change_key_case($tpl_data, CASE_UPPER));
 				$position_counter++;
+			}
+		}
+	}
+
+	/**
+	 * @param string $position
+	 * @param array $blocks
+	 * @param array $ex_positions
+	 * @param array $users_groups
+	 * @param array $blocks_per_position
+	 * @param array $display_modes
+	 * @param bool $edit_mode
+	 */
+	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, &$position_counter, $display_modes, $edit_mode)
+	{
+		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
+		{
+			foreach ($blocks as $entity)
+			{
+				$this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $position_counter);
 			}
 		}
 	}

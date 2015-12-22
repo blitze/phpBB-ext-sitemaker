@@ -196,7 +196,7 @@ class admin_bar
 
 	/**
 	 * Get excluded position options
-	 * 
+	 *
 	 * @param array $ex_positions
 	 * @return string
 	 */
