@@ -69,47 +69,25 @@ class display
 
 		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));
 
-		if ($this->page_can_have_blocks() === false)
+		if ($this->page_can_have_blocks())
 		{
-			return;
+			$edit_mode = $this->toggle_edit_mode();
+			$display_mode = $this->get_display_modes();
+			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_mode);
+
+			$this->show_blocks($edit_mode, $display_mode);
+
+			$this->template->assign_vars(array(
+				'S_SITEMAKER'		=> true,
+				'U_EDIT_MODE'		=> $u_edit_mode,
+			));
 		}
-
-		$edit_mode = $this->toggle_edit_mode();
-		$route = $this->get_route();
-		$style_id = $this->get_style_id();
-		$display_mode = $this->get_display_modes();
-		$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_mode);
-
-		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
-		$route_info = $blocks->get_route_info($route, $style_id, $edit_mode);
-
-		$this->show_admin_bar($edit_mode, $route_info);
-		$blocks->display($edit_mode, $route_info, $style_id, $display_mode);
-
-		$this->template->assign_vars(array(
-			'S_SITEMAKER'		=> true,
-			'U_EDIT_MODE'		=> $u_edit_mode,
-		));
 	}
 
 	public function get_route()
 	{
-		// let's stay consistent, whether mod rewrite is being used or not
-		$user_page = ltrim($this->user->page['page_name'], 'app.php');
-		$controller_service = explode(':', $this->phpbb_container->get('symfony_request')->attributes->get('_controller'));
-
-		$this->route = $user_page;
-		$this->is_subpage = false;
-
-		if (!empty($controller_service[0]) && $this->phpbb_container->has($controller_service[0]))
-		{
-			$this->route = join('/', array_slice(explode('/', $this->route), 0, 3));
-
-			if (str_replace($this->route, '', $user_page))
-			{
-				$this->is_subpage = true;
-			}
-		}
+		$this->route = $this->user->page['page_name'];
+		$this->is_subpage = ($this->user->page['query_string']) ? true : false;
 
 		return $this->route;
 	}
@@ -189,7 +167,7 @@ class display
 				);
 			}
 
-			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (($edit_mode) ? 0 : 1));
+			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (int) !$edit_mode);
 		}
 		else
 		{
@@ -197,5 +175,18 @@ class display
 		}
 
 		return $u_edit_mode;
+	}
+
+	protected function show_blocks($edit_mode, $display_mode)
+	{
+		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
+
+		$route = $this->get_route();
+		$style_id = $this->get_style_id();
+		$route_info = $blocks->get_route_info($route, $style_id, $edit_mode);
+
+		$this->show_admin_bar($edit_mode, $route_info);
+
+		$blocks->display($edit_mode, $route_info, $style_id, $display_mode);
 	}
 }

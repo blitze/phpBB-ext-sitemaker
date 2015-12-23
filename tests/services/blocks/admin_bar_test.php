@@ -490,21 +490,4 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$this->assertSame($expected, $options);
 	}
-
-	protected function assertArrayContainsArray($needle, $haystack)
-	{
-		foreach ($needle as $key => $val)
-		{
-			$this->assertArrayHasKey($key, $haystack);
-
-			if (is_array($val))
-			{
-				$this->assertArrayContainsArray($val, $haystack[$key]);
-			}
-			else
-			{
-				$this->assertEquals($val, $haystack[$key]);
-			}
-		}
-	}
 }

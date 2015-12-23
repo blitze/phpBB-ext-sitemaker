@@ -28,9 +28,4 @@ class baz_block extends \blitze\sitemaker\services\blocks\driver\block
 			'content'	=> 'I love' . join(' and', array_filter($content)),
 		);
 	}
-
-	public function get_name()
-	{
-		return 'my.baz.block';
-	}
 }

@@ -48,10 +48,22 @@ class factory_test extends \phpbb_test_case
 		$this->blocks->add('my.foo.block');
 		$this->blocks->add('my.baz.block');
 
-		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
-		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
+		$foo_block = new \foo\bar\blocks\foo_block;
+		$baz_block = new \foo\bar\blocks\baz_block;
 
-		$this->user = new \phpbb\user('\phpbb\datetime');
+		$foo_block->set_name('my.foo.block');
+		$baz_block->set_name('my.baz.block');
+
+		$phpbb_container->set('my.foo.block', $foo_block);
+		$phpbb_container->set('my.baz.block', $baz_block);
+
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+
+		$this->user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return ucwords(strtolower(str_replace('_', ' ', implode(' ', func_get_args()))));
+			});
 
 		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
 			->disableOriginalConstructor()
@@ -90,6 +102,7 @@ class factory_test extends \phpbb_test_case
 		$block = $factory->get_block('my.foo.block', array());
 
 		$this->assertInstanceOf($expected, $block);
+		$this->assertEquals('my.foo.block', $block->get_name());
 	}
 
 	/**
@@ -98,8 +111,8 @@ class factory_test extends \phpbb_test_case
 	public function test_get_all_blocks()
 	{
 		$expected = array(
-			'my.foo.block'	=> 'MY_FOO_BLOCK',
-			'my.baz.block'	=> 'MY_BAZ_BLOCK',
+			'my.foo.block'	=> 'My Foo Block',
+			'my.baz.block'	=> 'My Baz Block',
 		);
 
 		$factory = new factory($this->user, $this->ptemplate, $this->blocks);
