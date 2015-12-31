@@ -114,7 +114,7 @@ class blocks extends routes
 	 * @param array $blocks
 	 * @param array $ex_positions
 	 * @param array $users_groups
-	 * @param array $blocks_per_position
+	 * @param array $position_counter
 	 * @param array $display_modes
 	 * @param bool $edit_mode
 	 */

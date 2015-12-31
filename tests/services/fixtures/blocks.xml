@@ -95,7 +95,7 @@
 		</row>
 		<row>
 			<value>4</value>
-			<value>foo.bar.blocks.noexist</value>
+			<value>my.empty.block</value>
 			<value>1</value>
 			<value>1</value>
 			<value>top</value>

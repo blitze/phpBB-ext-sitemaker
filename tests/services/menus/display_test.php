@@ -13,7 +13,7 @@ use blitze\sitemaker\services\menus\display;
 
 class display_test extends \phpbb_database_test_case
 {
-	protected $template;
+	protected $ptemplate;
 	protected $tpl_data;
 
 	/**
@@ -50,25 +50,28 @@ class display_test extends \phpbb_database_test_case
 		$user = new \phpbb\user('\phpbb\datetime');
 		$user->page = $current_page;
 
-		$this->template = $this->getMockBuilder('\blitze\sitemaker\services\template')
+		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
 			->disableOriginalConstructor()
 			->getMock();
 
 		$tpl_data = array();
 		$this->tpl_data = &$tpl_data;
 
-		$this->template->expects($this->any())
+		$this->ptemplate->expects($this->any())
 			->method('assign_block_vars')
 			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
 				$tpl_data[$key][] = $data;
 			}));
+
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
 
 		$db = $this->new_dbal();
 
 		$menu_items_table = 'phpbb_sm_menu_items';
 		$primary_key = 'item_id';
 
-		return new display($db, $user, $menu_items_table, $primary_key);
+		return new display($db, $template, $user, $menu_items_table, $primary_key);
 	}
 
 	/**
@@ -124,24 +127,24 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(
 					array(
-						'S_PREV_DEPTH'	=> 0,
-						'S_THIS_DEPTH'	=> 0,
-						'S_NUM_KIDS'	=> 1,
-						'S_CURRENT'		=> true,
+						'PREV_DEPTH'	=> 0,
+						'THIS_DEPTH'	=> 0,
+						'NUM_KIDS'		=> 1,
+						'IS_CURRENT'	=> true,
 						'ITEM_ID'		=> 1,
 					),
 					array(
-						'S_PREV_DEPTH'	=> 0,
-						'S_THIS_DEPTH'	=> 1,
-						'S_NUM_KIDS'	=> 0,
-						'S_CURRENT'		=> false,
+						'PREV_DEPTH'	=> 0,
+						'THIS_DEPTH'	=> 1,
+						'NUM_KIDS'		=> 0,
+						'IS_CURRENT'	=> false,
 						'ITEM_ID'		=> 2,
 					),
 					array(
-						'S_PREV_DEPTH'	=> 1,
-						'S_THIS_DEPTH'	=> 0,
-						'S_NUM_KIDS'	=> 0,
-						'S_CURRENT'		=> false,
+						'PREV_DEPTH'	=> 1,
+						'THIS_DEPTH'	=> 0,
+						'NUM_KIDS'		=> 0,
+						'IS_CURRENT'	=> false,
 						'ITEM_ID'		=> 3,
 					),
 				),
@@ -192,17 +195,17 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(
 					array(
-						'S_PREV_DEPTH'	=> 0,
-						'S_THIS_DEPTH'	=> 1,
-						'S_NUM_KIDS'	=> 1,
-						'S_CURRENT'		=> false,
+						'PREV_DEPTH'	=> 1,
+						'THIS_DEPTH'	=> 1,
+						'NUM_KIDS'		=> 1,
+						'IS_CURRENT'	=> false,
 						'ITEM_ID'		=> 2,
 					),
 					array(
-						'S_PREV_DEPTH'	=> 1,
-						'S_THIS_DEPTH'	=> 0,
-						'S_NUM_KIDS'	=> 0,
-						'S_CURRENT'		=> true,
+						'PREV_DEPTH'	=> 1,
+						'THIS_DEPTH'	=> 0,
+						'NUM_KIDS'		=> 0,
+						'IS_CURRENT'	=> true,
 						'ITEM_ID'		=> 3,
 					),
 				),
@@ -220,9 +223,9 @@ class display_test extends \phpbb_database_test_case
 		$tree = $this->get_service($current_page);
 
 		$tree->set_params($params);
-		$tree->display_list($data, $this->template);
+		$tree->display_list($data, $this->ptemplate);
 
-		$this->assertSame($expected, $this->get_items_under_test($expected[0]));
+		$this->assertEquals($expected, $this->get_items_under_test($expected[0]));
 	}
 
 	protected function get_items_under_test($tpl)

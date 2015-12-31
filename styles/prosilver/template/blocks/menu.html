@@ -1,19 +1,20 @@
+<!-- IF .tree -->
 <nav>
 	<ul class="sm-list fa-ul">
 	<!-- BEGIN tree -->
-		<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
+		<!-- IF tree.THIS_DEPTH > tree.PREV_DEPTH -->
 		<ul class="sm-list fa-ul">
 		<!-- ELSE -->
 		<!-- BEGIN close --></ul></li><!-- END close -->
 		<!-- ENDIF -->
 		<!-- IF tree.ITEM_URL -->
-			<li<!-- IF tree.S_CURRENT --> class="active"<!-- ENDIF -->>
-				<a href="{tree.FULL_URL}"><i class="{tree.ITEM_ICON} fa-fw"></i> {tree.ITEM_TITLE}</a>
+			<li<!-- IF tree.IS_CURRENT --> class="active"<!-- ENDIF -->>
+				<a href="{tree.FULL_URL}"><i class="{tree.ITEM_ICON}fa-fw"></i> {tree.ITEM_TITLE}</a>
 		<!-- ELSE -->
 			<li class="nav-header">
-				<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON} fa-fw"></i> {tree.ITEM_TITLE}<!-- ELSE --><hr /><!-- ENDIF -->
+				<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON}fa-fw"></i> {tree.ITEM_TITLE}<!-- ELSE --><hr /><!-- ENDIF -->
 		<!-- ENDIF -->
-		<!-- IF tree.S_NUM_KIDS == 0 -->
+		<!-- IF tree.NUM_KIDS == 0 -->
 			</li>
 		<!-- ENDIF -->
 	<!-- END tree -->
@@ -23,3 +24,4 @@
 	    <!-- END close_tree -->
 	</ul>
 </nav>
+<!-- ENDIF -->

@@ -194,6 +194,7 @@ services:
         class: blitze\sitemaker\services\menus\display
         arguments:
             - @dbal.conn
+            - @template
             - @user
             - %tables.sitemaker.menu_items%
             - 'item_id'

@@ -80,51 +80,6 @@ abstract class display
 	}
 
 	/**
-	* Get branch
-	*/
-	public function get_branch($node_id, $type = 'all', $order = 'descending', $include_node = true)
-	{
-		switch ($type)
-		{
-			case 'parents':
-				$condition = 'n1.left_id BETWEEN n2.left_id AND n2.right_id';
-			break;
-
-			case 'children':
-				$condition = 'n2.left_id BETWEEN n1.left_id AND n1.right_id';
-			break;
-
-			default:
-				$condition = '(n2.left_id BETWEEN n1.left_id AND n1.right_id OR n1.left_id BETWEEN n2.left_id AND n2.right_id)';
-			break;
-		}
-
-		$rows = array();
-		$condition .= ($this->sql_where) ? ' AND n2.' . $this->sql_where : '';
-
-		$sql = "SELECT n2.*
-			FROM $this->items_table n1
-			LEFT JOIN $this->items_table n2 ON ($condition)
-			WHERE n1.{$this->pk} = " . (int) $node_id .
-				(($this->sql_where) ? ' AND n1.' . $this->sql_where : '') . '
-			ORDER BY n2.left_id ' . (($order == 'descending') ? 'ASC' : 'DESC');
-		$result = $this->db->sql_query($sql);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			if (!$include_node && $row[$this->pk] == $node_id)
-			{
-				continue;
-			}
-
-			$rows[$row[$this->pk]] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $rows;
-	}
-
-	/**
 	 * Get Tree Query
 	 *
 	 * @param	integer	$start			Starting level

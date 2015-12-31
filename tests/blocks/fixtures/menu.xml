@@ -19,7 +19,7 @@
 		<column>item_title</column>
 		<column>item_url</column>
 		<column>item_icon</column>
-		<column>item_status</column>
+		<column>item_target</column>
 		<column>left_id</column>
 		<column>right_id</column>
 		<column>depth</column>
@@ -28,104 +28,104 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value>Item 1</value>
+			<value>Home</value>
 			<value>index.php</value>
-			<value></value>
+			<value>fa fa-home </value>
+			<value>0</value>
 			<value>1</value>
-			<value>1</value>
-			<value>6</value>
+			<value>2</value>
 			<value>0</value>
 			<value></value>
 		</row>
 		<row>
 			<value>2</value>
 			<value>1</value>
-			<value>1</value>
-			<value>Item 2</value>
+			<value>0</value>
+			<value>Content</value>
+			<value>app.php/page/content/</value>
 			<value></value>
-			<value></value>
-			<value>1</value>
-			<value>2</value>
-			<value>5</value>
-			<value>1</value>
-			<value></value>
-		</row>
-		<row>
-			<value>8</value>
-			<value>1</value>
-			<value>2</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>1</value>
-			<value>2</value>
-			<value>5</value>
-			<value>2</value>
+			<value>0</value>
+			<value>3</value>
+			<value>14</value>
+			<value>0</value>
 			<value></value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>1</value>
-			<value>0</value>
-			<value>Item 3</value>
-			<value>faq.php</value>
+			<value>2</value>
+			<value>News</value>
+			<value>app.php/page/news</value>
 			<value></value>
-			<value>1</value>
-			<value>7</value>
-			<value>8</value>
 			<value>0</value>
+			<value>4</value>
+			<value>11</value>
+			<value>1</value>
 			<value></value>
 		</row>
 		<row>
 			<value>4</value>
-			<value>2</value>
-			<value>0</value>
-			<value>Inactive 1</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
 			<value>1</value>
-			<value>2</value>
-			<value>0</value>
-			<value></value>
-		</row>
-		<row>
-			<value>5</value>
-			<value>2</value>
-			<value>0</value>
-			<value>Inactive 2</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
 			<value>3</value>
-			<value>4</value>
-			<value>0</value>
-			<value></value>
-		</row>
-		<row>
-			<value>6</value>
-			<value>1</value>
-			<value>0</value>
-			<value>Item 4</value>
-			<value></value>
+			<value>USA</value>
+			<value>app.php/page/USA</value>
 			<value></value>
 			<value>0</value>
-			<value>7</value>
+			<value>5</value>
 			<value>10</value>
+			<value>2</value>
+			<value></value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>1</value>
+			<value>4</value>
+			<value>Business</value>
+			<value>viewtopic.php?f=1&amp;t=2</value>
+			<value></value>
 			<value>0</value>
+			<value>6</value>
+			<value>9</value>
+			<value>3</value>
+			<value></value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>1</value>
+			<value>5</value>
+			<value>Startups</value>
+			<value>app.php/page/startups</value>
+			<value></value>
+			<value>0</value>
+			<value>7</value>
+			<value>8</value>
+			<value>4</value>
 			<value></value>
 		</row>
 		<row>
 			<value>7</value>
 			<value>1</value>
-			<value>6</value>
-			<value>Item 5</value>
-			<value></value>
+			<value>2</value>
+			<value>Articles</value>
+			<value>app.php/content/articles</value>
 			<value></value>
 			<value>1</value>
+			<value>12</value>
+			<value>13</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
 			<value>8</value>
-			<value>9</value>
 			<value>1</value>
+			<value>0</value>
+			<value>About Us</value>
+			<value>app.php/page/about</value>
+			<value></value>
+			<value>0</value>
+			<value>15</value>
+			<value>16</value>
+			<value>0</value>
 			<value></value>
 		</row>
 	</table>

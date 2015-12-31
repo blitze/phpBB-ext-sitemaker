@@ -84,6 +84,7 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 
 		$this->tree->set_params($db_data['settings']);
 		$this->tree->display_list($data, $this->ptemplate, 'tree');
+		$this->tree->generate_breadcrumb($data);
 
 		return array(
 			'title'     => $title,
@@ -114,18 +115,11 @@ class menu extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
-		$collection = $item_mapper->find(array(
-			'item_status' => 1
-		));
+		$collection = $item_mapper->find();
 
 		$data = array();
 		foreach ($collection as $entity)
 		{
-			if (!$entity->get_item_title())
-			{
-				continue;
-			}
-
 			$row = $entity->to_array();
 			$this->_set_path_info($row);
 

@@ -84,12 +84,10 @@ class display
 		}
 	}
 
-	public function get_route()
+	public function set_route()
 	{
 		$this->route = $this->user->page['page_name'];
 		$this->is_subpage = ($this->user->page['query_string']) ? true : false;
-
-		return $this->route;
 	}
 
 	protected function page_can_have_blocks()
@@ -133,6 +131,8 @@ class display
 
 	protected function get_display_modes()
 	{
+		$this->set_route();
+
 		if ($this->is_subpage === false)
 		{
 			$modes = array(
@@ -181,9 +181,8 @@ class display
 	{
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 
-		$route = $this->get_route();
 		$style_id = $this->get_style_id();
-		$route_info = $blocks->get_route_info($route, $style_id, $edit_mode);
+		$route_info = $blocks->get_route_info($this->route, $style_id, $edit_mode);
 
 		$this->show_admin_bar($edit_mode, $route_info);
 

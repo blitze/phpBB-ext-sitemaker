@@ -13,6 +13,7 @@ use blitze\sitemaker\model\mapper_factory;
 use blitze\sitemaker\services\blocks\blocks;
 
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/empty_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
 
 class blocks_test extends \phpbb_database_test_case
@@ -65,11 +66,13 @@ class blocks_test extends \phpbb_database_test_case
 
 		$blocks_collection = new \phpbb\di\service_collection($phpbb_container);
 
-		$blocks_collection->add('my.foo.block');
 		$blocks_collection->add('my.baz.block');
+		$blocks_collection->add('my.empty.block');
+		$blocks_collection->add('my.foo.block');
 
-		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
+		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
+		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 
 		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
 			->disableOriginalConstructor()
@@ -147,6 +150,45 @@ class blocks_test extends \phpbb_database_test_case
 						),
 					),
 					'S_SIDEBAR_COUNT' => 1,
+				),
+			),
+			array(
+				'index.php',
+				true,
+				'',
+				array (
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 1,
+					'ext_name' => '',
+					'route' => 'index.php',
+					'style' => 1,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array('bottom'),
+				),
+				array(
+					'blocks' => array(
+						'sidebar' => array(
+							array(
+								'BID' => 1,
+								'NAME' => 'my.baz.block',
+								'CONTENT' => 'I love myself',
+							),
+						),
+						'top' => array(
+							array(
+								'BID' => 4,
+								'NAME' => 'my.empty.block',
+								'CONTENT' => 'BLOCK_NO_DATA',
+							),
+						),
+					),
+					'S_SIDEBAR_COUNT' => 1,
+					'S_TOP_COUNT' => 1,
 				),
 			),
 			array(
