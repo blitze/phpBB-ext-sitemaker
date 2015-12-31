@@ -23,14 +23,12 @@ class save_item_test extends base_action
 			array('item_title', '', true, request_interface::REQUEST, 'about us'),
 			array('item_url', '', false, request_interface::REQUEST, 'index.php'),
 			array('item_target', 0, false, request_interface::REQUEST, 1),
-			array('item_status', 0, false, request_interface::REQUEST, 1),
 		);
 
 		$expected = array(
 			'item_title'	=> 'About Us',
 			'item_url'		=> 'index.php',
 			'item_target'	=> 1,
-			'item_status'	=> 1,
 		);
 
 		$command = $this->get_command('save_item', $variable_map);

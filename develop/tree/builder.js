@@ -197,11 +197,6 @@
 						}
 						$(this.dialogID).dialog({buttons: buttons}).dialog('open');
 					break;
-					case 'show':
-					case 'hide':
-						var status = (action === 'show') ? 1 : 0;
-						self._saveItem('update_item', {'item_status': status, 'field': 'item_status'}, this.itemID);
-					break;
 				}
 			};
 

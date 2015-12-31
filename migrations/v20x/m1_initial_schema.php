@@ -104,7 +104,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 						'item_icon'			=> array('VCHAR', ''),
 						'item_desc'			=> array('VCHAR:55', ''),
 						'item_target'		=> array('BOOL', 0),
-						'item_status'		=> array('BOOL', 1),
 						'left_id'			=> array('UINT', 0),
 						'right_id'			=> array('UINT', 0),
 						'depth'				=> array('UINT', 0),

@@ -23,8 +23,6 @@ use blitze\sitemaker\model\base_entity;
  * @method string get_item_icon()
  * @method object set_item_target($item_target)
  * @method integer get_item_target()
- * @method object set_item_status($item_status)
- * @method integer get_item_status()
  * @method object set_left_id($left_id)
  * @method integer get_left_id()
  * @method object set_right_id($right_id)
@@ -58,9 +56,6 @@ final class item extends base_entity
 	protected $item_target = 0;
 
 	/** @var integer */
-	protected $item_status = 0;
-
-	/** @var integer */
 	protected $left_id = 0;
 
 	/** @var integer */
@@ -92,7 +87,6 @@ final class item extends base_entity
 		'item_url',
 		'item_icon',
 		'item_target',
-		'item_status',
 		'left_id',
 		'right_id',
 		'item_parents',
@@ -125,6 +119,12 @@ final class item extends base_entity
 	public function set_item_title($item_title)
 	{
 		$this->item_title = ucwords(trim($item_title));
+		return $this;
+	}
+
+	public function set_item_icon($icon)
+	{
+		$this->item_icon = ($icon) ? trim($icon) . ' ' : '';
 		return $this;
 	}
 

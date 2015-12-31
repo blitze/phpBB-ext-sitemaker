@@ -63,7 +63,6 @@ $lang = array_merge($lang, array(
 	'ITEM_INACTIVE'				=> 'Inactive',
 	'ITEM_NAME'					=> 'Item Name',
 	'ITEM_NAME_EXPLAIN'			=> 'Set as ’-’ for divider',
-	'ITEM_STATUS'				=> 'Item Status',
 	'ITEM_TARGET'				=> 'Item Target',
 	'ITEM_URL'					=> 'Item URL',
 	'ITEM_URL_EXPLAIN'			=> 'Leave empty for headings',

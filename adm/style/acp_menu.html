@@ -88,11 +88,6 @@
 					<input type="checkbox" class="select-item right" />
 					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="delete" title="{L_deleteNode}"><i class="fa fa-close"></i></a>
 					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="edit" title="{L_editNode}"><i class="fa fa-cog"></i></a>
-					{% if item_status %}
-						<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="hide" title="{L_hideNode}"><i class="fa fa-toggle-on"></i></a>
-					{% else %}
-						<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="show" title="{L_showNode}"><i class="fa fa-toggle-off"></i></a>
-					{% endif %}
 					{% if item_url is not empty %}<a href="{{ full_url }}" target="_blank" class="right item-spacing" title="{L_visitPage}"><i class="fa fa-external-link"></i></a>{% endif %}
 				</div>
 			</li>
@@ -136,13 +131,6 @@
 						<dd>
 							<input id="item_target" class="required" type="radio" name="item_target" value="0" /> {L_TARGET_PARENT}
 							<input class="required" type="radio" name="item_target" value="1" /> {L_TARGET_BLANK}
-						</dd>
-					</dl>
-					<dl>
-						<dt><label>{L_ITEM_STATUS}*</label></dt>
-						<dd>
-							<input id="item_status" class="required" type="radio" name="item_status" value="1" /> {L_ITEM_ACTIVE}
-							<input class="required" type="radio" name="item_status" value="0" /> {L_ITEM_INACTIVE}
 						</dd>
 					</dl>
 				</fieldset>
