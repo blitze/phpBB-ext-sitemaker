@@ -22,12 +22,6 @@ class prepend_breadcrump_test extends listener_base
 		$u_viewforum = 'blitze_sitemaker_forum#a:0:{}';
 
 		return array(
-			// no start page, so nothing is set
-			array('', 'index.php', array(), array()),
-
-			// invalid start page, so nothing is set
-			array('foo.baz.controller', 'index.php', array(), array()),
-
 			// valid start page, "Forum" is added to navbar for non-forum pages but not to breadcrump
 			array(
 				'foo.bar.controller',
