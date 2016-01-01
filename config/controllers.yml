@@ -6,6 +6,7 @@ services:
             - @auth
             - @request
             - @user
+            - @blitze.sitemaker.auto_lang
             - @blitze.sitemaker.blocks.action_handler
 
     blitze.sitemaker.forum.controller:

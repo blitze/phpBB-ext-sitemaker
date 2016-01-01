@@ -110,6 +110,14 @@ class blocks_admin_test extends \phpbb_database_test_case
 				);
 			}));
 
+		$auto_lang = $this->getMockBuilder('\blitze\sitemaker\services\auto_lang')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$auto_lang->expects($this->exactly($action_call_count))
+			->method('add')
+			->with('blocks_admin');
+
 		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\blocks\action_handler')
 			->disableOriginalConstructor()
 			->getMock();
@@ -125,7 +133,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$this->action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new blocks_admin($auth, $request, $user, $this->action_handler, $return_url);
+		return new blocks_admin($auth, $request, $user, $auto_lang, $this->action_handler, $return_url);
 	}
 
 	/**

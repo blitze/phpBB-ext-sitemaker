@@ -22,6 +22,9 @@ class blocks_admin
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\auto_lang */
+	protected $auto_lang;
+
 	/** @var \blitze\sitemaker\services\blocks\action_handler */
 	protected $action_handler;
 
@@ -34,14 +37,16 @@ class blocks_admin
 	 * @param \phpbb\auth\auth									$auth				Auth object
 	 * @param \phpbb\request\request_interface					$request			Request object
 	 * @param \phpbb\user										$user				User object
+	 * @param \blitze\sitemaker\services\auto_lang				$auto_lang			Auto lang object
 	 * @param \blitze\sitemaker\services\blocks\action_handler	$action_handler		Handles block actions
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\auto_lang $auto_lang, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
 	{
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->user = $user;
 		$this->action_handler = $action_handler;
+		$this->auto_lang = $auto_lang;
 		$this->return_url = $return_url;
 	}
 
@@ -73,6 +78,8 @@ class blocks_admin
 
 		try
 		{
+			$this->auto_lang->add('blocks_admin');
+
 			$command = $this->action_handler->create($action);
 			$return_data = $command->execute($style_id);
 
