@@ -75,10 +75,10 @@ class display_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Data set for test_display_list
+	 * Data set for test_display_navlist
 	 * @return array
 	 */
-	public function display_list_test_data()
+	public function display_navlist_test_data()
 	{
 		return array(
 			array(
@@ -214,16 +214,16 @@ class display_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Test display list
+	 * Test display navlist
 	 *
-	 * @dataProvider display_list_test_data
+	 * @dataProvider display_navlist_test_data
 	 */
-	public function test_display_list($current_page, $params, $data, $expected)
+	public function test_display_navlist($current_page, $params, $data, $expected)
 	{
 		$tree = $this->get_service($current_page);
 
 		$tree->set_params($params);
-		$tree->display_list($data, $this->ptemplate);
+		$tree->display_navlist($data, $this->ptemplate);
 
 		$this->assertEquals($expected, $this->get_items_under_test($expected[0]));
 	}

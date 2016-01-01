@@ -1,0 +1,20 @@
+<!-- IF .tree -->
+<ul class="sm-list fa-ul">
+	<!-- BEGIN tree -->
+		<!-- IF tree.THIS_DEPTH > tree.PREV_DEPTH -->
+		<ul class="sm-list fa-ul">
+		<!-- ELSE -->
+		<!-- BEGIN close --></ul></li><!-- END close -->
+		<!-- ENDIF -->
+			<li>
+				<a href="{tree.FULL_URL}"><i class="{tree.ITEM_ICON}fa-fw"></i> {tree.ITEM_TITLE}</a>
+		<!-- IF tree.NUM_KIDS == 0 -->
+			</li>
+		<!-- ENDIF -->
+	<!-- END tree -->
+	    <!-- BEGIN close_tree -->
+	    </ul>
+	    </li>
+	    <!-- END close_tree -->
+</ul>
+<!-- ENDIF -->

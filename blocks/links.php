@@ -12,10 +12,10 @@ namespace blitze\sitemaker\blocks;
 use blitze\sitemaker\services\menus\menu_block;
 
 /**
-* Menu Block
-* @package phpBB Sitemaker Main Menu
+* Links Block
+* @package phpBB Sitemaker
 */
-class menu extends menu_block
+class links extends menu_block
 {
 	/** @var \phpbb\user */
 	protected $user;
@@ -29,13 +29,10 @@ class menu extends menu_block
 	public function get_config(array $settings)
 	{
 		$menu_options = $this->get_menu_options();
-		$depth_options = $this->get_depth_options();
 
 		return array(
 			'legend1'       => $this->user->lang('SETTINGS'),
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
-			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'options' => array(1 => ''), 'default' => 0, 'explain' => false),
-			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
 		);
 	}
 
@@ -44,7 +41,7 @@ class menu extends menu_block
 	 */
 	public function display(array $db_data, $editing = false)
 	{
-		$title = $this->user->lang('MENU');
+		$title = $this->user->lang('LINKS');
 		$menu_id = $db_data['settings']['menu_id'];
 
 		$data = $this->_get_menu($menu_id);
@@ -57,27 +54,11 @@ class menu extends menu_block
 			);
 		}
 
-		$this->tree->set_params($db_data['settings']);
-		$this->tree->display_navlist($data, $this->ptemplate, 'tree');
-		$this->tree->generate_breadcrumb($data);
+		$this->tree->display_list($data, $this->ptemplate, 'tree');
 
 		return array(
 			'title'     => $title,
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/menu.html', 'menu_block'),
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/links.html', 'links_block'),
 		);
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function get_depth_options()
-	{
-		$options = array();
-		for ($i = 3; $i < 10; $i++)
-		{
-			$options[$i] = $i;
-		}
-
-		return $options;
 	}
 }

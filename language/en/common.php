@@ -44,6 +44,7 @@ $lang = array_merge($lang, array(
 	'JOIN_DATE'						=> 'Join Date',
 
 	'LAST_VISITED'					=> 'Last Visited',
+	'LINKS'							=> 'Links',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Contents',
 	'MEMBERS_DATE'					=> 'Date',

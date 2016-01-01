@@ -69,16 +69,16 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.block.member_menu:
-        class: blitze\sitemaker\blocks\member_menu
+    blitze.sitemaker.block.links:
+        class: blitze\sitemaker\blocks\links
         arguments:
-            - @auth
-            - @dbal.conn
+            - @cache.driver
+            - @config
             - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - @blitze.sitemaker.mapper.factory
+            - @blitze.sitemaker.menus.display
         calls:
-            - [set_name, [blitze.sitemaker.block.member_menu]]
+            - [set_name, [blitze.sitemaker.block.links]]
         tags:
             - { name: sitemaker.block }
 
@@ -101,6 +101,19 @@ services:
             - @blitze.sitemaker.members
         calls:
             - [set_name, [blitze.sitemaker.block.members]]
+        tags:
+            - { name: sitemaker.block }
+
+    blitze.sitemaker.block.member_menu:
+        class: blitze\sitemaker\blocks\member_menu
+        arguments:
+            - @auth
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [blitze.sitemaker.block.member_menu]]
         tags:
             - { name: sitemaker.block }
 

@@ -142,9 +142,9 @@ abstract class display
 			$repeat		= abs($prev_depth - $this_depth);
 
 			$tpl_data	= array(
-				'S_PREV_DEPTH'	=> $prev_depth,
-				'S_THIS_DEPTH'	=> $this_depth,
-				'S_NUM_KIDS'	=> $this->count_descendants($row),
+				'PREV_DEPTH'	=> $prev_depth,
+				'THIS_DEPTH'	=> $this_depth,
+				'NUM_KIDS'		=> $this->count_descendants($row),
 			);
 
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));

@@ -58,12 +58,13 @@ class display extends \blitze\sitemaker\services\tree\display
 	/**
 	 *
 	 */
-	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_navlist(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
 		$this->prepare_items($data);
 
 		if (sizeof($data))
 		{
+			$this_depth = 0;
 			foreach ($data as $row)
 			{
 				$prev_depth = $row['prev_depth'];
@@ -120,12 +121,12 @@ class display extends \blitze\sitemaker\services\tree\display
 				continue;
 			}
 
-			$data[$item_id] += array(
+			$data[$item_id] = array_merge($data[$item_id], array(
 				'prev_depth'	=> $prev_depth,
 				'this_depth'	=> $this_depth,
 				'is_current'	=> $is_current_item,
 				'full_url'		=> append_sid($row['full_url']),
-			);
+			));
 
 			$prev_depth = $this_depth;
 		}
@@ -199,11 +200,12 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	protected function adjust_depth(array $row)
 	{
-		if ($this->needs_adjustment($row['depth']))
+		$depth = (int) $row['depth'];
+		if ($this->needs_adjustment($depth))
 		{
 			$adjustment = ($this->count_descendants($row)) ? 1 : 0;
-			$this->min_depth = ($row['depth']) ? $row['depth'] - $this->max_depth + $adjustment : 0;
-			$this->max_depth = $row['depth'] + $adjustment;
+			$this->min_depth = ($depth) ? $depth - $this->max_depth + $adjustment : 0;
+			$this->max_depth = $depth + $adjustment;
 		}
 	}
 

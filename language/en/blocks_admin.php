@@ -29,6 +29,7 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_FEATURED_MEMBER'	=> 'Featured Member',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_POLL'			=> 'Forum Poll',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_TOPICS'		=> 'Forum Topics',
+	'BLITZE_SITEMAKER_BLOCK_LINKS'				=> 'Links',
 	'BLITZE_SITEMAKER_BLOCK_LOGIN'				=> 'Login Box',
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Members',
 	'BLITZE_SITEMAKER_BLOCK_MEMBER_MENU'		=> 'Member Menu',
