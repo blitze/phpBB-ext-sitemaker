@@ -123,6 +123,19 @@ class cfg_handler_test extends \phpbb_test_case
 				),
 			),
 			array(
+				'option1',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<label><input type="radio" name="config[my_var]" value="option1" checked="checked" class="radio" /> Option 1</label><br />' .
+						'<label><input type="radio" name="config[my_var]" value="option2" class="radio" /> Option 2</label><br />' .
+						'<label><input type="radio" name="config[my_var]" value="option3" class="radio" /> Option 3</label><br />',
+				),
+			),
+			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
@@ -293,6 +306,48 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_multi_select($option_ary, $selected_items, $key);
+
+		$this->assertEquals($expected, $html);
+	}
+
+	/**
+	 * Data set for test_add_block_admin_lang
+	 *
+	 * @return array
+	 */
+	public function build_radio_test_data()
+	{
+		return array(
+			array(
+				array(),
+				'',
+				'some_var',
+				''
+			),
+			array(
+				array(
+					'option1'	=> 'Option #1',
+					'option2'	=> 'Option #2',
+					'option3'	=> 'Option #3',
+				),
+				'option2',
+				'some_var',
+				'<label><input type="radio" name="config[some_var]" value="option1" class="radio" /> Option #1</label><br />' .
+				'<label><input type="radio" name="config[some_var]" value="option2" checked="checked" class="radio" /> Option #2</label><br />' .
+				'<label><input type="radio" name="config[some_var]" value="option3" class="radio" /> Option #3</label><br />'
+			),
+		);
+	}
+
+	/**
+	 * Test the build_radio method
+	 *
+	 * @dataProvider build_radio_test_data
+	 */
+	public function test_build_radio($option_ary, $selected_items, $key, $expected)
+	{
+		$cfg_fields = $this->get_service();
+		$html = $cfg_fields->build_radio($option_ary, $selected_items, $key);
 
 		$this->assertEquals($expected, $html);
 	}

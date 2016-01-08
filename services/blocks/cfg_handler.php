@@ -231,13 +231,13 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $field
-	 * @param $vars
-	 * @param $settings
+	 * @param string $field
+	 * @param array $vars
+	 * @param array $settings
 	 */
-	private function _set_params($field, &$vars, $settings)
+	private function _set_params($field, array &$vars, array $settings)
 	{
-		if (!empty($vars['options']))
+		if (isset($vars['options']))
 		{
 			$vars['params'][] = $vars['options'];
 			$vars['params'][] = $settings[$field];
@@ -245,20 +245,20 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $field
-	 * @param $default
-	 * @param $db_settings
+	 * @param string $field
+	 * @param mixed $default
+	 * @param array $db_settings
 	 * @return mixed
 	 */
-	private function _get_field_value($field, $default, $db_settings)
+	private function _get_field_value($field, $default, array $db_settings)
 	{
 		return (!empty($db_settings[$field])) ? $db_settings[$field] : $default;
 	}
 
 	/**
-	 * @param $vars
+	 * @param array $vars
 	 */
-	private function _prep_select_field_for_display(&$vars)
+	private function _prep_select_field_for_display(array &$vars)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
 
@@ -266,11 +266,11 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $vars
-	 * @param $type
-	 * @param $field
+	 * @param array $vars
+	 * @param array $type
+	 * @param string $field
 	 */
-	private function _prep_checkbox_field_for_display(&$vars, &$type, $field)
+	private function _prep_checkbox_field_for_display(array &$vars, array &$type, $field)
 	{
 		$this->_add_lang_vars($vars['params'][0]);
 
@@ -280,11 +280,28 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $vars
-	 * @param $type
-	 * @param $field
+	 * @param array $vars
+	 * @param array $type
+	 * @param string $field
 	 */
-	private function _prep_multi_select_field_for_display(&$vars, &$type, $field)
+	private function _prep_radio_field_for_display(array &$vars, array &$type, $field)
+	{
+		if (!isset($type[1]))
+		{
+			$this->_add_lang_vars($vars['params'][0]);
+
+			$vars['method'] = 'build_radio';
+			$vars['params'][] = $field;
+			$type[0] = 'custom';
+		}
+	}
+
+	/**
+	 * @param array $vars
+	 * @param array $type
+	 * @param string $field
+	 */
+	private function _prep_multi_select_field_for_display(array &$vars, array &$type, $field)
 	{
 		$this->_prep_checkbox_field_for_display($vars, $type, $field);
 
@@ -292,10 +309,10 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $vars
-	 * @param $type
+	 * @param array $vars
+	 * @param array $type
 	 */
-	private function _prep_hidden_field_for_display(&$vars, &$type)
+	private function _prep_hidden_field_for_display(array &$vars, array &$type)
 	{
 		$vars['method'] = 'build_hidden';
 		$vars['explain'] = '';
@@ -304,10 +321,10 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $vars
-	 * @param $type
+	 * @param array $vars
+	 * @param array $type
 	 */
-	private function _prep_custom_field_for_display(&$vars, &$type)
+	private function _prep_custom_field_for_display(array &$vars, array &$type)
 	{
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 		$type[0] = 'custom';

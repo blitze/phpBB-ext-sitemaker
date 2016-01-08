@@ -85,6 +85,29 @@ abstract class cfg_fields
 	}
 
 	/**
+	 * Build radio buttons other than yes_no/enable_disable in blocks config
+	 *
+	 * @param array $option_ary
+	 * @param $selected_items
+	 * @param $key
+	 * @return string
+	 */
+	public function build_radio(array $option_ary, $selected_item, $key)
+	{
+		$selected_item = (is_array($selected_item)) ? $selected_item : array($selected_item);
+
+		$html = '';
+		foreach ($option_ary as $value => $title)
+		{
+			$title = $this->user->lang($title);
+			$selected = $this->_get_selected_option($value, $selected_item, 'checked');
+			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $title . '</label><br />';
+		}
+
+		return $html;
+	}
+
+	/**
 	 * build hidden field for blocks config
 	 *
 	 * @param $value
