@@ -126,7 +126,7 @@
 		<row>
 			<value>2</value>
 			<value>4</value>
-			<value>0</value>
+			<value>1</value>
 			<value>Sticky Topic</value>
 			<value>2</value>
 			<value>1448406332</value>
@@ -378,7 +378,7 @@
 			<value></value>
 			<value>Re: Sticky Topic</value>
 			<value>This a reply</value>
-			<value>0</value>
+			<value>1</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -434,22 +434,42 @@
 		<column>attach_id</column>
 		<column>post_msg_id</column>
 		<column>topic_id</column>
-		<column>poster_id</column>
+		<column>in_message</column>
 		<column>physical_filename</column>
 		<column>real_filename</column>
+		<column>download_count</column>
 		<column>attach_comment</column>
 		<column>extension</column>
 		<column>mimetype</column>
+		<column>filesize</column>
+		<column>filetime</column>
 		<row>
 			<value>1</value>
 			<value>1</value>
 			<value>1</value>
-			<value>2</value>
-			<value>2_20811e441032848ce0eb6265104d9c02</value>
-			<value>product_designer.PNG</value>
-			<value>some comment</value>
+			<value>1</value>
+			<value>2_7d29cc03b5070b796e8733ec2765392f</value>
+			<value>Some_image.png</value>
+			<value>1</value>
+			<value></value>
 			<value>png</value>
 			<value>image/png</value>
+			<value>31840</value>
+			<value>1451854463</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>6</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2_fcf46e85778f5e4cce750b440322b352</value>
+			<value>some_archive.zip</value>
+			<value>2</value>
+			<value></value>
+			<value>zip</value>
+			<value>application/x-zip-compressed</value>
+			<value>254597</value>
+			<value>1451868525</value>
 		</row>
 	</table>
 	<table name="phpbb_poll_options">

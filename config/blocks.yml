@@ -1,4 +1,21 @@
 services:
+
+    blitze.sitemaker.block.attachments:
+        class: blitze\sitemaker\blocks\attachments
+        arguments:
+            - @auth
+            - @cache
+            - @user
+            - @blitze.sitemaker.date_range
+            - @blitze.sitemaker.forum.data
+            - @blitze.sitemaker.forum.options
+            - %core.root_path%
+            - %core.php_ext%
+        calls:
+            - [set_name, [blitze.sitemaker.block.attachments]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.birthday:
         class: blitze\sitemaker\blocks\birthday
         arguments:

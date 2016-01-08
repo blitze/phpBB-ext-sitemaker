@@ -22,8 +22,12 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ALL'										=> 'All',
+	'ARCHIVES'									=> 'Archives',
+	'ATTACHMENTS_FROM_POSTS'					=> 'From Post Ids',
+	'ATTACHMENTS_FROM_POSTS_EXPLAIN'			=> 'Id(s) of posts to retrieve attachments from, separated by <strong>commas</strong>(,). Leave blank to select from any post.',
 	'AUTO_LOGIN'								=> 'Allow auto login?',
 
+	'BLITZE_SITEMAKER_BLOCK_ATTACHMENTS'		=> 'Attachments',
 	'BLITZE_SITEMAKER_BLOCK_BIRTHDAY'			=> 'Birthday',
 	'BLITZE_SITEMAKER_BLOCK_CUSTOM'				=> 'Custom Block',
 	'BLITZE_SITEMAKER_BLOCK_FEATURED_MEMBER'	=> 'Featured Member',
@@ -53,9 +57,11 @@ $lang = array_merge($lang, array(
 	'EXCLUDE_WORDS'								=> 'Exclude words',
 	'EXCLUDE_WORDS_EXPLAIN'						=> 'List the words you’d like to exclude from the wordgraph separated by a comma (,). Maximum 255 characters.',
 	'EXPANDED'									=> 'Expanded',
+	'EXTENSION_GROUP'							=> 'Extension Group',
 
 	'FEATURED_MEMBER_IDS'						=> 'User IDs',
 	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
+	'FIRST_POST_ONLY'							=> 'First Post Only',
 	'FIRST_POST_TIME'							=> 'First Post Time',
 	'FORUMS_GET_TYPE'							=> 'Get type',
 	'FORUMS_MAX_TOPICS'							=> 'Maximum topics/posts',
@@ -67,6 +73,7 @@ $lang = array_merge($lang, array(
 
 	'LAST_POST_TIME'							=> 'Last Post Time',
 	'LAST_READ_TIME'							=> 'Last Read Time',
+	'LIMIT'										=> 'Limit',
 	'LIMIT_FORUMS'								=> 'Forum Ids (optional)',
 	'LIMIT_FORUMS_EXPLAIN'						=> 'Enter each forum id separated by a comma (,). If set, only topics from specified forums will be displayed.',
 	'LIMIT_POST_TIME'							=> 'Limit by Post time',
