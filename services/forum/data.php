@@ -103,17 +103,18 @@ class data extends query_builder
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
-		$post_data = array();
+		$post_data = $test = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
+			$test[] = $row['post_id'];
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
 			$this->store['poster_ids'][] = $row['poster_id'];
 			$this->store['poster_ids'][] = $row['post_edit_user'];
 			$this->store['poster_ids'][] = $row['post_delete_user'];
-			$this->store['attachments'][$row['post_id']] = $row['post_attachment'];
+			$this->store['attachments'][] = $row['post_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -124,21 +125,19 @@ class data extends query_builder
 	 * Get attachments...
 	 *
 	 * @param int $forum_id
+	 * @param bool $exclude_in_message
+	 * @param string $order_by
 	 * @return array
 	 */
-	public function get_attachments($forum_id)
+	public function get_attachments($forum_id = 0, $allowed_extensions, $exclude_in_message = true, $order_by = 'filetime DESC, post_msg_id ASC')
 	{
-		$this->store['attachments'] = array_flip(array_filter($this->store['attachments']));
+		$this->store['attachments'] = array_filter($this->store['attachments']);
 
 		$attachments = array();
 		if ($this->_attachments_allowed($forum_id))
 		{
-			$sql = 'SELECT *
-				FROM ' . ATTACHMENTS_TABLE . '
-				WHERE ' . $this->db->sql_in_set('post_msg_id', $this->store['attachments']) . '
-					AND in_message = 0
-				ORDER BY filetime DESC, post_msg_id ASC';
-			$result = $this->db->sql_query($sql);
+			$sql = $this->_get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by);
+			$result = $this->db->sql_query($sql, $this->cache_time);
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
@@ -212,14 +211,18 @@ class data extends query_builder
 	private function _get_post_data_where(array $post_ids, $topic_first_or_last_post)
 	{
 		$sql_where = array();
-		if (sizeof($this->store['topic']))
+
+		if (sizeof($post_ids))
 		{
-			$sql_where[] = $this->db->sql_in_set('topic_id', array_keys($this->store['topic']));
+			$sql_where[] = $this->db->sql_in_set('p.post_id', $post_ids);
+		}
+		else if (sizeof($this->store['topic']))
+		{
+			$sql_where[] = $this->db->sql_in_set('p.topic_id', array_keys($this->store['topic']));
 
 			if ($topic_first_or_last_post)
 			{
-				$post_ids = array_merge($post_ids, $this->get_topic_post_ids($topic_first_or_last_post));
-				$sql_where[] = $this->db->sql_in_set('post_id', $post_ids);
+				$sql_where[] = $this->db->sql_in_set('p.post_id', $this->get_topic_post_ids($topic_first_or_last_post));
 			}
 		}
 
@@ -283,6 +286,16 @@ class data extends query_builder
 	 */
 	private function _attachments_allowed($forum_id)
 	{
-		return (sizeof($this->store['attachments']) && $this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id)) ? true : false;
+		return ($this->store['attachments'] && $this->auth->acl_get('u_download') && (!$forum_id || $this->auth->acl_get('f_download', $forum_id))) ? true : false;
+	}
+
+	private function _get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by)
+	{
+		return 'SELECT *
+			FROM ' . ATTACHMENTS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('post_msg_id', $this->store['attachments']) .
+				(($exclude_in_message) ? ' AND in_message = 0' : '') .
+				(sizeof($allowed_extensions) ? ' AND ' . $this->db->sql_in_set('extension', $allowed_extensions) : '') . '
+			ORDER BY ' . $order_by;
 	}
 }
