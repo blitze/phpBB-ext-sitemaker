@@ -87,29 +87,15 @@ class data extends query_builder
 	 */
 	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
-		$sql_array = array_merge_recursive(
-			array(
-				'SELECT'	=> array('p.*'),
-				'FROM'		=> array(POSTS_TABLE => 'p'),
-				'WHERE'		=> $this->_get_post_data_where($post_ids, $topic_first_or_last_post),
-				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
-			),
-			$sql_array
-		);
-
-		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
-		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $this->_get_posts_sql_array($topic_first_or_last_post, $post_ids, $sql_array));
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
-		$post_data = $test = array();
+		$post_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
-			$test[] = $row['post_id'];
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
 			$this->store['poster_ids'][] = $row['poster_id'];
 			$this->store['poster_ids'][] = $row['post_edit_user'];
@@ -204,6 +190,30 @@ class data extends query_builder
 	}
 
 	/**
+	 * @param mixed $topic_first_or_last_post
+	 * @param array $post_ids
+	 * @param array $sql_array
+	 * @return array
+	 */
+	private function _get_posts_sql_array($topic_first_or_last_post, array $post_ids, array $sql_array)
+	{
+		$sql_array = array_merge_recursive(
+			array(
+				'SELECT'	=> array('p.*'),
+				'FROM'		=> array(POSTS_TABLE => 'p'),
+				'WHERE'		=> $this->_get_post_data_where($post_ids, $topic_first_or_last_post),
+				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
+			),
+			$sql_array
+		);
+
+		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
+		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
+
+		return $sql_array;
+	}
+
+	/**
 	 * @param array $post_ids
 	 * @param string $topic_first_or_last_post
 	 * @return array
@@ -286,9 +296,24 @@ class data extends query_builder
 	 */
 	private function _attachments_allowed($forum_id)
 	{
-		return ($this->store['attachments'] && $this->auth->acl_get('u_download') && (!$forum_id || $this->auth->acl_get('f_download', $forum_id))) ? true : false;
+		return ($this->store['attachments'] && $this->_user_can_download_attachments($forum_id)) ? true : false;
 	}
 
+	/**
+	 * @param int $forum_id
+	 * @return bool
+	 */
+	private function _user_can_download_attachments($forum_id)
+	{
+		return ($this->auth->acl_get('u_download') && (!$forum_id || $this->auth->acl_get('f_download', $forum_id))) ? true : false;
+	}
+
+	/**
+	 * @param array $allowed_extensions
+	 * @param bool $exclude_in_message
+	 * @param string $order_by
+	 * @return string
+	 */
 	private function _get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by)
 	{
 		return 'SELECT *
