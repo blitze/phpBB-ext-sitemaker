@@ -122,21 +122,6 @@ class query_builder
 	}
 
 	/**
-	 * Fetch Post by id(s)
-	 *
-	 * @param mixed $post_id	Limit by post id: single id or array of post ids
-	 * @return $this
-	 */
-	public function fetch_post($post_id)
-	{
-		$this->store['sql_array']['SELECT'][] = 'p.post_visibility, p.post_time, p.post_id';
-		$this->store['sql_array']['FROM'][POSTS_TABLE] = 'p';
-		$this->store['sql_array']['WHERE'][] = ((is_array($post_id)) ? $this->db->sql_in_set('p.post_id', $post_id) : 'p.post_id = ' . (int) $post_id) . ' AND t.topic_id = p.topic_id';
-
-		return $this;
-	}
-
-	/**
 	 * Fetch by Topic Type
 	 *
 	 * @param array $topic_type

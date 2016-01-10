@@ -103,37 +103,19 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 			),
 		);
 
-		$this->_limit_by_user($sql_array);
-		$this->_limit_by_topic($sql_array);
 		$this->_limit_by_group($sql_array);
 
 		$this->forum_data->query()
 			->fetch_forum($this->settings['forum_ids'])
 			->fetch_topic_type($this->settings['topic_type'])
+			->fetch_topic($this->_get_array($this->settings['topic_ids']))
+			->fetch_topic_poster($this->_get_array($this->settings['user_ids']))
 			->set_sorting($this->_get_sorting())
 			->fetch_custom($sql_array)
 			->build();
 		$topic_data = $this->forum_data->get_topic_data(1);
 
 		return array_shift($topic_data);
-	}
-
-	/**
-	 * @param array $sql_array
-	 */
-	private function _limit_by_user(array &$sql_array)
-	{
-		$from_users_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['user_ids'])));
-		$sql_array['WHERE'][] = (sizeof($from_users_ary)) ? $this->db->sql_in_set('t.topic_poster', $from_users_ary) : '';
-	}
-
-	/**
-	 * @param array $sql_array
-	 */
-	private function _limit_by_topic(array &$sql_array)
-	{
-		$from_topics_ary = array_filter(explode(',', str_replace(' ', '', $this->settings['topic_ids'])));
-		$sql_array['WHERE'][] = (sizeof($from_topics_ary)) ? $this->db->sql_in_set('t.topic_id', $from_topics_ary) : '';
 	}
 
 	/**
@@ -147,6 +129,15 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 			$sql_array['WHERE'][] = 't.topic_poster = ug.user_id';
 			$sql_array['WHERE'][] = $this->db->sql_in_set('ug.group_id', $this->settings['group_ids']);
 		}
+	}
+
+	/**
+	 * @param string $string
+	 * @return array
+	 */
+	private function _get_array($string)
+	{
+		return array_filter(explode(',', str_replace(' ', '', $string)));
 	}
 
 	/**
