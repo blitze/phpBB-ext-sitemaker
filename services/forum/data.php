@@ -111,11 +111,12 @@ class data extends query_builder
 	 * Get attachments...
 	 *
 	 * @param int $forum_id
+	 * @param array $allowed_extensions
 	 * @param bool $exclude_in_message
 	 * @param string $order_by
 	 * @return array
 	 */
-	public function get_attachments($forum_id = 0, $allowed_extensions, $exclude_in_message = true, $order_by = 'filetime DESC, post_msg_id ASC')
+	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $exclude_in_message = true, $order_by = 'filetime DESC, post_msg_id ASC')
 	{
 		$this->store['attachments'] = array_filter($this->store['attachments']);
 
@@ -123,7 +124,7 @@ class data extends query_builder
 		if ($this->_attachments_allowed($forum_id))
 		{
 			$sql = $this->_get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by);
-			$result = $this->db->sql_query($sql, $this->cache_time);
+			$result = $this->db->sql_query($sql);
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
@@ -152,30 +153,6 @@ class data extends query_builder
 		$tracking_info = $this->_get_tracking_info();
 
 		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
-	}
-
-	/**
-	 * Returns an array of topic first post or last post ids
-	 *
-	 * @return array
-	 */
-	public function get_posters_info()
-	{
-		$this->store['poster_ids'] = array_filter(array_unique($this->store['poster_ids']));
-
-		$sql = 'SELECT *
-			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $this->store['poster_ids']);
-		$result = $this->db->sql_query($sql);
-
-		$poster = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$poster[$row['user_id']] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $poster;
 	}
 
 	/**
