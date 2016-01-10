@@ -2,11 +2,13 @@
 <!-- BEGIN postrow -->
 	<!-- BEGIN attachment -->
 	<li>
-	<!-- IF postrow.attachment.EXTENSION_GROUP == 'IMAGES' -->
-		<a href="{postrow.attachment.U_VIEWTOPIC}" class="small">{postrow.attachment.DISPLAY_ATTACHMENT}</a>
-	<!-- ELSE -->
-		{postrow.attachment.DISPLAY_ATTACHMENT}
-	<!-- ENDIF -->
+		<div class="sm-inner">
+		<!-- IF postrow.attachment.EXTENSION_GROUP == 'IMAGES' -->
+			<a href="{postrow.attachment.U_VIEWTOPIC}" class="small">{postrow.attachment.DISPLAY_ATTACHMENT}</a>
+		<!-- ELSE -->
+			{postrow.attachment.DISPLAY_ATTACHMENT}
+		<!-- ENDIF -->
+		</div>
 	</li>
 	<!-- END attachment -->
 <!-- END postrow -->

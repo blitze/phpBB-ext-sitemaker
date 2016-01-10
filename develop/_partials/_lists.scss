@@ -13,6 +13,10 @@ ul {
 			font-size: 11px;
 			vertical-align: top;
 			clear: both;
+
+			> .sm-inner {
+				margin-bottom: 14px;
+			}
 		}
 
 		& > li > & {
