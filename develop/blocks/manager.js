@@ -540,14 +540,13 @@
 				},
 				// Display any returned message
 				'success': function(data) {
-					var message = (data.message) ? data.message : data.errors;
-					if (message) {
+					if (data.message) {
 						$('#loading').hide();
-						showMessage(message);
+						showMessage(data.message);
 					}
 				},
-				'error': function() {
-					showMessage(lang.ajaxError);
+				'error': function(event) {
+					showMessage((event.responseJSON.message) ? event.responseJSON.message : lang.ajaxError);
 				}
 			});
 

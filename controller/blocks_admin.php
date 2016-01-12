@@ -60,7 +60,6 @@ class blocks_admin
 			'title'		=> '',
 			'content'   => '',
 			'message'   => '',
-			'errors'	=> '',
 		);
 
 		if (!$this->auth->acl_get('a_sm_manage_blocks') || $this->request->is_ajax() === false)

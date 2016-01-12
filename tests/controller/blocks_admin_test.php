@@ -155,7 +155,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				0,
 				0,
 				401,
-				'{"id":"","title":"","content":"","message":"NOT_AUTHORISED","errors":""}'
+				'{"id":"","title":"","content":"","message":"NOT_AUTHORISED"}'
 			),
 
 			// Authorized, action requested
@@ -170,7 +170,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				1,
 				1,
 				200,
-				'{"id":"","title":"","content":"","message":"Action: add_block","errors":""}'
+				'{"id":"","title":"","content":"","message":"Action: add_block"}'
 			),
 
 			// Invalid action
@@ -185,7 +185,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				1,
 				0,
 				200,
-				'{"id":"","title":"","content":"","message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST","errors":""}'
+				'{"id":"","title":"","content":"","message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST"}'
 			),
 		);
 	}
