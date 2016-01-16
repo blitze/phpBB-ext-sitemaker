@@ -90,13 +90,7 @@ class display
 		$this->is_subpage = ($this->user->page['query_string']) ? true : false;
 	}
 
-	protected function page_can_have_blocks()
-	{
-		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
-		return ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits)) ? false : true;
-	}
-
-	protected function get_style_id()
+	public function get_style_id()
 	{
 		if ($this->request->is_set('style'))
 		{
@@ -106,6 +100,12 @@ class display
 		{
 			return (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
 		}
+	}
+
+	protected function page_can_have_blocks()
+	{
+		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
+		return ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits)) ? false : true;
 	}
 
 	protected function show_admin_bar($edit_mode, array $route_info)

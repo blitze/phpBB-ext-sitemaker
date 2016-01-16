@@ -68,6 +68,7 @@ $lang = array_merge($lang, array(
 	'RECENT_MEMBERS'				=> 'Recent Members',
 
 	'SESSION_HIDE_ME'				=> 'Hide Me',
+	'STYLE_SWITCHER'				=> 'Style Switcher',
 
 	'THIS_MONTH'					=> 'This Month',
 	'THIS_WEEK'						=> 'This Week',

@@ -169,6 +169,15 @@ services:
         tags:
             - { name: sitemaker.block }
 
+    blitze.sitemaker.block.style_switcher:
+        class: blitze\sitemaker\blocks\style_switcher
+        arguments:
+            - @blitze.sitemaker.blocks.display
+        calls:
+            - [set_name, [blitze.sitemaker.block.style_switcher]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.whats_new:
         class: blitze\sitemaker\blocks\whats_new
         arguments:

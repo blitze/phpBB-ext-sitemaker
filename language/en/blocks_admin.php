@@ -40,6 +40,7 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_MENU'				=> 'Menu',
 	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'My Bookmarks',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistics',
+	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Style Switcher',
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'What’s New?',
 	'BLITZE_SITEMAKER_BLOCK_WHOIS'				=> 'Who is online',
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraph',
