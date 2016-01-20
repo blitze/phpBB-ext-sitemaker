@@ -164,7 +164,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 			->get_sql_array();
 
 		$sql_array['SELECT'] = '';
-		$sql_array['WHERE'] .= ' AND p.post_attachment <> 0';
+		$sql_array['WHERE'] .= ' AND p.topic_id = t.topic_id AND p.post_attachment <> 0';
 
 		if ($this->settings['first_only'])
 		{
@@ -202,7 +202,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 			$allowed_forums = array_intersect($this->settings['forum_ids'], $allowed_forums);
 		}
 
-		return $allowed_forums;
+		return array_map('intval', $allowed_forums);
 	}
 
 	/**

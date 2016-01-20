@@ -205,17 +205,26 @@ class data extends query_builder
 		}
 		else if (sizeof($this->store['topic']))
 		{
-			$sql_where[] = $this->db->sql_in_set('p.topic_id', array_keys($this->store['topic']));
-
-			if ($topic_first_or_last_post)
-			{
-				$sql_where[] = $this->db->sql_in_set('p.post_id', $this->get_topic_post_ids($topic_first_or_last_post));
-			}
+			$this->_limit_posts_by_topic($sql_where, $topic_first_or_last_post);
 		}
 
 		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
 
 		return $sql_where;
+	}
+
+	/**
+	 * @param array $sql_where
+	 * @param string $first_or_last_post
+	 */
+	private function _limit_posts_by_topic(array &$sql_where, $topic_first_or_last_post)
+	{
+		$sql_where[] = $this->db->sql_in_set('p.topic_id', array_keys($this->store['topic']));
+
+		if ($topic_first_or_last_post)
+		{
+			$sql_where[] = $this->db->sql_in_set('p.post_id', $this->get_topic_post_ids($topic_first_or_last_post));
+		}
 	}
 
 	/**
