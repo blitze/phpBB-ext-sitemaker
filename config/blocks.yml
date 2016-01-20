@@ -3,14 +3,14 @@ services:
     blitze.sitemaker.block.attachments:
         class: blitze\sitemaker\blocks\attachments
         arguments:
-            - @auth
-            - @cache
-            - @user
-            - @blitze.sitemaker.date_range
-            - @blitze.sitemaker.forum.data
-            - @blitze.sitemaker.forum.options
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@cache'
+            - '@user'
+            - '@blitze.sitemaker.date_range'
+            - '@blitze.sitemaker.forum.data'
+            - '@blitze.sitemaker.forum.options'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.attachments]]
         tags:
@@ -19,9 +19,9 @@ services:
     blitze.sitemaker.block.birthday:
         class: blitze\sitemaker\blocks\birthday
         arguments:
-            - @cache.driver
-            - @dbal.conn
-            - @user
+            - '@cache.driver'
+            - '@dbal.conn'
+            - '@user'
         calls:
             - [set_name, [blitze.sitemaker.block.birthday]]
         tags:
@@ -30,11 +30,11 @@ services:
     blitze.sitemaker.block.custom:
         class: blitze\sitemaker\blocks\custom
         arguments:
-            - @cache.driver
-            - @dbal.conn
-            - @request
-            - @user
-            - %tables.sitemaker.cblocks%
+            - '@cache.driver'
+            - '@dbal.conn'
+            - '@request'
+            - '@user'
+            - '%tables.sitemaker.cblocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.custom]]
         tags:
@@ -43,14 +43,14 @@ services:
     blitze.sitemaker.block.featured_member:
         class: blitze\sitemaker\blocks\featured_member
         arguments:
-            - @cache.driver
-            - @config
-            - @dbal.conn
-            - @user
-            - @blitze.sitemaker.profilefields
-            - %core.root_path%
-            - %core.php_ext%
-            - %tables.sitemaker.blocks%
+            - '@cache.driver'
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '@blitze.sitemaker.profilefields'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%tables.sitemaker.blocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.featured_member]]
         tags:
@@ -59,11 +59,11 @@ services:
     blitze.sitemaker.block.forum_poll:
         class: blitze\sitemaker\blocks\forum_poll
         arguments:
-            - @dbal.conn
-            - @blitze.sitemaker.forum.data
-            - @blitze.sitemaker.forum.options
-            - @blitze.sitemaker.groups
-            - @blitze.sitemaker.poll
+            - '@dbal.conn'
+            - '@blitze.sitemaker.forum.data'
+            - '@blitze.sitemaker.forum.options'
+            - '@blitze.sitemaker.groups'
+            - '@blitze.sitemaker.poll'
         calls:
             - [set_name, [blitze.sitemaker.block.forum_poll]]
         tags:
@@ -72,15 +72,15 @@ services:
     blitze.sitemaker.block.forum_topics:
         class: blitze\sitemaker\blocks\forum_topics
         arguments:
-            - @auth
-            - @config
-            - @content.visibility
-            - @user
-            - @blitze.sitemaker.date_range
-            - @blitze.sitemaker.forum.data
-            - @blitze.sitemaker.forum.options
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@config'
+            - '@content.visibility'
+            - '@user'
+            - '@blitze.sitemaker.date_range'
+            - '@blitze.sitemaker.forum.data'
+            - '@blitze.sitemaker.forum.options'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.forum_topics]]
         tags:
@@ -89,11 +89,11 @@ services:
     blitze.sitemaker.block.links:
         class: blitze\sitemaker\blocks\links
         arguments:
-            - @cache.driver
-            - @config
-            - @user
-            - @blitze.sitemaker.mapper.factory
-            - @blitze.sitemaker.menus.display
+            - '@cache.driver'
+            - '@config'
+            - '@user'
+            - '@blitze.sitemaker.mapper.factory'
+            - '@blitze.sitemaker.menus.display'
         calls:
             - [set_name, [blitze.sitemaker.block.links]]
         tags:
@@ -102,10 +102,10 @@ services:
     blitze.sitemaker.block.login:
         class: blitze\sitemaker\blocks\login
         arguments:
-            - @service_container
-            - @user
-            - %core.root_path%
-            - .%core.php_ext%
+            - '@service_container'
+            - '@user'
+            - '%core.root_path%'
+            - .'%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.login]]
         tags:
@@ -114,8 +114,8 @@ services:
     blitze.sitemaker.blocks.members:
         class: blitze\sitemaker\blocks\members
         arguments:
-            - @user
-            - @blitze.sitemaker.members
+            - '@user'
+            - '@blitze.sitemaker.members'
         calls:
             - [set_name, [blitze.sitemaker.block.members]]
         tags:
@@ -124,11 +124,11 @@ services:
     blitze.sitemaker.block.member_menu:
         class: blitze\sitemaker\blocks\member_menu
         arguments:
-            - @auth
-            - @dbal.conn
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.member_menu]]
         tags:
@@ -137,11 +137,11 @@ services:
     blitze.sitemaker.block.menu:
         class: blitze\sitemaker\blocks\menu
         arguments:
-            - @cache.driver
-            - @config
-            - @user
-            - @blitze.sitemaker.mapper.factory
-            - @blitze.sitemaker.menus.display
+            - '@cache.driver'
+            - '@config'
+            - '@user'
+            - '@blitze.sitemaker.mapper.factory'
+            - '@blitze.sitemaker.menus.display'
         calls:
             - [set_name, [blitze.sitemaker.block.menu]]
         tags:
@@ -150,10 +150,10 @@ services:
     blitze.sitemaker.block.mybookmarks:
         class: blitze\sitemaker\blocks\mybookmarks
         arguments:
-            - @user
-            - @blitze.sitemaker.forum.data
-            - %core.root_path%
-            - %core.php_ext%
+            - '@user'
+            - '@blitze.sitemaker.forum.data'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.mybookmarks]]
         tags:
@@ -162,8 +162,8 @@ services:
     blitze.sitemaker.block.stats:
         class: blitze\sitemaker\blocks\stats
         arguments:
-            - @config
-            - @user
+            - '@config'
+            - '@user'
         calls:
             - [set_name, [blitze.sitemaker.block.stats]]
         tags:
@@ -172,7 +172,7 @@ services:
     blitze.sitemaker.block.style_switcher:
         class: blitze\sitemaker\blocks\style_switcher
         arguments:
-            - @blitze.sitemaker.blocks.display
+            - '@blitze.sitemaker.blocks.display'
         calls:
             - [set_name, [blitze.sitemaker.block.style_switcher]]
         tags:
@@ -181,10 +181,10 @@ services:
     blitze.sitemaker.block.whats_new:
         class: blitze\sitemaker\blocks\whats_new
         arguments:
-            - @user
-            - @blitze.sitemaker.forum.data
-            - %core.root_path%
-            - %core.php_ext%
+            - '@user'
+            - '@blitze.sitemaker.forum.data'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.whats_new]]
         tags:
@@ -193,12 +193,12 @@ services:
     blitze.sitemaker.block.whois:
         class: blitze\sitemaker\blocks\whois
         arguments:
-            - @auth
-            - @config
-            - @template_context
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@config'
+            - '@template_context'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.whois]]
         tags:
@@ -207,12 +207,12 @@ services:
     blitze.sitemaker.block.wordgraph:
         class: blitze\sitemaker\blocks\wordgraph
         arguments:
-            - @auth
-            - @content.visibility
-            - @dbal.conn
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.wordgraph]]
         tags:

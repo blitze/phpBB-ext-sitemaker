@@ -3,25 +3,25 @@ services:
     blitze.sitemaker.blocks.admin.controller:
         class: blitze\sitemaker\controller\blocks_admin
         arguments:
-            - @auth
-            - @request
-            - @user
-            - @blitze.sitemaker.auto_lang
-            - @blitze.sitemaker.blocks.action_handler
+            - '@auth'
+            - '@request'
+            - '@user'
+            - '@blitze.sitemaker.auto_lang'
+            - '@blitze.sitemaker.blocks.action_handler'
 
     blitze.sitemaker.forum.controller:
         class: blitze\sitemaker\controller\forum
         arguments:
-            - @config
-            - @controller.helper
-            - @template
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     blitze.sitemaker.menus.admin.controller:
         class: blitze\sitemaker\controller\menus_admin
         arguments:
-            - @request
-            - @user
-            - @blitze.sitemaker.menus.action_handler
+            - '@request'
+            - '@user'
+            - '@blitze.sitemaker.menus.action_handler'
