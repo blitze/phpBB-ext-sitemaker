@@ -76,6 +76,7 @@ $lang = array_merge($lang, array(
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
 
 	'REBUILD_TREE'				=> 'Rebuild Tree',
+	'REQUIRED_FIELDS'			=> '* Required fields',
 
 	'SAVE_CHANGES'				=> 'Save Changes',
 	'SELECT_ALL'				=> 'Select All',
