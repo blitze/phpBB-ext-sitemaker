@@ -125,6 +125,16 @@ class menu_test extends \phpbb_test_case
 		{
 			$this->assertEquals('set_foo', $e->getMessage());
 		}
+
+		try
+		{
+			$this->assertNull($menu->set_items(new \StdClass));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		{
+			$this->assertEquals('items', $e->getMessage());
+		}
 	}
 
 	function test_to_array()

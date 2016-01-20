@@ -115,7 +115,7 @@ abstract class base_entity
 	{
 		$type = $this->_get_property_type($name);
 
-		if (in_array($type, array('array','boolean', 'float', 'integer', 'string')))
+		if (in_array($type, array('array', 'boolean', 'float', 'integer', 'string')))
 		{
 			settype($value, $type);
 			return $value;

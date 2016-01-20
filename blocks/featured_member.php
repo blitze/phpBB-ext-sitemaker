@@ -285,7 +285,7 @@ class featured_member extends block
 
 		$tpl_data = $this->profilefields->get_template_data($row['user_id'], $this->settings['show_cpf']);
 
-		$tpl_data['row'] += array(
+		$tpl_data['row'] = array_merge($tpl_data['row'], array(
 			'USERNAME'			=> $username,
 			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
 			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
@@ -297,7 +297,7 @@ class featured_member extends block
 			'RANK_IMG'			=> $rank['img'],
 			'U_PROFILE'			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 			'U_SEARCH_USER'		=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts"),
-		);
+		));
 
 		return $tpl_data;
 	}

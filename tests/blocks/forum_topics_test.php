@@ -42,11 +42,14 @@ class forum_topics_test extends blocks_base
 	 *
 	 * @return \blitze\sitemaker\blocks\forum_topics
 	 */
-	protected function get_block()
+	protected function get_block($registered_user = true)
 	{
 		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
-		$config = new \phpbb\config\config(array('load_db_lastread' => true));
+		$config = new \phpbb\config\config(array(
+			'load_db_lastread' => true,
+			'load_anon_lastread' => true,
+		));
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
 
@@ -57,7 +60,7 @@ class forum_topics_test extends blocks_base
 			'user_id'		=> 48,
 			'user_lastmark'	=> strtotime('25 Nov 2015'),
 			'user_lang'		=> 'en',
-			'is_registered'	=> true,
+			'is_registered'	=> $registered_user,
 		);
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
@@ -139,6 +142,7 @@ class forum_topics_test extends blocks_base
 						'preview_max_chars'	=> 125,
 					),
 				),
+				true,
 				'FORUM_RECENT_TOPICS',
 				array(
 					array(
@@ -184,6 +188,7 @@ class forum_topics_test extends blocks_base
 						'preview_max_chars'	=> 20,
 					),
 				),
+				true,
 				'FORUM_RECENT_TOPICS',
 				array(
 					array(
@@ -216,6 +221,7 @@ class forum_topics_test extends blocks_base
 						'preview_max_chars'	=> 125,
 					),
 				),
+				true,
 				'TOPICS_LAST_READ',
 				array(
 					array(
@@ -248,6 +254,40 @@ class forum_topics_test extends blocks_base
 						'preview_max_chars'	=> 125,
 					),
 				),
+				true,
+				'FORUM_RECENT_TOPICS',
+				array(
+					array(
+						'FORUM_TITLE' => 'Second Forum',
+						'TOPIC_TITLE' => 'Global Topic',
+						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_PREVIEW' => '',
+						'TOPIC_POST_TIME' => '',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => '0',
+						'S_UNREAD_TOPIC' => false,
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
+					),
+				),
+			),
+			array(
+				array(
+					'settings' => array(
+						'forum_ids'			=> array(),
+						'topic_type'		=> array(),
+						'max_topics'		=> 1,
+						'date_range'		=> 'today',
+						'order_by'			=> 0,
+						'enable_tracking'	=> 1,
+						'topic_title_limit'	=> 25,
+						'template'			=> 'titles',
+						'display_preview'	=> '',
+						'preview_max_chars'	=> 125,
+					),
+				),
+				false,
 				'FORUM_RECENT_TOPICS',
 				array(
 					array(
@@ -273,9 +313,9 @@ class forum_topics_test extends blocks_base
 	 *
 	 * @dataProvider block_test_data
 	 */
-	public function test_block_display($bdata, $title, $topicrow)
+	public function test_block_display($bdata, $registered_user, $title, $topicrow)
 	{
-		$block = $this->get_block();
+		$block = $this->get_block($registered_user);
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);

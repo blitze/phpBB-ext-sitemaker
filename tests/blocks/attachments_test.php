@@ -341,6 +341,40 @@ class attachments_test extends blocks_base
 			array(
 				array(
 					'settings' => array(
+						'forum_ids'			=> array(4),
+						'topic_type'		=> array(),
+						'first_only'		=> 0,
+						'post_ids'			=> '',
+						'date_range'		=> '',
+						'limit'				=> 5,
+						'ext_type'			=> '',
+						'slideshow'			=> false,
+					),
+				),
+				array(
+					array (
+						'DISPLAY_ATTACHMENT' => array(
+							'_file' => array(
+								array(
+									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
+									'FILESIZE' => 248.63,
+									'SIZE_LANG' => 'KIB',
+									'DOWNLOAD_NAME' => 'some_archive.zip',
+									'COMMENT' => '',
+									'S_FILE' => true,
+									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=2',
+									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+								),
+							),
+						),
+						'EXTENSION_GROUP' => 'ARCHIVES',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?t=2&amp;p=6#p6',
+					),
+				),
+			),
+			array(
+				array(
+					'settings' => array(
 						'forum_ids'			=> array(),
 						'topic_type'		=> array(),
 						'first_only'		=> 1,

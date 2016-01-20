@@ -125,4 +125,21 @@ class save_block_test extends base_action
 		$this->assertSame($expected_data, array_intersect_key($updated_block, $expected_data));
 		$this->assertEquals($expected_similar, $actual_similar);
 	}
+
+	function test_invalid_block_exceptions()
+	{
+		$command = $this->get_command('save_block', array(
+			array('id', 0, false, request_interface::REQUEST, 9),
+		));
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\out_of_bounds $e)
+		{
+			$this->assertEquals('BLOCK_NOT_FOUND', $e->getMessage());
+		}
+	}
 }

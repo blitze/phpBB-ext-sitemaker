@@ -131,6 +131,16 @@ class route_test extends \phpbb_test_case
 		{
 			$this->assertEquals('set_foo', $e->getMessage());
 		}
+
+		try
+		{
+			$this->assertNull($route->set_blocks(new \StdClass));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		{
+			$this->assertEquals('blocks', $e->getMessage());
+		}
 	}
 
 	function test_cloning_entity()

@@ -82,10 +82,12 @@ class cfg_handler extends cfg_fields
 	 */
 	public function get_submitted_settings(array $default_settings)
 	{
+		// @codeCoverageIgnoreStart
 		if (!function_exists('validate_config_vars'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext); // @codeCoverageIgnore
+			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
 		}
+		// @codeCoverageIgnoreEnd
 
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 

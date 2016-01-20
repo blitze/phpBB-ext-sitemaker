@@ -32,16 +32,20 @@ class action_handler_test extends \phpbb_test_case
 	 */
 	public function get_action_handler()
 	{
+		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$user = new \phpbb\user('\phpbb\datetime');
 
-		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$block_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -49,7 +53,12 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new action_handler($config, $phpbb_container, $request, $user, $this->blocks, $factory, $mapper);
+		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
+			->setConstructorArgs(array($cache, $config, $template, $user, $block_factory, $groups, $mapper))
+			->setMethods(array('clear_cache'))
+			->getMock();
+
+		return new action_handler($config, $phpbb_container, $request, $user, $this->blocks, $block_factory, $mapper);
 	}
 
 	/**
