@@ -215,7 +215,7 @@ class data extends query_builder
 
 	/**
 	 * @param array $sql_where
-	 * @param string $first_or_last_post
+	 * @param string $topic_first_or_last_post
 	 */
 	private function _limit_posts_by_topic(array &$sql_where, $topic_first_or_last_post)
 	{
