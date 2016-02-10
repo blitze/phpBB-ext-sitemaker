@@ -63,7 +63,7 @@ class icon_picker
 			)
 		));
 
-		$this->ptemplate->set_style(array("ext/blitze/sitemaker/styles"));
+		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
 
 		$this->ptemplate->set_filenames(array(
 			'icons'	=> 'icon_picker.html'

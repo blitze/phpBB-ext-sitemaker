@@ -227,6 +227,9 @@ services:
             - '@config'
             - '@user'
             - '@blitze.sitemaker.template_context'
+            - '@template.twig.environment'
+            - '%core.template.cache_path%'
+            - '@template.twig.extensions.collection'
             - '@ext.manager'
 
     blitze.sitemaker.template_context:
