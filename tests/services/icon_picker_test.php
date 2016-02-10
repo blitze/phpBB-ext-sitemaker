@@ -48,7 +48,7 @@ class icon_picker_test extends \phpbb_test_case
 		// make sure we've set style path to this extension
 		$ptemplate->expects($this->once())
 			->method('set_style')
-			->with($this->equalTo(array("ext/blitze/sitemaker/styles")));
+			->with($this->equalTo(array('ext/blitze/sitemaker/styles', 'styles')));
 
 		// make sure we've set template file
 		$ptemplate->expects($this->once())
