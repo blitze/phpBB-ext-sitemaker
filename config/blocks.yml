@@ -105,7 +105,7 @@ services:
             - '@service_container'
             - '@user'
             - '%core.root_path%'
-            - .'%core.php_ext%'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.login]]
         tags:

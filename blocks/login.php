@@ -70,9 +70,9 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 			$this->ptemplate->assign_vars(array(
 				'S_SHOW_HIDE_ME'		=> ($settings['show_hide_me']) ? true : false,
 				'S_AUTOLOGIN_ENABLED'   => ($settings['allow_autologin']) ? true : false,
-				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=login'),
-				'U_REGISTER'			=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=register'),
-				'U_SEND_PASSWORD'		=> append_sid("{$this->phpbb_root_path}ucp" . $this->php_ext, 'mode=sendpassword'),
+				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp." . $this->php_ext, 'mode=login'),
+				'U_REGISTER'			=> append_sid("{$this->phpbb_root_path}ucp." . $this->php_ext, 'mode=register'),
+				'U_SEND_PASSWORD'		=> append_sid("{$this->phpbb_root_path}ucp." . $this->php_ext, 'mode=sendpassword'),
 				'U_REDIRECT'			=> reapply_sid(ltrim(rtrim(build_url(array('edit_mode')), '?'), './../'))
 			));
 
