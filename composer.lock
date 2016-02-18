@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c769bbfd217f1fe84f6cf4b2b363e221",
+    "hash": "c6b28332209f2b45427b3972686dc03e",
     "packages": [
         {
             "name": "composer/installers",
@@ -252,7 +252,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbb/epv/zipball/a054539914b0dd2c625c4694059730c517e59623",
+                "url": "https://api.github.com/repos/phpbb/epv/zipball/20988361847a65198f2ac15a225e3f4d9ca3030c",
                 "reference": "d837a835dfdfdac233854d9e50d58565542764cb",
                 "shasum": ""
             },
