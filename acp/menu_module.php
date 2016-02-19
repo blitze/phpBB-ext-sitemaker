@@ -102,8 +102,8 @@ class menu_module
 			'ICON_PICKER'	=> $this->icon->picker(),
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_MENU_ID'	=> $menu_id,
-			'UA_AJAX_URL'   => "{$this->phpbb_root_path}app.{$this->php_ext}/menu/admin/")
-		);
+			'UA_AJAX_URL'   => "{$this->phpbb_root_path}app.{$this->php_ext}/menu/admin/",
+		));
 
 		$this->tpl_name = 'acp_menu';
 		$this->page_title = 'ACP_MENU';
