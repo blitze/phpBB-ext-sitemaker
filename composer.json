@@ -13,7 +13,7 @@
 			"role": "Lead Developer"
 		}],
 	"require": {
-		"php": ">=5.3.3",
+		"php": ">=5.4,<7.1",
 		"composer/installers": "~1.0",
 		"nickvergessen/phpbb-tool-trimmessage": "^1.3"
 	},
@@ -23,7 +23,7 @@
 	"extra": {
 		"display-name": "SiteMaker",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.2,<3.2.*@dev"
+			"phpbb/phpbb": ">=3.2.0-b1,<3.3.0@dev"
 		},
 		"version-check": {
 			"host": "blitze.github.io",
