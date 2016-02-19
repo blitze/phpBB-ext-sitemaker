@@ -28,6 +28,12 @@ class data extends query_builder
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $phpbb_root_path;
+
+	/** @var string */
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
@@ -36,9 +42,11 @@ class data extends query_builder
 	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
 	 * @param \phpbb\user						$user					User object
+	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string							$php_ext			php file extension
 	 * @param integer							$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $cache_time = 10800)
 	{
 		parent::__construct($auth, $config, $content_visibility, $db, $user, $cache_time);
 
@@ -47,6 +55,8 @@ class data extends query_builder
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->user = $user;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -164,6 +174,21 @@ class data extends query_builder
 	public function get_topic_post_ids($first_or_last_post = 'first')
 	{
 		return (isset($this->store['post_ids'][$first_or_last_post])) ? $this->store['post_ids'][$first_or_last_post] : array();
+	}
+
+	/**
+	 * Returns an array of topic first post or last post ids
+	 */
+	public function get_posters_info()
+	{
+		$this->store['poster_ids'] = array_filter(array_unique($this->store['poster_ids']));
+
+		if (!sizeof($this->store['poster_ids']))
+		{
+			return array();
+		}
+
+		return $this->_get_user_data();
 	}
 
 	/**
@@ -308,5 +333,91 @@ class data extends query_builder
 				(($exclude_in_message) ? ' AND in_message = 0' : '') .
 				(sizeof($allowed_extensions) ? ' AND ' . $this->db->sql_in_set('extension', $allowed_extensions) : '') . '
 			ORDER BY ' . $order_by;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function _get_user_data()
+	{
+		$sql = 'SELECT *
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_id', $this->store['poster_ids']);
+		$result = $this->db->sql_query($sql);
+
+		$user_cache = array();
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$poster_id = $row['user_id'];
+
+			$user_cache[$poster_id] = array(
+				'user_type'					=> $row['user_type'],
+				'user_inactive_reason'		=> $row['user_inactive_reason'],
+
+				'joined'			=> $this->user->format_date($row['user_regdate'], 'M d, Y'),
+				'posts'				=> $row['user_posts'],
+				'warnings'			=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+				'allow_pm'			=> $row['user_allow_pm'],
+				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
+
+				'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
+				'search'			=> ($this->auth->acl_get('u_search')) ? append_sid("{$this->phpbb_root_path}search.$this->php_ext", "author_id=$poster_id&amp;sr=posts") : '',
+
+				'username'			=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),
+				'username_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
+				'user_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
+				'user_profile'		=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
+			);
+
+			$user_cache[$poster_id] += $this->_get_user_rank($row);
+			$user_cache[$poster_id] += $this->_get_user_email($row);
+		}
+		$this->db->sql_freeresult($result);
+
+		return $user_cache;
+	}
+
+	/**
+	 * @param array $row
+	 */
+	private function _get_user_rank(array $row)
+	{
+		if (!function_exists('phpbb_get_user_rank'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
+		$user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
+
+		if (!empty($user_rank_data))
+		{
+			return array(
+				'rank_title'		=> $user_rank_data['title'],
+				'rank_image'		=> $user_rank_data['img'],
+				'rank_image_src'	=> $user_rank_data['img_src'],
+			);
+		}
+		else
+		{
+			return array(
+				'rank_title'		=> '',
+				'rank_image'		=> '',
+				'rank_image_src'	=> '',
+			);
+		}
+	}
+
+	/**
+	 * @param array $row
+	 */
+	private function _get_user_email(array $row)
+	{
+		$email = '';
+		if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
+		{
+			$email = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+		}
+
+		return array('email' => $email);
 	}
 }
