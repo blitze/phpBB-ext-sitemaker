@@ -114,6 +114,8 @@ services:
             - '@content.visibility'
             - '@dbal.conn'
             - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     blitze.sitemaker.forum.manager:
         class: blitze\sitemaker\services\forum\manager
@@ -225,12 +227,14 @@ services:
         arguments:
             - '@path_helper'
             - '@config'
-            - '@user'
-            - '@blitze.sitemaker.template_context'
-            - '@template.twig.environment'
+            - '@filesystem'
+            - '@service_container'
             - '%core.template.cache_path%'
+            - '@user'
             - '@template.twig.extensions.collection'
+            - '@template.twig.loader'
             - '@ext.manager'
+            - []
 
     blitze.sitemaker.template_context:
         class: phpbb\template\context
