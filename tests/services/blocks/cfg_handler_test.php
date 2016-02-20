@@ -268,7 +268,51 @@ class cfg_handler_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Data set for test_add_block_admin_lang
+	 * Data set for test_build_select
+	 *
+	 * @return array
+	 */
+	public function build_select_test_data()
+	{
+		return array(
+			array(
+				array(),
+				'',
+				'topic_ids',
+				'<select id="topic_ids" name="config[topic_ids]"></select>'
+			),
+			array(
+				array(
+					'option1'	=> 'Option #1',
+					'option2'	=> 'Option #2',
+					'option3'	=> 'Option #3',
+				),
+				'option2',
+				'topic_ids',
+				'<select id="topic_ids" name="config[topic_ids]">' .
+				'<option value="option1">Option #1</option>' .
+				'<option value="option2" selected="selected">Option #2</option>' .
+				'<option value="option3">Option #3</option>' .
+				'</select>'
+			),
+		);
+	}
+
+	/**
+	 * Test the build_select method
+	 *
+	 * @dataProvider build_select_test_data
+	 */
+	public function test_build_select($option_ary, $selected_item, $key, $expected)
+	{
+		$cfg_fields = $this->get_service();
+		$html = $cfg_fields->build_select($option_ary, $selected_item, $key);
+
+		$this->assertEquals($expected, $html);
+	}
+
+	/**
+	 * Data set for test_build_multi_select
 	 *
 	 * @return array
 	 */
@@ -312,7 +356,7 @@ class cfg_handler_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Data set for test_add_block_admin_lang
+	 * Data set for test_build_radio
 	 *
 	 * @return array
 	 */

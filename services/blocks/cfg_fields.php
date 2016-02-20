@@ -25,6 +25,27 @@ abstract class cfg_fields
 	}
 
 	/**
+	 * Used to add a select drop down in blocks config
+	 *
+	 * @param array $option_ary
+	 * @param $selected_items
+	 * @param $key
+	 * @return string
+	 */
+	function build_select($option_ary, $selected_item, $key)
+	{
+		$html = '<select id="' . $key . '" name="config[' . $key . ']">';
+		foreach ($option_ary as $value => $title)
+		{
+			$selected = ($value == $selected_item) ? ' selected="selected"' : '';
+			$html .= '<option value="' . $value . '"' . $selected . '>' . $this->translator->lang($title) . '</option>';
+		}
+		$html .= '</select>';
+
+		return $html;
+	}
+
+	/**
 	 * Used to add multi-select drop down in blocks config
 	 *
 	 * @param array $option_ary
@@ -38,9 +59,8 @@ abstract class cfg_fields
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
 		{
-			$title = $this->translator->lang($title);
 			$selected = $this->_get_selected_option($value, $selected_items);
-			$html .= '<option value="' . $value . '"' . $selected . '>' . $title . '</option>';
+			$html .= '<option value="' . $value . '"' . $selected . '>' . $this->translator->lang($title) . '</option>';
 		}
 		$html .= '</select>';
 
@@ -97,9 +117,8 @@ abstract class cfg_fields
 		$html = '';
 		foreach ($option_ary as $value => $title)
 		{
-			$title = $this->translator->lang($title);
 			$selected = $this->_get_selected_option($value, $selected_item, 'checked');
-			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $title . '</label><br />';
+			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $this->translator->lang($title) . '</label><br />';
 		}
 
 		return $html;

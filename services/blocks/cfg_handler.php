@@ -260,11 +260,11 @@ class cfg_handler extends cfg_fields
 	/**
 	 * @param array $vars
 	 */
-	private function _prep_select_field_for_display(array &$vars)
+	private function _prep_select_field_for_display(array &$vars, array &$type, $field)
 	{
-		$this->_add_lang_vars($vars['params'][0]);
-
-		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
+		$vars['method'] = 'build_select';
+		$vars['params'][] = $field;
+		$type[0] = 'custom';
 	}
 
 	/**
@@ -274,8 +274,6 @@ class cfg_handler extends cfg_fields
 	 */
 	private function _prep_checkbox_field_for_display(array &$vars, array &$type, $field)
 	{
-		$this->_add_lang_vars($vars['params'][0]);
-
 		$vars['method'] = 'build_checkbox';
 		$vars['params'][] = $field;
 		$type[0] = 'custom';
@@ -290,8 +288,6 @@ class cfg_handler extends cfg_fields
 	{
 		if (!isset($type[1]))
 		{
-			$this->_add_lang_vars($vars['params'][0]);
-
 			$vars['method'] = 'build_radio';
 			$vars['params'][] = $field;
 			$type[0] = 'custom';
@@ -330,22 +326,6 @@ class cfg_handler extends cfg_fields
 	{
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 		$type[0] = 'custom';
-	}
-
-	/**
-	 * this looks bad but its the only way without modifying phpbb code
-	 * this is for select items that do not need to be translated
-	 * @param array $options
-	 */
-	private function _add_lang_vars(array $options)
-	{
-		foreach ($options as $title)
-		{
-			if (!$this->translator->is_set($title))
-			{
-				$this->user->lang[$title] = $title;
-			}
-		}
 	}
 
 	/**
