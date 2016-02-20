@@ -36,7 +36,7 @@ class action_handler_test extends \phpbb_test_case
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$user = new \phpbb\user('\phpbb\datetime');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -58,7 +58,7 @@ class action_handler_test extends \phpbb_test_case
 			->setMethods(array('clear_cache'))
 			->getMock();
 
-		return new action_handler($config, $phpbb_container, $request, $user, $this->blocks, $block_factory, $mapper);
+		return new action_handler($config, $phpbb_container, $request, $translator, $this->blocks, $block_factory, $mapper);
 	}
 
 	/**

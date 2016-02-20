@@ -10,12 +10,15 @@
 namespace blitze\sitemaker\blocks;
 
 /**
- * Login Block
+ * Members Block
  */
 class members extends \blitze\sitemaker\services\blocks\driver\block
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
-	private $user;
+	protected $user;
 
 	/** @var \blitze\sitemaker\services\members */
 	private $members;
@@ -29,11 +32,13 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user							$user		User object
-	 * @param \blitze\sitemaker\services\members	$members	Members object
+	 * @param \phpbb\language\language				$translator		Language Object
+	 * @param \phpbb\user							$user			User object
+	 * @param \blitze\sitemaker\services\members	$members		Members object
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\members $members)
+	public function __construct(\phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\members $members)
 	{
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->members = $members;
 
@@ -52,7 +57,6 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 			'month'	=> 'THIS_MONTH',
 			'year'	=> 'THIS_YEAR',
 		);
-
 	}
 
 	/**
@@ -61,7 +65,7 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'		=> $this->user->lang('SETTINGS'),
+			'legend1'	=> 'SETTINGS',
 			'query_type'	=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'options' => $this->query_type_options, 'default' => 'recent', 'explain' => false),
 			'date_range'	=> array('lang' => 'DATE_RANGE', 'validate' => 'string', 'type' => 'select', 'options' => $this->range_options, 'default' => '', 'explain' => false),
 			'max_members'	=> array('lang' => 'MAX_MEMBERS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
@@ -75,7 +79,7 @@ class members extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
 
-		$this->ptemplate->assign_var('RANGE', $this->user->lang($this->range_options[$bdata['settings']['range']]));
+		$this->ptemplate->assign_var('RANGE', $this->translator->lang($this->range_options[$bdata['settings']['range']]));
 
 		return array(
 			'title'		=> $this->query_type_options[$bdata['settings']['query_type']],

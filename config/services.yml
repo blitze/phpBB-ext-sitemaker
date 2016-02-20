@@ -10,6 +10,7 @@ services:
         arguments:
             - '@config'
             - '@ext.manager'
+            - '@language'
             - '@user'
             - '%core.php_ext%'
 
@@ -19,7 +20,7 @@ services:
             - '@cache.driver'
             - '@config'
             - '@template'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.groups'
             - '@blitze.sitemaker.mapper.factory'
@@ -30,7 +31,7 @@ services:
             - '@config'
             - '@service_container'
             - '@request'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.blocks'
             - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.mapper.factory'
@@ -41,7 +42,7 @@ services:
             - '@config'
             - '@service_container'
             - '@template'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.icon_picker'
             - '@blitze.sitemaker.util'
             - '%core.php_ext%'
@@ -51,7 +52,7 @@ services:
         arguments:
             - '@request'
             - '@template'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.groups'
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -64,6 +65,7 @@ services:
             - '@service_container'
             - '@request'
             - '@template'
+            - '@language'
             - '@user'
 
     blitze.sitemaker.block_collection:
@@ -76,7 +78,7 @@ services:
     blitze.sitemaker.blocks.factory:
         class: blitze\sitemaker\services\blocks\factory
         arguments:
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.template'
             - '@blitze.sitemaker.block_collection'
 
@@ -113,6 +115,7 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
+            - '@language'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -124,7 +127,7 @@ services:
             - '@cache.driver'
             - '@config'
             - '@dbal.conn'
-            - '@user'
+            - '@language'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -138,12 +141,13 @@ services:
         class: blitze\sitemaker\services\groups
         arguments:
             - '@dbal.conn'
+            - '@language'
             - '@user'
 
     blitze.sitemaker.icon_picker:
         class: blitze\sitemaker\services\icon_picker
         arguments:
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'
 
@@ -155,6 +159,7 @@ services:
             - '@request'
             - '@service_container'
             - '@template'
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.blocks.display'
@@ -178,6 +183,7 @@ services:
         class: blitze\sitemaker\services\members
         arguments:
             - '@dbal.conn'
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.date_range'
             - '@blitze.sitemaker.template'
@@ -189,7 +195,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@request'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.mapper.factory'
 
     blitze.sitemaker.menus.display:

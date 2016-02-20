@@ -5,7 +5,6 @@ services:
         arguments:
             - '@auth'
             - '@cache'
-            - '@user'
             - '@blitze.sitemaker.date_range'
             - '@blitze.sitemaker.forum.data'
             - '@blitze.sitemaker.forum.options'
@@ -33,7 +32,6 @@ services:
             - '@cache.driver'
             - '@dbal.conn'
             - '@request'
-            - '@user'
             - '%tables.sitemaker.cblocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.custom]]
@@ -46,6 +44,7 @@ services:
             - '@cache.driver'
             - '@config'
             - '@dbal.conn'
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.profilefields'
             - '%core.root_path%'
@@ -75,6 +74,7 @@ services:
             - '@auth'
             - '@config'
             - '@content.visibility'
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.date_range'
             - '@blitze.sitemaker.forum.data'
@@ -91,7 +91,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@config'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.mapper.factory'
             - '@blitze.sitemaker.menus.display'
         calls:
@@ -114,6 +114,7 @@ services:
     blitze.sitemaker.blocks.members:
         class: blitze\sitemaker\blocks\members
         arguments:
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.members'
         calls:
@@ -139,7 +140,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@config'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.mapper.factory'
             - '@blitze.sitemaker.menus.display'
         calls:
@@ -150,6 +151,7 @@ services:
     blitze.sitemaker.block.mybookmarks:
         class: blitze\sitemaker\blocks\mybookmarks
         arguments:
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.forum.data'
             - '%core.root_path%'
@@ -163,7 +165,7 @@ services:
         class: blitze\sitemaker\blocks\stats
         arguments:
             - '@config'
-            - '@user'
+            - '@language'
         calls:
             - [set_name, [blitze.sitemaker.block.stats]]
         tags:
@@ -181,6 +183,7 @@ services:
     blitze.sitemaker.block.whats_new:
         class: blitze\sitemaker\blocks\whats_new
         arguments:
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.forum.data'
             - '%core.root_path%'
@@ -196,6 +199,7 @@ services:
             - '@auth'
             - '@config'
             - '@template_context'
+            - '@language'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -210,7 +214,6 @@ services:
             - '@auth'
             - '@content.visibility'
             - '@dbal.conn'
-            - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
         calls:

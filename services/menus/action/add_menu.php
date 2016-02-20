@@ -17,7 +17,7 @@ class add_menu extends base_action
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
 		$entity = $menu_mapper->create_entity(array(
-			'menu_name' => $this->user->lang('MENU') . '-' . mt_rand(1000, 9999),
+			'menu_name' => $this->translator->lang('MENU') . '-' . mt_rand(1000, 9999),
 		));
 
 		$entity = $menu_mapper->save($entity);

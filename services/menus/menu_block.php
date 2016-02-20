@@ -17,8 +17,8 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
@@ -31,15 +31,15 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	 *
 	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
 	 * @param \phpbb\config\config						$config				Config object
-	 * @param \phpbb\user								$user				User object
+	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->mapper_factory = $mapper_factory;
 		$this->tree = $tree;
 	}
@@ -94,7 +94,7 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 			$msg_key = ($menu_id) ? 'MENU_NO_ITEMS' : 'SELECT_MENU';
 		}
 
-		return $this->user->lang($msg_key);
+		return $this->translator->lang($msg_key);
 	}
 
 	/**

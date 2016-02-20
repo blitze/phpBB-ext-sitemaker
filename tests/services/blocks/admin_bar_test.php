@@ -72,6 +72,8 @@ class admin_bar_test extends \phpbb_database_test_case
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
 		$request = $this->getMock('\phpbb\request\request_interface');
+		$translator = $this->getMock('\phpbb\language\language');
+
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
@@ -185,7 +187,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
-		return new admin_bar($config, $phpbb_container, $template, $user, $icons, $this->util, $phpEx);
+		return new admin_bar($config, $phpbb_container, $template, $translator, $icons, $this->util, $phpEx);
 	}
 
 	/**

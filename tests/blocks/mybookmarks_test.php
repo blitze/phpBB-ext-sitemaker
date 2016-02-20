@@ -37,6 +37,7 @@ class mybookmarks_test extends blocks_base
 		$config = new \phpbb\config\config(array('load_db_lastread' => true));
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$user = new \phpbb\user('\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
@@ -62,9 +63,9 @@ class mybookmarks_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum = new data($auth, $config, $content_visibility, $db, $user, $phpbb_root_path, $phpEx, 0);
+		$forum = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
 
-		$block = new mybookmarks($user, $forum, $phpbb_root_path, $phpEx);
+		$block = new mybookmarks($translator, $user, $forum, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

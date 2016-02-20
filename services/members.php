@@ -14,6 +14,9 @@ class members
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var\phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -40,15 +43,17 @@ class members
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
+	 * @param\phpbb\language\language				$translator			Language Object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\date_range	$date_range			Date range object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->date_range = $date_range;
 		$this->ptemplate = $ptemplate;
@@ -103,7 +108,7 @@ class members
 		return array(
 			'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 			'USER_AVATAR'	=> phpbb_get_user_avatar($row),
-			'USER_INFO'		=> $this->user->format_date($row['member_date'], $this->user->lang['DATE_FORMAT'], true)
+			'USER_INFO'		=> $this->user->format_date($row['member_date'], $this->user->date_format, true)
 		);
 	}
 
@@ -122,8 +127,8 @@ class members
 		{
 			$this->ptemplate->assign_vars(array(
 				'S_LIST'	=> $this->settings['query_type'],
-				'L_USER'	=> $this->user->lang($this->user_header),
-				'L_INFO'	=> $this->user->lang($this->info_header),
+				'L_USER'	=> $this->translator->lang($this->user_header),
+				'L_INFO'	=> $this->translator->lang($this->info_header),
 			));
 
 			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');

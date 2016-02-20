@@ -28,6 +28,9 @@ class display
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\language\language */
+	protected $transl;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -49,15 +52,17 @@ class display
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
+	 * @param \phpbb\language\language					$translator				Language object
 	 * @param \phpbb\user								$user					User object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->template = $template;
+		$this->translator = $translator;
 		$this->user = $user;
 	}
 
@@ -67,7 +72,7 @@ class display
 			'css' => array('@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css')
 		));
 
-		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));
+		$this->template->assign_var('L_INDEX', $this->translator->lang('HOME'));
 
 		if ($this->page_can_have_blocks())
 		{

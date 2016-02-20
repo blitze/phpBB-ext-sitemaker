@@ -25,9 +25,6 @@ class manager
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \acp_forums */
 	protected $forum;
 
@@ -44,17 +41,16 @@ class manager
 	 * @param \phpbb\cache\driver\driver_interface	$cache				Cache driver interface
 	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\db\driver\driver_interface		$db					Database object
-	 * @param \phpbb\user							$user				User object
+	 * @param \phpbb\language\language				$translator			Language object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
-		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -63,7 +59,7 @@ class manager
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
 		}
 
-		$this->user->add_lang('acp/forums');
+		$this->translator->add_lang('acp/forums');
 	}
 
 	public function add(&$forum_data, $forum_perm_from = 0)

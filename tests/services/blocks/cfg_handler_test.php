@@ -42,7 +42,8 @@ class cfg_handler_test extends \phpbb_test_case
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
@@ -75,7 +76,7 @@ class cfg_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new cfg_handler($request, $template, $user, $groups, $phpbb_root_path, $phpEx);
+		return new cfg_handler($request, $template, $translator, $groups, $phpbb_root_path, $phpEx);
 	}
 
 	/**

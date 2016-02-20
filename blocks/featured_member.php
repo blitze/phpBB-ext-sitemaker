@@ -26,6 +26,9 @@ class featured_member extends block
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -61,18 +64,20 @@ class featured_member extends block
 	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\db\driver\driver_interface			$db	 					Database connection
-	 * @param \blitze\sitemaker\services\profilefields	$profilefields			Profile fields manager object
+	 * @param \phpbb\language\language					$translator				Language object
 	 * @param \phpbb\user								$user					User object
+	 * @param \blitze\sitemaker\services\profilefields	$profilefields			Profile fields manager object
 	 * @param string									$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string									$php_ext				php file extension
 	 * @param string									$blocks_table			Name of blocks database table
 	 * @param int										$cache_time
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\profilefields $profilefields, $phpbb_root_path, $php_ext, $blocks_table, $cache_time = 3600)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\profilefields $profilefields, $phpbb_root_path, $php_ext, $blocks_table, $cache_time = 3600)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->profilefields = $profilefields;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -91,12 +96,12 @@ class featured_member extends block
 		$cpf_options = $this->profilefields->get_all_fields();
 
 		return array(
-			'legend1'		=> 'SETTINGS',
+			'legend1'	=> 'SETTINGS',
 			'qtype'			=> array('lang' => 'QUERY_TYPE', 'validate' => 'string', 'type' => 'select', 'options' => $qtype_options, 'default' => 'recent', 'explain' => false),
 			'rotation'		=> array('lang' => 'FREQUENCY', 'validate' => 'string', 'type' => 'select', 'options' => $rotation_options, 'default' => 'daily', 'explain' => false),
 			'userlist'		=> array('lang' => 'FEATURED_MEMBER_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'default' => '', 'explain' => true),
 
-			'legend2'		=> 'CUSTOM_PROFILE_FIELDS',
+			'legend2'	=> 'CUSTOM_PROFILE_FIELDS',
 			'show_cpf'		=> array('lang' => 'SELECT_PROFILE_FIELDS', 'validate' => 'string', 'type' => 'checkbox', 'options' => $cpf_options, 'default' => array(), 'explain' => true),
 			'last_changed'	=> array('type' => 'hidden', 'default' => 0),
 			'current_user'	=> array('type' => 'hidden', 'default' => 0),
@@ -215,8 +220,8 @@ class featured_member extends block
 		$rotation = $this->settings['rotation'];
 
 		$this->ptemplate->assign_vars(array(
-			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->user->lang('QTYPE_' . strtoupper($query_type)) : '',
-			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->user->lang(strtoupper($rotation) . '_MEMBER') : '',
+			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->translator->lang('QTYPE_' . strtoupper($query_type)) : '',
+			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->translator->lang(strtoupper($rotation) . '_MEMBER') : '',
 		));
 	}
 
@@ -279,7 +284,7 @@ class featured_member extends block
 	 */
 	private function _get_template_data(array $row)
 	{
-		$date_format = $this->user->lang('DATE_FORMAT');
+		$date_format = $this->user->date_format;
 		$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
 		$rank = phpbb_get_user_rank($row, $row['user_posts']);
 
@@ -288,8 +293,8 @@ class featured_member extends block
 		$tpl_data['row'] = array_merge($tpl_data['row'], array(
 			'USERNAME'			=> $username,
 			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
-			'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
+			'POSTS_PCT'			=> sprintf($this->translator->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
+			'L_VIEW_PROFILE'	=> sprintf($this->translator->lang('VIEW_USER_PROFILE'), $username),
 			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
 			'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
 			'POSTS'				=> $row['user_posts'],

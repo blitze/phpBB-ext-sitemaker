@@ -23,6 +23,9 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\template\context */
 	protected $context;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -38,15 +41,17 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\auth\auth					$auth				Permission object
 	 * @param \phpbb\config\config				$config				phpBB configuration
 	 * @param \phpbb\template\context			$context    		Template context
+	 * @param \phpbb\language\language			$translator			Language object
 	 * @param \phpbb\user						$user				User object
 	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string							$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\context $context, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\context $context, \phpbb\language\language $translator, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->context = $context;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -76,7 +81,7 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 			$l_online_users = $user_online_strings['l_online_users'];
 			$online_userlist = $user_online_strings['online_userlist'];
 
-			$l_online_record = $this->user->lang('RECORD_ONLINE_USERS', (int) $this->config['record_online_users'], $this->user->format_date($this->config['record_online_date'], false, true));
+			$l_online_record = $this->translator->lang('RECORD_ONLINE_USERS', (int) $this->config['record_online_users'], $this->user->format_date($this->config['record_online_date'], false, true));
 		}
 
 		$this->ptemplate->assign_vars(array(

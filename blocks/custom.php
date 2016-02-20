@@ -23,9 +23,6 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var string */
 	protected $cblocks_table;
 
@@ -35,15 +32,13 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\cache\driver\driver_interface	$cache				Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db					Database object
 	 * @param \phpbb\request\request_interface		$request			Request object
-	 * @param \phpbb\user							$user				User object
 	 * @param string								$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, $cblocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, $cblocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->request = $request;
-		$this->user = $user;
 		$this->cblocks_table = $cblocks_table;
 	}
 

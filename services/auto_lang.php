@@ -17,6 +17,9 @@ class auto_lang
 	/** @var \phpbb\extension\manager */
 	protected $ext_manager;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -28,13 +31,15 @@ class auto_lang
 	 *
 	 * @param \phpbb\config\config				$config				Config object
 	 * @param ContainerInterface				$ext_manager		Extension manager object
+	 * @param \phpbb\language\language			$translator			Language object
 	 * @param \phpbb\user						$user				User object
 	 * @param string							$php_ext			phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\extension\manager $ext_manager, \phpbb\user $user, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\extension\manager $ext_manager, \phpbb\language\language $translator, \phpbb\user $user, $php_ext)
 	{
 		$this->config = $config;
 		$this->ext_manager = $ext_manager;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->php_ext = $php_ext;
 	}
@@ -85,7 +90,7 @@ class auto_lang
 		$lang_files = array_unique(array_merge($user_lang_files, $english_lang_files, $default_lang_files));
 		foreach ($lang_files as $lang_file => $ext_name)
 		{
-			$this->user->add_lang_ext($ext_name, $lang_file);
+			$this->translator->add_lang($lang_file, $ext_name);
 		}
 	}
 }

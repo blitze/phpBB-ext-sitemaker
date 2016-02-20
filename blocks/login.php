@@ -50,7 +50,7 @@ class login extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'			=> $this->user->lang('SETTINGS'),
+			'legend1'		=> 'SETTINGS',
 			'show_hide_me'		=> array('lang' => 'SHOW_HIDE_ME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
 			'allow_autologin'	=> array('lang' => 'AUTO_LOGIN', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
 			'show_member_menu'	=> array('lang' => 'SHOW_MEMBER_MENU', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => false),

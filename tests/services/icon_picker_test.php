@@ -25,12 +25,12 @@ class icon_picker_test extends \phpbb_test_case
 
 	public function test_picker()
 	{
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->expects($this->once())
-			->method('add_lang_ext')
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->once())
+			->method('add_lang')
 			->with(
-				$this->equalTo('blitze/sitemaker'),
-				$this->equalTo('icons')
+				$this->equalTo('icons'),
+				$this->equalTo('blitze/sitemaker')
 			);
 
 		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')

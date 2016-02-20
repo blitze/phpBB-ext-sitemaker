@@ -57,7 +57,9 @@ class display_test extends \phpbb_database_test_case
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 		$user->page = $page_data;
-		$user->expects($this->any())
+
+		$translator = $this->getMock('\phpbb\language\language');
+		$trans->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
@@ -138,7 +140,7 @@ class display_test extends \phpbb_database_test_case
 			$phpEx
 		);
 
-		return new display($auth, $config, $phpbb_container, $request, $this->template, $user);
+		return new display($auth, $config, $phpbb_container, $request, $this->template, $translator, $user);
 	}
 
 	/**

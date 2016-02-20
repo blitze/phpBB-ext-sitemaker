@@ -52,8 +52,7 @@ class base_action extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 
-		$config = $config = new \phpbb\config\config(array());
-		set_config(null, null, null, $config);  // remove in 3.2
+		$config = new \phpbb\config\config(array());
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -63,8 +62,8 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
@@ -74,7 +73,7 @@ class base_action extends \phpbb_database_test_case
 
 		$action_class = '\\blitze\\sitemaker\\services\\menus\\action\\' . $action;
 
-        return new $action_class($request, $user, $this->mapper_factory);
+        return new $action_class($request, $translator, $this->mapper_factory);
 	}
 
 	protected function get_matching_fields($items, $allowed_fields)

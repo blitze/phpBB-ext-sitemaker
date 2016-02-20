@@ -25,6 +25,9 @@ class data extends query_builder
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -41,12 +44,13 @@ class data extends query_builder
 	 * @param \phpbb\config\config				$config					Config object
 	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
+	 * @param \phpbb\language\language			$translator				Language object
 	 * @param \phpbb\user						$user					User object
-	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
-	 * @param string							$php_ext			php file extension
+	 * @param string							$phpbb_root_path		Path to the phpbb includes directory.
+	 * @param string							$php_ext				php file extension
 	 * @param integer							$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, $phpbb_root_path, $php_ext, $cache_time = 10800)
 	{
 		parent::__construct($auth, $config, $content_visibility, $db, $user, $cache_time);
 
@@ -54,6 +58,7 @@ class data extends query_builder
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -360,7 +365,7 @@ class data extends query_builder
 				'allow_pm'			=> $row['user_allow_pm'],
 				'avatar'			=> ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '',
 
-				'contact_user' 		=> $this->user->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
+				'contact_user' 		=> $this->translator->lang('CONTACT_USER', get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['username'])),
 				'search'			=> ($this->auth->acl_get('u_search')) ? append_sid("{$this->phpbb_root_path}search.$this->php_ext", "author_id=$poster_id&amp;sr=posts") : '',
 
 				'username'			=> get_username_string('username', $poster_id, $row['username'], $row['user_colour']),

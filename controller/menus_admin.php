@@ -16,8 +16,8 @@ class menus_admin
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\menus\action_handler */
 	protected $action_handler;
@@ -29,13 +29,13 @@ class menus_admin
 	 * Constructor
 	 *
 	 * @param \phpbb\request\request_interface					$request			Request object
-	 * @param \phpbb\user										$user				User object
+	 * @param \phpbb\language\language							$translator			Languag object
 	 * @param \blitze\sitemaker\services\menus\action_handler	$action_handler		Handles menu actions
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\menus\action_handler $action_handler, $return_url = false)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\menus\action_handler $action_handler, $return_url = false)
 	{
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->action_handler = $action_handler;
 		$this->return_url = $return_url;
 	}
@@ -48,7 +48,7 @@ class menus_admin
 		{
 			redirect(generate_board_url(), $this->return_url);
 
-			$return_data['message'] = $this->user->lang('NOT_AUTHORISED');
+			$return_data['message'] = $this->translator->lang('NOT_AUTHORISED');
 			return new Response(json_encode($return_data), 401);
 		}
 
@@ -65,7 +65,7 @@ class menus_admin
 		}
 		catch (\Exception $e)
 		{
-			$return_data['message'] = $this->user->lang($e->getMessage());
+			$return_data['message'] = $this->translator->lang($e->getMessage());
 		}
 
 		return new Response(json_encode($return_data));

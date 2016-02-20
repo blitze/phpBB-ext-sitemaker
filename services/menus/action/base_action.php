@@ -16,8 +16,8 @@ abstract class base_action implements action_interface
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
@@ -26,13 +26,13 @@ abstract class base_action implements action_interface
 	 * Constructor
 	 *
 	 * @param \phpbb\request\request_interface				$request				Request object
-	 * @param \phpbb\user									$user					User object
+	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->mapper_factory = $mapper_factory;
 	}
 

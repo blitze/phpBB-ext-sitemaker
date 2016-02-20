@@ -52,16 +52,15 @@ class manager_test extends \phpbb_database_test_case
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array('sitemaker_parent_forum_id' => 2));
+		$translator = $this->getMock('\phpbb\language\language');
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$this->db = $db = $this->new_dbal();
 		$user = new \phpbb\user('\phpbb\datetime');
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
-		set_config(null, null, null, $config);
-
 		require_once dirname(__FILE__) . '/../../../../../../includes/functions_admin.php';
 
-		$this->manager = new manager($auth, $cache, $config, $db, $user, $phpbb_root_path, $phpEx);
+		$this->manager = new manager($auth, $cache, $config, $db, $translator, $phpbb_root_path, $phpEx);
 	}
 
 	public function test_add_forum()

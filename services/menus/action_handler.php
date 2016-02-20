@@ -17,8 +17,8 @@ class action_handler
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
@@ -28,14 +28,14 @@ class action_handler
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache object
 	 * @param \phpbb\request\request_interface				$request				Request object
-	 * @param \phpbb\user									$user					User object
+	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->cache = $cache;
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->mapper_factory = $mapper_factory;
 	}
 
@@ -48,7 +48,7 @@ class action_handler
 			throw new \blitze\sitemaker\exception\out_of_bounds(array($action, 'INVALID_REQUEST'));
 		}
 
-		return new $action_class($this->request, $this->user, $this->mapper_factory);
+		return new $action_class($this->request, $this->translator, $this->mapper_factory);
 	}
 
 	public function clear_cache()

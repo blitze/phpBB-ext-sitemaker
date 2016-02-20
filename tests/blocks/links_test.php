@@ -45,6 +45,7 @@ class links_test extends blocks_base
 
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
@@ -104,7 +105,7 @@ class links_test extends blocks_base
 		);
 		$ptemplate->set_custom_style('prosilver', $phpbb_root_path . 'ext/blitze/sitemaker/styles/prosilver');
 
-		$block = new links($cache, $config, $user, $mapper_factory, $tree);
+		$block = new links($cache, $config, $translator, $mapper_factory, $tree);
 		$block->set_template($ptemplate);
 
 		return $block;

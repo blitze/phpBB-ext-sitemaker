@@ -60,7 +60,8 @@ class blocks_test extends \phpbb_database_test_case
 		$config = new \phpbb\config\config(array(
 			'sitemaker_default_layout'	=> $default_layout,
 		));
-		$user = new \phpbb\user('\phpbb\datetime');
+
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -111,7 +112,7 @@ class blocks_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new blocks($cache, $config, $this->template, $user, $block_factory, $groups, $mapper_factory);
+		return new blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory);
 	}
 
 	/**

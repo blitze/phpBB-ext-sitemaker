@@ -5,7 +5,7 @@ services:
         arguments:
             - '@auth'
             - '@request'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.auto_lang'
             - '@blitze.sitemaker.blocks.action_handler'
 
@@ -15,7 +15,7 @@ services:
             - '@config'
             - '@controller.helper'
             - '@template'
-            - '@user'
+            - '@language'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -23,5 +23,5 @@ services:
         class: blitze\sitemaker\controller\menus_admin
         arguments:
             - '@request'
-            - '@user'
+            - '@language'
             - '@blitze.sitemaker.menus.action_handler'

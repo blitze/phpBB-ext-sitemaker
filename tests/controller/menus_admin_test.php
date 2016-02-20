@@ -66,7 +66,8 @@ class menus_admin_test extends \phpbb_database_test_case
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
@@ -113,7 +114,7 @@ class menus_admin_test extends \phpbb_database_test_case
 		$this->action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new menus_admin($request, $user, $this->action_handler, $return_url);
+		return new menus_admin($request, $translator, $this->action_handler, $return_url);
 	}
 
 	/**

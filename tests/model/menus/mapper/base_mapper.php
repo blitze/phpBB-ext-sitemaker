@@ -43,7 +43,6 @@ class base_mapper extends \phpbb_database_test_case
 			'force_server_vars' => false,
 			'sitemaker.table_lock.menu_items_table' => 0
 		));
-		set_config(null, null, null, $this->config);
 	}
 
 	/**

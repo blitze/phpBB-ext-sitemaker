@@ -19,8 +19,8 @@ class cfg_handler extends cfg_fields
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\groups */
 	protected $groups;
@@ -36,18 +36,18 @@ class cfg_handler extends cfg_fields
 	 *
 	 * @param \phpbb\request\request_interface		$request				Request object
 	 * @param \phpbb\template\template				$template				Template object
-	 * @param \phpbb\user							$user					User object
+	 * @param \phpbb\language\language				$translator				Language object
 	 * @param \blitze\sitemaker\services\groups		$groups					Groups object
 	 * @param string								$phpbb_root_path		phpBB root path
 	 * @param string								$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\groups $groups, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\groups $groups, $phpbb_root_path, $php_ext)
 	{
-		parent::__construct($user);
+		parent::__construct($translator);
 
 		$this->request = $request;
 		$this->template = $template;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->groups = $groups;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -150,7 +150,7 @@ class cfg_handler extends cfg_fields
 
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $field,
-				'TITLE'			=> $this->user->lang($vars['lang']),
+				'TITLE'			=> $this->translator->lang($vars['lang']),
 				'S_EXPLAIN'		=> $vars['explain'],
 				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
 				'CONTENT'		=> $content,
@@ -193,7 +193,7 @@ class cfg_handler extends cfg_fields
 		{
 			$this->template->assign_block_vars('options', array(
 				'S_LEGEND'	=> $field,
-				'LEGEND'	=> $this->user->lang($vars)
+				'LEGEND'	=> $this->translator->lang($vars)
 			));
 
 			return true;
@@ -211,7 +211,7 @@ class cfg_handler extends cfg_fields
 		$l_explain = '';
 		if (!empty($vars['explain']))
 		{
-			$l_explain = (isset($vars['lang_explain'])) ? $this->user->lang($vars['lang_explain']) : $this->user->lang($vars['lang'] . '_EXPLAIN');
+			$l_explain = (isset($vars['lang_explain'])) ? $this->translator->lang($vars['lang_explain']) : $this->translator->lang($vars['lang'] . '_EXPLAIN');
 		}
 
 		return $l_explain;
@@ -226,7 +226,7 @@ class cfg_handler extends cfg_fields
 		$append = '';
 		if (!empty($vars['append']))
 		{
-			$append = $this->user->lang($vars['append']);
+			$append = $this->translator->lang($vars['append']);
 		}
 
 		return $append;
@@ -341,7 +341,7 @@ class cfg_handler extends cfg_fields
 	{
 		foreach ($options as $title)
 		{
-			if (!isset($this->user->lang[$title]))
+			if (!$this->translator->is_set($title))
 			{
 				$this->user->lang[$title] = $title;
 			}

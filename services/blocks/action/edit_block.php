@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class edit_block extends base_action
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	public function execute($style_id)
 	{
 		$block_id = $this->request->variable('id', 0);
@@ -28,7 +31,7 @@ class edit_block extends base_action
 
 		$extension = $this->_get_extension($block_instance);
 
-		$this->user->add_lang_ext($extension, 'blocks_admin');
+		$this->translator->add_lang('blocks_admin', $extension);
 
 		return array_merge(array(
 				'form' => $cfg_handler->get_edit_form($entity->to_array(), $default_settings),

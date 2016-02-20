@@ -49,14 +49,14 @@ class stats_test extends blocks_base
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function ($key, $value) {
 				return $key . ': ' . $value;
 			});
 
-		$block = new stats($config, $user);
+		$block = new stats($config, $translator);
 		$block->set_template($this->ptemplate);
 
 		return $block;

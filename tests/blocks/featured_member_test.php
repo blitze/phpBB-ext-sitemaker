@@ -38,6 +38,7 @@ class featured_member_test extends blocks_base
 		$this->db = $db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request');
 		$template = $this->getMock('\phpbb\template\template');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$config = new \phpbb\config\config(array('num_posts' => 8));
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
@@ -87,7 +88,7 @@ class featured_member_test extends blocks_base
 				),
 			));
 
-		$block = new featured_member($cache_interface, $config, $db, $user, $profilefields, $phpbb_root_path, $phpEx, 'phpbb_sm_blocks', 0);
+		$block = new featured_member($cache_interface, $config, $db, $translator, $user, $profilefields, $phpbb_root_path, $phpEx, 'phpbb_sm_blocks', 0);
 		$block->set_template($this->ptemplate);
 
 		return $block;

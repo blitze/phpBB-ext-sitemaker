@@ -93,7 +93,7 @@ class forum_poll_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $user, 0);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()

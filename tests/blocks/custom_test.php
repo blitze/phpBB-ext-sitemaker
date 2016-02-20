@@ -37,8 +37,6 @@ class custom_test extends blocks_base
 		$config = new \phpbb\config\config(array());
 		$db = $this->new_dbal();
 
-		set_config(null, null, null, $config);
-
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')

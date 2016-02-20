@@ -20,9 +20,6 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -35,16 +32,14 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\auth\auth					$auth					Auth object
 	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
-	 * @param \phpbb\user						$user					User object
 	 * @param string							$phpbb_root_path		phpBB root path
 	 * @param string							$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
-		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -55,7 +50,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'			=> $this->user->lang('SETTINGS'),
+			'legend1'		=> 'SETTINGS',
 			'show_word_count'	=> array('lang' => 'SHOW_WORD_COUNT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_num_words'		=> array('lang' => 'MAX_WORDS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 2, 'explain' => false, 'default' => 15),
 			'max_word_size'		=> array('lang' => 'WORD_MAX_SIZE', 'validate' => 'int:0:55', 'type' => 'number:0:55', 'maxlength' => 2, 'explain' => false, 'default' => 25, 'append' => 'PIXEL'),

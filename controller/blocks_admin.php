@@ -19,8 +19,8 @@ class blocks_admin
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\auto_lang */
 	protected $auto_lang;
@@ -36,15 +36,15 @@ class blocks_admin
 	 *
 	 * @param \phpbb\auth\auth									$auth				Auth object
 	 * @param \phpbb\request\request_interface					$request			Request object
-	 * @param \phpbb\user										$user				User object
+	 * @param \phpbb\language\language							$translator			Language object
 	 * @param \blitze\sitemaker\services\auto_lang				$auto_lang			Auto lang object
 	 * @param \blitze\sitemaker\services\blocks\action_handler	$action_handler		Handles block actions
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\auto_lang $auto_lang, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\auto_lang $auto_lang, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
 	{
 		$this->auth = $auth;
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->action_handler = $action_handler;
 		$this->auto_lang = $auto_lang;
 		$this->return_url = $return_url;
@@ -52,7 +52,7 @@ class blocks_admin
 
 	public function handle($action)
 	{
-		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
+		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
 
 		$return_data = array();
 		$json_data = array(
@@ -69,7 +69,7 @@ class blocks_admin
 				redirect(generate_board_url(), $this->return_url);
 			}
 
-			$json_data['message'] = $this->user->lang('NOT_AUTHORISED');
+			$json_data['message'] = $this->translator->lang('NOT_AUTHORISED');
 			return new Response(json_encode($json_data), 401);
 		}
 

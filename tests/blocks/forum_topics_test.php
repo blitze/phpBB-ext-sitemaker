@@ -52,6 +52,7 @@ class forum_topics_test extends blocks_base
 		));
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$user = new \phpbb\user('\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
@@ -84,13 +85,13 @@ class forum_topics_test extends blocks_base
 
 		$date_range = new date_range($user, '24 November 2015');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $user, 0);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new forum_topics($auth, $config, $content_visibility, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
+		$block = new forum_topics($auth, $config, $content_visibility, $translator, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

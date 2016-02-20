@@ -22,8 +22,8 @@ class admin_bar
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icons;
@@ -40,17 +40,17 @@ class admin_bar
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
-	 * @param \phpbb\user								$user					User object
+	 * @param \phpbb\language\language					$translator				Language object
 	 * @param \blitze\sitemaker\services\icon_picker	$icons					Sitemaker icon picker object
 	 * @param \blitze\sitemaker\services\util			$util					Sitemaker util object
 	 * @param string									$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
 	{
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->icons = $icons;
 		$this->util = $util;
 		$this->php_ext = $php_ext;
@@ -61,7 +61,7 @@ class admin_bar
 	 */
 	public function show($route_info)
 	{
-		$this->user->add_lang_ext('blitze/sitemaker', 'block_manager');
+		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
 
 		$this->phpbb_container->get('blitze.sitemaker.auto_lang')->add('blocks_admin');
 
@@ -184,7 +184,7 @@ class admin_bar
 	{
 		$routes_ary = $this->_get_routes();
 
-		$options = '<option value="">' . $this->user->lang('SELECT') . '</option>';
+		$options = '<option value="">' . $this->translator->lang('SELECT') . '</option>';
 		foreach ($routes_ary as $route)
 		{
 			$selected = ($route == $current_route) ? ' selected="selected"' : '';
@@ -202,7 +202,7 @@ class admin_bar
 	 */
 	public function get_excluded_position_options(array $ex_positions)
 	{
-		$options = '<option value=""' . ((!sizeof($ex_positions)) ? ' selected="selected"' : '') . '>' . $this->user->lang('NONE') . '</option>';
+		$options = '<option value=""' . ((!sizeof($ex_positions)) ? ' selected="selected"' : '') . '>' . $this->translator->lang('NONE') . '</option>';
 		foreach ($ex_positions as $position)
 		{
 			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';

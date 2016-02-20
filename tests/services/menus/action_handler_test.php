@@ -38,13 +38,13 @@ class action_handler_test extends \phpbb_test_case
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$translator = $this->getMock('\phpbb\language\language');
 
 		$mapper_factory = $this->getMockBuilder('\blitze\sitemaker\model\mapper_factory')
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new action_handler($this->cache, $request, $user, $mapper_factory);
+		return new action_handler($this->cache, $request, $translator, $mapper_factory);
 	}
 
 	/**

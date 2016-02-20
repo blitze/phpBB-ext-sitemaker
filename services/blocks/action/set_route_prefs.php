@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class set_route_prefs extends base_action
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
 	protected $route_mapper;
 
@@ -41,7 +44,7 @@ class set_route_prefs extends base_action
 			$this->_update_or_remove($entity, $route_prefs);
 		}
 
-		return array('message' => $this->user->lang('ROUTE_UPDATED'));
+		return array('message' => $this->translator->lang('ROUTE_UPDATED'));
 	}
 
 	protected function _update_or_remove(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)

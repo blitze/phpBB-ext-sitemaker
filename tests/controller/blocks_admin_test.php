@@ -77,7 +77,8 @@ class blocks_admin_test extends \phpbb_database_test_case
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
@@ -133,7 +134,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$this->action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new blocks_admin($auth, $request, $user, $auto_lang, $this->action_handler, $return_url);
+		return new blocks_admin($auth, $request, $translator, $auto_lang, $this->action_handler, $return_url);
 	}
 
 	/**

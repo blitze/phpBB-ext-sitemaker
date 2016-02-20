@@ -14,34 +14,25 @@ namespace blitze\sitemaker\services;
  */
 class icon_picker
 {
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
-	/**
-	 * Sitemaker object
-	 * @var \blitze\sitemaker\services\util
-	 */
+	/** @var \blitze\sitemaker\services\util */
 	protected $sitemaker;
 
-	/**
-	 * Sitemaker template object
-	 * @var \blitze\sitemaker\services\template
-	 */
+	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user                			$user       	User object
+	 * @param \phpbb\language\language     			$translator     Language object
 	 * @param \blitze\sitemaker\services\util		$sitemaker		Sitemaker object
 	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
+	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
 	{
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->sitemaker = $sitemaker;
 		$this->ptemplate = $ptemplate;
 	}
@@ -51,7 +42,7 @@ class icon_picker
 	 */
 	public function picker()
 	{
-		$this->user->add_lang_ext('blitze/sitemaker', 'icons');
+		$this->translator->add_lang('icons', 'blitze/sitemaker');
 
 		$this->sitemaker->add_assets(array(
 			'js'	=> array(

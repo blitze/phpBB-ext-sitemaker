@@ -57,9 +57,8 @@ class factory_test extends \phpbb_test_case
 		$phpbb_container->set('my.foo.block', $foo_block);
 		$phpbb_container->set('my.baz.block', $baz_block);
 
-		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-
-		$this->user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return ucwords(strtolower(str_replace('_', ' ', implode(' ', func_get_args()))));
@@ -87,7 +86,7 @@ class factory_test extends \phpbb_test_case
 
 		$reflectedClass = new \ReflectionClass($classname);
 		$constructor = $reflectedClass->getConstructor();
-		$constructor->invoke($factory, $this->user, $this->ptemplate, $this->blocks);
+		$constructor->invoke($factory, $this->translator, $this->ptemplate, $this->blocks);
 	}
 
 	/**
@@ -97,7 +96,7 @@ class factory_test extends \phpbb_test_case
 	{
 		$expected = '\foo\bar\blocks\foo_block';
 
-		$factory = new factory($this->user, $this->ptemplate, $this->blocks);
+		$factory = new factory($this->translator, $this->ptemplate, $this->blocks);
 
 		$block = $factory->get_block('my.foo.block', array());
 
@@ -115,7 +114,7 @@ class factory_test extends \phpbb_test_case
 			'my.baz.block'	=> 'My Baz Block',
 		);
 
-		$factory = new factory($this->user, $this->ptemplate, $this->blocks);
+		$factory = new factory($this->translator, $this->ptemplate, $this->blocks);
 
 		$this->assertEquals($expected, $factory->get_all_blocks());
 	}

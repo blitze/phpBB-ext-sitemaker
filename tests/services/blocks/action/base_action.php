@@ -64,8 +64,8 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->expects($this->any())
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
@@ -120,7 +120,7 @@ class base_action extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $user, $groups, $phpbb_root_path, $phpEx);
+		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $translator, $groups, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -134,12 +134,12 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('custom.block.service', $dummy_object);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($user, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
 
 		$this->mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 
 		$action_class = '\\blitze\\sitemaker\\services\\blocks\\action\\' . $action;
 
-        return new $action_class($this->config, $phpbb_container, $request, $user, $blocks_service, $block_factory, $this->mapper_factory);
+        return new $action_class($this->config, $phpbb_container, $request, $translator, $blocks_service, $block_factory, $this->mapper_factory);
 	}
 }

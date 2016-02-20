@@ -9,21 +9,19 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use phpbb\user;
-
 abstract class cfg_fields
 {
-	/** @var user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/**
 	 * Constructor
 	 *
-	 * @param user	$user	User object
+	 * @param \phpbb\language\language	$translator		Language object
 	 */
-	public function __construct(user $user)
+	public function __construct(\phpbb\language\language $translator)
 	{
-		$this->user = $user;
+		$this->translator = $translator;
 	}
 
 	/**
@@ -40,7 +38,7 @@ abstract class cfg_fields
 		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
 		{
-			$title = $this->user->lang($title);
+			$title = $this->translator->lang($title);
 			$selected = $this->_get_selected_option($value, $selected_items);
 			$html .= '<option value="' . $value . '"' . $selected . '>' . $title . '</option>';
 		}
@@ -99,7 +97,7 @@ abstract class cfg_fields
 		$html = '';
 		foreach ($option_ary as $value => $title)
 		{
-			$title = $this->user->lang($title);
+			$title = $this->translator->lang($title);
 			$selected = $this->_get_selected_option($value, $selected_item, 'checked');
 			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $title . '</label><br />';
 		}
@@ -168,7 +166,7 @@ abstract class cfg_fields
 		$column = '<div class="' . $column_class . $field . '-checkbox" id="' . $field . '-col-' . $column_count . '">';
 		foreach ($row as $value => $title)
 		{
-			$title = $this->user->lang($title);
+			$title = $this->translator->lang($title);
 			$selected = $this->_get_selected_option($value, $selected_items, 'checked');
 			$column .= '<label><input type="checkbox" name="config[' . $field . '][]" value="' . $value . '"' . $selected . ' accesskey="' . $field . '" class="checkbox" /> ' . $title . '</label><br />';
 		}

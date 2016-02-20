@@ -14,6 +14,9 @@ namespace blitze\sitemaker\blocks;
 */
 class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -29,13 +32,15 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\language\language				$translator			Language Object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\forum\data	$forum_data			Forum Data object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
 	{
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->forum_data = $forum_data;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -102,7 +107,7 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 			unset($topic_data[$i]);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', $this->user->lang('NO_BOOKMARKS'));
+		$this->ptemplate->assign_var('NO_RECORDS', $this->translator->lang('NO_BOOKMARKS'));
 	}
 
 	/**

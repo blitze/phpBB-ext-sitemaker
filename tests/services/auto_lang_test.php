@@ -39,11 +39,12 @@ class auto_lang_test extends \phpbb_test_case
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()
 			->getMock();
-
 		$user->lang_name = $user_lang;
-		$user->expects($this->any())
-			->method('add_lang_ext')
-			->will($this->returnCallback(function($ext_name, $lang_file) use (&$lang_list) {
+
+		$translator = $this->getMock('\phpbb\language\language');
+		$translator->expects($this->any())
+			->method('add_lang')
+			->will($this->returnCallback(function($lang_file, $ext_name) use (&$lang_list) {
 				$lang_list[$ext_name] = $lang_file;
 			}));
 
@@ -57,7 +58,7 @@ class auto_lang_test extends \phpbb_test_case
 				),
 			));
 
-		$auto_lang = new auto_lang($config, $phpbb_extension_manager, $user, $phpEx);
+		$auto_lang = new auto_lang($config, $phpbb_extension_manager, $translator, $user, $phpEx);
 		$auto_lang->add('blocks_admin');
 
 		$this->assertSame($expected, $lang_list);

@@ -29,6 +29,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -55,19 +58,21 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\template\template					$template				Template object
+	 * @param \phpbb\language\language					$translator				Language object
 	 * @param \phpbb\user								$user					User object
 	 * @param \blitze\sitemaker\services\util			$sitemaker				Sitemaker object
 	 * @param \blitze\sitemaker\services\blocks\display	$blocks					Blocks display object
 	 * @param string									$root_path				phpBB root path
 	 * @param string									$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\request\request_interface $request, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\blocks\display $blocks, $root_path, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->request = $request;
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->sitemaker = $sitemaker;
 		$this->blocks = $blocks;
@@ -132,7 +137,7 @@ class listener implements EventSubscriberInterface
 		if ($this->request->is_set('f'))
 		{
 			$this->template->alter_block_array('navlinks', array(
-				'FORUM_NAME'	=> $this->user->lang('FORUM'),
+				'FORUM_NAME'	=> $this->translator->lang('FORUM'),
 				'U_VIEW_FORUM'	=> $u_viewforum,
 			));
 		}
@@ -209,7 +214,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
-			$event['location'] = $this->user->lang('FORUM_INDEX');
+			$event['location'] = $this->translator->lang('FORUM_INDEX');
 			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 		}
 	}

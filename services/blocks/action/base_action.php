@@ -23,8 +23,8 @@ abstract class base_action implements action_interface
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\blocks\blocks */
 	protected $blocks;
@@ -46,17 +46,17 @@ abstract class base_action implements action_interface
 	 * @param \phpbb\config\config							$config					Config object
 	 * @param ContainerInterface							$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface				$request				Request object
-	 * @param \phpbb\user									$user					User object
+	 * @param \phpbb\language\language						$translator				Langua object
 	 * @param \blitze\sitemaker\services\blocks\blocks		$blocks					Blocks object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->blocks = $blocks;
 		$this->block_factory = $block_factory;
 		$this->mapper_factory = $mapper_factory;
@@ -92,8 +92,8 @@ abstract class base_action implements action_interface
 
 			return array_merge($block_data, array(
 				'id'		=> $block_data['bid'],
-				'title'		=> (!empty($block_data['title'])) ? $block_data['title'] : $this->user->lang($disp_data['title']),
-				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->user->lang('BLOCK_NO_DATA'),
+				'title'		=> (!empty($block_data['title'])) ? $block_data['title'] : $this->translator->lang($disp_data['title']),
+				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->translator->lang('BLOCK_NO_DATA'),
 			));
 		}
 	}

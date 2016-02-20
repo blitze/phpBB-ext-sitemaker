@@ -117,7 +117,7 @@ class attachments_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new attachments($auth, $cache, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
+		$block = new attachments($auth, $cache, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

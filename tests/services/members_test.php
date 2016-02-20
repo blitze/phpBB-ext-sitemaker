@@ -73,13 +73,12 @@ class members_test extends \phpbb_database_test_case
 			$container);
 
 		$user = new \phpbb\user('\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-		$user->data = array('user_lang' => 'en');
-		$user->lang['datetime'] =  array();
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
 		// We do this here so we can ensure that language variables are provided
-		$user->add_lang('common');
-		$user->add_lang_ext('blitze/sitemaker', 'common');
+		$translator->add_lang('common');
+		$translator->add_lang('common', 'blitze/sitemaker');
 
 		$db = $this->new_dbal();
 
@@ -115,7 +114,7 @@ class members_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new members($db, $user, $date_range, $ptemplate, $phpbb_root_path, $phpEx);
+		return new members($db, $translator, $user, $date_range, $ptemplate, $phpbb_root_path, $phpEx);
 	}
 
 	/**

@@ -11,8 +11,8 @@ namespace blitze\sitemaker\services\blocks;
 
 class factory
 {
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
@@ -23,13 +23,13 @@ class factory
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user							$user				User object
+	 * @param \phpbb\language\language				$translator			Language object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Template Object
 	 * @param \phpbb\di\service_collection			$blocks				Service Collection
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\template $ptemplate, \phpbb\di\service_collection $blocks)
+	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\template $ptemplate, \phpbb\di\service_collection $blocks)
 	{
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->ptemplate = $ptemplate;
 
 		$this->register_blocks($blocks);
@@ -72,7 +72,7 @@ class factory
 		foreach ($this->blocks as $service => $driver)
 		{
 			$lname = strtoupper(str_replace('.', '_', $driver->get_name()));
-			$blocks[$service] = $this->user->lang($lname);
+			$blocks[$service] = $this->translator->lang($lname);
 		}
 
 		asort($blocks);

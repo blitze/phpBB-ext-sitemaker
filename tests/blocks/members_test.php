@@ -34,13 +34,14 @@ class members_test extends blocks_base
 	{
 		global $phpbb_dispatcher, $user;
 
+		$translator = $this->getMock('\phpbb\language\language');
 		$user = new \phpbb\user('\phpbb\datetime');
 
 		$this->members = $this->getMockBuilder('\blitze\sitemaker\services\members')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new members($user, $this->members);
+		$block = new members($translator, $user, $this->members);
 		$block->set_template($this->ptemplate);
 
 		return $block;

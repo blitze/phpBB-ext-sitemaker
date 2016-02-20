@@ -14,6 +14,9 @@ class groups
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var\phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -21,11 +24,13 @@ class groups
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db	 		Database connection
+	 * @param\phpbb\language\language				$translator	Language object
 	 * @param \phpbb\user							$user		User object
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator,  \phpbb\user $user)
 	{
 		$this->db = $db;
+		$this->translator = $translator;
 		$this->user = $user;
 	}
 
@@ -78,7 +83,7 @@ class groups
 		$sql = $this->_get_group_sql($mode);
 		$result = $this->db->sql_query($sql);
 
-		$options = '<option value="0">' . $this->user->lang('ALL') . '</option>';
+		$options = '<option value="0">' . $this->translator->lang('ALL') . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$group_name = $this->_get_group_name($row);
@@ -97,7 +102,7 @@ class groups
 	 */
 	private function _get_group_sql($mode)
 	{
-		return 'SELECT group_id, group_name, group_type 
+		return 'SELECT group_id, group_name, group_type
 			FROM ' . GROUPS_TABLE .
 			(($mode === 'special') ? ' WHERE group_type = ' . GROUP_SPECIAL : '') . '
 			ORDER BY group_name ASC';
@@ -109,7 +114,7 @@ class groups
 	 */
 	private function _get_group_name(array $row)
 	{
-		return ($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
+		return ($row['group_type'] == GROUP_SPECIAL) ? $this->translator->lang('G_' . $row['group_name']) : ucfirst($row['group_name']);
 	}
 
 	/**

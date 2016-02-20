@@ -19,8 +19,8 @@ class blocks extends routes
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
@@ -34,17 +34,17 @@ class blocks extends routes
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
 	 * @param \phpbb\template\template						$template				Template object
-	 * @param \phpbb\user									$user					User object
+	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\services\groups				$groups					Groups Object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		parent::__construct($cache, $config, $block_factory, $mapper_factory);
 
 		$this->template = $template;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->block_factory = $block_factory;
 		$this->groups = $groups;
 	}
@@ -136,7 +136,7 @@ class blocks extends routes
 	 */
 	protected function _get_block_title($db_title, $df_title)
 	{
-		return ($db_title) ? $db_title : $this->user->lang($df_title);
+		return ($db_title) ? $db_title : $this->translator->lang($df_title);
 	}
 
 	/**
@@ -153,7 +153,7 @@ class blocks extends routes
 		}
 		else if ($edit_mode)
 		{
-			$content = $this->user->lang('BLOCK_NO_DATA');
+			$content = $this->translator->lang('BLOCK_NO_DATA');
 		}
 
 		return $content;

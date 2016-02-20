@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class save_blocks extends base_action
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
 	protected $block_mapper;
 
@@ -32,7 +35,7 @@ class save_blocks extends base_action
 
 		$this->_save_blocks($entity, $blocks);
 
-		return array('message' => $this->user->lang('LAYOUT_SAVED'));
+		return array('message' => $this->translator->lang('LAYOUT_SAVED'));
 	}
 
 	protected function _save_blocks($route_entity, array $blocks)

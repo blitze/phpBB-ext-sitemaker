@@ -68,7 +68,8 @@ class listener_base extends \phpbb_database_test_case
 
 		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
-		$this->user->expects($this->any())
+		$this->translator = $this->getMock('\phpbb\language\language');
+		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
@@ -131,7 +132,7 @@ class listener_base extends \phpbb_database_test_case
 			->getMock();
 
 		return $this->getMockBuilder('\blitze\sitemaker\event\listener')
-            ->setConstructorArgs(array($this->cache, $this->config, $this->request, $this->container, $this->template, $this->user, $this->sitemaker, $this->blocks, $phpbb_root_path, $phpEx))
+            ->setConstructorArgs(array($this->cache, $this->config, $this->request, $this->container, $this->template, $this->translator, $this->user, $this->sitemaker, $this->blocks, $phpbb_root_path, $phpEx))
             ->setMethods(array('exit_handler'))
             ->getMock();
 	}

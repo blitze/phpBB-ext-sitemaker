@@ -22,8 +22,8 @@ class action_handler
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $translator;
 
 	/** @var \blitze\sitemaker\services\blocks\blocks */
 	protected $blocks;
@@ -40,17 +40,17 @@ class action_handler
 	 * @param \phpbb\config\config							$config					Config object
 	 * @param ContainerInterface							$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface				$request				Request object
-	 * @param \phpbb\user									$user					User object
+	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \blitze\sitemaker\services\blocks\blocks		$blocks					Blocks object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\blocks\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\blocks $blocks, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
-		$this->user = $user;
+		$this->translator = $translator;
 		$this->blocks = $blocks;
 		$this->block_factory = $block_factory;
 		$this->mapper_factory = $mapper_factory;
@@ -65,7 +65,7 @@ class action_handler
 			throw new \blitze\sitemaker\exception\out_of_bounds(array($action, 'INVALID_REQUEST'));
 		}
 
-		return new $action_class($this->config, $this->phpbb_container, $this->request, $this->user, $this->blocks, $this->block_factory, $this->mapper_factory);
+		return new $action_class($this->config, $this->phpbb_container, $this->request, $this->translator, $this->blocks, $this->block_factory, $this->mapper_factory);
 	}
 
 	public function clear_cache()

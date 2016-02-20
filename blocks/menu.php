@@ -17,9 +17,6 @@ use blitze\sitemaker\services\menus\menu_block;
 */
 class menu extends menu_block
 {
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
 
@@ -32,7 +29,7 @@ class menu extends menu_block
 		$depth_options = $this->get_depth_options();
 
 		return array(
-			'legend1'       => $this->user->lang('SETTINGS'),
+			'legend1'	=> 'SETTINGS',
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'options' => array(1 => ''), 'default' => 0, 'explain' => false),
 			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
@@ -44,7 +41,7 @@ class menu extends menu_block
 	 */
 	public function display(array $db_data, $editing = false)
 	{
-		$title = $this->user->lang('MENU');
+		$title = 'MENU';
 		$menu_id = $db_data['settings']['menu_id'];
 
 		$data = $this->_get_menu($menu_id);

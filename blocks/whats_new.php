@@ -14,6 +14,9 @@ namespace blitze\sitemaker\blocks;
 */
 class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 {
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -29,13 +32,15 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\language\language				$translator			Language object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\forum\data	$forum_data			Forum Data object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
 	{
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->forum_data = $forum_data;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -48,7 +53,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'		=> $this->user->lang('SETTINGS'),
+			'legend1'	=> 'SETTINGS',
 			'topics_only'	=> array('lang' => 'TOPICS_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
@@ -97,7 +102,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 			unset($topic_data[$i]);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', ($settings['topics_only']) ? $this->user->lang('NO_NEW_TOPICS') : $this->user->lang('NO_NEW_POSTS'));
+		$this->ptemplate->assign_var('NO_RECORDS', ($settings['topics_only']) ? $this->translator->lang('NO_NEW_TOPICS') : $this->translator->lang('NO_NEW_POSTS'));
 	}
 
 	/**
