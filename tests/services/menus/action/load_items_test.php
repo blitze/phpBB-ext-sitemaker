@@ -22,6 +22,12 @@ class load_items_test extends base_action
 		return array(
 			array(
 				array(
+					array('menu_id', 0, false, request_interface::REQUEST, 0),
+				),
+				array(),
+			),
+			array(
+				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 1),
 				),
 				array(
@@ -79,7 +85,7 @@ class load_items_test extends base_action
 	{
 		$expected = 'MENU_NOT_FOUND';
 		$variable_map = array(
-			array('menu_id', 0, false, request_interface::REQUEST, 0),
+			array('menu_id', 0, false, request_interface::REQUEST, 15),
 		);
 
 		$command = $this->get_command('load_items', $variable_map);

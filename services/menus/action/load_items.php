@@ -15,15 +15,22 @@ class load_items extends base_action
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
-
-		if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+		if ($menu_id)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
+			$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+
+			if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+			{
+				throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
+			}
+
+			$collection = $entity->get_items();
+
+			return $this->_get_items($collection);
 		}
-
-		$collection = $entity->get_items();
-
-		return $this->_get_items($collection);
+		else
+		{
+			return array();
+		}
 	}
 }
