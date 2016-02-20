@@ -4,7 +4,10 @@
 	<!-- BEGIN topicrow -->
 		<li>
 			<div class="sm-inner">
-				<!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a><br />
+				<!-- IF topicrow.S_UNREAD_TOPIC and not S_IS_BOT -->
+					<i class="icon fa-file fa-fw icon-red icon-md" aria-hidden="true"></i><span class="sr-only">{NEW_POST}</span>
+				<!-- ENDIF -->
+				<a href="{topicrow.U_VIEWTOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a><br />
 				{L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME}<br /><br />{topicrow.TOPIC_PREVIEW}
 			</div>
 		</li>
@@ -13,7 +16,10 @@
 	<!-- BEGIN topicrow -->
 		<li title="{topicrow.TOPIC_PREVIEW}">
 			<div class="sm-inner">
-				<!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}">{topicrow.TOPIC_TITLE}</a><br />
+				<!-- IF topicrow.S_UNREAD_TOPIC and not S_IS_BOT -->
+					<i class="icon fa-file fa-fw icon-red icon-md" aria-hidden="true"></i><span class="sr-only">{NEW_POST}</span>
+				<!-- ENDIF -->
+				<a href="{topicrow.U_VIEWTOPIC}">{topicrow.TOPIC_TITLE}</a><br />
 				<!-- IF topicrow.ATTACH_ICON_IMG -->{topicrow.ATTACH_ICON_IMG} <!-- ENDIF -->{L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME}<br />
 				<span class="gensmall">{L_REPLIES}: {topicrow.REPLIES}, {L_VIEWS}: {topicrow.VIEWS}</span>
 			</div>
@@ -21,7 +27,12 @@
 	<!-- END topicrow -->
 <!-- ELSE -->
 	<!-- BEGIN topicrow -->
-		<li><!-- IF topicrow.S_UNREAD_TOPIC -->{NEWEST_POST_IMG}<!-- ELSE -->{LAST_POST_IMG}<!-- ENDIF -->&nbsp;<a href="{topicrow.U_VIEWTOPIC}" title="{topicrow.TOPIC_PREVIEW}">{topicrow.TOPIC_TITLE}</a></li>
+		<li>
+			<!-- IF topicrow.S_UNREAD_TOPIC and not S_IS_BOT -->
+				<i class="icon fa-file fa-fw icon-red icon-md" aria-hidden="true"></i><span class="sr-only">{NEW_POST}</span>
+			<!-- ENDIF -->
+			<a href="{topicrow.U_VIEWTOPIC}" title="{topicrow.TOPIC_PREVIEW}">{topicrow.TOPIC_TITLE}</a>
+		</li>
 	<!-- END topicrow -->
 <!-- ENDIF -->
 </ul>
