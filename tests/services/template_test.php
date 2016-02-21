@@ -33,7 +33,11 @@ class template_test extends \phpbb_test_case
 		global $phpbb_root_path, $phpEx;
 
 		$config = new \phpbb\config\config(array());
-		$user = new \phpbb\user('\phpbb\datetime');
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang = new \phpbb\language\language($lang_loader);
+		$user = new \phpbb\user($lang, '\phpbb\datetime');
+
 		$filesystem = new \phpbb\filesystem\filesystem();
 		$context = $this->getMockBuilder('\phpbb\template\context')
 			->disableOriginalConstructor()
@@ -58,7 +62,8 @@ class template_test extends \phpbb_test_case
 			$phpEx
 		);
 
-		$container = new phpbb_mock_container_builder();
+		$container = new \phpbb_mock_container_builder();
+
 		$cache_path = $phpbb_root_path . 'cache/twig';
 		$loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
@@ -76,11 +81,11 @@ class template_test extends \phpbb_test_case
 				'autoescape'	=> false,
 			)
 		);
-
+		$container->set('template.twig.lexer', new \phpbb\template\twig\lexer($twig));
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager($phpbb_root_path, array());
 
 		return $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->setConstructorArgs(array($path_helper, $config, $context, $twig, $cache_path, $user, $phpbb_extension_manager))
+			->setConstructorArgs(array($path_helper, $config, $context, $twig, $cache_path, $user, array(), $phpbb_extension_manager))
 			->setMethods(array('set_style', 'set_filenames', 'assign_display'))
 			->getMock();
 	}

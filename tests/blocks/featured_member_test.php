@@ -38,12 +38,20 @@ class featured_member_test extends blocks_base
 		$this->db = $db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request');
 		$template = $this->getMock('\phpbb\template\template');
-		$translator = $this->getMock('\phpbb\language\language');
 
 		$config = new \phpbb\config\config(array('num_posts' => 8));
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
+
+		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->expects($this->any())
 			->method('lang')
@@ -53,11 +61,6 @@ class featured_member_test extends blocks_base
 		$user->expects($this->any())
 			->method('get_iso_lang_id')
 			->willReturn(1);
-		$user->lang['datetime'] =  array(
-			'TODAY'		=> 'Today',
-			'TOMORROW'	=> 'Tomorrow',
-			'YESTERDAY'	=> 'Yesterday',
-		);
 
 		$cp_type_string = new \phpbb\profilefields\type\type_string($request, $template, $user);
 		$cp_type_url = new \phpbb\profilefields\type\type_text($request, $template, $user);

@@ -59,7 +59,7 @@ class manager
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
 		}
 
-		$this->translator->add_lang('acp/forums');
+		$translator->add_lang('acp/forums');
 	}
 
 	public function add(&$forum_data, $forum_perm_from = 0)

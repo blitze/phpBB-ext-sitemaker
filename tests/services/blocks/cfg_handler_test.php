@@ -40,14 +40,10 @@ class cfg_handler_test extends \phpbb_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
-		$translator = $this->getMock('\phpbb\language\language');
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
-			});
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -197,7 +193,7 @@ class cfg_handler_test extends \phpbb_test_case
 		$expected = array_merge(array(
 			array(
 				'S_LEGEND'	=> 'legend1',
-				'LEGEND'	=> 'SETTINGS',
+				'LEGEND'	=> 'Settings',
 			)),
 			array($expected)
 		);

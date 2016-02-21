@@ -36,7 +36,7 @@ class date_range_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
-		global $phpbb_dispatcher, $template;
+		global $phpbb_dispatcher, $template, $phpbb_root_path, $phpEx;
 
 		parent::setUp();
 
@@ -44,9 +44,11 @@ class date_range_test extends \phpbb_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$this->user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$this->user = new \phpbb\user($translator, '\phpbb\datetime');
 		$this->user->timezone = new \DateTimeZone('UTC');
-		$this->user->lang['datetime'] = array();
 
 		// we force current date
 		$date = '25 November 2015';

@@ -55,15 +55,11 @@ class display_test extends \phpbb_database_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->page = $page_data;
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
-		$translator = $this->getMock('\phpbb\language\language');
-		$trans->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
-			});
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->page = $page_data;
 
 		$config = new \phpbb\config\config(array(
 			'default_style' => 1,

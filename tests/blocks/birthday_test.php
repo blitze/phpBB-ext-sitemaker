@@ -30,15 +30,17 @@ class birthday_test extends blocks_base
 	 */
 	protected function get_block($time = 'now')
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $user;
+		global $auth, $cache, $db, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$db = $this->new_dbal();
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
-		$user->lang['datetime'] =  array();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

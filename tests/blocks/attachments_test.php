@@ -38,9 +38,10 @@ class attachments_test extends blocks_base
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$user = new \phpbb\user('\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-		$user->lang['datetime'] =  array();
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -111,7 +112,7 @@ class attachments_test extends blocks_base
 
 		$date_range = new date_range($user, '24 November 2015');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $user, 0);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()
@@ -170,12 +171,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 248.63,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'some_archive.zip',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=2',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 2 times',
 								),
 							),
 						),
@@ -188,12 +189,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 31.09,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
 								),
 							),
 						),
@@ -222,12 +223,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 248.63,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'some_archive.zip',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=2',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 2 times',
 								),
 							),
 						),
@@ -256,12 +257,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 31.09,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
 								),
 							),
 						),
@@ -290,12 +291,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 31.09,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
 								),
 							),
 						),
@@ -324,12 +325,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 248.63,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'some_archive.zip',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=2',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 2 times',
 								),
 							),
 						),
@@ -358,12 +359,12 @@ class attachments_test extends blocks_base
 								array(
 									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
 									'FILESIZE' => 248.63,
-									'SIZE_LANG' => 'KIB',
+									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'some_archive.zip',
 									'COMMENT' => '',
 									'S_FILE' => true,
 									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=2',
-									'L_DOWNLOAD_COUNT' => 'DOWNLOAD_COUNTS',
+									'L_DOWNLOAD_COUNT' => 'Downloaded 2 times',
 								),
 							),
 						),

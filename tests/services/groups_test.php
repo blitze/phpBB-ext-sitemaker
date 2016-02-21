@@ -37,15 +37,16 @@ class groups_test extends \phpbb_database_test_case
 	{
 		$db = $this->new_dbal();
 
-		$translator = $this->getMock('\phpbb\language\language');
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
 			});
 
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->data['user_id'] = $user_id;
 
 		return new groups($db, $translator, $user);

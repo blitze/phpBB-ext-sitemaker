@@ -57,7 +57,9 @@ class factory_test extends \phpbb_test_case
 		$phpbb_container->set('my.foo.block', $foo_block);
 		$phpbb_container->set('my.baz.block', $baz_block);
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {

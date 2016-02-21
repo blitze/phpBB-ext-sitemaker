@@ -30,7 +30,9 @@ class load_items extends base_action
 		}
 		else
 		{
-			return array();
+			return array(
+				'items' => array()
+			);
 		}
 	}
 }

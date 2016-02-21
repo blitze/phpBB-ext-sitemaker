@@ -41,7 +41,9 @@ class auto_lang_test extends \phpbb_test_case
 			->getMock();
 		$user->lang_name = $user_lang;
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
 			->method('add_lang')
 			->will($this->returnCallback(function($lang_file, $ext_name) use (&$lang_list) {

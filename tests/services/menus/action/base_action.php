@@ -62,7 +62,9 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {

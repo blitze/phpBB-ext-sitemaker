@@ -45,20 +45,30 @@ class manager_test extends \phpbb_database_test_case
 	 */
 	public function setUp()
 	{
-		global $auth, $cache, $config, $db, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
+		global $auth, $cache, $config, $db, $phpbb_dispatcher, $phpbb_container, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		parent::setUp();
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array('sitemaker_parent_forum_id' => 2));
-		$translator = $this->getMock('\phpbb\language\language');
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$this->db = $db = $this->new_dbal();
-		$user = new \phpbb\user('\phpbb\datetime');
+
+		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_container->set('attachment.manager', $this->getMockBuilder('\phpbb\attachment\manager')
+			->disableOriginalConstructor()
+			->getMock());
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
+
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
 		require_once dirname(__FILE__) . '/../../../../../../includes/functions_admin.php';
+		require_once dirname(__FILE__) . '/../../../../../../includes/functions_acp.php';
 
 		$this->manager = new manager($auth, $cache, $config, $db, $translator, $phpbb_root_path, $phpEx);
 	}

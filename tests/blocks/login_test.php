@@ -32,7 +32,10 @@ class login_test extends blocks_base
 	{
 		global $user, $phpbb_dispatcher, $phpbb_path_helper, $request, $phpbb_root_path, $phpEx;
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->page = array(
 			'page_name'	=> $curr_page,
 			'page'		=> $curr_page,

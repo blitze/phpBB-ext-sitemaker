@@ -71,10 +71,18 @@ class whois_test extends blocks_base
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function ($key, $value) {
+				return $key . ': ' . $value;
+			});
+
+		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
+		$user->timezone = new \DateTimeZone('UTC');
+		$user->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function ($key, $value) {
 				return $key . ': ' . $value;

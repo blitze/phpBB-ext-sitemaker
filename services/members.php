@@ -108,7 +108,7 @@ class members
 		return array(
 			'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 			'USER_AVATAR'	=> phpbb_get_user_avatar($row),
-			'USER_INFO'		=> $this->user->format_date($row['member_date'], $this->user->date_format, true)
+			'USER_INFO'		=> $this->user->format_date($row['member_date'], $this->translator->lang('DATE_FORMAT'), true)
 		);
 	}
 

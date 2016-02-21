@@ -34,7 +34,7 @@ class edit_block_test extends base_action
 				array(
 					array(
 						'S_LEGEND'	=> 'legend1',
-						'LEGEND'	=> 'SETTINGS',
+						'LEGEND'	=> 'Settings',
 					),
 					array(
 						'KEY'			=> 'my_setting',

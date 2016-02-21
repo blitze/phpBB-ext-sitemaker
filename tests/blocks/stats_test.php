@@ -49,7 +49,9 @@ class stats_test extends blocks_base
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function ($key, $value) {

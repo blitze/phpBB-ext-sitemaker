@@ -38,9 +38,11 @@ class forum_poll_test extends blocks_base
 		$config = new \phpbb\config\config(array('cookie_name' => 'phpbb'));
 		$db = $this->new_dbal();
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
-		$user->lang['datetime'] =  array();
 		$user->data = array(
 			'user_id'		=> 2,
 			'is_registered'	=> $is_registered,
@@ -93,7 +95,7 @@ class forum_poll_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, 0);
+		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()

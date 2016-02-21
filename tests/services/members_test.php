@@ -54,7 +54,7 @@ class members_test extends \phpbb_database_test_case
 	 */
 	protected function get_service()
 	{
-		global $auth, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_root_path, $phpEx;
+		global $auth, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 
@@ -72,13 +72,18 @@ class members_test extends \phpbb_database_test_case
 			),
 			$container);
 
-		$user = new \phpbb\user('\phpbb\datetime');
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang_loader->set_extension_manager($phpbb_extension_manager);
+
 		$translator = new \phpbb\language\language($lang_loader);
+		$translator->set_user_language('en');
 
 		// We do this here so we can ensure that language variables are provided
 		$translator->add_lang('common');
 		$translator->add_lang('common', 'blitze/sitemaker');
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->timezone = new \DateTimeZone('UTC');
 
 		$db = $this->new_dbal();
 

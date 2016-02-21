@@ -64,12 +64,8 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$translator = $this->getMock('\phpbb\language\language');
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode('-', func_get_args());
-			});
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
 		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()

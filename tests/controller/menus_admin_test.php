@@ -64,14 +64,10 @@ class menus_admin_test extends \phpbb_database_test_case
 			->method('is_ajax')
 			->will($this->returnValue($ajax_request));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
-		$translator = $this->getMock('\phpbb\language\language');
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
-			});
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -142,7 +138,7 @@ class menus_admin_test extends \phpbb_database_test_case
 				1,
 				0,
 				200,
-				'{"message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST"}'
+				'{"message":"EXCEPTION_OUT_OF_BOUNDS"}'
 			),
 		);
 	}

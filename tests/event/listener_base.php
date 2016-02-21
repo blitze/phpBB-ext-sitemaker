@@ -66,14 +66,16 @@ class listener_base extends \phpbb_database_test_case
 		$this->config = new \phpbb\config\config(array());
 		$this->cache = $cache = new \phpbb_mock_cache();
 
-		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-
-		$this->translator = $this->getMock('\phpbb\language\language');
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
 			});
+
+		$this->user = new \phpbb\user($this->translator, '\phpbb\datetime');
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();

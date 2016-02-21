@@ -37,11 +37,12 @@ class whats_new_test extends blocks_base
 		$config = new \phpbb\config\config(array('load_db_lastread' => true));
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$translator = $this->getMock('\phpbb\language\language');
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
-		$user->lang['datetime'] =  array();
 		$user->data = $user_data;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();

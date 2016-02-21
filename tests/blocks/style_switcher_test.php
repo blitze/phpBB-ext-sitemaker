@@ -34,7 +34,10 @@ class style_switcher_test extends blocks_base
 
 		$db = $this->new_dbal();
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->page = array(
 			'page_name'	=> 'index.php',
 			'page'		=> 'index.php',

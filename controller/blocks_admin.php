@@ -86,7 +86,7 @@ class blocks_admin
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$json_data['message'] = $e->get_message($this->user);
+			$json_data['message'] = $e->get_message($this->translator);
 		}
 
 		return new Response(json_encode(array_merge($json_data, $return_data)));

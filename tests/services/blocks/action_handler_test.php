@@ -36,7 +36,9 @@ class action_handler_test extends \phpbb_test_case
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$translator = $this->getMock('\phpbb\language\language');
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -54,7 +56,7 @@ class action_handler_test extends \phpbb_test_case
 			->getMock();
 
 		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
-			->setConstructorArgs(array($cache, $config, $template, $user, $block_factory, $groups, $mapper))
+			->setConstructorArgs(array($cache, $config, $template, $translator, $block_factory, $groups, $mapper))
 			->setMethods(array('clear_cache'))
 			->getMock();
 

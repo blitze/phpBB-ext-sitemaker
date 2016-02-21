@@ -75,14 +75,16 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode(' ', func_get_args());
 			});
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(

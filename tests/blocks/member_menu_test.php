@@ -42,7 +42,10 @@ class member_menu_test extends blocks_base
 
 		$db = $this->new_dbal();
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->session_id = 0;
 		$user->data = $user_data;
 

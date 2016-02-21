@@ -45,13 +45,15 @@ class menu_test extends blocks_base
 
 		$db = $this->new_dbal();
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$translator = $this->getMock('\phpbb\language\language');
 
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->host = 'www.example.com';
 		$user->page = $page_data;
 		$user->page['root_script_path'] = '/phpBB/';
@@ -79,30 +81,40 @@ class menu_test extends blocks_base
 
 		$tree = new display($db, $this->template, $user, $tables['mapper_tables']['items'], 'item_id');
 
-		$ptemplate = new template(
-			new \phpbb\path_helper(
-				new \phpbb\symfony_request(
-					new \phpbb_mock_request()
-				),
-				new \phpbb\filesystem(),
-				$request,
-				$phpbb_root_path,
-				$phpEx
+		$filesystem = new \phpbb\filesystem\filesystem();
+
+		$path_helper = new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
 			),
+			$filesystem,
+			$request,
+			$phpbb_root_path,
+			$phpEx
+		);
+
+		$container = new \phpbb_mock_container_builder();
+		$cache_path = $phpbb_root_path . 'cache/twig';
+		$context = new \phpbb\template\context();
+		$loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
+		$twig = new \phpbb\template\twig\environment(
 			$config,
-			$user,
-			new \phpbb\template\context(),
-			new \phpbb_mock_extension_manager(
-				$phpbb_root_path,
-				array(
-					'blitze/sitemaker' => array(
-						'ext_name'		=> 'blitze/sitemaker',
-						'ext_active'	=> '1',
-						'ext_path'		=> 'ext/blitze/sitemaker/',
-					),
-				)
+			$filesystem,
+			$path_helper,
+			$container,
+			$cache_path,
+			null,
+			$loader,
+			array(
+				'cache'			=> false,
+				'debug'			=> false,
+				'auto_reload'	=> true,
+				'autoescape'	=> false,
 			)
 		);
+		$ptemplate = new template($path_helper, $config, $context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($context, $user)));
+		$container->set('template.twig.lexer', new \phpbb\template\twig\lexer($twig));
+
 		$ptemplate->set_custom_style('prosilver', $phpbb_root_path . 'ext/blitze/sitemaker/styles/prosilver');
 
 		$block = new menu($cache, $config, $translator, $mapper_factory, $tree);

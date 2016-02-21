@@ -38,7 +38,8 @@ class action_handler_test extends \phpbb_test_case
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
 		$mapper_factory = $this->getMockBuilder('\blitze\sitemaker\model\mapper_factory')
 			->disableOriginalConstructor()

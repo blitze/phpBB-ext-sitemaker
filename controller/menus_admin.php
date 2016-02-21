@@ -61,7 +61,7 @@ class menus_admin
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$return_data['message'] = $e->get_message($this->user);
+			$return_data['message'] = $e->get_message($this->translator);
 		}
 		catch (\Exception $e)
 		{

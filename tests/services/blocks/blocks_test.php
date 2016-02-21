@@ -47,6 +47,8 @@ class blocks_test extends \phpbb_database_test_case
 	 */
 	protected function get_service($default_layout)
 	{
+		global $phpbb_root_path, $phpEx;
+
 		$table_prefix = 'phpbb_';
 		$tables = array(
 			'mapper_tables'	=> array(
@@ -61,7 +63,8 @@ class blocks_test extends \phpbb_database_test_case
 			'sitemaker_default_layout'	=> $default_layout,
 		));
 
-		$translator = $this->getMock('\phpbb\language\language');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -79,7 +82,7 @@ class blocks_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($user, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
 
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()

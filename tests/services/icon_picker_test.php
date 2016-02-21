@@ -25,7 +25,9 @@ class icon_picker_test extends \phpbb_test_case
 
 	public function test_picker()
 	{
-		$translator = $this->getMock('\phpbb\language\language');
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
 		$translator->expects($this->once())
 			->method('add_lang')
 			->with(
@@ -61,7 +63,7 @@ class icon_picker_test extends \phpbb_test_case
 			->method('assign_display')
 			->with('icons');
 
-		$icon = new icon_picker($user, $util, $ptemplate);
+		$icon = new icon_picker($translator, $util, $ptemplate);
 		$icon->picker();
 	}
 }

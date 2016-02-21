@@ -72,7 +72,6 @@ class admin_bar_test extends \phpbb_database_test_case
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$translator = $this->getMock('\phpbb\language\language');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -86,10 +85,11 @@ class admin_bar_test extends \phpbb_database_test_case
 			$phpEx
 		);
 
-		$user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$translator = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
-		$user->data = array('user_lang' => 'en');
-		$user->lang['datetime'] =  array();
 		$user->host = 'my-site.com';
 		$user->page['page'] = $page;
 		$user->page['root_script_path'] = '/phpBB/';
@@ -215,9 +215,9 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">SELECT</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '<option value="" selected="selected">None</option>',
+					'S_POSITION_OPS' => '<option value="" selected="selected">NONE</option>',
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
@@ -241,9 +241,9 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">SELECT</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '<option value="">None</option><option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
+					'S_POSITION_OPS' => '<option value="">NONE</option><option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
@@ -437,11 +437,11 @@ class admin_bar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'index.php',
-				'<option value="">SELECT</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 			),
 			array(
 				'app.php/foo/test/',
-				'<option value="">SELECT</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option>',
 			),
 		);
 	}
