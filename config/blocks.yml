@@ -72,7 +72,6 @@ services:
         class: blitze\sitemaker\blocks\forum_topics
         arguments:
             - '@auth'
-            - '@config'
             - '@content.visibility'
             - '@language'
             - '@user'

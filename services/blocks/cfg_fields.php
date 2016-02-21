@@ -32,7 +32,7 @@ abstract class cfg_fields
 	 * @param $key
 	 * @return string
 	 */
-	function build_select($option_ary, $selected_item, $key)
+	public function build_select($option_ary, $selected_item, $key)
 	{
 		$html = '<select id="' . $key . '" name="config[' . $key . ']">';
 		foreach ($option_ary as $value => $title)

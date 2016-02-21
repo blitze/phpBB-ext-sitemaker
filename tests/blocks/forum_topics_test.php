@@ -92,7 +92,7 @@ class forum_topics_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new forum_topics($auth, $config, $content_visibility, $translator, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
+		$block = new forum_topics($auth, $content_visibility, $translator, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

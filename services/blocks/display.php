@@ -29,7 +29,7 @@ class display
 	protected $template;
 
 	/** @var \phpbb\language\language */
-	protected $transl;
+	protected $translator;
 
 	/** @var \phpbb\user */
 	protected $user;

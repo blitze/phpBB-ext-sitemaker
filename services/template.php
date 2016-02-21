@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class template extends \phpbb\template\twig\twig
 {
 	public function clear()

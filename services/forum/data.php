@@ -351,7 +351,7 @@ class data extends query_builder
 		$result = $this->db->sql_query($sql);
 
 		$user_cache = array();
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$poster_id = $row['user_id'];
 
@@ -420,7 +420,7 @@ class data extends query_builder
 		$email = '';
 		if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
 		{
-			$email = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", "mode=email&amp;u=$poster_id") : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
+			$email = ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", 'mode=email&amp;u=' . $row['user_id']) : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']);
 		}
 
 		return array('email' => $email);

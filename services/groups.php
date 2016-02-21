@@ -27,7 +27,7 @@ class groups
 	 * @param\phpbb\language\language				$translator	Language object
 	 * @param \phpbb\user							$user		User object
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator,  \phpbb\user $user)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user)
 	{
 		$this->db = $db;
 		$this->translator = $translator;

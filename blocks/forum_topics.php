@@ -59,7 +59,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth							$auth				Permission object
-	 * @param \phpbb\config\config						$config				Config object
 	 * @param \phpbb\content_visibility					content_visibility	Content visibility object
 	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \phpbb\user								$user				User object
@@ -69,7 +68,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;
