@@ -265,14 +265,20 @@ class query_builder
 	/**
 	 * Build the query
 	 *
-	 * @param bool|true $check_visibility	Should we only return data from forums the user is allowed to see?
-	 * @param bool|true $enable_caching		Should the query be cached where possible?
+	 * @param bool|true $check_visibility		Should we only return data from forums the user is allowed to see?
+	 * @param bool|true $enable_caching			Should the query be cached where possible?
+	 * @param bool|true $displayed_on_index		Only get forums that are displayed on index?
 	 * @return $this
 	 */
-	public function build($check_visibility = true, $enable_caching = true)
+	public function build($check_visibility = true, $enable_caching = true, $displayed_on_index = true)
 	{
 		$this->_set_cache_time($enable_caching);
 		$this->_set_topic_visibility($check_visibility);
+
+		if ($displayed_on_index)
+		{
+			$this->store['sql_array']['WHERE'][] = 'f.display_on_index <> 0';
+		}
 
 		$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
 		$this->store['sql_array']['WHERE'][] = 't.topic_moved_id = 0';
