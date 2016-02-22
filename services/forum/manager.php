@@ -66,9 +66,11 @@ class manager
 		$this->user->add_lang('acp/forums');
 	}
 
-	public function add(&$forum_data, $forum_perm_from = 0)
+	public function add(array &$forum_data, $forum_perm_from = 0)
 	{
-		$forum_data['parent_id'] = $this->config['sitemaker_parent_forum_id'];
+		$forum_data += array(
+			'parent_id' => $this->config['sitemaker_parent_forum_id'],
+		);
 
 		$errors = admin::save($forum_data);
 
