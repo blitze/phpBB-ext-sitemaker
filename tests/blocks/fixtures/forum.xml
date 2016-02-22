@@ -10,6 +10,7 @@
 		<column>forum_last_poster_id</column>
 		<column>forum_last_post_time</column>
 		<column>forum_last_poster_name</column>
+		<column>display_on_index</column>
 		<row>
 			<value>1</value>
 			<value></value>
@@ -20,6 +21,7 @@
 			<value>2</value>
 			<value>1448405334</value>
 			<value>admin</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -31,6 +33,7 @@
 			<value>48</value>
 			<value>1448811401</value>
 			<value>demo</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -42,6 +45,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value></value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -53,6 +57,7 @@
 			<value>2</value>
 			<value>1448828299</value>
 			<value>admin</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>5</value>
@@ -64,6 +69,19 @@
 			<value>2</value>
 			<value>1448406650</value>
 			<value>admin</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value></value>
+			<value>Hidden Forum</value>
+			<value></value>
+			<value></value>
+			<value>5</value>
+			<value>2</value>
+			<value>1448406650</value>
+			<value>admin</value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="phpbb_topics">
@@ -82,9 +100,6 @@
 		<column>topic_last_poster_name</column>
 		<column>topic_last_post_time</column>
 		<column>topic_last_view_time</column>
-		<column>poll_title</column>
-		<column>poll_max_options</column>
-		<column>poll_last_vote</column>
 		<column>topic_visibility</column>
 		<column>poll_title</column>
 		<column>poll_start</column>
@@ -110,9 +125,6 @@
 			<value>demo</value>
 			<value>1448811401</value>
 			<value>1448828883</value>
-			<value>My Second Poll</value>
-			<value>2</value>
-			<value>1448828669</value>
 			<value>1</value>
 			<value>My Second Poll</value>
 			<value>1448828557</value>
@@ -139,9 +151,6 @@
 			<value>admin</value>
 			<value>1448411152</value>
 			<value>1448828174</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
 			<value>1</value>
 			<value></value>
 			<value>0</value>
@@ -168,9 +177,6 @@
 			<value>admin</value>
 			<value>1448406390</value>
 			<value>1448406391</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
 			<value>1</value>
 			<value></value>
 			<value>0</value>
@@ -197,9 +203,6 @@
 			<value>admin</value>
 			<value>1448406424</value>
 			<value>1448829397</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
 			<value>1</value>
 			<value></value>
 			<value>0</value>
@@ -226,9 +229,6 @@
 			<value>admin</value>
 			<value>1448406650</value>
 			<value>1448411378</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
 			<value>1</value>
 			<value></value>
 			<value>0</value>
@@ -255,9 +255,6 @@
 			<value>demo</value>
 			<value>1448416707</value>
 			<value>1448416707</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
 			<value>0</value>
 			<value></value>
 			<value>0</value>
@@ -284,15 +281,38 @@
 			<value>admin</value>
 			<value>1448828299</value>
 			<value>1448832673</value>
-			<value>My First Poll</value>
-			<value>1</value>
-			<value>1448828640</value>
 			<value>1</value>
 			<value>My First Poll</value>
 			<value>1448828299</value>
 			<value>0</value>
 			<value>1</value>
 			<value>1448828640</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>10</value>
+			<value>6</value>
+			<value>0</value>
+			<value>Topic from undisplayed forum</value>
+			<value>2</value>
+			<value>1448406650</value>
+			<value>0</value>
+			<value>0</value>
+			<value>13</value>
+			<value>admin</value>
+			<value>13</value>
+			<value>2</value>
+			<value>admin</value>
+			<value>1448406650</value>
+			<value>1448411378</value>
+			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
@@ -426,6 +446,18 @@
 			<value></value>
 			<value>Topic with poll</value>
 			<value>This topic has a poll</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>13</value>
+			<value>10</value>
+			<value>6</value>
+			<value>2</value>
+			<value>1448828299</value>
+			<value></value>
+			<value>Topic from undisplayed forum</value>
+			<value>This forum has display_on_index set to false</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
