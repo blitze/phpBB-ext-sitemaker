@@ -6,7 +6,7 @@ phpBB SiteMaker is an Extension for [phpBB 3.1](https://www.phpbb.com/)
 
 phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site.
 
-[![Travis](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker?branch=master) [![Scrutinizer](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker?b=master) [![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/blitze/phpBB-ext-sitemaker.svg)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker?b=master)
+[![Travis branch](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker/master.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker/master.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=master) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/blitze/phpBB-ext-sitemaker/master.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=master)
 
 ## Features
 
