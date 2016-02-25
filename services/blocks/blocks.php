@@ -120,7 +120,7 @@ class blocks extends routes
 	 */
 	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, &$position_counter, $display_modes, $edit_mode)
 	{
-		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
+		if ($this->_exclude_position($position, $ex_positions, $edit_mode))
 		{
 			foreach ($blocks as $entity)
 			{
