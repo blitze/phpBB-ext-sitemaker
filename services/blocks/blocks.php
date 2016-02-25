@@ -59,7 +59,7 @@ class blocks extends routes
 	 */
 	public function display($edit_mode, array $route_info, $style_id, array $display_modes)
 	{
-		$ex_positions = $route_info['ex_positions'];
+		$ex_positions = array_flip($route_info['ex_positions']);
 		$users_groups = $this->groups->get_users_groups();
 
 		$positions = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
@@ -120,7 +120,7 @@ class blocks extends routes
 	 */
 	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, &$position_counter, $display_modes, $edit_mode)
 	{
-		if ($this->_exclude_position($position, $ex_positions, $edit_mode))
+		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
 		{
 			foreach ($blocks as $entity)
 			{
