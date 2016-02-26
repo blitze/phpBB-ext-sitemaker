@@ -2,8 +2,8 @@
   "name": "phpBB Sitemaker",
   "dependencies": {
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
-    "fontawesome": "~4.4.0",
-    "twig.js": "~0.8.2",
+    "fontawesome": "latest",
+    "twig.js": "latest",
     "jqueryui-touch-punch": "*",
     "nestedSortable": "ilikenwf/nestedSortable",
     "toast-grid": "https://github.com/daneden/Toast.git#master"
