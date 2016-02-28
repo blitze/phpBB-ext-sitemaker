@@ -239,10 +239,9 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 		$range_info = $this->date_range->get($this->settings['date_range']);
 
-		$this->forum_data->query()
+		$this->forum_data->query($this->settings['enable_tracking'])
 			->fetch_forum($this->settings['forum_ids'])
 			->fetch_topic_type($this->settings['topic_type'])
-			->fetch_tracking_info($this->settings['enable_tracking'])
 			->fetch_date_range($range_info['start'], $range_info['stop'])
 			->set_sorting($sort_order[$this->settings['order_by']])
 			->build();
