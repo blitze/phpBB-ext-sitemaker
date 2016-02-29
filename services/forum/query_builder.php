@@ -60,9 +60,10 @@ class query_builder
 	/**
 	 * Begin query
 	 *
+	 * $param bool $track_topics
 	 * @return $this
 	 */
-	public function query()
+	public function query($track_topics = true)
 	{
 		$this->_reset();
 
@@ -78,6 +79,11 @@ class query_builder
 
 		// Topics table need to be the last in the chain
 		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
+
+		if ($track_topics)
+		{
+			$this->fetch_tracking_info();
+		}
 
 		return $this;
 	}
@@ -192,9 +198,9 @@ class query_builder
 	 * @param bool $track
 	 * @return $this
 	 */
-	public function fetch_tracking_info($track = true)
+	public function fetch_tracking_info()
 	{
-		if ($track && $this->user->data['is_registered'] && $this->config['load_db_lastread'])
+		if ($this->user->data['is_registered'] && $this->config['load_db_lastread'])
 		{
 			$this->cache_time = 0;
 
