@@ -17,4 +17,5 @@ then
     cd ../$GITREPO
     wget https://scrutinizer-ci.com/ocular.phar
     php ocular.phar code-coverage:upload --format=php-clover ../../phpBB3/build/logs/clover.xml
+   bash <(curl -s https://codecov.io/bash)
 fi
