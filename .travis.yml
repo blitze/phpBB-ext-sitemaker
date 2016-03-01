@@ -1,5 +1,5 @@
 # Opt into fully virtualized infrastructure
-sudo: false
+sudo: required
 
 language: php
 
