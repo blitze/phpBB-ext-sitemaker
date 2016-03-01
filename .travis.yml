@@ -65,4 +65,6 @@ script:
 
 after_script:
   - sh -c "if [ '$COVERAGE' != '0' ] && [ '$NOTESTS' != '1' ]; then ../$GITREPO/travis/send-coverage.sh $DB $TRAVIS_PHP_VERSION $GITREPO; fi"
-  - bash <(curl -s https://codecov.io/bash)
+
+after_success:
+  - sh -c "if [ '$COVERAGE' != '0' ] && [ '$NOTESTS' != '1' ]; then bash <(curl -s https://codecov.io/bash); fi"
