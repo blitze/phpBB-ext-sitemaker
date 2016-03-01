@@ -195,7 +195,6 @@ class query_builder
 	/**
 	 * Fetch Topic Tracking Info
 	 *
-	 * @param bool $track
 	 * @return $this
 	 */
 	public function fetch_tracking_info()
