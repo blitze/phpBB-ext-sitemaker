@@ -108,9 +108,6 @@ class data extends query_builder
 		$post_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
-			$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
-
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
 			$this->store['poster_ids'][] = $row['poster_id'];
 			$this->store['poster_ids'][] = $row['post_edit_user'];
