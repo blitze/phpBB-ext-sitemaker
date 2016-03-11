@@ -120,7 +120,7 @@ class cfg_handler extends cfg_fields
 			'S_NO_WRAP'		=> $block_data['no_wrap'],
 			'S_HIDE_TITLE'	=> $block_data['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($block_data['class']),
-			'S_GROUP_OPS'	=> $this->groups->get_options('special', $selected_groups),
+			'S_GROUP_OPS'	=> $this->groups->get_options('all', $selected_groups),
 		));
 
 		$this->template->set_filenames(array(
