@@ -23,6 +23,9 @@ class poll
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -42,17 +45,19 @@ class poll
 	 * @param \phpbb\config\config					$config				Config object
 	 * @param \phpbb\db\driver\driver_interface		$db	 				Database connection
 	 * @param \phpbb\request\request_interface		$request			Request object
+	 * @param \phpbb\language\language				$translator			Language object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\util		$sitemaker			Sitemaker Object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
 		$this->request = $request;
+		$this->translator = $translator;
 		$this->user = $user;
 		$this->sitemaker = $sitemaker;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -61,7 +66,7 @@ class poll
 
 	public function build(array $topic_data, \phpbb\template\twig\twig &$template)
 	{
-		$this->user->add_lang('viewtopic');
+		$this->translator->add_lang('viewtopic');
 
 		$forum_id = (int) $topic_data['forum_id'];
 		$topic_id = (int) $topic_data['topic_id'];
@@ -82,8 +87,8 @@ class poll
 			'POLL_LEFT_CAP_IMG'	=> $this->user->img('poll_left'),
 			'POLL_RIGHT_CAP_IMG'=> $this->user->img('poll_right'),
 
-			'L_MAX_VOTES'		=> $this->user->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
-			'L_POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
+			'MAX_VOTES'			=> $this->translator->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
+			'POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
 
 			'S_CAN_VOTE'		=> $s_can_vote,
 			'S_DISPLAY_RESULTS'	=> $this->_show_results($s_can_vote, $cur_voted_id),
@@ -281,7 +286,7 @@ class poll
 	 */
 	private function _get_poll_length_lang($poll_length, $poll_end)
 	{
-		return ($poll_length) ? sprintf($this->user->lang(($poll_end > time()) ? 'POLL_RUN_TILL' : 'POLL_ENDED_AT'), $this->user->format_date($poll_end)) : '';
+		return ($poll_length) ? $this->translator->lang(($poll_end > time()) ? 'POLL_RUN_TILL' : 'POLL_ENDED_AT', $this->user->format_date($poll_end)) : '';
 	}
 
 	/**

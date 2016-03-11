@@ -214,6 +214,7 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@request'
+            - '@language'
             - '@user'
             - '@blitze.sitemaker.util'
             - '%core.root_path%'
