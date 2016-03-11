@@ -105,7 +105,7 @@ class forum_poll_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$poll = new poll($auth, $config, $db, $request, $user, $sitemaker, $phpbb_root_path, $phpEx);
+		$poll = new poll($auth, $config, $db, $request, $translator, $user, $sitemaker, $phpbb_root_path, $phpEx);
 
 		$block = new forum_poll($db, $forum_data, $forum_options, $groups, $poll);
 		$block->set_template($this->ptemplate);
