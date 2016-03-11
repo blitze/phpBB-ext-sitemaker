@@ -109,13 +109,9 @@ class listener implements EventSubscriberInterface
 
 	public function load_permission_language($event)
 	{
-		$categories = $event['categories'];
-		$categories = array_merge($categories, array('sitemaker' => 'ACL_CAT_SITEMAKER'));
-		$event['categories'] = $categories;
-
 		$permissions = $event['permissions'];
 		$permissions = array_merge($permissions, array(
-			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'sitemaker'),
+			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'misc'),
 		));
 		$event['permissions'] = $permissions;
 	}
