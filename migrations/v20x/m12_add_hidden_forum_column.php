@@ -12,8 +12,20 @@ namespace blitze\sitemaker\migrations\v20x;
 /**
  * Initial schema changes needed for Extension installation
  */
-class m12_add_hidden_forums extends \phpbb\db\migration\migration
+class m12_add_hidden_forum_column extends \phpbb\db\migration\migration
 {
+
+	/**
+	 * Skip this migration if the hidden_forum column already exists
+	 *
+	 * @return bool True to skip this migration, false to run it
+	 * @access public
+	 */
+	public function effectively_installed()
+	{
+		return $this->db_tools->sql_column_exists($this->table_prefix . 'forums', 'hidden_forum');
+	}
+
 	/**
 	 * Update forums table schema
 	 *

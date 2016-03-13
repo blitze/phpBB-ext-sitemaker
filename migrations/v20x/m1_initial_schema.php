@@ -69,18 +69,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 					),
 				),
 
-				$this->table_prefix . 'sm_blocks_config' => array(
-					'COLUMNS'		=> array(
-						'bid'			=> array('UINT', 0),
-						'bvar'			=> array('VCHAR', ''),
-						'bval'			=> array('VCHAR_UNI', ''),
-					),
-
-					'KEYS'			=> array(
-						'bid'			=> array('INDEX', 'bid'),
-					),
-				),
-
 				$this->table_prefix . 'sm_menus' => array(
 					'COLUMNS'        => array(
 						'menu_id'			=> array('UINT', null, 'auto_increment'),
@@ -112,6 +100,11 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 					'KEYS'			=> array(
 						'menu_id'		=> array('INDEX', 'menu_id'),
 					),
+				),
+			),
+			'add_columns'	=> array(
+				$this->table_prefix . 'forums'	=> array(
+					'hidden_forum'		=> array('BOOL', 0),
 				),
 			),
 		);
