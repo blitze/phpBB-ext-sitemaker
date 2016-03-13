@@ -92,7 +92,7 @@ class mybookmarks_test extends blocks_base
 		return array(
 			array(
 				array(
-					'user_id' => 48,
+					'user_id' => 1,
 					'is_registered' => false,
 				),
 				array(),

@@ -71,8 +71,8 @@ class manager_test extends \phpbb_database_test_case
 			'forum_name'	=> 'my forum',
 			'parent_id'		=> 2,
 			'forum_type'	=> 1,
-			'forum_id'		=> 3,
 			'hidden_forum'	=> 1,
+			'forum_id'		=> 3,
 		);
 
 		$errors = $this->manager->add($forum_data, 1);
