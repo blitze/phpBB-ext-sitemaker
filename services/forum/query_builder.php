@@ -272,17 +272,17 @@ class query_builder
 	 *
 	 * @param bool|true $check_visibility		Should we only return data from forums the user is allowed to see?
 	 * @param bool|true $enable_caching			Should the query be cached where possible?
-	 * @param bool|true $displayed_on_index		Only get forums that are displayed on index?
+	 * @param bool|true $exclude_hidden_forums	Leave out hidden forums?
 	 * @return $this
 	 */
-	public function build($check_visibility = true, $enable_caching = true, $displayed_on_index = true)
+	public function build($check_visibility = true, $enable_caching = true, $exclude_hidden_forums = true)
 	{
 		$this->_set_cache_time($enable_caching);
 		$this->_set_topic_visibility($check_visibility);
 
-		if ($displayed_on_index)
+		if ($exclude_hidden_forums)
 		{
-			$this->store['sql_array']['WHERE'][] = 'f.display_on_index <> 0';
+			$this->store['sql_array']['WHERE'][] = 'f.hidden_forum = 0';
 		}
 
 		$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
