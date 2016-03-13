@@ -23,4 +23,5 @@ if (empty($lang) || !is_array($lang))
 // Admin Permissions
 $lang = array_merge($lang, array(
 	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Can manage Sitemaker blocks',
+	'ACL_A_SM_MANAGE_MENUS'		=> 'Can manage Sitemaker menus',
 ));
