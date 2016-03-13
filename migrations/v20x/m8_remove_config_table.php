@@ -26,7 +26,7 @@ class m8_remove_config_table extends \phpbb\db\migration\migration
 	}
 
 	/**
-	 * Skip this migration if the module_dir column does not exist
+	 * Skip this migration if the sm_blocks_config table does not exist
 	 *
 	 * @return bool True to skip this migration, false to run it
 	 * @access public

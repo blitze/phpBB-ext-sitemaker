@@ -51,6 +51,7 @@ class admin
 			'forum_password'		=> '',
 			'forum_password_confirm'=> '',
 			'forum_password_unset'	=> false,
+			'hidden_forum'			=> 1,
 		);
 
 		$forum = new \acp_forums();

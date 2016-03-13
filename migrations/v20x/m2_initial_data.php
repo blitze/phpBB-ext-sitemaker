@@ -23,7 +23,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	{
 		return array(
 			'\blitze\sitemaker\migrations\converter\c2_update_data',
-			'\blitze\sitemaker\migrations\v20x\m1_initial_schema'
+			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',
 		);
 	}
 

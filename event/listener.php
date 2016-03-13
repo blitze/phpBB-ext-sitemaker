@@ -117,6 +117,7 @@ class listener implements EventSubscriberInterface
 		$permissions = $event['permissions'];
 		$permissions = array_merge($permissions, array(
 			'a_manage_blocks'	=> array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'misc'),
+			'a_manage_menus'	=> array('lang' => 'ACL_A_MANAGE_MENUS', 'cat' => 'misc'),
 		));
 		$event['permissions'] = $permissions;
 	}

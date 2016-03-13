@@ -1,9 +1,9 @@
 {
 	"name": "blitze/sitemaker",
     "type": "phpbb-extension",
-	"description": "A Site Maker for phpBB3.1x.",
+	"description": "A Site Maker for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"time": "2014-01-14 01:01:01",
 	"license": "GPL-2.0",
 	"authors": [{
@@ -23,7 +23,7 @@
 	"extra": {
 		"display-name": "SiteMaker",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0-b1,<3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.0-b1"
 		},
 		"version-check": {
 			"host": "blitze.github.io",

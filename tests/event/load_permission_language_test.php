@@ -23,6 +23,7 @@ class load_permission_language_test extends listener_base
 				array(),
 				array(
 					'a_manage_blocks' => array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'misc'),
+					'a_manage_menus' => array('lang' => 'ACL_A_MANAGE_MENUS', 'cat' => 'misc'),
 				),
 			),
 			array(
@@ -32,6 +33,7 @@ class load_permission_language_test extends listener_base
 				array(
 					'a_foo' => array('lang' => 'ACL_A_FOO', 'cat' => 'misc'),
 					'a_manage_blocks' => array('lang' => 'ACL_A_MANAGE_BLOCKS', 'cat' => 'misc'),
+					'a_manage_menus' => array('lang' => 'ACL_A_MANAGE_MENUS', 'cat' => 'misc'),
 				),
 			),
 		);
