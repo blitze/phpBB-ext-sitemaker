@@ -17,6 +17,16 @@ class m13_add_menu_permission extends \phpbb\db\migration\migration
 	/**
 	 * @inheritdoc
 	 */
+	public static function depends_on()
+	{
+		return array(
+			'\blitze\sitemaker\migrations\v20x\m10_remove_dashboard',
+		);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function update_data()
 	{
 		return array(

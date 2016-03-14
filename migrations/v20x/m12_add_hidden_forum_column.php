@@ -14,6 +14,15 @@ namespace blitze\sitemaker\migrations\v20x;
  */
 class m12_add_hidden_forum_column extends \phpbb\db\migration\migration
 {
+	/**
+	 * @inheritdoc
+	 */
+	public static function depends_on()
+	{
+		return array(
+			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',
+		);
+	}
 
 	/**
 	 * Skip this migration if the hidden_forum column already exists
