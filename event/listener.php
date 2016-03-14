@@ -178,11 +178,11 @@ class listener implements EventSubscriberInterface
 		$this->sitemaker->set_assets();
 	}
 
-	public function set_startpage()
+	public function set_startpage($event)
 	{
 		$controller_service = $this->config['sitemaker_startpage_controller'];
 
-		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET'))
+		if ($this->_can_set_startpage($controller_service))
 		{
 			$controller_object = $this->phpbb_container->get($controller_service);
 			$method = $this->config['sitemaker_startpage_method'];
@@ -205,6 +205,9 @@ class listener implements EventSubscriberInterface
 				$this->exit_handler();
 			}
 		}
+
+		// Do not show forums marked as hidden
+		$event['sql_ary'] = $this->_hide_hidden_forums($event['sql_ary']);
 	}
 
 	public function add_viewonline_location($event)
@@ -222,5 +225,18 @@ class listener implements EventSubscriberInterface
 	protected function exit_handler()
 	{
 		exit_handler();
+	}
+
+	protected function _can_set_startpage($controller_service)
+	{
+		return ($this->user->page['page_name'] == 'index.' . $this->php_ext && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET')) ? true : false;
+	}
+
+	protected function _hide_hidden_forums($sql_ary)
+	{
+		$sql_ary['WHERE'] .= ($sql_ary['WHERE']) ? ' AND ' : '';
+		$sql_ary['WHERE'] .= 'f.hidden_forum <> 1';
+
+		return $sql_ary;
 	}
 }
