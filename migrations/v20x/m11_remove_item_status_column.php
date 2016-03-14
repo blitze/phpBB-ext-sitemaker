@@ -15,6 +15,16 @@ namespace blitze\sitemaker\migrations\v20x;
 class m11_remove_item_status_column extends \phpbb\db\migration\migration
 {
 	/**
+	 * @inheritdoc
+	 */
+	public static function depends_on()
+	{
+		return array(
+			'\blitze\sitemaker\migrations\v20x\m9_update_menu_items_fields',
+		);
+	}
+
+	/**
 	 * Update the sm_menu_items schema
 	 *
 	 * @return array Array of table schema
