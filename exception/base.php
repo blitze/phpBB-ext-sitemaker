@@ -56,7 +56,7 @@ class base extends \Exception
 	* Basic message translation for our exceptions
 	*
 	* @param \phpbb\user $user
-	* @return string
+	* @return string|array
 	* @access public
 	*/
 	public function get_message(\phpbb\user $user)
