@@ -83,6 +83,22 @@ class mybookmarks_test extends blocks_base
 	}
 
 	/**
+	 * Test that block is not displayed for unregistered user
+	 */
+	public function test_anonymous_user()
+	{
+		$block = $this->get_block(array(
+			'user_id' => 1,
+			'is_registered' => false,
+		));
+		$result = $block->display(array(
+			'settings' => array('max_topics' => 3),
+		));
+
+		$this->assertEquals(array(), $result);
+	}
+
+	/**
 	 * Data set for test_block_display
 	 *
 	 * @return array
@@ -90,13 +106,6 @@ class mybookmarks_test extends blocks_base
 	public function block_test_data()
 	{
 		return array(
-			array(
-				array(
-					'user_id' => 1,
-					'is_registered' => false,
-				),
-				array(),
-			),
 			array(
 				array(
 					'user_id' => 48,

@@ -57,18 +57,19 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
+		$block = array();
 		if ($this->user->data['is_registered'])
 		{
 			$topics_data = $this->_get_bookmarks($bdata['settings']);
 			$this->_show_bookmarks($topics_data);
 
-			return array(
+			$block = array(
 				'title'     => 'MY_BOOKMARKS',
 				'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'mybookmarks'),
 			);
 		}
 
-		return array();
+		return $block;
 	}
 
 	/**
