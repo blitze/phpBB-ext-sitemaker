@@ -18,7 +18,7 @@ class userlist
 	 */
 	public static function get_user_id(array &$settings, $change_user)
 	{
-		$current_user = 0;
+		$current_user = $settings['current_user'];
 		$userlist = self::_get_userlist($settings['userlist']);
 
 		if ($change_user && sizeof($userlist))
@@ -74,7 +74,7 @@ class userlist
 	private static function _get_next_user($current_user, array $userlist)
 	{
 		$key = 0;
-		if ($current_user)
+		if ($current_user && sizeof($userlist) > 1)
 		{
 			$key = self::_get_next_key($current_user, $userlist);
 		}
