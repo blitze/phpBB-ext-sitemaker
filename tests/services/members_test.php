@@ -160,9 +160,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '30 Jan 2015',
 						),
 					),
-					'S_LIST'	=> 'recent',
-					'L_USER'	=> 'Username',
-					'L_INFO'	=> 'Join Date'
+					'S_LIST'		=> 'recent',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Join Date'
 				),
 			),
 			array(
@@ -178,9 +178,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '23 Aug 2015',
 						),
 					),
-					'S_LIST'	=> 'visits',
-					'L_USER'	=> 'Username',
-					'L_INFO'	=> 'Date'
+					'S_LIST'		=> 'visits',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -195,9 +195,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '',
 						),
 					),
-					'S_LIST'	=> 'bots',
-					'L_USER'	=> '',
-					'L_INFO'	=> ''
+					'S_LIST'		=> 'bots',
+					'USER_TITLE'	=> '',
+					'INFO_TITLE'	=> ''
 				),
 			),
 			array(
@@ -213,9 +213,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '05 Jan 2015',
 						),
 					),
-					'S_LIST'	=> 'tenured',
-					'L_USER'	=> 'Username',
-					'L_INFO'	=> 'Date'
+					'S_LIST'		=> 'tenured',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -231,9 +231,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '<a href="phpBB/search.php?author_id=7&amp;sr=posts">1</a>',
 						),
 					),
-					'S_LIST'	=> 'posts',
-					'L_USER'	=> 'Username',
-					'L_INFO'	=> 'Posts'
+					'S_LIST'		=> 'posts',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Posts'
 				),
 			),
 			array(
@@ -255,9 +255,9 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '30 Jan 2015',
 						),
 					),
-					'S_LIST'	=> 'tenured',
-					'L_USER'	=> 'Username',
-					'L_INFO'	=> 'Date'
+					'S_LIST'		=> 'tenured',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date'
 				),
 			),
 		);

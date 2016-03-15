@@ -126,9 +126,9 @@ class members
 		if ($results)
 		{
 			$this->ptemplate->assign_vars(array(
-				'S_LIST'	=> $this->settings['query_type'],
-				'L_USER'	=> $this->translator->lang($this->user_header),
-				'L_INFO'	=> $this->translator->lang($this->info_header),
+				'S_LIST'		=> $this->settings['query_type'],
+				'USER_TITLE'	=> $this->translator->lang($this->user_header),
+				'INFO_TITLE'	=> $this->translator->lang($this->info_header),
 			));
 
 			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
