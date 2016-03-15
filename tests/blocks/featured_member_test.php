@@ -314,6 +314,20 @@ class featured_member_test extends blocks_base
 				),
 				'48,2',
 			),
+			array(
+				array(
+					'settings' => array(
+						'qtype' => 'featured',
+						'rotation' => 'pageload',
+						'userlist' => '58, 59, 60,61,65, 70, 2',
+						'show_cpf' => array(),
+						'last_changed' => 0,
+						'current_user' => 0,
+					),
+				),
+				'',
+				'65, 70, 2',
+			),
 		);
 	}
 
@@ -329,7 +343,8 @@ class featured_member_test extends blocks_base
 		$block = $this->get_block();
 		$result = $block->display($bdata);
 
-		$this->assertEquals($block_content, array_filter($result['content']));
+		$actual = is_array($result['content']) ? array_filter($result['content']) : $result['content'];
+		$this->assertEquals($block_content, $actual);
 
 		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
 		$settings = unserialize($this->db->sql_fetchfield('settings'));

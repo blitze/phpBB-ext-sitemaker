@@ -51,7 +51,7 @@ class userlist
 			$new_userlist = self::_get_userlist($new_list);
 			$current_user =& $new_userlist[$curr_key - 1];
 			$settings['current_user'] = (int) $current_user;
-			$settings['userlist'] = $new_list;
+			$settings['userlist'] = trim($new_list);
 			$settings['last_changed'] = 0;
 		}
 	}
@@ -62,7 +62,7 @@ class userlist
 	 */
 	private static function _get_userlist($list)
 	{
-		$userlist = preg_replace("/\s*,?\s*(\r\n|\n\r|\n|\r)+\s*/", "\n", trim($list));
+		$userlist = preg_replace('/\s+/', '', $list);
 		return array_map('intval', array_filter(explode(',', $userlist)));
 	}
 

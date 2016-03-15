@@ -106,7 +106,7 @@ class featured_member extends block
 	/**
 	 * {@inheritdoc}
 	 */
-	public function display(array $bdata, $edit_mode = false)
+	public function display(array $bdata, $edit_mode = false, $loop_count = 0)
 	{
 		$this->settings = $this->_get_settings($bdata);
 
@@ -120,7 +120,11 @@ class featured_member extends block
 			$bdata['settings'] = $this->settings;
 			$bdata['hash'] = 0;
 
-			return $this->display($bdata, $edit_mode);
+			// Prevent endless loop looking for valid user
+			if ($loop_count < 3)
+			{
+				return $this->display($bdata, $edit_mode, ++$loop_count);
+			}
 		}
 
 		return array(
@@ -252,14 +256,17 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param array $row
+	 * @param int $block_id
+	 * @param array|bool $row
+	 * @param bool $change_user
 	 */
-	private function _display_user($block_id, array $row, $change_user)
+	private function _display_user($block_id, $row, $change_user)
 	{
+		$this->_save_settings($block_id, $change_user);
+
 		$html = '';
-		if (sizeof($row))
+		if ($row)
 		{
-			$this->_save_settings($block_id, $change_user);
 			$this->_explain_view();
 
 			$tpl_data = $this->_get_template_data($row);
