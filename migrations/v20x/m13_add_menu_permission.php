@@ -30,7 +30,7 @@ class m13_add_menu_permission extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('permission.add', array('a_sm_manage_menus')),
+			array('permission.add', array('a_sm_manage_menus', true)),
 			array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_sm_manage_blocks')),
 			array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_sm_manage_menus')),
 			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_sm_manage_menus')),

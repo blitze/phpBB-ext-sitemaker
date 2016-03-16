@@ -144,6 +144,7 @@ class featured_member_test extends blocks_base
 					'POSTS' => '1',
 					'U_SEARCH_USER' => 'phpBB/search.php?author_id=48&amp;sr=posts',
 				),
+				0,
 			),
 			array(
 				array(
@@ -187,6 +188,30 @@ class featured_member_test extends blocks_base
 						),
 					),
 				),
+				0,
+			),
+			array(
+				array(
+					'settings' => array(
+						'qtype' => 'featured',
+						'rotation' => 'hourly',
+						'userlist' => '2',
+						'show_cpf' => array(),
+						'last_changed' => strtotime('-30 minutes'),
+						'current_user' => 2,
+					),
+				),
+				'FEATURED_MEMBER',
+				array(
+					'USERNAME' => 'admin',
+					'POSTS_PCT' => 'POST_PCT',
+					'L_VIEW_PROFILE' => 'VIEW_USER_PROFILE',
+					'POSTS' => '7',
+					'U_SEARCH_USER' => 'phpBB/search.php?author_id=2&amp;sr=posts',
+					'RANK_TITLE' => 'Site Admin',
+					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
+				),
+				2,
 			),
 			array(
 				array(
@@ -208,6 +233,7 @@ class featured_member_test extends blocks_base
 					'U_SEARCH_USER' => 'phpBB/search.php?author_id=2&amp;sr=posts',
 					'RANK_TITLE' => 'Site Admin',
 				),
+				2,
 			),
 			array(
 				array(
@@ -229,6 +255,7 @@ class featured_member_test extends blocks_base
 					'U_SEARCH_USER' => 'phpBB/search.php?author_id=48&amp;sr=posts',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 				),
+				48,
 			),
 			array(
 				array(
@@ -251,6 +278,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 				),
+				2,
 			),
 		);
 	}
@@ -260,13 +288,19 @@ class featured_member_test extends blocks_base
 	 *
 	 * @dataProvider block_test_data
 	 */
-	public function test_block_display($bdata, $title, $user_data)
+	public function test_block_display($bdata, $title, $user_data, $current_user)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);
 		$this->assertEquals($user_data, array_filter($result['content']));
+
+		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
+		$settings = unserialize($this->db->sql_fetchfield('settings'));
+		$this->db->sql_freeresult();
+
+		$this->assertEquals($userlist, $settings['current_user']);
 	}
 
 	/**

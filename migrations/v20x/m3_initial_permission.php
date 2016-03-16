@@ -20,7 +20,7 @@ class m3_initial_permission extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('permission.add', array('a_sm_manage_blocks')),
+			array('permission.add', array('a_sm_manage_blocks', true)),
 			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_sm_manage_blocks')),
 		);
 	}

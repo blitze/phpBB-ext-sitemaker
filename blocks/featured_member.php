@@ -130,6 +130,7 @@ class featured_member extends block
 			{
 				return $this->display($bdata, $edit_mode, ++$loop_count);
 			}
+			$row = array();
 		}
 
 		return array(
@@ -243,7 +244,7 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param $bid
+	 * @param int $bid
 	 * @param bool $change_user
 	 */
 	private function _save_settings($bid, $change_user)
@@ -262,15 +263,15 @@ class featured_member extends block
 
 	/**
 	 * @param int $block_id
-	 * @param array|bool $row
+	 * @param array $row
 	 * @param bool $change_user
 	 */
-	private function _display_user($block_id, $row, $change_user)
+	private function _display_user($block_id, array $row, $change_user)
 	{
 		$this->_save_settings($block_id, $change_user);
 
 		$html = '';
-		if ($row)
+		if (sizeof($row))
 		{
 			$this->_explain_view();
 
