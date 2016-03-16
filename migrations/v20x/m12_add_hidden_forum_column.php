@@ -62,7 +62,7 @@ class m12_add_hidden_forum_column extends \phpbb\db\migration\migration
 		);
 	}
 
-	public function update_blocks_settings()
+	public function set_hidden_forums()
 	{
 		$data = array(
 			'hidden_forum' => 1,
