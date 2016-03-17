@@ -82,8 +82,8 @@ class poll
 			'POLL_LEFT_CAP_IMG'	=> $this->user->img('poll_left'),
 			'POLL_RIGHT_CAP_IMG'=> $this->user->img('poll_right'),
 
-			'L_MAX_VOTES'		=> $this->user->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
-			'L_POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
+			'MAX_VOTES'			=> $this->user->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
+			'POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
 
 			'S_CAN_VOTE'		=> $s_can_vote,
 			'S_DISPLAY_RESULTS'	=> $this->_show_results($s_can_vote, $cur_voted_id),
