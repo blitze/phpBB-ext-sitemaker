@@ -49,6 +49,10 @@ class display extends \blitze\sitemaker\services\tree\display
 		$this->user = $user;
 	}
 
+	/**
+	 * @param array $params
+	 * @return void
+	 */
 	public function set_params(array $params)
 	{
 		$this->expanded = (bool) $params['expanded'];
@@ -56,7 +60,10 @@ class display extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
-	 *
+	 * @param array $data
+	 * @param \phpbb\template\twig\twig $template
+	 * @param string $handle
+	 * @return void
 	 */
 	public function display_navlist(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
@@ -79,11 +86,19 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @return void
+	 */
 	public function generate_breadcrumb(array $data)
 	{
 		$this->find_parents($data, $this->current_item['parent_id']);
 	}
 
+	/**
+	 * @param array $data
+	 * @return void
+	 */
 	protected function prepare_items(array &$data)
 	{
 		$this->set_current_item($data);
@@ -108,7 +123,7 @@ class display extends \blitze\sitemaker\services\tree\display
 			$is_current_item = $this->is_current_item($row);
 			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
 
-			$this->set_parental_depth($row, $this_depth, $is_current_item);
+			$this->set_parental_depth($row, $this_depth, $leaf, $is_current_item);
 
 			if ($row['depth'] == $this->max_depth)
 			{
@@ -132,7 +147,11 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 	}
 
-	protected function set_current_item($data)
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	protected function set_current_item(array $data)
 	{
 		$curr_page = $this->user->page['page_name'];
 		$curr_parts = explode('&', $this->user->page['query_string']);
@@ -153,6 +172,9 @@ class display extends \blitze\sitemaker\services\tree\display
 		return false;
 	}
 
+	/**
+	 * return void
+	 */
 	protected function default_current_item()
 	{
 		$this->max_depth = ($this->expanded) ? $this->max_depth : 0;
@@ -167,24 +189,51 @@ class display extends \blitze\sitemaker\services\tree\display
 		);
 	}
 
+	/**
+	 * @param string $curr_page
+	 * @param array $curr_parts
+	 * @param array $row
+	 * @return bool
+	 */
 	protected function is_current_path($curr_page, array $curr_parts, array $row)
 	{
 		return ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
 	}
 
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
 	protected function is_current_item(array $row)
 	{
 		return ($row['item_id'] === $this->current_item['item_id']) ? true : false;
 	}
 
-	protected function set_parental_depth($row, $depth, $is_current_item)
+	/**
+	 * @param array $row
+	 * @param int $depth
+	 * @param array|null $leaf
+	 * @param bool $is_current_item
+	 * @return void
+	 */
+	protected function set_parental_depth(array $row, $depth, &$leaf, $is_current_item)
 	{
 		if ($is_current_item || $this->expanded || !$row['item_url'] || ($row['left_id'] < $this->current_item['left_id'] && $row['right_id'] > $this->current_item['right_id']))
 		{
 			$this->parental_depth[$row[$this->pk]] = $depth;
 		}
+		else
+		{
+			$leaf = $row;
+		}
 	}
 
+	/**
+	 * @param \phpbb\template\twig\twig $template
+	 * @param string $handle
+	 * @param int $repeat
+	 * @return void
+	 */
 	protected function close_open_tags(\phpbb\template\twig\twig &$template, $handle, $repeat)
 	{
 		for ($i = 0; $i < $repeat; $i++)
@@ -193,11 +242,19 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 	}
 
+	/**
+	 * @param int $items_depth
+	 * return bool
+	 */
 	protected function needs_adjustment($items_depth)
 	{
 		return ($items_depth >= $this->max_depth || !$this->expanded) ? true : false;
 	}
 
+	/**
+	 * @param array $row
+	 * @return void
+	 */
 	protected function adjust_depth(array $row)
 	{
 		$depth = (int) $row['depth'];
@@ -209,6 +266,12 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 	}
 
+	/**
+	 * @param int $item_id
+	 * @param array $data
+	 * @param array $leaf
+	 * @return void
+	 */
 	protected function adjust_right_id($item_id, array &$data, array $leaf)
 	{
 		if (isset($data[$item_id]))
@@ -217,6 +280,11 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @param int $parent_id
+	 * @return void
+	 */
 	protected function find_parents(array $data, $parent_id)
 	{
 		if (isset($data[$parent_id]) && $data[$parent_id]['item_url'] !== 'index.php')
