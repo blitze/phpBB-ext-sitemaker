@@ -125,8 +125,8 @@ services:
         class: blitze\sitemaker\blocks\member_menu
         arguments:
             - '@auth'
-            - '@dbal.conn'
             - '@user'
+            - '@blitze.sitemaker.forum.data'
             - '%core.root_path%'
             - '%core.php_ext%'
         calls:

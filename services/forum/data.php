@@ -50,6 +50,26 @@ class data extends query_builder
 	}
 
 	/**
+	 * Get topics count
+	 *
+	 * @return integer
+	 */
+	public function get_topics_count()
+	{
+		$sql_array = array(
+			'SELECT'	=> 'COUNT(*) AS total_topics',
+			'FROM'		=> $this->store['sql_array']['FROM'],
+			'WHERE'		=> $this->store['sql_array']['WHERE'],
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$total_topics = $this->db->sql_fetchfield('total_topics');
+		$this->db->sql_freeresult($result);
+
+		return $total_topics;
+	}
+
+	/**
 	 * Get topic data
 	 *
 	 * @param mixed|false $limit
