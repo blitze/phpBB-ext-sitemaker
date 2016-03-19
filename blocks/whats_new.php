@@ -117,7 +117,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 			$sql_array = $this->_get_posts_sql();
 		}
 
-		$this->forum_data->query()
+		$this->forum_data->query(false)
 			->set_sorting($sorting)
 			->fetch_custom($sql_array)
 			->build(true, false);
