@@ -213,7 +213,7 @@ class links_test extends blocks_base
 								'</ul>' .
 							'</li>' .
 							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/content/articles"><i class="fa-fw"></i>Articles</a>' .
+								'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw"></i>Articles</a>' .
 							'</li>' .
 						'</ul>' .
 					'</li>' .

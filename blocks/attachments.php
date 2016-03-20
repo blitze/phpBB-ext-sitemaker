@@ -71,7 +71,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 		$attach_type_options = array('' => 'ALL', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
 
 		return array(
-			'legend1'		=> 'SETTINGS',
+			'legend1'			=> 'SETTINGS',
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'first_only'		=> array('lang' => 'FIRST_POST_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),

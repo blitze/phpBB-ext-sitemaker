@@ -17,11 +17,11 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \blitze\sitemaker\services\forum\data */
+	protected $forum_data;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -32,17 +32,17 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth					$auth				Permission object
-	 * @param \phpbb\db\driver\driver_interface	$db					Database connection
-	 * @param \phpbb\user						$user				User object
-	 * @param string							$phpbb_root_path	Path to the phpbb includes directory.
-	 * @param string							$php_ext			php file extension
+	 * @param \phpbb\auth\auth							$auth				Permission object
+	 * @param \phpbb\user								$user				User object
+	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
+	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
+	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
-		$this->db = $db;
 		$this->user = $user;
+		$this->forum_data = $forum_data;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -59,6 +59,8 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 				'USER_AVATAR'	=> phpbb_get_user_avatar($this->user->data),
 				'USERNAME'		=> get_username_string('no_profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USERNAME_FULL' => get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
+				'USER_POSTS'	=> $this->user->data['user_posts'],
+				'NEW_POSTS'		=> $this->_get_new_posts_count(),
 
 				'U_PROFILE'		=> append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=viewprofile&amp;u=' . $this->user->data['user_id']),
 				'U_SEARCH_NEW'	=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, 'search_id=newposts'),
@@ -76,5 +78,26 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 			'title'		=> 'WELCOME',
 			'content'	=> $content,
 		);
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function _get_new_posts_count()
+	{
+		$sql_array = array(
+			'FROM'		=> array(
+				POSTS_TABLE		=> 'p',
+			),
+			'WHERE'		=> array(
+				't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
+			),
+		);
+
+		$this->forum_data->query(false)
+			->fetch_custom($sql_array)
+			->build(true, false);
+
+		return (int) $this->forum_data->get_topics_count();
 	}
 }

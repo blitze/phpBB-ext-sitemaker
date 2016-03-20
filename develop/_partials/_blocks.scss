@@ -1,5 +1,27 @@
 @import "globals";
 
+.sidebar {
+	.flex {
+		dt, dd {
+			width: 100%;
+			padding-left: 0;
+		}
+
+		.resultbar {
+			width: 80%;
+			padding: 0;
+		}
+
+		.poll_option_percent {
+			position: absolute;
+			width: auto;
+			bottom: 0;
+			right: 0;
+			padding: 0;
+		}
+	}
+}
+
 .sidebar-control {
 	width: auto;
 	padding: 5px;
@@ -51,6 +73,24 @@
 
 	.header {
 		font-weight: bold;
+	}
+
+	dl {
+		position: relative;
+	}
+
+	dt {
+		float: left;
+		clear: left;
+		width: 40%;
+		margin: 0 0 0.7em 0;
+	}
+
+	dd {
+		float: left;
+		width: 58%;
+		margin: 0;
+		position: relative;
 	}
 }
 

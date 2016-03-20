@@ -1,7 +1,7 @@
 <!-- IF QTYPE_EXPLAIN --><div class="align-center">{QTYPE_EXPLAIN}</div><br /><!-- ENDIF -->
-<ul class="sm-list">
-	<li>
-		<div class="align-center">
+<div class="flex">
+	<dl>
+		<dt class="align-center">
 			<p>
 				<a href="{U_PROFILE}">
 					<strong>{USERNAME}</strong><br />
@@ -10,30 +10,30 @@
 				<!-- IF RANK_TITLE --><br /><span class="small">{RANK_TITLE}</span><!-- ENDIF -->
 				<!-- IF RANK_IMG --><br />{RANK_IMG}<!-- ENDIF -->
 			</p>
-		</div>
-	</li>
-	<li>
-		<!-- IF not AVATAR_IMG --><div><strong>{L_USERNAME}{L_COLON}</strong> <a href="{U_PROFILE}">{USERNAME}</a></div><!-- ENDIF -->
-		<!-- IF LOCATION --><div><strong>{L_LOCATION}{L_COLON}</strong> {LOCATION}</div><!-- ENDIF -->
-		<div><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</div>
-		<div><strong>{L_LAST_VISITED}{L_COLON}</strong> <!-- IF VISITED -->{VISITED}<!-- ELSE -->{JOINED}<!-- ENDIF --></div>
-		<div><strong>{L_TOTAL_POSTS}{L_COLON}</strong> {POSTS}<!-- IF POSTS -->  <a href="{U_SEARCH_USER}"><i class="fa fa-search"></i></a><!-- ELSE --><!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT}]<!-- ENDIF --></div>
-		<!-- BEGIN custom_fields -->
-		<!-- IF not custom_fields.S_PROFILE_CONTACT -->
-		<div><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</div>
-		<!-- ELSE -->
-		<div>
-			<strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
-			<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
-			<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
-			<!-- ELSE -->
-			{custom_fields.PROFILE_FIELD_VALUE}
-			<!-- ENDIF -->
-		</div>
-		<!-- ENDIF -->
-		<!-- END custom_fields -->
-	</li>
-</ul>
+		</dt>
+		<dd>
+			<ul class="sm-list">
+				<li><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</li>
+				<li><strong>{L_LAST_VISITED}{L_COLON}</strong> <!-- IF VISITED -->{VISITED}<!-- ELSE -->{JOINED}<!-- ENDIF --></li>
+				<!-- BEGIN custom_fields -->
+				<!-- IF not custom_fields.S_PROFILE_CONTACT -->
+				<li><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</li>
+				<!-- ELSE -->
+				<li>
+					<strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
+					<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
+					<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
+					<!-- ELSE -->
+					{custom_fields.PROFILE_FIELD_VALUE}
+					<!-- ENDIF -->
+				</li>
+				<!-- ENDIF -->
+				<!-- END custom_fields -->
+				<li><strong>{L_TOTAL_POSTS}{L_COLON}</strong> {POSTS}<!-- IF POSTS -->  <a href="{U_SEARCH_USER}"><i class="fa fa-search"></i></a><!-- ELSE --><!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT}]<!-- ENDIF --></li>
+			</ul>
+		</dd>
+	</dl>
+</div>
 <!-- IF ROTATION -->
 <br /><hr class="divider">
 <span class="gensmall">{ROTATION}</span>

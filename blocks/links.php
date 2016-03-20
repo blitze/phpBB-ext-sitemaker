@@ -28,7 +28,7 @@ class links extends menu_block
 		$menu_options = $this->get_menu_options();
 
 		return array(
-			'legend1'	=> 'SETTINGS',
+			'legend1'       => 'SETTINGS',
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
 		);
 	}

@@ -53,7 +53,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'	=> 'SETTINGS',
+			'legend1'		=> 'SETTINGS',
 			'topics_only'	=> array('lang' => 'TOPICS_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
@@ -122,7 +122,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 			$sql_array = $this->_get_posts_sql();
 		}
 
-		$this->forum_data->query()
+		$this->forum_data->query(false)
 			->set_sorting($sorting)
 			->fetch_custom($sql_array)
 			->build(true, false);

@@ -90,6 +90,10 @@
 	};
 
 	var addBlock = function(posID, blockName, droppedElement) {
+		if (updated) {
+			saveLayout();
+		}
+
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('block')
 			.html('<div class="ui-state-highlight sm-block-spacing sortable" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');

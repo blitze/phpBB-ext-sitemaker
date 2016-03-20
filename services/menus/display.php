@@ -248,7 +248,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function needs_adjustment($items_depth)
 	{
-		return ($items_depth >= $this->max_depth || !$this->expanded) ? true : false;
+		return ($items_depth >= $this->max_depth) ? true : false;
 	}
 
 	/**
@@ -261,7 +261,7 @@ class display extends \blitze\sitemaker\services\tree\display
 		if ($this->needs_adjustment($depth))
 		{
 			$adjustment = ($this->count_descendants($row)) ? 1 : 0;
-			$this->min_depth = ($depth) ? $depth - $this->max_depth + $adjustment : 0;
+			$this->min_depth = ($this->max_depth && $depth >= $this->max_depth) ? $depth - $this->max_depth + $adjustment : 0;
 			$this->max_depth = $depth + $adjustment;
 		}
 	}

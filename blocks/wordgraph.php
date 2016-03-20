@@ -50,7 +50,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'		=> 'SETTINGS',
+			'legend1'			=> 'SETTINGS',
 			'show_word_count'	=> array('lang' => 'SHOW_WORD_COUNT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
 			'max_num_words'		=> array('lang' => 'MAX_WORDS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 2, 'explain' => false, 'default' => 15),
 			'max_word_size'		=> array('lang' => 'WORD_MAX_SIZE', 'validate' => 'int:0:55', 'type' => 'number:0:55', 'maxlength' => 2, 'explain' => false, 'default' => 25, 'append' => 'PIXEL'),

@@ -29,7 +29,7 @@ class menu extends menu_block
 		$depth_options = $this->get_depth_options();
 
 		return array(
-			'legend1'	=> 'SETTINGS',
+			'legend1'       => 'SETTINGS',
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
 			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'checkbox', 'options' => array(1 => ''), 'default' => 0, 'explain' => false),
 			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
