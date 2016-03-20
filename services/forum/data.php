@@ -144,11 +144,12 @@ class data extends query_builder
 	 *
 	 * @param int $forum_id
 	 * @param array $allowed_extensions
+	 * @param mixed|bool $limit
 	 * @param bool $exclude_in_message
 	 * @param string $order_by
 	 * @return array
 	 */
-	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $exclude_in_message = true, $order_by = 'filetime DESC, post_msg_id ASC')
+	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
 		$this->store['attachments'] = array_filter($this->store['attachments']);
 
@@ -156,7 +157,7 @@ class data extends query_builder
 		if ($this->_attachments_allowed($forum_id))
 		{
 			$sql = $this->_get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by);
-			$result = $this->db->sql_query($sql);
+			$result = $this->db->sql_query_limit($sql, $limit);
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
@@ -226,7 +227,7 @@ class data extends query_builder
 				'SELECT'	=> array('p.*'),
 				'FROM'		=> array(POSTS_TABLE => 'p'),
 				'WHERE'		=> $this->_get_post_data_where($post_ids, $topic_first_or_last_post),
-				'ORDER_BY'	=> 'p.topic_id, p.post_time ASC',
+				'ORDER_BY'	=> 'p.post_time DESC',
 			),
 			$sql_array
 		);
