@@ -106,7 +106,6 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 
 		$data['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
 		$data['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
-		$data['item_target'] = ($data['item_target']) ? ' target="_blank"' : '';
 	}
 
 	/**
