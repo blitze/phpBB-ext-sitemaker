@@ -17,9 +17,6 @@ use blitze\sitemaker\services\menus\menu_block;
 */
 class links extends menu_block
 {
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
 
@@ -31,7 +28,7 @@ class links extends menu_block
 		$menu_options = $this->get_menu_options();
 
 		return array(
-			'legend1'       => $this->user->lang('SETTINGS'),
+			'legend1'       => 'SETTINGS',
 			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
 		);
 	}
@@ -41,7 +38,7 @@ class links extends menu_block
 	 */
 	public function display(array $db_data, $editing = false)
 	{
-		$title = $this->user->lang('LINKS');
+		$title = 'LINKS';
 		$menu_id = $db_data['settings']['menu_id'];
 
 		$data = $this->_get_menu($menu_id);
