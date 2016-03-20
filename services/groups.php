@@ -100,7 +100,7 @@ class groups
 		return 'SELECT group_id, group_name, group_type 
 			FROM ' . GROUPS_TABLE .
 			(($mode === 'special') ? ' WHERE group_type = ' . GROUP_SPECIAL : '') . '
-			ORDER BY group_name ASC';
+			ORDER BY group_type DESC, group_name ASC';
 	}
 
 	/**
