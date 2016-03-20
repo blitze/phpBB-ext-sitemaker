@@ -307,12 +307,13 @@
 			'inline': true,
 			'image_advtab': true,
 			'plugins': [
-				'advlist autolink lists link image imagetools charmap anchor',
-				'visualblocks code hr',
-				'media table contextmenu paste'
+				'advlist autolink lists link image charmap anchor pagebreak',
+				'visualblocks visualchars code',
+				'media nonbreaking save table contextmenu',
+				'paste textcolor colorpicker textpattern imagetools'
 			],
 			'valid_elements': '*[*]',
-			'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr link image | code',
+			'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr link image media | forecolor backcolor | code',
 			'setup': function(editor) {
 				var editorPreview = '';
 				var editorContent = '';
