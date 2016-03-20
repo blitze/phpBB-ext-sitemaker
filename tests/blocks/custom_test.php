@@ -49,7 +49,7 @@ class custom_test extends blocks_base
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$block = new custom($cache, $db, $request, $user, 'phpbb_sm_cblocks');
+		$block = new custom($cache, $db, $request, 'phpbb_sm_cblocks');
 		$block->set_template($this->ptemplate);
 
 		return $block;

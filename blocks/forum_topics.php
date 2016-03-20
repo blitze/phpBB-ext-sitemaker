@@ -92,14 +92,14 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		$template_options = $this->_get_view_options();
 
 		return array(
-			'legend1'		=> $this->user->lang('SETTINGS'),
+			'legend1'		=> 'SETTINGS',
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
 			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
 
-			'legend2'		=> $this->user->lang('DISPLAY'),
+			'legend2'		=> 'DISPLAY',
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
@@ -201,9 +201,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		// if more than one topic type is selected, we default to RECENT_TOPICS
 		$topic_type = join(',', $this->settings['topic_type']);
 
-		$lang_var = ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
-
-		return $this->user->lang($lang_var);
+		return ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
 	}
 
 	/**

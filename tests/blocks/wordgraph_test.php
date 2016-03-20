@@ -60,7 +60,7 @@ class wordgraph_test extends blocks_base
 
 		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$block = new wordgraph($auth, $content_visibility, $db, $user, $phpbb_root_path, $phpEx);
+		$block = new wordgraph($auth, $content_visibility, $db, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;

@@ -20,9 +20,6 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \blitze\sitemaker\services\date_range */
 	protected $date_range;
 
@@ -46,18 +43,16 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	 *
 	 * @param \phpbb\auth\auth							$auth				Permission object
 	 * @param \phpbb\cache\service						$cache				Cache Service object
-	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
 	 * @param \blitze\sitemaker\services\forum\options	$forum_data			Forum Data object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
-		$this->user = $user;
 		$this->date_range = $date_range;
 		$this->forum_data = $forum_data;
 		$this->forum_options = $forum_options;
@@ -76,7 +71,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 		$attach_type_options = array('' => 'ALL', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
 
 		return array(
-			'legend1'		=> $this->user->lang('SETTINGS'),
+			'legend1'			=> 'SETTINGS',
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'first_only'		=> array('lang' => 'FIRST_POST_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
