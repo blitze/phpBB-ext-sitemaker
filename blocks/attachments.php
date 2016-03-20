@@ -93,7 +93,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 		$ext_groups = $this->_get_extension_groups($extensions);
 
 		$posts_data = $this->_get_posts_data();
-		$attachments = $this->forum_data->get_attachments(0, $ext_groups[$this->settings['ext_type']], $this->settings['limit'], false, 'download_count DESC');
+		$attachments = $this->forum_data->get_attachments(0, $ext_groups[$this->settings['ext_type']], $this->settings['limit'], false);
 
 		$content = '';
 		if (sizeof($attachments))
