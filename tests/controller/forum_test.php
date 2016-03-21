@@ -46,6 +46,7 @@ class forum_test extends \phpbb_database_test_case
 		$db = $this->new_dbal();
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$config = new \phpbb\config\config(array());
+		$request = $this->getMock('\phpbb\request\request_interface');
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -73,7 +74,17 @@ class forum_test extends \phpbb_database_test_case
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 			});
 
-		return  new forum($config, $controller_helper, $template, $user, $phpbb_root_path, $phpEx);
+		$phpbb_path_helper =  new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
+			),
+			new \phpbb\filesystem(),
+			$request,
+			$phpbb_root_path,
+			$phpEx
+		);
+
+		return  new forum($config, $controller_helper, $phpbb_path_helper, $template, $user);
 	}
 
 	/**

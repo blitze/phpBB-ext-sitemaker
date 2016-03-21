@@ -14,10 +14,9 @@ services:
         arguments:
             - '@config'
             - '@controller.helper'
+            - '@path_helper'
             - '@template'
             - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
 
     blitze.sitemaker.menus.admin.controller:
         class: blitze\sitemaker\controller\menus_admin
