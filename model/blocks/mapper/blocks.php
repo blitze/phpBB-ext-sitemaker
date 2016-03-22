@@ -42,14 +42,14 @@ class blocks extends base_mapper
 		}
 	}
 
-	protected function _insert($entity)
+	protected function _insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$this->_move_blocks_down($entity);
 
 		return parent::_insert($entity);
 	}
 
-	protected function _move_blocks_down($entity)
+	protected function _move_blocks_down(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$sql = 'UPDATE ' . $this->_entity_table . '
 			SET weight = weight + 1

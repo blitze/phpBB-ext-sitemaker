@@ -36,7 +36,7 @@ class set_route_prefs extends base_action
 			$this->_update_route($entity, $route_prefs);
 		}
 		// user has made choices that match defaults, and route prefs exist in db
-		else if ($entity = $this->route_mapper->load($route))
+		else if ($entity = $this->route_mapper->load($this->get_condition($route)))
 		{
 			$this->_update_or_remove($entity, $route_prefs);
 		}

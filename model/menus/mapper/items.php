@@ -77,7 +77,7 @@ class items extends base_mapper
 		return $this->_collection;
 	}
 
-	public function save($entity)
+	public function save(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$sql_data = $entity->to_db();
 
@@ -107,7 +107,9 @@ class items extends base_mapper
 				->add_branch($branch, $parent_id);
 		}
 
-		return $this->find(array('item_id' => $new_item_ids));
+		return $this->find(array(
+			array('item_id', '=', $new_item_ids),
+		));
 	}
 
 	public function update_items($menu_id, array $items)

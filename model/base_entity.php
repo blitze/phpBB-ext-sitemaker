@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\model;
 
-abstract class base_entity
+use blitze\sitemaker\model\entity_interface;
+
+abstract class base_entity implements entity_interface
 {
 	/** @var array */
 	protected $db_fields = array();
@@ -50,8 +52,8 @@ abstract class base_entity
 	}
 
 	/**
-	 * Get an associative array with the values assigned to the fields of the entity, ready for display
-	 */
+	* {@inheritdoc}
+	*/
 	public function to_array()
 	{
 		$attributes = $this->_get_attributes();
@@ -68,8 +70,8 @@ abstract class base_entity
 	}
 
 	/**
-	 * Get an associative array with the raw values assigned to the fields of the entity, ready for storage
-	 */
+	* {@inheritdoc}
+	*/
 	public function to_db()
 	{
 		$this->_check_required();

@@ -20,7 +20,11 @@ class add_bulk extends base_action
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 		$items_mapper = $this->mapper_factory->create('menus', 'items');
 
-		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
+		$condition = array(
+			array('menu_id', '=', $menu_id),
+		);
+
+		if ($menu_mapper->load($condition) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 		}

@@ -148,7 +148,7 @@ class wordgraph_test extends blocks_base
 	{
 		$block = $this->get_block($user_data);
 		$result = $block->display($bdata);
-//var_export($result);
+
 		$this->assertEquals($expected, $result['content']);
 	}
 }

@@ -118,7 +118,9 @@ class save_block_test extends base_action
 		if ($updated_block['hash'])
 		{
 			$mapper = $this->mapper_factory->create('blocks', 'blocks');
-			$collection = $mapper->find(array('hash' => $updated_block['hash']));
+			$collection = $mapper->find(array(
+				array('hash', '=', $updated_block['hash']),
+			));
 			$actual_similar = $collection->count();
 		}
 

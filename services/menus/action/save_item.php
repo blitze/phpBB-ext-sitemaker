@@ -17,7 +17,11 @@ class save_item extends base_action
 
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
-		if (($entity = $item_mapper->load(array('item_id' => $item_id))) === null)
+		$condition = array(
+			array('item_id', '=', $item_id),
+		);
+
+		if (($entity = $item_mapper->load($condition)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_ITEM_NOT_FOUND');
 		}

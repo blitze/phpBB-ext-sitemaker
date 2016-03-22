@@ -17,8 +17,12 @@ class edit_block extends base_action
 
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
 
+		$condition = array(
+			array('bid', '=', $block_id),
+		);
+
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
-		if (($entity = $block_mapper->load(array('bid' => $block_id))) === null)
+		if (($entity = $block_mapper->load($condition)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
 		}

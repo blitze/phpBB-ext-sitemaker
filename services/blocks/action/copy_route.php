@@ -33,8 +33,8 @@ class copy_route extends base_action
 		);
 
 		$condition = array(
-			'route'	=> $from_route,
-			'style'	=> $from_style,
+			array('route', '=', $from_route),
+			array('style', '=', $from_style),
 		);
 
 		if (!($from_entity = $this->route_mapper->load($condition)))
@@ -57,8 +57,8 @@ class copy_route extends base_action
 	protected function _delete_route($route, $style_id)
 	{
 		$entity = $this->route_mapper->load(array(
-			'route'	=> $route,
-			'style'	=> $style_id,
+			array('route', '=', $route),
+			array('style', '=', $style_id),
 		));
 
 		if ($entity)

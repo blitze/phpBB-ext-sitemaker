@@ -34,11 +34,18 @@ class mapper_factory
 		$this->mapper_tables = array_shift($tables);
 	}
 
-	public function create($mapper, $type)
+	/**
+	 * Create mapper object
+	 *
+	 * @param string $type		model type (menus/blocks)
+	 * @param string $mapper	mapper (routes/blocks/menus/items)
+	 * @return \blitze\sitemaker\model\mapper_interface
+	 */
+	public function create($type, $mapper)
 	{
-		$mapper_class = 'blitze\\sitemaker\\model\\' . $mapper . '\\mapper\\' . $type;
-		$collection = 'blitze\\sitemaker\\model\\' . $mapper . '\\collections\\' . $type;
+		$mapper_class = 'blitze\\sitemaker\\model\\' . $type . '\\mapper\\' . $mapper;
+		$collection = 'blitze\\sitemaker\\model\\' . $type . '\\collections\\' . $mapper;
 
-		return new $mapper_class($this->db, new $collection, $this, $this->mapper_tables[$type], $this->config);
+		return new $mapper_class($this->db, new $collection, $this, $this->mapper_tables[$mapper], $this->config);
 	}
 }

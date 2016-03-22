@@ -101,8 +101,8 @@ class set_route_prefs_test extends base_action
 
 		$mapper = $this->mapper_factory->create('blocks', 'routes');
 		$entity = $mapper->load(array(
-			'route'		=> $variable_map[0][4],
-			'style'		=> 1,
+			array('route', '=', $variable_map[0][4]),
+			array('style', '=', 1),
 		));
 
 		if ($entity)

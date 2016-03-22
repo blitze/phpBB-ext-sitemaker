@@ -56,8 +56,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Find a single entity
-	 */
+	* {@inheritdoc}
+	*/
 	public function load(array $condition = array())
 	{
 		$sql_where = $this->_get_condition($condition);
@@ -73,8 +73,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Find all the entities
-	 */
+	* {@inheritdoc}
+	*/
 	public function find(array $condition = array())
 	{
 		$sql_where = $this->_get_condition($condition);
@@ -91,9 +91,9 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Save the entity
-	 */
-	public function save($entity)
+	* {@inheritdoc}
+	*/
+	public function save(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$accessor = 'get_' . $this->_entity_pkey;
 		if (is_null($entity->$accessor()))
@@ -109,14 +109,16 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Delete from the database
-	 */
+	* {@inheritdoc}
+	*/
 	public function delete($condition)
 	{
 		if ($condition instanceof $this->_entity_class)
 		{
 			$accessor = 'get_' . $this->_entity_pkey;
-			$condition = array($this->_entity_pkey => $condition->$accessor());
+			$condition = array(
+				array($this->_entity_pkey, '=', $condition->$accessor()),
+			);
 		}
 
 		$sql_where = $this->_get_condition($condition);
@@ -134,7 +136,7 @@ abstract class base_mapper implements mapper_interface
 	/**
 	 * Insert a new row in the table corresponding to the specified entity
 	 */
-	protected function _insert($entity)
+	protected function _insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		if ($entity instanceof $this->_entity_class)
 		{
@@ -152,7 +154,7 @@ abstract class base_mapper implements mapper_interface
 	/**
 	 * Update the row in the table corresponding to the specified entity
 	 */
-	protected function _update($entity)
+	protected function _update(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		if ($entity instanceof $this->_entity_class)
 		{
@@ -174,19 +176,21 @@ abstract class base_mapper implements mapper_interface
 	protected function _get_condition(array $condition)
 	{
 		$sql_where = array();
-		foreach ($condition as $field => $value)
+		foreach ($condition as $info)
 		{
+			list($field, $operator, $value) = $info;
+
 			switch (gettype($value))
 			{
 				case 'array':
-					$sql_where[] = $this->db->sql_in_set($field, $value);
+					$sql_where[] = $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
 				break;
 				case 'string':
-					$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
+					$sql_where[] = $field . " $operator '" . $this->db->sql_escape($value) . "'";
 				break;
 				case 'boolean':
 				case 'integer':
-					$sql_where[] = $field . ' = ' . (int) $value;
+					$sql_where[] = $field . " $operator " . (int) $value;
 				break;
 			}
 		}

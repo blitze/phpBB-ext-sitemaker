@@ -20,7 +20,7 @@ class menus_test extends base_mapper
 		$menu_mapper = $this->get_mapper('menus');
 
 		$condition = array(
-			'menu_id' => 1,
+			array('menu_id', '=', 1),
 		);
 
 		$menu = $menu_mapper->load($condition);
@@ -44,13 +44,15 @@ class menus_test extends base_mapper
 
 		// it should return 1 entity in the collection
 		$collection = $mapper->find(array(
-			'menu_name'	=> 'Menu 2',
+			array('menu_name', '=', 'Menu 2'),
 		));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\menus\collections\menus', $collection);
 		$this->assertEquals(1, $collection->count());
 
-		$collection = $mapper->find(array('menu_name' => 'my menu'));
+		$collection = $mapper->find(array(
+			array('menu_name', '=', 'my menu'),
+		));
 		$this->assertEquals(0, $collection->count());
 	}
 
@@ -78,13 +80,17 @@ class menus_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('menus');
 
-		$menu = $mapper->load(array('menu_id' => 1));
+		$menu = $mapper->load(array(
+			array('menu_id', '=', 1),
+		));
 		$this->assertEquals('Menu 1', $menu->get_menu_name());
 
 		$menu->set_menu_name('my menu');
 		$mapper->save($menu);
 
-		$menu = $mapper->load(array('menu_id' => 1));
+		$menu = $mapper->load(array(
+			array('menu_id', '=', 1),
+		));
 		$this->assertEquals(1, $menu->get_menu_id());
 		$this->assertEquals('My Menu', $menu->get_menu_name());
 	}
@@ -98,7 +104,7 @@ class menus_test extends base_mapper
 		$menu_mapper = $this->get_mapper('menus');
 
 		$condition = array(
-			'menu_id'	=> 1,
+			array('menu_id', '=', 1),
 		);
 
 		$menu = $menu_mapper->load($condition);
@@ -124,7 +130,7 @@ class menus_test extends base_mapper
 		$mapper = $this->get_mapper('menus');
 
 		$condition = array(
-			'menu_id'	=> 2,
+			array('menu_id', '=', 2),
 		);
 
 		$collection = $mapper->find($condition);

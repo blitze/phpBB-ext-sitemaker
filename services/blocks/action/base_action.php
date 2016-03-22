@@ -66,7 +66,7 @@ abstract class base_action implements action_interface
 	{
 		$route_mapper = $this->mapper_factory->create('blocks', 'routes');
 
-		if (($route = $route_mapper->load($route_data)) === null)
+		if (($route = $route_mapper->load($this->get_condition($route_data))) === null)
 		{
 			$route_data['ext_name'] = $this->request->variable('ext', '');
 			$route_data['has_blocks'] = $has_blocks;
@@ -76,6 +76,14 @@ abstract class base_action implements action_interface
 		}
 
 		return $route;
+	}
+
+	protected function get_condition(array $info)
+	{
+		return array(
+			array('route', '=', $info['route']),
+			array('style', '=', $info['style_id']),
+		);
 	}
 
 	protected function render_block(\blitze\sitemaker\model\blocks\entity\block $entity)

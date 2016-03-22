@@ -19,9 +19,13 @@ class save_block extends base_action
 		$block_id = $this->request->variable('id', 0);
 		$update_similar = $this->request->variable('similar', false);
 
+		$condition = array(
+			array('bid', '=', $block_id),
+		);
+
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		if (($entity = $this->block_mapper->load(array('bid' => $block_id))) === null)
+		if (($entity = $this->block_mapper->load($condition)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
 		}
@@ -58,7 +62,7 @@ class save_block extends base_action
 	{
 		// find all similar blocks
 		$blocks_collection = $this->block_mapper->find(array(
-			'hash'	=> $old_hash,
+			array('hash', '=', $old_hash),
 		));
 
 		$blocks = array();

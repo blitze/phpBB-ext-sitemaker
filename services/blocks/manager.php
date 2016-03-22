@@ -95,11 +95,11 @@ class manager
 	public function delete_blocks_by_style($style_id)
 	{
 		$this->block_mapper->delete(array(
-			'style'	=> (int) $style_id
+			array('style', '=', (int) $style_id),
 		));
 
 		$this->route_mapper->delete(array(
-			'style'	=> (int) $style_id
+			array('style', '=', (int) $style_id),
 		));
 
 		$this->cache->destroy('sitemaker_block_routes');
@@ -111,17 +111,17 @@ class manager
 	public function delete_blocks_by_route($route)
 	{
 		$collection = $this->route_mapper->find(array(
-			'route'	=> $route,
+			array('route', '=', $route),
 		));
 
 		$route_ids = array_keys($collection->get_entities());
 
 		$this->block_mapper->delete(array(
-			'route_id'	=> $route_ids
+			array('route_id', '=', $route_ids),
 		));
 
 		$this->route_mapper->delete(array(
-			'route_id'	=> $route_ids
+			array('route_id', '=', $route_ids),
 		));
 	}
 
@@ -131,7 +131,7 @@ class manager
 	public function delete_blocks_by_name($block_name)
 	{
 		$collection = $this->block_mapper->find(array(
-			'name'	=> $block_name,
+			array('name', '=', $block_name),
 		));
 
 		foreach ($collection as $entity)

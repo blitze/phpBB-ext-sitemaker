@@ -30,8 +30,8 @@ class routes extends base_mapper
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 			$collection = $block_mapper->find(array(
-				'style'		=> $entity->get_style(),
-				'route_id'	=> $entity->get_route_id(),
+				array('style', '=', $entity->get_style()),
+				array('route_id', '=', $entity->get_route_id()),
 			));
 			$entity->set_blocks($collection);
 		}
@@ -48,8 +48,8 @@ class routes extends base_mapper
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 			$block_mapper->delete(array(
-				'style'		=> $condition->get_style(),
-				'route_id'	=> $condition->get_route_id(),
+				array('style', '=', $condition->get_style()),
+				array('route_id', '=', $condition->get_route_id()),
 			));
 		}
 	}
