@@ -40,8 +40,10 @@ class m14_update_settings_data extends \phpbb\db\migration\migration
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			$settings = json_encode(unserialize($row['settings']));
 			$sql_data = array(
-				'settings'	=> json_encode(unserialize($row['settings']))
+				'settings'	=> $settings,
+				'hash' => md5($settings),
 			);
 			$this->db->sql_query('UPDATE ' . $this->table_prefix . 'sm_blocks SET ' . $this->db->sql_build_array('UPDATE', $sql_data) .' WHERE bid = ' . (int) $row['bid']);
 		}
