@@ -110,7 +110,7 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$container = new \phpbb_mock_container_builder();
+		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
 			$phpbb_root_path,
 			array(
@@ -125,40 +125,19 @@ class admin_bar_test extends \phpbb_database_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/fixtures/ext/foo/bar/',
 				),
 			),
-			$container);
+			$phpbb_container);
 
-		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$symfony_request = new Request();
+		$symfony_request->attributes->set('_controller', $controller);
+		$symfony_request->attributes->set('_route_params', array('route' => $params));
+		$symfony_request->attributes->set('route', $params);
 
-		$phpbb_container->expects($this->any())
-			->method('get')
-			->will($this->returnCallback(function($service) use ($auto_lang, $blocks_factory, $mapper_factory, $phpbb_extension_manager, $controller, $params) {
-				switch ($service)
-				{
-					case 'blitze.sitemaker.auto_lang':
-						return $auto_lang;
-					break;
-					case 'blitze.sitemaker.blocks.factory':
-						return $blocks_factory;
-					break;
-					case 'blitze.sitemaker.mapper.factory':
-						return $mapper_factory;
-					break;
-					case 'ext.manager':
-						return $phpbb_extension_manager;
-					break;
-					case 'symfony_request':
-						$symfony_request = new Request();
-						$symfony_request->attributes->set('_controller', $controller);
-						$symfony_request->attributes->set('_route_params', array('route' => $params));
-						$symfony_request->attributes->set('route', $params);
-
-						return $symfony_request;
-					break;
-					case 'foo.bar.controller':
-						return new \foo\bar\foo_bar_controller();
-					break;
-				}
-			}));
+		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
+		$phpbb_container->set('symfony_request', $symfony_request);
+		$phpbb_container->set('blitze.sitemaker.auto_lang', $auto_lang);
+		$phpbb_container->set('blitze.sitemaker.blocks.factory', $blocks_factory);
+		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
+		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
 
 		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
 			->disableOriginalConstructor()

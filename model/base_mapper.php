@@ -159,9 +159,10 @@ abstract class base_mapper implements mapper_interface
 		if ($entity instanceof $this->_entity_class)
 		{
 			$accessor = 'get_' . $this->_entity_pkey;
-			$id = $entity->$accessor();
 
-			return $this->db->sql_query('UPDATE ' . $this->_entity_table . ' SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) .' WHERE ' . $this->_entity_pkey . ' = ' . $id);
+			return $this->db->sql_query('UPDATE ' . $this->_entity_table . '
+				SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) . '
+				WHERE ' . $this->_entity_pkey . ' = ' . (int) $entity->$accessor());
 		}
 
 		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');

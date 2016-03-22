@@ -45,7 +45,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\cache\service						$cache				Cache Service object
 	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
-	 * @param \blitze\sitemaker\services\forum\options	$forum_data			Forum Data object
+	 * @param \blitze\sitemaker\services\forum\options	$forum_options		Forum Options object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */

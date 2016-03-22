@@ -102,20 +102,16 @@ class items extends base_mapper
 		{
 			$branch = $this->prep_items_for_storage($items);
 
-			$new_item_ids = $this->tree
-				->set_sql_where($this->get_sql_where($menu_id))
+			$new_item_ids = $this->tree->set_sql_where($this->get_sql_where($menu_id))
 				->add_branch($branch, $parent_id);
 		}
 
-		return $this->find(array(
-			array('item_id', '=', $new_item_ids),
-		));
+		return $this->find(array('item_id', '=', $new_item_ids));
 	}
 
 	public function update_items($menu_id, array $items)
 	{
-		return $this->tree
-			->set_sql_where($this->get_sql_where($menu_id))
+		return $this->tree->set_sql_where($this->get_sql_where($menu_id))
 			->update_tree($items);
 	}
 

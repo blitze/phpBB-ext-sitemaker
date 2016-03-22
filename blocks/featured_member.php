@@ -249,7 +249,7 @@ class featured_member extends block
 			$settings = $this->settings;
 			unset($settings['hash']);
 			$sql_data = array(
-				'settings'	=> serialize($settings)
+				'settings'	=> json_encode($settings)
 			);
 			$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
 			$this->cache->put('pt_block_data_' . $bid, $this->settings);

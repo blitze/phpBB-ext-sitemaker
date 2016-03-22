@@ -167,7 +167,7 @@ final class block extends base_entity
 		}
 		else if (sizeof($settings))
 		{
-			$this->settings = serialize($settings);
+			$this->settings = json_encode($settings);
 			$this->hash = md5($this->settings);
 		}
 		return $this;
@@ -178,7 +178,7 @@ final class block extends base_entity
 	 */
 	public function get_settings()
 	{
-		return ($this->settings) ? unserialize(stripslashes($this->settings)) : array();
+		return ($this->settings) ? json_decode($this->settings, true) : array();
 	}
 
 	public function __clone()

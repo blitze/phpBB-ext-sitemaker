@@ -18,7 +18,7 @@ class set_route_prefs extends base_action
 	{
 		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
 
-		$route = array(
+		$route_data = array(
 			'route'	=> $this->request->variable('route', ''),
 			'style'	=> $style_id,
 		);
@@ -32,11 +32,11 @@ class set_route_prefs extends base_action
 		if ($this->_route_is_customized($route_prefs))
 		{
 			// create/update route regardless of whether it has blocks or not
-			$entity = $this->_force_get_route($route);
+			$entity = $this->_force_get_route($route_data);
 			$this->_update_route($entity, $route_prefs);
 		}
 		// user has made choices that match defaults, and route prefs exist in db
-		else if ($entity = $this->route_mapper->load($this->get_condition($route)))
+		else if ($entity = $this->route_mapper->load($this->get_condition($route_data)))
 		{
 			$this->_update_or_remove($entity, $route_prefs);
 		}

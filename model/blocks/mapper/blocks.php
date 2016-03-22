@@ -35,10 +35,10 @@ class blocks extends base_mapper
 		{
 			$this->db->sql_query('UPDATE ' . $this->_entity_table . '
 				SET weight = weight - 1
-				WHERE weight > ' . $condition->get_weight() . '
-					AND style = ' . $condition->get_style() . '
-					AND route_id = ' . $condition->get_route_id() . "
-					AND position = '" . $condition->get_position() . "'");
+				WHERE weight > ' . (int) $condition->get_weight() . '
+					AND style = ' . (int) $condition->get_style() . '
+					AND route_id = ' . (int) $condition->get_route_id() . "
+					AND position = '" . $this->db->sql_escape($condition->get_position()) . "'");
 		}
 	}
 
@@ -53,9 +53,9 @@ class blocks extends base_mapper
 	{
 		$sql = 'UPDATE ' . $this->_entity_table . '
 			SET weight = weight + 1
-			WHERE weight >= ' . $entity->get_weight() . '
-				AND route_id = ' . $entity->get_route_id() . '
-				AND style = ' . $entity->get_style();
+			WHERE weight >= ' . (int) $entity->get_weight() . '
+				AND route_id = ' . (int) $entity->get_route_id() . '
+				AND style = ' . (int) $entity->get_style();
 		$this->db->sql_query($sql);
 	}
 }

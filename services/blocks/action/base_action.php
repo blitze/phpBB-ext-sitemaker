@@ -82,7 +82,7 @@ abstract class base_action implements action_interface
 	{
 		return array(
 			array('route', '=', $info['route']),
-			array('style', '=', $info['style_id']),
+			array('style', '=', $info['style']),
 		);
 	}
 

@@ -200,7 +200,7 @@ class poll
 		{
 			$sql = 'SELECT poll_option_id
 			FROM ' . POLL_VOTES_TABLE . '
-			WHERE topic_id = ' . $topic_id . '
+			WHERE topic_id = ' . (int) $topic_id . '
 				AND vote_user_id = ' . $this->user->data['user_id'];
 			$result = $this->db->sql_query($sql);
 

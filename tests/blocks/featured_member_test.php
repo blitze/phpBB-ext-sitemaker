@@ -293,7 +293,7 @@ class featured_member_test extends blocks_base
 		$this->assertEquals($user_data, array_filter($result['content']));
 
 		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
-		$settings = unserialize($this->db->sql_fetchfield('settings'));
+		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
 		$this->db->sql_freeresult();
 
 		$this->assertEquals($userlist, $settings['current_user']);
@@ -381,7 +381,7 @@ class featured_member_test extends blocks_base
 		$this->assertEquals($block_content, $actual);
 
 		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
-		$settings = unserialize($this->db->sql_fetchfield('settings'));
+		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
 		$this->db->sql_freeresult();
 
 		$this->assertEquals($userlist, $settings['userlist']);

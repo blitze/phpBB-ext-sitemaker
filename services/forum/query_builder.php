@@ -221,16 +221,16 @@ class query_builder
 	/**
 	 * Fetch by Date Range
 	 *
-	 * @param int $start	Unix start time
-	 * @param int $stop		Unix stop time
+	 * @param int $unix_start_time
+	 * @param int $unix_stop_time
 	 * @param string $mode
 	 * @return $this
 	 */
-	public function fetch_date_range($start, $stop, $mode = 'topic')
+	public function fetch_date_range($unix_start_time, $unix_stop_time, $mode = 'topic')
 	{
-		if ($start && $stop)
+		if ($unix_start_time && $unix_stop_time)
 		{
-			$this->store['sql_array']['WHERE'][] = (($mode == 'topic') ? 't.topic_time' : 'p.post_time') . " BETWEEN $start AND $stop";
+			$this->store['sql_array']['WHERE'][] = (($mode == 'topic') ? 't.topic_time' : 'p.post_time') . " BETWEEN $unix_start_time AND $unix_stop_time";
 		}
 
 		return $this;
