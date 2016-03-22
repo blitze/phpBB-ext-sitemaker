@@ -26,9 +26,7 @@ class menus extends base_mapper
 		if ($entity)
 		{
 			$items_mapper = $this->mapper_factory->create('menus', 'items');
-			$collection = $items_mapper->find(array(
-				array('%smenu_id', '=', $entity->get_menu_id()),
-			));
+			$collection = $items_mapper->find(array('%smenu_id', '=', $entity->get_menu_id()));
 			$entity->set_items($collection);
 		}
 
@@ -43,9 +41,7 @@ class menus extends base_mapper
 		if ($condition instanceof $this->_entity_class)
 		{
 			$items_mapper = $this->mapper_factory->create('menus', 'items');
-			$items_mapper->delete(array(
-				array('menu_id', '=', $condition->get_menu_id()),
-			));
+			$items_mapper->delete(array('menu_id', '=', $condition->get_menu_id()));
 		}
 	}
 }

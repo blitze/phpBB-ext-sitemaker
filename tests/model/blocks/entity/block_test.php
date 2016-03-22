@@ -184,7 +184,7 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '045b74543323b15336d3da03af8aa10c',
+			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
 			'settings'		=> array('my_setting' => 2),
 		);
 
@@ -202,8 +202,8 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '045b74543323b15336d3da03af8aa10c',
-			'settings'		=> 'a:1:{s:10:"my_setting";i:2;}',
+			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
+			'settings'		=> '{"my_setting":2}',
 		);
 
 		$this->assertSame($to_array_expected, $block->to_array());

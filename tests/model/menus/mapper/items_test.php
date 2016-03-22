@@ -18,9 +18,7 @@ class items_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('items');
 
-		$item = $mapper->load(array(
-			array('item_id', '=', 2),
-		));
+		$item = $mapper->load(array('item_id', '=', 2));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\menus\entity\item', $item);
 		$this->assertEquals('Item 2', $item->get_item_title());
@@ -38,16 +36,12 @@ class items_test extends base_mapper
 		$this->assertEquals(7, $collection->count());
 
 		// it should return 3 entities in the collection
-		$collection = $mapper->find(array(
-			array('menu_id', '=', 1),
-		));
+		$collection = $mapper->find(array('menu_id', '=', 1));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\menus\collections\items', $collection);
 		$this->assertEquals(3, $collection->count());
 
-		$collection = $mapper->find(array(
-			array('item_title', '=', 'some item'),
-		));
+		$collection = $mapper->find(array('item_title', '=', 'some item'));
 		$this->assertEquals(0, $collection->count());
 	}
 
@@ -75,17 +69,13 @@ class items_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('items');
 
-		$item = $mapper->load(array(
-			array('item_id', '=', 2),
-		));
+		$item = $mapper->load(array('item_id', '=', 2));
 		$this->assertEquals('Item 2', $item->get_item_title());
 
 		$item->set_item_title('my title');
 		$mapper->save($item);
 
-		$item = $mapper->load(array(
-			array('item_id', '=', 2),
-		));
+		$item = $mapper->load(array('item_id', '=', 2));
 		$this->assertEquals(2, $item->get_item_id());
 		$this->assertEquals('My Title', $item->get_item_title());
 	}
@@ -97,9 +87,7 @@ class items_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('items');
 
-		$condition = array(
-			array('menu_id', '=', 1),
-		);
+		$condition = array('menu_id', '=', 1);
 
 		$collection = $mapper->find($condition);
 		$this->assertEquals(3, $collection->count());
@@ -226,9 +214,7 @@ class items_test extends base_mapper
 
 		$mapper->add_items($menu_id, $parent_id, $string);
 
-		$collection = $mapper->find(array(
-			array('menu_id', '=', $menu_id),
-		));
+		$collection = $mapper->find(array('menu_id', '=', $menu_id));
 
 		$actual = array();
 		foreach ($collection as $entity)
@@ -283,24 +269,18 @@ class items_test extends base_mapper
 		);
 
 		// get current items
-		$starting_items = $mapper->find(array(
-			array('menu_id', '=', 2),
-		))->get_entities();
+		$starting_items = $mapper->find(array('menu_id', '=', 2))->get_entities();
 
 		// Now let's update the tree
 		$mapper->update_items(2, $submitted_items);
 
 		// Now let's confirm that items not in the submitted items list were indeed removed
 		$removed_items = array_diff_key($starting_items, $submitted_items);
-		$collection = $mapper->find(array(
-			array('item_id', '=', array_keys($removed_items)),
-		));
+		$collection = $mapper->find(array('item_id', '=', array_keys($removed_items)));
 		$this->assertEquals(0, $collection->count());
 
 		// Now let's confirm that the submitted items have the correct left/right ids
-		$collection = $mapper->find(array(
-			array('menu_id', '=', 2),
-		));
+		$collection = $mapper->find(array('menu_id', '=', 2));
 
 		$actual = array();
 		foreach ($collection as $entity)

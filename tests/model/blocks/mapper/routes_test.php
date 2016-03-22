@@ -44,16 +44,12 @@ class routes_test extends base_mapper
 		$this->assertEquals(3, $collection->count());
 
 		// it should return 2 entities in the collection
-		$collection = $mapper->find(array(
-			array('style', '=', 1),
-		));
+		$collection = $mapper->find(array('style', '=', 1));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\collections\routes', $collection);
 		$this->assertEquals(2, $collection->count());
 
-		$collection = $mapper->find(array(
-			array('ext_name', '=', 'phpbb/pages'),
-		));
+		$collection = $mapper->find(array('ext_name', '=', 'phpbb/pages'));
 		$this->assertEquals(0, $collection->count());
 	}
 
@@ -83,17 +79,13 @@ class routes_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('routes');
 
-		$route = $mapper->load(array(
-			array('route_id', '=', 2),
-		));
+		$route = $mapper->load(array('route_id', '=', 2));
 		$this->assertEquals('app.php/foo/test/', $route->get_route());
 
 		$route->set_route('app.php/foo/updated/');
 		$mapper->save($route);
 
-		$route = $mapper->load(array(
-			array('route_id', '=', 2),
-		));
+		$route = $mapper->load(array('route_id', '=', 2));
 		$this->assertEquals(2, $route->get_route_id());
 		$this->assertEquals('app.php/foo/updated/', $route->get_route());
 	}
@@ -133,9 +125,7 @@ class routes_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('routes');
 
-		$condition = array(
-			array('style', '=', 1),
-		);
+		$condition = array('style', '=', 1);
 
 		$collection = $mapper->find($condition);
 		$this->assertEquals(2, $collection->count());

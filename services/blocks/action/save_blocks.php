@@ -66,9 +66,7 @@ class save_blocks extends base_action
 	{
 		if (sizeof($blocks_to_delete))
 		{
-			$this->block_mapper->delete(array(
-				array('bid', '=', array_keys($blocks_to_delete))
-			));
+			$this->block_mapper->delete(array('bid', '=', array_keys($blocks_to_delete)));
 		}
 	}
 

@@ -116,9 +116,7 @@ abstract class base_mapper implements mapper_interface
 		if ($condition instanceof $this->_entity_class)
 		{
 			$accessor = 'get_' . $this->_entity_pkey;
-			$condition = array(
-				array($this->_entity_pkey, '=', $condition->$accessor()),
-			);
+			$condition = array($this->_entity_pkey, '=', $condition->$accessor());
 		}
 
 		$sql_where = $this->_get_condition($condition);
@@ -177,6 +175,8 @@ abstract class base_mapper implements mapper_interface
 	protected function _get_condition(array $condition)
 	{
 		$sql_where = array();
+		$condition = $this->ensure_multi_array($condition);
+
 		foreach ($condition as $info)
 		{
 			list($field, $operator, $value) = $info;
@@ -197,5 +197,10 @@ abstract class base_mapper implements mapper_interface
 		}
 
 		return $sql_where;
+	}
+
+	protected function ensure_multi_array(array $condition)
+	{
+		return array_filter((is_array(current($condition))) ? $condition : array($condition));
 	}
 }

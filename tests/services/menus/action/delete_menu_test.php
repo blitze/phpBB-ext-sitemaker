@@ -29,9 +29,7 @@ class delete_menu_test extends base_action
 
 		$items_mapper = $this->mapper_factory->create('menus', 'items');
 
-		$collection = $items_mapper->find(array(
-			array('menu_id', '=', $menu_id),
-		));
+		$collection = $items_mapper->find(array('menu_id', '=', $menu_id));
 
 		$this->assertEquals(1, $result['id']);
 		$this->assertFalse($collection->valid());

@@ -201,15 +201,11 @@ class copy_route_test extends base_action
 
 		$block_mapper = $this->mapper_factory->create('blocks', 'routes');
 
-		$orig_route = $block_mapper->load(array(
-			array('route', '=', $current_route),
-		));
+		$orig_route = $block_mapper->load(array('route', '=', $current_route));
 
 		$result = $command->execute($style_id);
 
-		$new_route = $block_mapper->load(array(
-			array('route', '=', $current_route),
-		));
+		$new_route = $block_mapper->load(array('route', '=', $current_route));
 		$new_block = $new_route->get_blocks()->current();
 
 		if ($orig_route)
