@@ -52,9 +52,9 @@ class set_startpage_test extends listener_base
 				->method('exit_handler');
 		}
 
-		$this->config['sitemaker_startpage_controller'] = $controller_service;
-		$this->config['sitemaker_startpage_method'] = $controller_method;
-		$this->config['sitemaker_startpage_params'] = $controller_params;
+		$this->config->set('sitemaker_startpage_controller', $controller_service);
+		$this->config->set('sitemaker_startpage_method', $controller_method);
+		$this->config->set('sitemaker_startpage_params', $controller_params);
 
 		$this->user->page['page_name'] = $current_page;
 
@@ -71,6 +71,13 @@ class set_startpage_test extends listener_base
 		{
 			$result = $event['sql_ary'];
 			$this->assertEquals($expected_sql_where, $result['WHERE']);
+		}
+
+		if ($controller_method == 'no_exists')
+		{
+			$this->assertEquals('', $this->config['sitemaker_startpage_controller']);
+			$this->assertEquals('', $this->config['sitemaker_startpage_method']);
+			$this->assertEquals('', $this->config['sitemaker_startpage_params']);
 		}
 	}
 }

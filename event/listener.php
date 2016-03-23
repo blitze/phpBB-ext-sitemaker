@@ -173,30 +173,21 @@ class listener implements EventSubscriberInterface
 
 	public function set_startpage($event)
 	{
-		$controller_service = $this->config['sitemaker_startpage_controller'];
-
-		if ($this->_can_set_startpage($controller_service))
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->startpage && ($controller_object = $this->get_startpage_controller()) !== false)
 		{
-			$controller_object = $this->phpbb_container->get($controller_service);
 			$method = $this->config['sitemaker_startpage_method'];
+			$this->startpage = true;
 
-			// fail silently if startpage is not callable
-			if (is_callable(array($controller_object, $method)))
-			{
-				$controller_dir = explode('\\', get_class($controller_object));
-				define('STARTPAGE_IS_SET', 1);
+			$controller_dir = explode('\\', get_class($controller_object));
+			$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
+			$this->template->set_style(array($controller_style_dir, 'styles'));
 
-				$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
-				$this->template->set_style(array($controller_style_dir, 'styles'));
+			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
 
-				$arguments = explode('/', $this->config['sitemaker_startpage_params']);
-				$this->startpage = true;
+			$response = call_user_func_array(array($controller_object, $method), $arguments);
+			$response->send();
 
-				$response = call_user_func_array(array($controller_object, $method), $arguments);
-				$response->send();
-
-				$this->exit_handler();
-			}
+			$this->exit_handler();
 		}
 
 		// Do not show forums marked as hidden
@@ -220,9 +211,32 @@ class listener implements EventSubscriberInterface
 		exit_handler();
 	}
 
-	protected function _can_set_startpage($controller_service)
+	/**
+	 * @return object|false
+	 */
+	protected function get_startpage_controller()
 	{
-		return ($this->user->page['page_name'] == 'index.' . $this->php_ext && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET')) ? true : false;
+		$controller_service_name = $this->config['sitemaker_startpage_controller'];
+		if ($this->phpbb_container->has($controller_service_name))
+		{
+			$controller_object = $this->phpbb_container->get($controller_service_name);
+			$method = $this->config['sitemaker_startpage_method'];
+
+			if (is_callable(array($controller_object, $method)))
+			{
+				return $controller_object;
+			}
+		}
+
+		// we have a startpage controller but it does not exist or it is not callable so remove it
+		if ($controller_service_name)
+		{
+			$this->config->set('sitemaker_startpage_controller', '');
+			$this->config->set('sitemaker_startpage_method', '');
+			$this->config->set('sitemaker_startpage_params', '');
+		}
+
+		return false;
 	}
 
 	protected function _hide_hidden_forums($sql_ary)
