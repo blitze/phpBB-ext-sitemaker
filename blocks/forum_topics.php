@@ -52,6 +52,10 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var array */
 	private $topic_tracking_info = array();
 
+	const FORUMS_ORDER_FIRST_POST = 0;
+	const FORUMS_ORDER_LAST_POST = 1;
+	const FORUMS_ORDER_LAST_READ = 2;
+
 	/**
 	 * Constructor
 	 *
@@ -97,7 +101,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
-			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => FORUMS_ORDER_LAST_POST, 'explain' => false),
+			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => self::FORUMS_ORDER_LAST_POST, 'explain' => false),
 
 			'legend2'		=> 'DISPLAY',
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
@@ -201,7 +205,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 		// if more than one topic type is selected, we default to RECENT_TOPICS
 		$topic_type = join(',', $this->settings['topic_type']);
 
-		return ($this->settings['order_by'] != FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
+		return ($this->settings['order_by'] !== self::FORUMS_ORDER_LAST_READ) ? (isset($types[$topic_type]) ? $types[$topic_type] : 'FORUM_RECENT_TOPICS') : 'TOPICS_LAST_READ';
 	}
 
 	/**
@@ -230,9 +234,9 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	private function _get_topic_data()
 	{
 		$sort_order = array(
-			FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
-			FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
-			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
+			self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
+			self::FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
+			self::FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
 		);
 
 		$range_info = $this->date_range->get($this->settings['date_range']);
@@ -366,9 +370,9 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	private function _get_sorting_options()
 	{
 		return array(
-			FORUMS_ORDER_FIRST_POST => 'FIRST_POST_TIME',
-			FORUMS_ORDER_LAST_POST  => 'LAST_POST_TIME',
-			FORUMS_ORDER_LAST_READ  => 'LAST_READ_TIME',
+			self::FORUMS_ORDER_FIRST_POST => 'FIRST_POST_TIME',
+			self::FORUMS_ORDER_LAST_POST  => 'LAST_POST_TIME',
+			self::FORUMS_ORDER_LAST_READ  => 'LAST_READ_TIME',
 		);
 	}
 

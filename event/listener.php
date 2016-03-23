@@ -92,13 +92,6 @@ class listener implements EventSubscriberInterface
 
 	public function init_sitemaker($event)
 	{
-		// Define forum options
-		define('FORUMS_ORDER_FIRST_POST', 0);
-		define('FORUMS_ORDER_LAST_POST', 1);
-		define('FORUMS_ORDER_LAST_READ', 2);
-
-		define('JQUI_VERSION', '1.11.4');
-
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'blitze/sitemaker',

@@ -29,6 +29,10 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	/** @var array */
 	protected $settings;
 
+	const FORUMS_ORDER_FIRST_POST = 0;
+	const FORUMS_ORDER_LAST_POST = 1;
+	const FORUMS_ORDER_LAST_READ = 2;
+
 	/**
 	 * Constructor
 	 *
@@ -55,7 +59,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		$forum_options = $this->forum_options->get_all();
 		$group_options = $this->groups->get_data();
 		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
-		$sort_options = array('' => 'RANDOM', FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
+		$sort_options = array('' => 'RANDOM', self::FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', self::FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', self::FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
 
 		return array(
 			'legend1'		=> 'SETTINGS',
@@ -146,9 +150,9 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	private function _get_sorting()
 	{
 		$sort_order = array(
-			FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
-			FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
-			FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
+			self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
+			self::FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
+			self::FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
 		);
 
 		return (isset($sort_order[$this->settings['order_by']])) ? $sort_order[$this->settings['order_by']] : 'RAND()';
