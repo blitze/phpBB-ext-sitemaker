@@ -22,7 +22,15 @@ class prepend_breadcrump_test extends listener_base
 		$u_viewforum = 'blitze_sitemaker_forum#a:0:{}';
 
 		return array(
-			// valid start page, "Forum" is added to navbar for non-forum pages but not to breadcrump
+			// no start page
+			array(
+				'',
+				'index.php',
+				array(),
+				array(),
+			),
+
+			// start page, "Forum" is added to navbar for non-forum pages but not to breadcrump
 			array(
 				'foo.bar.controller',
 				'index.php',
@@ -33,37 +41,56 @@ class prepend_breadcrump_test extends listener_base
 				array(),
 			),
 
-			// valid start page, "Forum" is added to breadcrump for forum pages and not to non-forum pages
+			// start page, "Forum" is added to breadcrump for forum pages and not to non-forum pages
 			array(
 				'foo.bar.controller',
 				'viewforum.php?f=1',
-				array(),
+				array(
+					'S_PT_SHOW_FORUM_NAV'	=> true,
+					'U_PT_VIEWFORUM'		=> $u_viewforum,
+				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
 					'U_VIEW_FORUM'	=> $u_viewforum,
 				),
 			),
+			// viewtopic
 			array(
 				'foo.bar.controller',
 				'viewtopic.php?f=1&t=1',
-				array(),
+				array(
+					'S_PT_SHOW_FORUM_NAV'	=> true,
+					'U_PT_VIEWFORUM'		=> $u_viewforum,
+				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
 					'U_VIEW_FORUM'	=> $u_viewforum,
 				),
 			),
+			// posting
 			array(
 				'foo.bar.controller',
 				'posting.php?f=1',
-				array(),
+				array(
+					'S_PT_SHOW_FORUM_NAV'	=> true,
+					'U_PT_VIEWFORUM'		=> $u_viewforum,
+				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
 					'U_VIEW_FORUM'	=> $u_viewforum,
 				),
 			),
 
-			// do not add "Forum" to navbar or breadcrump when on forum controller
-			array('foo.bar.controller', 'app.php/forum', array(), array()),
+			// do not add "Forum" to breadcrump when on forum controller
+			array(
+				'foo.bar.controller',
+				'app.php/forum',
+				array(
+					'S_PT_SHOW_FORUM_NAV'	=> true,
+					'U_PT_VIEWFORUM'		=> $u_viewforum,
+				),
+				array(),
+			),
 		);
 	}
 

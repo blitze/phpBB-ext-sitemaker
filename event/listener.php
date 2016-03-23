@@ -116,28 +116,30 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * - Add "Forum" to navbar when we are not on the forum page (viewforum/viewtopic)
-	 * - Add "Forum" to the breadcrump when viewing forum page (viewforum/viewtopic)
+	 * If start page is set,
+	 * - Add "Forum" to navbar
+	 * - Add "Forum" to the breadcrump when viewing forum page (viewforum/viewtopic/posting)
 	 */
 	public function prepend_breadcrump()
 	{
-		$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
+		if ($this->config['sitemaker_startpage_controller'])
+		{
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 
-		// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
-		if ($this->request->is_set('f'))
-		{
-			$this->template->alter_block_array('navlinks', array(
-				'FORUM_NAME'	=> $this->user->lang('FORUM'),
-				'U_VIEW_FORUM'	=> $u_viewforum,
-			));
-		}
-		// Add "Forum" to navbar when not on forum pages
-		else if ($this->user->page['page'] !== 'app.' . $this->php_ext . '/forum')
-		{
+			// show 'Forum' menu item in navbar
 			$this->template->assign_vars(array(
 				'S_PT_SHOW_FORUM_NAV'	=> true,
 				'U_PT_VIEWFORUM'		=> $u_viewforum,
 			));
+
+			// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
+			if ($this->request->is_set('f'))
+			{
+				$this->template->alter_block_array('navlinks', array(
+					'FORUM_NAME'	=> $this->user->lang('FORUM'),
+					'U_VIEW_FORUM'	=> $u_viewforum,
+				));
+			}
 		}
 	}
 
