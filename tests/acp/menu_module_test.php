@@ -59,7 +59,7 @@ class menu_module_test extends \phpbb_database_test_case
 		$controller_helper->expects($this->once())
 			->method('route')
 			->with($this->equalTo('blitze_sitemaker_menus_admin'))
-			->willReturn('phpBB/app.php/menu/admin/');
+			->willReturn('phpBB/app.php/menu/admin');
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
@@ -107,7 +107,7 @@ class menu_module_test extends \phpbb_database_test_case
 			->method('add_assets');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('controller_helper', $controller_helper);
+		$phpbb_container->set('controller.helper', $controller_helper);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
 		$phpbb_container->set('blitze.sitemaker.util', $this->util);

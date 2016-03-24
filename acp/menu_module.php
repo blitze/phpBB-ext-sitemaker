@@ -58,7 +58,7 @@ class menu_module
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
-		$this->controller_helper = $phpbb_container->get('controller_helper');
+		$this->controller_helper = $phpbb_container->get('controller.helper');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->util = $phpbb_container->get('blitze.sitemaker.util');
@@ -106,7 +106,7 @@ class menu_module
 			'ICON_PICKER'	=> $this->icon->picker(),
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_MENU_ID'	=> $menu_id,
-			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin'),
+			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
 		));
 
 		$this->tpl_name = 'acp_menu';
