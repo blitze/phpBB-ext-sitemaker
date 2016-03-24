@@ -16,19 +16,19 @@
 			return (typeof lang[value] !== 'undefined') ? lang[value] : value;
 		});
 
-		var initIconPicker = function() {
-			$('.icon-select').iconPicker({
-				onSelect: function(item, iconHtml, iconClass) {
-					var id = item.parentsUntil('li').parent().attr('id').substring('5');
-					menuAdmin.treeBuilder('updateItem', {'item_icon': iconClass}, id);
-				}
-			});
-		};
-
 		// add menu id to ajax requests
 		$(document).ajaxSend(function(event, xhr, settings) {
 			settings.url += (settings.url.indexOf('?') >= 0) ? '&' : '?';
 			settings.url += 'menu_id=' + menuId;
+		});
+
+		// Init icon picker
+		$('.items-list').iconPicker({
+			selector: '.icon-select',
+			onSelect: function(item, iconHtml, iconClass) {
+				var id = item.parentsUntil('li').parent().attr('id').substring('5');
+				menuAdmin.treeBuilder('updateItem', {'item_icon': iconClass}, id);
+			}
 		});
 
 		// menu list
@@ -47,13 +47,7 @@
 			ajaxUrl: ajaxUrl,
 			editForm: '#edit-menu-item-form',
 			dialogEdit: '#dialog-edit-menu-item',
-			dialogConfirm: '#dialog-confirm-menu-item',
-			loaded: function() {
-				initIconPicker();
-			},
-			updated: function() {
-				initIconPicker();
-			}
+			dialogConfirm: '#dialog-confirm-menu-item'
 		});
 
 		$('.toggle-view').click(function(e) {

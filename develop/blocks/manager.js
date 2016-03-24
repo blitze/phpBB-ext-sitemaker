@@ -115,7 +115,6 @@
 
 			var html = template.render(result);
 			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
-			initIconPicker();
 			initTinyMce();
 		});
 	};
@@ -290,15 +289,6 @@
 
 	var undoPreviewBlock = function() {
 		blockObj.html(template.render(blockData));
-	};
-
-	var initIconPicker = function() {
-		$('.block-icon').iconPicker({
-			onSelect: function(item, iconHtml, iconClass) {
-				var id = item.parentsUntil('.block').parent().attr('id').substring('6');
-				updateBlock({'id': id, 'icon': iconClass});
-			}
-		});
 	};
 
 	var initTinyMce = function() {
@@ -736,7 +726,15 @@
 				}
 			};
 
-			initIconPicker();
+			// Init Icon Picker
+			$('.sitemaker').iconPicker({
+				selector: '.block-icon',
+				onSelect: function(item, iconHtml, iconClass) {
+					var id = item.parentsUntil('.block').parent().attr('id').substring('6');
+					updateBlock({'id': id, 'icon': iconClass});
+				}
+			});
+
 			initTinyMce();
 		}
 	});

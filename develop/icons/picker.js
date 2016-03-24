@@ -11,13 +11,14 @@
 	var dataPlugin = 'plugin_' + pluginName;
 	var currentItem = {};
 	var defaults = {
+		selector: '',
 		onSelect: function() {}
 	};
 
 	// The actual plugin constructor
 	var Plugin = function(element) {
 		this.options = $.extend({}, defaults);
-		this.element = element;
+		this.container = element;
 	};
 
 	Plugin.prototype = {
@@ -35,10 +36,11 @@
 
 			$.extend(this.options, options);
 
-			this.element.on('click', function(e) {
+			this.container.on('click', this.options.selector, function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
-				self.showPicker($(this));
+				self.element = $(this);
+				self.showPicker(self.element);
 			});
 
 			this.iconsDiv.mouseleave(function(e) {
