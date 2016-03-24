@@ -18,16 +18,16 @@ abstract class builder extends \phpbb\tree\nestedset
 	{
 		$util->add_assets(array(
 			'js'        => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js',
+				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
+				'@blitze_sitemaker/vendor/ace/src-min-noconflict/ace.js',
 				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.min.js',
-				'@blitze_sitemaker/vendor/nestedSortable/jquery.ui.nestedSortable.min.js',
+				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.js',
+				'@blitze_sitemaker/vendor/nestedSortable/jquery.ui.nestedSortable.js',
 				'@blitze_sitemaker/assets/tree/builder.min.js',
 			),
 			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
+				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/tree/builder.min.css',
 			)
 		));

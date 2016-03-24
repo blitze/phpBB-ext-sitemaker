@@ -164,14 +164,14 @@ class admin_bar
 	{
 		$this->util->add_assets(array(
 			'js'	=> array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'//cdn.tinymce.com/4/tinymce.min.js',
+				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
+				'@blitze_sitemaker/vendor/tinymce/tinymce.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
+				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			)
 		));

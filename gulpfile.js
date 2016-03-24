@@ -75,8 +75,6 @@ gulp.task('vendor', function() {
 
 	return gulp.src(mainFiles, {base: paths.dev.vendor })
 		.pipe(jsFilter)
-		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
 		.pipe(gulp.dest(paths.prod.vendor))
 		.pipe(jsFilter.restore())
 

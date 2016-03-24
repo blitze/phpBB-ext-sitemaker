@@ -1,38 +1,63 @@
 {
   "name": "phpBB Sitemaker",
   "dependencies": {
-    "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
+    "ace": "https://github.com/ajaxorg/ace-builds.git",
     "fontawesome": "latest",
-    "twig.js": "latest",
     "jqueryui-touch-punch": "*",
+    "jquery-ui": "^1.11.4",
+    "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
     "nestedSortable": "ilikenwf/nestedSortable",
-    "toast-grid": "https://github.com/daneden/Toast.git#master"
+    "tinymce": "^4.3.8",
+    "toast-grid": "https://github.com/daneden/Toast.git#master",
+    "twig.js": "latest"
   },
   "overrides": {
+    "ace": {
+      "main": [
+        "src-min-noconflict/ace.js",
+        "src-min-noconflict/mode-html.js",
+        "src-min-noconflict/theme-monokai.js"
+      ]
+    },
     "fontawesome": {
       "main": [
         "./css/font-awesome.css",
         "./fonts/*"
       ]
     },
+    "jquery-ui": {
+      "main": [
+        "jquery-ui.min.js",
+        "./themes/smoothness/**/*"
+      ],
+      "dependencies": null
+    },
     "jquery.populate": {
       "main": "jquery.populate.js"
     },
+    "jqueryui-touch-punch": {
+      "main": "jquery.ui.touch-punch.min.js",
+      "dependencies": null
+    },
     "nestedSortable": {
       "main": "jquery.ui.nestedSortable.js"
+    },
+    "tinymce": {
+      "main": [
+        "tinymce.min.js",
+        "./plugins/**/*",
+        "./skins/**/*",
+        "./themes/**/*"
+      ]
+    },
+    "toast-grid": {
+      "main": []
     },
     "twig.js": {
       "main": [
         "twig.min.js",
         "twig.min.js.map"
       ]
-    },
-    "jqueryui-touch-punch": {
-      "main": "jquery.ui.touch-punch.min.js",
-      "dependencies": null
-    },
-    "toast-grid": {
-      "main": []
     }
   }
 }
