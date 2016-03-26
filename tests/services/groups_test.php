@@ -84,8 +84,10 @@ class groups_test extends \phpbb_database_test_case
 	 * Test the get_users_groups method
 	 *
 	 * @dataProvider get_users_groups_test_data
+	 * @param int $user_id
+	 * @param array $expected
 	 */
-	public function test_get_users_groups($user_id, $expected)
+	public function test_get_users_groups($user_id, array $expected)
 	{
 		$groups = $this->get_service($user_id);
 		$result = $groups->get_users_groups();
@@ -125,8 +127,10 @@ class groups_test extends \phpbb_database_test_case
 	 * Test the get_data method
 	 *
 	 * @dataProvider get_data_test_data
+	 * @param string $mode
+	 * @param array $expected
 	 */
-	public function test_get_data($mode, $expected)
+	public function test_get_data($mode, array $expected)
 	{
 		$groups = $this->get_service();
 		$result = $groups->get_data($mode);
@@ -172,8 +176,11 @@ class groups_test extends \phpbb_database_test_case
 	 * Test the get_data method
 	 *
 	 * @dataProvider get_options_test_data
+	 * @param string $mode
+	 * @param array $selected
+	 * @param string $expected
 	 */
-	public function test_get_options($mode, $selected, $expected)
+	public function test_get_options($mode, array $selected, $expected)
 	{
 		$groups = $this->get_service();
 		$result = $groups->get_options($mode, $selected);

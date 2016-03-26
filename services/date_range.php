@@ -30,7 +30,7 @@ class date_range
 	}
 
 	/**
-	 * @param $range date range to get (today, week, month, year)
+	 * @param string $range Date range to get (today, week, month, year)
 	 * @return array
 	 */
 	public function get($range)
@@ -53,6 +53,10 @@ class date_range
 		return $data;
 	}
 
+	/**
+	 * @param array $now
+	 * @return array
+	 */
 	protected function get_today(array $now)
 	{
 		$start = $this->user->create_datetime()
@@ -67,6 +71,10 @@ class date_range
 		);
 	}
 
+	/**
+	 * @param array $now
+	 * @return array
+	 */
 	protected function get_week(array $now)
 	{
 		$info = getdate($now[0] - (86400 * $now['wday']));
@@ -82,6 +90,10 @@ class date_range
 		);
 	}
 
+	/**
+	 * @param array $now
+	 * @return array
+	 */
 	protected function get_month(array $now)
 	{
 		$start = $this->user->create_datetime()
@@ -97,6 +109,10 @@ class date_range
 		);
 	}
 
+	/**
+	 * @param array $now
+	 * @return array
+	 */
 	protected function get_year(array $now)
 	{
 		$start = $this->user->create_datetime()

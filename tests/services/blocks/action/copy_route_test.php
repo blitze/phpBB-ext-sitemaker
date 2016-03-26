@@ -186,8 +186,14 @@ class copy_route_test extends base_action
 	 * Test copy_route
 	 *
 	 * @dataProvider copy_route_test_data
+	 * @param string $current_route
+	 * @param string $ext_name
+	 * @param string $from_route
+	 * @param int $from_style
+	 * @param array $expected_route_data
+	 * @param array $expected_return_data
 	 */
-	public function test_copy_route($current_route, $ext_name, $from_route, $from_style, $expected_route_data, $expected_return_data)
+	public function test_copy_route($current_route, $ext_name, $from_route, $from_style, array $expected_route_data, array $expected_return_data)
 	{
 		$style_id = 1;
 		$variable_map = array(

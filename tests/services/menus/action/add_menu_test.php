@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\services\menus\action;
 
-use phpbb\request\request_interface;
-
 class add_menu_test extends base_action
 {
 	/**

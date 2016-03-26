@@ -9,12 +9,13 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
 use Nickvergessen\TrimMessage\TrimMessage;
 
 /**
  * Forum Topics Block
  */
-class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
+class forum_topics extends block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -33,9 +34,6 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 
 	/** @var \blitze\sitemaker\services\forum\options */
 	protected $forum_options;
-
-	/** @var \Urodoz\Truncate\TruncateService */
-	protected $truncate;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -65,7 +63,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
-	 * @param \blitze\sitemaker\services\forum\options	$forum_data			Forum Data object
+	 * @param \blitze\sitemaker\services\forum\options	$forum_options		Forum Data object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
@@ -89,11 +87,11 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	public function get_config(array $settings)
 	{
 		$forum_options = $this->forum_options->get_all();
-		$topic_type_options = $this->_get_topic_type_options();
-		$preview_options = $this->_get_preview_options();
-		$range_options = $this->_get_range_options();
-		$sort_options = $this->_get_sorting_options();
-		$template_options = $this->_get_view_options();
+		$topic_type_options = $this->get_topic_type_options();
+		$preview_options = $this->get_preview_options();
+		$range_options = $this->get_range_options();
+		$sort_options = $this->get_sorting_options();
+		$template_options = $this->get_view_options();
 
 		return array(
 			'legend1'		=> 'SETTINGS',
@@ -119,12 +117,12 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	{
 		$this->settings = $bdata['settings'];
 
-		$topic_data = $this->_get_topic_data();
+		$topic_data = $this->get_topic_data();
 
 		$content = '';
 		if (sizeof($topic_data))
 		{
-			$content = $this->_get_block_content($topic_data);
+			$content = $this->get_block_content($topic_data);
 		}
 
 		return array(
@@ -137,15 +135,15 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $topic_data
 	 * @return string
 	 */
-	protected function _get_block_content(array $topic_data)
+	protected function get_block_content(array $topic_data)
 	{
-		$this->_set_display_fields();
+		$this->set_display_fields();
 
 		$view = 'S_' . strtoupper($this->settings['template']);
-		$post_data = $this->_get_post_data($topic_data);
+		$post_data = $this->get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 
-		$this->_show_topics($topic_data, $post_data);
+		$this->show_topics($topic_data, $post_data);
 		unset($topic_data, $post_data);
 
 		$this->ptemplate->assign_vars(array(
@@ -162,7 +160,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $topic_data
 	 * @param array $post_data
 	 */
-	protected function _show_topics(array &$topic_data, array &$post_data)
+	protected function show_topics(array &$topic_data, array &$post_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -174,12 +172,12 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 				'FORUM_TITLE'		=> $row['forum_name'],
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
 				'TOPIC_AUTHOR'		=> get_username_string('full', $row[$this->fields['user_id']], $row[$this->fields['username']], $row[$this->fields['user_colour']]),
-				'TOPIC_PREVIEW'		=> $this->_get_preview(array_pop($post_data[$topic_id])),
+				'TOPIC_PREVIEW'		=> $this->get_preview(array_pop($post_data[$topic_id])),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
-				'ATTACH_ICON_IMG'	=> $this->_get_attachment_icon($forum_id, $row['topic_attachment']),
+				'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $row['topic_attachment']),
 				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
 				'VIEWS'				=> $row['topic_views'],
-				'S_UNREAD_TOPIC'	=> $this->_is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
+				'S_UNREAD_TOPIC'	=> $this->is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
 
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
@@ -212,7 +210,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $row
 	 * @return string
 	 */
-	protected function _get_preview(array $row)
+	protected function get_preview(array $row)
 	{
 		$preview = '';
 		if ($this->settings['display_preview'])
@@ -231,7 +229,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_topic_data()
+	private function get_topic_data()
 	{
 		$sort_order = array(
 			self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
@@ -258,7 +256,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $topic_data
 	 * @return array
 	 */
-	private function _get_post_data(array $topic_data)
+	private function get_post_data(array $topic_data)
 	{
 		if ($this->settings['display_preview'])
 		{
@@ -275,7 +273,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 *
 	 */
-	private function _set_display_fields()
+	private function set_display_fields()
 	{
 		if ($this->settings['display_preview'] == 'last')
 		{
@@ -300,16 +298,16 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param int $topic_attachment
 	 * @return string
 	 */
-	private function _get_attachment_icon($forum_id, $topic_attachment)
+	private function get_attachment_icon($forum_id, $topic_attachment)
 	{
-		return ($this->_user_can_view_attachments($forum_id) && $topic_attachment) ? $this->user->img('icon_topic_attach', $this->user->lang['TOTAL_ATTACHMENTS']) : '';
+		return ($this->user_can_view_attachments($forum_id) && $topic_attachment) ? $this->user->img('icon_topic_attach', $this->user->lang['TOTAL_ATTACHMENTS']) : '';
 	}
 
 	/**
 	 * @param int $forum_id
 	 * @return bool
 	 */
-	private function _user_can_view_attachments($forum_id)
+	private function user_can_view_attachments($forum_id)
 	{
 		return ($this->auth->acl_get('u_download') && $this->auth->acl_get('f_download', $forum_id)) ? true : false;
 	}
@@ -320,7 +318,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param int $topic_last_post_time
 	 * @return bool
 	 */
-	private function _is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
+	private function is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
 	{
 		return (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_last_post_time > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false;
 	}
@@ -328,7 +326,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_topic_type_options()
+	private function get_topic_type_options()
 	{
 		return array(
 			POST_NORMAL     => 'POST_NORMAL',
@@ -341,7 +339,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_preview_options()
+	private function get_preview_options()
 	{
 		return array(
 			''      => 'NO',
@@ -353,7 +351,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_range_options()
+	private function get_range_options()
 	{
 		return array(
 			''      => 'ALL_TIME',
@@ -367,7 +365,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_sorting_options()
+	private function get_sorting_options()
 	{
 		return array(
 			self::FORUMS_ORDER_FIRST_POST => 'FIRST_POST_TIME',
@@ -379,7 +377,7 @@ class forum_topics extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_view_options()
+	private function get_view_options()
 	{
 		return array(
 			'titles'    => 'TITLES',

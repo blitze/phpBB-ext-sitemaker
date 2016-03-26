@@ -28,7 +28,7 @@ class stats_test extends blocks_base
 	 *
 	 * @return \blitze\sitemaker\blocks\stats
 	 */
-	protected function get_block($user_data = array())
+	protected function get_block()
 	{
 		global $auth, $phpbb_dispatcher;
 

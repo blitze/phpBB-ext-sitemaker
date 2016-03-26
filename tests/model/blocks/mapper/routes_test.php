@@ -104,7 +104,6 @@ class routes_test extends base_mapper
 		);
 
 		$route = $route_mapper->load($condition);
-		$route_id = $route->get_route_id();
 
 		$blocks_collection = $block_mapper->find($condition);
 		$this->assertGreaterThan(0, $blocks_collection->count());

@@ -68,7 +68,7 @@ class update_item_test extends base_action
 				),
 				array(
 					'item_id'		=> 2,
-					'item_title'	=> 'My Page',
+					'item_title'	=> 'My page',
 					'item_icon'		=> '',
 				),
 			),
@@ -79,8 +79,10 @@ class update_item_test extends base_action
 	 * Test update item
 	 *
 	 * @dataProvider update_item_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_update_item($variable_map, $expected)
+	public function test_update_item(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('update_item', $variable_map);
 

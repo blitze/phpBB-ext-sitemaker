@@ -36,7 +36,7 @@ class forum_test extends \phpbb_database_test_case
 	/**
 	 * Create the blocks admin controller
 	 *
-	 * @return \blitze\sitemaker\controller\blocks_admin
+	 * @return \blitze\sitemaker\controller\forum
 	 */
 	protected function get_controller()
 	{

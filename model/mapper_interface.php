@@ -14,7 +14,8 @@ interface mapper_interface
 	/**
 	 * Load a single item
 	 *
-	 * @param array $condition		e.g array(
+	 * @param array $condition		e.g array('field', '>', 'value') 0R
+	 *                                  array(
 	 * 										array('field1', '=', 'value1'),
 	 * 										array('field2', '<>', 'value2'),
 	 * 									)
@@ -25,7 +26,8 @@ interface mapper_interface
 	/**
 	 * Find all items
 	 *
-	 * @param array $condition		e.g array(
+	 * @param array $condition		e.g array('field', '>', 'value') 0R
+	 *                                  array(
 	 * 										array('field1', '=', 'value1'),
 	 * 										array('field2', '<>', 'value2'),
 	 * 									)
@@ -45,11 +47,20 @@ interface mapper_interface
 	 * Delete by condition
 	 *
 	 * @param array|\blitze\sitemaker\model\entity_interface $condition  entity object or array
-	 * 								e.g array(
+	 * 								e.g array('field', '>', 'value') 0R
+	 *                                  array(
 	 * 										array('field1', '=', 'value1'),
 	 * 										array('field2', '<>', 'value2'),
 	 * 									)
+	 *                                  OR an entity of type \blitze\sitemaker\model\entity_interface
 	 * @return void
 	 */
 	public function delete($condition);
+
+	/**
+	 * Create the entity
+	 * @param array $row
+	 * @return \blitze\sitemaker\model\entity_interface
+	 */
+	public function create_entity(array $row);
 }

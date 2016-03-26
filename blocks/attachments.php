@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Attachments Block
  */
-class attachments extends \blitze\sitemaker\services\blocks\driver\block
+class attachments extends block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -61,13 +63,13 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function get_config(array $settings)
 	{
 		$forum_options = $this->forum_options->get_all();
-		$topic_type_options = $this->_get_topic_type_options();
-		$range_options = $this->_get_range_options();
+		$topic_type_options = $this->get_topic_type_options();
+		$range_options = $this->get_range_options();
 		$attach_type_options = array('' => 'ALL', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
 
 		return array(
@@ -90,15 +92,15 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 		$this->settings = $bdata['settings'];
 
 		$extensions = $this->cache->obtain_attach_extensions(0);
-		$ext_groups = $this->_get_extension_groups($extensions);
+		$ext_groups = $this->get_extension_groups($extensions);
 
-		$posts_data = $this->_get_posts_data();
+		$posts_data = $this->get_posts_data();
 		$attachments = $this->forum_data->get_attachments(0, $ext_groups[$this->settings['ext_type']], $this->settings['limit'], false);
 
 		$content = '';
 		if (sizeof($attachments))
 		{
-			$this->_get_block_content($attachments, $posts_data, $extensions);
+			$this->get_block_content($attachments, $posts_data, $extensions);
 
 			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/attachments.html', 'attachments');
 		}
@@ -114,7 +116,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $posts_data
 	 * @param array $extensions
 	 */
-	protected function _get_block_content(array $attachments_ary, array $posts_data, array $extensions)
+	protected function get_block_content(array $attachments_ary, array $posts_data, array $extensions)
 	{
 		$message = '';
 		$update_count = array();
@@ -145,10 +147,10 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_posts_data()
+	private function get_posts_data()
 	{
 		$range_info = $this->date_range->get($this->settings['date_range']);
-		$allowed_forums = $this->_get_allowed_forums();
+		$allowed_forums = $this->get_allowed_forums();
 		$post_ids = array_filter(explode(',', $this->settings['post_ids']));
 
 		$sql_array = $this->forum_data->query()
@@ -173,7 +175,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $extensions
 	 * @return array
 	 */
-	protected function _get_extension_groups(array $extensions)
+	protected function get_extension_groups(array $extensions)
 	{
 		array_shift($extensions);
 
@@ -189,7 +191,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_allowed_forums()
+	private function get_allowed_forums()
 	{
 		$allowed_forums = array_unique(array_keys($this->auth->acl_getf('f_download', true)));
 		if (sizeof($this->settings['forum_ids']))
@@ -203,7 +205,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_topic_type_options()
+	private function get_topic_type_options()
 	{
 		return array(
 			POST_NORMAL     => 'POST_NORMAL',
@@ -216,7 +218,7 @@ class attachments extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_range_options()
+	private function get_range_options()
 	{
 		return array(
 			''      => 'ALL_TIME',

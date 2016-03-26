@@ -24,7 +24,7 @@ class forum_topics_test extends blocks_base
 	{
 		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/forum.xml');
 	}
-
+	
 	/**
 	 * Configure the test environment.
 	 *
@@ -33,19 +33,21 @@ class forum_topics_test extends blocks_base
 	public function setUp()
 	{
 		parent::setUp();
-
+		
 		require_once dirname(__FILE__) . '/../../vendor/nickvergessen/phpbb-tool-trimmessage/src/Nickvergessen/TrimMessage/TrimMessage.php';
 	}
 
 	/**
 	 * Create the forum topics block
 	 *
+	 * @param bool $registered_user
 	 * @return \blitze\sitemaker\blocks\forum_topics
 	 */
 	protected function get_block($registered_user = true)
 	{
-		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
+		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array(
 			'load_db_lastread' => true,
 			'load_anon_lastread' => true,
@@ -312,8 +314,12 @@ class forum_topics_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param bool $registered_user
+	 * @param string $title
+	 * @param mixed $topicrow
 	 */
-	public function test_block_display($bdata, $registered_user, $title, $topicrow)
+	public function test_block_display(array $bdata, $registered_user, $title, $topicrow)
 	{
 		$block = $this->get_block($registered_user);
 		$result = $block->display($bdata);

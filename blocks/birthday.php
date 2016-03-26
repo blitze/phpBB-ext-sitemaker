@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Birthday Block
  */
-class birthday extends \blitze\sitemaker\services\blocks\driver\block
+class birthday extends block
 {
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
@@ -31,7 +33,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	 *
 	 * @param \phpbb\cache\driver\driver_interface	$cache		Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db     	Database connection
-	 * @param \phpbb\template\template				$user		User object
+	 * @param \phpbb\user                           $user		User object
 	 * @param string								$time		String in a format accepted by strtotime().
 	 */
 	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $time = 'now')
@@ -50,7 +52,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 		if (($content = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
 		{
 			$content = '';
-			if ($this->_find_birthday_users())
+			if ($this->find_birthday_users())
 			{
 				$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/birthday.html', 'birthday_block');
 
@@ -68,12 +70,12 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return bool
 	 */
-	private function _find_birthday_users()
+	private function find_birthday_users()
 	{
 		$time = $this->user->create_datetime($this->time);
 		$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
-		$leap_year_birthdays = $this->_adjust_leap_year($now, $time);
+		$leap_year_birthdays = $this->adjust_leap_year($now, $time);
 
 		$sql = 'SELECT u.user_id, u.username, u.user_colour, u.user_birthday 
 				FROM ' . USERS_TABLE . ' u
@@ -91,7 +93,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 			$show_birthday = true;
 			$this->ptemplate->assign_block_vars('birthday', array(
 				'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
-				'USER_AGE'		=> $this->_get_user_age($row['user_birthday'], $now['year']),
+				'USER_AGE'		=> $this->get_user_age($row['user_birthday'], $now['year']),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -106,7 +108,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param \phpbb\datetime $time
 	 * @return string
 	 */
-	private function _adjust_leap_year(array $now, \phpbb\datetime $time)
+	private function adjust_leap_year(array $now, \phpbb\datetime $time)
 	{
 		$leap_year_birthdays = '';
 		if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
@@ -122,7 +124,7 @@ class birthday extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param int $year
 	 * @return string
 	 */
-	private function _get_user_age($user_birthday, $year)
+	private function get_user_age($user_birthday, $year)
 	{
 		$birthday_year = (int) substr($user_birthday, -4);
 		return ($birthday_year) ? max(0, $year - $birthday_year) : '';

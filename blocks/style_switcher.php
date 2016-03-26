@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Style Switcher Block
  */
-class style_switcher extends \blitze\sitemaker\services\blocks\driver\block
+class style_switcher extends block
 {
 	/** @var \blitze\sitemaker\services\blocks\display */
 	protected $blocks_display;

@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\menus\action;
 
-use blitze\sitemaker\services\menus\action\action_interface;
-
 abstract class base_action implements action_interface
 {
 	/** @var \phpbb\request\request_interface */
@@ -36,7 +34,7 @@ abstract class base_action implements action_interface
 		$this->mapper_factory = $mapper_factory;
 	}
 
-	protected function _get_items(\blitze\sitemaker\model\base_collection $collection)
+	protected function get_items(\blitze\sitemaker\model\base_collection $collection)
 	{
 		$items = array();
 		foreach ($collection as $item)

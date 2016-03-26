@@ -58,7 +58,7 @@ class update_block_test extends base_action
 				),
 				array(
 					'icon'		=> '',
-					'title'		=> 'My Best Block',
+					'title'		=> 'My best block',
 					'id'		=> 1,
 				),
 			),
@@ -69,8 +69,10 @@ class update_block_test extends base_action
 	 * Test update_block action
 	 *
 	 * @dataProvider update_block_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_update_block($variable_map, $expected)
+	public function test_update_block(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('update_block', $variable_map);
 

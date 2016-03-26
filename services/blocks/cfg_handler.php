@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use blitze\sitemaker\services\blocks\cfg_fields;
-
 class cfg_handler extends cfg_fields
 {
 	/** @var \phpbb\request\request_interface */
@@ -56,7 +54,7 @@ class cfg_handler extends cfg_fields
 	/**
 	 * @param array $block_data
 	 * @param array $default_settings
-	 * @return template|string
+	 * @return string
 	 */
 	public function get_edit_form(array $block_data, array $default_settings)
 	{
@@ -71,9 +69,9 @@ class cfg_handler extends cfg_fields
 		$module = new \stdClass();
 		$module->module = $this;
 
-		$this->_generate_config_fields($block_data['settings'], $default_settings);
+		$this->generate_config_fields($block_data['settings'], $default_settings);
 
-		return $this->_get_form($block_data);
+		return $this->get_form($block_data);
 	}
 
 	/**
@@ -99,7 +97,7 @@ class cfg_handler extends cfg_fields
 			return array('errors' => join("\n", $errors));
 		}
 
-		$this->_get_multi_select($cfg_array, $default_settings);
+		$this->get_multi_select($cfg_array, $default_settings);
 
 		return array_intersect_key($cfg_array, $default_settings);
 	}
@@ -110,9 +108,9 @@ class cfg_handler extends cfg_fields
 	 * @param array $block_data
 	 * @return string
 	 */
-	private function _get_form(array $block_data)
+	private function get_form(array $block_data)
 	{
-		$selected_groups = $this->_ensure_array($block_data['permission']);
+		$selected_groups = $this->ensure_array($block_data['permission']);
 
 		$this->template->assign_vars(array(
 			'S_ACTIVE'		=> $block_data['status'],
@@ -136,17 +134,17 @@ class cfg_handler extends cfg_fields
 	 * @param array $db_settings
 	 * @param array $default_settings
 	 */
-	private function _generate_config_fields(array &$db_settings, array $default_settings)
+	private function generate_config_fields(array &$db_settings, array $default_settings)
 	{
 		foreach ($default_settings as $field => $vars)
 		{
-			if ($this->_sets_legend($field, $vars) || !is_array($vars))
+			if ($this->set_legend($field, $vars) || !is_array($vars))
 			{
 				continue;
 			}
 
-			$db_settings[$field] = $this->_get_field_value($field, $vars['default'], $db_settings);
-			$content = $this->_get_field_template($field, $db_settings, $vars);
+			$db_settings[$field] = $this->get_field_value($field, $vars['default'], $db_settings);
+			$content = $this->get_field_template($field, $db_settings, $vars);
 
 			$this->template->assign_block_vars('options', array(
 				'KEY'			=> $field,
@@ -160,22 +158,24 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * @param $field
+	 * Get the field html
+	 *
+	 * @param string $field
 	 * @param array $db_settings
 	 * @param array $vars
 	 * @return string
 	 */
-	private function _get_field_template($field, array &$db_settings, array &$vars)
+	private function get_field_template($field, array &$db_settings, array &$vars)
 	{
-		$vars['lang_explain'] = $this->_explain_field($vars);
-		$vars['append'] = $this->_append_field($vars);
+		$vars['lang_explain'] = $this->explain_field($vars);
+		$vars['append'] = $this->append_field($vars);
 
 		$type = explode(':', $vars['type']);
-		$method = '_prep_' . $type[0] . '_field_for_display';
+		$method = 'prep_' . $type[0] . '_field_for_display';
 
 		if (is_callable(array($this, $method)))
 		{
-			$this->_set_params($field, $vars, $db_settings);
+			$this->set_params($field, $vars, $db_settings);
 			$this->$method($vars, $type, $field, $db_settings);
 		}
 
@@ -183,11 +183,13 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
+	 * Set field legend
+	 *
 	 * @param string $field
 	 * @param string|array $vars
 	 * @return boolean
 	 */
-	private function _sets_legend($field, $vars)
+	private function set_legend($field, $vars)
 	{
 		if (strpos($field, 'legend') !== false)
 		{
@@ -203,10 +205,12 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
+	 * Get field details
+	 *
 	 * @param array $vars
 	 * @return mixed|string
 	 */
-	private function _explain_field(array $vars)
+	private function explain_field(array $vars)
 	{
 		$l_explain = '';
 		if (!empty($vars['explain']))
@@ -218,10 +222,12 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
+	 * Add text after field
+	 *
 	 * @param array $vars
 	 * @return mixed|string
 	 */
-	private function _append_field(array $vars)
+	private function append_field(array $vars)
 	{
 		$append = '';
 		if (!empty($vars['append']))
@@ -233,11 +239,13 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
+	 * Set field parameters
+	 *
 	 * @param string $field
 	 * @param array $vars
 	 * @param array $settings
 	 */
-	private function _set_params($field, array &$vars, array $settings)
+	private function set_params($field, array &$vars, array $settings)
 	{
 		if (isset($vars['options']))
 		{
@@ -247,12 +255,14 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
+	 * Get field value
+	 *
 	 * @param string $field
 	 * @param mixed $default
 	 * @param array $db_settings
 	 * @return mixed
 	 */
-	private function _get_field_value($field, $default, array $db_settings)
+	private function get_field_value($field, $default, array $db_settings)
 	{
 		return (!empty($db_settings[$field])) ? $db_settings[$field] : $default;
 	}
@@ -260,9 +270,9 @@ class cfg_handler extends cfg_fields
 	/**
 	 * @param array $vars
 	 */
-	private function _prep_select_field_for_display(array &$vars)
+	private function prep_select_field_for_display(array &$vars)
 	{
-		$this->_add_lang_vars($vars['params'][0]);
+		$this->add_lang_vars($vars['params'][0]);
 
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : 'build_select';
 	}
@@ -272,9 +282,9 @@ class cfg_handler extends cfg_fields
 	 * @param array $type
 	 * @param string $field
 	 */
-	private function _prep_checkbox_field_for_display(array &$vars, array &$type, $field)
+	private function prep_checkbox_field_for_display(array &$vars, array &$type, $field)
 	{
-		$this->_add_lang_vars($vars['params'][0]);
+		$this->add_lang_vars($vars['params'][0]);
 
 		$vars['method'] = 'build_checkbox';
 		$vars['params'][] = $field;
@@ -286,11 +296,11 @@ class cfg_handler extends cfg_fields
 	 * @param array $type
 	 * @param string $field
 	 */
-	private function _prep_radio_field_for_display(array &$vars, array &$type, $field)
+	private function prep_radio_field_for_display(array &$vars, array &$type, $field)
 	{
 		if (!isset($type[1]))
 		{
-			$this->_add_lang_vars($vars['params'][0]);
+			$this->add_lang_vars($vars['params'][0]);
 
 			$vars['method'] = 'build_radio';
 			$vars['params'][] = $field;
@@ -303,9 +313,9 @@ class cfg_handler extends cfg_fields
 	 * @param array $type
 	 * @param string $field
 	 */
-	private function _prep_multi_select_field_for_display(array &$vars, array &$type, $field)
+	private function prep_multi_select_field_for_display(array &$vars, array &$type, $field)
 	{
-		$this->_prep_checkbox_field_for_display($vars, $type, $field);
+		$this->prep_checkbox_field_for_display($vars, $type, $field);
 
 		$vars['method'] ='build_multi_select';
 	}
@@ -314,7 +324,7 @@ class cfg_handler extends cfg_fields
 	 * @param array $vars
 	 * @param array $type
 	 */
-	private function _prep_hidden_field_for_display(array &$vars, array &$type)
+	private function prep_hidden_field_for_display(array &$vars, array &$type)
 	{
 		$vars['method'] = 'build_hidden';
 		$vars['explain'] = '';
@@ -326,7 +336,7 @@ class cfg_handler extends cfg_fields
 	 * @param array $vars
 	 * @param array $type
 	 */
-	private function _prep_custom_field_for_display(array &$vars, array &$type)
+	private function prep_custom_field_for_display(array &$vars, array &$type)
 	{
 		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
 		$type[0] = 'custom';
@@ -337,7 +347,7 @@ class cfg_handler extends cfg_fields
 	 * this is for select items that do not need to be translated
 	 * @param array $options
 	 */
-	private function _add_lang_vars(array $options)
+	private function add_lang_vars(array $options)
 	{
 		foreach ($options as $title)
 		{
@@ -352,7 +362,7 @@ class cfg_handler extends cfg_fields
 	 * @param array $cfg_array
 	 * @param array $df_settings
 	 */
-	private function _get_multi_select(array &$cfg_array, array $df_settings)
+	private function get_multi_select(array &$cfg_array, array $df_settings)
 	{
 		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => '')), true));
 		$multi_select = array_filter($multi_select);

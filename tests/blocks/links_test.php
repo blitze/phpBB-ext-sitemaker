@@ -16,6 +16,8 @@ use blitze\sitemaker\blocks\links;
 
 class links_test extends blocks_base
 {
+	protected $template;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -29,6 +31,7 @@ class links_test extends blocks_base
 	/**
 	 * Create the menu block
 	 *
+	 * @param array $page_data
 	 * @return \blitze\sitemaker\blocks\menu
 	 */
 	protected function get_block($page_data = array())
@@ -70,7 +73,7 @@ class links_test extends blocks_base
 			}));
 		$this->template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function($block) use (&$temp_data) {
+			->will($this->returnCallback(function() use (&$temp_data) {
 				return $temp_data;
 			}));
 
@@ -216,8 +219,11 @@ class links_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param bool $editing
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $editing, $expected)
+	public function test_block_display(array $bdata, $editing, $expected)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata, $editing);

@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\blocks;
 
-class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
+use blitze\sitemaker\services\blocks\driver\block;
+
+class forum_poll extends block
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -80,7 +82,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 		$this->settings = $bdata['settings'];
 		$title = 'POLL';
 
-		if (!($topic_data = $this->_get_topic_data()))
+		if (!($topic_data = $this->get_topic_data()))
 		{
 			return array(
 				'title'		=> $title,
@@ -99,7 +101,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array|null
 	 */
-	private function _get_topic_data()
+	private function get_topic_data()
 	{
 		$sql_array = array(
 			'WHERE'		=> array(
@@ -107,14 +109,14 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 			),
 		);
 
-		$this->_limit_by_group($sql_array);
+		$this->limit_by_group($sql_array);
 
 		$this->forum_data->query()
 			->fetch_forum($this->settings['forum_ids'])
 			->fetch_topic_type($this->settings['topic_type'])
-			->fetch_topic($this->_get_array($this->settings['topic_ids']))
-			->fetch_topic_poster($this->_get_array($this->settings['user_ids']))
-			->set_sorting($this->_get_sorting())
+			->fetch_topic($this->get_array($this->settings['topic_ids']))
+			->fetch_topic_poster($this->get_array($this->settings['user_ids']))
+			->set_sorting($this->get_sorting())
 			->fetch_custom($sql_array)
 			->build();
 		$topic_data = $this->forum_data->get_topic_data(1);
@@ -125,7 +127,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $sql_array
 	 */
-	private function _limit_by_group(array &$sql_array)
+	private function limit_by_group(array &$sql_array)
 	{
 		if (!empty($this->settings['group_ids']))
 		{
@@ -139,7 +141,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string $string
 	 * @return array
 	 */
-	private function _get_array($string)
+	private function get_array($string)
 	{
 		return array_filter(explode(',', str_replace(' ', '', $string)));
 	}
@@ -147,7 +149,7 @@ class forum_poll extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return string
 	 */
-	private function _get_sorting()
+	private function get_sorting()
 	{
 		$sort_order = array(
 			self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',

@@ -19,7 +19,6 @@ use blitze\sitemaker\model\base_entity;
  * @method integer get_parent_id()
  * @method string get_item_title()
  * @method string get_item_url()
- * @method object set_item_icon($item_icon)
  * @method string get_item_icon()
  * @method object set_item_target($item_target)
  * @method integer get_item_target()
@@ -95,6 +94,8 @@ final class item extends base_entity
 
 	/**
 	 * Class constructor
+	 * @param array $data
+	 * @param bool  $mod_rewrite_enabled
 	 */
 	public function __construct(array $data, $mod_rewrite_enabled = false)
 	{
@@ -106,6 +107,8 @@ final class item extends base_entity
 
 	/**
 	 * Set block ID
+	 * @param int $item_id
+	 * @return $this
 	 */
 	public function set_item_id($item_id)
 	{
@@ -116,18 +119,30 @@ final class item extends base_entity
 		return $this;
 	}
 
+	/**
+	 * @param string $item_title
+	 * @return $this
+	 */
 	public function set_item_title($item_title)
 	{
-		$this->item_title = ucwords(trim($item_title));
+		$this->item_title = utf8_ucfirst(trim($item_title));
 		return $this;
 	}
 
+	/**
+	 * @param string $icon
+	 * @return $this
+	 */
 	public function set_item_icon($icon)
 	{
 		$this->item_icon = ($icon) ? trim($icon) . ' ' : '';
 		return $this;
 	}
 
+	/**
+	 * @param string $item_url
+	 * @return $this
+	 */
 	public function set_item_url($item_url)
 	{
 		$this->item_url = ltrim(str_replace($this->board_url, '', $item_url), './');
@@ -141,6 +156,9 @@ final class item extends base_entity
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_full_url()
 	{
 		$item_url = $this->item_url;

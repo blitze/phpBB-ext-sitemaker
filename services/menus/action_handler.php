@@ -39,6 +39,11 @@ class action_handler
 		$this->mapper_factory = $mapper_factory;
 	}
 
+	/**
+	 * @param string $action
+	 * @return \blitze\sitemaker\services\menus\action\action_interface
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function create($action)
 	{
 		$action_class = 'blitze\\sitemaker\\services\\menus\\action\\' . $action;
@@ -51,6 +56,9 @@ class action_handler
 		return new $action_class($this->request, $this->user, $this->mapper_factory);
 	}
 
+	/**
+	 * Clear cache after every action
+	 */
 	public function clear_cache()
 	{
 		$this->cache->destroy('sitemaker_menus');

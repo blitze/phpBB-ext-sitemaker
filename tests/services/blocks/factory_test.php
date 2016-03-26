@@ -99,7 +99,7 @@ class factory_test extends \phpbb_test_case
 
 		$factory = new factory($this->user, $this->ptemplate, $this->blocks);
 
-		$block = $factory->get_block('my.foo.block', array());
+		$block = $factory->get_block('my.foo.block');
 
 		$this->assertInstanceOf($expected, $block);
 		$this->assertEquals('my.foo.block', $block->get_name());

@@ -34,8 +34,10 @@ abstract class builder extends \phpbb\tree\nestedset
 	}
 
 	/**
-	* Set additional sql where restrictions
-	*/
+	 * Set additional sql where restrictions
+	 * @param string $sql_where
+	 * @return $this
+	 */
 	public function set_sql_where($sql_where)
 	{
 		$this->sql_where = $sql_where;
@@ -45,6 +47,8 @@ abstract class builder extends \phpbb\tree\nestedset
 
 	/**
 	 * Get item data
+	 * @param int $item_id
+	 * @return mixed
 	 */
 	public function get_item_info($item_id = 0)
 	{
@@ -65,7 +69,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * @param	array	$sql_data		Other item attributes to insert in the database ex. array('title' => 'Item 1')
 	 * @return	array
 	 */
-	public function update_item($item_id, $sql_data)
+	public function update_item($item_id, array $sql_data)
 	{
 		$sql = "UPDATE {$this->table_name}
 			SET " . $this->db->sql_build_array('UPDATE', $sql_data) . "
@@ -79,9 +83,9 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * Update tree
 	 *
 	 * @param	array	$tree 	Array of parent-child items
-	 * @return	null
+	 * @return	array
 	 */
-	public function update_tree($tree)
+	public function update_tree(array $tree)
 	{
 		$items_data = $this->get_all_tree_data();
 
@@ -105,7 +109,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$this->db->sql_query("DELETE FROM {$this->table_name} " . $this->get_sql_where('WHERE'));
 
 		// Now we add it back
-		$sql_data = $this->add_sub_tree($tree, 0, true);
+		$sql_data = $this->add_sub_tree($tree, 0);
 
 		$this->db->sql_transaction('commit');
 		$this->lock->release();
@@ -124,7 +128,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 *										About Us|index.php?p=about
 	 * @param	array	$table_fields	The expected information to get for each line (order is important) ex: array('title' => '', 'url' => '')
 	 *									This will then assign 'Home' to 'title' and 'index.php' to 'url' in example above (line 1)
-	 *
+	 * @param array     $data
 	 * @return	array					associative array of parent/child relationships ex: the above examples will produce
 	 *										array(
 	 *											1   => array('title' => 'Home', 'url' => 'index.php', parent_id => 0),
@@ -133,7 +137,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 *											4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
 	 *										)
 	 */
-	public function string_to_nestedset($structure, $table_fields, $data = array())
+	public function string_to_nestedset($structure, array $table_fields, $data = array())
 	{
 		$field_size = sizeof($table_fields);
 		$fields = array_keys($table_fields);
@@ -145,7 +149,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		foreach ($lines as $i => $string)
 		{
 			$indent = strspn($string, " ");
-			$depth = $indent / 4;
+			$depth = (int) ($indent / 4);
 
 			$parent_id = (isset($parent_ary[$depth - 1])) ? $parent_ary[$depth - 1] : 0;
 
@@ -178,9 +182,9 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * 										4   => array('title' => 'About Us', 'url' => 'index.php?p=about', parent_id => 0),
 	 * 									);
 	 * @param	int		$parent_id  Parent id of the branch we're adding
-	 * @return	array	ids of newly added items
+	 * @return	int[]	ids of newly added items
 	 */
-	public function add_branch($branch, $parent_id = 0)
+	public function add_branch(array $branch, $parent_id = 0)
 	{
 		$this->acquire_lock();
 		$this->db->sql_transaction('begin');
@@ -193,7 +197,12 @@ abstract class builder extends \phpbb\tree\nestedset
 		return array_keys($branch);
 	}
 
-	protected function add_sub_tree($branch, $parent_id = 0)
+	/**
+	 * @param array $branch
+	 * @param int   $parent_id
+	 * @return mixed
+	 */
+	protected function add_sub_tree(array $branch, $parent_id = 0)
 	{
 		$sql_data = $this->prepare_branch($parent_id, $branch);
 
@@ -202,6 +211,11 @@ abstract class builder extends \phpbb\tree\nestedset
 		return $sql_data;
 	}
 
+	/**
+	 * @param int   $parent_id
+	 * @param array $branch
+	 * @return array
+	 */
 	protected function prepare_branch($parent_id, array $branch)
 	{
 		$starting_data = $this->get_starting_data($parent_id, $branch);
@@ -238,7 +252,13 @@ abstract class builder extends \phpbb\tree\nestedset
 		return array_values($sql_data);
 	}
 
-	protected function get_starting_data($parent_id, $branch)
+	/**
+	 * @param int   $parent_id
+	 * @param array $branch
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	protected function get_starting_data($parent_id, array $branch)
 	{
 		if ($parent_id)
 		{
@@ -269,6 +289,11 @@ abstract class builder extends \phpbb\tree\nestedset
 		}
 	}
 
+	/**
+	 * @param string $column
+	 * @param bool   $use_sql_where
+	 * @return int|mixed
+	 */
 	protected function get_max_id($column, $use_sql_where = true)
 	{
 		$sql = "SELECT MAX($column) AS $column
@@ -282,9 +307,13 @@ abstract class builder extends \phpbb\tree\nestedset
 	}
 
 	/**
-	* Update right side of tree
-	*/
-	protected function update_right_side(&$data, &$right_id, $index, $branch)
+	 * Update right side of tree
+	 * @param array $data
+	 * @param int   $right_id
+	 * @param int   $index
+	 * @param array $branch
+	 */
+	protected function update_right_side(array &$data, &$right_id, $index, array $branch)
 	{
 		$right_id++;
 		$data[$index]['right_id'] = $right_id;

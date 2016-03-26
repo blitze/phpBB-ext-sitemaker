@@ -60,7 +60,7 @@ class query_builder
 	/**
 	 * Begin query
 	 *
-	 * $param bool $track_topics
+	 * @param bool $track_topics
 	 * @return $this
 	 */
 	public function query($track_topics = true)

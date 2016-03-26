@@ -96,7 +96,6 @@ class menus_test extends base_mapper
 		$condition = array('menu_id', '=', 1);
 
 		$menu = $menu_mapper->load($condition);
-		$menu_id = $menu->get_menu_id();
 
 		$items_collection = $item_mapper->find($condition);
 		$this->assertGreaterThan(0, $items_collection->count());

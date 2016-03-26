@@ -11,11 +11,16 @@ namespace blitze\sitemaker\services\menus\action;
 
 class save_tree extends base_action
 {
+	/**
+	 * @return array
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 		$raw_tree = $this->request->variable('tree', array(0 => array('' => 0)));
 
+		/** @type \blitze\sitemaker\model\menus\mapper\items $item_mapper */
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
@@ -29,6 +34,10 @@ class save_tree extends base_action
 		return $item_mapper->update_items($menu_id, $tree);
 	}
 
+	/**
+	 * @param array $raw_tree
+	 * @return array
+	 */
 	protected function prepare_tree(array $raw_tree)
 	{
 		$tree = array();

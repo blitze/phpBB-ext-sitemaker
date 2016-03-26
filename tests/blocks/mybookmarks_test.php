@@ -27,6 +27,7 @@ class mybookmarks_test extends blocks_base
 	/**
 	 * Create the mybookmarks block
 	 *
+	 * @param array $user_data
 	 * @return \blitze\sitemaker\blocks\mybookmarks
 	 */
 	protected function get_block($user_data = array())
@@ -138,8 +139,10 @@ class mybookmarks_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $user_data
+	 * @param array $expected
 	 */
-	public function test_block_display($user_data, $expected)
+	public function test_block_display(array $user_data, array $expected)
 	{
 		$bdata = array(
 			'settings' => array('max_topics' => 3),

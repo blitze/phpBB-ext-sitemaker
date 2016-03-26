@@ -48,6 +48,8 @@ class base_mapper extends \phpbb_database_test_case
 
 	/**
 	 * Create the blocks mapper
+	 * @param string $type
+	 * @return mixed
 	 */
 	protected function get_mapper($type)
 	{

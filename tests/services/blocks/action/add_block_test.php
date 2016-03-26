@@ -60,8 +60,10 @@ class add_block_test extends base_action
 	 * Test add block
 	 *
 	 * @dataProvider add_block_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_add_block($variable_map, $expected)
+	public function test_add_block(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('add_block', $variable_map);
 

@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\forum;
 
-use blitze\sitemaker\services\forum\admin;
-
 class manager
 {
 	/** @var \phpbb\auth\auth */
@@ -81,7 +79,7 @@ class manager
 			// Copy permissions?
 			if ($forum_perm_from && $forum_perm_from != $forum_data['forum_id'])
 			{
-				copy_forum_permissions($forum_perm_from, $forum_data['forum_id'], false, false);
+				copy_forum_permissions($forum_perm_from, array($forum_data['forum_id']), false, false);
 				phpbb_cache_moderators($this->db, $this->cache, $this->auth);
 			}
 

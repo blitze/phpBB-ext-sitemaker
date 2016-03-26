@@ -10,39 +10,30 @@
 namespace blitze\sitemaker\services;
 
 /**
- * Sitemaker icons - Font-awesome
+ * Sitemaker icons
  */
 class icon_picker
 {
-	/**
-	 * User object
-	 * @var \phpbb\user
-	 */
+	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	 * Sitemaker object
-	 * @var \blitze\sitemaker\services\util
-	 */
-	protected $sitemaker;
+	/** @var \blitze\sitemaker\services\util */
+	protected $util;
 
-	/**
-	 * Sitemaker template object
-	 * @var \blitze\sitemaker\services\template
-	 */
+	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\user                			$user       	User object
-	 * @param \blitze\sitemaker\services\util		$sitemaker		Sitemaker object
-	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
+	 * @param \phpbb\user                         $user       	User object
+	 * @param \blitze\sitemaker\services\util     $util		    Sitemaker Utility object
+	 * @param \blitze\sitemaker\services\template $ptemplate	Sitemaker Template object
 	 */
-	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
+	public function __construct(\phpbb\user $user, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate)
 	{
 		$this->user = $user;
-		$this->sitemaker = $sitemaker;
+		$this->util = $util;
 		$this->ptemplate = $ptemplate;
 	}
 
@@ -53,7 +44,7 @@ class icon_picker
 	{
 		$this->user->add_lang_ext('blitze/sitemaker', 'icons');
 
-		$this->sitemaker->add_assets(array(
+		$this->util->add_assets(array(
 			'js'	=> array(
 				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),

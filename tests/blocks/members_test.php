@@ -32,7 +32,7 @@ class members_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $phpbb_dispatcher, $user;
+		global $user;
 
 		$user = new \phpbb\user('\phpbb\datetime');
 
@@ -129,10 +129,11 @@ class members_test extends blocks_base
 
 	/**
 	 * Test block display
-	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param array $expected
 	 */
-	public function test_block_display($bdata, $expected)
+	public function test_block_display(array $bdata, array $expected)
 	{
 		$block = $this->get_block();
 

@@ -86,8 +86,8 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	}
 
 	/**
-	 * Removes all block routes and blocks belonging to these routes
-	 * for styles that no longer exist
+	 * Removes all block routes and blocks belonging to these routes for styles that no longer exist
+	 * @return array
 	 */
 	private function clean_styles()
 	{
@@ -113,8 +113,10 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 	/**
 	 * Removes all blocks for routes that no longer exist
+	 * @param array $routes
+	 * @return void
 	 */
-	private function clean_routes($routes)
+	private function clean_routes(array $routes)
 	{
 		$board_url = generate_board_url();
 
@@ -132,6 +134,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 	/**
 	 * Removes all blocks that (the service) no longer exist
+	 * @return void
 	 */
 	private function clean_blocks()
 	{
@@ -154,6 +157,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 	/**
 	 * Removes from custom blocks table, any custom blocks no longer present in blocks table
+	 * @return void
 	 */
 	private function clean_custom_blocks()
 	{
@@ -185,6 +189,9 @@ class blocks_cleanup extends \phpbb\cron\task\base
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	private function get_style_ids()
 	{
 		$sql = 'SELECT style_id, style_name

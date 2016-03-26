@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class edit_block extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute($style_id)
 	{
 		$block_id = $this->request->variable('id', 0);
@@ -18,6 +22,7 @@ class edit_block extends base_action
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
+		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
@@ -26,7 +31,7 @@ class edit_block extends base_action
 		$block_instance = $this->block_factory->get_block($entity->get_name());
 		$default_settings = $block_instance->get_config($entity->get_settings());
 
-		$extension = $this->_get_extension($block_instance);
+		$extension = $this->get_extension($block_instance);
 
 		$this->user->add_lang_ext($extension, 'blocks_admin');
 
@@ -37,7 +42,11 @@ class edit_block extends base_action
 		);
 	}
 
-	protected function _get_extension(\blitze\sitemaker\services\blocks\driver\block_interface $block_instance)
+	/**
+	 * @param \blitze\sitemaker\services\blocks\driver\block_interface $block_instance
+	 * @return string
+	 */
+	protected function get_extension(\blitze\sitemaker\services\blocks\driver\block_interface $block_instance)
 	{
 		$class_name = get_class($block_instance);
 		list($namespace, $extension) = explode('\\', $class_name);

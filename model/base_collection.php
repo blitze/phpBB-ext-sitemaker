@@ -11,18 +11,20 @@ namespace blitze\sitemaker\model;
 
 abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 {
-	protected $_entities = array();
+	protected $entities = array();
 
-	protected $_entity_class;
+	protected $entity_class;
 
 	/**
 	 * Constructor
+	 *
+	 * @param array $entities
 	 */
 	public function __construct(array $entities = array())
 	{
 		if (!empty($entities))
 		{
-			$this->_entities = $entities;
+			$this->entities = $entities;
 		}
 		$this->rewind();
 	}
@@ -32,7 +34,7 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	 */
 	public function get_entities()
 	{
-		return $this->_entities;
+		return $this->entities;
 	}
 
 	/**
@@ -40,7 +42,7 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	 */
 	public function clear()
 	{
-		$this->_entities = array();
+		$this->entities = array();
 	}
 
 	/**
@@ -48,35 +50,43 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	 */
 	public function rewind()
 	{
-		reset($this->_entities);
+		reset($this->entities);
 	}
 
 	/**
 	 * Get the current entity in the collection (implementation required by Iterator Interface)
+	 *
+	 * @return mixed
 	 */
 	public function current()
 	{
-		return current($this->_entities);
+		return current($this->entities);
 	}
 
 	/**
 	 * Get the next entity in the collection (implementation required by Iterator Interface)
+	 *
+	 * @return mixed
 	 */
 	public function next()
 	{
-		return next($this->_entities);
+		return next($this->entities);
 	}
 
 	/**
 	 * Get the key of the current entity in the collection (implementation required by Iterator Interface)
+	 *
+	 * @return mixed
 	 */
 	public function key()
 	{
-		return key($this->_entities);
+		return key($this->entities);
 	}
 
 	/**
 	 * Check if there’re more entities in the collection (implementation required by Iterator Interface)
+	 *
+	 * @return bool
 	 */
 	public function valid()
 	{
@@ -85,26 +95,33 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 
 	/**
 	 * Count the number of entities in the collection (implementation required by Countable Interface)
+	 *
+	 * @return mixed
 	 */
 	public function count()
 	{
-		return count($this->_entities);
+		return count($this->entities);
 	}
 
 	/**
 	 * Add an entity to the collection (implementation required by ArrayAccess interface)
+	 *
+	 * @param mixed $key
+	 * @param mixed $entity
+	 * @return bool
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	public function offsetSet($key, $entity)
 	{
-		if ($entity instanceof $this->_entity_class)
+		if ($entity instanceof $this->entity_class)
 		{
 			if (!isset($key))
 			{
-				$this->_entities[] = $entity;
+				$this->entities[] = $entity;
 			}
 			else
 			{
-				$this->_entities[$key] = $entity;
+				$this->entities[$key] = $entity;
 			}
 			return true;
 		}
@@ -114,13 +131,16 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 
 	/**
 	 * Remove an entity from the collection (implementation required by ArrayAccess interface)
+	 *
+	 * @param mixed $key
+	 * @return bool
 	 */
 	public function offsetUnset($key)
 	{
-		if ($key instanceof $this->_entity_class)
+		if ($key instanceof $this->entity_class)
 		{
-			$this->_entities = array_filter(
-				$this->_entities,
+			$this->entities = array_filter(
+				$this->entities,
 				function ($v) use ($key)
 				{
 					return $v !== $key;
@@ -129,9 +149,9 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 			return true;
 		}
 
-		if (isset($this->_entities[$key]))
+		if (isset($this->entities[$key]))
 		{
-			unset($this->_entities[$key]);
+			unset($this->entities[$key]);
 			return true;
 		}
 		return false;
@@ -139,17 +159,23 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 
 	/**
 	 * Get the specified entity in the collection (implementation required by ArrayAccess interface)
+	 *
+	 * @param mixed $key
+	 * @return null
 	 */
 	public function offsetGet($key)
 	{
-		return isset($this->_entities[$key]) ? $this->_entities[$key] : null;
+		return isset($this->entities[$key]) ? $this->entities[$key] : null;
 	}
 
 	/**
 	 * Check if the specified entity exists in the collection (implementation required by ArrayAccess interface)
+	 *
+	 * @param mixed $key
+	 * @return bool
 	 */
 	public function offsetExists($key)
 	{
-		return isset($this->_entities[$key]);
+		return isset($this->entities[$key]);
 	}
 }

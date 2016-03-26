@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\tests\controller;
 
 use phpbb\request\request_interface;
-use Symfony\Component\HttpFoundation\Response;
 use blitze\sitemaker\controller\blocks_admin;
 
 class blocks_admin_test extends \phpbb_database_test_case
@@ -50,9 +49,16 @@ class blocks_admin_test extends \phpbb_database_test_case
 	/**
 	 * Create the blocks admin controller
 	 *
+	 * @param array $auth_map
+	 * @param array $variable_map
+	 * @param string $action
+	 * @param int $action_call_count
+	 * @param int $cache_call_count
+	 * @param bool $ajax_request
+	 * @param bool $return_url
 	 * @return \blitze\sitemaker\controller\blocks_admin
 	 */
-	protected function get_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
+	protected function get_controller(array $auth_map, array $variable_map, $action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
 	{
 		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
@@ -118,22 +124,22 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->method('add')
 			->with('blocks_admin');
 
-		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\blocks\action_handler')
+		$action_handler = $this->getMockBuilder('\blitze\sitemaker\services\blocks\action_handler')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->action_handler->expects($this->exactly($action_call_count))
+		$action_handler->expects($this->exactly($action_call_count))
 			->method('create')
 			->with()
-			->will($this->returnCallback(function($service) use (&$dummy_object, $action) {
+			->will($this->returnCallback(function() use (&$dummy_object, $action) {
 				$dummy_object->action = $action;
 				return $dummy_object;
 			}));
 
-		$this->action_handler->expects($this->exactly($cache_call_count))
+		$action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new blocks_admin($auth, $request, $user, $auto_lang, $this->action_handler, $return_url);
+		return new blocks_admin($auth, $request, $user, $auto_lang, $action_handler, $return_url);
 	}
 
 	/**

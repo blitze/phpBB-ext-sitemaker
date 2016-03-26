@@ -26,6 +26,7 @@ class style_switcher_test extends blocks_base
 	/**
 	 * Create the stats block
 	 *
+	 * @param int $calls
 	 * @return \blitze\sitemaker\blocks\stats
 	 */
 	protected function get_block($calls = 0)

@@ -28,6 +28,10 @@ class cfg_handler_test extends \phpbb_test_case
 		return array('blitze/sitemaker');
 	}
 
+	/**
+	 * @param array $variable_map
+	 * @return \blitze\sitemaker\services\blocks\cfg_handler
+	 */
 	protected function get_service($variable_map = array())
 	{
 		global $request, $template, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
@@ -179,8 +183,11 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_multi_select method
 	 *
 	 * @dataProvider get_edit_form_test_data
+	 * @param string $db_value
+	 * @param array $default_settings
+	 * @param array $expected
 	 */
-	public function test_get_edit_form($db_value, $default_settings, $expected)
+	public function test_get_edit_form($db_value, array $default_settings, array $expected)
 	{
 		$block_data = array(
 			'settings'		=> array(
@@ -255,8 +262,11 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the get_submitted_settings method
 	 *
 	 * @dataProvider get_submitted_settings_test_data
+	 * @param array $variable_map
+	 * @param array $field_settings
+	 * @param array $expected
 	 */
-	public function test_get_submitted_settings($variable_map, $field_settings, $expected)
+	public function test_get_submitted_settings(array $variable_map, array $field_settings, array $expected)
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
@@ -301,8 +311,12 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_multi_select method
 	 *
 	 * @dataProvider build_multi_select_test_data
+	 * @param array $option_ary
+	 * @param string|array $selected_items
+	 * @param string $key
+	 * @param string $expected
 	 */
-	public function test_build_multi_select($option_ary, $selected_items, $key, $expected)
+	public function test_build_multi_select(array $option_ary, $selected_items, $key, $expected)
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_multi_select($option_ary, $selected_items, $key);
@@ -343,8 +357,12 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_radio method
 	 *
 	 * @dataProvider build_radio_test_data
+	 * @param array $option_ary
+	 * @param string|array $selected_items
+	 * @param string $key
+	 * @param string $expected
 	 */
-	public function test_build_radio($option_ary, $selected_items, $key, $expected)
+	public function test_build_radio(array $option_ary, $selected_items, $key, $expected)
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_radio($option_ary, $selected_items, $key);
@@ -409,8 +427,12 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_checkbox method
 	 *
 	 * @dataProvider build_checkbox_test_data
+	 * @param array $option_ary
+	 * @param string|array $selected_items
+	 * @param string $key
+	 * @param string $expected
 	 */
-	public function test_build_checkbox($option_ary, $selected_items, $key, $expected)
+	public function test_build_checkbox(array $option_ary, $selected_items, $key, $expected)
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key);
@@ -438,6 +460,9 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_hidden method
 	 *
 	 * @dataProvider build_hidden_test_data
+	 * @param string|int $value
+	 * @param string $key
+	 * @param string $expected
 	 */
 	public function test_build_hidden($value, $key, $expected)
 	{

@@ -263,8 +263,10 @@ class members_test extends \phpbb_database_test_case
 	 * Test the exits method
 	 *
 	 * @dataProvider get_list_test_data
+	 * @param array $query
+	 * @param array $expected
 	 */
-	public function test_get_list($query, $expected)
+	public function test_get_list(array $query, array $expected)
 	{
 		$members = $this->get_service();
 		$data = $members->get_list($query);

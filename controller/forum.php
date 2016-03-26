@@ -49,6 +49,9 @@ class forum
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function handle()
 	{
 		if (!function_exists('display_forums'))

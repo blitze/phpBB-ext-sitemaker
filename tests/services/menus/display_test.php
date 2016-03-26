@@ -217,8 +217,12 @@ class display_test extends \phpbb_database_test_case
 	 * Test display navlist
 	 *
 	 * @dataProvider display_navlist_test_data
+	 * @param array $current_page
+	 * @param array $params
+	 * @param array $data
+	 * @param array $expected
 	 */
-	public function test_display_navlist($current_page, $params, $data, $expected)
+	public function test_display_navlist(array $current_page, array $params, array $data, array $expected)
 	{
 		$tree = $this->get_service($current_page);
 

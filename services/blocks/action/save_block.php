@@ -14,6 +14,10 @@ class save_block extends base_action
 	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
 	protected $block_mapper;
 
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute($style_id)
 	{
 		$block_id = $this->request->variable('id', 0);
@@ -21,6 +25,7 @@ class save_block extends base_action
 
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
+		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		if (($entity = $this->block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
@@ -48,13 +53,19 @@ class save_block extends base_action
 
 		if ($update_similar && $new_hash !== $old_hash)
 		{
-			$updated_blocks += $this->_update_similar($old_hash, $new_hash, $submitted_settings);
+			$updated_blocks += $this->update_similar($old_hash, $new_hash, $submitted_settings);
 		}
 
 		return $updated_blocks;
 	}
 
-	private function _update_similar($old_hash, $new_hash, $settings)
+	/**
+	 * @param string $old_hash
+	 * @param string $new_hash
+	 * @param array  $settings
+	 * @return array
+	 */
+	private function update_similar($old_hash, $new_hash, array $settings)
 	{
 		// find all similar blocks
 		$blocks_collection = $this->block_mapper->find(array('hash', '=', $old_hash));

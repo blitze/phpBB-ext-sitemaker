@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\tests\services\blocks;
 
 use phpbb\request\request_interface;
-use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\services\blocks\display;
 
 require_once dirname(__FILE__) . '../../../../../../../includes/functions.php';
@@ -41,11 +40,16 @@ class display_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Create the admin_bar service
+	 * Create the blocks display service
 	 *
-	 * @return \blitze\sitemaker\services\blocks\admin_bar
+	 * @param array $auth_map
+	 * @param array $variable_map
+	 * @param array $page_data
+	 * @param bool $show_admin_bar
+	 * @param bool $show_blocks
+	 * @return \blitze\sitemaker\services\blocks\display
 	 */
-	protected function get_service($auth_map, $variable_map, $page_data, $show_admin_bar, $show_blocks)
+	protected function get_service(array $auth_map, array $variable_map, array $page_data, $show_admin_bar, $show_blocks)
 	{
 		global $request, $phpbb_path_helper, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
@@ -258,8 +262,14 @@ class display_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider show_blocks_test_data
+	 * @param array $auth_map
+	 * @param array $variable_map
+	 * @param array $page_data
+	 * @param bool $show_admin_bar
+	 * @param bool $show_blocks
+	 * @param array $expected
 	 */
-	public function test_show_blocks($auth_map, $variable_map, $page_data, $show_admin_bar, $show_blocks, $expected)
+	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $show_admin_bar, $show_blocks, array $expected)
 	{
 		$display = $this->get_service($auth_map, $variable_map, $page_data, $show_admin_bar, $show_blocks);
 		$display->show();

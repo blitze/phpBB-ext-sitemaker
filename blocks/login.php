@@ -9,12 +9,13 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Login Block
  */
-class login extends \blitze\sitemaker\services\blocks\driver\block
+class login extends block
 {
 	/** @var ContainerInterface */
 	protected $phpbb_container;

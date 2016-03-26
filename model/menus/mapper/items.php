@@ -21,10 +21,10 @@ class items extends base_mapper
 	protected $tree;
 
 	/** @var string */
-	protected $_entity_class = 'blitze\sitemaker\model\menus\entity\item';
+	protected $entity_class = 'blitze\sitemaker\model\menus\entity\item';
 
 	/** @var string */
-	protected $_entity_pkey = 'item_id';
+	protected $entity_pkey = 'item_id';
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class items extends base_mapper
 	 * @param string										$entity_table		Menu Items table
 	 * @param \phpbb\config\config							$config				Config object
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table, \phpbb\config\config $config)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table, \phpbb\config\config $config)
 	{
 		parent::__construct($db, $collection, $mapper_factory, $entity_table);
 
@@ -43,13 +43,16 @@ class items extends base_mapper
 		$this->tree = new nestedset(
 			$db,
 			new \phpbb\lock\db('sitemaker.table_lock.menu_items_table', $this->config, $db),
-			$this->_entity_table
+			$this->entity_table
 		);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function load(array $condition = array())
 	{
-		$sql_where = join(' AND ', $this->_get_condition($condition));
+		$sql_where = join(' AND ', $this->get_condition($condition));
 		$row = $this->tree
 			->set_sql_where($sql_where)
 			->get_item_info();
@@ -61,24 +64,31 @@ class items extends base_mapper
 		return null;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function find(array $condition = array())
 	{
-		$sql_where = join(' AND ', $this->_get_condition($condition));
+		$sql_where = join(' AND ', $this->get_condition($condition));
 		$tree_data = $this->tree
 			->set_sql_where($sql_where)
 			->get_all_tree_data();
 
-		$this->_collection->clear();
+		$this->collection->clear();
 		foreach ($tree_data as $id => $row)
 		{
-			$this->_collection[$id] = $this->create_entity($row);
+			$this->collection[$id] = $this->create_entity($row);
 		}
 
-		return $this->_collection;
+		return $this->collection;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function save(\blitze\sitemaker\model\entity_interface $entity)
 	{
+		/** @type \blitze\sitemaker\model\menus\entity\item $entity */
 		$sql_data = $entity->to_db();
 
 		$this->tree->set_sql_where($this->get_sql_where($entity->get_menu_id()));
@@ -93,6 +103,12 @@ class items extends base_mapper
 		}
 	}
 
+	/**
+	 * @param int $menu_id
+	 * @param int $parent_id
+	 * @param $string
+	 * @return \blitze\sitemaker\model\base_collection
+	 */
 	public function add_items($menu_id, $parent_id, $string)
 	{
 		$items = $this->tree->string_to_nestedset($string, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
@@ -109,6 +125,11 @@ class items extends base_mapper
 		return $this->find(array('item_id', '=', $new_item_ids));
 	}
 
+	/**
+	 * @param int $menu_id
+	 * @param array $items
+	 * @return array
+	 */
 	public function update_items($menu_id, array $items)
 	{
 		return $this->tree->set_sql_where($this->get_sql_where($menu_id))
@@ -116,14 +137,18 @@ class items extends base_mapper
 	}
 
 	/**
-	 * Create the entity
+	 * {@inheritdoc}
 	 */
 	public function create_entity(array $row)
 	{
-		return new $this->_entity_class($row, $this->config['enable_mod_rewrite']);
+		return new $this->entity_class($row, $this->config['enable_mod_rewrite']);
 	}
 
-	protected function prep_items_for_storage($items)
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function prep_items_for_storage(array $items)
 	{
 		$branch = array();
 		foreach ($items as $key => $row)
@@ -135,6 +160,10 @@ class items extends base_mapper
 		return $branch;
 	}
 
+	/**
+	 * @param int $menu_id
+	 * @return string
+	 */
 	protected function get_sql_where($menu_id)
 	{
 		return '%smenu_id = ' . (int) $menu_id;

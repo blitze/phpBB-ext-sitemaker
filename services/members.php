@@ -63,8 +63,10 @@ class members
 
 	/**
 	 * get members
+	 * @param array $get
+	 * @return string
 	 */
-	public function get_list($get = array())
+	public function get_list(array $get = array())
 	{
 		$this->settings = $get + array(
 			'query_type'	=> 'recent',
@@ -86,7 +88,11 @@ class members
 		return $this->show_results($has_results);
 	}
 
-	protected function member_posts($row)
+	/**
+	 * @param array $row
+	 * @return array
+	 */
+	protected function member_posts(array $row)
 	{
 		$u_posts = append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, "author_id={$row['user_id']}&amp;sr=posts" . $this->explain_range);
 		$user_posts = '<a href="' . $u_posts . '">' . $row['user_posts'] . '</a>';
@@ -98,7 +104,11 @@ class members
 		);
 	}
 
-	protected function member_date($row)
+	/**
+	 * @param array $row
+	 * @return array
+	 */
+	protected function member_date(array $row)
 	{
 		return array(
 			'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
@@ -107,7 +117,11 @@ class members
 		);
 	}
 
-	protected function member_bots($row)
+	/**
+	 * @param array $row
+	 * @return array
+	 */
+	protected function member_bots(array $row)
 	{
 		return array(
 			'USERNAME'	=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
@@ -115,10 +129,14 @@ class members
 		);
 	}
 
-	protected function show_results($results)
+	/**
+	 * @param bool $has_results
+	 * @return string
+	 */
+	protected function show_results($has_results)
 	{
-		$list = '';
-		if ($results)
+		$html = '';
+		if ($has_results)
 		{
 			$this->ptemplate->assign_vars(array(
 				'S_LIST'	=> $this->settings['query_type'],
@@ -126,12 +144,15 @@ class members
 				'L_INFO'	=> $this->user->lang($this->info_header),
 			));
 
-			$list = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
+			$html = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
 		}
 
-		return $list;
+		return $html;
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function get_sql_statement()
 	{
 		$sql_ary = array(
@@ -142,15 +163,18 @@ class members
 			'WHERE'			=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
 		);
 
-		$sql_method = '_set_' . $this->settings['query_type'] . '_sql';
+		$sql_method = 'set_' . $this->settings['query_type'] . '_sql';
 		call_user_func_array(array($this, $sql_method), array(&$sql_ary));
 
-		$this->_set_range_sql($sql_ary);
+		$this->set_range_sql($sql_ary);
 
 		return $this->db->sql_build_query('SELECT', $sql_ary);
 	}
 
-	protected function _set_visits_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_visits_sql(array &$sql_ary)
 	{
 		$sql_ary['SELECT'] .= ', u.user_lastvisit as member_date';
 		$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0';
@@ -159,9 +183,12 @@ class members
 		$this->sql_date_field = 'user_lastvisit';
 	}
 
-	protected function _set_bots_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_bots_sql(array &$sql_ary)
 	{
-		$this->_set_visits_sql($sql_ary);
+		$this->set_visits_sql($sql_ary);
 		$this->user_header = '';
 		$this->info_header = '';
 		$this->view_mode = 'member_bots';
@@ -169,7 +196,10 @@ class members
 		$sql_ary['WHERE'] = 'u.user_type = ' . USER_IGNORE;
 	}
 
-	protected function _set_tenured_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_tenured_sql(array &$sql_ary)
 	{
 		$sql_ary['SELECT'] .= ', u.user_regdate as member_date';
 		$sql_ary['ORDER_BY'] = 'u.user_regdate ' . (($this->settings['query_type'] == 'tenured') ? 'ASC' : 'DESC');
@@ -178,13 +208,19 @@ class members
 		$this->settings['date_range'] = '';
 	}
 
-	protected function _set_recent_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_recent_sql(array &$sql_ary)
 	{
-		$this->_set_tenured_sql($sql_ary);
+		$this->set_tenured_sql($sql_ary);
 		$this->info_header = 'JOIN_DATE';
 	}
 
-	protected function _set_posts_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_posts_sql(array &$sql_ary)
 	{
 		$sql_ary['SELECT'] .= ', COUNT(p.post_id) as user_posts';
 		$sql_ary['FROM'] += array(TOPICS_TABLE => 't');
@@ -198,7 +234,10 @@ class members
 		$this->sql_date_field = 'p.post_time';
 	}
 
-	protected function _set_range_sql(array &$sql_ary)
+	/**
+	 * @param array $sql_ary
+	 */
+	protected function set_range_sql(array &$sql_ary)
 	{
 		if ($this->settings['date_range'] && $this->sql_date_field)
 		{

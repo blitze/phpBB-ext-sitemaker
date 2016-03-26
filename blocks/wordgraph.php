@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\blocks;
 
-class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
+use blitze\sitemaker\services\blocks\driver\block;
+
+class wordgraph extends block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -67,7 +69,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 		$settings = $bdata['settings'];
 
 		$block_title = 'WORDGRAPH';
-		$words_array = $this->_get_words($settings);
+		$words_array = $this->get_words($settings);
 
 		if (!sizeof($words_array))
 		{
@@ -77,7 +79,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 			);
 		}
 
-		$this->_show_graph($words_array, $settings);
+		$this->show_graph($words_array, $settings);
 
 		return array(
 			'title'		=> $block_title,
@@ -89,9 +91,9 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $words_array
 	 * @param array $settings
 	 */
-	private function _show_graph(array $words_array, array $settings)
+	private function show_graph(array $words_array, array $settings)
 	{
-		$params = $this->_get_graph_params($words_array, $settings);
+		$params = $this->get_graph_params($words_array, $settings);
 
 		// Sort words in result
 		$words = array_keys($words_array);
@@ -105,7 +107,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 			$g = 'c';
 
 			$this->ptemplate->assign_block_vars('wordgraph', array(
-				'WORD'			=> $this->_show_word($word, $words_array[$word], $settings['show_word_count']),
+				'WORD'			=> $this->show_word($word, $words_array[$word], $settings['show_word_count']),
 				'WORD_SIZE'		=> $settings['min_word_size'] + (($words_array[$word] - $params['min_count']) * $params['size_step']),
 				'WORD_COLOR'	=> $r . $g . $b,
 				'WORD_URL'		=> append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word)),
@@ -116,8 +118,9 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $words_array
 	 * @param array $settings
+	 * @return array
 	 */
-	private function _get_graph_params(array $words_array, array $settings)
+	private function get_graph_params(array $words_array, array $settings)
 	{
 		$max_sat = hexdec('f');
 		$min_sat = hexdec(0);
@@ -147,9 +150,9 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $settings
 	 * @return array
 	 */
-	private function _get_words(array $settings)
+	private function get_words(array $settings)
 	{
-		$sql_array = $this->_get_words_sql($settings['exclude_words']);
+		$sql_array = $this->get_words_sql($settings['exclude_words']);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $settings['max_num_words'], 0, 10800);
 
@@ -168,9 +171,9 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param string $exclude_words
 	 * @return array
 	 */
-	private function _get_words_sql($exclude_words)
+	private function get_words_sql($exclude_words)
 	{
-		$sql_where = $this->_exclude_words_sql($exclude_words);
+		$sql_where = $this->exclude_words_sql($exclude_words);
 		return array(
 			'SELECT'	=> 'l.word_text, l.word_count',
 			'FROM'		=> array(
@@ -193,9 +196,10 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	}
 
 	/**
-	 * @param string $exclude_words
+	 * @param string $exclude_words Comma separated string of words
+	 * @return string
 	 */
-	private function _exclude_words_sql($exclude_words)
+	private function exclude_words_sql($exclude_words)
 	{
 		$sql_where = '';
 		if ($exclude_words)
@@ -213,7 +217,7 @@ class wordgraph extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param bool $show_count
 	 * @return string
 	 */
-	private function _show_word($word, $count, $show_count)
+	private function show_word($word, $count, $show_count)
 	{
 		return censor_text(($show_count) ? $word . '(' . $count . ')' : $word);
 	}

@@ -36,7 +36,7 @@ class date_range_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
-		global $phpbb_dispatcher, $template;
+		global $phpbb_dispatcher;
 
 		parent::setUp();
 
@@ -109,8 +109,10 @@ class date_range_test extends \phpbb_test_case
 	 * Test the get_date_range method
 	 *
 	 * @dataProvider date_range_test_data
+	 * @param string $range
+	 * @param array $expected
 	 */
-	public function test_date_range($range, $expected)
+	public function test_date_range($range, array $expected)
 	{
 		$data = $this->date_range->get($range);
 

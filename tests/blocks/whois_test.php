@@ -26,6 +26,8 @@ class whois_test extends blocks_base
 	/**
 	 * Create the stats block
 	 *
+	 * @param bool $authed
+	 * @param string $current_page
 	 * @return \blitze\sitemaker\blocks\stats
 	 */
 	protected function get_block($authed = false, $current_page = '')
@@ -127,8 +129,11 @@ class whois_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param bool $authed
+	 * @param string $current_page
+	 * @param array $expected
 	 */
-	public function test_block_display($authed, $current_page, $expected)
+	public function test_block_display($authed, $current_page, array $expected)
 	{
 		$block = $this->get_block($authed, $current_page);
 		$result = $block->display(array());

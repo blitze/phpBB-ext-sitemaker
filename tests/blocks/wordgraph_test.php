@@ -28,9 +28,9 @@ class wordgraph_test extends blocks_base
 	 *
 	 * @return \blitze\sitemaker\blocks\mybookmarks
 	 */
-	protected function get_block($user_data = array())
+	protected function get_block()
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
 		$config = new \phpbb\config\config(array('load_db_lastread' => true));
 		$db = $this->new_dbal();
@@ -39,7 +39,6 @@ class wordgraph_test extends blocks_base
 		$user = new \phpbb\user('\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->lang['datetime'] =  array();
-		$user->data = $user_data;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -143,10 +142,12 @@ class wordgraph_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $expected)
+	public function test_block_display(array $bdata, $expected)
 	{
-		$block = $this->get_block($user_data);
+		$block = $this->get_block();
 		$result = $block->display($bdata);
 
 		$this->assertEquals($expected, $result['content']);

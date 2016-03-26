@@ -39,8 +39,12 @@ class base_action extends \phpbb_database_test_case
 
 	/**
 	 * Create the block command
+	 *
+	 * @param string $action
+	 * @param array $variable_map
+	 * @return \blitze\sitemaker\services\blocks\action\action_interface
 	 */
-	protected function get_command($action, $variable_map)
+	protected function get_command($action, array $variable_map)
 	{
 		global $db, $request, $template, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 

@@ -8,11 +8,12 @@
  */
 
 namespace blitze\sitemaker\blocks;
+use blitze\sitemaker\services\blocks\driver\block;
 
 /**
  * Login Block
  */
-class members extends \blitze\sitemaker\services\blocks\driver\block
+class members extends block
 {
 	/** @var \phpbb\user */
 	private $user;

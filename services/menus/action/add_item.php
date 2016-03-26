@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class add_item extends base_action
 {
+	/**
+	 * @return \blitze\sitemaker\model\entity_interface
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);

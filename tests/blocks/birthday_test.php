@@ -13,6 +13,8 @@ use blitze\sitemaker\blocks\birthday;
 
 class birthday_test extends blocks_base
 {
+	protected $ptemplate;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -25,7 +27,7 @@ class birthday_test extends blocks_base
 
 	/**
 	 * Create the birthday block
-	 *
+	 * @param string $time
 	 * @return \blitze\sitemaker\blocks\birthday
 	 */
 	protected function get_block($time = 'now')
@@ -101,6 +103,8 @@ class birthday_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param string $time
+	 * @param mixed $expected
 	 */
 	public function test_block_display($time, $expected)
 	{

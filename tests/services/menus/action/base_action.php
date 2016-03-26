@@ -37,8 +37,12 @@ class base_action extends \phpbb_database_test_case
 
 	/**
 	 * Create the menu command
+	 *
+	 * @param string $action
+	 * @param array $variable_map
+	 * @return mixed
 	 */
-	protected function get_command($action, $variable_map)
+	protected function get_command($action, array $variable_map)
 	{
 		global $config, $db, $request, $phpbb_dispatcher;
 

@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\services\blocks\action;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use blitze\sitemaker\services\blocks\action\action_interface;
 
 abstract class base_action implements action_interface
 {
@@ -62,7 +61,14 @@ abstract class base_action implements action_interface
 		$this->mapper_factory = $mapper_factory;
 	}
 
-	protected function _force_get_route($route_data, $has_blocks = false)
+	/**
+	 * This is guaranteed to return a route entity. If the route does not exist, it create it
+	 *
+	 * @param array $route_data
+	 * @param bool  $has_blocks
+	 * @return \blitze\sitemaker\model\blocks\entity\route
+	 */
+	protected function force_get_route(array $route_data, $has_blocks = false)
 	{
 		$route_mapper = $this->mapper_factory->create('blocks', 'routes');
 
@@ -78,6 +84,10 @@ abstract class base_action implements action_interface
 		return $route;
 	}
 
+	/**
+	 * @param array $info
+	 * @return array
+	 */
 	protected function get_condition(array $info)
 	{
 		return array(
@@ -86,6 +96,10 @@ abstract class base_action implements action_interface
 		);
 	}
 
+	/**
+	 * @param \blitze\sitemaker\model\blocks\entity\block $entity
+	 * @return array
+	 */
 	protected function render_block(\blitze\sitemaker\model\blocks\entity\block $entity)
 	{
 		$block_name = $entity->get_name();
@@ -104,9 +118,15 @@ abstract class base_action implements action_interface
 				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->user->lang('BLOCK_NO_DATA'),
 			));
 		}
+		
+		return array();
 	}
 
-	protected function _route_is_customized(array $route_prefs)
+	/**
+	 * @param array $route_prefs
+	 * @return bool
+	 */
+	protected function route_is_customized(array $route_prefs)
 	{
 		$route_prefs = array_intersect_key($route_prefs, self::$default_prefs);
 		return (self::$default_prefs !== $route_prefs) ? true : false;

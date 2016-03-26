@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Custom Block
  */
-class custom extends \blitze\sitemaker\services\blocks\driver\block
+class custom extends block
 {
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
@@ -47,13 +49,13 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$cblock = $this->_get_custom_blocks();
+		$cblock = $this->get_custom_blocks();
 
 		$content = '';
 		if (isset($cblock[$bdata['bid']]))
 		{
 			$cblock = $cblock[$bdata['bid']];
-			$content = $this->_get_content($cblock);
+			$content = $this->get_content($cblock);
 		}
 		else
 		{
@@ -64,7 +66,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 			);
 		}
 
-		$this->_show_editor($cblock, $content, $edit_mode);
+		$this->show_editor($cblock, $content, $edit_mode);
 
 		return array(
 			'title'		=> 'BLOCK_TITLE',
@@ -79,7 +81,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	public function save($block_id)
 	{
 		$content = $this->request->variable('content', '', true);
-		$cblocks = $this->_get_custom_blocks();
+		$cblocks = $this->get_custom_blocks();
 
 		$sql_data =	array(
 			'block_id'			=> $block_id,
@@ -97,7 +99,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 
 		return array(
 			'id'		=> $block_id,
-			'content'	=> $this->_get_content($sql_data),
+			'content'	=> $this->get_content($sql_data),
 			'callback'	=> 'previewCustomBlock',
 		);
 	}
@@ -106,7 +108,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $data
 	 * @return string
 	 */
-	private function _get_content(array $data)
+	private function get_content(array $data)
 	{
 		$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
 		return html_entity_decode($content);
@@ -118,7 +120,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param bool $edit_mode
 	 * @return string
 	 */
-	private function _show_editor(array $cblock, &$content, $edit_mode)
+	private function show_editor(array $cblock, &$content, $edit_mode)
 	{
 		if ($edit_mode !== false)
 		{
@@ -130,7 +132,7 @@ class custom extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_custom_blocks()
+	private function get_custom_blocks()
 	{
 		if (($cblocks = $this->cache->get('pt_cblocks')) === false)
 		{

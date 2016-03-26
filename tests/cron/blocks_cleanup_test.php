@@ -73,7 +73,6 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$config = new \phpbb\config\config(array(

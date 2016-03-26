@@ -19,6 +19,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	protected $phpbb_container;
 
 	protected $tpl_data;
+	protected $util;
 
 	/**
 	 * Define the extension to be tested.
@@ -55,6 +56,10 @@ class admin_bar_test extends \phpbb_database_test_case
 	/**
 	 * Create the admin_bar service
 	 *
+	 * @param array $config
+	 * @param string $page
+	 * @param string $controller
+	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
 	protected function get_service($config = array(), $page = 'index.php', $controller = '', $params = '')
@@ -234,8 +239,11 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider show_admin_bar_test_data
+	 * @param array $route_info
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_show_admin_bar($route_info, $config, $expected)
+	public function test_show_admin_bar(array $route_info, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config);
 
@@ -299,8 +307,12 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the set_javascript_data method
 	 *
 	 * @dataProvider set_javascript_data_test_data
+	 * @param string $route
+	 * @param int $style_id
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_set_javascript_data($route, $style_id, $config, $expected)
+	public function test_set_javascript_data($route, $style_id, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config, $route);
 		$admin_bar->set_javascript_data($route, $style_id);
@@ -394,8 +406,13 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_startpage_options method
 	 *
 	 * @dataProvider get_startpage_options_test_data
+	 * @param string $page
+	 * @param string $controller
+	 * @param string $params
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_get_startpage_options($page, $controller, $params, $config, $expected)
+	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config, $page, $controller, $params);
 
@@ -427,6 +444,8 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_route_options method
 	 *
 	 * @dataProvider get_route_options_test_data
+	 * @param string $route
+	 * @param string $expected
 	 */
 	public function test_get_route_options($route, $expected)
 	{
@@ -460,8 +479,10 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_excluded_position_options method
 	 *
 	 * @dataProvider get_excluded_position_options_test_data
+	 * @param array $excluded_positions
+	 * @param string $expected
 	 */
-	public function test_get_excluded_position_options($excluded_positions, $expected)
+	public function test_get_excluded_position_options(array $excluded_positions, $expected)
 	{
 		$admin_bar = $this->get_service();
 

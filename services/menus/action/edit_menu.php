@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class edit_menu extends base_action
 {
+	/**
+	 * @return array
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
@@ -18,6 +22,7 @@ class edit_menu extends base_action
 
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
+		/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
 		if (($entity = $menu_mapper->load(array('menu_id', '=', $menu_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');

@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class load_item extends base_action
 {
+	/**
+	 * @return array
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$item_id = $this->request->variable('item_id', 0);

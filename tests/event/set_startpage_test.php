@@ -31,6 +31,14 @@ class set_startpage_test extends listener_base
 
 	/**
 	 * @dataProvider set_startpage_test_data
+	 *
+	 * @param string $current_page
+	 * @param string $controller_service
+	 * @param string $controller_method
+	 * @param string $controller_params
+	 * @param string $expected_contents
+	 * @param string $sql_where
+	 * @param string $expected_sql_where
 	 */
 	public function test_set_startpage($current_page, $controller_service, $controller_method, $controller_params, $expected_contents, $sql_where, $expected_sql_where)
 	{

@@ -44,8 +44,9 @@ class util
 	/**
 	 * include css/javascript
 	 * receives an array of form: array('js' => array('test.js', 'test2.js'), 'css' => array())
+	 * @param array $scripts
 	 */
-	public function add_assets($scripts)
+	public function add_assets(array $scripts)
 	{
 		foreach ($scripts as $type => $paths)
 		{

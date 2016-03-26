@@ -17,18 +17,24 @@ class routes extends base_mapper
 	protected $block_mapper;
 
 	/** @var string */
-	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\route';
+	protected $entity_class = 'blitze\sitemaker\model\blocks\entity\route';
 
 	/** @var string */
-	protected $_entity_pkey = 'route_id';
+	protected $entity_pkey = 'route_id';
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function load(array $condition = array())
 	{
+		/** @type \blitze\sitemaker\model\blocks\entity\route|null $entity */
 		$entity = parent::load($condition);
 
 		if ($entity)
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+			
+			/** @type \blitze\sitemaker\model\blocks\collections\blocks $collection */
 			$collection = $block_mapper->find(array(
 				array('style', '=', $entity->get_style()),
 				array('route_id', '=', $entity->get_route_id()),
@@ -39,14 +45,18 @@ class routes extends base_mapper
 		return $entity;
 	}
 
+	/**
+	 * @param array|\blitze\sitemaker\model\blocks\entity\route $condition
+	 */
 	public function delete($condition)
 	{
 		parent::delete($condition);
 
 		// delete blocks associated with this route and style
-		if ($condition instanceof $this->_entity_class)
+		if ($condition instanceof $this->entity_class)
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+			
 			$block_mapper->delete(array(
 				array('style', '=', $condition->get_style()),
 				array('route_id', '=', $condition->get_route_id()),
@@ -54,9 +64,13 @@ class routes extends base_mapper
 		}
 	}
 
-	protected function _find_sql(array $sql_where)
+	/**
+	 * @param array $sql_where
+	 * @return string
+	 */
+	protected function find_sql(array $sql_where)
 	{
-		return 'SELECT * FROM ' . $this->_entity_table .
+		return 'SELECT * FROM ' . $this->entity_table .
 			((sizeof($sql_where)) ? ' WHERE ' . join(' AND ', $sql_where) : '') . '
 			ORDER BY route ASC';
 	}

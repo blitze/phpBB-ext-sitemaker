@@ -27,6 +27,7 @@ class custom_test extends blocks_base
 	/**
 	 * Create the custom block
 	 *
+	 * @param array $variable_map
 	 * @return \blitze\sitemaker\blocks\custom
 	 */
 	protected function get_block($variable_map = array())
@@ -106,8 +107,11 @@ class custom_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param bool $edit_mode
+	 * @param string $expected
 	 */
-	public function test_block_display($bdata, $edit_mode, $expected)
+	public function test_block_display(array $bdata, $edit_mode, $expected)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata, $edit_mode);
@@ -163,8 +167,11 @@ class custom_test extends blocks_base
 	 * Test saving custom content
 	 *
 	 * @dataProvider block_test_save_data
+	 * @param int $block_id
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_save_custom_content($block_id, $variable_map, $expected)
+	public function test_save_custom_content($block_id, array $variable_map, array $expected)
 	{
 		$block = $this->get_block($variable_map);
 		$result = $block->save($block_id);

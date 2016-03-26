@@ -12,6 +12,7 @@ namespace blitze\sitemaker\model\blocks\entity;
 use blitze\sitemaker\model\base_entity;
 
 /**
+ * @method integer get_route_id()
  * @method object set_ext_name($ext_name)
  * @method string get_ext_name()
  * @method object set_route($route)
@@ -66,6 +67,8 @@ final class route extends base_entity
 
 	/**
 	 * Set route ID
+	 * @param int $route_id
+	 * @return $this
 	 */
 	public function set_route_id($route_id)
 	{
@@ -78,6 +81,8 @@ final class route extends base_entity
 
 	/**
 	 * Set excluded positions
+	 * @param array|string $ex_positions
+	 * @return $this
 	 */
 	public function set_ex_positions($ex_positions)
 	{
@@ -87,12 +92,16 @@ final class route extends base_entity
 
 	/**
 	 * Get excluded positions
+	 * @return array
 	 */
 	public function get_ex_positions()
 	{
 		return array_filter(explode(',', $this->ex_positions));
 	}
 
+	/**
+	 *
+	 */
 	public function __clone()
 	{
 		$this->route_id = null;

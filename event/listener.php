@@ -75,6 +75,9 @@ class listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getSubscribedEvents()
 	{
 		return array(
@@ -90,7 +93,10 @@ class listener implements EventSubscriberInterface
 		);
 	}
 
-	public function init_sitemaker($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function init_sitemaker(\phpbb\event\data $event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -100,7 +106,10 @@ class listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	public function load_permission_language($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function load_permission_language(\phpbb\event\data $event)
 	{
 		$permissions = $event['permissions'];
 		$permissions['a_sm_manage_blocks']	= array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc');
@@ -136,12 +145,20 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Queries for forum data are cached unless a post is created/edited
+	 * The defined constant is used as an indicator of this change so a new request is made instead
+	 * @see \blitze\sitemaker\services\forum\data
+	 */
 	public function clear_cached_queries()
 	{
 		define('SITEMAKER_FORUM_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
+	/**
+	 * Show sitemaker blocks on front page
+	 */
 	public function show_sitemaker()
 	{
 		$this->blocks->show();
@@ -154,6 +171,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Hide login/whois/birthday on index_body.html
+		// @TODO move this to the login block so we only hide if there is a block that replaces it
 		$this->template->assign_vars(array(
 			'S_USER_LOGGED_IN'			=> true,
 			'S_DISPLAY_ONLINE_LIST'		=> false,
@@ -161,12 +179,18 @@ class listener implements EventSubscriberInterface
 		));
 	}
 
+	/**
+	 * Send assets to template
+	 */
 	public function set_assets()
 	{
 		$this->sitemaker->set_assets();
 	}
 
-	public function set_startpage($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function set_startpage(\phpbb\event\data $event)
 	{
 		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->startpage && ($controller_object = $this->get_startpage_controller()) !== false)
 		{
@@ -179,6 +203,7 @@ class listener implements EventSubscriberInterface
 
 			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
 
+			/** @type \Symfony\Component\HttpFoundation\Response $response */
 			$response = call_user_func_array(array($controller_object, $method), $arguments);
 			$response->send();
 
@@ -189,7 +214,10 @@ class listener implements EventSubscriberInterface
 		$event['sql_ary'] = $this->_hide_hidden_forums($event['sql_ary']);
 	}
 
-	public function add_viewonline_location($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function add_viewonline_location(\phpbb\event\data $event)
 	{
 		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
@@ -234,7 +262,11 @@ class listener implements EventSubscriberInterface
 		return false;
 	}
 
-	protected function _hide_hidden_forums($sql_ary)
+	/**
+	 * @param array $sql_ary
+	 * @return array
+	 */
+	protected function _hide_hidden_forums(array $sql_ary)
 	{
 		$sql_ary['WHERE'] .= ($sql_ary['WHERE']) ? ' AND ' : '';
 		$sql_ary['WHERE'] .= 'f.hidden_forum <> 1';

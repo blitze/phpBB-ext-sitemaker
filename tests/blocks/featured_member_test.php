@@ -14,6 +14,8 @@ use blitze\sitemaker\services\profilefields;
 
 class featured_member_test extends blocks_base
 {
+	protected $db;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -281,10 +283,13 @@ class featured_member_test extends blocks_base
 
 	/**
 	 * Test block display
-	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param string $title
+	 * @param array $user_data
+	 * @param mixed $current_user
 	 */
-	public function test_block_display($bdata, $title, $user_data, $current_user)
+	public function test_block_display(array $bdata, $title, array $user_data, $current_user)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata);
@@ -292,11 +297,11 @@ class featured_member_test extends blocks_base
 		$this->assertEquals($title, $result['title']);
 		$this->assertEquals($user_data, array_filter($result['content']));
 
-		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
+		$this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
 		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
 		$this->db->sql_freeresult();
 
-		$this->assertEquals($userlist, $settings['current_user']);
+		$this->assertEquals($current_user, $settings['current_user']);
 	}
 
 	/**
@@ -369,8 +374,11 @@ class featured_member_test extends blocks_base
 	 * Test invalid user in userlist for featured user mode
 	 *
 	 * @dataProvider invalid_user_test_data
+	 * @param array $bdata
+	 * @param mixed $block_content
+	 * @param string $userlist
 	 */
-	public function test_invalid_user_in_userlist($bdata, $block_content, $userlist)
+	public function test_invalid_user_in_userlist(array $bdata, $block_content, $userlist)
 	{
 		$bdata['bid'] = 1;
 
@@ -380,7 +388,7 @@ class featured_member_test extends blocks_base
 		$actual = is_array($result['content']) ? array_filter($result['content']) : $result['content'];
 		$this->assertEquals($block_content, $actual);
 
-		$result = $this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
+		$this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
 		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
 		$this->db->sql_freeresult();
 

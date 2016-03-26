@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class handle_custom_action extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute($style_id)
 	{
 		$block_id = $this->request->variable('id', 0);

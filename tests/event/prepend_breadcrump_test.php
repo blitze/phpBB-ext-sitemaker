@@ -96,8 +96,13 @@ class prepend_breadcrump_test extends listener_base
 
 	/**
 	 * @dataProvider prepend_breadcrump_test_data
+	 *
+	 * @param string $start_page
+	 * @param string $current_page
+	 * @param array $navbar
+	 * @param array $breadcrump
 	 */
-	public function test_prepend_breadcrump($start_page, $current_page, $navbar, $breadcrump)
+	public function test_prepend_breadcrump($start_page, $current_page, array $navbar, array $breadcrump)
 	{
 		$listener = $this->get_listener();
 

@@ -52,8 +52,11 @@ class init_sitemaker_test extends listener_base
 
 	/**
 	 * @dataProvider init_sitemaker_test_data
+	 *
+	 * @param array $lang_set_ext
+	 * @param array $expected_contains
 	 */
-	public function test_init_sitemaker($lang_set_ext, $expected_contains)
+	public function test_init_sitemaker(array $lang_set_ext, array $expected_contains)
 	{
 		$listener = $this->get_listener();
 
@@ -69,25 +72,6 @@ class init_sitemaker_test extends listener_base
 		foreach ($expected_contains as $expected)
 		{
 			$this->assertContains($expected, $lang_set_ext);
-		}
-	}
-
-	/**
-	 * Ensure our constants are defined
-	 *
-	 * @depends test_init_sitemaker
-	 */
-	public function test_defined_constants()
-	{
-		$defined_constants = array(
-			'FORUMS_ORDER_FIRST_POST',
-			'FORUMS_ORDER_LAST_POST',
-			'FORUMS_ORDER_LAST_READ',
-		);
-
-		foreach ($defined_constants as $constant)
-		{
-			$this->assertTrue(defined($constant));
 		}
 	}
 }

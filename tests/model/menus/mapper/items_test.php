@@ -77,7 +77,7 @@ class items_test extends base_mapper
 
 		$item = $mapper->load(array('item_id', '=', 2));
 		$this->assertEquals(2, $item->get_item_id());
-		$this->assertEquals('My Title', $item->get_item_title());
+		$this->assertEquals('My title', $item->get_item_title());
 	}
 
 	/**
@@ -203,8 +203,11 @@ class items_test extends base_mapper
 
 	/**
 	 * Test add items
-	 *
+	 * 
 	 * @dataProvider add_items_test_data
+	 * @param int $parent_id
+	 * @param string $string
+	 * @param array $expected
 	 */
 	public function test_add_items($parent_id, $string, array $expected)
 	{

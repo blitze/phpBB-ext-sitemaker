@@ -9,7 +9,6 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
-use phpbb\request\request_interface;
 use blitze\sitemaker\services\poll;
 use blitze\sitemaker\services\forum\data;
 use blitze\sitemaker\blocks\forum_poll;
@@ -29,6 +28,7 @@ class forum_poll_test extends blocks_base
 	/**
 	 * Create the forum topics block
 	 *
+	 * @param bool $is_registered
 	 * @return \blitze\sitemaker\blocks\forum_topics
 	 */
 	protected function get_block($is_registered = false)
@@ -260,8 +260,11 @@ class forum_poll_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param bool $is_registered
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $is_registered, $expected)
+	public function test_block_display(array $bdata, $is_registered, $expected)
 	{
 		$block = $this->get_block($is_registered);
 		$result = $block->display($bdata);

@@ -11,6 +11,8 @@ namespace blitze\sitemaker\tests\blocks;
 
 abstract class blocks_base extends \phpbb_database_test_case
 {
+	protected $ptemplate;
+
 	/**
 	 * Define the extension to be tested.
 	 *

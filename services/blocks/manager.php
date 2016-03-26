@@ -91,6 +91,7 @@ class manager
 
 	/**
 	 * Delete all blocks and routes for a specific style
+	 * @param int $style_id
 	 */
 	public function delete_blocks_by_style($style_id)
 	{
@@ -102,6 +103,7 @@ class manager
 
 	/**
 	 * Delete a route and all it's blocks across styles
+	 * @param string $route
 	 */
 	public function delete_blocks_by_route($route)
 	{
@@ -115,6 +117,7 @@ class manager
 
 	/**
 	 * Delete all instances of a block across styles/routes
+	 * @param string $block_name
 	 */
 	public function delete_blocks_by_name($block_name)
 	{

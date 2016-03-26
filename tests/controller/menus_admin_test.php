@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\controller;
 
-use phpbb\request\request_interface;
-use Symfony\Component\HttpFoundation\Response;
 use blitze\sitemaker\controller\menus_admin;
 
 class menus_admin_test extends \phpbb_database_test_case
@@ -50,7 +48,12 @@ class menus_admin_test extends \phpbb_database_test_case
 	/**
 	 * Create the menu admin controller
 	 *
-	 * @return \blitze\sitemaker\controller\menu_admin
+	 * @param string $action
+	 * @param int $action_call_count
+	 * @param int $cache_call_count
+	 * @param bool $ajax_request
+	 * @param bool $return_url
+	 * @return \blitze\sitemaker\controller\menus_admin
 	 */
 	protected function get_controller($action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
 	{
@@ -98,11 +101,11 @@ class menus_admin_test extends \phpbb_database_test_case
 				);
 			}));
 
-		$this->action_handler = $this->getMockBuilder('\blitze\sitemaker\services\menus\action_handler')
+		$action_handler = $this->getMockBuilder('\blitze\sitemaker\services\menus\action_handler')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->action_handler->expects($this->exactly($action_call_count))
+		$action_handler->expects($this->exactly($action_call_count))
 			->method('create')
 			->with()
 			->will($this->returnCallback(function($service) use (&$dummy_object, $action) {
@@ -110,10 +113,10 @@ class menus_admin_test extends \phpbb_database_test_case
 				return $dummy_object;
 			}));
 
-		$this->action_handler->expects($this->exactly($cache_call_count))
+		$action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new menus_admin($request, $user, $this->action_handler, $return_url);
+		return new menus_admin($request, $user, $action_handler, $return_url);
 	}
 
 	/**
@@ -148,11 +151,12 @@ class menus_admin_test extends \phpbb_database_test_case
 
 	/**
 	 * @dataProvider sample_data
-	 *
 	 * @param string $action
-	 * @param integer $call_count
-	 * @param integer $status_code
-	 * @param array $expected
+	 * @param int $action_call_count
+	 * @param int $cache_call_count
+	 * @param int $status_code
+	 * @param string $expected
+	 * @internal param int $call_count
 	 */
 	public function test_controller($action, $action_call_count, $cache_call_count, $status_code, $expected)
 	{
