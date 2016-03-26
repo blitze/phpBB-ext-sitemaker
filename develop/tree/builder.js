@@ -388,7 +388,7 @@
 		},
 
 		_getItemId: function(element) {
-			return element.attr('id').substring('5');
+			return parseInt(element.attr('id').substring(5));
 		},
 
 		_getOptions: function(list, padding, options) {
@@ -396,7 +396,7 @@
 
 			list.children('li').each(function(i, element) {
 				var item = $(element);
-				var id = item.attr('id').substr('5');
+				var id = self._getItemId(element);
 				var title = padding + '&#x251c;&#x2500; ' + item.find('.editable:first').text();
 				var option = '<option value="' + id + '">' + title + '</option>';
 

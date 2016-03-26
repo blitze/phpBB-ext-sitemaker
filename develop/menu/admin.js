@@ -26,19 +26,30 @@
 		$('.items-list').iconPicker({
 			selector: '.icon-select',
 			onSelect: function(item, iconHtml, iconClass) {
-				var id = item.parentsUntil('li').parent().attr('id').substring('5');
+				var id = item.parentsUntil('li').parent().attr('id').substring(5);
 				menuAdmin.treeBuilder('updateItem', {'item_icon': iconClass}, id);
 			}
 		});
 
 		// menu list
-		var menuDivObj = $('#sm-menus').on('click', '.menu-option', function(e) {
-			menuId = +$(this).parent().attr('id').substring(5);
-			$(this).parent().parent().children().removeClass('row3 current-menu');
-			$(this).parent().addClass('row3 current-menu');
-			menuAdmin.treeBuilder('getItems');
-			e.preventDefault();
-		});
+		var menuDivObj = $('#sm-menus')
+			.on('click', '.menu-option', function(e) {
+				menuId = +$(this).parent().attr('id').substring(5);
+				$(this).parent().parent().children().removeClass('row3 current-menu');
+				$(this).parent().addClass('row3 current-menu');
+				menuAdmin.treeBuilder('getItems');
+				e.preventDefault();
+			})
+			.on('click', '.menu-edit', function(e) {
+				var element = $(this).parent().prev().removeClass('menu-option').parent().removeClass('current-menu').find('.menu-editable');
+				currentMenuTitle = element.text();
+				inlineMenuForm.show().appendTo(element.text('')).children(':input').val(currentMenuTitle).focus().select().end();
+				e.preventDefault();
+			})
+			.on('click', '.menu-delete', function(e) {
+				dialogConfirmDelete.dialog({buttons: dButtons}).dialog('open');
+				e.preventDefault();
+			});
 
 		var inlineMenuForm = $('<form id="inline-menu-form"><input type="text" id="inline-menu-edit" value="" /></form>').hide().appendTo($('body'));
 
@@ -77,16 +88,6 @@
 				menuAdmin.show().treeBuilder('getItems');
 			});
 
-			e.preventDefault();
-		});
-
-		$('#sm-menus').on('click', '.menu-edit', function(e) {
-			var element = $(this).parent().prev().removeClass('menu-option').parent().removeClass('current-menu').find('.menu-editable');
-			currentMenuTitle = element.text();
-			inlineMenuForm.show().appendTo(element.text('')).children(':input').val(currentMenuTitle).focus().select().end();
-			e.preventDefault();
-		}).on('click', '.menu-delete', function(e) {
-			dialogConfirmDelete.dialog({buttons: dButtons}).dialog('open');
 			e.preventDefault();
 		});
 

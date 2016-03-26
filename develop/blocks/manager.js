@@ -264,7 +264,7 @@
 			return;
 		}
 
-		var id = $(e).parentsUntil('.block').parent().attr('id').substring('6');
+		var id = $(e).parentsUntil('.block').parent().attr('id').substring(6);
 		var title = $(e).val();
 
 		if (id && title !== editorVal) {
@@ -446,7 +446,7 @@
 				update: function(event, ui) {
 					updated = true;
 					if ($(ui.item).attr('id') === undefined) {
-						var posID = $(this).attr('id').substring('4');
+						var posID = $(this).attr('id').substring(4);
 						var blockName = $(ui.item).attr('data-block');
 						var replace = $(this).find('div[data-block="' + blockName + '"]');
 						addBlock(posID, blockName, replace);
@@ -489,7 +489,7 @@
 				blockObj = $(this).parentsUntil('.block').parent();
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
 			}).each(function(i, pos) {
-				var p = $(pos).attr('id').substring('4');
+				var p = $(pos).attr('id').substring(4);
 				if (exPositions.find('option[value=' + p + ']').length === 0) {
 					exPositions.append('<option value="' + p + '">' + p + '</option>');
 				}
@@ -730,7 +730,7 @@
 			$('.sitemaker').iconPicker({
 				selector: '.block-icon',
 				onSelect: function(item, iconHtml, iconClass) {
-					var id = item.parentsUntil('.block').parent().attr('id').substring('6');
+					var id = item.parentsUntil('.block').parent().attr('id').substring(6);
 					updateBlock({'id': id, 'icon': iconClass});
 				}
 			});
