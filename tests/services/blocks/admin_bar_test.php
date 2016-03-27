@@ -416,7 +416,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	{
 		$admin_bar = $this->get_service($config, $page, $controller, $params);
 
-		$admin_bar->get_startpage_options($route);
+		$admin_bar->get_startpage_options();
 
 		$this->assertSame($expected, $this->tpl_data);
 	}

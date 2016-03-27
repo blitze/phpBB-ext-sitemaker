@@ -11,6 +11,11 @@ namespace blitze\sitemaker\services;
 
 class url_checker
 {
+	/**
+	 * @param string $url
+	 * @param bool $curl
+	 * @return bool
+	 */
 	public function exists($url, $curl = true)
 	{
 		if (!filter_var($url, FILTER_VALIDATE_URL))
@@ -26,6 +31,11 @@ class url_checker
 		return ($status[1] == 200) ? true : false;
 	}
 
+	/**
+	 * @param string $url
+	 * @param bool $curl
+	 * @return mixed
+	 */
 	protected function get_headers($url, $curl)
 	{
 		if (extension_loaded('curl') && $curl)
@@ -41,7 +51,11 @@ class url_checker
 		return $headers;
 	}
 
-	// http://snipplr.com/view.php?codeview&id=61985
+	/**
+	 * http://snipplr.com/view.php?codeview&id=61985
+	 * @param string $url
+	 * @return mixed
+	 */
 	protected function curl_header($url)
 	{
 		$ch = curl_init();

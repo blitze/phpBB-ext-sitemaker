@@ -37,7 +37,6 @@ class add_block extends base_action
 
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		$entity = $block_mapper->create_entity(array(
 			'name'			=> $name,
 			'weight'		=> $this->request->variable('weight', 0),

@@ -122,7 +122,7 @@ class save_blocks_test extends base_action
 	public function test_save_blocks($variable_map, $style_id, $expected_route, $expected_block)
 	{
 		$route = $variable_map[0][4];
-		$command = $this->get_command('save_blocks', $variable_map);
+		$command = $this->get_command('save', $variable_map);
 
 		$result = $command->execute($style_id);
 

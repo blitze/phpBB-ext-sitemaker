@@ -121,6 +121,12 @@ abstract class display
 		return $this->db->sql_build_query('SELECT', $sql_array);
 	}
 
+	/**
+	 * @param int $start
+	 * @param int $level
+	 * @param array $sql_array
+	 * @return array
+	 */
 	public function get_tree_array($start = 0, $level = 0, $sql_array = array())
 	{
 		$sql = $this->qet_tree_sql($start, $level, $sql_array);
@@ -136,6 +142,11 @@ abstract class display
 		return $data;
 	}
 
+	/**
+	 * @param array $data
+	 * @param \phpbb\template\twig\twig $template
+	 * @param string $handle
+	 */
 	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
 		$prev_depth = 0;

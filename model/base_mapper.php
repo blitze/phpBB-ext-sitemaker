@@ -58,7 +58,7 @@ abstract class base_mapper implements mapper_interface
 	*/
 	public function load(array $condition = array())
 	{
-		$sql_where = $this->get_condition($condition);
+		$sql_where = $this->get_sql_condition($condition);
 		$results = $this->db->sql_query($this->find_sql($sql_where));
 		$row = $this->db->sql_fetchrow($results);
 		$this->db->sql_freeresult($results);
@@ -75,7 +75,7 @@ abstract class base_mapper implements mapper_interface
 	*/
 	public function find(array $condition = array())
 	{
-		$sql_where = $this->get_condition($condition);
+		$sql_where = $this->get_sql_condition($condition);
 		$results = $this->db->sql_query($this->find_sql($sql_where));
 		$this->collection->clear();
 
@@ -111,13 +111,15 @@ abstract class base_mapper implements mapper_interface
 	*/
 	public function delete($condition)
 	{
-		if ($condition instanceof $this->entity_class)
-		{
+		if ($condition instanceof $this->entity_class) {
 			$accessor = 'get_' . $this->entity_pkey;
-			$condition = array($this->entity_pkey, '=', $condition->$accessor());
+			$criteria = array($this->entity_pkey, '=', $condition->$accessor());
 		}
-
-		$sql_where = $this->get_condition($condition);
+		else
+		{
+			$criteria = $condition;
+		}
+		$sql_where = $this->get_sql_condition($criteria);
 		$this->db->sql_query('DELETE FROM ' . $this->entity_table . (sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : ''));
 	}
 
@@ -184,7 +186,7 @@ abstract class base_mapper implements mapper_interface
 	 * @param array $condition
 	 * @return array
 	 */
-	protected function get_condition(array $condition)
+	protected function get_sql_condition(array $condition)
 	{
 		$sql_where = array();
 		$condition = $this->ensure_multi_array($condition);

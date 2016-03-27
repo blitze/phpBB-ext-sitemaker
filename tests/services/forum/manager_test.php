@@ -81,7 +81,7 @@ class manager_test extends \phpbb_database_test_case
 		$this->assertSame($expected, array_intersect_key($forum_data, $expected));
 
 		// ensure that permissions were copied
-		$result = $this->db->sql_query('SELECT auth_role_id FROM ' . ACL_GROUPS_TABLE . ' WHERE forum_id = ' . (int) $forum_data['forum_id']);
+		$this->db->sql_query('SELECT auth_role_id FROM ' . ACL_GROUPS_TABLE . ' WHERE forum_id = ' . (int) $forum_data['forum_id']);
 		$role_id = $this->db->sql_fetchfield('auth_role_id');
 
 		$this->assertEquals(5, $role_id);

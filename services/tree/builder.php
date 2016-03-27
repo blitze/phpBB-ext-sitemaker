@@ -14,6 +14,9 @@ namespace blitze\sitemaker\services\tree;
 */
 abstract class builder extends \phpbb\tree\nestedset
 {
+	/**
+	 * @param \blitze\sitemaker\services\util $util
+	 */
 	public static function load_scripts(\blitze\sitemaker\services\util $util)
 	{
 		$util->add_assets(array(

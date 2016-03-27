@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\services;
 
-use blitze\sitemaker\services\template;
-
 class template_test extends \phpbb_test_case
 {
 	/**

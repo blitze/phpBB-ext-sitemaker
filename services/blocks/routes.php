@@ -128,7 +128,7 @@ class routes
 		$blocks = array();
 		foreach ($collection as $entity)
 		{
-			if ($block_instance = $this->block_factory->get_block($entity->get_name()))
+			if (($block_instance = $this->block_factory->get_block($entity->get_name())) !== null)
 			{
 				$default_settings = $block_instance->get_config(array());
 				$settings = $this->sync_settings($default_settings, $entity->get_settings());

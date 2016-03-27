@@ -66,7 +66,7 @@ abstract class base_action implements action_interface
 	 *
 	 * @param array $route_data
 	 * @param bool  $has_blocks
-	 * @return \blitze\sitemaker\model\blocks\entity\route
+	 * @return \blitze\sitemaker\model\entity_interface
 	 */
 	protected function force_get_route(array $route_data, $has_blocks = false)
 	{
@@ -97,11 +97,12 @@ abstract class base_action implements action_interface
 	}
 
 	/**
-	 * @param \blitze\sitemaker\model\blocks\entity\block $entity
+	 * @param \blitze\sitemaker\model\entity_interface $entity
 	 * @return array
 	 */
-	protected function render_block(\blitze\sitemaker\model\blocks\entity\block $entity)
+	protected function render_block(\blitze\sitemaker\model\entity_interface $entity)
 	{
+		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		$block_name = $entity->get_name();
 		if ($block_instance = $this->block_factory->get_block($block_name))
 		{

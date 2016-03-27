@@ -11,7 +11,11 @@ namespace blitze\sitemaker\services\forum;
 
 class admin
 {
-	public static function save(&$forum_data)
+	/**
+	 * @param array $forum_data
+	 * @return array
+	 */
+	public static function save(array &$forum_data)
 	{
 		$forum_data += array(
 			'parent_id'				=> 0,
@@ -60,6 +64,13 @@ class admin
 		return $errors;
 	}
 
+	/**
+	 * @param int $forum_id
+	 * @param string $action_posts
+	 * @param string $action_subforums
+	 * @param int $posts_to_id
+	 * @param int $subforums_to_id
+	 */
 	public static function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
 		$forum = new \acp_forums();

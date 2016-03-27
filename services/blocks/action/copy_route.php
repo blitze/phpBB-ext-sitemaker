@@ -40,6 +40,7 @@ class copy_route extends base_action
 			array('style', '=', $from_style),
 		);
 
+		/** @type \blitze\sitemaker\model\blocks\entity\route $from_entity */
 		if (!($from_entity = $this->route_mapper->load($condition)))
 		{
 			return $route_data;

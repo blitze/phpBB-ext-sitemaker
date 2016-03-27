@@ -59,6 +59,10 @@ class poll
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	 * @param array $topic_data
+	 * @param \phpbb\template\twig\twig $template
+	 */
 	public function build(array $topic_data, \phpbb\template\twig\twig &$template)
 	{
 		$this->user->add_lang('viewtopic');

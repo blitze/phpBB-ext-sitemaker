@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\menus\action;
 class add_item extends base_action
 {
 	/**
-	 * @return \blitze\sitemaker\model\entity_interface
+	 * {@inheritdoc}
 	 * @throws \blitze\sitemaker\exception\out_of_bounds
 	 */
 	public function execute()
@@ -31,6 +31,8 @@ class add_item extends base_action
 			'menu_id'	=> $menu_id,
 		));
 
-		return $items_mapper->save($entity);
+		$entity = $items_mapper->save($entity);
+		
+		return $entity->to_array();
 	}
 }

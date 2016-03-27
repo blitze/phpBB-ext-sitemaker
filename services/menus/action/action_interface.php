@@ -13,6 +13,8 @@ interface action_interface
 {
 	/**
 	 * Execute the action
+	 *
+	 * @return array
 	 */
 	public function execute();
 }

@@ -50,10 +50,10 @@ class set_route_prefs extends base_action
 	/**
 	 * Updates the route if it has blocks, or removes it if it doesn't
 	 *
-	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
-	 * @param array                                       $route_prefs
+	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @param array $route_prefs
 	 */
-	protected function update_or_remove(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)
+	protected function update_or_remove(\blitze\sitemaker\model\entity_interface $entity, array $route_prefs)
 	{
 		// route has blocks, so update it
 		if ($this->route_has_blocks($entity))
@@ -70,11 +70,12 @@ class set_route_prefs extends base_action
 	/**
 	 * Update the route
 	 *
-	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
-	 * @param array                                       $route_prefs
+	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @param array $route_prefs
 	 */
-	protected function update_route(\blitze\sitemaker\model\blocks\entity\route $entity, array $route_prefs)
+	protected function update_route(\blitze\sitemaker\model\entity_interface $entity, array $route_prefs)
 	{
+		/** @type \blitze\sitemaker\model\blocks\entity\route $entity */
 		$entity->set_hide_blocks($route_prefs['hide_blocks']);
 		$entity->set_ex_positions($route_prefs['ex_positions']);
 

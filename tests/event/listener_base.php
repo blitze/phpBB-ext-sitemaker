@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\tests\event;
 
 use Symfony\Component\HttpFoundation\Response;
-use blitze\sitemaker\event\listener;
 
 class listener_base extends \phpbb_database_test_case
 {
@@ -62,12 +61,7 @@ class listener_base extends \phpbb_database_test_case
 	 */
 	protected function get_listener()
 	{
-		global $phpbb_dispatcher, $cache, $phpbb_root_path, $phpEx;
-
-		$table_prefix = 'phpbb_';
-		$blocks_table = $table_prefix . 'sm_blocks';
-		$blocks_config_table = $table_prefix . 'sm_blocks_config';
-		$block_routes_table = $table_prefix . 'sm_block_routes';
+		global $cache, $phpbb_root_path, $phpEx;
 
 		$this->config = new \phpbb\config\config(array());
 		$this->cache = $cache = new \phpbb_mock_cache();

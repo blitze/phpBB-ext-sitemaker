@@ -52,7 +52,7 @@ class items extends base_mapper
 	 */
 	public function load(array $condition = array())
 	{
-		$sql_where = join(' AND ', $this->get_condition($condition));
+		$sql_where = join(' AND ', $this->get_sql_condition($condition));
 		$row = $this->tree
 			->set_sql_where($sql_where)
 			->get_item_info();
@@ -69,7 +69,7 @@ class items extends base_mapper
 	 */
 	public function find(array $condition = array())
 	{
-		$sql_where = join(' AND ', $this->get_condition($condition));
+		$sql_where = join(' AND ', $this->get_sql_condition($condition));
 		$tree_data = $this->tree
 			->set_sql_where($sql_where)
 			->get_all_tree_data();
@@ -95,12 +95,14 @@ class items extends base_mapper
 
 		if ($entity->get_item_id())
 		{
-			return $this->tree->update_item($entity->get_item_id(), $sql_data);
+			$item = $this->tree->update_item($entity->get_item_id(), $sql_data);
 		}
 		else
 		{
-			return $this->tree->insert($sql_data);
+			$item = $this->tree->insert($sql_data);
 		}
+		
+		return $this->create_entity($item);
 	}
 
 	/**

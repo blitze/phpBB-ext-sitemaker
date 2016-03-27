@@ -74,7 +74,7 @@ class action_handler_test extends \phpbb_test_case
 			array('edit_block'),
 			array('handle_custom_action'),
 			array('save_block'),
-			array('save_blocks'),
+			array('save'),
 			array('set_default_route'),
 			array('set_route_prefs'),
 			array('set_startpage'),

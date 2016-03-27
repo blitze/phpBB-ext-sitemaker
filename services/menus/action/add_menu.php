@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\menus\action;
 class add_menu extends base_action
 {
 	/**
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function execute()
 	{

@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\menus\action;
 class load_items extends base_action
 {
 	/**
-	 * @return array
+	 * {@inheritdoc}
 	 * @throws \blitze\sitemaker\exception\out_of_bounds
 	 */
 	public function execute()

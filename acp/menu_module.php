@@ -49,6 +49,9 @@ class menu_module
 	/** @var string */
 	public $u_action;
 
+	/**
+	 * menu_module constructor.
+	 */
 	public function __construct()
 	{
 		global $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
@@ -64,6 +67,9 @@ class menu_module
 		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
+	/**
+	 *
+	 */
 	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);

@@ -108,7 +108,7 @@ class menus_admin_test extends \phpbb_database_test_case
 		$action_handler->expects($this->exactly($action_call_count))
 			->method('create')
 			->with()
-			->will($this->returnCallback(function($service) use (&$dummy_object, $action) {
+			->will($this->returnCallback(function() use (&$dummy_object, $action) {
 				$dummy_object->action = $action;
 				return $dummy_object;
 			}));

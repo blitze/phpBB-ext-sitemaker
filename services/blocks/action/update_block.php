@@ -27,7 +27,6 @@ class update_block extends base_action
 
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');

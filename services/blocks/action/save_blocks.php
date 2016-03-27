@@ -33,16 +33,16 @@ class save_blocks extends base_action
 			'style'	=> $style_id,
 		));
 
-		$this->save_blocks($entity, $blocks);
+		$this->save($entity, $blocks);
 
 		return array('message' => $this->user->lang('LAYOUT_SAVED'));
 	}
 
 	/**
 	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
-	 * @param array                                       $blocks
+	 * @param array $blocks
 	 */
-	protected function save_blocks(\blitze\sitemaker\model\blocks\entity\route $entity, array $blocks)
+	protected function save(\blitze\sitemaker\model\blocks\entity\route $entity, array $blocks)
 	{
 		// find all blocks for this route
 		$db_blocks = $this->get_blocks($entity);

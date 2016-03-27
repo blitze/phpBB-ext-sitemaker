@@ -34,6 +34,10 @@ abstract class base_action implements action_interface
 		$this->mapper_factory = $mapper_factory;
 	}
 
+	/**
+	 * @param \blitze\sitemaker\model\base_collection $collection
+	 * @return array
+	 */
 	protected function get_items(\blitze\sitemaker\model\base_collection $collection)
 	{
 		$items = array();
