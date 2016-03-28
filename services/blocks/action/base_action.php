@@ -119,7 +119,7 @@ abstract class base_action implements action_interface
 				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->user->lang('BLOCK_NO_DATA'),
 			));
 		}
-		
+
 		return array();
 	}
 

@@ -8,6 +8,7 @@
  */
 
 namespace blitze\sitemaker\blocks;
+
 use blitze\sitemaker\services\blocks\driver\block;
 
 /**

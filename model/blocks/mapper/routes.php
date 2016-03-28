@@ -33,7 +33,7 @@ class routes extends base_mapper
 		if ($entity)
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
-			
+
 			/** @type \blitze\sitemaker\model\blocks\collections\blocks $collection */
 			$collection = $block_mapper->find(array(
 				array('style', '=', $entity->get_style()),
@@ -56,7 +56,7 @@ class routes extends base_mapper
 		if ($condition instanceof $this->entity_class)
 		{
 			$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
-			
+
 			$block_mapper->delete(array(
 				array('style', '=', $condition->get_style()),
 				array('route_id', '=', $condition->get_route_id()),

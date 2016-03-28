@@ -101,7 +101,7 @@ class items extends base_mapper
 		{
 			$item = $this->tree->insert($sql_data);
 		}
-		
+
 		return $this->create_entity($item);
 	}
 

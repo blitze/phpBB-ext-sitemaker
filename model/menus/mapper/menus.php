@@ -30,7 +30,7 @@ class menus extends base_mapper
 		if ($entity)
 		{
 			$items_mapper = $this->mapper_factory->create('menus', 'items');
-			
+
 			/** @type \blitze\sitemaker\model\menus\collections\items $collection */
 			$collection = $items_mapper->find(array('%smenu_id', '=', $entity->get_menu_id()));
 			$entity->set_items($collection);

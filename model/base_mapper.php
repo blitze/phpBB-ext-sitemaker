@@ -54,8 +54,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function load(array $condition = array())
 	{
 		$sql_where = $this->get_sql_condition($condition);
@@ -71,8 +71,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function find(array $condition = array())
 	{
 		$sql_where = $this->get_sql_condition($condition);
@@ -89,8 +89,8 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function save(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$accessor = 'get_' . $this->entity_pkey;
@@ -107,19 +107,24 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function delete($condition)
 	{
-		if ($condition instanceof $this->entity_class) {
-			$accessor = 'get_' . $this->entity_pkey;
-			$criteria = array($this->entity_pkey, '=', $condition->$accessor());
-		}
-		else
+		if (!is_array($condition))
 		{
-			$criteria = $condition;
+			if ($condition instanceof $this->entity_class)
+			{
+				$accessor = 'get_' . $this->entity_pkey;
+				$condition = array($this->entity_pkey, '=', $condition->$accessor());
+			}
+			else
+			{
+				throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+			}
 		}
-		$sql_where = $this->get_sql_condition($criteria);
+
+		$sql_where = $this->get_sql_condition($condition);
 		$this->db->sql_query('DELETE FROM ' . $this->entity_table . (sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : ''));
 	}
 
