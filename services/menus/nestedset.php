@@ -26,7 +26,7 @@ class nestedset extends builder
 			$db,
 			$lock,
 			$table_name,
-			'MENU_',
+			'MENU_NESTEDSET_',
 			'',
 			array()
 		);
