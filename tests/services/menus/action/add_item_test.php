@@ -34,7 +34,7 @@ class add_item_test extends base_action
 			'item_id'	=> 7,
 		);
 
-		$this->assertSame($expected, array_intersect_key($result, $expected));
+		$this->assertEquals($expected, array_intersect_key($result, $expected));
 	}
 
 	/**

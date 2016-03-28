@@ -209,7 +209,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 				),
-				2,
+				null, // no update to db
 			),
 			array(
 				array(
@@ -291,6 +291,8 @@ class featured_member_test extends blocks_base
 	 */
 	public function test_block_display(array $bdata, $title, array $user_data, $current_user)
 	{
+		$bdata['bid'] = 1;
+
 		$block = $this->get_block();
 		$result = $block->display($bdata);
 

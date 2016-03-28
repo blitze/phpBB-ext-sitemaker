@@ -58,8 +58,8 @@ class items_test extends base_mapper
 		));
 		$result = $mapper->save($item);
 
-		$this->assertEquals(7, $result['left_id']);
-		$this->assertEquals(8, $result['right_id']);
+		$this->assertEquals(7, $result->get_left_id());
+		$this->assertEquals(8, $result->get_right_id());
 	}
 
 	/**

@@ -244,7 +244,7 @@ class featured_member extends block
 	 */
 	private function save_settings($bid, $change_user)
 	{
-		if ($change_user && ($this->settings['rotation'] !== 'pageload' || $this->settings['qtype'] === 'featured'))
+		if ($change_user && $this->settings['qtype'] === 'featured')
 		{
 			$settings = $this->settings;
 			unset($settings['hash']);
