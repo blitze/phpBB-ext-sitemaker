@@ -28,17 +28,20 @@ class save_blocks extends base_action
 		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		$entity = $this->force_get_route(array(
+		$route_entity = $this->force_get_route(array(
 			'route'	=> $route,
 			'style'	=> $style_id,
 		));
 
-		$this->save($entity, $blocks);
+		/** @type \blitze\sitemaker\model\blocks\entity\route */
+		$this->save($route_entity, $blocks);
 
 		return array('message' => $this->user->lang('LAYOUT_SAVED'));
 	}
 
 	/**
+	 * Save blocks for route
+	 *
 	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
 	 * @param array $blocks
 	 */
