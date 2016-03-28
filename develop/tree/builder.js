@@ -388,7 +388,7 @@
 		},
 
 		_getItemId: function(element) {
-			return parseInt(element.attr('id').substring(5));
+			return element.attr('id').substring(5);
 		},
 
 		_getOptions: function(list, padding, options) {
