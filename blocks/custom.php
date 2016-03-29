@@ -86,7 +86,7 @@ class custom extends block
 	/**
 	 * @param int $from_bid
 	 * @param int $to_bid
-	 * @see \blitze\sitemaker\services\blocks\action\copy_route
+	 * @see \blitze\sitemaker\services\blocks\action\copy_route::copy_custom_block
 	 */
 	public function copy($from_bid, $to_bid)
 	{

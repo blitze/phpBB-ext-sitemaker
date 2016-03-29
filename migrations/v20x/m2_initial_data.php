@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\migrations\v20x;
 
-use blitze\sitemaker\services\forum\admin;
-
 /**
  * Initial schema changes needed for Extension installation
  */

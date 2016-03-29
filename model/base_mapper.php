@@ -260,6 +260,6 @@ abstract class base_mapper implements mapper_interface
 	 */
 	protected function get_sql_where_boolean($field, $value, $operator)
 	{
-		return $this->get_sql_where_integer($field, $value, $operator);
+		return $this->get_sql_where_integer($field, (int) $value, $operator);
 	}
 }
