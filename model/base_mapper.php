@@ -200,18 +200,10 @@ abstract class base_mapper implements mapper_interface
 		{
 			list($field, $operator, $value) = $info;
 
-			switch (gettype($value))
+			$callable = 'get_sql_where_' . gettype($value);
+			if (is_callable(array($this, $callable)))
 			{
-				case 'array':
-					$sql_where[] = $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
-				break;
-				case 'string':
-					$sql_where[] = $field . " $operator '" . $this->db->sql_escape($value) . "'";
-				break;
-				case 'boolean':
-				case 'integer':
-					$sql_where[] = $field . " $operator " . (int) $value;
-				break;
+				$sql_where[] = call_user_func_array(array($this, $callable), array($field, $value, $operator));
 			}
 		}
 
@@ -225,5 +217,49 @@ abstract class base_mapper implements mapper_interface
 	protected function ensure_multi_array(array $condition)
 	{
 		return array_filter((is_array(current($condition))) ? $condition : array($condition));
+	}
+
+	/**
+	 * @param string $field
+	 * @param array $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_array($field, array $value, $operator)
+	{
+		return $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_string($field, $value, $operator)
+	{
+		return $field . " $operator '" . $this->db->sql_escape($value) . "'";
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_integer($field, $value, $operator)
+	{
+		return $field . " $operator " . (int) $value;
+	}
+
+	/**
+	 * @param string $field
+	 * @param bool $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_boolean($field, $value, $operator)
+	{
+		return $this->get_sql_where_integer($field, $value, $operator);
 	}
 }

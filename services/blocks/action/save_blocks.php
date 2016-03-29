@@ -33,7 +33,7 @@ class save_blocks extends base_action
 			'style'	=> $style_id,
 		));
 
-		/** @type \blitze\sitemaker\model\blocks\entity\route */
+		/** @type \blitze\sitemaker\model\blocks\entity\route $route_entity */
 		$this->save($route_entity, $blocks);
 
 		return array('message' => $this->user->lang('LAYOUT_SAVED'));
