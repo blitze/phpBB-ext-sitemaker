@@ -2,11 +2,9 @@ $toast-col-groups: (5);
 $toast-gutter-width: 5px;
 
 .menus-list {
-	margin: 0;
 	padding: 0;
 	list-style: none;
-	margin-top: 40px;
-	margin-right: -2px;
+	margin: 40px -2px 0 0;
 
 	li {
 		padding: 4px;

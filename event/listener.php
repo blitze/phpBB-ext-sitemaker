@@ -80,6 +80,9 @@ class listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getSubscribedEvents()
 	{
 		return array(
@@ -95,15 +98,11 @@ class listener implements EventSubscriberInterface
 		);
 	}
 
-	public function init_sitemaker($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function init_sitemaker(\phpbb\event\data $event)
 	{
-		// Define forum options
-		define('FORUMS_ORDER_FIRST_POST', 0);
-		define('FORUMS_ORDER_LAST_POST', 1);
-		define('FORUMS_ORDER_LAST_READ', 2);
-
-		define('JQUI_VERSION', '1.11.4');
-
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'blitze/sitemaker',
@@ -112,7 +111,10 @@ class listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	public function load_permission_language($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function load_permission_language(\phpbb\event\data $event)
 	{
 		$permissions = $event['permissions'];
 		$permissions['a_sm_manage_blocks']	= array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc');
@@ -121,37 +123,47 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * - Add "Forum" to navbar when we are not on the forum page (viewforum/viewtopic)
-	 * - Add "Forum" to the breadcrump when viewing forum page (viewforum/viewtopic)
+	 * If start page is set,
+	 * - Add "Forum" to navbar
+	 * - Add "Forum" to the breadcrump when viewing forum page (viewforum/viewtopic/posting)
 	 */
 	public function prepend_breadcrump()
 	{
-		$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
+		if ($this->config['sitemaker_startpage_controller'])
+		{
+			$u_viewforum = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
 
-		// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
-		if ($this->request->is_set('f'))
-		{
-			$this->template->alter_block_array('navlinks', array(
-				'FORUM_NAME'	=> $this->translator->lang('FORUM'),
-				'U_VIEW_FORUM'	=> $u_viewforum,
-			));
-		}
-		// Add "Forum" to navbar when not on forum pages
-		else if ($this->user->page['page'] !== 'app.' . $this->php_ext . '/forum')
-		{
+			// show 'Forum' menu item in navbar
 			$this->template->assign_vars(array(
 				'S_PT_SHOW_FORUM_NAV'	=> true,
 				'U_PT_VIEWFORUM'		=> $u_viewforum,
 			));
+
+			// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
+			if ($this->request->is_set('f'))
+			{
+				$this->template->alter_block_array('navlinks', array(
+					'FORUM_NAME'	=> $this->user->lang('FORUM'),
+					'U_VIEW_FORUM'	=> $u_viewforum,
+				));
+			}
 		}
 	}
 
+	/**
+	 * Queries for forum data are cached unless a post is created/edited
+	 * The defined constant is used as an indicator of this change so a new request is made instead
+	 * @see \blitze\sitemaker\services\forum\data
+	 */
 	public function clear_cached_queries()
 	{
 		define('SITEMAKER_FORUM_CHANGED', true);
 		$this->cache->destroy('sql', array(FORUMS_TABLE, TOPICS_TABLE, POSTS_TABLE, USERS_TABLE));
 	}
 
+	/**
+	 * Show sitemaker blocks on front page
+	 */
 	public function show_sitemaker()
 	{
 		$this->blocks->show();
@@ -164,6 +176,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Hide login/whois/birthday on index_body.html
+		// @TODO move this to the login block so we only hide if there is a block that replaces it
 		$this->template->assign_vars(array(
 			'S_USER_LOGGED_IN'			=> true,
 			'S_DISPLAY_ONLINE_LIST'		=> false,
@@ -171,44 +184,45 @@ class listener implements EventSubscriberInterface
 		));
 	}
 
+	/**
+	 * Send assets to template
+	 */
 	public function set_assets()
 	{
 		$this->sitemaker->set_assets();
 	}
 
-	public function set_startpage($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function set_startpage(\phpbb\event\data $event)
 	{
-		$controller_service = $this->config['sitemaker_startpage_controller'];
-
-		if ($this->_can_set_startpage($controller_service))
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->startpage && ($controller_object = $this->get_startpage_controller()) !== false)
 		{
-			$controller_object = $this->phpbb_container->get($controller_service);
 			$method = $this->config['sitemaker_startpage_method'];
+			$this->startpage = true;
 
-			// fail silently if startpage is not callable
-			if (is_callable(array($controller_object, $method)))
-			{
-				$controller_dir = explode('\\', get_class($controller_object));
-				define('STARTPAGE_IS_SET', 1);
+			$controller_dir = explode('\\', get_class($controller_object));
+			$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
+			$this->template->set_style(array($controller_style_dir, 'styles'));
 
-				$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
-				$this->template->set_style(array($controller_style_dir, 'styles'));
+			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
 
-				$arguments = explode('/', $this->config['sitemaker_startpage_params']);
-				$this->startpage = true;
+			/** @type \Symfony\Component\HttpFoundation\Response $response */
+			$response = call_user_func_array(array($controller_object, $method), $arguments);
+			$response->send();
 
-				$response = call_user_func_array(array($controller_object, $method), $arguments);
-				$response->send();
-
-				$this->exit_handler();
-			}
+			$this->exit_handler();
 		}
 
 		// Do not show forums marked as hidden
 		$event['sql_ary'] = $this->_hide_hidden_forums($event['sql_ary']);
 	}
 
-	public function add_viewonline_location($event)
+	/**
+	 * @param \phpbb\event\data $event
+	 */
+	public function add_viewonline_location(\phpbb\event\data $event)
 	{
 		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
@@ -225,12 +239,39 @@ class listener implements EventSubscriberInterface
 		exit_handler();
 	}
 
-	protected function _can_set_startpage($controller_service)
+	/**
+	 * @return object|false
+	 */
+	protected function get_startpage_controller()
 	{
-		return ($this->user->page['page_name'] == 'index.' . $this->php_ext && $this->phpbb_container->has($controller_service) && !defined('STARTPAGE_IS_SET')) ? true : false;
+		$controller_service_name = $this->config['sitemaker_startpage_controller'];
+		if ($this->phpbb_container->has($controller_service_name))
+		{
+			$controller_object = $this->phpbb_container->get($controller_service_name);
+			$method = $this->config['sitemaker_startpage_method'];
+
+			if (is_callable(array($controller_object, $method)))
+			{
+				return $controller_object;
+			}
+		}
+
+		// we have a startpage controller but it does not exist or it is not callable so remove it
+		if ($controller_service_name)
+		{
+			$this->config->set('sitemaker_startpage_controller', '');
+			$this->config->set('sitemaker_startpage_method', '');
+			$this->config->set('sitemaker_startpage_params', '');
+		}
+
+		return false;
 	}
 
-	protected function _hide_hidden_forums($sql_ary)
+	/**
+	 * @param array $sql_ary
+	 * @return array
+	 */
+	protected function _hide_hidden_forums(array $sql_ary)
 	{
 		$sql_ary['WHERE'] .= ($sql_ary['WHERE']) ? ' AND ' : '';
 		$sql_ary['WHERE'] .= 'f.hidden_forum <> 1';

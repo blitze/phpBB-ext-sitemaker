@@ -15,6 +15,7 @@ require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/baz_block.p
 class base_action extends \phpbb_database_test_case
 {
 	protected $config;
+	protected $db;
 	protected $mapper_factory;
 
 	/**
@@ -39,8 +40,12 @@ class base_action extends \phpbb_database_test_case
 
 	/**
 	 * Create the block command
+	 *
+	 * @param string $action
+	 * @param array $variable_map
+	 * @return \blitze\sitemaker\services\blocks\action\action_interface
 	 */
-	protected function get_command($action, $variable_map)
+	protected function get_command($action, array $variable_map)
 	{
 		global $db, $request, $template, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
@@ -52,8 +57,9 @@ class base_action extends \phpbb_database_test_case
 			)
 		);
 
-		$db = $this->new_dbal();
+		$this->db = $db = $this->new_dbal();
 
+		$cache = new \phpbb_mock_cache();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$this->config = new \phpbb\config\config(array());
@@ -116,6 +122,8 @@ class base_action extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, 'phpbb_sm_cblocks');
+
 		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $translator, $groups, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
@@ -128,6 +136,7 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('custom.block.service', $dummy_object);
+		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);

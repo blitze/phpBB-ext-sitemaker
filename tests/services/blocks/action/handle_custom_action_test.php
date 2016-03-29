@@ -38,8 +38,10 @@ class handle_custom_action_test extends base_action
 	 * Test handle_custom_action
 	 *
 	 * @dataProvider custom_action_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_handle_custom_action($variable_map, $expected)
+	public function test_handle_custom_action(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('handle_custom_action', $variable_map);
 

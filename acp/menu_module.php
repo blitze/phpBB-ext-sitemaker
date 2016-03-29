@@ -16,6 +16,9 @@ use blitze\sitemaker\services\menus\nestedset;
 */
 class menu_module
 {
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
+
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -46,6 +49,9 @@ class menu_module
 	/** @var string */
 	public $u_action;
 
+	/**
+	 * menu_module constructor.
+	 */
 	public function __construct()
 	{
 		global $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
@@ -55,11 +61,15 @@ class menu_module
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
+		$this->controller_helper = $phpbb_container->get('controller.helper');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
+	/**
+	 *
+	 */
 	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
@@ -102,7 +112,7 @@ class menu_module
 			'ICON_PICKER'	=> $this->icon->picker(),
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_MENU_ID'	=> $menu_id,
-			'UA_AJAX_URL'   => "{$this->phpbb_root_path}app.{$this->php_ext}/menu/admin/",
+			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
 		));
 
 		$this->tpl_name = 'acp_menu';

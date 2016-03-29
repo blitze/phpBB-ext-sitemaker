@@ -88,6 +88,8 @@ class action_handler_test extends \phpbb_test_case
 	 * Test create action
 	 *
 	 * @dataProvider create_action_test_data
+	 * @param string $action
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
 	 */
 	public function test_create_action($action)
 	{

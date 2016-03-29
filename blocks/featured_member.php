@@ -91,8 +91,8 @@ class featured_member extends block
 	 */
 	public function get_config(array $settings)
 	{
-		$rotation_options = $this->_get_rotation_frequencies();
-		$qtype_options = $this->_get_query_types();
+		$rotation_options = $this->get_rotation_frequencies();
+		$qtype_options = $this->get_query_types();
 		$cpf_options = $this->profilefields->get_all_fields();
 
 		return array(
@@ -113,12 +113,12 @@ class featured_member extends block
 	 */
 	public function display(array $bdata, $edit_mode = false, $loop_count = 0)
 	{
-		$this->settings = $this->_get_settings($bdata);
+		$this->settings = $this->get_settings($bdata);
 
-		$change_user = $this->_change_user();
-		$block_title = $this->_get_block_title($this->settings['qtype']);
+		$change_user = $this->change_user();
+		$block_title = $this->get_block_title($this->settings['qtype']);
 
-		if (($row = $this->_get_user_data($change_user)) === false)
+		if (($row = $this->get_user_data($change_user)) === false)
 		{
 			userlist::update($this->settings);
 
@@ -135,7 +135,7 @@ class featured_member extends block
 
 		return array(
 			'title'		=> $block_title,
-			'content'	=> $this->_display_user($bdata['bid'], $row, $change_user),
+			'content'	=> $this->display_user($bdata['bid'], $row, $change_user),
 		);
 	}
 
@@ -143,13 +143,13 @@ class featured_member extends block
 	 * @param bool $change_user
 	 * @return array|false
 	 */
-	private function _get_user_data($change_user)
+	private function get_user_data($change_user)
 	{
 		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
 
-		$method = '_query_' . $this->settings['qtype'];
+		$method = 'query_' . $this->settings['qtype'];
 
 		if (is_callable(array($this, $method)))
 		{
@@ -160,7 +160,7 @@ class featured_member extends block
 			return array();
 		}
 
-		$result = $this->db->sql_query_limit($sql, 1, 0, $this->_get_cache_time($this->settings['qtype'], $this->settings['rotation']));
+		$result = $this->db->sql_query_limit($sql, 1, 0, $this->get_cache_time($this->settings['qtype'], $this->settings['rotation']));
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
@@ -171,7 +171,7 @@ class featured_member extends block
 	 * @param string $sql
 	 * @param bool $change_user
 	 */
-	private function _query_featured(&$sql, $change_user)
+	private function query_featured(&$sql, $change_user)
 	{
 		$sql .= ' AND user_id = ' . userlist::get_user_id($this->settings, $change_user);
 	}
@@ -179,7 +179,7 @@ class featured_member extends block
 	/**
 	 * @param string $sql
 	 */
-	private function _query_recent(&$sql)
+	private function query_recent(&$sql)
 	{
 		$sql .= ' AND user_posts > 0 ORDER BY user_regdate DESC';
 	}
@@ -187,7 +187,7 @@ class featured_member extends block
 	/**
 	 * @param string $sql
 	 */
-	private function _query_posts(&$sql)
+	private function query_posts(&$sql)
 	{
 		$sql .= ' AND user_posts > 0 ORDER BY user_posts DESC';
 	}
@@ -197,7 +197,7 @@ class featured_member extends block
 	 * @param string $rotation
 	 * @return int
 	 */
-	private function _get_cache_time($query_type, $rotation)
+	private function get_cache_time($query_type, $rotation)
 	{
 		return ($rotation !== 'pageload' || in_array($query_type, array('posts', 'recent'))) ? $this->cache_time : 0;
 	}
@@ -205,7 +205,7 @@ class featured_member extends block
 	/**
 	 * @return bool
 	 */
-	private function _change_user()
+	private function change_user()
 	{
 		$change = false;
 		if ($this->settings['rotation'] == 'pageload' || $this->settings['last_changed'] < strtotime('-1 ' . self::$rotations[$this->settings['rotation']]))
@@ -219,7 +219,7 @@ class featured_member extends block
 
 	/**
 	 */
-	private function _explain_view()
+	private function explain_view()
 	{
 		$query_type = $this->settings['qtype'];
 		$rotation = $this->settings['rotation'];
@@ -234,7 +234,7 @@ class featured_member extends block
 	 * @param array $bdata
 	 * @return array
 	 */
-	private function _get_settings(array $bdata)
+	private function get_settings(array $bdata)
 	{
 		$cached_settings = $this->cache->get('pt_block_data_' . $bdata['bid']);
 		$settings = ($cached_settings && $cached_settings['hash'] === $bdata['hash']) ? $cached_settings : $bdata['settings'];
@@ -247,14 +247,14 @@ class featured_member extends block
 	 * @param int $bid
 	 * @param bool $change_user
 	 */
-	private function _save_settings($bid, $change_user)
+	private function save_settings($bid, $change_user)
 	{
-		if ($change_user && ($this->settings['rotation'] !== 'pageload' || $this->settings['qtype'] === 'featured'))
+		if ($change_user && $this->settings['qtype'] === 'featured')
 		{
 			$settings = $this->settings;
 			unset($settings['hash']);
 			$sql_data = array(
-				'settings'	=> serialize($settings)
+				'settings'	=> json_encode($settings)
 			);
 			$this->db->sql_query('UPDATE ' . $this->blocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE bid = ' . (int) $bid);
 			$this->cache->put('pt_block_data_' . $bid, $this->settings);
@@ -262,20 +262,21 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param int $block_id
+	 * @param int   $block_id
 	 * @param array $row
-	 * @param bool $change_user
+	 * @param bool  $change_user
+	 * @return string
 	 */
-	private function _display_user($block_id, array $row, $change_user)
+	private function display_user($block_id, array $row, $change_user)
 	{
-		$this->_save_settings($block_id, $change_user);
+		$this->save_settings($block_id, $change_user);
 
 		$html = '';
 		if (sizeof($row))
 		{
-			$this->_explain_view();
+			$this->explain_view();
 
-			$tpl_data = $this->_get_template_data($row);
+			$tpl_data = $this->get_template_data($row);
 			$this->ptemplate->assign_vars($tpl_data['row']);
 			$this->ptemplate->assign_block_vars_array('custom_fields', $tpl_data['blockrow']);
 			unset($tpl_data);
@@ -290,7 +291,7 @@ class featured_member extends block
 	 * @param array $row
 	 * @return array
 	 */
-	private function _get_template_data(array $row)
+	private function get_template_data(array $row)
 	{
 		$date_format = $this->user->date_format;
 		$username = get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']);
@@ -301,10 +302,10 @@ class featured_member extends block
 		$tpl_data['row'] = array_merge($tpl_data['row'], array(
 			'USERNAME'			=> $username,
 			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-			'POSTS_PCT'			=> sprintf($this->translator->lang('POST_PCT'), $this->_calculate_percent_posts($row['user_posts'])),
+			'POSTS_PCT'			=> sprintf($this->translator->lang('POST_PCT'), $this->calculate_percent_posts($row['user_posts'])),
 			'L_VIEW_PROFILE'	=> sprintf($this->translator->lang('VIEW_USER_PROFILE'), $username),
 			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
-			'VISITED'			=> $this->_get_last_visit_date($row['user_lastvisit'], $date_format),
+			'VISITED'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
 			'POSTS'				=> $row['user_posts'],
 			'RANK_TITLE'		=> $rank['title'],
 			'RANK_IMG'			=> $rank['img'],
@@ -319,7 +320,7 @@ class featured_member extends block
 	 * @param int $user_posts
 	 * @return int|mixed
 	 */
-	private function _calculate_percent_posts($user_posts)
+	private function calculate_percent_posts($user_posts)
 	{
 		return ($this->config['num_posts']) ? min(100, ($user_posts / $this->config['num_posts']) * 100) : 0;
 	}
@@ -329,7 +330,7 @@ class featured_member extends block
 	 * @param string $date_format
 	 * @return string
 	 */
-	private function _get_last_visit_date($last_visited, $date_format)
+	private function get_last_visit_date($last_visited, $date_format)
 	{
 		return ($last_visited) ? $this->user->format_date($last_visited, "|$date_format|") : '';
 	}
@@ -338,16 +339,16 @@ class featured_member extends block
 	 * @param string $qtype
 	 * @return string
 	 */
-	private function _get_block_title($qtype)
+	private function get_block_title($qtype)
 	{
-		$qtypes = $this->_get_query_types();
+		$qtypes = $this->get_query_types();
 		return isset($qtypes[$qtype]) ? $qtypes[$qtype] : 'FEATURED_MEMBER';
 	}
 
 	/**
 	 * @return array
 	 */
-	private function _get_rotation_frequencies()
+	private function get_rotation_frequencies()
 	{
 		return array(
 			'pageload'	=> 'ROTATE_PAGELOAD',
@@ -361,7 +362,7 @@ class featured_member extends block
 	/**
 	 * @return array
 	 */
-	private function _get_query_types()
+	private function get_query_types()
 	{
 		return array(
 			'recent'	=> 'RECENT_MEMBER',

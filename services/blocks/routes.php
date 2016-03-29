@@ -47,7 +47,7 @@ class routes
 	 */
 	public function get_route_info($current_route, $style_id, $edit_mode = false)
 	{
-		$all_routes = $this->_get_all_routes();
+		$all_routes = $this->get_all_routes();
 
 		if (isset($all_routes[$style_id][$current_route]))
 		{
@@ -55,7 +55,7 @@ class routes
 		}
 		else
 		{
-			return $this->_get_default_route_info($all_routes, $current_route, $style_id, $edit_mode);
+			return $this->get_default_route_info($all_routes, $current_route, $style_id, $edit_mode);
 		}
 	}
 
@@ -67,8 +67,8 @@ class routes
 	 */
 	public function get_blocks_for_route(array $route_info, $style_id, $edit_mode)
 	{
-		$blocks = $this->_get_cached_blocks($edit_mode);
-		$route_id = $this->_get_display_route_id($route_info, $style_id, $edit_mode);
+		$blocks = $this->get_cached_blocks($edit_mode);
+		$route_id = $this->get_display_route_id($route_info, $style_id, $edit_mode);
 
 		return (isset($blocks[$style_id][$route_id]) && !$route_info['hide_blocks']) ? $blocks[$style_id][$route_id] : array();
 	}
@@ -106,12 +106,12 @@ class routes
 	 * @param bool $edit_mode
 	 * @return array
 	 */
-	protected function _get_cached_blocks($edit_mode)
+	protected function get_cached_blocks($edit_mode)
 	{
 		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
 		{
-			$blocks = $this->_get_all_blocks();
-			$this->_cache_block($blocks, $edit_mode);
+			$blocks = $this->get_all_blocks();
+			$this->cache_block($blocks, $edit_mode);
 		}
 
 		return $blocks;
@@ -120,7 +120,7 @@ class routes
 	/**
 	 * @return array
 	 */
-	protected function _get_all_blocks()
+	protected function get_all_blocks()
 	{
 		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 		$collection = $block_mapper->find();
@@ -128,7 +128,7 @@ class routes
 		$blocks = array();
 		foreach ($collection as $entity)
 		{
-			if ($block_instance = $this->block_factory->get_block($entity->get_name()))
+			if (($block_instance = $this->block_factory->get_block($entity->get_name())) !== null)
 			{
 				$default_settings = $block_instance->get_config(array());
 				$settings = $this->sync_settings($default_settings, $entity->get_settings());
@@ -149,7 +149,7 @@ class routes
 	/**
 	 * @return array|mixed
 	 */
-	protected function _get_all_routes()
+	protected function get_all_routes()
 	{
 		if (($all_routes = $this->cache->get('sitemaker_block_routes')) === false)
 		{
@@ -177,7 +177,7 @@ class routes
 	 * @param bool $edit_mode
 	 * @return array
 	 */
-	protected function _get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode)
+	protected function get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode)
 	{
 		$default_route = $this->config['sitemaker_default_layout'];
 		$default_info = array(
@@ -198,7 +198,7 @@ class routes
 	 * @param bool $edit_mode
 	 * @return int
 	 */
-	protected function _get_display_route_id(array $route_info, $style_id, $edit_mode)
+	protected function get_display_route_id(array $route_info, $style_id, $edit_mode)
 	{
 		$route_id = $route_info['route_id'];
 		if ($edit_mode === false && !$route_info['has_blocks'])
@@ -214,7 +214,7 @@ class routes
 	 * @param array $blocks
 	 * @param bool $edit_mode
 	 */
-	protected function _cache_block(array $blocks, $edit_mode)
+	protected function cache_block(array $blocks, $edit_mode)
 	{
 		if (!$edit_mode)
 		{

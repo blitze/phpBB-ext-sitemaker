@@ -15,6 +15,7 @@ class util_test extends \phpbb_test_case
 {
 	/** @var array */
 	protected $tpl_data;
+	protected $util;
 
 	/**
 	 * Define the extension to be tested.
@@ -77,50 +78,6 @@ class util_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test the add_assets method
-	 *
-	 * @dataProvider add_assets_test_data
-	 */
-	public function test_add_assets($current_scripts, $add_scripts, $expected)
-	{
-		$reflection = new \ReflectionClass($this->util);
-		$reflection_property = $reflection->getProperty('scripts');
-		$reflection_property->setAccessible(true);
-		$reflection_property->setValue($this->util, $current_scripts);
-
-		$this->util->add_assets($add_scripts);
-
-		$this->assertSame($reflection_property->getValue($this->util), $expected);
-	}
-
-	/**
-	 * Test the set_assets method
-	 *
-	 * @dataProvider set_assets_test_data
-	 */
-	public function test_set_assets($scripts, $expected)
-	{
-		$reflection = new \ReflectionClass($this->util);
-		$reflection_property = $reflection->getProperty('scripts');
-		$reflection_property->setAccessible(true);
-		$reflection_property->setValue($this->util, $scripts);
-
-		$this->tpl_data = array();
-		$this->util->set_assets();
-
-		$this->assertSame($this->tpl_data, $expected);
-	}
-
-	/**
-	 * Test the get_form_key method
-	 */
-	public function test_get_form_key()
-	{
-		$form_key = $this->util->get_form_key('test_form');
-		$this->assertEquals($form_key, '12345');
-	}
-
-	/**
 	 * Data set for test_add_assets
 	 *
 	 * @return array
@@ -153,6 +110,26 @@ class util_test extends \phpbb_test_case
 				),
 			),
 		);
+	}
+
+	/**
+	 * Test the add_assets method
+	 *
+	 * @dataProvider add_assets_test_data
+	 * @param array $current_scripts
+	 * @param array $add_scripts
+	 * @param array $expected
+	 */
+	public function test_add_assets(array $current_scripts, array $add_scripts, array $expected)
+	{
+		$reflection = new \ReflectionClass($this->util);
+		$reflection_property = $reflection->getProperty('scripts');
+		$reflection_property->setAccessible(true);
+		$reflection_property->setValue($this->util, $current_scripts);
+
+		$this->util->add_assets($add_scripts);
+
+		$this->assertSame($reflection_property->getValue($this->util), $expected);
 	}
 
 	/**
@@ -190,5 +167,34 @@ class util_test extends \phpbb_test_case
 				),
 			),
 		);
+	}
+
+	/**
+	 * Test the set_assets method
+	 *
+	 * @dataProvider set_assets_test_data
+	 * @param array $scripts
+	 * @param array $expected
+	 */
+	public function test_set_assets(array $scripts, array $expected)
+	{
+		$reflection = new \ReflectionClass($this->util);
+		$reflection_property = $reflection->getProperty('scripts');
+		$reflection_property->setAccessible(true);
+		$reflection_property->setValue($this->util, $scripts);
+
+		$this->tpl_data = array();
+		$this->util->set_assets();
+
+		$this->assertSame($this->tpl_data, $expected);
+	}
+
+	/**
+	 * Test the get_form_key method
+	 */
+	public function test_get_form_key()
+	{
+		$form_key = $this->util->get_form_key('test_form');
+		$this->assertEquals($form_key, '12345');
 	}
 }

@@ -13,6 +13,8 @@ use blitze\sitemaker\services\forum\options;
 
 class options_test extends \phpbb_database_test_case
 {
+	protected $forum_options;
+
 	/**
 	 * Define the extension to be tested.
 	 *

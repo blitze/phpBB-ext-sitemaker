@@ -11,6 +11,9 @@ namespace blitze\sitemaker\acp;
 
 class menu_info
 {
+	/**
+	 * @return array
+	 */
 	public function module()
 	{
 		return array(

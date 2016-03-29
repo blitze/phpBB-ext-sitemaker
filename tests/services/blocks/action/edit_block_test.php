@@ -69,8 +69,11 @@ class edit_block_test extends base_action
 	 * Test edit block
 	 *
 	 * @dataProvider edit_block_test_data
+	 * @param $bid
+	 * @param array $expected_block
+	 * @param array|null $expected_form
 	 */
-	public function test_edit_block($bid, $expected_block, $expected_form)
+	public function test_edit_block($bid, array $expected_block, $expected_form)
 	{
 		$variable_map = array(
 			array('id', 0, false, request_interface::REQUEST, $bid),

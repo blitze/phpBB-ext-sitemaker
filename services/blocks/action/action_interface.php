@@ -13,6 +13,9 @@ interface action_interface
 {
 	/**
 	 * Execute the action
+	 *
+	 * @param int $style_id
+	 * @return array
 	 */
 	public function execute($style_id);
 }

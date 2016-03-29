@@ -43,8 +43,10 @@ class load_permission_language_test extends listener_base
 	 * Test the load_permission_language event
 	 *
 	 * @dataProvider load_permission_language_test_data
+	 * @param array $permisions_data
+	 * @param array $expected_permissions
 	 */
-	public function test_load_permission_language($permisions_data, $expected_permissions)
+	public function test_load_permission_language(array $permisions_data, array $expected_permissions)
 	{
 		$data = new \phpbb\event\data(array(
 			'permissions'	=> $permisions_data,

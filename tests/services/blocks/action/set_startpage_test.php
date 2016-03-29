@@ -30,7 +30,7 @@ class set_startpage_test extends base_action
 
 		$command = $this->get_command('set_startpage', $variable_map);
 
-		$result = $command->execute(1);
+		$command->execute(1);
 
 		$this->assertEquals($controller, $this->config['sitemaker_startpage_controller']);
 		$this->assertEquals($method, $this->config['sitemaker_startpage_method']);

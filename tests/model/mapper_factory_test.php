@@ -42,6 +42,9 @@ class mapper_factory_test extends \phpbb_test_case
 	 * Test mapper factory
 	 *
 	 * @dataProvider create_mapper_test_data
+	 * @param string $mapper
+	 * @param string $type
+	 * @param string $expected_class
 	 */
 	public function test_create_mapper($mapper, $type, $expected_class)
 	{

@@ -15,6 +15,8 @@ use blitze\sitemaker\blocks\attachments;
 
 class attachments_test extends blocks_base
 {
+	protected $ptemplate;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -54,7 +56,6 @@ class attachments_test extends blocks_base
 		$auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
-				$ids = array();
 				if ($acl == '!f_read' && $test)
 				{
 					$ids = array(5 => 5);
@@ -88,6 +89,7 @@ class attachments_test extends blocks_base
 				),
 			));
 
+		// global
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
@@ -99,12 +101,12 @@ class attachments_test extends blocks_base
 			}));
 		$template->expects($this->any())
 			->method('destroy_block_vars')
-			->will($this->returnCallback(function($block) use (&$temp_data) {
+			->will($this->returnCallback(function() use (&$temp_data) {
 				$temp_data = array();
 			}));
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function($block) use (&$temp_data) {
+			->will($this->returnCallback(function() use (&$temp_data) {
 				return $temp_data;
 			}));
 
@@ -395,8 +397,10 @@ class attachments_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $expected)
+	public function test_block_display(array $bdata, $expected)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata);

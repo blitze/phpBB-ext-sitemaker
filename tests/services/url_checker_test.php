@@ -44,6 +44,9 @@ class url_checker_test extends \phpbb_test_case
 	 * Test the exits method
 	 *
 	 * @dataProvider exits_test_data
+	 * @param string $url
+	 * @param bool $curl
+	 * @param bool $expected
 	 */
 	public function test_exits($url, $curl, $expected)
 	{

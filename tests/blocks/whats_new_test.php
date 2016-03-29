@@ -27,6 +27,7 @@ class whats_new_test extends blocks_base
 	/**
 	 * Create the mybookmarks block
 	 *
+	 * @param array $user_data
 	 * @return \blitze\sitemaker\blocks\whats_new
 	 */
 	protected function get_block($user_data = array())
@@ -165,8 +166,11 @@ class whats_new_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param array $user_data
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $user_data, $expected)
+	public function test_block_display(array $bdata, array $user_data, $expected)
 	{
 		$block = $this->get_block($user_data);
 		$result = $block->display($bdata);

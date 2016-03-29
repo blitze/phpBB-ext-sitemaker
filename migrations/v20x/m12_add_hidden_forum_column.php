@@ -51,23 +51,4 @@ class m12_add_hidden_forum_column extends \phpbb\db\migration\migration
 			),
 		);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function update_data()
-	{
-		return array(
-			array('custom', array(array($this, 'set_hidden_forums'))),
-		);
-	}
-
-	public function set_hidden_forums()
-	{
-		$data = array(
-			'hidden_forum' => 1,
-		);
-		$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE forum_id = ' . (int) $this->config['sitemaker_parent_forum_id'];
-		$this->db->sql_query($sql);
-	}
 }

@@ -20,6 +20,9 @@ class save_blocks extends base_action
 	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
 	protected $route_mapper;
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function execute($style_id)
 	{
 		$route = $this->request->variable('route', '');
@@ -28,30 +31,43 @@ class save_blocks extends base_action
 		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
 		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
 
-		$entity = $this->_force_get_route(array(
+		$route_entity = $this->force_get_route(array(
 			'route'	=> $route,
 			'style'	=> $style_id,
 		));
 
-		$this->_save_blocks($entity, $blocks);
+		/** @type \blitze\sitemaker\model\blocks\entity\route $route_entity */
+		$this->save($route_entity, $blocks);
 
 		return array('message' => $this->translator->lang('LAYOUT_SAVED'));
 	}
 
-	protected function _save_blocks($route_entity, array $blocks)
+	/**
+	 * Save blocks for route
+	 *
+	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 * @param array $blocks
+	 */
+	protected function save(\blitze\sitemaker\model\blocks\entity\route $entity, array $blocks)
 	{
 		// find all blocks for this route
-		$db_blocks = $this->_get_blocks($route_entity);
+		$db_blocks = $this->get_blocks($entity);
 
 		$blocks_to_delete = array_filter(array_diff_key($db_blocks, $blocks));
 		$blocks_to_update = array_filter(array_intersect_key($db_blocks, $blocks));
 
-		$this->_delete_blocks($blocks_to_delete);
-		$this->_update_blocks($blocks_to_update, $blocks);
-		$this->_update_route($blocks_to_update, $route_entity);
+		$this->delete_blocks($blocks_to_delete);
+		$this->update_blocks($blocks_to_update, $blocks);
+		$this->update_route($blocks_to_update, $entity);
 	}
 
-	protected function _get_blocks($entity)
+	/**
+	 * Get all blocks for route
+	 *
+	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 * @return array
+	 */
+	protected function get_blocks(\blitze\sitemaker\model\blocks\entity\route $entity)
 	{
 		$collection = $entity->get_blocks();
 
@@ -65,17 +81,26 @@ class save_blocks extends base_action
 		}
 	}
 
-	protected function _delete_blocks(array $blocks_to_delete)
+	/**
+	 * Delete specified blocks
+	 *
+	 * @param array $blocks_to_delete
+	 */
+	protected function delete_blocks(array $blocks_to_delete)
 	{
 		if (sizeof($blocks_to_delete))
 		{
-			$this->block_mapper->delete(array(
-				'bid'	=> array_keys($blocks_to_delete)
-			));
+			$this->block_mapper->delete(array('bid', '=', array_keys($blocks_to_delete)));
 		}
 	}
 
-	protected function _update_blocks(array $blocks_to_update, array $data)
+	/**
+	 * Update block position and weight
+	 *
+	 * @param array $blocks_to_update
+	 * @param array $data
+	 */
+	protected function update_blocks(array $blocks_to_update, array $data)
 	{
 		foreach ($blocks_to_update as $entity)
 		{
@@ -87,18 +112,24 @@ class save_blocks extends base_action
 		}
 	}
 
-	protected function _update_route(array $blocks_to_update, $route_entity)
+	/**
+	 * Update route if it has blocks or route is customized, otherwise, delete the route
+	 *
+	 * @param array                                       $blocks_to_update
+	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 */
+	protected function update_route(array $blocks_to_update, \blitze\sitemaker\model\blocks\entity\route $entity)
 	{
 		$has_blocks = (sizeof($blocks_to_update)) ? true : false;
 
-		if (!$has_blocks && !$this->_route_is_customized($route_entity->to_array()))
+		if (!$has_blocks && !$this->route_is_customized($entity->to_array()))
 		{
-			$this->route_mapper->delete($route_entity);
+			$this->route_mapper->delete($entity);
 		}
 		else
 		{
-			$route_entity->set_has_blocks($has_blocks);
-			$this->route_mapper->save($route_entity);
+			$entity->set_has_blocks($has_blocks);
+			$this->route_mapper->save($entity);
 		}
 	}
 }

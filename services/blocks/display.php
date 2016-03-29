@@ -66,6 +66,9 @@ class display
 		$this->user = $user;
 	}
 
+	/**
+	 * Show blocks
+	 */
 	public function show()
 	{
 		$this->phpbb_container->get('blitze.sitemaker.util')->add_assets(array(
@@ -77,10 +80,10 @@ class display
 		if ($this->page_can_have_blocks())
 		{
 			$edit_mode = $this->toggle_edit_mode();
-			$display_mode = $this->get_display_modes();
-			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_mode);
+			$display_modes = $this->get_display_modes();
+			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);
 
-			$this->show_blocks($edit_mode, $display_mode);
+			$this->show_blocks($edit_mode, $display_modes);
 
 			$this->template->assign_vars(array(
 				'S_SITEMAKER'		=> true,
@@ -89,12 +92,19 @@ class display
 		}
 	}
 
+	/**
+	 * Set current route
+	 */
 	public function set_route()
 	{
 		$this->route = $this->user->page['page_name'];
 		$this->is_subpage = ($this->user->page['query_string']) ? true : false;
 	}
 
+	/**
+	 * Get style id
+	 * @return int
+	 */
 	public function get_style_id()
 	{
 		if ($this->request->is_set('style'))
@@ -107,12 +117,19 @@ class display
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function page_can_have_blocks()
 	{
 		$offlimits = array('ucp.php', 'mcp.php', 'memberlist.php');
 		return ($this->user->page['page_dir'] == 'adm' || in_array($this->user->page['page_name'], $offlimits)) ? false : true;
 	}
 
+	/**
+	 * @param bool  $edit_mode
+	 * @param array $route_info
+	 */
 	protected function show_admin_bar($edit_mode, array $route_info)
 	{
 		if ($edit_mode)
@@ -121,6 +138,9 @@ class display
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function toggle_edit_mode()
 	{
 		$edit_mode = $this->request->variable($this->config['cookie_name'] . '_sm_edit_mode', false, false, \phpbb\request\request_interface::COOKIE);
@@ -134,6 +154,9 @@ class display
 		return $edit_mode;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_display_modes()
 	{
 		$this->set_route();
@@ -158,6 +181,11 @@ class display
 		return $modes;
 	}
 
+	/**
+	 * @param bool  $edit_mode
+	 * @param array $modes
+	 * @return string
+	 */
 	protected function get_edit_mode_url(&$edit_mode, array &$modes)
 	{
 		$u_edit_mode = '';
@@ -182,7 +210,11 @@ class display
 		return $u_edit_mode;
 	}
 
-	protected function show_blocks($edit_mode, $display_mode)
+	/**
+	 * @param bool  $edit_mode
+	 * @param array $display_modes
+	 */
+	protected function show_blocks($edit_mode, array $display_modes)
 	{
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 
@@ -191,6 +223,6 @@ class display
 
 		$this->show_admin_bar($edit_mode, $route_info);
 
-		$blocks->display($edit_mode, $route_info, $style_id, $display_mode);
+		$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
 	}
 }

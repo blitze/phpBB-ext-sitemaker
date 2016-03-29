@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-use blitze\sitemaker\services\blocks\routes;
-
 class blocks extends routes
 {
 	/** @var \phpbb\config\config */
@@ -55,7 +53,7 @@ class blocks extends routes
 	 * @param bool $edit_mode
 	 * @param array $route_info
 	 * @param int $style_id
-	 * @param $display_modes
+	 * @param array $display_modes
 	 */
 	public function display($edit_mode, array $route_info, $style_id, array $display_modes)
 	{

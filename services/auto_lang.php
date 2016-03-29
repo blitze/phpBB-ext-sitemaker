@@ -30,7 +30,7 @@ class auto_lang
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config				$config				Config object
-	 * @param ContainerInterface				$ext_manager		Extension manager object
+	 * @param \phpbb\extension\manager			$ext_manager		Extension manager object
 	 * @param \phpbb\language\language			$translator			Language object
 	 * @param \phpbb\user						$user				User object
 	 * @param string							$php_ext			phpEx
@@ -48,6 +48,7 @@ class auto_lang
 	 * Auto add the specified language file from across all extensions
 	 *
 	 * This is a modified copy of the add_mod_info in functions_module.php
+	 * @param string $lang_file
 	 */
 	public function add($lang_file)
 	{

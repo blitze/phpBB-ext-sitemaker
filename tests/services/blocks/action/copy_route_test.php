@@ -43,7 +43,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -70,7 +70,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -84,7 +84,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -110,7 +110,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -124,7 +124,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -153,7 +153,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -164,7 +164,7 @@ class copy_route_test extends base_action
 							'position'	=> 'subcontent',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -186,8 +186,14 @@ class copy_route_test extends base_action
 	 * Test copy_route
 	 *
 	 * @dataProvider copy_route_test_data
+	 * @param string $current_route
+	 * @param string $ext_name
+	 * @param string $from_route
+	 * @param int $from_style
+	 * @param array $expected_route_data
+	 * @param array $expected_return_data
 	 */
-	public function test_copy_route($current_route, $ext_name, $from_route, $from_style, $expected_route_data, $expected_return_data)
+	public function test_copy_route($current_route, $ext_name, $from_route, $from_style, array $expected_route_data, array $expected_return_data)
 	{
 		$style_id = 1;
 		$variable_map = array(
@@ -201,11 +207,11 @@ class copy_route_test extends base_action
 
 		$block_mapper = $this->mapper_factory->create('blocks', 'routes');
 
-		$orig_route = $block_mapper->load(array('route' => $current_route));
+		$orig_route = $block_mapper->load(array('route', '=', $current_route));
 
 		$result = $command->execute($style_id);
 
-		$new_route = $block_mapper->load(array('route' => $current_route));
+		$new_route = $block_mapper->load(array('route', '=', $current_route));
 		$new_block = $new_route->get_blocks()->current();
 
 		if ($orig_route)
@@ -236,5 +242,41 @@ class copy_route_test extends base_action
 		// returned data
 		$this->assertSame($expected_route_data, array_intersect_key($expected_route_data, $result['config']));
 		$this->assertSame($expected_return_data, $actual);
+	}
+
+	public function test_copy_route_with_custom_block()
+	{
+		$style_id = 1;
+		$variable_map = array(
+			array('route', '', false, request_interface::REQUEST, 'bar.php'),
+			array('from_route', '', false, request_interface::REQUEST, 'foo.php'),
+			array('from_style', $style_id, false, request_interface::REQUEST, $style_id),
+		);
+
+		$command = $this->get_command('copy_route', $variable_map);
+
+		$result = $command->execute($style_id);
+
+		$expected = array(
+			array(
+				'block_id' => 7,
+				'block_content' => 'some content',
+			),
+			array(
+				'block_id' => 8,
+				'block_content' => 'some content',
+			),
+		);
+
+		$result = $this->db->sql_query('SELECT block_id, block_content FROM phpbb_sm_cblocks');
+
+		$actual = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$actual[] = $row;
+		}
+		$this->db->sql_freeresult();
+
+		$this->assertEquals($expected, $actual);
 	}
 }

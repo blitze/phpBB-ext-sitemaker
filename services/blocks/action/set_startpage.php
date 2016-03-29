@@ -11,6 +11,9 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class set_startpage extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function execute($style_id)
 	{
 		$this->config->set('sitemaker_startpage_controller', $this->request->variable('controller', ''));

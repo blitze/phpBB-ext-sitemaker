@@ -16,6 +16,8 @@ use blitze\sitemaker\blocks\menu;
 
 class menu_test extends blocks_base
 {
+	protected $template;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -29,6 +31,7 @@ class menu_test extends blocks_base
 	/**
 	 * Create the menu block
 	 *
+	 * @param array $page_data
 	 * @return \blitze\sitemaker\blocks\menu
 	 */
 	protected function get_block($page_data = array())
@@ -73,7 +76,7 @@ class menu_test extends blocks_base
 			}));
 		$this->template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function($block) use (&$temp_data) {
+			->will($this->returnCallback(function() use (&$temp_data) {
 				return $temp_data;
 			}));
 
@@ -419,8 +422,13 @@ class menu_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $page_data
+	 * @param array $bdata
+	 * @param bool $editing
+	 * @param string $expected_list
+	 * @param array $expected_breadcrumb
 	 */
-	public function test_block_display($page_data, $bdata, $editing, $expected_list, $expected_breadcrumb)
+	public function test_block_display(array $page_data, array $bdata, $editing, $expected_list, $expected_breadcrumb)
 	{
 		$block = $this->get_block($page_data);
 		$result = $block->display($bdata, $editing);

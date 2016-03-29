@@ -9,30 +9,22 @@
 
 namespace blitze\sitemaker\services\blocks\driver;
 
-use blitze\sitemaker\services\blocks\driver\block_interface;
-
 /**
  * Base class for block drivers
  * @package sitemaker
  */
 abstract class block implements block_interface
 {
-	/**
-	 * Block name
-	 * @var string
-	 */
+	/** @var string */
 	protected $name;
 
-	/**
-	 * Template object for Sitemaker blocks
-	 * @var \blitze\sitemaker\services\template
-	 */
+	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
 
 	/**
 	 * Set block template object
 	 *
-	 * @param \phpbb\template\template	$ptemplate	Template object
+	 * @param \blitze\sitemaker\services\template $ptemplate
 	 */
 	public function set_template(\blitze\sitemaker\services\template $ptemplate)
 	{

@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class load_items extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
@@ -19,20 +23,19 @@ class load_items extends base_action
 		{
 			$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 
-			if (($entity = $menu_mapper->load(array('menu_id' => $menu_id))) === null)
+			/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
+			if (($entity = $menu_mapper->load(array('menu_id', '=', $menu_id))) === null)
 			{
 				throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 			}
 
 			$collection = $entity->get_items();
 
-			return $this->_get_items($collection);
+			return $this->get_items($collection);
 		}
-		else
-		{
-			return array(
-				'items' => array()
-			);
-		}
+
+		return array(
+			'items' => array()
+		);
 	}
 }

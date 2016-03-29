@@ -9,27 +9,25 @@
 
 namespace blitze\sitemaker\model;
 
-use blitze\sitemaker\model\mapper_interface;
-
 abstract class base_mapper implements mapper_interface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \blitze\sitemaker\model\base_collection */
-	protected $_collection;
+	protected $collection;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
 	/** @var string */
-	protected $_entity_table;
+	protected $entity_table;
 
 	/** @var string */
-	protected $_entity_class;
+	protected $entity_class;
 
 	/** @var string */
-	protected $_entity_pkey;
+	protected $entity_pkey;
 
 	/**
 	 * Constructor
@@ -42,9 +40,9 @@ abstract class base_mapper implements mapper_interface
 	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)
 	{
 		$this->db = $db;
-		$this->_collection = $collection;
+		$this->collection = $collection;
 		$this->mapper_factory = $mapper_factory;
-		$this->_entity_table = $entity_table;
+		$this->entity_table = $entity_table;
 	}
 
 	/**
@@ -52,16 +50,16 @@ abstract class base_mapper implements mapper_interface
 	 */
 	public function get_collection()
 	{
-		return $this->_collection;
+		return $this->collection;
 	}
 
 	/**
-	 * Find a single entity
+	 * {@inheritdoc}
 	 */
 	public function load(array $condition = array())
 	{
-		$sql_where = $this->_get_condition($condition);
-		$results = $this->db->sql_query($this->_find_sql($sql_where));
+		$sql_where = $this->get_sql_condition($condition);
+		$results = $this->db->sql_query($this->find_sql($sql_where));
 		$row = $this->db->sql_fetchrow($results);
 		$this->db->sql_freeresult($results);
 
@@ -73,74 +71,84 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Find all the entities
+	 * {@inheritdoc}
 	 */
 	public function find(array $condition = array())
 	{
-		$sql_where = $this->_get_condition($condition);
-		$results = $this->db->sql_query($this->_find_sql($sql_where));
-		$this->_collection->clear();
+		$sql_where = $this->get_sql_condition($condition);
+		$results = $this->db->sql_query($this->find_sql($sql_where));
+		$this->collection->clear();
 
 		while ($row = $this->db->sql_fetchrow($results))
 		{
-			$this->_collection[$row[$this->_entity_pkey]] = $this->create_entity($row);
+			$this->collection[$row[$this->entity_pkey]] = $this->create_entity($row);
 		}
 		$this->db->sql_freeresult($results);
 
-		return $this->_collection;
+		return $this->collection;
 	}
 
 	/**
-	 * Save the entity
+	 * {@inheritdoc}
 	 */
-	public function save($entity)
+	public function save(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		$accessor = 'get_' . $this->_entity_pkey;
+		$accessor = 'get_' . $this->entity_pkey;
 		if (is_null($entity->$accessor()))
 		{
-			$entity = $this->_insert($entity);
+			$entity = $this->insert($entity);
 		}
 		else
 		{
-			$this->_update($entity);
+			$this->update($entity);
 		}
 
 		return $entity;
 	}
 
 	/**
-	 * Delete from the database
+	 * {@inheritdoc}
 	 */
 	public function delete($condition)
 	{
-		if ($condition instanceof $this->_entity_class)
+		if (!is_array($condition))
 		{
-			$accessor = 'get_' . $this->_entity_pkey;
-			$condition = array($this->_entity_pkey => $condition->$accessor());
+			if ($condition instanceof $this->entity_class)
+			{
+				$accessor = 'get_' . $this->entity_pkey;
+				$condition = array($this->entity_pkey, '=', $condition->$accessor());
+			}
+			else
+			{
+				throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+			}
 		}
 
-		$sql_where = $this->_get_condition($condition);
-		$this->db->sql_query('DELETE FROM ' . $this->_entity_table . (sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : ''));
+		$sql_where = $this->get_sql_condition($condition);
+		$this->db->sql_query('DELETE FROM ' . $this->entity_table . (sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : ''));
 	}
 
 	/**
-	 * Create the entity
+	 * {@inheritdoc}
 	 */
 	public function create_entity(array $row)
 	{
-		return new $this->_entity_class($row);
+		return new $this->entity_class($row);
 	}
 
 	/**
 	 * Insert a new row in the table corresponding to the specified entity
+	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @return \blitze\sitemaker\model\entity_interface
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
-	protected function _insert($entity)
+	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		if ($entity instanceof $this->_entity_class)
+		if ($entity instanceof $this->entity_class)
 		{
-			$this->db->sql_query('INSERT INTO ' . $this->_entity_table . ' ' . $this->db->sql_build_array('INSERT', $entity->to_db()));
+			$this->db->sql_query('INSERT INTO ' . $this->entity_table . ' ' . $this->db->sql_build_array('INSERT', $entity->to_db()));
 
-			$mutator = 'set_' . $this->_entity_pkey;
+			$mutator = 'set_' . $this->entity_pkey;
 			$entity->$mutator((int) $this->db->sql_nextid());
 
 			return $entity;
@@ -151,46 +159,107 @@ abstract class base_mapper implements mapper_interface
 
 	/**
 	 * Update the row in the table corresponding to the specified entity
+	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @return mixed
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
-	protected function _update($entity)
+	protected function update(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		if ($entity instanceof $this->_entity_class)
+		if ($entity instanceof $this->entity_class)
 		{
-			$accessor = 'get_' . $this->_entity_pkey;
-			$id = $entity->$accessor();
+			$accessor = 'get_' . $this->entity_pkey;
 
-			return $this->db->sql_query('UPDATE ' . $this->_entity_table . ' SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) .' WHERE ' . $this->_entity_pkey . ' = ' . $id);
+			return $this->db->sql_query('UPDATE ' . $this->entity_table . '
+				SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) . '
+				WHERE ' . $this->entity_pkey . ' = ' . (int) $entity->$accessor());
 		}
 
 		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
 	}
 
-	protected function _find_sql(array $sql_where)
+	/**
+	 * @param array $sql_where
+	 * @return string
+	 */
+	protected function find_sql(array $sql_where)
 	{
-		return 'SELECT * FROM ' . $this->_entity_table .
+		return 'SELECT * FROM ' . $this->entity_table .
 			(sizeof($sql_where) ? ' WHERE ' . join(' AND ', $sql_where) : '');
 	}
 
-	protected function _get_condition(array $condition)
+	/**
+	 * @param array $condition
+	 * @return array
+	 */
+	protected function get_sql_condition(array $condition)
 	{
 		$sql_where = array();
-		foreach ($condition as $field => $value)
+		$condition = $this->ensure_multi_array($condition);
+
+		foreach ($condition as $info)
 		{
-			switch (gettype($value))
+			list($field, $operator, $value) = $info;
+
+			$callable = 'get_sql_where_' . gettype($value);
+			if (is_callable(array($this, $callable)))
 			{
-				case 'array':
-					$sql_where[] = $this->db->sql_in_set($field, $value);
-				break;
-				case 'string':
-					$sql_where[] = $field . " = '" . $this->db->sql_escape($value) . "'";
-				break;
-				case 'boolean':
-				case 'integer':
-					$sql_where[] = $field . ' = ' . (int) $value;
-				break;
+				$sql_where[] = call_user_func_array(array($this, $callable), array($field, $value, $operator));
 			}
 		}
 
 		return $sql_where;
+	}
+
+	/**
+	 * @param array $condition
+	 * @return mixed
+	 */
+	protected function ensure_multi_array(array $condition)
+	{
+		return array_filter((is_array(current($condition))) ? $condition : array($condition));
+	}
+
+	/**
+	 * @param string $field
+	 * @param array $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_array($field, array $value, $operator)
+	{
+		return $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_string($field, $value, $operator)
+	{
+		return $field . " $operator '" . $this->db->sql_escape($value) . "'";
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_integer($field, $value, $operator)
+	{
+		return $field . " $operator " . (int) $value;
+	}
+
+	/**
+	 * @param string $field
+	 * @param bool $value
+	 * @param string $operator
+	 * @return string
+	 */
+	protected function get_sql_where_boolean($field, $value, $operator)
+	{
+		return $this->get_sql_where_integer($field, (int) $value, $operator);
 	}
 }

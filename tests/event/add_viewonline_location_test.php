@@ -51,6 +51,14 @@ class add_viewonline_location_test extends listener_base
 
 	/**
 	 * @dataProvider add_viewonline_location_test_data
+	 *
+	 * @param array $on_page
+	 * @param array $row
+	 * @param array $forum_data
+	 * @param string $location_url
+	 * @param string $location
+	 * @param string $expected_location_url
+	 * @param string $expected_location
 	 */
 	public function test_add_viewonline_location(array $on_page, array $row, array $forum_data, $location_url, $location, $expected_location_url, $expected_location)
 	{

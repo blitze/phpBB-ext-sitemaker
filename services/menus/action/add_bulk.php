@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class add_bulk extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
@@ -20,13 +24,14 @@ class add_bulk extends base_action
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 		$items_mapper = $this->mapper_factory->create('menus', 'items');
 
-		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
+		if ($menu_mapper->load(array('menu_id', '=', $menu_id)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 		}
 
+		/** @type \blitze\sitemaker\model\menus\mapper\items $items_mapper */
 		$collection = $items_mapper->add_items($menu_id, $parent_id, $bulk_list);
 
-		return $this->_get_items($collection);
+		return $this->get_items($collection);
 	}
 }

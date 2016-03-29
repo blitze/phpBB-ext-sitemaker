@@ -41,13 +41,13 @@ class links extends menu_block
 		$title = 'LINKS';
 		$menu_id = $db_data['settings']['menu_id'];
 
-		$data = $this->_get_menu($menu_id);
+		$data = $this->get_menu($menu_id);
 
 		if (!sizeof($data))
 		{
 			return array(
 				'title'		=> $title,
-				'content'	=> $this->_get_message($menu_id, $editing),
+				'content'	=> $this->get_message($menu_id, $editing),
 			);
 		}
 

@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Members Block
  */
-class members extends \blitze\sitemaker\services\blocks\driver\block
+class members extends block
 {
 	/** @var \phpbb\language\language */
 	protected $translator;

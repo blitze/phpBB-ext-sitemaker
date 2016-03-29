@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
 * Stats Block
 */
-class stats extends \blitze\sitemaker\services\blocks\driver\block
+class stats extends block
 {
 	/** @var \phpbb\config\config */
 	protected $config;

@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
 * My Bookmarks Block
 */
-class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
+class mybookmarks extends block
 {
 	/** @var \phpbb\language\language */
 	protected $translator;
@@ -65,8 +67,8 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 		$block = array();
 		if ($this->user->data['is_registered'])
 		{
-			$topics_data = $this->_get_bookmarks($bdata['settings']);
-			$this->_show_bookmarks($topics_data);
+			$topics_data = $this->get_bookmarks($bdata['settings']);
+			$this->show_bookmarks($topics_data);
 
 			$block = array(
 				'title'     => 'MY_BOOKMARKS',
@@ -80,9 +82,9 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $settings
 	 */
-	private function _get_bookmarks(array $settings)
+	private function get_bookmarks(array $settings)
 	{
-		$sql_array = $this->_get_bookmarks_sql();
+		$sql_array = $this->get_bookmarks_sql();
 		$this->forum_data->query()
 			->set_sorting('t.topic_last_post_time')
 			->fetch_custom($sql_array)
@@ -95,7 +97,7 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $topic_data
 	 */
-	private function _show_bookmarks(array $topic_data)
+	private function show_bookmarks(array $topic_data)
 	{
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -116,7 +118,7 @@ class mybookmarks extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_bookmarks_sql()
+	private function get_bookmarks_sql()
 	{
 		return array(
 			'FROM'		=> array(

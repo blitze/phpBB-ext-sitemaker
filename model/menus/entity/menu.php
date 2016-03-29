@@ -13,7 +13,6 @@ use blitze\sitemaker\model\base_entity;
 
 /**
  * @method integer get_menu_id()
- * @method object set_menu_name($menu_name)
  * @method string get_menu_name()
  * @method object set_items(\blitze\sitemaker\model\menus\collections\items $items)
  * @method \blitze\sitemaker\model\menus\collections\items get_items()
@@ -39,6 +38,8 @@ final class menu extends base_entity
 
 	/**
 	 * Set menu ID
+	 * @param int $menu_id
+	 * @return $this
 	 */
 	public function set_menu_id($menu_id)
 	{
@@ -49,6 +50,10 @@ final class menu extends base_entity
 		return $this;
 	}
 
+	/**
+	 * @param string $name
+	 * @return $this
+	 */
 	public function set_menu_name($name)
 	{
 		$this->menu_name = ucwords(trim($name));

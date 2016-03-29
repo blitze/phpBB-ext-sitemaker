@@ -245,6 +245,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	/**
 	 * @param int $items_depth
 	 * return bool
+	 * @return bool
 	 */
 	protected function needs_adjustment($items_depth)
 	{

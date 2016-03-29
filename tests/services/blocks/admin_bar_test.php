@@ -19,6 +19,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	protected $phpbb_container;
 
 	protected $tpl_data;
+	protected $util;
 
 	/**
 	 * Define the extension to be tested.
@@ -55,6 +56,10 @@ class admin_bar_test extends \phpbb_database_test_case
 	/**
 	 * Create the admin_bar service
 	 *
+	 * @param array $config
+	 * @param string $page
+	 * @param string $controller
+	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
 	protected function get_service($config = array(), $page = 'index.php', $controller = '', $params = '')
@@ -112,7 +117,7 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$container = new \phpbb_mock_container_builder();
+		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
 			$phpbb_root_path,
 			array(
@@ -127,40 +132,19 @@ class admin_bar_test extends \phpbb_database_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/fixtures/ext/foo/bar/',
 				),
 			),
-			$container);
+			$phpbb_container);
 
-		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$symfony_request = new Request();
+		$symfony_request->attributes->set('_controller', $controller);
+		$symfony_request->attributes->set('_route_params', array('route' => $params));
+		$symfony_request->attributes->set('route', $params);
 
-		$phpbb_container->expects($this->any())
-			->method('get')
-			->will($this->returnCallback(function($service) use ($auto_lang, $blocks_factory, $mapper_factory, $phpbb_extension_manager, $controller, $params) {
-				switch ($service)
-				{
-					case 'blitze.sitemaker.auto_lang':
-						return $auto_lang;
-					break;
-					case 'blitze.sitemaker.blocks.factory':
-						return $blocks_factory;
-					break;
-					case 'blitze.sitemaker.mapper.factory':
-						return $mapper_factory;
-					break;
-					case 'ext.manager':
-						return $phpbb_extension_manager;
-					break;
-					case 'symfony_request':
-						$symfony_request = new Request();
-						$symfony_request->attributes->set('_controller', $controller);
-						$symfony_request->attributes->set('_route_params', array('route' => $params));
-						$symfony_request->attributes->set('route', $params);
-
-						return $symfony_request;
-					break;
-					case 'foo.bar.controller':
-						return new \foo\bar\foo_bar_controller();
-					break;
-				}
-			}));
+		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
+		$phpbb_container->set('symfony_request', $symfony_request);
+		$phpbb_container->set('blitze.sitemaker.auto_lang', $auto_lang);
+		$phpbb_container->set('blitze.sitemaker.blocks.factory', $blocks_factory);
+		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
+		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
 
 		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
 			->disableOriginalConstructor()
@@ -215,7 +199,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
 					'S_POSITION_OPS' => '<option value="" selected="selected">NONE</option>',
 					'S_EX_POSITIONS' => '',
@@ -241,7 +225,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
 					'S_POSITION_OPS' => '<option value="">NONE</option><option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
 					'S_EX_POSITIONS' => 'panel, top',
@@ -257,8 +241,11 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider show_admin_bar_test_data
+	 * @param array $route_info
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_show_admin_bar($route_info, $config, $expected)
+	public function test_show_admin_bar(array $route_info, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config);
 
@@ -322,8 +309,12 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the set_javascript_data method
 	 *
 	 * @dataProvider set_javascript_data_test_data
+	 * @param string $route
+	 * @param int $style_id
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_set_javascript_data($route, $style_id, $config, $expected)
+	public function test_set_javascript_data($route, $style_id, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config, $route);
 		$admin_bar->set_javascript_data($route, $style_id);
@@ -417,12 +408,17 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_startpage_options method
 	 *
 	 * @dataProvider get_startpage_options_test_data
+	 * @param string $page
+	 * @param string $controller
+	 * @param string $params
+	 * @param array $config
+	 * @param array $expected
 	 */
-	public function test_get_startpage_options($page, $controller, $params, $config, $expected)
+	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
 		$admin_bar = $this->get_service($config, $page, $controller, $params);
 
-		$admin_bar->get_startpage_options($route);
+		$admin_bar->get_startpage_options();
 
 		$this->assertSame($expected, $this->tpl_data);
 	}
@@ -437,11 +433,11 @@ class admin_bar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'index.php',
-				'<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 			),
 			array(
 				'app.php/foo/test/',
-				'<option value="">Select</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option>',
 			),
 		);
 	}
@@ -450,6 +446,8 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_route_options method
 	 *
 	 * @dataProvider get_route_options_test_data
+	 * @param string $route
+	 * @param string $expected
 	 */
 	public function test_get_route_options($route, $expected)
 	{
@@ -483,8 +481,10 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the get_excluded_position_options method
 	 *
 	 * @dataProvider get_excluded_position_options_test_data
+	 * @param array $excluded_positions
+	 * @param string $expected
 	 */
-	public function test_get_excluded_position_options($excluded_positions, $expected)
+	public function test_get_excluded_position_options(array $excluded_positions, $expected)
 	{
 		$admin_bar = $this->get_service();
 

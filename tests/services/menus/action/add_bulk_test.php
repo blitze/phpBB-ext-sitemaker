@@ -96,8 +96,10 @@ class add_bulk_test extends base_action
 	 * Test add bulk
 	 *
 	 * @dataProvider add_bulk_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_add_bulk($variable_map, $expected)
+	public function test_add_bulk(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('add_bulk', $variable_map);
 
@@ -144,8 +146,10 @@ class add_bulk_test extends base_action
 	 * Test exceptions
 	 *
 	 * @dataProvider excetions_test_data
+	 * @param array $variable_map
+	 * @param string $expected
 	 */
-	public function test_exceptions($variable_map, $expected)
+	public function test_exceptions(array $variable_map, $expected)
 	{
 		$command = $this->get_command('add_bulk', $variable_map);
 

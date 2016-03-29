@@ -37,6 +37,7 @@ class factory
 
 	/**
 	 * Register available blocks
+	 * @param \phpbb\di\service_collection $blocks
 	 */
 	public function register_blocks(\phpbb\di\service_collection $blocks)
 	{
@@ -49,6 +50,8 @@ class factory
 
 	/**
 	 * Get block instance
+	 * @param $service_name
+	 * @return \blitze\sitemaker\services\blocks\driver\block_interface|null
 	 */
 	public function get_block($service_name)
 	{
@@ -65,6 +68,7 @@ class factory
 
 	/**
 	 * Get available sitemaker blocks
+	 * @return array
 	 */
 	public function get_all_blocks()
 	{

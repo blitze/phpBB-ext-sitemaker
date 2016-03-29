@@ -50,22 +50,29 @@ abstract class display
 
 	/**
 	 * Is subject node an ancestor of the object node?
+	 * @param array $object
+	 * @param array $subject
+	 * @return bool
 	 */
-	public function is_in_path($object, $subject)
+	public function is_in_path(array $object, array $subject)
 	{
 		return ($subject['left_id'] < $object['left_id'] && $subject['right_id'] > $object['right_id']) ? true : false;
 	}
 
 	/**
 	 * Count node descendants
+	 * @param array $row
+	 * @return int
 	 */
-	public function count_descendants($row)
+	public function count_descendants(array $row)
 	{
-		return ($row['right_id'] - $row['left_id'] - 1) / 2;
+		return (int) (($row['right_id'] - $row['left_id'] - 1) / 2);
 	}
 
 	/**
 	 * Get node row
+	 * @param int $node_id
+	 * @return mixed
 	 */
 	public function get_node_info($node_id)
 	{
@@ -114,6 +121,12 @@ abstract class display
 		return $this->db->sql_build_query('SELECT', $sql_array);
 	}
 
+	/**
+	 * @param int $start
+	 * @param int $level
+	 * @param array $sql_array
+	 * @return array
+	 */
 	public function get_tree_array($start = 0, $level = 0, $sql_array = array())
 	{
 		$sql = $this->qet_tree_sql($start, $level, $sql_array);
@@ -129,6 +142,11 @@ abstract class display
 		return $data;
 	}
 
+	/**
+	 * @param array $data
+	 * @param \phpbb\template\twig\twig $template
+	 * @param string $handle
+	 */
 	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
 		$prev_depth = 0;

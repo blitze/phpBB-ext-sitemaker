@@ -56,6 +56,11 @@ class action_handler
 		$this->mapper_factory = $mapper_factory;
 	}
 
+	/**
+	 * @param string $action
+	 * @return \blitze\sitemaker\services\blocks\action\action_interface
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function create($action)
 	{
 		$action_class = 'blitze\\sitemaker\\services\\blocks\\action\\' . $action;
@@ -68,6 +73,9 @@ class action_handler
 		return new $action_class($this->config, $this->phpbb_container, $this->request, $this->translator, $this->blocks, $this->block_factory, $this->mapper_factory);
 	}
 
+	/**
+	 * Clear cache after every action
+	 */
 	public function clear_cache()
 	{
 		$this->blocks->clear_cache();

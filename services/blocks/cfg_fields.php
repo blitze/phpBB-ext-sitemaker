@@ -49,17 +49,18 @@ abstract class cfg_fields
 	 * Used to add multi-select drop down in blocks config
 	 *
 	 * @param array $option_ary
-	 * @param $selected_items
-	 * @param $key
+	 * @param mixed $selected_items
+	 * @param string $field
 	 * @return string
 	 */
-	public function build_multi_select(array $option_ary, $selected_items, $key)
+	public function build_multi_select(array $option_ary, $selected_items, $field)
 	{
-		$selected_items = $this->_ensure_array($selected_items);
-		$html = '<select id="' . $key . '" name="config[' . $key . '][]" multiple="multiple">';
+		$selected_items = $this->ensure_array($selected_items);
+
+		$html = '<select id="' . $field . '" name="config[' . $field . '][]" multiple="multiple">';
 		foreach ($option_ary as $value => $title)
 		{
-			$selected = $this->_get_selected_option($value, $selected_items);
+			$selected = $this->get_selected_option($value, $selected_items);
 			$html .= '<option value="' . $value . '"' . $selected . '>' . $this->translator->lang($title) . '</option>';
 		}
 		$html .= '</select>';
@@ -82,8 +83,8 @@ abstract class cfg_fields
 	 * 		),
 	 * )
 	 * @param array $option_ary
-	 * @param $selected_items
-	 * @param $field
+	 * @param mixed $selected_items
+	 * @param string $field
 	 * @return string
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $field)
@@ -91,12 +92,12 @@ abstract class cfg_fields
 		$column_class = 'grid__col grid__col--1-of-2 ';
 		$html = '';
 
-		$selected_items = $this->_ensure_array($selected_items);
-		$option_ary = $this->_ensure_multi_array($option_ary, $column_class);
+		$selected_items = $this->ensure_array($selected_items);
+		$option_ary = $this->ensure_multi_array($option_ary, $column_class);
 
 		foreach ($option_ary as $col => $row)
 		{
-			$html .= $this->_get_checkbox_column($row, $selected_items, $field, $col, $column_class);
+			$html .= $this->get_checkbox_column($row, $selected_items, $field, $col, $column_class);
 		}
 
 		return $html;
@@ -106,8 +107,8 @@ abstract class cfg_fields
 	 * Build radio buttons other than yes_no/enable_disable in blocks config
 	 *
 	 * @param array $option_ary
-	 * @param $selected_items
-	 * @param $key
+	 * @param mixed $selected_item
+	 * @param string $key
 	 * @return string
 	 */
 	public function build_radio(array $option_ary, $selected_item, $key)
@@ -117,7 +118,7 @@ abstract class cfg_fields
 		$html = '';
 		foreach ($option_ary as $value => $title)
 		{
-			$selected = $this->_get_selected_option($value, $selected_item, 'checked');
+			$selected = $this->get_selected_option($value, $selected_item, 'checked');
 			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $this->translator->lang($title) . '</label><br />';
 		}
 
@@ -125,34 +126,38 @@ abstract class cfg_fields
 	}
 
 	/**
-	 * build hidden field for blocks config
+	 * Build hidden field for blocks config
 	 *
-	 * @param $value
-	 * @param $key
+	 * @param mixed $value
+	 * @param string $field
 	 * @return string
 	 */
-	public function build_hidden($value, $key)
+	public function build_hidden($value, $field)
 	{
-		return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" />';
+		return '<input type="hidden" name="config[' . $field . ']" value="' . $value . '" />';
 	}
 
 	/**
-	 * @param $selected_items
+	 * Force array
+	 *
+	 * @param mixed $selected_items
 	 * @return array
 	 */
-	protected function _ensure_array($selected_items)
+	protected function ensure_array($selected_items)
 	{
 		return array_filter(is_array($selected_items) ? $selected_items : explode(',', $selected_items));
 	}
 
 	/**
-	 * @param $options
-	 * @param $css_class
+	 * Force multi dimensional array
+	 *
+	 * @param mixed $options
+	 * @param string $css_class
 	 * @return array
 	 */
-	protected function _ensure_multi_array($options, &$css_class)
+	protected function ensure_multi_array($options, &$css_class)
 	{
-		$test = current($this->_ensure_array($options));
+		$test = current($this->ensure_array($options));
 		if (!is_array($test))
 		{
 			$css_class = '';
@@ -167,7 +172,7 @@ abstract class cfg_fields
 	 * @param string $type selected|checked
 	 * @return string
 	 */
-	protected function _get_selected_option($needle, array $haystack, $type = 'selected')
+	protected function get_selected_option($needle, array $haystack, $type = 'selected')
 	{
 		return (in_array($needle, $haystack)) ? ' ' . $type . '="' . $type . '"' : '';
 	}
@@ -180,13 +185,13 @@ abstract class cfg_fields
 	 * @param string $column_class
 	 * @return string
 	 */
-	protected function _get_checkbox_column(array $row, array $selected_items, $field, $column_count, $column_class)
+	protected function get_checkbox_column(array $row, array $selected_items, $field, $column_count, $column_class)
 	{
 		$column = '<div class="' . $column_class . $field . '-checkbox" id="' . $field . '-col-' . $column_count . '">';
 		foreach ($row as $value => $title)
 		{
 			$title = $this->translator->lang($title);
-			$selected = $this->_get_selected_option($value, $selected_items, 'checked');
+			$selected = $this->get_selected_option($value, $selected_items, 'checked');
 			$column .= '<label><input type="checkbox" name="config[' . $field . '][]" value="' . $value . '"' . $selected . ' accesskey="' . $field . '" class="checkbox" /> ' . $title . '</label><br />';
 		}
 		$column .= '</div>';

@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class add_block extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\invalid_argument
+	 */
 	public function execute($style_id)
 	{
 		$name	= $this->request->variable('block', '');
@@ -26,7 +30,7 @@ class add_block extends base_action
 			'style'	=> $style_id,
 		);
 
-		$route = $this->_force_get_route($route_data, true);
+		$route_entity = $this->force_get_route($route_data, true);
 
 		$default_settings = $block_instance->get_config(array());
 		$block_settings = $this->blocks->sync_settings($default_settings);
@@ -37,7 +41,7 @@ class add_block extends base_action
 			'name'			=> $name,
 			'weight'		=> $this->request->variable('weight', 0),
 			'position'		=> $this->request->variable('position', ''),
-			'route_id'		=> (int) $route->get_route_id(),
+			'route_id'		=> (int) $route_entity->get_route_id(),
 			'style'			=> (int) $style_id,
 			'settings'		=> $block_settings,
 		));

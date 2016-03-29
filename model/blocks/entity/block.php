@@ -12,11 +12,11 @@ namespace blitze\sitemaker\model\blocks\entity;
 use blitze\sitemaker\model\base_entity;
 
 /**
+ * @method int get_bid()
  * @method object set_icon($icon)
  * @method string get_icon()
  * @method object set_name($name)
  * @method string get_name()
- * @method object set_title($title)
  * @method string get_title()
  * @method object set_route_id(integer $route_id)
  * @method integer get_route_id()
@@ -111,6 +111,8 @@ final class block extends base_entity
 
 	/**
 	 * Set block ID
+	 * @param int $bid
+	 * @return $this
 	 */
 	public function set_bid($bid)
 	{
@@ -123,15 +125,19 @@ final class block extends base_entity
 
 	/**
 	 * Set title
+	 * @param string $title
+	 * @return $this
 	 */
 	public function set_title($title)
 	{
-		$this->title = ucwords(trim($title));
+		$this->title = utf8_ucfirst(trim($title));
 		return $this;
 	}
 
 	/**
 	 * Set css class
+	 * @param string $class
+	 * @return $this
 	 */
 	public function set_class($class)
 	{
@@ -141,6 +147,8 @@ final class block extends base_entity
 
 	/**
 	 * Set permissions
+	 * @param array|string $permission
+	 * @return $this
 	 */
 	public function set_permission($permission)
 	{
@@ -150,6 +158,7 @@ final class block extends base_entity
 
 	/**
 	 * Get permissions
+	 * @return array
 	 */
 	public function get_permission()
 	{
@@ -158,6 +167,8 @@ final class block extends base_entity
 
 	/**
 	 * Set settings
+	 * @param array|string $settings
+	 * @return $this
 	 */
 	public function set_settings($settings)
 	{
@@ -167,7 +178,7 @@ final class block extends base_entity
 		}
 		else if (sizeof($settings))
 		{
-			$this->settings = serialize($settings);
+			$this->settings = json_encode($settings);
 			$this->hash = md5($this->settings);
 		}
 		return $this;
@@ -175,12 +186,16 @@ final class block extends base_entity
 
 	/**
 	 * Get settings
+	 * @return array
 	 */
 	public function get_settings()
 	{
-		return ($this->settings) ? unserialize(stripslashes($this->settings)) : array();
+		return ($this->settings) ? json_decode($this->settings, true) : array();
 	}
 
+	/**
+	 *
+	 */
 	public function __clone()
 	{
 		$this->bid = null;

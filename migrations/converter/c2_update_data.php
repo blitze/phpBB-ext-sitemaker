@@ -32,8 +32,6 @@ class c2_update_data extends \phpbb\db\migration\migration
 			array('config.remove', array('cms_forum_changed')),
 			array('config.remove', array('pt_parent_forum_id')),
 
-			array('config.add', array('sitemaker_parent_forum_id', (int) $this->config['pt_parent_forum_id'])),
-
 			array('permission.remove', array('a_cms_mods')),
 			array('permission.remove', array('a_cms_manage_mods')),
 			array('permission.remove', array('a_cms_blocks')),

@@ -13,5 +13,5 @@ use blitze\sitemaker\model\base_collection;
 
 class menus extends base_collection
 {
-	protected $_entity_class = 'blitze\sitemaker\model\menus\entity\menu';
+	protected $entity_class = 'blitze\sitemaker\model\menus\entity\menu';
 }

@@ -26,6 +26,12 @@ class options
 	}
 
 	/**
+	 * @param bool $select_id
+	 * @param bool $ignore_id
+	 * @param bool $ignore_acl
+	 * @param bool $ignore_nonpost
+	 * @param bool $ignore_emptycat
+	 * @param bool $only_acl_post
 	 * @return array
 	 */
 	public function get_all($select_id = false, $ignore_id = false, $ignore_acl = true, $ignore_nonpost = false, $ignore_emptycat = true, $only_acl_post = false)

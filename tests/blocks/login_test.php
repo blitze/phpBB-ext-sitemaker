@@ -26,6 +26,8 @@ class login_test extends blocks_base
 	/**
 	 * Create the login block
 	 *
+	 * @param bool $user_is_logged_in
+	 * @param string $curr_page
 	 * @return \blitze\sitemaker\blocks\login
 	 */
 	protected function get_block($user_is_logged_in = false, $curr_page = '')
@@ -168,8 +170,12 @@ class login_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param bool $user_is_logged_in
+	 * @param string $curr_page
+	 * @param mixed $expected
 	 */
-	public function test_block_display($bdata, $user_is_logged_in, $curr_page, $expected)
+	public function test_block_display(array $bdata, $user_is_logged_in, $curr_page, $expected)
 	{
 		$block = $this->get_block($user_is_logged_in, $curr_page);
 		$result = $block->display($bdata);

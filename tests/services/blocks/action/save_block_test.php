@@ -105,8 +105,11 @@ class save_block_test extends base_action
 	 * Test save block
 	 *
 	 * @dataProvider save_block_test_data
+	 * @param array $variable_map
+	 * @param array $expected_data
+	 * @param int $expected_similar
 	 */
-	public function test_save_block($variable_map, $expected_data, $expected_similar)
+	public function test_save_block(array $variable_map, array $expected_data, $expected_similar)
 	{
 		$command = $this->get_command('save_block', $variable_map);
 
@@ -118,7 +121,7 @@ class save_block_test extends base_action
 		if ($updated_block['hash'])
 		{
 			$mapper = $this->mapper_factory->create('blocks', 'blocks');
-			$collection = $mapper->find(array('hash' => $updated_block['hash']));
+			$collection = $mapper->find(array('hash', '=', $updated_block['hash']));
 			$actual_similar = $collection->count();
 		}
 

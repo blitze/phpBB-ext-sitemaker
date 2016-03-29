@@ -14,38 +14,43 @@ use blitze\sitemaker\model\base_mapper;
 class menus extends base_mapper
 {
 	/** @var string */
-	protected $_entity_class = 'blitze\sitemaker\model\menus\entity\menu';
+	protected $entity_class = 'blitze\sitemaker\model\menus\entity\menu';
 
 	/** @var string */
-	protected $_entity_pkey = 'menu_id';
+	protected $entity_pkey = 'menu_id';
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function load(array $condition = array())
 	{
+		/** @type \blitze\sitemaker\model\menus\entity\menu|null $entity */
 		$entity = parent::load($condition);
 
 		if ($entity)
 		{
 			$items_mapper = $this->mapper_factory->create('menus', 'items');
-			$collection = $items_mapper->find(array(
-				'%smenu_id'	=> $entity->get_menu_id(),
-			));
+
+			/** @type \blitze\sitemaker\model\menus\collections\items $collection */
+			$collection = $items_mapper->find(array('%smenu_id', '=', $entity->get_menu_id()));
 			$entity->set_items($collection);
 		}
 
 		return $entity;
 	}
 
+	/**
+	 * @param array|\blitze\sitemaker\model\menus\entity\menu $condition
+	 */
 	public function delete($condition)
 	{
 		parent::delete($condition);
 
 		// delete menu items associated with this menu
-		if ($condition instanceof $this->_entity_class)
+		if ($condition instanceof $this->entity_class)
 		{
 			$items_mapper = $this->mapper_factory->create('menus', 'items');
-			$items_mapper->delete(array(
-				'menu_id'	=> $condition->get_menu_id(),
-			));
+			$items_mapper->delete(array('menu_id', '=', $condition->get_menu_id()));
 		}
 	}
 }

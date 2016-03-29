@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Whois Block
  */
-class whois extends \blitze\sitemaker\services\blocks\driver\block
+class whois extends block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -88,7 +90,7 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 			'TOTAL_USERS_ONLINE'	=> $l_online_users,
 			'LOGGED_IN_USER_LIST'	=> $online_userlist,
 			'RECORD_USERS'			=> $l_online_record,
-			'U_VIEWONLINE'			=> $this->_get_viewonline_url(),
+			'U_VIEWONLINE'			=> $this->get_viewonline_url(),
 		));
 		unset($data);
 
@@ -101,7 +103,7 @@ class whois extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return string
 	 */
-	private function _get_viewonline_url()
+	private function get_viewonline_url()
 	{
 		return ($this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) ? append_sid("{$this->phpbb_root_path}viewonline." . $this->php_ext) : '';
 	}

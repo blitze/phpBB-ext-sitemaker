@@ -9,7 +9,9 @@
 
 namespace blitze\sitemaker\services\menus;
 
-abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
+use blitze\sitemaker\services\blocks\driver\block;
+
+abstract class menu_block extends block
 {
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
@@ -48,11 +50,11 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param int $menu_id
 	 * @return array
 	 */
-	protected function _get_menu($menu_id)
+	protected function get_menu($menu_id)
 	{
 		if (($data = $this->cache->get('sitemaker_menus')) === false)
 		{
-			$data = $this->_get_all_menus();
+			$data = $this->get_all_menus();
 
 			$this->cache->put('sitemaker_menus', $data);
 		}
@@ -63,7 +65,7 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	protected function _get_all_menus()
+	protected function get_all_menus()
 	{
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
@@ -73,7 +75,7 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 		foreach ($collection as $entity)
 		{
 			$row = $entity->to_array();
-			$this->_set_path_info($row);
+			$this->set_path_info($row);
 
 			$data[$row['menu_id']][$row['item_id']] = $row;
 		}
@@ -86,7 +88,7 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param bool $editing
 	 * @return string
 	 */
-	protected function _get_message($menu_id, $editing)
+	protected function get_message($menu_id, $editing)
 	{
 		$msg_key = '';
 		if ($editing)
@@ -100,7 +102,7 @@ abstract class menu_block extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $data
 	 */
-	protected function _set_path_info(array &$data)
+	protected function set_path_info(array &$data)
 	{
 		$url_info = parse_url($data['item_url']);
 

@@ -11,6 +11,10 @@ namespace blitze\sitemaker\services\menus\action;
 
 class add_item extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
@@ -18,7 +22,7 @@ class add_item extends base_action
 		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
 		$items_mapper = $this->mapper_factory->create('menus', 'items');
 
-		if ($menu_mapper->load(array('menu_id' => $menu_id)) === null)
+		if ($menu_mapper->load(array('menu_id', '=', $menu_id)) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
 		}
@@ -27,6 +31,8 @@ class add_item extends base_action
 			'menu_id'	=> $menu_id,
 		));
 
-		return $items_mapper->save($entity);
+		$entity = $items_mapper->save($entity);
+
+		return $entity->to_array();
 	}
 }

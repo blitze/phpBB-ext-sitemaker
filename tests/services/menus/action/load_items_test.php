@@ -67,8 +67,10 @@ class load_items_test extends base_action
 	 * Test loading a tree
 	 *
 	 * @dataProvider load_items_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_add_bulk($variable_map, $expected)
+	public function test_add_bulk(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('load_items', $variable_map);
 

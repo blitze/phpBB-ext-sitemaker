@@ -9,8 +9,13 @@
 
 namespace blitze\sitemaker\services;
 
-class template extends \phpbb\template\twig\twig
+use phpbb\template\twig\twig;
+
+class template extends twig
 {
+	/**
+	 * Clear template data
+	 */
 	public function clear()
 	{
 		$this->context->clear();
@@ -19,9 +24,10 @@ class template extends \phpbb\template\twig\twig
 	/**
 	 * Render Template View
 	 *
-	 * @param string $ext_name		extension name in form namespace/extension
-	 * @param string $tpl_file		html template file
-	 * @param string $handle		template handle
+	 * @param string $ext_name extension name in form namespace/extension
+	 * @param string $tpl_file html template file
+	 * @param string $handle template handle
+	 * @return string
 	 */
 	public function render_view($ext_name, $tpl_file, $handle)
 	{

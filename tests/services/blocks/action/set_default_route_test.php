@@ -25,7 +25,7 @@ class set_default_route_test extends base_action
 
 		$command = $this->get_command('set_default_route', $variable_map);
 
-		$result = $command->execute(1);
+		$command->execute(1);
 
 		$this->assertEquals($route, $this->config['sitemaker_default_layout']);
 	}

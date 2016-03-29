@@ -27,6 +27,7 @@ class member_menu_test extends blocks_base
 	/**
 	 * Create the member menu block
 	 *
+	 * @param array $user_data
 	 * @return \blitze\sitemaker\blocks\member_menu
 	 */
 	protected function get_block($user_data = array())
@@ -139,8 +140,10 @@ class member_menu_test extends blocks_base
 	 * Test block display
 	 *
 	 * @dataProvider block_test_data
+	 * @param array $user_data
+	 * @param mixed $expected
 	 */
-	public function test_block_display($user_data, $expected)
+	public function test_block_display(array $user_data, $expected)
 	{
 		$block = $this->get_block($user_data);
 		$result = $block->display(array());

@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
  * Featured Member Block
  */
-class member_menu extends \blitze\sitemaker\services\blocks\driver\block
+class member_menu extends block
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -60,7 +62,7 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 				'USERNAME'		=> get_username_string('no_profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USERNAME_FULL' => get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USER_POSTS'	=> $this->user->data['user_posts'],
-				'NEW_POSTS'		=> $this->_get_new_posts_count(),
+				'NEW_POSTS'		=> $this->get_new_posts_count(),
 
 				'U_PROFILE'		=> append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=viewprofile&amp;u=' . $this->user->data['user_id']),
 				'U_SEARCH_NEW'	=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, 'search_id=newposts'),
@@ -83,7 +85,7 @@ class member_menu extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return int
 	 */
-	protected function _get_new_posts_count()
+	protected function get_new_posts_count()
 	{
 		$sql_array = array(
 			'FROM'		=> array(

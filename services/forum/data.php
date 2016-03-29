@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\forum;
 
-use blitze\sitemaker\services\forum\query_builder;
-
 class data extends query_builder
 {
 	/** @var \phpbb\auth\auth */

@@ -14,48 +14,63 @@ use blitze\sitemaker\model\base_mapper;
 class blocks extends base_mapper
 {
 	/** @var string */
-	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\block';
+	protected $entity_class = 'blitze\sitemaker\model\blocks\entity\block';
 
 	/** @var string */
-	protected $_entity_pkey = 'bid';
+	protected $entity_pkey = 'bid';
 
-	protected function _find_sql(array $sql_where)
+	/**
+	 * @param array $sql_where
+	 * @return string
+	 */
+	protected function find_sql(array $sql_where)
 	{
-		return 'SELECT * FROM ' . $this->_entity_table .
+		return 'SELECT * FROM ' . $this->entity_table .
 			((sizeof($sql_where)) ? ' WHERE ' . join(' AND ', $sql_where) : '') . '
 			ORDER BY position, weight ASC';
 	}
 
+	/**
+	 * @param array|\blitze\sitemaker\model\blocks\entity\block $condition
+	 */
 	public function delete($condition)
 	{
 		parent::delete($condition);
 
 		// move blocks up for position
-		if ($condition instanceof $this->_entity_class)
+		if ($condition instanceof $this->entity_class)
 		{
-			$this->db->sql_query('UPDATE ' . $this->_entity_table . '
+			$this->db->sql_query('UPDATE ' . $this->entity_table . '
 				SET weight = weight - 1
-				WHERE weight > ' . $condition->get_weight() . '
-					AND style = ' . $condition->get_style() . '
-					AND route_id = ' . $condition->get_route_id() . "
-					AND position = '" . $condition->get_position() . "'");
+				WHERE weight > ' . (int) $condition->get_weight() . '
+					AND style = ' . (int) $condition->get_style() . '
+					AND route_id = ' . (int) $condition->get_route_id() . "
+					AND position = '" . $this->db->sql_escape($condition->get_position()) . "'");
 		}
 	}
 
-	protected function _insert($entity)
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 */
+	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		$this->_move_blocks_down($entity);
+		$this->move_blocks_down($entity);
 
-		return parent::_insert($entity);
+		return parent::insert($entity);
 	}
 
-	protected function _move_blocks_down($entity)
+	/**
+	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 */
+	protected function move_blocks_down(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		$sql = 'UPDATE ' . $this->_entity_table . '
+		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
+		$sql = 'UPDATE ' . $this->entity_table . '
 			SET weight = weight + 1
-			WHERE weight >= ' . $entity->get_weight() . '
-				AND route_id = ' . $entity->get_route_id() . '
-				AND style = ' . $entity->get_style();
+			WHERE weight >= ' . (int) $entity->get_weight() . '
+				AND route_id = ' . (int) $entity->get_route_id() . '
+				AND style = ' . (int) $entity->get_style();
 		$this->db->sql_query($sql);
 	}
 }

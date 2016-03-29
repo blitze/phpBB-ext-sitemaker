@@ -10,11 +10,17 @@
 namespace blitze\sitemaker\tests\event;
 
 use Symfony\Component\HttpFoundation\Response;
-use blitze\sitemaker\event\listener;
 
 class listener_base extends \phpbb_database_test_case
 {
-	public $request;
+	protected $request;
+	protected $config;
+	protected $cache;
+	protected $user;
+	protected $container;
+	protected $template;
+	protected $util;
+	protected $blocks;
 
 	/**
 	* Define the extensions to be tested
@@ -55,14 +61,8 @@ class listener_base extends \phpbb_database_test_case
 	 */
 	protected function get_listener()
 	{
-		global $phpbb_dispatcher, $cache, $phpbb_root_path, $phpEx;
+		global $cache, $phpbb_root_path, $phpEx;
 
-		$table_prefix = 'phpbb_';
-		$blocks_table = $table_prefix . 'sm_blocks';
-		$blocks_config_table = $table_prefix . 'sm_blocks_config';
-		$block_routes_table = $table_prefix . 'sm_block_routes';
-
-		$db = $this->new_dbal();
 		$this->config = new \phpbb\config\config(array());
 		$this->cache = $cache = new \phpbb_mock_cache();
 
@@ -79,8 +79,6 @@ class listener_base extends \phpbb_database_test_case
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
-
-		$auth = $this->getMock('\phpbb\auth\auth');
 
 		$this->request = $this->getMock('\phpbb\request\request_interface');
 
@@ -102,7 +100,7 @@ class listener_base extends \phpbb_database_test_case
 				return $route . '#' . serialize($params);
 			});
 
-		$dummy_extension = $this->getMockbuilder('stdClass')
+		$dummy_extension = $this->getMockBuilder('stdClass')
 			->setMockClassName('foo_bar_controller')
 			->setMethods(array('handle'))
 			->getMock();
@@ -125,7 +123,7 @@ class listener_base extends \phpbb_database_test_case
 				}
 			}));
 
-		$this->sitemaker = $this->getMockBuilder('\blitze\sitemaker\services\util')
+		$this->util = $this->getMockBuilder('\blitze\sitemaker\services\util')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -134,7 +132,7 @@ class listener_base extends \phpbb_database_test_case
 			->getMock();
 
 		return $this->getMockBuilder('\blitze\sitemaker\event\listener')
-            ->setConstructorArgs(array($this->cache, $this->config, $this->request, $this->container, $this->template, $this->translator, $this->user, $this->sitemaker, $this->blocks, $phpbb_root_path, $phpEx))
+            ->setConstructorArgs(array($this->cache, $this->config, $this->request, $this->container, $this->template, $this->translator, $this->user, $this->util, $this->blocks, $phpbb_root_path, $phpEx))
             ->setMethods(array('exit_handler'))
             ->getMock();
 	}

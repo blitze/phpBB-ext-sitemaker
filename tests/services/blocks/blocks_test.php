@@ -41,9 +41,10 @@ class blocks_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Create the admin_bar service
+	 * Create the blocks service
 	 *
-	 * @return \blitze\sitemaker\services\blocks\admin_bar
+	 * @param string $default_layout
+	 * @return \blitze\sitemaker\services\blocks\blocks
 	 */
 	protected function get_service($default_layout)
 	{
@@ -326,8 +327,14 @@ class blocks_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider blocks_display_test_data
+	 * @param string $current_page
+	 * @param bool $edit_mode
+	 * @param string $default_layout
+	 * @param array $display_modes
+	 * @param array $expected_route_info
+	 * @param array $expected_data
 	 */
-	public function test_blocks_display($current_page, $edit_mode, $default_layout, $display_modes, $expected_route_info, $expected_data)
+	public function test_blocks_display($current_page, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
 	{
 		$block = $this->get_service($default_layout);
 

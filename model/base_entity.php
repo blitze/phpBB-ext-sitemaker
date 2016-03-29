@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\model;
 
-abstract class base_entity
+abstract class base_entity implements entity_interface
 {
 	/** @var array */
 	protected $db_fields = array();
@@ -19,6 +19,7 @@ abstract class base_entity
 
 	/**
 	 * Populate the entity with data
+	 * @param array $data
 	 */
 	public function __construct(array $data)
 	{
@@ -29,9 +30,15 @@ abstract class base_entity
 		}
 	}
 
+	/**
+	 * @param $name
+	 * @param $args
+	 * @return $this
+	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 */
 	public function __call($name, $args)
 	{
-		if (preg_match('/^(get|set)_(\w+)/', strtolower($name), $match) && $attribute = $this->_attribute_exists($match[2]))
+		if (preg_match('/^(get|set)_(\w+)/', strtolower($name), $match) && $attribute = $this->attribute_exists($match[2]))
 		{
 			if ('get' == $match[1])
 			{
@@ -39,7 +46,7 @@ abstract class base_entity
 			}
 			else
 			{
-				$this->$attribute = $this->_validate_attribute($match[2], $args[0]);
+				$this->$attribute = $this->validate_attribute($match[2], $args[0]);
 				return $this;
 			}
 		}
@@ -50,11 +57,11 @@ abstract class base_entity
 	}
 
 	/**
-	 * Get an associative array with the values assigned to the fields of the entity, ready for display
-	 */
+	* {@inheritdoc}
+	*/
 	public function to_array()
 	{
-		$attributes = $this->_get_attributes();
+		$attributes = $this->get_attributes();
 
 		$data = array();
 		foreach ($attributes as $attribute)
@@ -68,16 +75,16 @@ abstract class base_entity
 	}
 
 	/**
-	 * Get an associative array with the raw values assigned to the fields of the entity, ready for storage
-	 */
+	* {@inheritdoc}
+	*/
 	public function to_db()
 	{
-		$this->_check_required();
+		$this->check_required();
 
 		$db_data = array();
 		foreach ($this->db_fields as $attribute)
 		{
-			$type = $this->_get_property_type($attribute);
+			$type = $this->get_property_type($attribute);
 			if (in_array($type, array('boolean', 'integer', 'string')))
 			{
 				$db_data[$attribute] = $this->$attribute;
@@ -87,20 +94,31 @@ abstract class base_entity
 		return $db_data;
 	}
 
-	protected function _get_attributes()
+	/**
+	 * @return array
+	 */
+	protected function get_attributes()
 	{
 		return array_keys(get_class_vars(get_class($this)));
 	}
 
-	protected function _attribute_exists($name)
+	/**
+	 * @param string $name
+	 * @return string|null
+	 */
+	protected function attribute_exists($name)
 	{
-		if (in_array(strtolower($name), $this->_get_attributes()))
+		if (in_array(strtolower($name), $this->get_attributes()))
 		{
 			return strtolower($name);
 		}
+		return null;
 	}
 
-	protected function _check_required()
+	/**
+	 * @throws \blitze\sitemaker\exception\invalid_argument
+	 */
+	protected function check_required()
 	{
 		foreach ($this->required_fields as $field)
 		{
@@ -111,9 +129,15 @@ abstract class base_entity
 		}
 	}
 
-	protected function _validate_attribute($name, $value)
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 * @return mixed
+	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 */
+	protected function validate_attribute($name, $value)
 	{
-		$type = $this->_get_property_type($name);
+		$type = $this->get_property_type($name);
 
 		if (in_array($type, array('array', 'boolean', 'float', 'integer', 'string')))
 		{
@@ -129,7 +153,11 @@ abstract class base_entity
 		return $value;
 	}
 
-	protected function _get_property_type($name)
+	/**
+	 * @param string $name
+	 * @return mixed
+	 */
+	protected function get_property_type($name)
 	{
 		$reflection = new \ReflectionObject($this);
 		$reflectionProperty = $reflection->getProperty($name);

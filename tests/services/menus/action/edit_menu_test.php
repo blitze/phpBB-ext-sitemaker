@@ -61,10 +61,11 @@ class edit_menu_test extends base_action
 
 	/**
 	 * Test exceptions
-	 *
 	 * @dataProvider excetions_test_data
+	 * @param array $variable_map
+	 * @param string $expected
 	 */
-	public function test_exceptions($variable_map, $expected)
+	public function test_exceptions(array $variable_map, $expected)
 	{
 		$command = $this->get_command('edit_menu', $variable_map);
 

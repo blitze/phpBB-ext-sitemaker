@@ -14,6 +14,8 @@ use blitze\sitemaker\acp\menu_module;
 
 class menu_module_test extends \phpbb_database_test_case
 {
+	protected $template;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -36,8 +38,11 @@ class menu_module_test extends \phpbb_database_test_case
 
 	/**
 	 * Get the menu_module object
+	 *
+	 * @param array $variable_map
+	 * @return \blitze\sitemaker\acp\menu_module
 	 */
-	public function get_module($variable_map)
+	public function get_module(array $variable_map)
 	{
 		global $phpbb_container, $phpbb_dispatcher, $request, $template;
 
@@ -53,14 +58,21 @@ class menu_module_test extends \phpbb_database_test_case
 		$config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$controller_helper->expects($this->once())
+			->method('route')
+			->with($this->equalTo('blitze_sitemaker_menus_admin'))
+			->willReturn('phpBB/app.php/menu/admin');
+
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$temp_data = array();
-		$this->tpl_data = &$temp_data;
+		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
@@ -91,17 +103,18 @@ class menu_module_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMockBuilder('\blitze\sitemaker\services\util')
+		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util->expects($this->exactly(2))
+		$util->expects($this->exactly(2))
 			->method('add_assets');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_container->set('controller.helper', $controller_helper);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
-		$phpbb_container->set('blitze.sitemaker.util', $this->util);
+		$phpbb_container->set('blitze.sitemaker.util', $util);
 
 		return new menu_module();
 	}
@@ -171,8 +184,10 @@ class menu_module_test extends \phpbb_database_test_case
 	 * Test the main method
 	 *
 	 * @dataProvider module_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_module($variable_map, $expected)
+	public function test_module(array $variable_map, array $expected)
 	{
 		$module = $this->get_module($variable_map);
 		$module->main();

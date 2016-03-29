@@ -58,8 +58,10 @@ class admin_bar
 
 	/**
 	 * Show admin bar
+	 *
+	 * @param array $route_info
 	 */
-	public function show($route_info)
+	public function show(array $route_info)
 	{
 		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
 
@@ -80,7 +82,7 @@ class admin_bar
 			'S_POSITION_OPS'	=> $this->get_excluded_position_options($route_info['ex_positions']),
 			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
-			'S_STARTPAGE'		=> $this->_startpage_is_set(),
+			'S_STARTPAGE'		=> $this->startpage_is_set(),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
 		));
@@ -88,6 +90,8 @@ class admin_bar
 
 	/**
 	 * Set data used in javascript
+	 * @param string $route
+	 * @param int $style_id
 	 */
 	public function set_javascript_data($route, $style_id)
 	{
@@ -132,6 +136,9 @@ class admin_bar
 		}
 	}
 
+	/**
+	 * Provide options to set/unset current page as landing page
+	 */
 	public function get_startpage_options()
 	{
 		$symfony_request = $this->phpbb_container->get('symfony_request');
@@ -148,30 +155,33 @@ class admin_bar
 			$class_params = $r->getParameters();
 
 			list($namespace, $extension) = explode('\\', $controller_class);
-			$controller_arguments = $this->_get_arguments($controller_params, $class_params);
+			$controller_arguments = $this->get_arguments($controller_params, $class_params);
 
 			$this->template->assign_vars(array(
 				'CONTROLLER_NAME'	=> $controller_service,
 				'CONTROLLER_METHOD'	=> $controller_method,
 				'CONTROLLER_PARAMS'	=> $controller_arguments,
-				'S_IS_STARTPAGE'	=> $this->_is_startpage($controller_service, $controller_arguments),
+				'S_IS_STARTPAGE'	=> $this->is_startpage($controller_service, $controller_arguments),
 				'UA_EXTENSION'		=> $namespace . '/' . $extension,
 			));
 		}
 	}
 
+	/**
+	 * Add js/css
+	 */
 	public function set_assets()
 	{
 		$this->util->add_assets(array(
 			'js'	=> array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/jquery-ui.min.js',
-				'//cdn.tinymce.com/4/tinymce.min.js',
+				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
+				'@blitze_sitemaker/vendor/tinymce/tinymce.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/' . JQUI_VERSION . '/themes/smoothness/jquery-ui.css',
+				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			)
 		));
@@ -179,10 +189,13 @@ class admin_bar
 
 	/**
 	 * Get routes with blocks
+	 *
+	 * @param string $current_route
+	 * @return string
 	 */
 	public function get_route_options($current_route)
 	{
-		$routes_ary = $this->_get_routes();
+		$routes_ary = $this->get_routes();
 
 		$options = '<option value="">' . $this->translator->lang('SELECT') . '</option>';
 		foreach ($routes_ary as $route)
@@ -214,7 +227,7 @@ class admin_bar
 	/**
 	 * @return array
 	 */
-	protected function _get_routes()
+	protected function get_routes()
 	{
 		$factory = $this->phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$collection = $factory->create('blocks', 'routes')->find();
@@ -222,6 +235,7 @@ class admin_bar
 		$routes_ary = array();
 		foreach ($collection as $entity)
 		{
+			/** @type \blitze\sitemaker\model\blocks\entity\route $entity */
 			$route_name = $entity->get_route();
 			$routes_ary[$route_name] = $route_name;
 		}
@@ -234,7 +248,7 @@ class admin_bar
 	 * @param array $class_params
 	 * @return string
 	 */
-	protected function _get_arguments(array $controller_params, array $class_params)
+	protected function get_arguments(array $controller_params, array $class_params)
 	{
 		$arguments = array();
 		foreach ($class_params as $param)
@@ -251,7 +265,7 @@ class admin_bar
 	 * @param string $controller_arguments
 	 * @return bool
 	 */
-	protected function _is_startpage($controller_service, $controller_arguments)
+	protected function is_startpage($controller_service, $controller_arguments)
 	{
 		return ($this->config['sitemaker_startpage_controller'] == $controller_service && $this->config['sitemaker_startpage_params'] == $controller_arguments) ? true : false;
 	}
@@ -259,7 +273,7 @@ class admin_bar
 	/**
 	 * @return bool
 	 */
-	protected function _startpage_is_set()
+	protected function startpage_is_set()
 	{
 		return ($this->config['sitemaker_startpage_controller']) ? true : false;
 	}

@@ -57,7 +57,7 @@ gulp.task('sass', function() {
 			.pipe(plugins.csslint.reporter())
 			.pipe(plugins.autoprefixer(supportedBrowsers))
 			.pipe(plugins.rename({ suffix: '.min' }))
-			.pipe(plugins.minifyCss())
+			.pipe(plugins.cleanCss())
 		.pipe(plugins.sourcemaps.write(sourceMapsDir))
 		.pipe(gulp.dest(paths.prod.scripts));
 });
@@ -70,30 +70,28 @@ gulp.task('vendor', function() {
 		return;
 	}
 
-	var jsFilter = plugins.filter(['**/*.js', '!**/*.min.js']);
-	var cssFilter = plugins.filter(['**/*.css', '!**/*.min.css']);
+	var jsFilter = plugins.filter(['**/*.js', '!**/*.min.js'], {restore: true});
+	var cssFilter = plugins.filter(['**/*.css', '!**/*.min.css'], {restore: true});
 
 	return gulp.src(mainFiles, {base: paths.dev.vendor })
 		.pipe(jsFilter)
-		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
 		.pipe(gulp.dest(paths.prod.vendor))
-		.pipe(jsFilter.restore())
+		.pipe(jsFilter.restore)
 
 		.pipe(cssFilter)
 		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.minifyCss())
+		.pipe(plugins.cleanCss())
 		.pipe(gulp.dest(paths.prod.vendor))
-		.pipe(cssFilter.restore())
+		.pipe(cssFilter.restore)
 		.pipe(gulp.dest(paths.prod.vendor));
 });
 
 // Clean up
-gulp.task('clean', function(cb) {
-	plugins.del([
-		paths.prod.scripts + '**/theme/assets/',
-		paths.prod.vendor
-	], cb);
+gulp.task('clean', function() {
+	return plugins.del([
+		paths.prod.scripts + '**',
+		paths.prod.vendor + '**'
+	]);
 });
 
 gulp.task('watch', function() {

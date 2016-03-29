@@ -39,6 +39,7 @@ class blocks_admin
 	 * @param \phpbb\language\language							$translator			Language object
 	 * @param \blitze\sitemaker\services\auto_lang				$auto_lang			Auto lang object
 	 * @param \blitze\sitemaker\services\blocks\action_handler	$action_handler		Handles block actions
+	 * @param bool												$return_url
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\auto_lang $auto_lang, \blitze\sitemaker\services\blocks\action_handler $action_handler, $return_url = false)
 	{
@@ -50,6 +51,10 @@ class blocks_admin
 		$this->return_url = $return_url;
 	}
 
+	/**
+	 * @param string $action
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function handle($action)
 	{
 		$this->translator->add_lang('block_manager', 'blitze/sitemaker');

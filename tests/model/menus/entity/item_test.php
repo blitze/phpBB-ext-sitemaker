@@ -79,6 +79,9 @@ class item_test extends \phpbb_test_case
 		}
 	}
 
+	/**
+	 *
+	 */
 	function test_id_only_set_once()
 	{
 		$item = new item(array());
@@ -104,7 +107,7 @@ class item_test extends \phpbb_test_case
 		return array(
 			array('menu_id', 0, 1, 1, 2, 2),
 			array('parent_id', 0, 1, 1, 2, 2),
-			array('item_title', '', 'some title', 'Some Title', 'another title', 'Another Title'),
+			array('item_title', '', 'some title', 'Some title', 'another title', 'Another title'),
 			array('item_url', '', 'index.php', 'index.php', 'forum', 'app.php/forum'),
 			array('item_icon', '', 'fa fa-arrow', 'fa fa-arrow ', 'fa fa-check', 'fa fa-check '),
 			array('item_target', 0, 1, 1, 0, 0),
@@ -138,6 +141,9 @@ class item_test extends \phpbb_test_case
 		$this->assertSame($expect2, $item->$accessor());
 	}
 
+	/**
+	 *
+	 */
 	function test_bad_get_set_exceptions()
 	{
 		$item = new item(array());
@@ -163,6 +169,9 @@ class item_test extends \phpbb_test_case
 		}
 	}
 
+	/**
+	 *
+	 */
 	function test_to_array()
 	{
 		$item = new item(array(
@@ -234,6 +243,9 @@ class item_test extends \phpbb_test_case
 	 * Test get_full_url
 	 *
 	 * @dataProvider get_full_url_test_data
+	 * @param bool $mod_rewrite
+	 * @param string $url
+	 * @param string $expected
 	 */
 	function test_get_full_url($mod_rewrite, $url, $expected)
 	{

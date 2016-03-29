@@ -11,13 +11,18 @@ namespace blitze\sitemaker\services\menus\action;
 
 class save_item extends base_action
 {
+	/**
+	 * {@inheritdoc}
+	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 */
 	public function execute()
 	{
 		$item_id = $this->request->variable('item_id', 0);
 
 		$item_mapper = $this->mapper_factory->create('menus', 'items');
 
-		if (($entity = $item_mapper->load(array('item_id' => $item_id))) === null)
+		/** @type \blitze\sitemaker\model\menus\entity\item $entity */
+		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_ITEM_NOT_FOUND');
 		}

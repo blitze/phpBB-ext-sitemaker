@@ -18,7 +18,7 @@ class blocks_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('blocks');
 
-		$block = $mapper->load(array('bid' => 1));
+		$block = $mapper->load(array('bid', '=', 1));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\entity\block', $block);
 		$this->assertEquals('blitze.sitemaker.blocks.stats', $block->get_name());
@@ -37,14 +37,14 @@ class blocks_test extends base_mapper
 
 		// it should return 3 entities in the collection
 		$collection = $mapper->find(array(
-			'route_id'	=> 2,
-			'style'		=> 1,
+			array('route_id', '=', 2),
+			array('style', '=', 1),
 		));
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\collections\blocks', $collection);
 		$this->assertEquals(3, $collection->count());
 
-		$collection = $mapper->find(array('name' => 'my block'));
+		$collection = $mapper->find(array('name', '=', 'my block'));
 		$this->assertEquals(0, $collection->count());
 	}
 
@@ -76,13 +76,13 @@ class blocks_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('blocks');
 
-		$block = $mapper->load(array('bid' => 2));
+		$block = $mapper->load(array('bid', '=', 2));
 		$this->assertEquals('sidebar', $block->get_position());
 
 		$block->set_position('top');
 		$mapper->save($block);
 
-		$block = $mapper->load(array('bid' => 2));
+		$block = $mapper->load(array('bid', '=', 2));
 		$this->assertEquals(2, $block->get_bid());
 		$this->assertEquals('top', $block->get_position());
 	}
@@ -95,8 +95,8 @@ class blocks_test extends base_mapper
 		$mapper = $this->get_mapper('blocks');
 
 		$collection = $mapper->find(array(
-			'route_id'	=> 2,
-			'style'		=> 1,
+			array('route_id', '=', 2),
+			array('style', '=', 1),
 		));
 
 		$block1 = $collection->current();
@@ -110,10 +110,11 @@ class blocks_test extends base_mapper
 		$mapper->delete($block1);
 
 		// it should no longer exist
-		$this->assertNull($mapper->load(array('bid' => $id1)));
+		$this->assertNull($mapper->load(array('bid', '=', $id1)));
 
 		// other block on same position should move up
-		$block2 = $mapper->load(array('bid' => $id2));
+		$block2 = $mapper->load(array('bid', '=', $id2));
+
 		$this->assertEquals(0, $block2->get_weight());
 	}
 
@@ -125,8 +126,8 @@ class blocks_test extends base_mapper
 		$mapper = $this->get_mapper('blocks');
 
 		$condition = array(
-			'route_id'	=> 2,
-			'style'		=> 1,
+			array('route_id', '=', 2),
+			array('style', '=', 1),
 		);
 
 		$collection = $mapper->find($condition);

@@ -32,7 +32,7 @@ class members_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
+		global $user, $phpbb_root_path, $phpEx;
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
@@ -132,10 +132,11 @@ class members_test extends blocks_base
 
 	/**
 	 * Test block display
-	 *
 	 * @dataProvider block_test_data
+	 * @param array $bdata
+	 * @param array $expected
 	 */
-	public function test_block_display($bdata, $expected)
+	public function test_block_display(array $bdata, array $expected)
 	{
 		$block = $this->get_block();
 

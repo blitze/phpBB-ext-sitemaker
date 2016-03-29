@@ -26,6 +26,7 @@ class show_sitemaker_test extends listener_base
 
 	/**
 	 * @dataProvider show_sitemaker_test_data
+	 * @param bool $startpage
 	 */
 	public function test_show_sitemaker($startpage)
 	{
@@ -40,7 +41,7 @@ class show_sitemaker_test extends listener_base
 		$this->blocks->expects($this->once())
 			->method('show');
 
-		$this->sitemaker->expects($this->once())
+		$this->util->expects($this->once())
 			->method('set_assets');
 
 		$count = ($startpage) ? 1 : 0;

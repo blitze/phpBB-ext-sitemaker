@@ -13,5 +13,5 @@ use blitze\sitemaker\model\base_collection;
 
 class blocks extends base_collection
 {
-	protected $_entity_class = 'blitze\sitemaker\model\blocks\entity\block';
+	protected $entity_class = 'blitze\sitemaker\model\blocks\entity\block';
 }

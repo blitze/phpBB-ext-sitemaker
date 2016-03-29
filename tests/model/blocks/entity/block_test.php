@@ -80,7 +80,7 @@ class block_test extends \phpbb_test_case
 		return array(
 			array('icon', '', 'fa', 'fa', 'fa fa-check', 'fa fa-check'),
 			array('name', '', 'some string', 'some string', 'another string', 'another string'),
-			array('title', '', 'some title', 'Some Title', 'my block', 'My Block'),
+			array('title', '', 'some title', 'Some title', 'my block', 'My block'),
 			array('route_id', 0, 1, 1, 2, 2),
 			array('position', '', 'sidebar', 'sidebar', 'bottom', 'bottom'),
 			array('weight', 0, 1, 1, 2, 2),
@@ -100,6 +100,12 @@ class block_test extends \phpbb_test_case
 	 * Test entity accessor and mutator
 	 *
 	 * @dataProvider accessors_and_mutators_test_data
+	 * @param $property
+	 * @param $default
+	 * @param $value1
+	 * @param $expect1
+	 * @param $value2
+	 * @param $expect2
 	 */
 	public function test_accessors_and_mutators($property, $default, $value1, $expect1, $value2, $expect2)
 	{
@@ -119,6 +125,9 @@ class block_test extends \phpbb_test_case
 		$this->assertSame($expect2, $block->$accessor());
 	}
 
+	/**
+	 *
+	 */
 	function test_bad_get_set_exceptions()
 	{
 		$block = new block(array());
@@ -144,6 +153,9 @@ class block_test extends \phpbb_test_case
 		}
 	}
 
+	/**
+	 *
+	 */
 	function test_cloning_entity()
 	{
 		$block = new block(array(
@@ -156,6 +168,9 @@ class block_test extends \phpbb_test_case
 		$this->assertNull($copy->get_bid());
 	}
 
+	/**
+	 *
+	 */
 	function test_to_array()
 	{
 		$block = new block(array(
@@ -173,7 +188,7 @@ class block_test extends \phpbb_test_case
 			'bid'			=> 1,
 			'icon'			=> '',
 			'name'			=> 'blitze.sitemaker.block.birthday',
-			'title'			=> 'My Block',
+			'title'			=> 'My block',
 			'route_id'		=> 1,
 			'position'		=> 'sidebar',
 			'weight'		=> 0,
@@ -184,14 +199,14 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '045b74543323b15336d3da03af8aa10c',
+			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
 			'settings'		=> array('my_setting' => 2),
 		);
 
 		$to_db_expected = array(
 			'icon'			=> '',
 			'name'			=> 'blitze.sitemaker.block.birthday',
-			'title'			=> 'My Block',
+			'title'			=> 'My block',
 			'route_id'		=> 1,
 			'position'		=> 'sidebar',
 			'weight'		=> 0,
@@ -202,8 +217,8 @@ class block_test extends \phpbb_test_case
 			'type'			=> 0,
 			'no_wrap'		=> false,
 			'hide_title'	=> false,
-			'hash'			=> '045b74543323b15336d3da03af8aa10c',
-			'settings'		=> 'a:1:{s:10:"my_setting";i:2;}',
+			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
+			'settings'		=> '{"my_setting":2}',
 		);
 
 		$this->assertSame($to_array_expected, $block->to_array());

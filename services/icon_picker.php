@@ -10,7 +10,7 @@
 namespace blitze\sitemaker\services;
 
 /**
- * Sitemaker icons - Font-awesome
+ * Sitemaker icons
  */
 class icon_picker
 {
@@ -18,7 +18,7 @@ class icon_picker
 	protected $translator;
 
 	/** @var \blitze\sitemaker\services\util */
-	protected $sitemaker;
+	protected $util;
 
 	/** @var \blitze\sitemaker\services\template */
 	protected $ptemplate;
@@ -27,13 +27,13 @@ class icon_picker
 	 * Constructor
 	 *
 	 * @param \phpbb\language\language     			$translator     Language object
-	 * @param \blitze\sitemaker\services\util		$sitemaker		Sitemaker object
+	 * @param \blitze\sitemaker\services\util		$util			Sitemaker utility object
 	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
 	 */
-	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $sitemaker, \blitze\sitemaker\services\template $ptemplate)
+	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate)
 	{
 		$this->translator = $translator;
-		$this->sitemaker = $sitemaker;
+		$this->util = $util;
 		$this->ptemplate = $ptemplate;
 	}
 
@@ -44,7 +44,7 @@ class icon_picker
 	{
 		$this->translator->add_lang('icons', 'blitze/sitemaker');
 
-		$this->sitemaker->add_assets(array(
+		$this->util->add_assets(array(
 			'js'	=> array(
 				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),

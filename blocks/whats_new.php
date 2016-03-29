@@ -9,10 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
+use blitze\sitemaker\services\blocks\driver\block;
+
 /**
 * What's New Block
 */
-class whats_new extends \blitze\sitemaker\services\blocks\driver\block
+class whats_new extends block
 {
 	/** @var \phpbb\language\language */
 	protected $translator;
@@ -73,7 +75,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 		}
 		else
 		{
-			$this->_fetch_new($bdata['settings']);
+			$this->fetch_new($bdata['settings']);
 
 			return array(
 				'title'     => 'WHATS_NEW',
@@ -85,9 +87,9 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @param array $settings
 	 */
-	private function _fetch_new(array $settings)
+	private function fetch_new(array $settings)
 	{
-		$topic_data = $this->_get_topics($settings);
+		$topic_data = $this->get_topics($settings);
 
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
@@ -109,17 +111,17 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	 * @param array $settings
 	 * @return array
 	 */
-	private function _get_topics(array $settings)
+	private function get_topics(array $settings)
 	{
 		if ($settings['topics_only'])
 		{
 			$sorting = 't.topic_last_post_time';
-			$sql_array = $this->_get_topics_sql();
+			$sql_array = $this->get_topics_sql();
 		}
 		else
 		{
 			$sorting = 'p.post_time';
-			$sql_array = $this->_get_posts_sql();
+			$sql_array = $this->get_posts_sql();
 		}
 
 		$this->forum_data->query(false)
@@ -134,7 +136,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_topics_sql()
+	private function get_topics_sql()
 	{
 		return array(
 			'WHERE'		=> array(
@@ -147,7 +149,7 @@ class whats_new extends \blitze\sitemaker\services\blocks\driver\block
 	/**
 	 * @return array
 	 */
-	private function _get_posts_sql()
+	private function get_posts_sql()
 	{
 		return array(
 			'FROM'		=> array(

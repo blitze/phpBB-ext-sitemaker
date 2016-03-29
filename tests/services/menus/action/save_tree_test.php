@@ -78,8 +78,10 @@ class save_tree_test extends base_action
 	 * Test save tree
 	 *
 	 * @dataProvider save_tree_test_data
+	 * @param array $variable_map
+	 * @param array $expected
 	 */
-	public function test_save_tree($variable_map, $expected)
+	public function test_save_tree(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('save_tree', $variable_map);
 

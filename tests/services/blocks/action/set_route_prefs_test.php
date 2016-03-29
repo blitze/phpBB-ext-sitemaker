@@ -67,7 +67,7 @@ class set_route_prefs_test extends base_action
 					array('ex_positions', array(0 => ''), false, request_interface::REQUEST, array()),
 				),
 				array(
-					'route_id'		=> 5,
+					'route_id'		=> 6,
 					'style'			=> 1,
 					'hide_blocks'	=> true,
 					'has_blocks'	=> false,
@@ -88,10 +88,11 @@ class set_route_prefs_test extends base_action
 
 	/**
 	 * Test set route preferences
-	 *
 	 * @dataProvider set_route_prefs_test_data
+	 * @param array $variable_map
+	 * @param array|null $expected
 	 */
-	public function test_set_route_prefs($variable_map, $expected)
+	public function test_set_route_prefs(array $variable_map, $expected)
 	{
 		$command = $this->get_command('set_route_prefs', $variable_map);
 
@@ -101,8 +102,8 @@ class set_route_prefs_test extends base_action
 
 		$mapper = $this->mapper_factory->create('blocks', 'routes');
 		$entity = $mapper->load(array(
-			'route'		=> $variable_map[0][4],
-			'style'		=> 1,
+			array('route', '=', $variable_map[0][4]),
+			array('style', '=', 1),
 		));
 
 		if ($entity)

@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\services\forum;
 
-use blitze\sitemaker\services\forum\admin;
-
 class manager
 {
 	/** @var \phpbb\auth\auth */
@@ -62,6 +60,11 @@ class manager
 		$translator->add_lang('acp/forums');
 	}
 
+	/**
+	 * @param array $forum_data
+	 * @param int $forum_perm_from
+	 * @return array
+	 */
 	public function add(array &$forum_data, $forum_perm_from = 0)
 	{
 		$forum_data += array(
@@ -77,7 +80,7 @@ class manager
 			// Copy permissions?
 			if ($forum_perm_from && $forum_perm_from != $forum_data['forum_id'])
 			{
-				copy_forum_permissions($forum_perm_from, $forum_data['forum_id'], false, false);
+				copy_forum_permissions($forum_perm_from, array($forum_data['forum_id']), false, false);
 				phpbb_cache_moderators($this->db, $this->cache, $this->auth);
 			}
 
@@ -88,6 +91,13 @@ class manager
 		return $errors;
 	}
 
+	/**
+	 * @param int $forum_id
+	 * @param string $action_posts
+	 * @param string $action_subforums
+	 * @param int $posts_to_id
+	 * @param int $subforums_to_id
+	 */
 	public function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
 		admin::remove($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);

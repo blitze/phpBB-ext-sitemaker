@@ -24,49 +24,6 @@ class auto_lang_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Test the add_block_admin_lang method
-	 *
-	 * @dataProvider add_block_admin_lang_test_data
-	 */
-	public function test_add_block_admin_lang($user_lang, $default_lang, $expected)
-	{
-		global $phpbb_extension_manager, $user, $phpEx;
-
-		$config = new \phpbb\config\config(array('default_lang' => $default_lang));
-
-		$lang_list = array();
-
-		$user = $this->getMockBuilder('\phpbb\user')
-			->disableOriginalConstructor()
-			->getMock();
-		$user->lang_name = $user_lang;
-
-		$translator = $this->getMockBuilder('\phpbb\language\language')
-			->disableOriginalConstructor()
-			->getMock();
-		$translator->expects($this->any())
-			->method('add_lang')
-			->will($this->returnCallback(function($lang_file, $ext_name) use (&$lang_list) {
-				$lang_list[$ext_name] = $lang_file;
-			}));
-
-		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
-			dirname(__FILE__) . '/fixtures/',
-			array(
-				'foo/bar' => array(
-					'ext_name'		=> 'foo/bar',
-					'ext_active'	=> '1',
-					'ext_path'		=> 'ext/foo/bar/',
-				),
-			));
-
-		$auto_lang = new auto_lang($config, $phpbb_extension_manager, $translator, $user, $phpEx);
-		$auto_lang->add('blocks_admin');
-
-		$this->assertSame($expected, $lang_list);
-	}
-
-	/**
 	 * Data set for test_add_block_admin_lang
 	 *
 	 * @return array
@@ -103,5 +60,51 @@ class auto_lang_test extends \phpbb_test_case
 				)
 			),
 		);
+	}
+
+	/**
+	 * Test the add_block_admin_lang method
+	 *
+	 * @dataProvider add_block_admin_lang_test_data
+	 * @param string $user_lang
+	 * @param string $default_lang
+	 * @param array $expected
+	 */
+	public function test_add_block_admin_lang($user_lang, $default_lang, array $expected)
+	{
+		global $phpbb_extension_manager, $user, $phpEx;
+
+		$config = new \phpbb\config\config(array('default_lang' => $default_lang));
+
+		$lang_list = array();
+
+		$user = $this->getMockBuilder('\phpbb\user')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->lang_name = $user_lang;
+
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$translator->expects($this->any())
+			->method('add_lang')
+			->will($this->returnCallback(function($lang_file, $ext_name) use (&$lang_list) {
+				$lang_list[$ext_name] = $lang_file;
+			}));
+
+		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
+			dirname(__FILE__) . '/fixtures/',
+			array(
+				'foo/bar' => array(
+					'ext_name'		=> 'foo/bar',
+					'ext_active'	=> '1',
+					'ext_path'		=> 'ext/foo/bar/',
+				),
+			));
+
+		$auto_lang = new auto_lang($config, $phpbb_extension_manager, $translator, $user, $phpEx);
+		$auto_lang->add('blocks_admin');
+
+		$this->assertSame($expected, $lang_list);
 	}
 }

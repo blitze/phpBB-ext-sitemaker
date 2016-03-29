@@ -31,6 +31,7 @@ class menus_admin
 	 * @param \phpbb\request\request_interface					$request			Request object
 	 * @param \phpbb\language\language							$translator			Languag object
 	 * @param \blitze\sitemaker\services\menus\action_handler	$action_handler		Handles menu actions
+	 * @param bool												$return_url
 	 */
 	public function __construct(\phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\menus\action_handler $action_handler, $return_url = false)
 	{
@@ -40,6 +41,10 @@ class menus_admin
 		$this->return_url = $return_url;
 	}
 
+	/**
+	 * @param string $action
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function handle($action)
 	{
 		$return_data = array();
