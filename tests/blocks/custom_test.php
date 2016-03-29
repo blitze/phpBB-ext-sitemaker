@@ -84,7 +84,7 @@ class custom_test extends blocks_base
 					'bid' => 3, // record does not exist in cblocks table
 				),
 				true,
-				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="save" data-raw=""></div>',
+				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw=""></div>',
 			),
 			array(
 				array(
@@ -98,7 +98,7 @@ class custom_test extends blocks_base
 					'bid' => 1,
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="save" data-raw="my custom content"><p>my <strong>custom</strong> content<br></p></div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="my custom content"><p>my <strong>custom</strong> content<br></p></div>',
 			),
 		);
 	}
@@ -174,7 +174,7 @@ class custom_test extends blocks_base
 	public function test_save_custom_content($block_id, array $variable_map, array $expected)
 	{
 		$block = $this->get_block($variable_map);
-		$result = $block->save($block_id);
+		$result = $block->edit($block_id);
 
 		$this->assertEquals($expected, $result);
 	}

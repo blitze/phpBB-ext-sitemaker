@@ -67,7 +67,7 @@ class set_route_prefs_test extends base_action
 					array('ex_positions', array(0 => ''), false, request_interface::REQUEST, array()),
 				),
 				array(
-					'route_id'		=> 5,
+					'route_id'		=> 6,
 					'style'			=> 1,
 					'hide_blocks'	=> true,
 					'has_blocks'	=> false,

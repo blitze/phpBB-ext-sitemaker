@@ -49,6 +49,14 @@
 			<value>bottom</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>5</value>
+			<value></value>
+			<value>foo.php</value>
+			<value>1</value>
+			<value></value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
 		<column>bid</column>
@@ -125,6 +133,25 @@
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value>2</value>
 			<value>0</value>
+		</row>
+		<row>
+			<value>7</value>
+			<value>blitze.sitemaker.block.custom</value>
+			<value>5</value>
+			<value>1</value>
+			<value>sidebar</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_sm_cblocks">
+		<column>block_id</column>
+		<column>block_content</column>
+		<row>
+			<value>7</value>
+			<value>some content</value>
 		</row>
 	</table>
 </dataset>

@@ -116,9 +116,24 @@ class copy_route extends base_action
 			$copied = $this->block_mapper->save($copy);
 			$position = $copied->get_position();
 
+			$this->copy_custom_block($entity->get_bid(), $copied);
+
 			$blocks[$position][] = $this->render_block($copied);
 		}
 
 		return $blocks;
+	}
+
+	/**
+	 * @param int $from_bid
+	 * @param \blitze\sitemaker\model\blocks\entity\block $entity
+	 */
+	protected function copy_custom_block($from_bid, \blitze\sitemaker\model\blocks\entity\block $entity)
+	{
+		if ($entity->get_name() === 'blitze.sitemaker.block.custom')
+		{
+			$block = $this->phpbb_container->get('blitze.sitemaker.block.custom');
+			$block->copy($from_bid, $entity->get_bid());
+		}
 	}
 }

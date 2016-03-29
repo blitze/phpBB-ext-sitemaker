@@ -43,7 +43,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -70,7 +70,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -84,7 +84,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -110,7 +110,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -124,7 +124,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -153,7 +153,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 7,
+							'id'		=> 8,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -164,7 +164,7 @@ class copy_route_test extends base_action
 							'position'	=> 'subcontent',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 8,
+							'id'		=> 9,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -242,5 +242,41 @@ class copy_route_test extends base_action
 		// returned data
 		$this->assertSame($expected_route_data, array_intersect_key($expected_route_data, $result['config']));
 		$this->assertSame($expected_return_data, $actual);
+	}
+
+	public function test_copy_route_with_custom_block()
+	{
+		$style_id = 1;
+		$variable_map = array(
+			array('route', '', false, request_interface::REQUEST, 'bar.php'),
+			array('from_route', '', false, request_interface::REQUEST, 'foo.php'),
+			array('from_style', $style_id, false, request_interface::REQUEST, $style_id),
+		);
+
+		$command = $this->get_command('copy_route', $variable_map);
+
+		$result = $command->execute($style_id);
+
+		$expected = array(
+			array(
+				'block_id' => 7,
+				'block_content' => 'some content',
+			),
+			array(
+				'block_id' => 8,
+				'block_content' => 'some content',
+			),
+		);
+
+		$result = $this->db->sql_query('SELECT block_id, block_content FROM phpbb_sm_cblocks');
+
+		$actual = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$actual[] = $row;
+		}
+		$this->db->sql_freeresult();
+
+		$this->assertEquals($expected, $actual);
 	}
 }

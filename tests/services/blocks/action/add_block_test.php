@@ -28,7 +28,7 @@ class add_block_test extends base_action
 					array('weight', 0, false, request_interface::REQUEST, 0),
 				),
 				array(
-					'id'		=> 7,
+					'id'		=> 8,
 					'route_id'	=> 1,
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
@@ -43,8 +43,8 @@ class add_block_test extends base_action
 					array('weight', 0, false, request_interface::REQUEST, 1),
 				),
 				array(
-					'id'		=> 7,
-					'route_id'	=> 5,
+					'id'		=> 8,
+					'route_id'	=> 6,
 					'title'		=> 'I am baz block',
 					'content'	=> 'I love myself',
 					'settings'	=> array(
