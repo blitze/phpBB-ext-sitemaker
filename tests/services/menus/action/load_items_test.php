@@ -64,7 +64,7 @@ class load_items_test extends base_action
 	 * @param array $variable_map
 	 * @param array $expected
 	 */
-	public function test_add_bulk(array $variable_map, array $expected)
+	public function test_load_items(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('load_items', $variable_map);
 
