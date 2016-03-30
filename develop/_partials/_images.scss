@@ -24,11 +24,14 @@ img {
 		@include set-avatar-size($medium-avatar-size, top);
 	}
 
-	.post & {
-		max-width: 99%;
-		width: 99%;
+	.post &,
+	.attach-image & {
+		max-width: 100%;
 		height: auto;
-		-ms-interpolation-mode: bicubic;
+	}
+
+	.attach-image & {
+		width: 99%;
 	}
 
 	.feeds & {
