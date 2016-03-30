@@ -90,10 +90,6 @@
 	};
 
 	var addBlock = function(posID, blockName, droppedElement) {
-		if (updated) {
-			saveLayout();
-		}
-
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('block')
 			.html('<div class="ui-state-highlight sm-block-spacing sortable" style="padding: 5px"><i class="fa fa-spinner fa-2x fa-spin"></i> ' + lang.ajaxLoading + '</div>');
@@ -116,6 +112,10 @@
 			var html = template.render(result);
 			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initTinyMce();
+
+			if (updated) {
+				saveLayout();
+			}
 		});
 	};
 
