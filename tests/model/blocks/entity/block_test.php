@@ -13,6 +13,8 @@ use blitze\sitemaker\model\blocks\entity\block;
 
 class block_test extends \phpbb_test_case
 {
+	protected $trans;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -21,6 +23,25 @@ class block_test extends \phpbb_test_case
 	protected static function setup_extensions()
 	{
 		return array('blitze/sitemaker');
+	}
+
+	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 	}
 
 	/**
@@ -50,7 +71,7 @@ class block_test extends \phpbb_test_case
 			}
 			catch (\blitze\sitemaker\exception\invalid_argument $e)
 			{
-				$this->assertEquals($field, $e->getMessage());
+				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT-{$field}-FIELD_MISSING", $e->get_message($this->translator));
 			}
 		}
 	}
@@ -137,9 +158,9 @@ class block_test extends \phpbb_test_case
 			$this->assertNull($block->get_foo());
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('get_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 
 		try
@@ -147,9 +168,9 @@ class block_test extends \phpbb_test_case
 			$this->assertNull($block->set_foo('bar'));
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('set_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 	}
 

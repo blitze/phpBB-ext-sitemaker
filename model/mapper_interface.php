@@ -54,6 +54,7 @@ interface mapper_interface
 	 * 									)
 	 *                                  OR an entity of type \blitze\sitemaker\model\entity_interface
 	 * @return void
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	public function delete($condition);
 

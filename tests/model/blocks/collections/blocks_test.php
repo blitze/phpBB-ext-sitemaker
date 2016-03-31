@@ -65,14 +65,23 @@ class blocks_test extends \phpbb_test_case
 
 		$invalid_object = new \stdClass;
 
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
+
 		try
 		{
 			$collection[] = $invalid_object;
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals('INVALID_ENTITY', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-entity-INVALID_ENTITY', $e->get_message($translator));
 		}
 	}
 }

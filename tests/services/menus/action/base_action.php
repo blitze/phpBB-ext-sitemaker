@@ -13,6 +13,7 @@ require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
 
 class base_action extends \phpbb_database_test_case
 {
+	protected $translator;
 	protected $mapper_factory;
 
 	/**
@@ -66,10 +67,10 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$translator = $this->getMockBuilder('\phpbb\language\language')
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
-		$translator->expects($this->any())
+		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
@@ -79,7 +80,7 @@ class base_action extends \phpbb_database_test_case
 
 		$action_class = '\\blitze\\sitemaker\\services\\menus\\action\\' . $action;
 
-        return new $action_class($request, $translator, $this->mapper_factory);
+        return new $action_class($request, $this->translator, $this->mapper_factory);
 	}
 
 	protected function get_matching_fields($items, $allowed_fields)
@@ -102,7 +103,7 @@ class base_action extends \phpbb_database_test_case
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals($expected, $e->getMessage());
+			$this->assertEquals($expected, $e->get_message($this->translator));
 		}
 		catch (\Exception $e)
 		{

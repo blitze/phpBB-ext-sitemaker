@@ -46,14 +46,6 @@ abstract class base_mapper implements mapper_interface
 	}
 
 	/**
-	 * Get the collection
-	 */
-	public function get_collection()
-	{
-		return $this->collection;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function load(array $condition = array())
@@ -120,7 +112,7 @@ abstract class base_mapper implements mapper_interface
 			}
 			else
 			{
-				throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+				throw new \blitze\sitemaker\exception\invalid_argument(array('entity', 'INVALID_ENTITY'));
 			}
 		}
 
@@ -140,41 +132,31 @@ abstract class base_mapper implements mapper_interface
 	 * Insert a new row in the table corresponding to the specified entity
 	 * @param \blitze\sitemaker\model\entity_interface $entity
 	 * @return \blitze\sitemaker\model\entity_interface
-	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		if ($entity instanceof $this->entity_class)
-		{
-			$this->db->sql_query('INSERT INTO ' . $this->entity_table . ' ' . $this->db->sql_build_array('INSERT', $entity->to_db()));
+		$this->db->sql_query('INSERT INTO ' . $this->entity_table . ' ' . $this->db->sql_build_array('INSERT', $entity->to_db()));
 
-			$mutator = 'set_' . $this->entity_pkey;
-			$entity->$mutator((int) $this->db->sql_nextid());
+		$mutator = 'set_' . $this->entity_pkey;
+		$entity->$mutator((int) $this->db->sql_nextid());
 
-			return $entity;
-		}
-
-		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+		return $entity;
 	}
 
 	/**
 	 * Update the row in the table corresponding to the specified entity
 	 * @param \blitze\sitemaker\model\entity_interface $entity
 	 * @return mixed
-	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	protected function update(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		if ($entity instanceof $this->entity_class)
-		{
-			$accessor = 'get_' . $this->entity_pkey;
+		$accessor = 'get_' . $this->entity_pkey;
 
-			return $this->db->sql_query('UPDATE ' . $this->entity_table . '
-				SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) . '
-				WHERE ' . $this->entity_pkey . ' = ' . (int) $entity->$accessor());
-		}
-
-		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+		return $this->db->sql_query('UPDATE ' . $this->entity_table . '
+			SET ' . $this->db->sql_build_array('UPDATE', $entity->to_db()) . '
+			WHERE ' . $this->entity_pkey . ' = ' . (int) $entity->$accessor());
 	}
 
 	/**

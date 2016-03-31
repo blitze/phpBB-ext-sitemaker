@@ -70,7 +70,7 @@ class load_items_test extends base_action
 	 * @param array $variable_map
 	 * @param array $expected
 	 */
-	public function test_add_bulk(array $variable_map, array $expected)
+	public function test_load_items(array $variable_map, array $expected)
 	{
 		$command = $this->get_command('load_items', $variable_map);
 
@@ -85,7 +85,7 @@ class load_items_test extends base_action
 	 */
 	public function test_exceptions()
 	{
-		$expected = 'MENU_NOT_FOUND';
+		$expected = 'EXCEPTION_OUT_OF_BOUNDS-menu_id';
 		$variable_map = array(
 			array('menu_id', 0, false, request_interface::REQUEST, 15),
 		);

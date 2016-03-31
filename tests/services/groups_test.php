@@ -43,7 +43,7 @@ class groups_test extends \phpbb_database_test_case
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');

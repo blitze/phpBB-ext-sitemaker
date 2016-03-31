@@ -34,7 +34,7 @@ abstract class base_entity implements entity_interface
 	 * @param $name
 	 * @param $args
 	 * @return $this
-	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	public function __call($name, $args)
 	{
@@ -50,10 +50,9 @@ abstract class base_entity implements entity_interface
 				return $this;
 			}
 		}
-		else
-		{
-			throw new \blitze\sitemaker\exception\unexpected_value(array($name, 'UNDEFINED_METHOD'));
-		}
+
+		$property = str_replace(array('get_', 'set_'), '', $name);
+		throw new \blitze\sitemaker\exception\invalid_argument(array($property, 'INVALID_PROPERTY'));
 	}
 
 	/**
@@ -133,7 +132,7 @@ abstract class base_entity implements entity_interface
 	 * @param string $name
 	 * @param mixed $value
 	 * @return mixed
-	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	protected function validate_attribute($name, $value)
 	{
@@ -147,7 +146,7 @@ abstract class base_entity implements entity_interface
 
 		if ($type === false || !$value instanceof $type)
 		{
-			throw new \blitze\sitemaker\exception\unexpected_value(array($name, 'INVALID_TYPE'));
+			throw new \blitze\sitemaker\exception\invalid_argument(array($name, 'INVALID_DATA_TYPE'));
 		}
 
 		return $value;

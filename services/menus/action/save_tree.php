@@ -26,7 +26,7 @@ class save_tree extends base_action
 
 		if ($menu_mapper->load(array('menu_id', '=', $menu_id)) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('menu_id');
 		}
 
 		$tree = $this->prepare_tree($raw_tree);

@@ -106,6 +106,8 @@ class items extends base_mapper
 	}
 
 	/**
+	 * Add multiple items via string depicting hierarchical structure
+	 *
 	 * @param int $menu_id
 	 * @param int $parent_id
 	 * @param $string
@@ -128,6 +130,8 @@ class items extends base_mapper
 	}
 
 	/**
+	 * Update entire tree saving parent-child relationships in a single go
+	 *
 	 * @param int $menu_id
 	 * @param array $items
 	 * @return array

@@ -16,6 +16,7 @@ class base_action extends \phpbb_database_test_case
 {
 	protected $config;
 	protected $db;
+	protected $translator;
 	protected $mapper_factory;
 
 	/**
@@ -70,8 +71,14 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
@@ -124,7 +131,7 @@ class base_action extends \phpbb_database_test_case
 
 		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, 'phpbb_sm_cblocks');
 
-		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $translator, $groups, $phpbb_root_path, $phpEx);
+		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $this->translator, $groups, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -139,12 +146,12 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $ptemplate, $blocks_collection);
 
 		$this->mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 
 		$action_class = '\\blitze\\sitemaker\\services\\blocks\\action\\' . $action;
 
-        return new $action_class($this->config, $phpbb_container, $request, $translator, $blocks_service, $block_factory, $this->mapper_factory);
+        return new $action_class($this->config, $phpbb_container, $request, $this->translator, $blocks_service, $block_factory, $this->mapper_factory);
 	}
 }

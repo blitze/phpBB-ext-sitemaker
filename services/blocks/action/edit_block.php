@@ -29,12 +29,12 @@ class edit_block extends base_action
 		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('bid');
 		}
 
 		if (($block_instance = $this->block_factory->get_block($entity->get_name())) === null)
 		{
-			throw new \blitze\sitemaker\exception\invalid_argument(array($name, 'BLOCK_NOT_FOUND'));
+			throw new \blitze\sitemaker\exception\invalid_argument(array($entity->get_name(), 'SERVICE_NOT_FOUND'));
 		}
 
 		$default_settings = $block_instance->get_config($entity->get_settings());

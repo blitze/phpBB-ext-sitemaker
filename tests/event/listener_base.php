@@ -72,7 +72,7 @@ class listener_base extends \phpbb_database_test_case
 		$this->translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 
 		$this->user = new \phpbb\user($this->translator, '\phpbb\datetime');

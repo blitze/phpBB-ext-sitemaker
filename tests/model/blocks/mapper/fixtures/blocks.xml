@@ -5,10 +5,12 @@
 		<column>ext_name</column>
 		<column>route</column>
 		<column>style</column>
+		<column>has_blocks</column>
 		<row>
 			<value>1</value>
 			<value></value>
 			<value>index.php</value>
+			<value>1</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -16,12 +18,14 @@
 			<value>foo/bar</value>
 			<value>app.php/foo/test/</value>
 			<value>1</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>3</value>
 			<value></value>
 			<value>faq.php</value>
 			<value>2</value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="phpbb_sm_blocks">

@@ -11,6 +11,8 @@ namespace blitze\sitemaker\tests\model\menus\collections;
 
 class menus_test extends \phpbb_test_case
 {
+	protected $translator;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -19,6 +21,25 @@ class menus_test extends \phpbb_test_case
 	protected static function setup_extensions()
 	{
 		return array('blitze/sitemaker');
+	}
+
+	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 	}
 
 	/**
@@ -70,9 +91,9 @@ class menus_test extends \phpbb_test_case
 			$collection[] = $invalid_object;
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('INVALID_ENTITY', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-entity-INVALID_ENTITY', $e->get_message($this->translator));
 		}
 	}
 }

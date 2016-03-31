@@ -67,8 +67,14 @@ class menus_admin_test extends \phpbb_database_test_case
 			->method('is_ajax')
 			->will($this->returnValue($ajax_request));
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
@@ -89,9 +95,13 @@ class menus_admin_test extends \phpbb_database_test_case
 		$dummy_object->expects($this->exactly($action_call_count))
 			->method('execute')
 			->will($this->returnCallback(function() use (&$dummy_object) {
-				if ($dummy_object->action === 'invalid_action')
+				if ($dummy_object->action === 'no_exists')
 				{
-					throw new \blitze\sitemaker\exception\out_of_bounds(array($dummy_object->action, 'INVALID_REQUEST'));
+					throw new \blitze\sitemaker\exception\unexpected_value(array($dummy_object->action, 'INVALID_ACTION'));
+				}
+				else if ($dummy_object->action === 'tree_error')
+				{
+					throw new \RuntimeException('INVALID_PARENT');
 				}
 				return array(
 					'message' => 'Action: ' . $dummy_object->action,
@@ -137,11 +147,18 @@ class menus_admin_test extends \phpbb_database_test_case
 				'{"message":"Action: edit_menu"}'
 			),
 			array(
-				'invalid_action',
+				'no_exists',
 				1,
 				0,
 				200,
-				'{"message":"EXCEPTION_OUT_OF_BOUNDS"}'
+				'{"message":"EXCEPTION_UNEXPECTED_VALUE-no_exists-INVALID_ACTION"}'
+			),
+			array(
+				'tree_error',
+				1,
+				0,
+				200,
+				'{"message":"INVALID_PARENT"}'
 			),
 		);
 	}

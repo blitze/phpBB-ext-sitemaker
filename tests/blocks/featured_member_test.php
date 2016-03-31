@@ -50,7 +50,7 @@ class featured_member_test extends blocks_base
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 
 		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
@@ -58,7 +58,7 @@ class featured_member_test extends blocks_base
 		$user->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 		$user->expects($this->any())
 			->method('get_iso_lang_id')

@@ -28,7 +28,7 @@ class save_block extends base_action
 		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
 		if (($entity = $this->block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('bid');
 		}
 
 		$old_hash = $entity->get_hash();

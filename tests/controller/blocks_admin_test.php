@@ -87,7 +87,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$translator->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
-				return implode(' ', func_get_args());
+				return implode('-', func_get_args());
 			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
@@ -112,7 +112,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->will($this->returnCallback(function() use (&$dummy_object) {
 				if ($dummy_object->action === 'invalid_action')
 				{
-					throw new \blitze\sitemaker\exception\out_of_bounds(array($dummy_object->action, 'INVALID_REQUEST'));
+					throw new \blitze\sitemaker\exception\unexpected_value(array($dummy_object->action, 'INVALID_ACTION'));
 				}
 				return array(
 					'message' => 'Action: ' . $dummy_object->action,
@@ -194,7 +194,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				1,
 				0,
 				200,
-				'{"id":"","title":"","content":"","message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST"}'
+					'{"id":"","title":"","content":"","message":"EXCEPTION_UNEXPECTED_VALUE-invalid_action-INVALID_ACTION"}'
 			),
 		);
 	}

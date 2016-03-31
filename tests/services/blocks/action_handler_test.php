@@ -13,6 +13,7 @@ use blitze\sitemaker\services\blocks\action_handler;
 
 class action_handler_test extends \phpbb_test_case
 {
+	protected $translator;
 	protected $blocks;
 
 	/**
@@ -37,8 +38,14 @@ class action_handler_test extends \phpbb_test_case
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -56,11 +63,11 @@ class action_handler_test extends \phpbb_test_case
 			->getMock();
 
 		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
-			->setConstructorArgs(array($cache, $config, $template, $translator, $block_factory, $groups, $mapper))
+			->setConstructorArgs(array($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper))
 			->setMethods(array('clear_cache'))
 			->getMock();
 
-		return new action_handler($config, $phpbb_container, $request, $translator, $this->blocks, $block_factory, $mapper);
+		return new action_handler($config, $phpbb_container, $request, $this->translator, $this->blocks, $block_factory, $mapper);
 	}
 
 	/**
@@ -89,7 +96,7 @@ class action_handler_test extends \phpbb_test_case
 	 *
 	 * @dataProvider create_action_test_data
 	 * @param string $action
-	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	public function test_create_action($action)
 	{
@@ -98,6 +105,25 @@ class action_handler_test extends \phpbb_test_case
 		$command = $handler->create($action);
 
 		$this->assertInstanceOf('\\blitze\\sitemaker\\services\\blocks\\action\\' . $action, $command);
+	}
+
+	/**
+	 * Test invalid action request
+	 */
+	public function test_invalid_actioin()
+	{
+		$action = 'dance';
+		$handler = $this->get_action_handler();
+
+		try
+		{
+			$this->assertNull($handler->create($action));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals("EXCEPTION_UNEXPECTED_VALUE-{$action}-INVALID_ACTION", $e->get_message($this->translator));
+		}
 	}
 
 	public function test_clear_cache()

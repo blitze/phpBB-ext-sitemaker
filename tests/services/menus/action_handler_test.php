@@ -14,6 +14,7 @@ use blitze\sitemaker\services\menus\action_handler;
 class action_handler_test extends \phpbb_test_case
 {
 	protected $cache;
+	protected $translator;
 
 	/**
 	 * Define the extension to be tested.
@@ -38,14 +39,20 @@ class action_handler_test extends \phpbb_test_case
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$mapper_factory = $this->getMockBuilder('\blitze\sitemaker\model\mapper_factory')
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new action_handler($this->cache, $request, $translator, $mapper_factory);
+		return new action_handler($this->cache, $request, $this->translator, $mapper_factory);
 	}
 
 	/**
@@ -74,7 +81,7 @@ class action_handler_test extends \phpbb_test_case
 	 *
 	 * @dataProvider create_action_test_data
 	 * @param string $action
-	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	public function test_create_action($action)
 	{
@@ -83,6 +90,25 @@ class action_handler_test extends \phpbb_test_case
 		$command = $handler->create($action);
 
 		$this->assertInstanceOf('\\blitze\\sitemaker\\services\\menus\\action\\' . $action, $command);
+	}
+
+	/**
+	 * Test invalid action request
+	 */
+	public function test_invalid_actioin()
+	{
+		$action = 'rotate';
+		$handler = $this->get_action_handler();
+
+		try
+		{
+			$this->assertNull($handler->create($action));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals("EXCEPTION_UNEXPECTED_VALUE-{$action}-INVALID_ACTION", $e->get_message($this->translator));
+		}
 	}
 
 	public function test_clear_cache()

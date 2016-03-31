@@ -25,7 +25,7 @@ class edit_menu extends base_action
 		/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
 		if (($entity = $menu_mapper->load(array('menu_id', '=', $menu_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('menu_id');
 		}
 
 		$entity->set_menu_name($menu_name);

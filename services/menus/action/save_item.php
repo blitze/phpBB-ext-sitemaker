@@ -24,7 +24,7 @@ class save_item extends base_action
 		/** @type \blitze\sitemaker\model\menus\entity\item $entity */
 		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_ITEM_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('item_id');
 		}
 
 		$entity->set_item_title($this->request->variable('item_title', '', true))
