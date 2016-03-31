@@ -13,6 +13,7 @@ require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
 
 class base_action extends \phpbb_database_test_case
 {
+	protected $user;
 	protected $mapper_factory;
 
 	/**
@@ -67,8 +68,8 @@ class base_action extends \phpbb_database_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
-		$user->expects($this->any())
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->expects($this->any())
 			->method('lang')
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
@@ -78,7 +79,7 @@ class base_action extends \phpbb_database_test_case
 
 		$action_class = '\\blitze\\sitemaker\\services\\menus\\action\\' . $action;
 
-        return new $action_class($request, $user, $this->mapper_factory);
+        return new $action_class($request, $this->user, $this->mapper_factory);
 	}
 
 	protected function get_matching_fields($items, $allowed_fields)
@@ -101,7 +102,7 @@ class base_action extends \phpbb_database_test_case
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals($expected, $e->getMessage());
+			$this->assertEquals($expected, $e->get_message($this->user));
 		}
 		catch (\Exception $e)
 		{

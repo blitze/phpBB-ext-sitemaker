@@ -79,7 +79,7 @@ class load_items_test extends base_action
 	 */
 	public function test_exceptions()
 	{
-		$expected = 'MENU_NOT_FOUND';
+		$expected = 'EXCEPTION_OUT_OF_BOUNDS-menu_id';
 		$variable_map = array(
 			array('menu_id', 0, false, request_interface::REQUEST, 0),
 		);

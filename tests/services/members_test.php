@@ -234,24 +234,19 @@ class members_test extends \phpbb_database_test_case
 			),
 			array(
 				array(
-					'query_type'	=> 'tenured',
+					'query_type'	=> 'visits',
 					'max_members'	=> 2,
-					'date_range'	=> 'week',
+					'date_range'	=> 'month',
 				),
 				array(
 					'member'	=> array(
 						array(
-							'USERNAME'		=> '<span class="username">founder</span>',
+							'USERNAME'		=> '<span class="username">member2</span>',
 							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '05 Jan 2015',
-						),
-						array(
-							'USERNAME'		=> '<span class="username">member1</span>',
-							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '30 Jan 2015',
+							'USER_INFO'		=> '15 Feb 2015',
 						),
 					),
-					'S_LIST'	=> 'tenured',
+					'S_LIST'	=> 'visits',
 					'L_USER'	=> 'Username',
 					'L_INFO'	=> 'Date'
 				),

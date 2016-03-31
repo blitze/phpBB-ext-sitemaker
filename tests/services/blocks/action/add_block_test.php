@@ -101,7 +101,7 @@ class add_block_test extends base_action
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals('my.invalid.block', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-my.invalid.block-SERVICE_NOT_FOUND', $e->get_message($this->user));
 		}
 	}
 }

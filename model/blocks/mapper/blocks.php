@@ -51,7 +51,6 @@ class blocks extends base_mapper
 
 	/**
 	 * {@inheritdoc}
-	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{

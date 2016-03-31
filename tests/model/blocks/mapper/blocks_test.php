@@ -49,13 +49,13 @@ class blocks_test extends base_mapper
 	}
 
 	/**
-	 * Test adding new entity
+	 * Test add block
 	 */
-	public function test_save_no_id_provided()
+	public function test_add_block()
 	{
 		$mapper = $this->get_mapper('blocks');
 
-		$block = $mapper->create_entity(array(
+		$entity = $mapper->create_entity(array(
 			'name'		=> 'blitze.sitemaker.blocks.whois',
 			'position'	=> 'sidebar',
 			'route_id'	=> 1,
@@ -63,16 +63,16 @@ class blocks_test extends base_mapper
 			'weight'	=> 1,
 		));
 
-		$result = $mapper->save($block);
+		$result = $mapper->save($entity);
 
 		$this->assertInstanceOf('\blitze\sitemaker\model\blocks\entity\block', $result);
 		$this->assertEquals(6, $result->get_bid());
 	}
 
 	/**
-	 * Test updating an existing entity
+	 * Test updating a block
 	 */
-	public function test_save_with_id_provided()
+	public function test_update_block()
 	{
 		$mapper = $this->get_mapper('blocks');
 

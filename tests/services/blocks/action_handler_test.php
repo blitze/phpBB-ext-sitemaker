@@ -13,6 +13,7 @@ use blitze\sitemaker\services\blocks\action_handler;
 
 class action_handler_test extends \phpbb_test_case
 {
+	protected $user;
 	protected $blocks;
 
 	/**
@@ -36,7 +37,13 @@ class action_handler_test extends \phpbb_test_case
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$request = $this->getMock('\phpbb\request\request_interface');
-		$user = new \phpbb\user('\phpbb\datetime');
+
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -54,11 +61,11 @@ class action_handler_test extends \phpbb_test_case
 			->getMock();
 
 		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
-			->setConstructorArgs(array($cache, $config, $template, $user, $block_factory, $groups, $mapper))
+			->setConstructorArgs(array($cache, $config, $template, $this->user, $block_factory, $groups, $mapper))
 			->setMethods(array('clear_cache'))
 			->getMock();
 
-		return new action_handler($config, $phpbb_container, $request, $user, $this->blocks, $block_factory, $mapper);
+		return new action_handler($config, $phpbb_container, $request, $this->user, $this->blocks, $block_factory, $mapper);
 	}
 
 	/**
@@ -87,7 +94,7 @@ class action_handler_test extends \phpbb_test_case
 	 *
 	 * @dataProvider create_action_test_data
 	 * @param string $action
-	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	public function test_create_action($action)
 	{
@@ -96,6 +103,25 @@ class action_handler_test extends \phpbb_test_case
 		$command = $handler->create($action);
 
 		$this->assertInstanceOf('\\blitze\\sitemaker\\services\\blocks\\action\\' . $action, $command);
+	}
+
+	/**
+	 * Test invalid action request
+	 */
+	public function test_invalid_actioin()
+	{
+		$action = 'dance';
+		$handler = $this->get_action_handler();
+
+		try
+		{
+			$this->assertNull($handler->create($action));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals("EXCEPTION_UNEXPECTED_VALUE-{$action}-INVALID_ACTION", $e->get_message($this->user));
+		}
 	}
 
 	public function test_clear_cache()

@@ -13,6 +13,8 @@ use blitze\sitemaker\model\menus\entity\item;
 
 class item_test extends \phpbb_test_case
 {
+	protected $user;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -46,6 +48,13 @@ class item_test extends \phpbb_test_case
 		$user->host = 'www.example.com';
 		$user->page['root_script_path'] = '/phpBB/';
 
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
+
 		require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
 	}
 
@@ -74,7 +83,7 @@ class item_test extends \phpbb_test_case
 			}
 			catch (\blitze\sitemaker\exception\invalid_argument $e)
 			{
-				$this->assertEquals($field, $e->getMessage());
+				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT $field FIELD_MISSING", $e->get_message($this->user));
 			}
 		}
 	}
@@ -153,9 +162,9 @@ class item_test extends \phpbb_test_case
 			$this->assertNull($item->get_foo());
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('get_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT foo INVALID_PROPERTY', $e->get_message($this->user));
 		}
 
 		try
@@ -163,9 +172,9 @@ class item_test extends \phpbb_test_case
 			$this->assertNull($item->set_foo('bar'));
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('set_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT foo INVALID_PROPERTY', $e->get_message($this->user));
 		}
 	}
 

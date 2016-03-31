@@ -24,6 +24,23 @@ class menu_test extends \phpbb_test_case
 	}
 
 	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
+	}
+
+	/**
 	 * Test exception on required fields
 	 */
 	public function test_required_fields()
@@ -47,7 +64,7 @@ class menu_test extends \phpbb_test_case
 			}
 			catch (\blitze\sitemaker\exception\invalid_argument $e)
 			{
-				$this->assertEquals($field, $e->getMessage());
+				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT $field FIELD_MISSING", $e->get_message($this->user));
 			}
 		}
 	}
@@ -111,9 +128,9 @@ class menu_test extends \phpbb_test_case
 			$this->assertNull($menu->get_foo());
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('get_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT foo INVALID_PROPERTY', $e->get_message($this->user));
 		}
 
 		try
@@ -121,9 +138,9 @@ class menu_test extends \phpbb_test_case
 			$this->assertNull($menu->set_foo('bar'));
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('set_foo', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT foo INVALID_PROPERTY', $e->get_message($this->user));
 		}
 
 		try
@@ -131,9 +148,9 @@ class menu_test extends \phpbb_test_case
 			$this->assertNull($menu->set_items(new \StdClass));
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('items', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT items INVALID_DATA_TYPE', $e->get_message($this->user));
 		}
 	}
 

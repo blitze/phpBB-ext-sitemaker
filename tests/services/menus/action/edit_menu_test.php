@@ -47,14 +47,14 @@ class edit_menu_test extends base_action
 					array('menu_id', 0, false, request_interface::REQUEST, 4),
 					array('title', '', true, request_interface::REQUEST, 'my menu'),
 				),
-				'MENU_NOT_FOUND',
+				'EXCEPTION_OUT_OF_BOUNDS-menu_id',
 			),
 			array(
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 					array('title', '', true, request_interface::REQUEST, ''),
 				),
-				'menu_name',
+				'EXCEPTION_INVALID_ARGUMENT-menu_name-FIELD_MISSING',
 			),
 		);
 	}

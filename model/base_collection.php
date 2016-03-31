@@ -109,7 +109,7 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	 * @param mixed $key
 	 * @param mixed $entity
 	 * @return bool
-	 * @throws \blitze\sitemaker\exception\unexpected_value
+	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	public function offsetSet($key, $entity)
 	{
@@ -126,7 +126,7 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 			return true;
 		}
 
-		throw new \blitze\sitemaker\exception\unexpected_value('INVALID_ENTITY');
+		throw new \blitze\sitemaker\exception\invalid_argument(array('entity', 'INVALID_ENTITY'));
 	}
 
 	/**

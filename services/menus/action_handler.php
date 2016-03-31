@@ -42,7 +42,7 @@ class action_handler
 	/**
 	 * @param string $action
 	 * @return \blitze\sitemaker\services\menus\action\action_interface
-	 * @throws \blitze\sitemaker\exception\out_of_bounds
+	 * @throws \blitze\sitemaker\exception\unexpected_value
 	 */
 	public function create($action)
 	{
@@ -50,7 +50,7 @@ class action_handler
 
 		if (!class_exists($action_class))
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds(array($action, 'INVALID_REQUEST'));
+			throw new \blitze\sitemaker\exception\unexpected_value(array($action, 'INVALID_ACTION'));
 		}
 
 		return new $action_class($this->request, $this->user, $this->mapper_factory);

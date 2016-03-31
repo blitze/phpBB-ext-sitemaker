@@ -14,7 +14,7 @@ use phpbb\request\request_interface;
 class add_item_test extends base_action
 {
 	/**
-	 * Test add item
+	 * Test add item to valid menu
 	 */
 	public function test_add_item()
 	{
@@ -42,12 +42,12 @@ class add_item_test extends base_action
 	 */
 	public function test_exceptions()
 	{
-		$expected = 'MENU_NOT_FOUND';
+		$expected = 'EXCEPTION_OUT_OF_BOUNDS-menu_id';
 		$variable_map = array(
 			array('menu_id', 0, false, request_interface::REQUEST, 0),
 		);
 
-		$command = $this->get_command('add_bulk', $variable_map);
+		$command = $this->get_command('add_item', $variable_map);
 
 		$this->assert_exception_called($command, $expected);
 	}

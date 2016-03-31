@@ -88,9 +88,9 @@ class edit_block_test extends base_action
 	}
 
 	/**
-	 * Test editing non-exitent block
+	 * Test editing non-exitent block id
 	 */
-	public function test_edit_invalid_block()
+	public function test_editing_invalid_block_id()
 	{
 		$variable_map = array(
 			array('id', 0, false, request_interface::REQUEST, 23),
@@ -105,7 +105,29 @@ class edit_block_test extends base_action
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals('BLOCK_NOT_FOUND', $e->getMessage());
+			$this->assertEquals('EXCEPTION_OUT_OF_BOUNDS-bid', $e->get_message($this->user));
+		}
+	}
+
+	/**
+	 * Test editing non-exitent block service i.e id exists but block service does not
+	 */
+	public function test_editing_invalid_block_service()
+	{
+		$variable_map = array(
+			array('id', 0, false, request_interface::REQUEST, 4),
+		);
+
+		$command = $this->get_command('edit_block', $variable_map);
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-my.empty.block-SERVICE_NOT_FOUND', $e->get_message($this->user));
 		}
 	}
 }

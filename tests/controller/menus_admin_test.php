@@ -92,9 +92,13 @@ class menus_admin_test extends \phpbb_database_test_case
 		$dummy_object->expects($this->exactly($action_call_count))
 			->method('execute')
 			->will($this->returnCallback(function() use (&$dummy_object) {
-				if ($dummy_object->action === 'invalid_action')
+				if ($dummy_object->action === 'no_exists')
 				{
-					throw new \blitze\sitemaker\exception\out_of_bounds(array($dummy_object->action, 'INVALID_REQUEST'));
+					throw new \blitze\sitemaker\exception\unexpected_value(array($dummy_object->action, 'INVALID_ACTION'));
+				}
+				else if ($dummy_object->action === 'tree_error')
+				{
+					throw new \RuntimeException('INVALID_PARENT');
 				}
 				return array(
 					'message' => 'Action: ' . $dummy_object->action,
@@ -140,11 +144,18 @@ class menus_admin_test extends \phpbb_database_test_case
 				'{"message":"Action: edit_menu"}'
 			),
 			array(
-				'invalid_action',
+				'no_exists',
 				1,
 				0,
 				200,
-				'{"message":"EXCEPTION_OUT_OF_BOUNDS invalid_action INVALID_REQUEST"}'
+				'{"message":"EXCEPTION_UNEXPECTED_VALUE no_exists INVALID_ACTION"}'
+			),
+			array(
+				'tree_error',
+				1,
+				0,
+				200,
+				'{"message":"INVALID_PARENT"}'
 			),
 		);
 	}

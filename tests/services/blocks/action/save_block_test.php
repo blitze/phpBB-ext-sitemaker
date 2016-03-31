@@ -142,7 +142,7 @@ class save_block_test extends base_action
 		}
 		catch (\blitze\sitemaker\exception\out_of_bounds $e)
 		{
-			$this->assertEquals('BLOCK_NOT_FOUND', $e->getMessage());
+			$this->assertEquals('EXCEPTION_OUT_OF_BOUNDS-bid', $e->get_message($this->user));
 		}
 	}
 }

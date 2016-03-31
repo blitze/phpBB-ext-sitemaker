@@ -70,7 +70,7 @@ class handle_custom_action_test extends base_action
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals('invalid.block.service', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-invalid.block.service-SERVICE_NOT_FOUND', $e->get_message($this->user));
 		}
 	}
 }

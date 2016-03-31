@@ -121,7 +121,7 @@ class add_bulk_test extends base_action
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
 					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
 				),
-				'MENU_NOT_FOUND',
+				'EXCEPTION_OUT_OF_BOUNDS-menu_id',
 			),
 			array(
 				array(

@@ -29,7 +29,7 @@ class update_block extends base_action
 
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('BLOCK_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('bid');
 		}
 
 		if (isset($allowed_fields[$field]))

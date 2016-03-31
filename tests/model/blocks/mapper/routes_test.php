@@ -124,10 +124,10 @@ class routes_test extends base_mapper
 	{
 		$mapper = $this->get_mapper('routes');
 
-		$condition = array('style', '=', 1);
+		$condition = array('has_blocks', '=', false);
 
 		$collection = $mapper->find($condition);
-		$this->assertEquals(2, $collection->count());
+		$this->assertEquals(1, $collection->count());
 
 		$mapper->delete($condition);
 

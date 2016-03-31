@@ -23,7 +23,7 @@ class load_item extends base_action
 
 		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{
-			throw new \blitze\sitemaker\exception\out_of_bounds('MENU_ITEM_NOT_FOUND');
+			throw new \blitze\sitemaker\exception\out_of_bounds('item_id');
 		}
 
 		return $entity->to_array();

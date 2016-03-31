@@ -11,6 +11,8 @@ namespace blitze\sitemaker\tests\model\menus\collections;
 
 class items_test extends \phpbb_test_case
 {
+	protected $user;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -33,6 +35,13 @@ class items_test extends \phpbb_test_case
 		parent::setUp();
 
 		$request = $this->getMock('\phpbb\request\request_interface');
+
+		$this->user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+		$this->user->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode(' ', func_get_args());
+			});
 
 		require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
 	}
@@ -86,9 +95,9 @@ class items_test extends \phpbb_test_case
 			$collection[] = $invalid_object;
 			$this->fail('no exception thrown');
 		}
-		catch (\blitze\sitemaker\exception\unexpected_value $e)
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
 		{
-			$this->assertEquals('INVALID_ENTITY', $e->getMessage());
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT entity INVALID_ENTITY', $e->get_message($this->user));
 		}
 	}
 }
