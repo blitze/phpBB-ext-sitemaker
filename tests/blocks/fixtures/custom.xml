@@ -5,7 +5,7 @@
 		<column>block_content</column>
 		<row>
 			<value>1</value>
-			<value>&lt;p&gt;my &lt;strong&gt;custom&lt;/strong&gt; content&lt;br&gt;&lt;/p&gt;</value>
+			<value><![CDATA[<t>My &lt;strong&gt;custom&lt;/strong&gt; content</t>]]></value>
 		</row>
 	</table>
 </dataset>

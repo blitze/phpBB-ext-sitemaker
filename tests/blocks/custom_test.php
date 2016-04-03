@@ -32,7 +32,7 @@ class custom_test extends blocks_base
 	 */
 	protected function get_block($variable_map = array())
 	{
-		global $cache, $db, $phpbb_dispatcher, $phpbb_container, $request, $user, $phpbb_root_path, $phpEx;
+		global $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
@@ -51,10 +51,10 @@ class custom_test extends blocks_base
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
-		$phpbb_container = new \phpbb_mock_container_builder();
-		$this->get_test_case_helpers()->set_s9e_services($phpbb_container);
+		$this->get_test_case_helpers()->set_s9e_services();
+		$text_formatter_utils = new \phpbb\textformatter\s9e\utils();
 
-		$block = new custom($cache, $db, $request, 'phpbb_sm_cblocks');
+		$block = new custom($cache, $db, $request, $text_formatter_utils, 'phpbb_sm_cblocks');
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -95,14 +95,14 @@ class custom_test extends blocks_base
 					'bid' => 1,
 				),
 				false,
-				'<p>my <strong>custom</strong> content<br></p>',
+				'My <strong>custom</strong> content',
 			),
 			array(
 				array(
 					'bid' => 1,
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="my custom content"><p>my <strong>custom</strong> content<br></p></div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="My &lt;strong&gt;custom&lt;/strong&gt; content">My <strong>custom</strong> content</div>',
 			),
 		);
 	}

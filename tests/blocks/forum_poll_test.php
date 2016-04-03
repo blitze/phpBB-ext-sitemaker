@@ -33,8 +33,9 @@ class forum_poll_test extends blocks_base
 	 */
 	protected function get_block($is_registered = false)
 	{
-		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
 
+		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array('cookie_name' => 'phpbb'));
 		$db = $this->new_dbal();
 
