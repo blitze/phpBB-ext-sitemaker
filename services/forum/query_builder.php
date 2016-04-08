@@ -152,7 +152,7 @@ class query_builder
 	 * Fetch Topic Watch info
 	 *
 	 * @return $this
-	 */
+	 *
 	public function fetch_watch_status()
 	{
 		if ($this->user->data['is_registered'])
@@ -177,7 +177,7 @@ class query_builder
 	 * Fetch Topic Bookmark Info
 	 *
 	 * @return $this
-	 */
+	 *
 	public function fetch_bookmark_status()
 	{
 		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
@@ -191,6 +191,7 @@ class query_builder
 
 		return $this;
 	}
+	*/
 
 	/**
 	 * Fetch Topic Tracking Info
