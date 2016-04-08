@@ -43,13 +43,9 @@ services:
         class: blitze\sitemaker\blocks\featured_member
         arguments:
             - '@cache.driver'
-            - '@config'
             - '@dbal.conn'
             - '@language'
-            - '@user'
-            - '@blitze.sitemaker.profilefields'
-            - '%core.root_path%'
-            - '%core.php_ext%'
+            - '@blitze.sitemaker.user_data'
             - '%tables.sitemaker.blocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.featured_member]]

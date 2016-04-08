@@ -2,34 +2,42 @@
 <div class="flex">
 	<dl>
 		<dt class="align-center">
-			<p>
-				<a href="{U_PROFILE}">
-					<strong>{USERNAME}</strong><br />
-					<!-- IF AVATAR_IMG -->{AVATAR_IMG}<!-- ELSE --><i class="fa fa-user default-avatar-font"></i><!-- ENDIF -->
-				</a>
-				<!-- IF RANK_TITLE --><br /><span class="small">{RANK_TITLE}</span><!-- ENDIF -->
-				<!-- IF RANK_IMG --><br />{RANK_IMG}<!-- ENDIF -->
-			</p>
+				<!-- IF not AVATAR -->{% set AVATAR = '<i class="fa fa-user default-avatar-font"></i>' %}<!-- ENDIF -->
+				<dl class="">
+					<dt class="<!-- IF RANK_TITLE or RANK_IMG -->has-profile-rank<!-- ELSE -->no-profile-rank<!-- ENDIF --> has-avatar">
+						<div class="avatar-container">
+							<!-- IF U_VIEWPROFILE --><a href="{U_VIEWPROFILE}" class="avatar">{AVATAR}</a><!-- ELSE --><span class="avatar">{AVATAR}</span><!-- ENDIF -->
+						</div>
+						<!-- IF not U_VIEWPROFILE --><strong>{USERNAME}</strong><!-- ELSE -->{USERNAME_FULL}<!-- ENDIF -->
+					</dt>
+					<!-- IF RANK_TITLE or RANK_IMG --><dd class="profile-rank">{RANK_TITLE}<!-- IF RANK_TITLE and RANK_IMG --><br /><!-- ENDIF -->{RANK_IMG}</dd><!-- ENDIF -->
+					<dd class="profile-contact align-center">
+						<div class="dropdown-contents contact-icons" style="margin: 1rem 0 0; display: inline-block">
+							<!-- BEGIN contact_field -->
+								{% set REMAINDER = contact_field.S_ROW_COUNT % 4 %}
+								<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (contact_field.S_LAST_ROW and contact_field.S_NUM_ROWS < 4)) -->
+								<!-- IF REMAINDER eq 0 -->
+									<div>
+								<!-- ENDIF -->
+									<a href="<!-- IF contact_field.U_CONTACT -->{contact_field.U_CONTACT}<!-- ELSE -->{U_VIEWPROFILE}<!-- ENDIF -->" title="{contact_field.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF contact_field.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
+										<span class="contact-icon {contact_field.ID}-icon">{contact_field.NAME}</span>
+									</a>
+								<!-- IF REMAINDER eq 3 or contact_field.S_LAST_ROW -->
+									</div>
+								<!-- ENDIF -->
+							<!-- END contact_field -->
+						</div>
+					</dd>
+				</dl>
 		</dt>
 		<dd>
 			<ul class="sm-list">
 				<li><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</li>
 				<li><strong>{L_LAST_VISITED}{L_COLON}</strong> <!-- IF VISITED -->{VISITED}<!-- ELSE -->{JOINED}<!-- ENDIF --></li>
-				<!-- BEGIN custom_fields -->
-				<!-- IF not custom_fields.S_PROFILE_CONTACT -->
-				<li><strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong> {custom_fields.PROFILE_FIELD_VALUE}</li>
-				<!-- ELSE -->
-				<li>
-					<strong>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</strong>
-					<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
-					<a href="{custom_fields.PROFILE_FIELD_CONTACT}">{custom_fields.PROFILE_FIELD_DESC}</a>
-					<!-- ELSE -->
-					{custom_fields.PROFILE_FIELD_VALUE}
-					<!-- ENDIF -->
-				</li>
-				<!-- ENDIF -->
-				<!-- END custom_fields -->
-				<li><strong>{L_TOTAL_POSTS}{L_COLON}</strong> {POSTS}<!-- IF POSTS -->  <a href="{U_SEARCH_USER}"><i class="fa fa-search"></i></a><!-- ELSE --><!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT}]<!-- ENDIF --></li>
+				<!-- BEGIN profile_field -->
+				<li><strong>{profile_field.PROFILE_FIELD_NAME}{L_COLON}</strong> {profile_field.PROFILE_FIELD_VALUE}</li>
+				<!-- END profile_field -->
+				<li><strong>{L_TOTAL_POSTS}{L_COLON}</strong> {POSTS}<!-- IF POSTS -->  <a href="{U_SEARCH_POSTS}"><i class="fa fa-search"></i></a><!-- ELSE --><!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT}]<!-- ENDIF --></li>
 			</ul>
 		</dd>
 	</dl>
