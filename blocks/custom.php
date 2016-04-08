@@ -123,7 +123,6 @@ class custom extends block
 	 */
 	private function get_content_for_display(array $data)
 	{
-		//$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
 		$content = $this->text_formatter_utils->unparse($data['block_content']);
 		return htmlspecialchars_decode($content, ENT_COMPAT);
 	}

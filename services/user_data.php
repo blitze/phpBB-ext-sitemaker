@@ -40,8 +40,7 @@ class user_data
 
 	/**
 	 * Constructor
-	 
-	 * 
+	 *
 	 * @param \phpbb\auth\auth					$auth					Auth object
 	 * @param \phpbb\config\config				$config					Config object
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
@@ -85,7 +84,7 @@ class user_data
 	 * @param string $sql_where
 	 * @param string $order_by
 	 * @param int|bool $limit
-	 * @return array|false
+	 * @return array|bool
 	 */
 	public function query($sql_where = '', $order_by = '', $limit = false)
 	{
@@ -421,7 +420,6 @@ class user_data
 	}
 
 	/**
-	 * @param array $ids
 	 * @param string $sql_where
 	 * @param string $order_by
 	 * @return string

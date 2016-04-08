@@ -88,7 +88,6 @@ class featured_member extends block
 	 */
 	public function display(array $bdata, $edit_mode = false, $loop_count = 0)
 	{
-		
 		$this->settings = $this->get_settings($bdata);
 
 		$change_user = $this->change_user();

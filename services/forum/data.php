@@ -199,7 +199,7 @@ class data extends query_builder
 			return array();
 		}
 
-		return $this->user_data->get_ids($this->store['poster_ids']);
+		return $this->user_data->get_users($this->store['poster_ids']);
 	}
 
 	/**
