@@ -16,8 +16,6 @@ use blitze\sitemaker\blocks\menu;
 
 class menu_test extends blocks_base
 {
-	protected $template;
-
 	/**
 	 * Load required fixtures.
 	 *
@@ -36,8 +34,6 @@ class menu_test extends blocks_base
 	 */
 	protected function get_block($page_data = array())
 	{
-		global $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
-
 		$table_prefix = 'phpbb_';
 		$tables = array(
 			'mapper_tables'	=> array(
@@ -46,43 +42,17 @@ class menu_test extends blocks_base
 			)
 		);
 
-		$db = $this->new_dbal();
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array());
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->host = 'www.example.com';
-		$user->page = $page_data;
-		$user->page['root_script_path'] = '/phpBB/';
-		$user->style = array (
+		$this->user->host = 'www.example.com';
+		$this->user->page = $page_data;
+		$this->user->page['root_script_path'] = '/phpBB/';
+		$this->user->style = array (
 			'style_name' => 'prosilver',
 			'style_path' => 'prosilver',
 		);
 
-		$this->template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
+		$mapper_factory = new mapper_factory($this->config, $this->db, $tables);
 
-		$temp_data = array();
-		$this->template->expects($this->any())
-			->method('alter_block_array')
-			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
-				$temp_data[$key][] = $data;
-			}));
-		$this->template->expects($this->any())
-			->method('assign_display')
-			->will($this->returnCallback(function() use (&$temp_data) {
-				return $temp_data;
-			}));
-
-		$mapper_factory = new mapper_factory($config, $db, $tables);
-
-		$tree = new display($db, $this->template, $user, $tables['mapper_tables']['items'], 'item_id');
+		$tree = new display($this->db, $this->template, $this->user, $tables['mapper_tables']['items'], 'item_id');
 
 		$filesystem = new \phpbb\filesystem\filesystem();
 
@@ -91,23 +61,22 @@ class menu_test extends blocks_base
 				new \phpbb_mock_request()
 			),
 			$filesystem,
-			$request,
-			$phpbb_root_path,
-			$phpEx
+			$this->request,
+			$this->phpbb_root_path,
+			$this->php_ext
 		);
 
-		$container = new \phpbb_mock_container_builder();
 		$cache_path = $phpbb_root_path . 'cache/twig';
-		$context = new \phpbb\template\context();
-		$loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
+		$template_context = new \phpbb\template\context();
+		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
-			$config,
+			$this->config,
 			$filesystem,
 			$path_helper,
-			$container,
+			$this->phpbb_container,
 			$cache_path,
 			null,
-			$loader,
+			$template_loader,
 			array(
 				'cache'			=> false,
 				'debug'			=> false,
@@ -115,12 +84,12 @@ class menu_test extends blocks_base
 				'autoescape'	=> false,
 			)
 		);
-		$ptemplate = new template($path_helper, $config, $context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($context, $user)));
-		$container->set('template.twig.lexer', new \phpbb\template\twig\lexer($twig));
+		$ptemplate = new template($path_helper, $this->config, $template_context, $twig, $cache_path, $this->user, array(new \phpbb\template\twig\extension($template_context, $this->user)));
+		$this->phpbb_container->set('template.twig.lexer', new \phpbb\template\twig\lexer($twig));
 
-		$ptemplate->set_custom_style('prosilver', $phpbb_root_path . 'ext/blitze/sitemaker/styles/prosilver');
+		$ptemplate->set_custom_style('prosilver', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/prosilver');
 
-		$block = new menu($cache, $config, $translator, $mapper_factory, $tree);
+		$block = new menu($this->cache, $this->config, $this->translator, $mapper_factory, $tree);
 		$block->set_template($ptemplate);
 
 		return $block;

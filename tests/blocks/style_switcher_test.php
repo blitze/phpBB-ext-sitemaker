@@ -31,31 +31,21 @@ class style_switcher_test extends blocks_base
 	 */
 	protected function get_block($calls = 0)
 	{
-		global $db, $phpbb_dispatcher, $phpbb_path_helper, $request, $user, $phpbb_root_path, $phpEx;
+		global $phpbb_path_helper;
 
-		$db = $this->new_dbal();
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->page = array(
+		$this->user->page = array(
 			'page_name'	=> 'index.php',
 			'page'		=> 'index.php',
 		);
-
-		$request = $this->getMock('\phpbb\request\request');
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
 				new \phpbb_mock_request()
 			),
 			new \phpbb\filesystem(),
-			$request,
-			$phpbb_root_path,
-			$phpEx
+			$this->request,
+			$this->phpbb_root_path,
+			$this->php
 		);
 
 		$block_display = $this->getMockBuilder('\blitze\sitemaker\services\blocks\display')

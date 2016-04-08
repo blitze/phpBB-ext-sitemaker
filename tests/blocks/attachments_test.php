@@ -15,8 +15,6 @@ use blitze\sitemaker\blocks\attachments;
 
 class attachments_test extends blocks_base
 {
-	protected $ptemplate;
-
 	/**
 	 * Load required fixtures.
 	 *
@@ -34,26 +32,9 @@ class attachments_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
+		global $cache;
 
-		$config = new \phpbb\config\config(array());
-		$db = $this->new_dbal();
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$auth = $this->getMockBuilder('\phpbb\auth\auth')
-			->disableOriginalConstructor()
-			->getMock();
-		$auth->expects($this->any())
-			->method('acl_get')
-			->willReturn(true);
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
 				if ($acl == '!f_read' && $test)
@@ -89,38 +70,17 @@ class attachments_test extends blocks_base
 				),
 			));
 
-		// global
-		$template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$temp_data = array();
-		$template->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$temp_data) {
-				$temp_data[$block][] = $data;
-			}));
-		$template->expects($this->any())
-			->method('destroy_block_vars')
-			->will($this->returnCallback(function() use (&$temp_data) {
-				$temp_data = array();
-			}));
-		$template->expects($this->any())
-			->method('assign_display')
-			->will($this->returnCallback(function() use (&$temp_data) {
-				return $temp_data;
-			}));
+		$date_range = new date_range($this->user, '24 November 2015');
 
-		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
-
-		$date_range = new date_range($user, '24 November 2015');
-
-		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
+		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new attachments($auth, $cache, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
+		$block = new attachments($this->auth, $cache, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;

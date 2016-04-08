@@ -45,34 +45,17 @@ class forum_topics_test extends blocks_base
 	 */
 	protected function get_block($registered_user = true)
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		$this->config['load_db_lastread'] = true;
+		$this->config['load_anon_lastread'] = true;
 
-		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array(
-			'load_db_lastread' => true,
-			'load_anon_lastread' => true,
-		));
-		$db = $this->new_dbal();
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-		$user->data = array(
+		$this->user->data = array(
 			'user_id'		=> 48,
 			'user_lastmark'	=> strtotime('25 Nov 2015'),
 			'user_lang'		=> 'en',
 			'is_registered'	=> $registered_user,
 		);
 
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$auth = $this->getMockBuilder('\phpbb\auth\auth')
-			->disableOriginalConstructor()
-			->getMock();
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
 				$ids = array();
@@ -84,17 +67,17 @@ class forum_topics_test extends blocks_base
 				return $ids;
 			}));
 
-		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$date_range = new date_range($user, '24 November 2015');
+		$date_range = new date_range($this->user, '24 November 2015');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
+		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new forum_topics($auth, $content_visibility, $translator, $user, $date_range, $forum_data, $forum_options, $phpbb_root_path, $phpEx);
+		$block = new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -152,7 +135,7 @@ class forum_topics_test extends blocks_base
 					array(
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_PREVIEW' => 'This topic has a poll',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
@@ -167,7 +150,7 @@ class forum_topics_test extends blocks_base
 					array(
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_PREVIEW' => 'This is a global topic',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
@@ -202,7 +185,7 @@ class forum_topics_test extends blocks_base
 					array(
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic w...',
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_PREVIEW' => 'This topic has a poll',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
@@ -237,7 +220,7 @@ class forum_topics_test extends blocks_base
 					array(
 						'TOPIC_PREVIEW' => 'This is a global topic',
 						'S_UNREAD_TOPIC' => false,
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
@@ -272,7 +255,7 @@ class forum_topics_test extends blocks_base
 					array(
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_PREVIEW' => '',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
@@ -307,13 +290,13 @@ class forum_topics_test extends blocks_base
 					array(
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
-						'TOPIC_AUTHOR' => '<span class="username">admin</span>',
+						'TOPIC_AUTHOR' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'TOPIC_PREVIEW' => '',
 						'TOPIC_POST_TIME' => '',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => '0',
-						'S_UNREAD_TOPIC' => false,
+						'S_UNREAD_TOPIC' => true,
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;view=unread#unread',

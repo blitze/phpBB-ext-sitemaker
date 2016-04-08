@@ -32,27 +32,14 @@ class member_menu_test extends blocks_base
 	 */
 	protected function get_block($user_data = array())
 	{
-		global $auth, $phpbb_dispatcher, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
+		global $phpbb_path_helper;
 
-		$config = new \phpbb\config\config(array('load_db_lastread' => true));
-		$db = $this->new_dbal();
-		$request = $this->getMock('\phpbb\request\request');
+		$this->config['load_db_lastread'] = true;
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
+		$this->user->session_id = 0;
+		$this->user->data = $user_data;
 
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->session_id = 0;
-		$user->data = $user_data;
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$auth = $this->getMock('\phpbb\auth\auth');
-		$auth->expects($this->any())
-			->method('acl_get')
-			->with($this->stringContains('_'), $this->anything())
-			->willReturn(true);
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
 				$ids = array();
@@ -69,16 +56,16 @@ class member_menu_test extends blocks_base
 				new \phpbb_mock_request()
 			),
 			new \phpbb\filesystem(),
-			$request,
-			$phpbb_root_path,
-			$phpEx
+			$this->request,
+			$this->phpbb_root_path,
+			$this->php_ext
 		);
 
-		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
+		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new member_menu($auth, $user, $forum_data, $phpbb_root_path, $phpEx);
+		$block = new member_menu($this->auth, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;

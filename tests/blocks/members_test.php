@@ -32,18 +32,11 @@ class members_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $user, $phpbb_root_path, $phpEx;
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-
 		$this->members = $this->getMockBuilder('\blitze\sitemaker\services\members')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new members($translator, $user, $this->members);
+		$block = new members($this->translator, $this->user, $this->members);
 		$block->set_template($this->ptemplate);
 
 		return $block;

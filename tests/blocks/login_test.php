@@ -32,30 +32,24 @@ class login_test extends blocks_base
 	 */
 	protected function get_block($user_is_logged_in = false, $curr_page = '')
 	{
-		global $user, $phpbb_dispatcher, $phpbb_path_helper, $request, $phpbb_root_path, $phpEx;
+		global $phpbb_path_helper;
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->page = array(
+		$this->user->page = array(
 			'page_name'	=> $curr_page,
 			'page'		=> $curr_page,
 		);
-		$user->data = array(
+		$this->user->data = array(
 			'is_registered' => $user_is_logged_in,
 		);
-
-		$request = $this->getMock('\phpbb\request\request');
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
 				new \phpbb_mock_request()
 			),
 			new \phpbb\filesystem(),
-			$request,
-			$phpbb_root_path,
-			$phpEx
+			$this->request,
+			$this->phpbb_root_path,
+			$this->php_ext
 		);
 
 		$member_menu = $this->getMockBuilder('\blitze\sitemaker\blocks\member_menu')
@@ -67,12 +61,9 @@ class login_test extends blocks_base
 				'content' => 'Member Menu',
 			));
 
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+		$this->phpbb_container->set('blitze.sitemaker.block.member_menu', $member_menu);
 
-		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('blitze.sitemaker.block.member_menu', $member_menu);
-
-		$block = new login($phpbb_container, $user, $phpbb_root_path, $phpEx);
+		$block = new login($this->phpbb_container, $this->user, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;

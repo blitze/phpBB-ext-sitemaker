@@ -28,6 +28,9 @@ class wordgraph extends block
 	/** @var string */
 	protected $php_ext;
 
+	/** @var int */
+	protected $cache_time;
+
 	/**
 	 * Constructor
 	 *
@@ -37,13 +40,14 @@ class wordgraph extends block
 	 * @param string							$phpbb_root_path		phpBB root path
 	 * @param string							$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext, $cache_time = 10800)
 	{
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+		$this->cache_time = $cache_time;
 	}
 
 	/**
@@ -154,7 +158,7 @@ class wordgraph extends block
 	{
 		$sql_array = $this->get_words_sql($settings['exclude_words']);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query_limit($sql, $settings['max_num_words'], 0, 10800);
+		$result = $this->db->sql_query_limit($sql, $settings['max_num_words'], 0, $this->cache_time);
 
 		$words_array = array();
 		while ($row = $this->db->sql_fetchrow($result))

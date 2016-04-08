@@ -32,27 +32,22 @@ class whois_test extends blocks_base
 	 */
 	protected function get_block($authed = false, $current_page = '')
 	{
-		global $auth, $db, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
+		global $user;
 
-		$db = $this->new_dbal();
-
-		$auth = $this->getMock('\phpbb\auth\auth');
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_gets')
 			->with($this->stringContains('_'), $this->anything())
 			->willReturnCallback(function () use ($authed) {
 				return ($authed) ? true : false;
 			});
 
-		$config = new \phpbb\config\config(array(
-			'record_online_users' => 3,
-			'record_online_date' => strtotime('7 December 2015'),
-		));
+		$this->config['record_online_users'] = 3;
+		$this->config['record_online_date'] = strtotime('7 December 2015');
 
-		$context = $this->getMockBuilder('\phpbb\template\context')
+		$template_context = $this->getMockBuilder('\phpbb\template\context')
 			->disableOriginalConstructor()
 			->getMock();
-		$context->expects($this->any())
+		$template_context->expects($this->any())
 			->method('get_data_ref')
 			->willReturnCallback(function () use ($current_page) {
 				$data = array();
@@ -71,8 +66,6 @@ class whois_test extends blocks_base
 				return $data;
 			});
 
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
 		$translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
@@ -90,7 +83,7 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new whois($auth, $config, $context, $translator, $user, $phpbb_root_path, $phpEx);
+		$block = new whois($this->auth, $this->config, $template_context, $translator, $user, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;

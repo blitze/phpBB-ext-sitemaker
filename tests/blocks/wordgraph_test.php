@@ -30,24 +30,9 @@ class wordgraph_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $auth, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		$this->config['load_db_lastread'] = true;
 
-		$config = new \phpbb\config\config(array('load_db_lastread' => true));
-		$db = $this->new_dbal();
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$auth = $this->getMockBuilder('\phpbb\auth\auth')
-			->disableOriginalConstructor()
-			->getMock();
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
 				$ids = array();
@@ -59,9 +44,9 @@ class wordgraph_test extends blocks_base
 				return $ids;
 			}));
 
-		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$block = new wordgraph($auth, $content_visibility, $db, $phpbb_root_path, $phpEx);
+		$block = new wordgraph($this->auth, $content_visibility, $this->db, $this->phpbb_root_path, $this->php_ext, 0);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -124,18 +109,6 @@ class wordgraph_test extends blocks_base
 						),
 					),
 				),
-			),
-			array(
-				array(
-					'settings' => array (
-						'show_word_count' => 0,
-						'max_num_words' => 2,
-						'max_word_size' => 35,
-						'min_word_size' => 7,
-						'exclude_words' => 'phpbb, sitemaker, rocks',
-					),
-				),
-				'',
 			),
 		);
 	}

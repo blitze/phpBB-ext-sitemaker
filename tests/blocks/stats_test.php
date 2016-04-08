@@ -30,14 +30,6 @@ class stats_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $auth, $phpbb_dispatcher;
-
-		$auth = $this->getMock('\phpbb\auth\auth');
-		$auth->expects($this->any())
-			->method('acl_get')
-			->with($this->stringContains('_'), $this->anything())
-			->willReturn(true);
-
 		$config = new \phpbb\config\config(array(
 			'num_posts' => 8,
 			'num_topics' => 6,
@@ -46,8 +38,6 @@ class stats_test extends blocks_base
 			'newest_username' => 'demo',
 			'newest_user_colour' => 'ccc',
 		));
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

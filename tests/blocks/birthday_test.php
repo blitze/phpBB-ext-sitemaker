@@ -13,8 +13,6 @@ use blitze\sitemaker\blocks\birthday;
 
 class birthday_test extends blocks_base
 {
-	protected $ptemplate;
-
 	/**
 	 * Load required fixtures.
 	 *
@@ -32,21 +30,7 @@ class birthday_test extends blocks_base
 	 */
 	protected function get_block($time = 'now')
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
-
-		$auth = $this->getMock('\phpbb\auth\auth');
-		$cache = new \phpbb_mock_cache();
-		$db = $this->new_dbal();
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$block = new birthday($cache, $db, $user, $time);
+		$block = new birthday($this->cache, $this->db, $this->user, $time);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -77,11 +61,11 @@ class birthday_test extends blocks_base
 				array(
 					'birthday' => array(
 						array(
-							'USERNAME' => '<span class="username">admin</span>',
+							'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 							'USER_AGE' => 20,
 						),
 						array(
-							'USERNAME' => '<span class="username">demo1</span>',
+							'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=4" class="username">demo1</a>',
 							'USER_AGE' => '',
 						),
 					),
@@ -92,7 +76,7 @@ class birthday_test extends blocks_base
 				array(
 					'birthday' => array(
 						array(
-							'USERNAME' => '<span class="username">demo3</span>',
+							'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=6" class="username">demo3</a>',
 							'USER_AGE' => '',
 						),
 					),

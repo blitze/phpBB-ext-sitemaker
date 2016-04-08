@@ -32,29 +32,15 @@ class custom_test extends blocks_base
 	 */
 	protected function get_block($variable_map = array())
 	{
-		global $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
-
-		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array());
-		$db = $this->new_dbal();
-
-		$request = $this->getMock('\phpbb\request\request_interface');
-		$request->expects($this->any())
+		$this->request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-
 		$this->get_test_case_helpers()->set_s9e_services();
 		$text_formatter_utils = new \phpbb\textformatter\s9e\utils();
 
-		$block = new custom($cache, $db, $request, $text_formatter_utils, 'phpbb_sm_cblocks');
+		$block = new custom($this->cache, $this->db, $this->request, $text_formatter_utils, 'phpbb_sm_cblocks');
 		$block->set_template($this->ptemplate);
 
 		return $block;

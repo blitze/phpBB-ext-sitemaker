@@ -33,28 +33,14 @@ class forum_poll_test extends blocks_base
 	 */
 	protected function get_block($is_registered = false)
 	{
-		global $auth, $cache, $db, $phpbb_dispatcher, $request, $user, $phpbb_root_path, $phpEx;
+		$this->config['cookie_name'] = 'phpbb';
 
-		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array('cookie_name' => 'phpbb'));
-		$db = $this->new_dbal();
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$translator = new \phpbb\language\language($lang_loader);
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-		$user->timezone = new \DateTimeZone('UTC');
-		$user->data = array(
+		$this->user->data = array(
 			'user_id'		=> 2,
 			'is_registered'	=> $is_registered,
 		);
 
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$auth = $this->getMockBuilder('\phpbb\auth\auth')
-			->disableOriginalConstructor()
-			->getMock();
-		$auth->expects($this->any())
+		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->will($this->returnCallback(function($acl, $test) {
 				$ids = array();
@@ -65,20 +51,14 @@ class forum_poll_test extends blocks_base
 
 				return $ids;
 			}));
-		$auth->expects($this->any())
-			->method('acl_get')
-			->will($this->returnCallback(function() {
-				return true;
-			}));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
-		$request->expects($this->any())
+		$this->request->expects($this->any())
 			->method('is_set')
 			->with($this->anything())
 			->will($this->returnCallback(function($cookie) {
 				return ($cookie === 'phpbb_poll_1') ? true : false;
 			}));
-		$request->expects($this->any())
+		$this->request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
 			->will($this->returnCallback(function($cookie) {
@@ -94,9 +74,9 @@ class forum_poll_test extends blocks_base
 				return $form . ' token';
 			}));
 
-		$content_visibility = new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$forum_data = new data($auth, $config, $content_visibility, $db, $translator, $user, $phpbb_root_path, $phpEx, 0);
+		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
 		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
 			->disableOriginalConstructor()
@@ -106,9 +86,9 @@ class forum_poll_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$poll = new poll($auth, $config, $db, $request, $translator, $user, $sitemaker, $phpbb_root_path, $phpEx);
+		$poll = new poll($this->auth, $this->config, $this->db, $this->request, $this->translator, $this->user, $sitemaker, $this->phpbb_root_path, $this->php_ext);
 
-		$block = new forum_poll($db, $forum_data, $forum_options, $groups, $poll);
+		$block = new forum_poll($this->db, $forum_data, $forum_options, $groups, $poll);
 		$block->set_template($this->ptemplate);
 
 		return $block;
