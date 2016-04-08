@@ -115,10 +115,8 @@ services:
             - '@config'
             - '@content.visibility'
             - '@dbal.conn'
-            - '@language'
             - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
+            - '@blitze.sitemaker.user_data'
 
     blitze.sitemaker.forum.manager:
         class: blitze\sitemaker\services\forum\manager
@@ -220,15 +218,6 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
 
-    blitze.sitemaker.profilefields:
-        class: blitze\sitemaker\services\profilefields
-        arguments:
-            - '@dbal.conn'
-            - '@profilefields.manager'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-
     blitze.sitemaker.template:
         class: blitze\sitemaker\services\template
         arguments:
@@ -263,6 +252,18 @@ services:
 
     blitze.sitemaker.url_checker:
         class: blitze\sitemaker\services\url_checker
+
+    blitze.sitemaker.user_data:
+        class: blitze\sitemaker\services\user_data
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@profilefields.manager'
+            - '@language'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     blitze.sitemaker.util:
         class: blitze\sitemaker\services\util
