@@ -1,31 +1,31 @@
 @import "globals";
 
 .flex {
-	dl {
+	> dl {
 		position: relative;
-	}
 
-	dt {
-		float: left;
-		clear: left;
-		width: 40%;
-		margin: 0 0 0.7em 0;
-
-		.sidebar & {
-			width: 100%;
-			padding-left: 0;
+		> dt {
+			float: left;
+			clear: left;
+			width: 40%;
+			margin: 0 0 0.7em 0;
+	
+			.sidebar & {
+				width: 100%;
+				padding-left: 0;
+			}
 		}
-	}
-
-	dd {
-		float: left;
-		width: 58%;
-		margin: 0;
-		position: relative;
-
-		.sidebar & {
-			width: 100%;
-			padding-left: 0;
+	
+		> dd {
+			float: left;
+			width: 58%;
+			margin: 0;
+			position: relative;
+	
+			.sidebar & {
+				width: 100%;
+				padding-left: 0;
+			}
 		}
 	}
 
