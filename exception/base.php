@@ -53,26 +53,6 @@ class base extends \Exception
 	}
 
 	/**
-	* Basic message translation for our exceptions
-	*
-	* @param \phpbb\language\language $translator
-	* @return array|string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $translator)
-	{
-		// Make sure our language file has been loaded
-		$this->add_lang($translator);
-
-		if (is_array($this->message_full))
-		{
-			return call_user_func_array(array($translator, 'lang'), $this->message_full);
-		}
-
-		return $translator->lang($this->message_full);
-	}
-
-	/**
 	* Translate all portions of the message sent to the exception
 	*
 	* Goes through each element of the array and tries to translate them
