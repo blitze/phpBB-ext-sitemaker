@@ -7,7 +7,7 @@
  *
  */
 
-namespace blitze\sitemaker\services;
+namespace blitze\sitemaker\services\users;
 
 class userlist
 {

@@ -45,7 +45,7 @@ services:
             - '@cache.driver'
             - '@dbal.conn'
             - '@language'
-            - '@blitze.sitemaker.user_data'
+            - '@blitze.sitemaker.users.data'
             - '%tables.sitemaker.blocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.featured_member]]

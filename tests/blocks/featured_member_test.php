@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\tests\blocks;
 
 use blitze\sitemaker\blocks\featured_member;
-use blitze\sitemaker\services\user_data;
 
 class featured_member_test extends blocks_base
 {

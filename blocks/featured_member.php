@@ -10,7 +10,7 @@
 namespace blitze\sitemaker\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
-use blitze\sitemaker\services\userlist;
+use blitze\sitemaker\services\users\userlist;
 
 /**
  * Featured Member Block
@@ -26,7 +26,7 @@ class featured_member extends block
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \blitze\sitemaker\services\user_data */
+	/** @var \blitze\sitemaker\services\users\data */
 	protected $user_data;
 
 	/** @var string */
@@ -49,10 +49,10 @@ class featured_member extends block
 	 * @param \phpbb\cache\driver\driver_interface		$cache					Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface			$db	 					Database connection
 	 * @param \phpbb\language\language					$translator				Language object
-	 * @param \blitze\sitemaker\services\user_data		$user_data				Sitemaker User data object
+	 * @param \blitze\sitemaker\services\users\data		$user_data				Sitemaker User data object
 	 * @param string									$blocks_table			Name of blocks database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \blitze\sitemaker\services\user_data $user_data, $blocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \blitze\sitemaker\services\users\data $user_data, $blocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;

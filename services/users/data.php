@@ -7,9 +7,9 @@
  *
  */
 
-namespace blitze\sitemaker\services;
+namespace blitze\sitemaker\services\users;
 
-class user_data
+class data extends contacts
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -52,6 +52,8 @@ class user_data
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\language\language $translator, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
+		parent::__construct($auth, $config, $translator, $user, $phpbb_root_path, $php_ext);
+
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
@@ -178,7 +180,7 @@ class user_data
 
 	/**
 	 * @param int $user_posts
-	 * @return int|mixed
+	 * @return int
 	 */
 	protected function calculate_percent_posts($user_posts)
 	{
@@ -263,108 +265,6 @@ class user_data
 	}
 
 	/**
-	 * @param array $row
-	 * @return array
-	 */
-	protected function get_email_contact(array &$row)
-	{
-		$email = array();
-		if ((!empty($row['user_allow_viewemail']) && $this->auth->acl_get('u_sendemail')) || $this->auth->acl_get('a_email'))
-		{
-			$email = array(
-				'ID'		=> 'email',
-				'NAME'		=> $this->translator->lang('SEND_EMAIL'),
-				'U_CONTACT'	=> ($this->config['board_email_form'] && $this->config['email_enable']) ? append_sid("{$this->phpbb_root_path}memberlist.$this->php_ext", 'mode=email&amp;u=' . $row['user_id']) : (($this->config['board_hide_emails'] && !$this->auth->acl_get('a_email')) ? '' : 'mailto:' . $row['user_email']),
-			);
-		}
-
-		return $email;
-	}
-
-	/**
-	 * @param array $row
-	 * @param array $can_receive_pm_list
-	 * @param array $permanently_banned_users
-	 * @return array
-	 */
-	protected function get_pm_contact(array &$row, array $can_receive_pm_list, array $permanently_banned_users)
-	{
-		$pm = array();
-		if ($this->user_can_pm() && $this->can_receive_pm($row, $can_receive_pm_list, $permanently_banned_users))
-		{
-			$pm = array(
-				'ID'		=> 'pm',
-				'NAME' 		=> $this->translator->lang('SEND_PRIVATE_MESSAGE'),
-				'U_CONTACT'	=> append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'i=pm&amp;mode=compose&amp;u=' . $row['user_id']),
-			);
-		}
-
-		return $pm;
-	}
-
-	/**
-	 * @param array $row
-	 * @return array
-	 */
-	protected function get_jabber_contact(array &$row)
-	{
-		$jabber = array();
-		if ($this->user_can_jabber($row))
-		{
-			$jabber = array(
-				'ID'		=> 'jabber',
-				'NAME' 		=> $this->translator->lang('JABBER'),
-				'U_CONTACT'	=> append_sid("{$this->phpbb_root_path}memberlist.{$this->php_ext}", 'mode=contact&amp;action=jabber&amp;u=' . $row['user_id']),
-			);
-		}
-
-		return $jabber;
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function user_can_pm()
-	{
-		return ($this->config['allow_privmsg'] && $this->auth->acl_get('u_sendpm')) ? true : false;
-	}
-
-	/**
-	 * @param array $row
-	 * @return bool
-	 */
-	protected function user_can_jabber(array $row)
-	{
-		return ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? true : false;
-	}
-
-	/**
-	 * @param array $row
-	 * @param array $can_receive_pm_list
-	 * @param array $permanently_banned_users
-	 * @return bool
-	 */
-	protected function can_receive_pm(array $row, array $can_receive_pm_list, array $permanently_banned_users)
-	{
-		return (
-			// They must be a "normal" user
-			$row['user_type'] != USER_IGNORE &&
-
-			// They must not be deactivated by the administrator
-			($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL) &&
-
-			// They must be able to read PMs
-			in_array($row['user_id'], $can_receive_pm_list) &&
-
-			// They must not be permanently banned
-			!in_array($row['user_id'], $permanently_banned_users) &&
-
-			// They must allow users to contact via PM
-			(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['allow_pm'])
-		);
-	}
-
-	/**
 	 * @param int $user_id
 	 * @param array $profile_fields_cache
 	 */
@@ -389,34 +289,6 @@ class user_data
 				$this->user_cache[$user_id]['profile_fields'][$field] = $field_data;
 			}
 		}
-	}
-
-	/**
-	 * Get the list of users who can receive private messages
-	 *
-	 * @param array $user_ids
-	 * @return array
-	 */
-	protected function get_can_receive_pm_list(array $user_ids)
-	{
-		$can_receive_pm_list = $this->auth->acl_get_list($user_ids, 'u_readpm');
-		return (empty($can_receive_pm_list) || !isset($can_receive_pm_list[0]['u_readpm'])) ? array() : $can_receive_pm_list[0]['u_readpm'];
-	}
-
-	/**
-	 * Get the list of permanently banned users
-	 *
-	 * @param array $user_ids
-	 * @return array
-	 */
-	protected function get_banned_users_list(array $user_ids)
-	{
-		if (!function_exists('phpbb_get_banned_user_ids'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-		}
-
-		return phpbb_get_banned_user_ids($user_ids, false);
 	}
 
 	/**

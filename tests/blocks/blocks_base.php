@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
-use blitze\sitemaker\services\user_data;
-
 abstract class blocks_base extends \phpbb_database_test_case
 {
 	protected $auth;
@@ -148,6 +146,6 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$profile_fields = new \phpbb\profilefields\manager($this->auth, $this->db, $phpbb_dispatcher, $this->request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
 
-		$this->user_data = new user_data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $phpbb_root_path, $phpEx);
+		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $phpbb_root_path, $phpEx);
 	}
 }

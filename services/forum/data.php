@@ -26,7 +26,7 @@ class data extends query_builder
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\user_data */
+	/** @var \blitze\sitemaker\services\users\data */
 	protected $user_data;
 
 	/**
@@ -37,10 +37,10 @@ class data extends query_builder
 	 * @param \phpbb\content_visibility				$content_visibility		Content visibility
 	 * @param \phpbb\db\driver\driver_interface		$db     				Database connection
 	 * @param \phpbb\user							$user					User object
-	 * @param \blitze\sitemaker\services\user_data	$user_data				Sitemaker User data object
+	 * @param \blitze\sitemaker\services\users\data	$user_data				Sitemaker User data object
 	 * @param integer								$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\user_data $user_data, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\users\data $user_data, $cache_time = 10800)
 	{
 		parent::__construct($auth, $config, $content_visibility, $db, $user, $cache_time);
 

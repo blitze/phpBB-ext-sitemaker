@@ -116,7 +116,7 @@ services:
             - '@content.visibility'
             - '@dbal.conn'
             - '@user'
-            - '@blitze.sitemaker.user_data'
+            - '@blitze.sitemaker.users.data'
 
     blitze.sitemaker.forum.manager:
         class: blitze\sitemaker\services\forum\manager
@@ -253,8 +253,8 @@ services:
     blitze.sitemaker.url_checker:
         class: blitze\sitemaker\services\url_checker
 
-    blitze.sitemaker.user_data:
-        class: blitze\sitemaker\services\user_data
+    blitze.sitemaker.users.data:
+        class: blitze\sitemaker\services\users\data
         arguments:
             - '@auth'
             - '@config'
