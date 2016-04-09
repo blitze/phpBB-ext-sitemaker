@@ -139,23 +139,16 @@ class data extends query_builder
 	 */
 	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
-		$this->store['attachments'] = array_filter($this->store['attachments']);
+		$attach_ids = array_filter($this->store['attachments']);
 
-		$attachments = array();
-		if ($this->_attachments_allowed($forum_id))
+		$data = array();
+		if (sizeof($attach_ids))
 		{
-			$sql = $this->_get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by);
-			$result = $this->db->sql_query_limit($sql, $limit);
-
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$attachments[$row['post_msg_id']][] = $row;
-			}
-			$this->db->sql_freeresult($result);
+			$attachments = new attachments($this->auth, $this->db);
+			$data = $attachments->get_attachments($forum_id, $attach_ids, $allowed_extensions, $limit, $exclude_in_message, $order_by);
 		}
-		$this->store['attachments'] = array();
 
-		return $attachments;
+		return $data;
 	}
 
 	/**
@@ -171,7 +164,8 @@ class data extends query_builder
 			return array();
 		}
 
-		$tracking_info = $this->_get_tracking_info();
+		$tracker = new tracker($this->config, $this->user);
+		$tracking_info = $tracker->get_tracking_info($this->store['tracking'], $this->store['topic']);
 
 		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
 	}
@@ -261,88 +255,5 @@ class data extends query_builder
 		{
 			$sql_where[] = $this->db->sql_in_set('p.post_id', $this->get_topic_post_ids($topic_first_or_last_post));
 		}
-	}
-
-	/**
-	 * @return array
-	 */
-	private function _get_tracking_info()
-	{
-		$info = array();
-		if ($this->_can_track_by_lastread())
-		{
-			$info = $this->_build_tracking_info('get_topic_tracking');
-		}
-		else if ($this->_can_track_anonymous())
-		{
-			$info = $this->_build_tracking_info('get_complete_topic_tracking');
-		}
-
-		return $info;
-	}
-
-	/**
-	 * @param string $function
-	 * @return array
-	 */
-	private function _build_tracking_info($function)
-	{
-		$tracking_info = array();
-		foreach ($this->store['tracking'] as $fid => $forum)
-		{
-			$tracking_info[$fid] = call_user_func_array($function, array($fid, $forum['topic_list'], &$this->store['topic'], array($fid => $forum['mark_time'])));
-		}
-
-		return $tracking_info;
-	}
-
-	/**
-	 * @return bool
-	 */
-	private function _can_track_by_lastread()
-	{
-		return ($this->config['load_db_lastread'] && $this->user->data['is_registered']) ? true : false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	private function _can_track_anonymous()
-	{
-		return ($this->config['load_anon_lastread'] || $this->user->data['is_registered']) ? true : false;
-	}
-
-	/**
-	 * @param int $forum_id
-	 * @return bool
-	 */
-	private function _attachments_allowed($forum_id)
-	{
-		return ($this->store['attachments'] && $this->_user_can_download_attachments($forum_id)) ? true : false;
-	}
-
-	/**
-	 * @param int $forum_id
-	 * @return bool
-	 */
-	private function _user_can_download_attachments($forum_id)
-	{
-		return ($this->auth->acl_get('u_download') && (!$forum_id || $this->auth->acl_get('f_download', $forum_id))) ? true : false;
-	}
-
-	/**
-	 * @param array $allowed_extensions
-	 * @param bool $exclude_in_message
-	 * @param string $order_by
-	 * @return string
-	 */
-	private function _get_attachment_sql($allowed_extensions, $exclude_in_message, $order_by)
-	{
-		return 'SELECT *
-			FROM ' . ATTACHMENTS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('post_msg_id', $this->store['attachments']) .
-				(($exclude_in_message) ? ' AND in_message = 0' : '') .
-				(sizeof($allowed_extensions) ? ' AND ' . $this->db->sql_in_set('extension', $allowed_extensions) : '') . '
-			ORDER BY ' . $order_by;
 	}
 }
