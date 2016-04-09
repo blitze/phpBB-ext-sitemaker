@@ -19,10 +19,12 @@ class options
 	 */
 	public function __construct($phpbb_root_path, $php_ext)
 	{
+		// @codeCoverageIgnoreStart
 		if (!function_exists('make_forum_select'))
 		{
 			include($phpbb_root_path . 'includes/functions_admin.' . $php_ext); // @codeCoverageIgnore
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**

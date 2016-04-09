@@ -50,6 +50,7 @@ class featured_member_test extends blocks_base
 
 		$this->config['allow_privmsg'] = 1;
 		$this->config['num_posts'] = 8;
+		$this->config['jab_enable'] = 1;
 		
 		$this->auth->expects($this->any())
 			->method('acl_get_list')
@@ -98,7 +99,7 @@ class featured_member_test extends blocks_base
 						'qtype' => 'recent',
 						'rotation' => 'pageload',
 						'userlist' => '',
-						'show_cpf' => array(),
+						'show_cpf' => array('phpbb_location', 'phpbb_website'),
 						'last_changed' => 0,
 						'current_user' => 0,
 					),
@@ -152,19 +153,29 @@ class featured_member_test extends blocks_base
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
 						),
+						'jabber' => array(
+							'ID' => 'jabber',
+							'NAME' => 'Jabber',
+							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
+						),
+						'phpbb_website' => array(
+							'ID' => 'phpbb_website',
+							'NAME' => 'Website',
+							'U_CONTACT' => 'http://www.my-website.com',
+						),
 					),
 					'profile_field' => array(
-						'phpbb_website' => array(
-							'PROFILE_FIELD_IDENT' => 'phpbb_website',
-							'PROFILE_FIELD_VALUE' => '<!-- l --><a class="postlink-local" href="http://www.my-website.com"><!-- w --><a class="postlink" href="http://www.my-website.com">www.my-website.com</a><!-- w --></a><!-- l -->',
-							'PROFILE_FIELD_VALUE_RAW' => 'http://www.my-website.com',
+						'phpbb_location' => array(
+							'PROFILE_FIELD_IDENT' => 'phpbb_location',
+							'PROFILE_FIELD_VALUE' => 'testing',
+							'PROFILE_FIELD_VALUE_RAW' => 'testing',
 							'PROFILE_FIELD_CONTACT' => '',
 							'PROFILE_FIELD_DESC' => '',
-							'PROFILE_FIELD_TYPE' => 'profilefields.type.url',
-							'PROFILE_FIELD_NAME' => 'Website',
+							'PROFILE_FIELD_TYPE' => 'profilefields.type.string',
+							'PROFILE_FIELD_NAME' => 'Location',
 							'PROFILE_FIELD_EXPLAIN' => '',
 							'S_PROFILE_CONTACT' => '0',
-							'S_PROFILE_PHPBB_WEBSITE' => true,
+							'S_PROFILE_PHPBB_LOCATION' => true,
 						),
 					),
 					'AVATAR' => '',
@@ -204,6 +215,11 @@ class featured_member_test extends blocks_base
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
 						),
+						'jabber' => array(
+							'ID' => 'jabber',
+							'NAME' => 'Jabber',
+							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
+						),
 					),
 					'profile_field' => array(),
 					'AVATAR' => '',
@@ -242,6 +258,11 @@ class featured_member_test extends blocks_base
 							'ID' => 'email',
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
+						),
+						'jabber' => array(
+							'ID' => 'jabber',
+							'NAME' => 'Jabber',
+							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
 						),
 					),
 					'profile_field' => array(),
@@ -320,6 +341,11 @@ class featured_member_test extends blocks_base
 							'ID' => 'email',
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
+						),
+						'jabber' => array(
+							'ID' => 'jabber',
+							'NAME' => 'Jabber',
+							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
 						),
 					),
 					'profile_field' => array(),

@@ -53,16 +53,18 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 * @param array $variable_map
 	 * @param string $action
 	 * @param int $action_call_count
-	 * @param int $cache_call_count
 	 * @param bool $ajax_request
 	 * @param bool $return_url
 	 * @return \blitze\sitemaker\controller\blocks_admin
 	 */
-	protected function get_controller(array $auth_map, array $variable_map, $action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
+	protected function get_controller(array $auth_map, array $variable_map, $action, $action_call_count, $ajax_request = true, $return_url = false)
 	{
 		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
+		$cache = new \phpbb_mock_cache();
+		$config = new \phpbb\config\config(array());
+		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$auth->expects($this->any())
@@ -102,23 +104,6 @@ class blocks_admin_test extends \phpbb_database_test_case
 			$phpEx
 		);
 
-		$dummy_object = $this->getMockBuilder('\stdClass')
-			->setMethods(array('execute'))
-			->getMock();
-
-		$dummy_object->expects($this->exactly($action_call_count))
-			->method('execute')
-			->with($this->equalTo(1))
-			->will($this->returnCallback(function() use (&$dummy_object) {
-				if ($dummy_object->action === 'invalid_action')
-				{
-					throw new \blitze\sitemaker\exception\unexpected_value(array($dummy_object->action, 'INVALID_ACTION'));
-				}
-				return array(
-					'message' => 'Action: ' . $dummy_object->action,
-				);
-			}));
-
 		$auto_lang = $this->getMockBuilder('\blitze\sitemaker\services\auto_lang')
 			->disableOriginalConstructor()
 			->getMock();
@@ -127,20 +112,24 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->method('add')
 			->with('blocks_admin');
 
-		$action_handler = $this->getMockBuilder('\blitze\sitemaker\services\blocks\action_handler')
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$block_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$action_handler->expects($this->exactly($action_call_count))
-			->method('create')
-			->with()
-			->will($this->returnCallback(function() use (&$dummy_object, $action) {
-				$dummy_object->action = $action;
-				return $dummy_object;
-			}));
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$action_handler->expects($this->exactly($cache_call_count))
-			->method('clear_cache');
+		$mapper = $this->getMockBuilder('\blitze\sitemaker\model\mapper_factory')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $template, $translator, $block_factory, $groups, $mapper);
+
+		$action_handler = new \blitze\sitemaker\services\blocks\action_handler($config, $phpbb_container, $request, $translator, $blocks, $block_factory, $mapper);
 
 		return new blocks_admin($auth, $request, $translator, $auto_lang, $action_handler, $return_url);
 	}
@@ -160,8 +149,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				array(
 					array('style', 0, false, request_interface::REQUEST, 1),
 				),
-				'add_block',
-				0,
+				'set_startpage',
 				0,
 				401,
 				'{"id":"","title":"","content":"","message":"NOT_AUTHORISED"}'
@@ -175,11 +163,10 @@ class blocks_admin_test extends \phpbb_database_test_case
 				array(
 					array('style', 0, false, request_interface::REQUEST, 1),
 				),
-				'add_block',
-				1,
+				'set_startpage',
 				1,
 				200,
-				'{"id":"","title":"","content":"","message":"Action: add_block"}'
+				'{"id":"","title":"","content":"","message":""}'
 			),
 
 			// Invalid action
@@ -192,7 +179,6 @@ class blocks_admin_test extends \phpbb_database_test_case
 				),
 				'invalid_action',
 				1,
-				0,
 				200,
 					'{"id":"","title":"","content":"","message":"EXCEPTION_UNEXPECTED_VALUE-invalid_action-INVALID_ACTION"}'
 			),
@@ -206,13 +192,12 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 * @param array $variable_map
 	 * @param string $action
 	 * @param integer $action_call_count
-	 * @param integer $cache_call_count
 	 * @param integer $status_code
 	 * @param array $expected
 	 */
-	public function test_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count, $status_code, $expected)
+	public function test_controller($auth_map, $variable_map, $action, $action_call_count, $status_code, $expected)
 	{
-		$controller = $this->get_controller($auth_map, $variable_map, $action, $action_call_count, $cache_call_count);
+		$controller = $this->get_controller($auth_map, $variable_map, $action, $action_call_count);
 		$response = $controller->handle($action);
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
@@ -233,7 +218,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			array('style', 0, false, request_interface::REQUEST, 1),
 		);
 
-		$controller = $this->get_controller($auth_map, $request_map, $action, 0, 0, false, true);
+		$controller = $this->get_controller($auth_map, $request_map, $action, 0, false, true);
 
 		$response = $controller->handle($action);
 

@@ -16,20 +16,6 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	protected $entity_class;
 
 	/**
-	 * Constructor
-	 *
-	 * @param array $entities
-	 */
-	public function __construct(array $entities = array())
-	{
-		if (!empty($entities))
-		{
-			$this->entities = $entities;
-		}
-		$this->rewind();
-	}
-
-	/**
 	 * Get the entities stored in the collection
 	 */
 	public function get_entities()

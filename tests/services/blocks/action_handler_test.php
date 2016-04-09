@@ -62,12 +62,9 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
-			->setConstructorArgs(array($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper))
-			->setMethods(array('clear_cache'))
-			->getMock();
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper);
 
-		return new action_handler($config, $phpbb_container, $request, $this->translator, $this->blocks, $block_factory, $mapper);
+		return new action_handler($config, $phpbb_container, $request, $this->translator, $blocks, $block_factory, $mapper);
 	}
 
 	/**
@@ -124,15 +121,5 @@ class action_handler_test extends \phpbb_test_case
 		{
 			$this->assertEquals("EXCEPTION_UNEXPECTED_VALUE-{$action}-INVALID_ACTION", $e->get_message($this->translator));
 		}
-	}
-
-	public function test_clear_cache()
-	{
-		$handler = $this->get_action_handler();
-
-		$this->blocks->expects($this->once())
-			->method('clear_cache');
-
-		$handler->clear_cache();
 	}
 }

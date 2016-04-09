@@ -71,24 +71,20 @@ class wordgraph extends block
 	public function display(array $bdata, $edit_mode = false)
 	{
 		$settings = $bdata['settings'];
+		$block = array(
+			'title'		=> 'WORDGRAPH',
+			'content'	=> '',
+		);
 
-		$block_title = 'WORDGRAPH';
 		$words_array = $this->get_words($settings);
-
-		if (!sizeof($words_array))
+		if (sizeof($words_array))
 		{
-			return array(
-				'title'		=> $block_title,
-				'content'	=> '',
-			);
+			$this->show_graph($words_array, $settings);
+	
+			$block['content'] = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block');
 		}
 
-		$this->show_graph($words_array, $settings);
-
-		return array(
-			'title'		=> $block_title,
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block')
-		);
+		return $block;
 	}
 
 	/**
@@ -208,7 +204,7 @@ class wordgraph extends block
 		$sql_where = '';
 		if ($exclude_words)
 		{
-			$exclude_words = array_filter(explode(',', str_replace(' ', '', $exclude_words)));
+			$exclude_words = array_filter(explode(',', str_replace(' ', '', strtolower($exclude_words))));
 			$sql_where = (sizeof($exclude_words)) ? ' AND ' . $this->db->sql_in_set('l.word_text', $exclude_words, true) : '';
 		}
 

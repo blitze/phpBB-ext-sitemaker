@@ -110,6 +110,27 @@ class wordgraph_test extends blocks_base
 					),
 				),
 			),
+			array(
+				array(
+					'settings' => array (
+						'show_word_count' => 1,
+						'max_num_words' => 5,
+						'max_word_size' => 25,
+						'min_word_size' => 9,
+						'exclude_words' => 'Rocks,Sitemaker',
+					),
+				),
+				array(
+					'wordgraph' => array(
+						array(
+							'WORD' => 'Phpbb(1)',
+							'WORD_SIZE' => 9,
+							'WORD_COLOR' => '0cf',
+							'WORD_URL' => 'phpBB/search.php?keywords=Phpbb',
+						),
+					),
+				),
+			),
 		);
 	}
 
