@@ -51,8 +51,13 @@ abstract class blocks_base extends \phpbb_database_test_case
 		require_once dirname(__FILE__) . '/../../../../../includes/functions_content.php';
 
 		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array());
 		$db = $this->new_dbal();
+
+		$config = new \phpbb\config\config(array(
+			'jab_enable'	=> 1,
+			'allow_privms'	=> 1,
+			'num_posts'		=> 8,
+		));
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

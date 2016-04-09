@@ -48,11 +48,6 @@ class featured_member_test extends blocks_base
 				),
 			));
 
-		$this->config['allow_privmsg'] = 1;
-		$this->config['num_posts'] = 8;
-		$this->config['jab_enable'] = 1;
-		$this->config['allow_privmsg'] = 1;
-
 		$this->auth->expects($this->any())
 			->method('acl_get_list')
 			->willReturn(array(
