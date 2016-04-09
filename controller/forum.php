@@ -54,10 +54,12 @@ class forum
 	 */
 	public function handle()
 	{
+		// @codeCoverageIgnoreStart
 		if (!function_exists('display_forums'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext); // @codeCoverageIgnore
+			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
 		}
+		// @codeCoverageIgnoreEnd
 
 		display_forums('', $this->config['load_moderators']);
 
