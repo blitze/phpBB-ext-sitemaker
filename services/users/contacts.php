@@ -35,6 +35,9 @@ abstract class contacts
 	/** @var bool */
 	protected $email_form_allowed;
 
+	/** @var bool */
+	protected $jabber_allowed;
+
 	/**
 	 * Constructor
 	 *
@@ -56,6 +59,7 @@ abstract class contacts
 
 		$this->mailto_allowed = $this->get_mailto_allowed();
 		$this->email_form_allowed = $this->get_email_form_allowed();
+		$this->jabber_allowed = $this->get_jabber_allowed();
 	}
 
 	/**
@@ -118,7 +122,7 @@ abstract class contacts
 	protected function get_jabber_contact(array $row)
 	{
 		$jabber = array();
-		if ($this->user_can_jabber($row))
+		if ($this->jabber_allowed && $row['user_jabber'])
 		{
 			$jabber = array(
 				'ID'		=> 'jabber',
@@ -131,12 +135,11 @@ abstract class contacts
 	}
 
 	/**
-	 * @param array $row
 	 * @return bool
 	 */
-	protected function user_can_jabber(array $row)
+	protected function get_jabber_allowed()
 	{
-		return ($this->config['jab_enable'] && $row['user_jabber'] && $this->auth->acl_get('u_sendim')) ? true : false;
+		return ($this->config['jab_enable'] && $this->auth->acl_get('u_sendim')) ? true : false;
 	}
 
 	/**
@@ -190,7 +193,7 @@ abstract class contacts
 			!in_array($row['user_id'], $permanently_banned_users) &&
 
 			// They must allow users to contact via PM
-			(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['allow_pm'])
+			(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['user_allow_pm'])
 		);
 	}
 

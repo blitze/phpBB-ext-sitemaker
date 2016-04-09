@@ -80,7 +80,7 @@ class wordgraph extends block
 		if (sizeof($words_array))
 		{
 			$this->show_graph($words_array, $settings);
-	
+
 			$block['content'] = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block');
 		}
 

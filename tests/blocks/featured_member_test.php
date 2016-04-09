@@ -51,14 +51,15 @@ class featured_member_test extends blocks_base
 		$this->config['allow_privmsg'] = 1;
 		$this->config['num_posts'] = 8;
 		$this->config['jab_enable'] = 1;
-		
+		$this->config['allow_privmsg'] = 1;
+
 		$this->auth->expects($this->any())
 			->method('acl_get_list')
 			->willReturn(array(
 				array(
-            		'u_readpm' => array(2, 48),
-            	)
-            ));
+					'u_readpm' => array(2),
+				),
+			));
 
 		$block = new featured_member($this->cache, $this->db, $this->translator, $this->user_data, 'phpbb_sm_blocks', 0);
 		$block->set_template($this->ptemplate);
@@ -148,6 +149,11 @@ class featured_member_test extends blocks_base
 					'QTYPE_EXPLAIN' => 'QTYPE_POSTS',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 					'contact_field' => array(
+						'pm' => array(
+							'ID' => 'pm',
+							'NAME' => 'Send private message',
+							'U_CONTACT' => 'phpBB/ucp.php?i=pm&amp;mode=compose&amp;u=2',
+						),
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
@@ -210,6 +216,11 @@ class featured_member_test extends blocks_base
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 					'contact_field' => array(
+						'pm' => array(
+							'ID' => 'pm',
+							'NAME' => 'Send private message',
+							'U_CONTACT' => 'phpBB/ucp.php?i=pm&amp;mode=compose&amp;u=2',
+						),
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
@@ -254,6 +265,11 @@ class featured_member_test extends blocks_base
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => '',
 					'contact_field' => array(
+						'pm' => array(
+							'ID' => 'pm',
+							'NAME' => 'Send private message',
+							'U_CONTACT' => 'phpBB/ucp.php?i=pm&amp;mode=compose&amp;u=2',
+						),
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
@@ -337,6 +353,11 @@ class featured_member_test extends blocks_base
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
 					'contact_field' => array(
+						'pm' => array(
+							'ID' => 'pm',
+							'NAME' => 'Send private message',
+							'U_CONTACT' => 'phpBB/ucp.php?i=pm&amp;mode=compose&amp;u=2',
+						),
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
