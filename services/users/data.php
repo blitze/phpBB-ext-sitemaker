@@ -219,22 +219,11 @@ class data extends contacts
 
 		$user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
 
-		if (!empty($user_rank_data))
-		{
-			return array(
-				'RANK_TITLE'		=> $user_rank_data['title'],
-				'RANK_IMAGE'		=> $user_rank_data['img'],
-				'RANK_IMAGE_SRC'	=> $user_rank_data['img_src'],
-			);
-		}
-		else
-		{
-			return array(
-				'RANK_TITLE'		=> '',
-				'RANK_IMAGE'		=> '',
-				'RANK_IMAGE_SRC'	=> '',
-			);
-		}
+		return array(
+			'RANK_TITLE'		=> $user_rank_data['title'],
+			'RANK_IMAGE'		=> $user_rank_data['img'],
+			'RANK_IMAGE_SRC'	=> $user_rank_data['img_src'],
+		);
 	}
 
 	/**
