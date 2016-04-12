@@ -129,9 +129,7 @@ class base_action extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$text_formatter_utils = new \phpbb\textformatter\s9e\utils();
-
-		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, $text_formatter_utils, 'phpbb_sm_cblocks');
+		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, 'phpbb_sm_cblocks');
 
 		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $this->translator, $groups, $phpbb_root_path, $phpEx);
 

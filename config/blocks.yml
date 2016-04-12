@@ -32,7 +32,6 @@ services:
             - '@cache.driver'
             - '@dbal.conn'
             - '@request'
-            - '@text_formatter.utils'
             - '%tables.sitemaker.cblocks%'
         calls:
             - [set_name, [blitze.sitemaker.block.custom]]

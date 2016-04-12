@@ -25,9 +25,6 @@ class custom extends block
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	/** @var \phpbb\textformatter\s9e\utils */
-	protected $text_formatter_utils;
-
 	/** @var string */
 	protected $cblocks_table;
 
@@ -37,15 +34,13 @@ class custom extends block
 	 * @param \phpbb\cache\driver\driver_interface	$cache					Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db						Database object
 	 * @param \phpbb\request\request_interface		$request				Request object
-	* @param \phpbb\textformatter\s9e\utils      	$text_formatter_utils	Text manipulation utilities
 	 * @param string								$cblocks_table			Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \phpbb\textformatter\s9e\utils $text_formatter_utils, $cblocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, $cblocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->request = $request;
-		$this->text_formatter_utils = $text_formatter_utils;
 		$this->cblocks_table = $cblocks_table;
 	}
 
@@ -123,7 +118,7 @@ class custom extends block
 	 */
 	private function get_content_for_display(array $data)
 	{
-		$content = $this->text_formatter_utils->unparse($data['block_content']);
+		$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options'], true);
 		return htmlspecialchars_decode($content, ENT_COMPAT);
 	}
 

@@ -5,7 +5,7 @@
 		<column>block_content</column>
 		<row>
 			<value>1</value>
-			<value><![CDATA[<t>My &lt;strong&gt;custom&lt;/strong&gt; content</t>]]></value>
+			<value><![CDATA[<r>&lt;p&gt;My custom content with <B><s>[b]</s>bbcode<e>[/b]</e></B> and &lt;a href="#"&gt;html&lt;/a&gt;&lt;/p&gt;</r>]]></value>
 		</row>
 	</table>
 </dataset>

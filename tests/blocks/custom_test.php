@@ -38,9 +38,8 @@ class custom_test extends blocks_base
 			->will($this->returnValueMap($variable_map));
 
 		$this->get_test_case_helpers()->set_s9e_services();
-		$text_formatter_utils = new \phpbb\textformatter\s9e\utils();
 
-		$block = new custom($this->cache, $this->db, $this->request, $text_formatter_utils, 'phpbb_sm_cblocks');
+		$block = new custom($this->cache, $this->db, $this->request, 'phpbb_sm_cblocks');
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -81,14 +80,14 @@ class custom_test extends blocks_base
 					'bid' => 1,
 				),
 				false,
-				'My <strong>custom</strong> content',
+				'<p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p>',
 			),
 			array(
 				array(
 					'bid' => 1,
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="My &lt;strong&gt;custom&lt;/strong&gt; content">My <strong>custom</strong> content</div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;"><p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p></div>',
 			),
 		);
 	}
@@ -142,11 +141,11 @@ class custom_test extends blocks_base
 			array(
 				2,
 				array(
-					array('content', '', true, request_interface::REQUEST, '<p>my new content</p>'),
+					array('content', '', true, request_interface::REQUEST, '<p>my new [b]content[/b]</p>'),
 				),
 				array(
 					'id' => 2,
-					'content' => '<p>my new content</p>',
+					'content' => '<p>my new <span style="font-weight: bold">content</span></p>',
 					'callback' => 'previewCustomBlock',
 				),
 			),
