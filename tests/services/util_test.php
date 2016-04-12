@@ -38,8 +38,6 @@ class util_test extends \phpbb_test_case
 
 		parent::setUp();
 
-		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$template_context = $this->getMockBuilder('phpbb\template\context')

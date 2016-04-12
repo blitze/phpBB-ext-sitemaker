@@ -56,8 +56,6 @@ class item_test extends \phpbb_test_case
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
 			});
-
-		require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
 	}
 
 	/**

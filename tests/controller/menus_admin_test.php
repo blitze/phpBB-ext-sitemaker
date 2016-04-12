@@ -34,18 +34,6 @@ class menus_admin_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Configure the test environment.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-	}
-
-	/**
 	 * Create the menu admin controller
 	 *
 	 * @param string $action

@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\services\menus\action;
 
-require_once dirname(__FILE__) . '/../../../../../../../includes/functions.php';
-
 class base_action extends \phpbb_database_test_case
 {
 	protected $translator;

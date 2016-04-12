@@ -38,18 +38,6 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/blocks_cleanup.xml');
 	}
 
-	/**
-	 * Configure the test environment.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-	}
-
 	protected function create_cron_manager($tasks)
 	{
 		global $phpbb_root_path, $phpEx;
