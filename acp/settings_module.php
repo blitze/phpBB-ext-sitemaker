@@ -93,16 +93,16 @@ class settings_module
 
 		$layouts = $this->get_layouts();
 
-        $this->template->assign_vars(array(
-            'u_action'			=> $this->u_action,
+		$this->template->assign_vars(array(
+			'u_action'			=> $this->u_action,
 			'icon_picker'		=> $this->icon->picker(),
-            'forum_icon'		=> $this->config['sm_forum_icon'],
-            'show_forum_nav'	=> (bool) $this->config['sm_show_forum_nav'],
+			'forum_icon'		=> $this->config['sm_forum_icon'],
+			'show_forum_nav'	=> (bool) $this->config['sm_show_forum_nav'],
 			'hide_login'		=> (bool) $this->config['sm_hide_login'],
 			'hide_online'		=> (bool) $this->config['sm_hide_online'],
 			'hide_birthday'		=> (bool) $this->config['sm_hide_birthday'],
-            'styles'			=> $this->get_styles_data($layouts),
-            'layouts'			=> $layouts,
+			'styles'			=> $this->get_styles_data($layouts),
+			'layouts'			=> $layouts,
 		));
 
 		$this->util->add_assets(array(
@@ -119,21 +119,21 @@ class settings_module
 	 */
 	protected function save_settings($form_key)
 	{
-        if ($this->request->is_set_post('submit'))
-        {
-            $this->check_form_key($form_key);
+		if ($this->request->is_set_post('submit'))
+		{
+			$this->check_form_key($form_key);
 
 			$layout_prefs = $this->request->variable('layouts', array(0 => array('' => '')));
-            $this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
+			$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
 
-            $this->config->set('sm_hide_login', $this->request->variable('hide_login', 0));
-            $this->config->set('sm_hide_online', $this->request->variable('hide_online', 0));
-            $this->config->set('sm_hide_birthday', $this->request->variable('hide_birthday', 0));
-            $this->config->set('sm_show_forum_nav', $this->request->variable('show_forum_nav', 0));
-            $this->config->set('sm_forum_icon', $this->request->variable('forum_icon', ''));
+			$this->config->set('sm_hide_login', $this->request->variable('hide_login', 0));
+			$this->config->set('sm_hide_online', $this->request->variable('hide_online', 0));
+			$this->config->set('sm_hide_birthday', $this->request->variable('hide_birthday', 0));
+			$this->config->set('sm_show_forum_nav', $this->request->variable('show_forum_nav', 0));
+			$this->config->set('sm_forum_icon', $this->request->variable('forum_icon', ''));
 
-            $this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
-        }
+			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
+		}
 	}
 
 	/**
@@ -227,9 +227,9 @@ class settings_module
 	protected function check_form_key($form_key)
 	{
 		if (!check_form_key($form_key))
-        {
-            $this->trigger_error('FORM_INVALID');
-        }
+		{
+			$this->trigger_error('FORM_INVALID');
+		}
 	}
 
 	/**
