@@ -1,0 +1,19 @@
+<div class="forabg sm-block-container{{ block.class }} sm-block-spacing">
+	<div class="inner">
+		{% if block.title and not block.hide_title %}
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="row-item">
+					<dt>
+						<span class="block-icon"><i class="{{ block.icon }}"></i></span>
+						<span class="block-title{{ EDITABLE_CLASS }}">{{ block.title }}</span>
+					</dt>
+				</dl>
+			</li>
+		</ul>
+		{% endif %}
+		<ul class="forums sm-block-content">
+			<li>{{ block.content }}</li>
+		</ul>
+	</div>
+</div>

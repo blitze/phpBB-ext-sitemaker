@@ -45,6 +45,7 @@ class save_block_test extends base_action
 						'other_setting'	=> 1,
 					),
 					'content'		=> 'I love others',
+					'view'			=> '',
 				),
 				1,
 			),
@@ -54,6 +55,7 @@ class save_block_test extends base_action
 					array('similar', false, false, request_interface::REQUEST, true),
 					array('id', 0, false, request_interface::REQUEST, 6),
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
+					array('view', '', false, request_interface::REQUEST, 'simple'),
 					array('permission', array(0), false, request_interface::REQUEST, array()),
 					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
@@ -72,6 +74,7 @@ class save_block_test extends base_action
 						'other_setting'	=> 1,
 					),
 					'content'		=> 'I love myself and others',
+					'view'			=> 'simple',
 				),
 				3,
 			),
@@ -82,7 +85,7 @@ class save_block_test extends base_action
 					array('id', 0, false, request_interface::REQUEST, 2),
 					array('status', 0, false, request_interface::REQUEST, 1),
 					array('type', 0, false, request_interface::REQUEST, 2),
-					array('no_wrap', 0, false, request_interface::REQUEST, 1),
+					array('view', '', false, request_interface::REQUEST, 'basic'),
 					array('permission', array(0), false, request_interface::REQUEST, array()),
 					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
@@ -92,9 +95,9 @@ class save_block_test extends base_action
 					'title'			=> 'I am foo block',
 					'status'		=> true,
 					'type'			=> 2,
-					'no_wrap'		=> true,
 					'settings'		=> array(),
 					'content'		=> 'foo block content',
+					'view'			=> 'basic',
 				),
 				0,
 			),
@@ -125,7 +128,7 @@ class save_block_test extends base_action
 			$actual_similar = $collection->count();
 		}
 
-		$this->assertSame($expected_data, array_intersect_key($updated_block, $expected_data));
+		$this->assertEquals($expected_data, array_intersect_key($updated_block, $expected_data));
 		$this->assertEquals($expected_similar, $actual_similar);
 	}
 

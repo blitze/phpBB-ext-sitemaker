@@ -27,6 +27,7 @@ $lang = array_merge($lang, array(
 	'ATTACHMENTS_FROM_POSTS_EXPLAIN'			=> 'Id(s) of posts to retrieve attachments from, separated by <strong>commas</strong>(,). Leave blank to select from any post.',
 	'AUTO_LOGIN'								=> 'Allow auto login?',
 
+	// Blocks
 	'BLITZE_SITEMAKER_BLOCK_ATTACHMENTS'		=> 'Attachments',
 	'BLITZE_SITEMAKER_BLOCK_BIRTHDAY'			=> 'Birthday',
 	'BLITZE_SITEMAKER_BLOCK_CUSTOM'				=> 'Custom Block',
@@ -44,6 +45,13 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'What’s New?',
 	'BLITZE_SITEMAKER_BLOCK_WHOIS'				=> 'Who is online',
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraph',
+
+	// block views
+	'BLOCK_VIEW'								=> 'Block View',
+	'BLOCK_VIEW_BASIC'							=> 'Basic',
+	'BLOCK_VIEW_BOXED'							=> 'Boxed',
+	'BLOCK_VIEW_DEFAULT'						=> 'Default',
+	'BLOCK_VIEW_SIMPLE'							=> 'Simple',
 
 	'CONTEXT'									=> 'Context',
 	'CUSTOM_PROFILE_FIELDS'						=> 'Custom Profile Fields',

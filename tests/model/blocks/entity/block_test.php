@@ -110,10 +110,10 @@ class block_test extends \phpbb_test_case
 			array('class', '', '', '', 'bg1', ' bg1'),
 			array('status', true, 0, false, true, true),
 			array('type', 0, 1, 1, 2, 2),
-			array('no_wrap', false, 1, true, 0, false),
 			array('hide_title', false, 1, true, false, false),
 			array('hash', '', 'some string', 'some string', 'another string', 'another string'),
 			array('settings', array(), array(), array(), array('my_setting' => 2), array('my_setting' => 2)),
+			array('view', '', 'some view', 'some view', 'another view', 'another view'),
 		);
 	}
 
@@ -218,10 +218,10 @@ class block_test extends \phpbb_test_case
 			'class'			=> '',
 			'status'		=> true,
 			'type'			=> 0,
-			'no_wrap'		=> false,
 			'hide_title'	=> false,
 			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
 			'settings'		=> array('my_setting' => 2),
+			'view'			=> '',
 		);
 
 		$to_db_expected = array(
@@ -236,10 +236,10 @@ class block_test extends \phpbb_test_case
 			'class'			=> '',
 			'status'		=> true,
 			'type'			=> 0,
-			'no_wrap'		=> false,
 			'hide_title'	=> false,
 			'hash'			=> 'dc47ce9ed8e1807a1701f68bf5a1849c',
 			'settings'		=> '{"my_setting":2}',
+			'view'			=> '',
 		);
 
 		$this->assertSame($to_array_expected, $block->to_array());

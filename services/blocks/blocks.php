@@ -60,20 +60,18 @@ class blocks extends routes
 		$ex_positions = array_flip($route_info['ex_positions']);
 		$users_groups = $this->groups->get_users_groups();
 
-		$positions = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
+		$route_blocks = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
 
-		$blocks_per_position = array();
-
-		foreach ($positions as $position => $blocks)
+		$positions = array();
+		foreach ($route_blocks as $position => $blocks)
 		{
-			$pos_count_key = "s_{$position}_count";
-			$blocks_per_position[$pos_count_key] = 0;
-
-			$this->show_position($position, $blocks, $ex_positions, $users_groups, $blocks_per_position[$pos_count_key], $display_modes, $edit_mode);
+			$positions[$position] = $this->show_position($position, $blocks, $ex_positions, $users_groups, $display_modes, $edit_mode);
 		}
 
-		$this->template->assign_var('S_HAS_BLOCKS', sizeof($positions));
-		$this->template->assign_vars(array_change_key_case($blocks_per_position, CASE_UPPER));
+		$this->template->assign_vars(array(
+			'positions'		=> $positions,
+			'S_HAS_BLOCKS'	=> sizeof($positions),
+		));
 	}
 
 	/**
@@ -83,28 +81,27 @@ class blocks extends routes
 	 * @param bool $edit_mode
 	 * @param array $data
 	 * @param array $users_groups
-	 * @param int $position_counter
 	 */
-	public function render(array $display_modes, $edit_mode, array $data, array $users_groups, &$position_counter)
+	public function render(array $display_modes, $edit_mode, array $data, array $users_groups)
 	{
 		$position = $data['position'];
 		$service_name = $data['name'];
 
+		$single_block = array();
 		if ($this->_block_is_viewable($data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
 			$block = $block_instance->display($data, $edit_mode);
 
 			if ($content = $this->_get_block_content($block, $edit_mode))
 			{
-				$tpl_data = array_merge($data, array(
-					'TITLE'		=> $this->_get_block_title($data['title'], $block['title']),
-					'CONTENT'	=> $content,
+				$single_block = array_merge($data, array(
+					'title'		=> $this->_get_block_title($data['title'], $block['title']),
+					'content'	=> $content,
 				));
-
-				$this->template->assign_block_vars($position, array_change_key_case($tpl_data, CASE_UPPER));
-				$position_counter++;
 			}
 		}
+
+		return $single_block;
 	}
 
 	/**
@@ -112,19 +109,21 @@ class blocks extends routes
 	 * @param array $blocks
 	 * @param array $ex_positions
 	 * @param array $users_groups
-	 * @param int $position_counter
 	 * @param array $display_modes
 	 * @param bool $edit_mode
 	 */
-	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, &$position_counter, $display_modes, $edit_mode)
+	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
 	{
+		$pos_blocks = array();
 		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
 		{
 			foreach ($blocks as $entity)
 			{
-				$this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $position_counter);
+				$pos_blocks[] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $position_counter);
 			}
 		}
+
+		return array_filter($pos_blocks);
 	}
 
 	/**

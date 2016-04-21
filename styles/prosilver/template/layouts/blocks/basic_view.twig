@@ -1,0 +1,9 @@
+<div class="post{{ block.class }} ">
+	{% if block.title and not block.hide_title %}
+	<h2>
+		<span class="block-icon"><i class="{{ block.icon }}"></i></span>
+		<span class="block-title{{ EDITABLE_CLASS }}">{{ block.title }}</span>
+	</h2>
+	{% endif %}
+	{{ block.content }}
+</div>

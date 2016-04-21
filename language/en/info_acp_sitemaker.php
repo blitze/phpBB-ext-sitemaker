@@ -38,6 +38,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACP_SITEMAKER'				=> 'SiteMaker',
+	'ACP_SM_SETTINGS'			=> 'Settings',
 	'ACP_MENU'					=> 'Menu',
 	'ACP_MENU_MANAGE'			=> 'Menu Management',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Here you can create and manage menus for your site',
@@ -57,7 +58,13 @@ $lang = array_merge($lang, array(
 	'DELETE_MENU_ITEM_CONFIRM'	=> 'Are you sure you want to delete this menu item?',
 	'DELETE_SELECTED'			=> 'Delete Selected',
 
+	'FORUM_INDEX_SETTINGS'			=> 'Forum Index Settings',
+	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
+
 	'HIDE'						=> 'Hide',
+	'HIDE_BIRTHDAY'				=> 'Hide Birthday section',
+	'HIDE_LOGIN'				=> 'Hide login box',
+	'HIDE_ONLINE'				=> 'Hide Whos online section',
 
 	'ITEM_ACTIVE'				=> 'Active',
 	'ITEM_INACTIVE'				=> 'Inactive',
@@ -67,11 +74,16 @@ $lang = array_merge($lang, array(
 	'ITEM_URL'					=> 'Item URL',
 	'ITEM_URL_EXPLAIN'			=> 'Leave empty for headings',
 
+	'LAYOUT_BLOG'				=> 'Blog',
+	'LAYOUT_PORTAL'				=> 'Portal',
+	'LAYOUT_PORTAL_ALT'			=> 'Portal (alt)',
+	'LAYOUT_SETTINGS'			=> 'Layout Settings',
 	'LOADING'					=> 'Loading...',
 
 	'MENU_ITEMS'				=> 'Menu Items',
 	'MENU_ITEM_PARENT'			=> 'Parent Item',
 
+	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
 
@@ -80,7 +92,11 @@ $lang = array_merge($lang, array(
 
 	'SAVE_CHANGES'				=> 'Save Changes',
 	'SELECT_ALL'				=> 'Select All',
+	'SETTINGS_SAVED'			=> 'Your settings have been saved',
 	'SHOW'						=> 'Show',
+	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
+	'SHOW_FORUM_NAV_EXPLAIN'	=> 'When a page is set as startpage instead of the forum index, should we display ’Forum’ in navigation bar',
+	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Yes - with icon:',
 
 	'TARGET_BLANK'				=> 'Blank Page',
 	'TARGET_PARENT'				=> 'Parent',

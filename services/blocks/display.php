@@ -71,22 +71,20 @@ class display
 	 */
 	public function show()
 	{
-		$this->phpbb_container->get('blitze.sitemaker.util')->add_assets(array(
-			'css' => array('@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css')
-		));
-
 		$this->template->assign_var('L_INDEX', $this->translator->lang('HOME'));
 
 		if ($this->page_can_have_blocks())
 		{
+			$style_id = $this->get_style_id();
 			$edit_mode = $this->toggle_edit_mode();
 			$display_modes = $this->get_display_modes();
 			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);
 
-			$this->show_blocks($edit_mode, $display_modes);
+			$this->show_blocks($style_id, $edit_mode, $display_modes);
 
 			$this->template->assign_vars(array(
 				'S_SITEMAKER'		=> true,
+				'S_LAYOUT'			=> $this->get_layout($style_id),
 				'U_EDIT_MODE'		=> $u_edit_mode,
 			));
 		}
@@ -211,14 +209,26 @@ class display
 	}
 
 	/**
+	 * @param int $style_id
+	 * @return string
+	 */
+	protected function get_layout($style_id)
+	{
+		$config_text = $this->phpbb_container->get('config_text');
+		$style_prefs = json_decode($config_text->get('sm_layout_prefs'), true);
+
+		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'default';
+	}
+
+	/**
+	 * @param int $style_id
 	 * @param bool  $edit_mode
 	 * @param array $display_modes
 	 */
-	protected function show_blocks($edit_mode, array $display_modes)
+	protected function show_blocks($style_id, $edit_mode, array $display_modes)
 	{
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 
-		$style_id = $this->get_style_id();
 		$route_info = $blocks->get_route_info($this->route, $style_id, $edit_mode);
 
 		$this->show_admin_bar($edit_mode, $route_info);

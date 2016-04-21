@@ -44,10 +44,23 @@ class add_block extends base_action
 			'route_id'		=> (int) $route_entity->get_route_id(),
 			'style'			=> (int) $style_id,
 			'settings'		=> $block_settings,
+			'view'			=> $this->get_block_view($style_id),
 		));
 
 		$entity = $block_mapper->save($entity);
 
 		return $this->render_block($entity);
+	}
+
+	/**
+	 * @param int $style_id
+	 * @return string
+	 */
+	protected function get_block_view($style_id)
+	{
+		$config_text = $this->phpbb_container->get('config_text');
+		$style_prefs = json_decode($config_text->get('sm_layout_prefs'), true);
+
+		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['view']) : '';
 	}
 }

@@ -115,7 +115,7 @@ class cfg_handler extends cfg_fields
 		$this->template->assign_vars(array(
 			'S_ACTIVE'		=> $block_data['status'],
 			'S_TYPE'		=> $block_data['type'],
-			'S_NO_WRAP'		=> $block_data['no_wrap'],
+			'S_VIEW'		=> $block_data['view'],
 			'S_HIDE_TITLE'	=> $block_data['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($block_data['class']),
 			'S_GROUP_OPS'	=> $this->groups->get_options('all', $selected_groups),

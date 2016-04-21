@@ -146,15 +146,15 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array('bottom'),
 				),
 				array(
-					'blocks' => array(
+					'positions' => array(
 						'sidebar' => array(
 							array(
-								'BID' => 1,
-								'NAME' => 'my.baz.block',
+								'bid' => 1,
+								'name' => 'my.baz.block',
+								'view' => 'simple',
 							),
 						),
 					),
-					'S_SIDEBAR_COUNT' => 1,
 				),
 			),
 			array(
@@ -176,24 +176,24 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array('bottom'),
 				),
 				array(
-					'blocks' => array(
+					'positions' => array(
 						'sidebar' => array(
 							array(
-								'BID' => 1,
-								'NAME' => 'my.baz.block',
-								'CONTENT' => 'I love myself',
+								'bid' => 1,
+								'name' => 'my.baz.block',
+								'content' => 'I love myself',
+								'view' => 'simple',
 							),
 						),
 						'top' => array(
 							array(
-								'BID' => 4,
-								'NAME' => 'my.empty.block',
-								'CONTENT' => 'BLOCK_NO_DATA',
+								'bid' => 4,
+								'name' => 'my.empty.block',
+								'content' => 'BLOCK_NO_DATA',
+								'view' => '',
 							),
 						),
 					),
-					'S_SIDEBAR_COUNT' => 1,
-					'S_TOP_COUNT' => 1,
 				),
 			),
 			array(
@@ -215,15 +215,15 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array(),
 				),
 				array(
-					'blocks' => array(
+					'positions' => array(
 						'sidebar' => array(
 							array(
-								'BID' => 5,
-								'NAME' => 'my.baz.block',
+								'bid' => 5,
+								'name' => 'my.baz.block',
+								'view' => 'basic',
 							),
 						),
 					),
-					'S_SIDEBAR_COUNT' => 1,
 				),
 			),
 			// route has no blocks and hiding blocks for bottom position, no default layout
@@ -267,15 +267,15 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array('bottom'),
 				),
 				array(
-					'blocks' => array(
+					'positions' => array(
 						'sidebar' => array(
 							array(
-								'BID' => 1,
-								'NAME' => 'my.baz.block',
+								'bid' => 1,
+								'name' => 'my.baz.block',
+								'view' => 'simple',
 							),
 						),
 					),
-					'S_SIDEBAR_COUNT' => 1,
 				),
 			),
 			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on bottom position

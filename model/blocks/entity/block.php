@@ -30,12 +30,12 @@ use blitze\sitemaker\model\base_entity;
  * @method boolean get_status()
  * @method object set_type(integer $type)
  * @method integer get_type()
- * @method object set_no_wrap(boolean $no_wrap)
- * @method boolean get_no_wrap()
  * @method object set_hide_title(boolean $hide_title)
  * @method boolean get_hide_title()
  * @method object set_hash($hash)
  * @method string get_hash()
+ * @method object set_view($view)
+ * @method boolean get_view()
  */
 final class block extends base_entity
 {
@@ -76,9 +76,6 @@ final class block extends base_entity
 	protected $type = 0;
 
 	/** @var boolean */
-	protected $no_wrap = false;
-
-	/** @var boolean */
 	protected $hide_title = false;
 
 	/** @var string */
@@ -86,6 +83,9 @@ final class block extends base_entity
 
 	/** @var string */
 	protected $settings = '';
+
+	/** @var string */
+	protected $view = '';
 
 	/** @var array */
 	protected $required_fields = array('name', 'route_id', 'position', 'style');
@@ -103,10 +103,10 @@ final class block extends base_entity
 		'class',
 		'status',
 		'type',
-		'no_wrap',
 		'hide_title',
 		'hash',
-		'settings'
+		'settings',
+		'view',
 	);
 
 	/**

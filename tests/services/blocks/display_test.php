@@ -45,13 +45,14 @@ class display_test extends \phpbb_database_test_case
 	 * @param array $auth_map
 	 * @param array $variable_map
 	 * @param array $page_data
+	 * @param mixed $config_text_data
 	 * @param bool $show_admin_bar
 	 * @param bool $show_blocks
 	 * @return \blitze\sitemaker\services\blocks\display
 	 */
-	protected function get_service(array $auth_map, array $variable_map, array $page_data, $show_admin_bar, $show_blocks)
+	protected function get_service(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, $show_blocks)
 	{
-		global $request, $phpbb_path_helper, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $db, $request, $phpbb_path_helper, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$auth->expects($this->any())
@@ -59,10 +60,13 @@ class display_test extends \phpbb_database_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
 
+		$db = $this->new_dbal();
+
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->data['user_style'] = 1;
 		$user->page = $page_data;
 
 		$config = new \phpbb\config\config(array(
@@ -70,6 +74,12 @@ class display_test extends \phpbb_database_test_case
 			'override_user_style' => false,
 			'cookie_name' => 'test',
 		));
+
+		$config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
+
+		$config_text->set('sm_layout_prefs', json_encode(array(
+			1 => $config_text_data
+		)));
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
@@ -81,6 +91,9 @@ class display_test extends \phpbb_database_test_case
 			->method('variable')
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
+
+		$this->db = $db = $this->new_dbal();
+		$this->config_text = new \phpbb\config\db_text($this->db, 'phpbb_config_text');
 
 		$tpl_data = array();
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
@@ -101,12 +114,6 @@ class display_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
-			->disableOriginalConstructor()
-			->getMock();
-		$util->expects($this->once())
-			->method('add_assets');
-
 		$blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
 			->getMock();
@@ -123,7 +130,7 @@ class display_test extends \phpbb_database_test_case
 			->method('show');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('blitze.sitemaker.util', $util);
+		$phpbb_container->set('config_text', $config_text);
 		$phpbb_container->set('blitze.sitemaker.blocks', $blocks);
 		$phpbb_container->set('blitze.sitemaker.blocks.admin_bar', $admin_bar);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
@@ -161,6 +168,7 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'index.php',
 					'query_string' => '',
 				),
+				'',
 				false,
 				false,
 				array(),
@@ -175,6 +183,7 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'ucp.php',
 					'query_string' => 'i=177',
 				),
+				'',
 				false,
 				false,
 				array(),
@@ -189,10 +198,14 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'index.php',
 					'query_string' => '',
 				),
+				array(
+					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal/'
+				),
 				false,
 				true,
 				array(
 					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => '',
 				),
 			),
@@ -206,10 +219,14 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'index.php',
 					'query_string' => '',
 				),
+				array(
+					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/'
+				),
 				false,
 				true,
 				array(
 					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal_alt',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=1',
 				),
 			),
@@ -226,10 +243,14 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'index.php',
 					'query_string' => 'edit_mode=1',
 				),
+				array(
+					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal/'
+				),
 				true,
 				true,
 				array(
 					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
 				),
 			),
@@ -246,10 +267,12 @@ class display_test extends \phpbb_database_test_case
 					'page_name' => 'index.php',
 					'query_string' => '',
 				),
+				'',
 				true,
 				true,
 				array(
 					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'default',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
 				),
 			),
@@ -263,13 +286,15 @@ class display_test extends \phpbb_database_test_case
 	 * @param array $auth_map
 	 * @param array $variable_map
 	 * @param array $page_data
+	 * @param mixed $config_text
 	 * @param bool $show_admin_bar
 	 * @param bool $show_blocks
 	 * @param array $expected
 	 */
-	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $show_admin_bar, $show_blocks, array $expected)
+	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, $show_blocks, array $expected)
 	{
-		$display = $this->get_service($auth_map, $variable_map, $page_data, $show_admin_bar, $show_blocks);
+		$display = $this->get_service($auth_map, $variable_map, $page_data, $config_text_data, $show_admin_bar, $show_blocks);
+
 		$display->show();
 
 		$result = $this->template->assign_display('page');

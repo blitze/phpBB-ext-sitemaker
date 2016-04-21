@@ -1,0 +1,81 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_SETTINGS}</h1>
+
+<form id="acp_settings" method="post" action="{{ u_action }}">
+    <fieldset>
+        <legend>{{ lang('NAVIGATION_SETTINGS') }}</legend>
+        <dl>
+            <dt>
+                <label for="show_forum_nav">{{ lang('SHOW_FORUM_NAV') }}</label><br />
+                <span>{{ lang('SHOW_FORUM_NAV_EXPLAIN') }}</span>
+            </dt>
+            <dd>
+                <label><input type="radio" class="radio" name="show_forum_nav" value="1"{% if show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
+                <div class="icon-container">
+                    <input type="hidden" name="forum_icon" value="{{ forum_icon }}" />
+                    <a href="#" class="icon-select"><i class="{{ forum_icon }}"></i></a>
+                </div><br />
+                <label><input type="radio" class="radio" name="show_forum_nav" value="0"{% if !show_forum_nav %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+            </dd>
+        </dl>
+    </fieldset>
+
+    <fieldset>
+        <legend>{{ lang('FORUM_INDEX_SETTINGS') }}</legend>
+        <dl>
+            <dt><label for="hide_login">{{ lang('HIDE_LOGIN') }}</label></dt>
+            <dd>
+                <label><input type="radio" class="radio" name="hide_login" value="1"{% if hide_login %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="hide_login" value="0"{% if !hide_login %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+            </dd>
+            <dt><label for="hide_online">{{ lang('HIDE_ONLINE') }}*</label></dt>
+            <dd>
+                <label><input type="radio" class="radio" name="hide_online" value="1"{% if hide_online %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="hide_online" value="0"{% if !hide_online %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+            </dd>
+            <dt><label for="hide_birthday">{{ lang('HIDE_BIRTHDAY') }}*</label></dt>
+            <dd>
+                <label><input type="radio" class="radio" name="hide_birthday" value="1"{% if hide_birthday %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="hide_birthday" value="0"{% if !hide_birthday %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+            </dd>
+        </dl>
+        <p>*{{ lang('FORUM_INDEX_SETTINGS_EXPLAIN') }}</p>
+    </fieldset>
+
+    <fieldset>
+        <legend>{{ lang('LAYOUT_SETTINGS') }}</legend>
+        <div class="style-layouts column1">
+        {% for style in styles %}
+            <dl data-layout="{{ style.layout }}">
+                <dt><label for="{{ style.name }}">{{ style.name }}</label></dt>
+                <dd>
+                    <label>
+                        <select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">{{ style.layouts }}</select>
+                        <select class="view-option" name="layouts[{{ style.id }}][view]">{{ style.views }}</select>
+                    </label>
+                </dd>
+            </dl>
+            {% if !loop.first %}<hr />{% endif %}
+        {% endfor %}
+        </div>
+        <div class="layout-preview column2">
+            {% set preview = styles|first %}
+            <img src="{{ preview.layout }}preview.png" alt="" />
+            <div class="larger-view"><img src="{{ preview.layout }}preview.png" alt="" /></div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <p class="submit-buttons">
+            <input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+        </p>
+
+        {{ S_FORM_TOKEN }}
+    </fieldset>
+</form>
+
+{{ icon_picker }}
+
+<!-- INCLUDE overall_footer.html -->

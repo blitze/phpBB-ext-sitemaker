@@ -1,0 +1,76 @@
+{% if S_EDIT_MODE %}
+	{% set EDITABLE_CLASS = ' editable' %}
+	{% set block_controls %}
+		<div class="block-controls">
+			<a href="#" class="item-action delete-block" title="{{ lang('DELETE') }}"><span class="ui-icon ui-icon-closethick">{{ lang('DELETE') }}</span></a>
+			<a href="#" class="item-action edit-block" title="{{ lang('EDIT') }}"><span class="ui-icon ui-icon-gear">{{ lang('EDIT') }}</span></a>
+		</div>
+	{% endset %}
+{% endif %}
+
+<div class="sm-responsive-show">
+	{% if positions.sidebar or S_EDIT_MODE %}<a class="sidebar-control left-box" href="#" data-toggle="sidebar"><i class="fa fa-exchange fa-lg"></i></a>{% endif %}
+	{% if positions.subcontent or S_EDIT_MODE %}<a class="sidebar-control right-box" href="#" data-toggle="subcontent"><i class="fa fa-exchange fa-lg"></i></a>{% endif %}
+</div>
+
+<div class="sitemaker">
+	{% if positions.panel or S_EDIT_MODE %}
+	<div class="grid">
+		<div id="pos-panel" class="grid__col grid__col--5-of-5 block-position">
+		{% for block in positions.panel %}
+			<div id="block-{{ block.bid }}" class="block">
+				{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+				{{ block_controls }}
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="grid">
+		<div class="grid__col {% if (positions.sidebar or S_EDIT_MODE) %}grid__col--4-of-5{% if !positions.sidebar %} lastUnit{% endif %}{% else %}grid__col--5-of-5{% endif %} sm-responsive-full-width">
+			{% if positions.top_hor or S_EDIT_MODE %}
+				{% set divisor = 0 %}
+				{% set columns_per_row = 3 %}
+				{% set num_blocks = positions.top_hor|length %}
+			<div class="grid">
+				<div id="pos-top_hor" class="block-position horizontal">
+				{% for block in positions.top_hor %}
+					{% if divisor == 0 %}
+						{% if loop.revindex is divisible by (3) or loop.revindex > 2 %}
+							{% set divisor = 3 %}
+						{% elseif loop.revindex is divisible by (2) %}
+							{% set divisor = 3 %}
+							{% set columns_per_row = 2 %}
+						{% else %}
+							{% set divisor = 1 %}
+							{% set columns_per_row = 1 %}
+						{% endif %}
+					{% endif %}
+					<div id="block-{{ block.bid }}" class="block grid__col {% if columns_per_row > 1 %}grid__col--1-of-{{ columns_per_row }}{% else %}grid__col--3-of-3{% endif %}">
+						{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+						{{ block_controls }}
+					</div>
+					{% if loop.index is divisible by(divisor) && !loop.last %}
+						{% set divisor = 0 %}
+					{% endif %}
+				{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+			<div class="grid">
+				<div id="main-content" class="grid__col {% if (S_EDIT_MODE or positions.subcontent) %}grid__col--3-of-4{% if !positions.subcontent %} lastUnit{% endif %}{% else %}grid__col--4-of-4{% endif %} sm-responsive-full-width">
+					{% if positions.top or S_EDIT_MODE %}
+					<div class="grid">
+						<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
+							{% for block in positions.top %}
+							<div id="block-{{ block.bid }}" class="block">
+								{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+								{{ block_controls }}
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					{% endif %}
+
+					<div class="sm-block-spacing">

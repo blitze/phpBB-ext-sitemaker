@@ -109,7 +109,10 @@
 				return;
 			}
 
-			var html = template.render(result);
+			var html = template.render({
+				block: result
+			});
+
 			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initTinyMce();
 
@@ -121,7 +124,7 @@
 
 	var getEditForm = function(block) {
 		$.getJSON(config.ajaxUrl + '/blocks/edit_block', {id: block.attr('id').substring(6)}, function(resp) {
-			blockData = resp;
+			blockData.block = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
 				dialogEdit.find('#block-settings').tabs();
@@ -145,8 +148,10 @@
 		$.getJSON(config.ajaxUrl + '/blocks/save_block?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			dialogEdit.dialog('close');
 
-			$.each(resp, function(i, data) {
-				$('#block-' + data.id).html(template.render(data));
+			$.each(resp, function(i, block) {
+				$('#block-' + block.id).html(template.render({
+					block: block
+				}));
 			});
 		});
 	};
@@ -202,7 +207,9 @@
 			$.each(resp.data, function(position, data) {
 				var pos = $('#pos-' + position);
 				$.each(data, function(idx, row) {
-					var html = template.render(row);
+					var html = template.render({
+						block: row
+					});
 
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
 					pos.find('#block-' + row.id).html(html);
@@ -277,11 +284,11 @@
 
 	var previewBlock = function() {
 		// make a copy of block data
-		var data = jQuery.extend(true, {}, blockData);
+		var data = $.extend(true, {}, blockData);
 		var formData = dialogEdit.find('#edit_form').serializeArray();
 
 		$.each(formData, function() {
-			data[this.name] = this.value;
+			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
 		});
 
 		blockObj.html(template.render(data));
@@ -530,14 +537,12 @@
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
 				},
-				'complete': function() {
-					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
-				},
 				// Display any returned message
-				'success': function(data) {
-					if (data.message) {
-						$('#loading').hide();
-						showMessage(data.message);
+				'complete': function(data) {
+					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
+
+					if (data.responseJSON.message) {
+						showMessage(data.responseJSON.message);
 					}
 				},
 				'error': function(event) {

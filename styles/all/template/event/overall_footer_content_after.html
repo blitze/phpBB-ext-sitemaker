@@ -1,6 +1,13 @@
-<!-- IF S_SITEMAKER -->
-    <!-- INCLUDE sitemaker_footer.html -->
-	<!-- IF S_EDIT_MODE -->
-		<!-- INCLUDE admin_bar.html -->
-	<!-- ENDIF -->
-<!-- ENDIF -->
+{% if S_SITEMAKER %}
+	{% include 'layouts/' ~ S_LAYOUT ~ '/footer_layout.twig' %}
+
+	{% if U_EDIT_MODE %}
+	<div class="admin-bar-container">
+		<a class="admin-bar-control" href="{{ U_EDIT_MODE }}"><i class="fa fa-gear"></i></a>
+	</div>
+	{% endif %}
+
+	{% if S_EDIT_MODE %}
+		{% include 'admin_bar.html' %}
+	{% endif %}
+{% endif %}

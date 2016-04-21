@@ -27,12 +27,14 @@ class add_block_test extends base_action
 					array('position', '', false, request_interface::REQUEST, 'sidebar'),
 					array('weight', 0, false, request_interface::REQUEST, 0),
 				),
+				array(),
 				array(
 					'id'		=> 8,
 					'route_id'	=> 1,
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
 					'settings'	=> array(),
+					'view'		=> '',
 				)
 			),
 			array(
@@ -43,6 +45,9 @@ class add_block_test extends base_action
 					array('weight', 0, false, request_interface::REQUEST, 1),
 				),
 				array(
+					'view' => 'simple',
+				),
+				array(
 					'id'		=> 8,
 					'route_id'	=> 6,
 					'title'		=> 'I am baz block',
@@ -51,6 +56,7 @@ class add_block_test extends base_action
 						'my_setting'	=> 1,
 						'other_setting'	=> 0,
 					),
+					'view'		=> 'simple'
 				)
 			),
 		);
@@ -61,13 +67,21 @@ class add_block_test extends base_action
 	 *
 	 * @dataProvider add_block_test_data
 	 * @param array $variable_map
+	 * @param array $config_text
 	 * @param array $expected
 	 */
-	public function test_add_block(array $variable_map, array $expected)
+	public function test_add_block(array $variable_map, array $config_text, array $expected)
 	{
 		$command = $this->get_command('add_block', $variable_map);
 
-		$result = $command->execute(1);
+		$style_id = 1;
+		if (sizeof($config_text))
+		{
+			$data[$style_id] = $config_text;
+			$this->config_text->set('sm_layout_prefs', json_encode($data));
+		}
+
+		$result = $command->execute($style_id);
 
 		$actual = array(
 			'id'		=> $result['bid'],
@@ -75,6 +89,7 @@ class add_block_test extends base_action
 			'title'		=> $result['title'],
 			'content'	=> $result['content'],
 			'settings'	=> $result['settings'],
+			'view'		=> $result['view'],
 		);
 
 		$this->assertSame($expected, $actual);

@@ -1,0 +1,22 @@
+{
+	"name": "foo/bar",
+	"type": "phpbb-extension",
+	"description": "Testing layouts provided by another extensions",
+	"homepage": "",
+	"version": "1.0.0",
+	"time": "2016-04-21 08:50:01",
+	"license": "GPL-2.0",
+	"authors": [{
+		"name": "blitze",
+		"role": "Developer"
+	}],
+	"require": {
+		"php": ">=5.3"
+	},
+	"extra": {
+		"display-name": "phpBB 3.2 Extension Testing",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.2.0-b1"
+		},
+	}
+}

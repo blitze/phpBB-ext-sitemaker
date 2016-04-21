@@ -102,33 +102,13 @@
 {ICON_PICKER}
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
-	{% verbatim %}
-	{% if no_wrap == false %}
-		<div class="panel post sm-block-container {{ class }} sm-block-spacing">
-			<div class="inner">
-				{% if title is not empty and hide_title == false %}
-				<h2>
-					<span class="block-icon"><i class="{{ icon }}"></i></span>
-					<span class="block-title">{{ title }}</span>
-				</h2>
-				{% endif %}
-				<div class="sm-block-content">
-					{{ content }}
-				</div>
-			</div>
-		</div>
-	{% else %}
-		<div class="post {{ class }} sm-block-spacing">
-			{% if title is not empty and hide_title == false %}
-			<h2>
-				<span class="block-icon"><i class="{{ icon }}"></i></span>
-				<span class="block-title">{{ title }}</span>
-			</h2>
-			{% endif %}
-			{{ content }}
-		</div>
-	{% endif %}
-	{% endverbatim %}
+	{% verbatim %}{% if block.view == 'basic' %}{% endverbatim %}
+		{{ source('@blitze_sitemaker/layouts/blocks/basic_view.twig') }}
+	{% verbatim %}{% elseif block.view == 'boxed' %}{% endverbatim %}
+		{{ source('@blitze_sitemaker/layouts/blocks/boxed_view.twig') }}
+	{% verbatim %}{% else %}{% endverbatim %}
+		{{ source('@blitze_sitemaker/layouts/blocks/simple_view.twig') }}
+	{% verbatim %}{% endif %}{% endverbatim %}
 	<div class="block-controls">
 		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
 		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>

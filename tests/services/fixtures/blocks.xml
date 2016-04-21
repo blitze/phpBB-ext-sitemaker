@@ -68,6 +68,7 @@
 		<column>hash</column>
 		<column>permission</column>
 		<column>type</column>
+		<column>view</column>
 		<row>
 			<value>1</value>
 			<value>my.baz.block</value>
@@ -78,6 +79,7 @@
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value></value>
 			<value>0</value>
+			<value>simple</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -89,6 +91,7 @@
 			<value></value>
 			<value></value>
 			<value>1</value>
+			<value></value>
 		</row>
 		<row>
 			<value>3</value>
@@ -100,6 +103,7 @@
 			<value></value>
 			<value></value>
 			<value>2</value>
+			<value></value>
 		</row>
 		<row>
 			<value>4</value>
@@ -111,6 +115,7 @@
 			<value></value>
 			<value></value>
 			<value>0</value>
+			<value></value>
 		</row>
 		<row>
 			<value>5</value>
@@ -122,6 +127,7 @@
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value></value>
 			<value>0</value>
+			<value>basic</value>
 		</row>
 		<row>
 			<value>6</value>
@@ -133,6 +139,7 @@
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value>2</value>
 			<value>0</value>
+			<value></value>
 		</row>
 		<row>
 			<value>7</value>
@@ -144,6 +151,7 @@
 			<value></value>
 			<value></value>
 			<value>0</value>
+			<value></value>
 		</row>
 	</table>
 	<table name="phpbb_sm_cblocks">

@@ -68,7 +68,6 @@ class template_test extends \phpbb_test_case
 			$config,
 			$filesystem,
 			$path_helper,
-			$container,
 			$cache_path,
 			null,
 			$loader,
@@ -79,7 +78,7 @@ class template_test extends \phpbb_test_case
 				'autoescape'	=> false,
 			)
 		);
-		$container->set('template.twig.lexer', new \phpbb\template\twig\lexer($twig));
+		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager($phpbb_root_path, array());
 
 		return $this->getMockBuilder('\blitze\sitemaker\services\template')

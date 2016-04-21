@@ -1,0 +1,9 @@
+<dl>
+	<dt><label for="view">{L_BLOCK_VIEW}</label></dt>
+	<dd>
+		<input class="block-preview" type="radio" name="view" value=""<!-- IF not S_VIEW --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_DEFAULT') }}
+		<input class="block-preview" type="radio" name="view" value="basic"<!-- IF S_VIEW == 'basic' --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_BASIC') }}
+		<input class="block-preview" type="radio" name="view" value="boxed"<!-- IF S_VIEW == 'boxed' --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_BOXED') }}<br />
+		<input class="block-preview" type="radio" name="view" value="simple"<!-- IF not S_VIEW or S_VIEW == 'simple' --> checked="checked"<!-- ENDIF --> id="view" /> {{ lang('BLOCK_VIEW_SIMPLE') }}<br />
+	</dd>
+</dl>

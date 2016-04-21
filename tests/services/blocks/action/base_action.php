@@ -15,6 +15,7 @@ require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/baz_block.p
 class base_action extends \phpbb_database_test_case
 {
 	protected $config;
+	protected $config_text;
 	protected $db;
 	protected $translator;
 	protected $mapper_factory;
@@ -64,6 +65,7 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$this->config = new \phpbb\config\config(array());
+		$this->config_text = new \phpbb\config\db_text($this->db, 'phpbb_config_text');
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
@@ -142,6 +144,7 @@ class base_action extends \phpbb_database_test_case
 
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
+		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('custom.block.service', $dummy_object);
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);

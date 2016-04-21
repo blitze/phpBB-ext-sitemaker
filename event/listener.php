@@ -48,7 +48,7 @@ class listener implements EventSubscriberInterface
 	protected $php_ext;
 
 	/* @var bool */
-	protected $startpage = false;
+	protected $is_startpage = false;
 
 	/**
 	 * Constructor
@@ -117,6 +117,7 @@ class listener implements EventSubscriberInterface
 	public function load_permission_language(\phpbb\event\data $event)
 	{
 		$permissions = $event['permissions'];
+		$permissions['a_sm_settings']	= array('lang' => 'ACL_A_SM_SETTINGS', 'cat' => 'misc');
 		$permissions['a_sm_manage_blocks']	= array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc');
 		$permissions['a_sm_manage_menus']	= array('lang' => 'ACL_A_SM_MANAGE_MENUS', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
@@ -135,8 +136,9 @@ class listener implements EventSubscriberInterface
 
 			// show 'Forum' menu item in navbar
 			$this->template->assign_vars(array(
-				'S_PT_SHOW_FORUM_NAV'	=> true,
-				'U_PT_VIEWFORUM'		=> $u_viewforum,
+				'SM_FORUM_ICON'		=> $this->config['sm_forum_icon'],
+				'SM_SHOW_FORUM_NAV'	=> $this->config['sm_show_forum_nav'],
+				'U_SM_VIEWFORUM'	=> $u_viewforum,
 			));
 
 			// Add "Forum" to breadcrump menu when viewing forum pages (viewforum/viewtopic/posting)
@@ -169,19 +171,13 @@ class listener implements EventSubscriberInterface
 		$this->blocks->show();
 		$this->set_assets();
 
-		if ($this->startpage)
+		if ($this->is_startpage)
 		{
 			$this->template->destroy_block_vars('navlinks');
-			$this->template->assign_var('S_PT_SHOW_FORUM', true);
+			$this->template->assign_var('SM_SHOW_FORUM_NAV', $this->config['sm_show_forum_nav']);
 		}
 
-		// Hide login/whois/birthday on index_body.html
-		// @TODO move this to the login block so we only hide if there is a block that replaces it
-		$this->template->assign_vars(array(
-			'S_USER_LOGGED_IN'			=> true,
-			'S_DISPLAY_ONLINE_LIST'		=> false,
-			'S_DISPLAY_BIRTHDAY_LIST'	=> false,
-		));
+		$this->show_hide_index_blocks();
 	}
 
 	/**
@@ -197,10 +193,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function set_startpage(\phpbb\event\data $event)
 	{
-		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->startpage && ($controller_object = $this->get_startpage_controller()) !== false)
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && ($controller_object = $this->get_startpage_controller()) !== false)
 		{
 			$method = $this->config['sitemaker_startpage_method'];
-			$this->startpage = true;
+			$this->is_startpage = true;
 
 			$controller_dir = explode('\\', get_class($controller_object));
 			$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
@@ -265,6 +261,27 @@ class listener implements EventSubscriberInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * Show or hide birthday_list, online users list, and login box on forum index
+	 */
+	protected function show_hide_index_blocks()
+	{
+		$hide_login = (bool) $this->config['sm_hide_login'];
+		$hide_online = (bool) $this->config['sm_hide_online'];
+		$hide_birthday = (bool) $this->config['sm_hide_birthday'];
+
+		if ($this->config['sitemaker_startpage_controller'])
+		{
+			$hide_online = $hide_birthday = true;
+		}
+
+		$this->template->assign_vars(array(
+			'S_USER_LOGGED_IN'			=> ($hide_login || $this->user->data['is_registered']),
+			'S_DISPLAY_ONLINE_LIST'		=> !$hide_online,
+			'S_DISPLAY_BIRTHDAY_LIST'	=> !$hide_birthday,
+		));
 	}
 
 	/**

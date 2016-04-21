@@ -43,7 +43,7 @@ class save_block extends base_action
 			->set_hide_title($this->request->variable('hide_title', 0))
 			->set_status($this->request->variable('status', 0))
 			->set_type($this->request->variable('type', 0))
-			->set_no_wrap($this->request->variable('no_wrap', 0))
+			->set_view($this->request->variable('view', ''))
 			->set_settings($submitted_settings);
 		$entity = $this->block_mapper->save($entity);
 

@@ -24,30 +24,56 @@ class prepend_breadcrump_test extends listener_base
 		return array(
 			// no start page
 			array(
-				'',
 				'index.php',
+				array(),
 				array(),
 				array(),
 			),
 
 			// start page, "Forum" is added to navbar for non-forum pages but not to breadcrump
 			array(
-				'foo.bar.controller',
 				'index.php',
 				array(
-					'S_PT_SHOW_FORUM_NAV'	=> true,
-					'U_PT_VIEWFORUM'		=> $u_viewforum,
+					'sm_forum_icon' => 'fa fa-comments',
+					'sm_show_forum_nav' => true,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => 'fa fa-comments',
+					'SM_SHOW_FORUM_NAV'	=> true,
+					'U_SM_VIEWFORUM' => $u_viewforum,
+				),
+				array(),
+			),
+
+			// start page, "Forum" should be added to navbar but user has chosen not to do that
+			array(
+				'index.php',
+				array(
+					'sm_forum_icon' => 'fa fa-comments',
+					'sm_show_forum_nav' => false,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => 'fa fa-comments',
+					'SM_SHOW_FORUM_NAV'	=> false,
+					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
 				array(),
 			),
 
 			// start page, "Forum" is added to breadcrump for forum pages and not to non-forum pages
 			array(
-				'foo.bar.controller',
 				'viewforum.php?f=1',
 				array(
-					'S_PT_SHOW_FORUM_NAV'	=> true,
-					'U_PT_VIEWFORUM'		=> $u_viewforum,
+					'sm_forum_icon' => 'fa fa-comments',
+					'sm_show_forum_nav' => false,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => 'fa fa-comments',
+					'SM_SHOW_FORUM_NAV'	=> false,
+					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
@@ -56,11 +82,16 @@ class prepend_breadcrump_test extends listener_base
 			),
 			// viewtopic
 			array(
-				'foo.bar.controller',
 				'viewtopic.php?f=1&t=1',
 				array(
-					'S_PT_SHOW_FORUM_NAV'	=> true,
-					'U_PT_VIEWFORUM'		=> $u_viewforum,
+					'sm_forum_icon' => '',
+					'sm_show_forum_nav' => false,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => '',
+					'SM_SHOW_FORUM_NAV'	=> false,
+					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
@@ -69,11 +100,16 @@ class prepend_breadcrump_test extends listener_base
 			),
 			// posting
 			array(
-				'foo.bar.controller',
 				'posting.php?f=1',
 				array(
-					'S_PT_SHOW_FORUM_NAV'	=> true,
-					'U_PT_VIEWFORUM'		=> $u_viewforum,
+					'sm_forum_icon' => 'fa fa-comments-o',
+					'sm_show_forum_nav' => true,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => 'fa fa-comments-o',
+					'SM_SHOW_FORUM_NAV'	=> true,
+					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
 				array(
 					'FORUM_NAME'	=> $forum_name,
@@ -83,11 +119,16 @@ class prepend_breadcrump_test extends listener_base
 
 			// do not add "Forum" to breadcrump when on forum controller
 			array(
-				'foo.bar.controller',
 				'app.php/forum',
 				array(
-					'S_PT_SHOW_FORUM_NAV'	=> true,
-					'U_PT_VIEWFORUM'		=> $u_viewforum,
+					'sm_forum_icon' => '',
+					'sm_show_forum_nav' => true,
+					'sitemaker_startpage_controller' => 'foo.bar.controller',
+				),
+				array(
+					'SM_FORUM_ICON' => '',
+					'SM_SHOW_FORUM_NAV'	=> true,
+					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
 				array(),
 			),
@@ -102,12 +143,16 @@ class prepend_breadcrump_test extends listener_base
 	 * @param array $navbar
 	 * @param array $breadcrump
 	 */
-	public function test_prepend_breadcrump($start_page, $current_page, array $navbar, array $breadcrump)
+	public function test_prepend_breadcrump($current_page, array $config_data, array $navbar, array $breadcrump)
 	{
 		$listener = $this->get_listener();
 
-		$this->config['sitemaker_startpage_controller'] = $start_page;
 		$this->user->page['page'] = $current_page;
+
+		foreach ($config_data as $key => $value)
+		{
+			$this->config->set($key, $value);
+		}
 
 		$this->request->expects($this->any())
 			->method('is_set')
