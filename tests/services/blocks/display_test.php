@@ -272,7 +272,7 @@ class display_test extends \phpbb_database_test_case
 				true,
 				array(
 					'S_SITEMAKER' => true,
-					'S_LAYOUT' => 'default',
+					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
 				),
 			),

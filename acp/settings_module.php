@@ -259,6 +259,7 @@ class settings_module
 
 			$layouts[$name] = $this->phpbb_root_path . $path . '/';
 		}
+		ksort($layouts);
 
 		return $layouts;
 	}

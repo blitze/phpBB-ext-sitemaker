@@ -217,7 +217,7 @@ class display
 		$config_text = $this->phpbb_container->get('config_text');
 		$style_prefs = json_decode($config_text->get('sm_layout_prefs'), true);
 
-		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'default';
+		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'portal';
 	}
 
 	/**

@@ -34,7 +34,7 @@ class add_block_test extends base_action
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
 					'settings'	=> array(),
-					'view'		=> '',
+					'view'		=> 'boxed',
 				)
 			),
 			array(
