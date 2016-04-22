@@ -14,15 +14,5 @@ namespace blitze\sitemaker\exception;
 */
 class out_of_bounds extends base
 {
-	/**
-	* Translate this exception
-	*
-	* @param \phpbb\language\language $translator
-	* @return array|string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $translator)
-	{
-		return $this->translate_portions($translator, $this->message_full, 'EXCEPTION_OUT_OF_BOUNDS');
-	}
+	protected $parent_message = 'EXCEPTION_OUT_OF_BOUNDS';
 }

@@ -14,15 +14,5 @@ namespace blitze\sitemaker\exception;
 */
 class invalid_argument extends base
 {
-	/**
-	* Translate this exception
-	*
-	* @param \phpbb\language\language $translator
-	* @return array|string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $translator)
-	{
-		return $this->translate_portions($translator, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
-	}
+	protected $parent_message = 'EXCEPTION_INVALID_ARGUMENT';
 }

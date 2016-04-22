@@ -14,15 +14,5 @@ namespace blitze\sitemaker\exception;
 */
 class unexpected_value extends base
 {
-	/**
-	* Translate this exception
-	*
-	* @param \phpbb\language\language $translator
-	* @return array|string
-	* @access public
-	*/
-	public function get_message(\phpbb\language\language $translator)
-	{
-		return $this->translate_portions($translator, $this->message_full, 'EXCEPTION_UNEXPECTED_VALUE');
-	}
+	protected $parent_message = 'EXCEPTION_UNEXPECTED_VALUE';
 }
