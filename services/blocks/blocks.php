@@ -84,7 +84,6 @@ class blocks extends routes
 	 */
 	public function render(array $display_modes, $edit_mode, array $data, array $users_groups)
 	{
-		$position = $data['position'];
 		$service_name = $data['name'];
 
 		$single_block = array();
@@ -119,7 +118,7 @@ class blocks extends routes
 		{
 			foreach ($blocks as $entity)
 			{
-				$pos_blocks[] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $position_counter);
+				$pos_blocks[] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups);
 			}
 		}
 

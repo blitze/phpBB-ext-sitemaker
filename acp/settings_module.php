@@ -20,6 +20,9 @@ class settings_module
 	/** @var \phpbb\config\db_text */
 	protected $config_text;
 
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\finder */
 	protected $finder;
 
