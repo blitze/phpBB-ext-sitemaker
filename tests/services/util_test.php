@@ -34,11 +34,20 @@ class util_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
-		global $phpbb_dispatcher, $template;
+		global $phpbb_dispatcher, $request, $template, $user;
 
 		parent::setUp();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
+		$request = $this->getMock('\phpbb\request\request_interface');
+
+		$user = $this->getMockBuilder('\phpbb\user')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
+		$user->style['style_path'] = 'prosilver';
 
 		$template_context = $this->getMockBuilder('phpbb\template\context')
 			->getMock();
@@ -72,7 +81,7 @@ class util_test extends \phpbb_test_case
 				return './';
 			}));
 
-		$this->util = new util($path_helper, $template, $template_context);
+		$this->util = new util($path_helper, $template, $template_context, $user);
 	}
 
 	/**

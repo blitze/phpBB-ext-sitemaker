@@ -11,17 +11,23 @@ namespace blitze\sitemaker\services;
 
 class util
 {
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
 	/** @var \phpbb\template\context */
 	protected $template_context;
 
-	/** array */
-	protected $scripts;
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** string */
+	protected $web_path;
 
 	/** array */
-	public $asset_path;
+	protected $scripts;
 
 	/**
 	 * Constructor
@@ -29,12 +35,16 @@ class util
 	 * @param \phpbb\path_helper					$path_helper		Path helper object
 	 * @param \phpbb\template\template				$template			Template object
 	 * @param \phpbb\template\context				$template_context	Template context object
+	 * @param \phpbb\user							$user				User object
 	 */
-	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\template\context $template_context)
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\template\context $template_context, \phpbb\user $user)
 	{
+		$this->path_helper = $path_helper;
 		$this->template = $template;
 		$this->template_context = $template_context;
-		$this->asset_path = $path_helper->get_web_root_path();
+		$this->user = $user;
+
+		$this->set_corrected_paths();
 		$this->scripts = array(
 			'js'	=> array(),
 			'css'   => array(),
@@ -89,6 +99,24 @@ class util
 		return $s_form_token;
 	}
 
+	/**
+	 * Returns a corrected theme path depending on whether or not we are accessing a controller
+	 * @return string
+	 */
+	public function get_theme_path()
+	{
+		return "{$this->web_path}styles/" . rawurlencode($this->user->style['style_path']) . '/theme';
+	}
+
+	/**
+	 * Returns a corrected root path depending on whether or not we are accessing a controller
+	 * @return string
+	 */
+	public function get_web_path()
+	{
+		return $this->web_path;
+	}
+
 	protected function _prep_scripts()
 	{
 		if (isset($this->scripts['js']))
@@ -104,5 +132,17 @@ class util
 		}
 
 		$this->scripts = array_filter($this->scripts);
+	}
+
+	/**
+	 * Sets the correct paths to use when we are on a controller or not
+	 */
+	protected function set_corrected_paths()
+	{
+		// Determine board url - we may need it later
+		$board_url = generate_board_url() . '/';
+
+		$corrected_path = $this->path_helper->get_web_root_path();
+		$this->web_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $corrected_path;
 	}
 }
