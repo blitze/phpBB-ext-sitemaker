@@ -92,6 +92,8 @@ class data extends query_builder
 			$this->store['tracking'][$row['forum_id']]['mark_time'] =& $row['forum_mark_time'];
 			$this->store['post_ids']['first'][] = $row['topic_first_post_id'];
 			$this->store['post_ids']['last'][] = $row['topic_last_post_id'];
+			$this->store['poster_ids'][] = $row['topic_poster'];
+			$this->store['poster_ids'][] = $row['topic_last_poster_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -159,13 +161,12 @@ class data extends query_builder
 	 */
 	public function get_topic_tracking_info($forum_id = 0)
 	{
-		if (!sizeof($this->store['tracking']))
+		$tracking_info = array();
+		if (sizeof($this->store['tracking']))
 		{
-			return array();
+			$tracker = new tracker($this->config, $this->user);
+			$tracking_info = $tracker->get_tracking_info($this->store['tracking'], $this->store['topic']);
 		}
-
-		$tracker = new tracker($this->config, $this->user);
-		$tracking_info = $tracker->get_tracking_info($this->store['tracking'], $this->store['topic']);
 
 		return ($forum_id) ? (isset($tracking_info[$forum_id]) ? $tracking_info[$forum_id] : array()) : $tracking_info;
 	}
@@ -186,7 +187,7 @@ class data extends query_builder
 	 */
 	public function get_posters_info()
 	{
-		$this->store['poster_ids'] = array_filter(array_unique($this->store['poster_ids']));
+		$this->store['poster_ids'] = array_filter(array_keys(array_flip($this->store['poster_ids'])));
 
 		if (!sizeof($this->store['poster_ids']))
 		{

@@ -138,4 +138,29 @@ class blocks_test extends base_mapper
 		$collection = $mapper->find($condition);
 		$this->assertEquals(0, $collection->count());
 	}
+
+	/**
+	 * Test delete with wrong entity type
+	 */
+	public function test_delete_invalid_entity()
+	{
+		$route_mapper = $this->get_mapper('routes');
+		$block_mapper = $this->get_mapper('blocks');
+
+		$entity = $route_mapper->create_entity(array(
+			'ext_name'	=> 'phpbb/pages',
+			'route'		=> 'app.php/pages/about',
+			'style'		=> 1,
+		));
+
+		try
+		{
+			$result = $block_mapper->delete($entity);
+			$this->fail('no exception thrown');
+		}
+		catch (\blitze\sitemaker\exception\base $e)
+		{
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-entity-INVALID_ENTITY', $e->get_message($this->translator));
+		}
+	}
 }

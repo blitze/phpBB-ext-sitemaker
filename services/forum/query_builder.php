@@ -140,11 +140,6 @@ class query_builder
 			$this->store['sql_array']['WHERE'][] = $this->db->sql_in_set('t.topic_type', $topic_type);
 		}
 
-		if (in_array($topic_type, array(POST_STICKY, POST_ANNOUNCE)))
-		{
-			$this->store['sql_array']['WHERE'][] = '(t.topic_time_limit > 0 AND (t.topic_time + t.topic_time_limit) < ' . time() . ')';
-		}
-
 		return $this;
 	}
 

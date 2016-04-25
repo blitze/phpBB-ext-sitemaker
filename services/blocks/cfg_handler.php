@@ -60,10 +60,12 @@ class cfg_handler extends cfg_fields
 	{
 		global $module;
 
-		if (!function_exists('build_cfg_template'))
+		// @codeCoverageIgnoreStart
+		if (!function_exists('validate_config_vars'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext); // @codeCoverageIgnore
+			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
 		}
+		// @codeCoverageIgnoreEnd
 
 		// We fake this class as it is needed by the build_cfg_template function
 		$module = new \stdClass();

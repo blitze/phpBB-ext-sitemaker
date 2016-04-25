@@ -11,6 +11,8 @@ namespace blitze\sitemaker\tests\model\blocks\mapper;
 
 class base_mapper extends \phpbb_database_test_case
 {
+	protected $translator;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -40,6 +42,15 @@ class base_mapper extends \phpbb_database_test_case
 	protected function get_mapper($mapper)
 	{
 		global $db;
+
+		$this->translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->translator->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
 
 		$table_prefix = 'phpbb_';
 		$collection_class = '\\blitze\\sitemaker\\model\\blocks\\collections\\' . $mapper;

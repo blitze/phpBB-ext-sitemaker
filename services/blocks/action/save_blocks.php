@@ -71,14 +71,7 @@ class save_blocks extends base_action
 	{
 		$collection = $entity->get_blocks();
 
-		if (!empty($collection))
-		{
-			return $collection->get_entities();
-		}
-		else
-		{
-			return array();
-		}
+		return (!empty($collection)) ? $collection->get_entities() : array();
 	}
 
 	/**

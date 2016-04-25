@@ -141,7 +141,7 @@ final class block extends base_entity
 	 */
 	public function set_class($class)
 	{
-		$this->class = ($class) ? ' ' . $class : '';
+		$this->class = ($class) ? ' ' . trim($class) : '';
 		return $this;
 	}
 
