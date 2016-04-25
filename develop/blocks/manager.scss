@@ -149,7 +149,7 @@
 
 		.inline-form {
 			display: inline;
-			font-size: 0.8em;
+			font-size: 1rem;
 
 			input {
 				width: 65%;
@@ -159,11 +159,10 @@
 		}
 
 		.editable {
-			margin: 1px 1px 7px 1px;
 			overflow: hidden;
 
 			&:hover {
-				outline: 1px dashed #060703;
+				outline: 1px dashed inverse;
 			}
 		}
 
@@ -190,9 +189,10 @@
 
 	.block-icon {
 		display: inline-block;
-		width: 15px;
-		height: 15px;
-		margin-right: 2px;
+		min-width: 15px;
+		min-height: 10px;
+		padding: 1px;
+		margin-left: 0.1rem;
 		text-align: center;
 		cursor: pointer;
 		outline: 1px solid #ddd;

@@ -40,31 +40,26 @@ img {
 	}
 }
 
-.sm-block-content .default-avatar-font {
-	font-size: 6em;
-	color: #ccc;
-}
-
 /* Block images */
 .img-ui {
 	display: block;
 	margin: 0 0 0.25rem 0;
 
-	.small-img & {
+	.small-img & img {
 		width: $small-image-size;
 	}
 
-	.medium-img & {
+	.medium-img & img {
 		width: $medium-image-size;
 	}
 
-	.large-img & {
+	.large-img & img {
 		max-width: $large-image-size;
 		width: auto;
 		width: $large-image-size;
 	}
 
-	.landscape-img & {
+	.landscape-img & img {
 		width: 97%;
 		height: 4.5rem;
 		text-align: center;
@@ -77,14 +72,14 @@ img {
 		}
 	}
 
-	.img-align-left & {
+	.img-align-left & img {
 		float: left;
-		margin: 0 2.5em 0 0;
+		margin: 0 1rem 0 0;
 	}
 
 	.img-align-right & {
 		float: right;
-		margin: 0 0 0 2.5em;
+		margin: 0 0 0 1rem;
 	}
 
 	.img-border &,
@@ -96,7 +91,7 @@ img {
 		padding: 4px;
 	}
 
-	.img-circle & {
+	.img-circle & img {
 		border-radius: 50%;
 	}
 }

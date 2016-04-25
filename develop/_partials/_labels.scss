@@ -18,7 +18,7 @@
 		line-height: 11px;
 		text-align: center;
 		padding: 3px;
-		margin: 1px 0;
+		margin: 0.2rem 0 0.2rem 0.4rem;
 		font-size: 0.85em;
 	}
 
@@ -55,7 +55,7 @@
 	@extend .label;
 
 	.info {
-		padding: 3px 10px;
+		padding: 0.2rem 0.4rem;
 		border-radius: 10px;
 	}
 }
