@@ -62,9 +62,13 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$this->translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($this->translator, '\phpbb\datetime');
+		$user->optionset('viewavatars', true);
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->lang['datetime'] = array();
 		$user->lang_id = 1;
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
+		$user->style['style_path'] = 'prosilver';
 
 		$request = $this->getMock('\phpbb\request\request');
 
@@ -148,6 +152,20 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$profile_fields = new \phpbb\profilefields\manager($this->auth, $this->db, $phpbb_dispatcher, $this->request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
 
-		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $phpbb_root_path, $phpEx);
+		$template_context = $this->getMockBuilder('phpbb\template\context')
+			->getMock();
+
+		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$path_helper->expects($this->any())
+			->method('get_web_root_path')
+			->will($this->returnCallback(function() {
+				return './';
+			}));
+
+		$util = new \blitze\sitemaker\services\util($path_helper, $template, $template_context, $user);
+
+		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $util, $phpbb_root_path, $phpEx);
 	}
 }

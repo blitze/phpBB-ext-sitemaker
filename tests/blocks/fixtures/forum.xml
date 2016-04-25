@@ -173,8 +173,8 @@
 			<value>3</value>
 			<value>admin</value>
 			<value>3</value>
-			<value>2</value>
-			<value>admin</value>
+			<value>48</value>
+			<value>demo</value>
 			<value>1448406390</value>
 			<value>1448406391</value>
 			<value>1</value>
@@ -225,8 +225,8 @@
 			<value>5</value>
 			<value>admin</value>
 			<value>5</value>
-			<value>2</value>
-			<value>admin</value>
+			<value>48</value>
+			<value>demo</value>
 			<value>1448406650</value>
 			<value>1448411378</value>
 			<value>1</value>
@@ -277,8 +277,8 @@
 			<value>12</value>
 			<value>admin</value>
 			<value>12</value>
-			<value>2</value>
-			<value>admin</value>
+			<value>48</value>
+			<value>demo</value>
 			<value>1448828299</value>
 			<value>1448832673</value>
 			<value>1</value>
@@ -634,35 +634,47 @@
 	</table>
 	<table name="phpbb_users">
 		<column>user_id</column>
+		<column>user_type</column>
 		<column>user_permissions</column>
 		<column>username</column>
 		<column>username_clean</column>
+		<column>user_posts</column>
+		<column>user_rank</column>
+		<column>user_colour</column>
 		<column>user_avatar</column>
-		<column>user_avatar_type</column>
 		<column>user_sig</column>
 		<row>
 			<value>1</value>
+			<value>2</value>
 			<value></value>
 			<value>Anonymous</value>
 			<value>anonymous</value>
+			<value>0</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
 		</row>
 		<row>
 			<value>2</value>
+			<value>3</value>
 			<value></value>
 			<value>admin</value>
 			<value>admin</value>
+			<value>7</value>
+			<value>1</value>
 			<value></value>
 			<value></value>
 			<value></value>
 		</row>
 		<row>
 			<value>48</value>
+			<value>0</value>
 			<value></value>
 			<value>demo</value>
 			<value>demo</value>
+			<value>3</value>
+			<value>1</value>
 			<value></value>
 			<value></value>
 			<value></value>

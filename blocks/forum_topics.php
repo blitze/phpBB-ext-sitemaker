@@ -164,16 +164,24 @@ class forum_topics extends block
 	 */
 	protected function show_topics(array &$topic_data, array &$post_data)
 	{
+		$user_data = $this->forum_data->get_posters_info();
+
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
-			$row =& $topic_data[$i];
+			$row = $topic_data[$i];
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
+			$author = $user_data[$row[$this->fields['user_id']]];
+			$last_poster = $user_data[$row['topic_last_poster_id']];
 
-			$tpl_ary = array(
+			$this->ptemplate->assign_block_vars('topicrow', array(
+				'USERNAME'			=> $author['username_full'],
+				'AVATAR'			=> $author['avatar'],
+				'LAST_POSTER'		=> $last_poster['username_full'],
+				'LAST_AVATAR'		=> $last_poster['avatar'],
+
 				'FORUM_TITLE'		=> $row['forum_name'],
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_AUTHOR'		=> get_username_string('full', $row[$this->fields['user_id']], $row[$this->fields['username']], $row[$this->fields['user_colour']]),
 				'TOPIC_PREVIEW'		=> $this->get_preview(array_pop($post_data[$topic_id])),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
 				'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $row['topic_attachment']),
@@ -185,9 +193,7 @@ class forum_topics extends block
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
 				'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
 				'U_LAST_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;p=" . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
-			);
-
-			$this->ptemplate->assign_block_vars('topicrow', $tpl_ary);
+			));
 			unset($topic_data[$i], $post_data[$topic_id]);
 		}
 	}
@@ -283,8 +289,6 @@ class forum_topics extends block
 		{
 			$this->fields['time'] = 'topic_last_post_time';
 			$this->fields['user_id'] = 'topic_last_poster_id';
-			$this->fields['username'] = 'topic_last_poster_name';
-			$this->fields['user_colour'] = 'topic_last_poster_colour';
 
 			$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->translator->lang('LAST_POST_BY_AUTHOR'));
 		}
@@ -292,8 +296,6 @@ class forum_topics extends block
 		{
 			$this->fields['time'] = 'topic_time';
 			$this->fields['user_id'] = 'topic_poster';
-			$this->fields['username'] = 'topic_first_poster_name';
-			$this->fields['user_colour'] = 'topic_first_poster_colour';
 		}
 	}
 

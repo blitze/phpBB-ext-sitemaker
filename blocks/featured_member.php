@@ -209,7 +209,7 @@ class featured_member extends block
 			$this->ptemplate->assign_block_vars_array('profile_field', array_intersect_key($row['profile_fields'], $allowed_fields));
 			unset($row['contact_fields'], $row['profile_fields']);
 
-			$this->ptemplate->assign_vars($row);
+			$this->ptemplate->assign_vars(array_change_key_case($row, CASE_UPPER));
 
 			$html = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block');
 		}

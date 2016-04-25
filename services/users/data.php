@@ -29,6 +29,9 @@ class data extends contacts
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\util */
+	protected $util;
+
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -47,10 +50,11 @@ class data extends contacts
 	 * @param \phpbb\profilefields\manager      $profile_fields			Profile fields manager
 	 * @param \phpbb\language\language			$translator				Language object
 	 * @param \phpbb\user						$user					User Object
+	 * @param \blitze\sitemaker\services\util	$util					Sitemaker utility Object
 	 * @param string							$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string							$php_ext				php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\language\language $translator, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\profilefields\manager $profile_fields, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\util $util, $phpbb_root_path, $php_ext)
 	{
 		parent::__construct($auth, $config, $translator, $user, $phpbb_root_path, $php_ext);
 
@@ -60,6 +64,7 @@ class data extends contacts
 		$this->profile_fields = $profile_fields;
 		$this->translator = $translator;
 		$this->user = $user;
+		$this->util = $util;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -125,19 +130,19 @@ class data extends contacts
 		$date_format = $this->translator->lang('DATE_FORMAT');
 
 		return array(
-			'AVATAR'			=> $this->get_avatar($row),
-			'USERNAME'			=> get_username_string('username', $user_id, $row['username'], $row['user_colour']),
-			'USERNAME_FULL'		=> get_username_string('full', $user_id, $row['username'], $row['user_colour']),
+			'avatar'			=> $this->get_avatar($row),
+			'username'			=> get_username_string('username', $user_id, $row['username'], $row['user_colour']),
+			'username_full'		=> get_username_string('full', $user_id, $row['username'], $row['user_colour']),
 
-			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
-			'VISITED'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
-			'POSTS'				=> $row['user_posts'],
-			'POSTS_PCT'			=> $this->translator->lang_array('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
+			'joined'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
+			'visited'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
+			'posts'				=> $row['user_posts'],
+			'posts_pct'			=> $this->translator->lang_array('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
 
-			'CONTACT_USER' 		=> $this->translator->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
+			'contact_user' 		=> $this->translator->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
 
-			'U_SEARCH_POSTS'	=> $this->get_search_url($user_id),
-			'U_VIEWPROFILE'		=> get_username_string('profile', $user_id, $row['username'], $row['user_colour']),
+			'u_search_posts'	=> $this->get_search_url($user_id),
+			'u_viewprofile'		=> get_username_string('profile', $user_id, $row['username'], $row['user_colour']),
 
 			'contact_fields'	=> array(),
 			'profile_fields'	=> array(),
@@ -175,7 +180,14 @@ class data extends contacts
 	 */
 	protected function get_avatar(array $row)
 	{
-		return ($this->user->optionget('viewavatars')) ? phpbb_get_user_avatar($row) : '';
+		$avatar = '';
+		if ($this->user->optionget('viewavatars'))
+		{
+			$theme_path = $this->util->get_theme_path();
+			$avatar = ($row['avatar']) ? phpbb_get_user_avatar($row, '', true) : '<img src="' . $theme_path . '/images/no_avatar.gif" alt="" />';
+		}
+
+		return $avatar;
 	}
 
 	/**

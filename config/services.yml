@@ -263,6 +263,7 @@ services:
             - '@profilefields.manager'
             - '@language'
             - '@user'
+            - '@blitze.sitemaker.util'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -272,3 +273,4 @@ services:
             - '@path_helper'
             - '@template'
             - '@template_context'
+            - '@user'
