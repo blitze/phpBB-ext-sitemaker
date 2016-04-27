@@ -18,9 +18,9 @@
 							<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{L_GOTO_LAST_POST}</span>
 						</a>
 						<!-- ENDIF -->
-						<!-- ENDIF -->
+					<!-- ENDIF -->
 						<!-- IF topicrow.ATTACH_ICON_IMG --><i class="icon fa-paperclip fa-fw" aria-hidden="true"></i><!-- ENDIF -->
-						{L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME} {L_IN} <a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>
+						{L_POST_BY_AUTHOR} {topicrow.USERNAME} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME} {L_IN} <a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>
 					</div>
 				</div>
 				<br />
@@ -31,26 +31,12 @@
 	<!-- ELSEIF S_MINI -->
 		<!-- BEGIN topicrow -->
 		<li title="{topicrow.TOPIC_PREVIEW}">
-			<div class="sm-inner">
-				<div class="img-align-left small-avatar">
-					<a href="{topicrow.U_VIEWPROFILE}" class="avatar img-ui">{topicrow.AVATAR}</a>
+			<div class="sm-inner img-align-left small-avatar">
+				<a href="{topicrow.U_VIEWPROFILE}" class="img-ui">{topicrow.AVATAR}</a>
+				<div class="sm-fill-space">
+					<p class="topic-title"><a href="{topicrow.U_VIEWTOPIC}">{topicrow.TOPIC_TITLE}</a></p><br /><br />
+					<p class="small"><i class="fa fa-clock-o"></i>{topicrow.TOPIC_POST_TIME|date("M d, Y")}</p>
 				</div>
-				<h4 class="topic-title"><a href="{topicrow.U_VIEWTOPIC}">{topicrow.TOPIC_TITLE}</a></h4>
-				<div class="author">
-				<!-- IF not S_IS_BOT -->
-					<!-- IF topicrow.S_UNREAD_TOPIC -->
-					<a class="unread" href="{topicrow.U_NEW_POST}" title="{L_NEW_POST}">
-						<i class="icon fa-file fa-fw icon-red icon-md" aria-hidden="true"></i><span class="sr-only">{L_NEW_POST}</span>
-					</a>
-					<!-- ELSE -->
-					<a href="{topicrow.U_LAST_POST}" title="{L_GOTO_LAST_POST}">
-						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{L_GOTO_LAST_POST}</span>
-					</a>
-					<!-- ENDIF -->
-					<!-- ENDIF -->
-					<!-- IF topicrow.ATTACH_ICON_IMG --><i class="icon fa-paperclip fa-fw" aria-hidden="true"></i><!-- ENDIF --> {L_POST_BY_AUTHOR} {topicrow.TOPIC_AUTHOR} {L_POSTED_ON_DATE} {topicrow.TOPIC_POST_TIME}
-				</div>
-				<span class="info">{L_REPLIES}: {topicrow.REPLIES}</span>
 			</div>
 		</li>
 		<!-- END topicrow -->
