@@ -18,7 +18,10 @@
 	var eButtons = {};
 	var lButtons = {};
 	var blockObj = {};
-	var blockData = {};
+	var blockData = {
+		editable: ' editable',
+		block: {}
+	};
 	var msgObj = {};
 	var saveBtn = {};
 
@@ -109,9 +112,8 @@
 				return;
 			}
 
-			var html = template.render({
-				block: result
-			});
+			blockData.block = result;
+			var html = template.render(blockData);
 
 			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
 			initTinyMce();
@@ -149,9 +151,8 @@
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, block) {
-				$('#block-' + block.id).html(template.render({
-					block: block
-				}));
+				blockData.block = block;
+				$('#block-' + block.id).html(template.render(blockData));
 			});
 		});
 	};
@@ -207,12 +208,10 @@
 			$.each(resp.data, function(position, data) {
 				var pos = $('#pos-' + position);
 				$.each(data, function(idx, row) {
-					var html = template.render({
-						block: row
-					});
+					blockData.block = row;
 
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
-					pos.find('#block-' + row.id).html(html);
+					pos.find('#block-' + row.id).html(template.render(blockData));
 				});
 
 				if (pos.hasClass('horizontal')) {
@@ -291,6 +290,7 @@
 			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
 		});
 
+		data.block['class'] = ' ' + data.block['class'].trim();
 		blockObj.html(template.render(data));
 	};
 
@@ -639,7 +639,7 @@
 					url += ((fromRoute.substring(0, 1) === '/') ? config.ajaxUrl : config.boardUrl + '/') + fromRoute;
 					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle + '&edit_mode=1';
 
-					location.href = url;
+					window.location.href = url;
 				}
 			});
 
