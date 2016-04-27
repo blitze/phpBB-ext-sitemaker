@@ -29,6 +29,9 @@ class data extends contacts
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\util *\
+	protected $util;
+
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -64,10 +67,9 @@ class data extends contacts
 		$this->profile_fields = $profile_fields;
 		$this->translator = $translator;
 		$this->user = $user;
+		$this->util = $util;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-
-		$this->default_avatar = $util->get_default_avatar();
 	}
 
 	/**
@@ -129,6 +131,8 @@ class data extends contacts
 	{
 		$user_id = $row['user_id'];
 		$date_format = $this->translator->lang('DATE_FORMAT');
+
+		$this->default_avatar = $util->get_default_avatar();
 
 		return array(
 			'avatar'			=> $this->get_avatar($row),

@@ -113,7 +113,8 @@ class util
 	 */
 	public function get_theme_path()
 	{
-		return "{$this->web_path}styles/" . rawurlencode($this->user->style['style_path']) . '/theme';
+		$web_path = $this->get_web_path();
+		return "{$web_path}styles/" . rawurlencode($this->user->style['style_path']) . '/theme';
 	}
 
 	/**
@@ -122,9 +123,16 @@ class util
 	 */
 	public function get_web_path()
 	{
-		return $this->web_path;
+		// Determine board url - we may need it later
+		$board_url = generate_board_url() . '/';
+
+		$corrected_path = $this->path_helper->get_web_root_path();
+		return (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $corrected_path;
 	}
 
+	/**
+	 *
+	 */
 	protected function _prep_scripts()
 	{
 		if (isset($this->scripts['js']))
@@ -140,17 +148,5 @@ class util
 		}
 
 		$this->scripts = array_filter($this->scripts);
-	}
-
-	/**
-	 * Sets the correct paths to use when we are on a controller or not
-	 */
-	protected function set_corrected_paths()
-	{
-		// Determine board url - we may need it later
-		$board_url = generate_board_url() . '/';
-
-		$corrected_path = $this->path_helper->get_web_root_path();
-		$this->web_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $corrected_path;
 	}
 }
