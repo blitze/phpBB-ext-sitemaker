@@ -29,14 +29,14 @@ class data extends contacts
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\util */
-	protected $util;
-
 	/** @var string */
 	protected $phpbb_root_path;
 
 	/** @var string */
 	protected $php_ext;
+
+	/** @var string */
+	protected $default_avatar;
 
 	/** @var array */
 	protected $user_cache = array();
@@ -64,9 +64,10 @@ class data extends contacts
 		$this->profile_fields = $profile_fields;
 		$this->translator = $translator;
 		$this->user = $user;
-		$this->util = $util;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		$this->default_avatar = $util->get_default_avatar();
 	}
 
 	/**
@@ -183,8 +184,7 @@ class data extends contacts
 		$avatar = '';
 		if ($this->user->optionget('viewavatars'))
 		{
-			$theme_path = $this->util->get_theme_path();
-			$avatar = ($row['avatar']) ? phpbb_get_user_avatar($row, '', true) : '<img src="' . $theme_path . '/images/no_avatar.gif" alt="" />';
+			$avatar = ($row['avatar']) ? phpbb_get_user_avatar($row) : $this->default_avatar;
 		}
 
 		return $avatar;

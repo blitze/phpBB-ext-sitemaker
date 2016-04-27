@@ -100,6 +100,14 @@ class util
 	}
 
 	/**
+	 * @return string
+	 */
+	public function get_default_avatar()
+	{
+		return '<img src="' . $this->get_theme_path() . '/images/no_avatar.gif" alt="" />';
+	}
+
+	/**
 	 * Returns a corrected theme path depending on whether or not we are accessing a controller
 	 * @return string
 	 */
