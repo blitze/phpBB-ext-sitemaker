@@ -12,7 +12,7 @@ namespace blitze\sitemaker\migrations\v30x;
 /**
  * Initial schema changes needed for Extension installation
  */
-class m17_add_settings_module extends \phpbb\db\migration\migration
+class m17_add_settings_module extends \phpbb\db\migration\container_aware_migration
 {
 	/**
 	 * @inheritdoc
@@ -37,7 +37,7 @@ class m17_add_settings_module extends \phpbb\db\migration\migration
 			array('config.add', array('sm_show_forum_nav', 1)),
 			array('config.add', array('sm_forum_icon', 'fa fa-comments-o')),
 
-			array('config_text.add', array('sm_layout_prefs', '')),
+			array('custom', array(array($this, 'set_layout_prefs'))),
 
 			array('permission.add', array('a_sm_settings', true)),
 			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_sm_settings')),
@@ -49,5 +49,16 @@ class m17_add_settings_module extends \phpbb\db\migration\migration
 				),
 			)),
 		);
+	}
+	
+	protected function set_layout_prefs()
+	{
+		$style_id = $this->config['default_style'];
+		$layout_prefs = array($style_id => array(
+			'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal/',
+			'view' => '',
+		));
+
+		$this->container->get('config_text')->set('sm_layout_prefs', json_encode($layout_prefs));
 	}
 }
