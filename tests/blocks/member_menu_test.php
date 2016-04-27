@@ -65,7 +65,7 @@ class member_menu_test extends blocks_base
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new member_menu($this->auth, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
+		$block = new member_menu($this->auth, $this->user, $forum_data, $this->util, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -106,9 +106,8 @@ class member_menu_test extends blocks_base
 					'user_posts'	=> 5,
 				),
 				array(
-					'USER_AVATAR' => '',
-					'USERNAME' => '<span class="username">demo</span>',
-					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
+					'USER_AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
+					'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 					'USER_POSTS' => 5,
 					'NEW_POSTS' => 8,
 					'U_PROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',

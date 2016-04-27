@@ -25,6 +25,9 @@ class member_menu extends block
 	/** @var \blitze\sitemaker\services\forum\data */
 	protected $forum_data;
 
+	/** @var \blitze\sitemaker\services\util */
+	protected $util;
+
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -37,14 +40,16 @@ class member_menu extends block
 	 * @param \phpbb\auth\auth							$auth				Permission object
 	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
+	 * @param \blitze\sitemaker\services\util	$util	$util				utility Object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\user $user, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\util $util, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->user = $user;
 		$this->forum_data = $forum_data;
+		$this->util = $util;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -58,9 +63,8 @@ class member_menu extends block
 		if ($this->user->data['is_registered'])
 		{
 			$this->ptemplate->assign_vars(array(
-				'USER_AVATAR'	=> phpbb_get_user_avatar($this->user->data),
-				'USERNAME'		=> get_username_string('no_profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
-				'USERNAME_FULL' => get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
+				'USER_AVATAR'	=> $this->get_user_avatar(),
+				'USERNAME'		=> get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USER_POSTS'	=> $this->user->data['user_posts'],
 				'NEW_POSTS'		=> $this->get_new_posts_count(),
 
@@ -69,9 +73,9 @@ class member_menu extends block
 				'U_SEARCH_SELF'	=> append_sid($this->phpbb_root_path . 'search.' . $this->php_ext, 'search_id=egosearch'),
 				'U_PRIVATE_MSG'	=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'i=pm&amp;folder=inbox'),
 				'U_LOGOUT'		=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'mode=logout', true, $this->user->session_id),
-				'U_MCP' 		=> ($this->auth->acl_get('m_')) ? append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id) : '',
-				'U_ACP'			=> ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-blitze-sitemaker-acp-menu_module', true, $this->user->session_id) : '')
-			);
+				'U_MCP' 		=> $this->get_mcp_url(),
+				'U_ACP'			=> $this->get_acp_url(),
+			));
 
 			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block');
 		}
@@ -80,6 +84,30 @@ class member_menu extends block
 			'title'		=> 'WELCOME',
 			'content'	=> $content,
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_user_avatar()
+	{
+		return ($this->user->data['user_avatar']) ? phpbb_get_user_avatar($this->user->data) : $this->util->get_default_avatar();
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_mcp_url()
+	{
+		return ($this->auth->acl_get('m_')) ? append_sid($this->phpbb_root_path . 'mcp.' . $this->php_ext, false, true, $this->user->session_id) : '';
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_acp_url()
+	{
+		return ($this->auth->acl_get('a_')) ? append_sid($this->phpbb_root_path . 'adm/index.' . $this->php_ext, 'i=-blitze-sitemaker-acp-menu_module', true, $this->user->session_id) : '';
 	}
 
 	/**

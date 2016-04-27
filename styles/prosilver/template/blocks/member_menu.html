@@ -1,13 +1,14 @@
 <div class="flex">
 	<dl>
 		<dt class="align-center">
-			<p>
-				<a href="{U_PROFILE}">
-					<strong>{USERNAME}</strong><br />
-					<!-- IF USER_AVATAR -->{USER_AVATAR}<!-- ELSE --><i class="fa fa-user default-avatar-font"></i><!-- ENDIF -->
-				</a>
-			</p>
-		</dt>
+			<dl>
+				<dt class="has-avatar">
+					<div class="avatar-container">
+						<a href="{U_PROFILE}" class="avatar img-ui">{USER_AVATAR}</a>
+					</div>
+					{USERNAME}
+				</dt>
+			</dl>
 		<dd>
 			<ul class="sm-list">
 				<li><a class="nav" href="{U_SEARCH_NEW}"><i class="fa fa-bolt fa-fw"></i>{L_SEARCH_NEW} [{NEW_POSTS}]</a></li>

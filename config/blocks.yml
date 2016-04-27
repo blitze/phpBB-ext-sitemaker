@@ -123,6 +123,7 @@ services:
             - '@auth'
             - '@user'
             - '@blitze.sitemaker.forum.data'
+            - '@blitze.sitemaker.util'
             - '%core.root_path%'
             - '%core.php_ext%'
         calls:

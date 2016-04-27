@@ -23,6 +23,7 @@ abstract class blocks_base extends \phpbb_database_test_case
 	protected $user;
 	protected $ptemplate;
 	protected $user_data;
+	protected $util;
 	protected $phpbb_root_path;
 	protected $php_ext;
 
@@ -164,8 +165,8 @@ abstract class blocks_base extends \phpbb_database_test_case
 				return './';
 			}));
 
-		$util = new \blitze\sitemaker\services\util($path_helper, $template, $template_context, $user);
+		$this->util = new \blitze\sitemaker\services\util($path_helper, $template, $template_context, $user);
 
-		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $util, $phpbb_root_path, $phpEx);
+		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $this->util, $phpbb_root_path, $phpEx);
 	}
 }
