@@ -92,7 +92,6 @@ final class block extends base_entity
 
 	/** @var array */
 	protected $db_fields = array(
-		'bid',
 		'icon',
 		'name',
 		'title',

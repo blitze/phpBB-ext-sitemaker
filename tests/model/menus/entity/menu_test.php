@@ -172,7 +172,6 @@ class menu_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'menu_id'	=> 1,
 			'menu_name'	=> 'Menu 1',
 		);
 

@@ -215,7 +215,6 @@ class item_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
-			'item_id'		=> 1,
 			'menu_id'		=> 1,
 			'parent_id'		=> 0,
 			'item_title'	=> 'Item 1',

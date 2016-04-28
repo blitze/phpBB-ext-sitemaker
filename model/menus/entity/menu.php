@@ -33,7 +33,6 @@ final class menu extends base_entity
 
 	/** @var array */
 	protected $db_fields = array(
-		'menu_id',
 		'menu_name',
 	);
 

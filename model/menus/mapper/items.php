@@ -160,7 +160,9 @@ class items extends base_mapper
 		foreach ($items as $key => $row)
 		{
 			$entity = $this->create_entity($row);
-			$branch[$key] = $entity->to_db();
+			$branch[$key] = array_merge($entity->to_db(), array(
+				'item_id'	=> $key,
+			));
 		}
 
 		return $branch;
