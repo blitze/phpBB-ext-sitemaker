@@ -50,8 +50,8 @@ class m17_add_settings_module extends \phpbb\db\migration\container_aware_migrat
 			)),
 		);
 	}
-	
-	protected function set_layout_prefs()
+
+	public function set_layout_prefs()
 	{
 		$style_id = $this->config['default_style'];
 		$layout_prefs = array($style_id => array(
@@ -59,6 +59,7 @@ class m17_add_settings_module extends \phpbb\db\migration\container_aware_migrat
 			'view' => '',
 		));
 
-		$this->container->get('config_text')->set('sm_layout_prefs', json_encode($layout_prefs));
+		$config_text = $this->container->get('config_text');
+		$config_text->set('sm_layout_prefs', json_encode($layout_prefs));
 	}
 }
