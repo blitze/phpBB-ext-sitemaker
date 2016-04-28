@@ -29,7 +29,7 @@ class data extends contacts
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\util *\
+	/** @var \blitze\sitemaker\services\util */
 	protected $util;
 
 	/** @var string */
@@ -132,7 +132,7 @@ class data extends contacts
 		$user_id = $row['user_id'];
 		$date_format = $this->translator->lang('DATE_FORMAT');
 
-		$this->default_avatar = $util->get_default_avatar();
+		$this->default_avatar = $this->util->get_default_avatar();
 
 		return array(
 			'avatar'			=> $this->get_avatar($row),

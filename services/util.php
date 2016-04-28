@@ -44,7 +44,6 @@ class util
 		$this->template_context = $template_context;
 		$this->user = $user;
 
-		$this->set_corrected_paths();
 		$this->scripts = array(
 			'js'	=> array(),
 			'css'   => array(),
