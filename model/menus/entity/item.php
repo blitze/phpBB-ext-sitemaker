@@ -80,6 +80,7 @@ final class item extends base_entity
 
 	/** @var array */
 	protected $db_fields = array(
+		'item_id',
 		'menu_id',
 		'parent_id',
 		'item_title',

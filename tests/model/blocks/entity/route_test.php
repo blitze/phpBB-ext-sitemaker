@@ -198,6 +198,7 @@ class route_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
+			'route_id'	=> 1,
 			'ext_name'	=> 'phpbb/pages',
 			'route'		=> 'page/about_us',
 			'style'		=> 1,

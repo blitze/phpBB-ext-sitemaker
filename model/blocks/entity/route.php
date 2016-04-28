@@ -57,6 +57,7 @@ final class route extends base_entity
 
 	/** @var array */
 	protected $db_fields = array(
+		'route_id',
 		'ext_name',
 		'route',
 		'style',

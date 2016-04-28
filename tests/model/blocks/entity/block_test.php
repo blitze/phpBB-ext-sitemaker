@@ -225,6 +225,7 @@ class block_test extends \phpbb_test_case
 		);
 
 		$to_db_expected = array(
+			'bid'			=> 1,
 			'icon'			=> '',
 			'name'			=> 'blitze.sitemaker.block.birthday',
 			'title'			=> 'My block',
