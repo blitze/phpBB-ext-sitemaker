@@ -189,12 +189,13 @@ class data extends query_builder
 	{
 		$this->store['poster_ids'] = array_filter(array_keys(array_flip($this->store['poster_ids'])));
 
-		if (!sizeof($this->store['poster_ids']))
+		$info = array();
+		if (sizeof($this->store['poster_ids']))
 		{
-			return array();
+			$info = $this->user_data->get_users($this->store['poster_ids']);
 		}
 
-		return $this->user_data->get_users($this->store['poster_ids']);
+		return $info;
 	}
 
 	/**

@@ -70,7 +70,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2\nTest 3"),
 				),
 				array(
 					array(
@@ -86,6 +86,13 @@ class add_bulk_test extends base_action
 						'left_id'	=> 2,
 						'right_id'	=> 3,
 						'depth'		=> 1,
+					),
+					array(
+						'item_id'	=> 9,
+						'parent_id'	=> 0,
+						'left_id'	=> 5,
+						'right_id'	=> 6,
+						'depth'		=> 0,
 					),
 				),
 			),
@@ -112,7 +119,7 @@ class add_bulk_test extends base_action
 	 * Data set for test_exceptions
 	 * @return array
 	 */
-	public function excetions_test_data()
+	public function exceptions_test_data()
 	{
 		return array(
 			array(
@@ -145,7 +152,7 @@ class add_bulk_test extends base_action
 	/**
 	 * Test exceptions
 	 *
-	 * @dataProvider excetions_test_data
+	 * @dataProvider exceptions_test_data
 	 * @param array $variable_map
 	 * @param string $expected
 	 */

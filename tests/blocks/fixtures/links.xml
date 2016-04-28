@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="phpbb_sm_menu_items">
+		<column>item_id</column>
+		<column>menu_id</column>
+		<column>parent_id</column>
+		<column>item_title</column>
+		<column>item_url</column>
+		<column>left_id</column>
+		<column>right_id</column>
+		<column>depth</column>
+		<column>item_parents</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>Item 1</value>
+			<value>app.php/page/item-1</value>
+			<value>1</value>
+			<value>6</value>
+			<value>0</value>
+			<value/>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>Item 2</value>
+			<value>app.php/page/item-2</value>
+			<value>2</value>
+			<value>5</value>
+			<value>1</value>
+			<value/>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1</value>
+			<value>2</value>
+			<value>Item 3</value>
+			<value>app.php/page/item-3</value>
+			<value>3</value>
+			<value>4</value>
+			<value>2</value>
+			<value/>
+		</row>
+	</table>
+</dataset>

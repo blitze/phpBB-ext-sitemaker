@@ -50,11 +50,12 @@ abstract class display
 
 	/**
 	 * Is subject node an ancestor of the object node?
+	 *
 	 * @param array $object
 	 * @param array $subject
 	 * @return bool
 	 */
-	public function is_in_path(array $object, array $subject)
+	public function is_ancestor(array $object, array $subject)
 	{
 		return ($subject['left_id'] < $object['left_id'] && $subject['right_id'] > $object['right_id']) ? true : false;
 	}
@@ -89,28 +90,28 @@ abstract class display
 	/**
 	 * Get Tree Query
 	 *
-	 * @param	integer	$start			Starting level
-	 * @param	integer $level			Max depth
+	 * @param	integer	$start			Starting depth
+	 * @param	integer $max_depth		Max depth
 	 * @param	array	$sql_array		Array of elements to merge into query
 	 * 										array(
 	 * 											'SELECT'	=> array('p.*'),
 	 * 											'WHERE'		=> array('p.post_id = 2'),
 	 * 										)
-	 * @return	string		The sql query
+	 * @return	array
 	 */
-	public function qet_tree_sql($start = 0, $level = 0, $sql_array = array())
+	public function qet_tree_sql($start = 0, $max_depth = 0, $sql_array = array())
 	{
 		$sql_array = array_merge_recursive(
 			array(
-				'SELECT'	=> array('t.*'),
+				'SELECT'	=> array('i.*'),
 				'FROM'		=> array(
-					$this->items_table => ' t'
+					$this->items_table => 'i'
 				),
 				'WHERE'		=> array(
-					't.depth ' . (($level) ? " BETWEEN $start AND " . ($start + $level) : ' >= ' . $start),
-					(($this->sql_where) ? 't.' . $this->sql_where : ''),
+					'i.depth ' . (($max_depth) ? " BETWEEN $start AND " . ($start + $max_depth) : ' >= ' . $start),
+					(($this->sql_where) ? 'i.' . $this->sql_where : ''),
 				),
-				'ORDER_BY'	=> 't.left_id ASC',
+				'ORDER_BY'	=> 'i.left_id ASC',
 			),
 			$sql_array
 		);
@@ -118,18 +119,25 @@ abstract class display
 		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
 		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
 
-		return $this->db->sql_build_query('SELECT', $sql_array);
+		return $sql_array;
 	}
 
 	/**
-	 * @param int $start
-	 * @param int $level
-	 * @param array $sql_array
+	 * Get the tree data
+	 *
+	 * @param	integer	$start			Starting depth
+	 * @param	integer $max_depth		Max depth
+	 * @param	array	$sql_array		Array of elements to merge into query
+	 * 										array(
+	 * 											'SELECT'	=> array('p.*'),
+	 * 											'WHERE'		=> array('p.post_id = 2'),
+	 * 										)
 	 * @return array
 	 */
-	public function get_tree_array($start = 0, $level = 0, $sql_array = array())
+	public function get_tree_data($start = 0, $max_depth = 0, $sql_array = array())
 	{
-		$sql = $this->qet_tree_sql($start, $level, $sql_array);
+		$sql_array = $this->qet_tree_sql($start, $max_depth, $sql_array);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 
 		$data = array();

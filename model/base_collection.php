@@ -135,12 +135,13 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 			return true;
 		}
 
+		$result = false;
 		if (isset($this->entities[$key]))
 		{
 			unset($this->entities[$key]);
-			return true;
+			$result = true;
 		}
-		return false;
+		return $result;
 	}
 
 	/**

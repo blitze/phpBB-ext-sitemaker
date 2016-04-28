@@ -23,7 +23,7 @@ class links_test extends blocks_base
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/menu.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/links.xml');
 	}
 
 	/**
@@ -160,36 +160,17 @@ class links_test extends blocks_base
 				false,
 				'<ul class="sm-list fa-ul">' .
 					'<li>' .
-						'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw"></i>Home</a>' .
-					'</li>' .
-					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw"></i>Content</a>' .
+						'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw"></i>Item 1</a>' .
 						'<ul class="sm-list fa-ul">' .
 							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw"></i>News</a>' .
+								'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw"></i>Item 2</a>' .
 								'<ul class="sm-list fa-ul">' .
 									'<li>' .
-										'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw"></i>USA</a>' .
-										'<ul class="sm-list fa-ul">' .
-											'<li>' .
-												'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw"></i>Business</a>' .
-												'<ul class="sm-list fa-ul">' .
-													'<li>' .
-														'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw"></i>Startups</a>' .
-													'</li>' .
-												'</ul>' .
-											'</li>' .
-										'</ul>' .
+										'<a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw"></i>Item 3</a>' .
 									'</li>' .
 								'</ul>' .
 							'</li>' .
-							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw"></i>Articles</a>' .
-							'</li>' .
 						'</ul>' .
-					'</li>' .
-					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw"></i>About Us</a>' .
 					'</li>' .
 				'</ul>',
 			),
