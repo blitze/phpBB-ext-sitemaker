@@ -149,19 +149,6 @@
 			hide: 'slide'
 		});
 
-		// cloud9 editor for yaml
-		var aceEditor = window.ace.edit('build_editor');
-		var textarea = document.getElementById('add_list');
-
-		textarea.style.display = 'none';
-		aceEditor.setTheme('ace/theme/monokai');
-		aceEditor.getSession().setMode('ace/mode/html');
-		aceEditor.setDisplayIndentGuides(true);
-		aceEditor.getSession().setValue(textarea.value);
-		aceEditor.getSession().on('change', function() {
-			textarea.value = aceEditor.getSession().getValue();
-		});
-
 		if (menuId) {
 			menuAdmin.show();
 		}

@@ -24,6 +24,7 @@
 
 			addBtn: '#add-new',
 			addBulkBtn: '#add-bulk',
+			addBulkList: '#add_list',
 			saveBtn: '#save',
 			deleteSelBtn: '#delete-selected',
 			rebuildBtn: '#rebuild-tree',
@@ -243,7 +244,6 @@
 				};
 				self._addBulk($.param(data));
 				self.addBulkBtn.trigger('click');
-				form.find('textarea').val('');
 				event.preventDefault();
 			});
 
@@ -287,6 +287,25 @@
 			twig({
 				id: 'item_template',
 				data: this.element.find(this.options.itemTemplate).html()
+			});
+
+			/* global CodeMirror */
+			CodeMirror.fromTextArea($(this.options.addBulkList).get(0), {
+				theme: "monokai",
+				lineNumbers: true,
+				lineWrapping : false,
+				autoRefresh: true,
+				styleActiveLine: true,
+				fixedGutter: true,
+				indentUnit: 4,
+				coverGutterNextToScrollbar: false,
+				tabMode: "shift",
+				extraKeys: {
+					'Tab': function(cm) {
+						var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+						cm.replaceSelection(spaces);
+					}
+				}
 			});
 
 			this.getItems();

@@ -1,27 +1,22 @@
 {
   "name": "phpBB Sitemaker",
   "dependencies": {
-    "ace": "https://github.com/ajaxorg/ace-builds.git",
     "jqueryui-touch-punch": "*",
     "jquery-ui": "^1.11.4",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
     "nestedSortable": "*",
     "tinymce": "*",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
-    "twig.js": "latest"
+    "twig.js": "latest",
+    "codemirror": "^5.14.2"
   },
   "overrides": {
-    "ace": {
+    "codemirror": {
       "main": [
-        "src-min-noconflict/ace.js",
-        "src-min-noconflict/mode-html.js",
-        "src-min-noconflict/theme-monokai.js"
-      ]
-    },
-    "fontawesome": {
-      "main": [
-        "./css/font-awesome.css",
-        "./fonts/*"
+        "lib/codemirror.js",
+        "lib/codemirror.css",
+        "addon/display/autorefresh.js",
+        "theme/monokai.css"
       ]
     },
     "jquery-ui": {

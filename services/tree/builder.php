@@ -22,7 +22,8 @@ abstract class builder extends \phpbb\tree\nestedset
 		$util->add_assets(array(
 			'js'        => array(
 				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
-				'@blitze_sitemaker/vendor/ace/src-min-noconflict/ace.js',
+				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.js',
+				'@blitze_sitemaker/vendor/codemirror/addon/display/autorefresh.js',
 				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.js',
@@ -31,6 +32,8 @@ abstract class builder extends \phpbb\tree\nestedset
 			),
 			'css'   => array(
 				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
+				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.min.css',
+				'@blitze_sitemaker/vendor/codemirror/theme/monokai.min.css',
 				'@blitze_sitemaker/assets/tree/builder.min.css',
 			)
 		));
