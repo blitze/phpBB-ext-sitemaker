@@ -2,12 +2,11 @@
   "name": "phpBB Sitemaker",
   "dependencies": {
     "ace": "https://github.com/ajaxorg/ace-builds.git",
-    "fontawesome": "latest",
     "jqueryui-touch-punch": "*",
     "jquery-ui": "^1.11.4",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
-    "nestedSortable": "ilikenwf/nestedSortable",
-    "tinymce": "^4.3.8",
+    "nestedSortable": "*",
+    "tinymce": "*",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
     "twig.js": "latest"
   },
