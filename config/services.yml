@@ -239,7 +239,6 @@ services:
             - '@config'
             - '@filesystem'
             - '@path_helper'
-            - '@service_container'
             - '%core.template.cache_path%'
             - '@ext.manager'
             - '@blitze.sitemaker.template.twig.loader'
