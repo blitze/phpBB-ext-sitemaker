@@ -182,7 +182,7 @@ class forum_topics extends block
 
 				'FORUM_TITLE'		=> $row['forum_name'],
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_PREVIEW'		=> $this->get_preview(array_pop($post_data[$topic_id])),
+				'TOPIC_PREVIEW'		=> $this->get_post_preview(array_pop($post_data[$topic_id])),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
 				'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $row['topic_attachment']),
 				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
@@ -220,20 +220,40 @@ class forum_topics extends block
 	 * @param array $row
 	 * @return string
 	 */
-	protected function get_preview(array $row)
+	protected function get_post_preview(array $row)
 	{
 		$preview = '';
 		if ($this->settings['display_preview'])
 		{
-			$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_max_chars']);
-			$row['post_text'] = $trim->message();
-			unset($trim);
-
-			$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
-			$preview = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+			$method = ($this->settings['template'] === 'context') ? 'get_trimmed_text' : 'get_tooltip_text';
+			$preview = call_user_func_array(array($this, $method), array($row));
 		}
 
 		return $preview;
+	}
+
+	/**
+	 * @param array $row
+	 */
+	protected function get_trimmed_text(array $row)
+	{
+		$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_max_chars']);
+		$row['post_text'] = $trim->message();
+		unset($trim);
+
+		$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
+		return generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+	}
+
+	/**
+	 * @param array $row
+	 */
+	protected function get_tooltip_text(array $row)
+	{
+		strip_bbcode($row['post_text'], $row['bbcode_uid']);
+
+		$row['post_text'] = truncate_string($row['post_text'], $this->settings['preview_max_chars']);
+		return wordwrap($row['post_text'], 40, "\n");
 	}
 
 	/**
