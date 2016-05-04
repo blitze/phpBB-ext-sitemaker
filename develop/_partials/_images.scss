@@ -84,12 +84,12 @@ img {
 		margin: 0 0 0 2.5em;
 	}
 
-	.img-border &,
-	.img-border-padding & {
+	.img-border & img,
+	.img-border-padding & img {
 		border: 1px solid $border-color;
 	}
 
-	.img-border-padding & {
+	.img-border-padding & img {
 		padding: 4px;
 	}
 

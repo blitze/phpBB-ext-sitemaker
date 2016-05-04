@@ -188,24 +188,6 @@ ul {
 			font-size: 0;
 		}
 
-		.list-block-auto & > li,
-		.list-block-2cols & > li,
-		.list-block-3cols & > li,
-		.list-block-4cols & > li,
-		.list-block-5cols & > li {
-			display: inline-block;
-			padding: 0 10px;
-			vertical-align: top;
-			box-sizing: border-box;
-
-			@media screen and (max-width: 480px) {
-				& {
-					width: auto;
-					margin: 0 0 10px 0;
-				}
-			}
-		}
-
 		.list-block-auto & > li {
 			width: auto;
 		}
@@ -224,6 +206,24 @@ ul {
 
 		.list-block-5cols & > li {
 			width: 20%;
+		}
+
+		.list-block-auto & > li,
+		.list-block-2cols & > li,
+		.list-block-3cols & > li,
+		.list-block-4cols & > li,
+		.list-block-5cols & > li {
+			display: inline-block;
+			padding: 0 10px;
+			vertical-align: top;
+			box-sizing: border-box;
+
+			@media (max-width: 940px) {
+				& {
+					width: 100%;
+					margin: 0 0 10px 0;
+				}
+			}
 		}
 	}
 }
