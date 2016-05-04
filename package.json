@@ -7,7 +7,7 @@
     "gulp-bower": "0.0.13",
     "gulp-clean-css": "^2.0.4",
     "gulp-csscomb": "^3.0.3",
-    "gulp-csslint": "^0.2.2",
+    "gulp-csslint": "^0.3.0",
     "gulp-filter": "^4.0.0",
     "gulp-jscs": "^3.0.2",
     "gulp-jshint": "^2.0.0",
