@@ -36,10 +36,15 @@ $icon-color-purple: #820182 !default;
 $icon-color-red: #ff0000 !default;
 
 @function set-text-color($color) {
-    @if (lightness($color) > 60) {
-      @return #000;
-    }
-    @else {
-      @return #fff;
-    }
+	@if (lightness($color) > 60) {
+		@return #000;
+	}
+	@else {
+		@return #fff;
+	}
+}
+
+@mixin rgba-background($hexcolor, $opacity) {
+	background-color: $hexcolor;
+	background-color: rgba($hexcolor, $opacity); 
 }
