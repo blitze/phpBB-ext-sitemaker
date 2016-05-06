@@ -54,12 +54,22 @@ class forum
 	 */
 	public function handle()
 	{
+		/**
+		 * This is ugly but the only way I could find
+		 * to fix relative paths for forum images
+		 */
+		global $phpbb_root_path;
+		$phpbb_root_path = generate_board_url() . '/';
+
 		if (!function_exists('display_forums'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext); // @codeCoverageIgnore
 		}
 
 		display_forums('', $this->config['load_moderators']);
+
+		// restore phpbb_root_path
+		$phpbb_root_path = $this->phpbb_root_path;
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('FORUM'),
