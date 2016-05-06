@@ -188,7 +188,7 @@ class data extends contacts
 		$avatar = '';
 		if ($this->user->optionget('viewavatars'))
 		{
-			$avatar = ($row['avatar']) ? phpbb_get_user_avatar($row) : $this->default_avatar;
+			$avatar = ($row['user_avatar']) ? phpbb_get_user_avatar($row) : $this->default_avatar;
 		}
 
 		return $avatar;
