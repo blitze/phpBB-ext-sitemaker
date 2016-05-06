@@ -5,8 +5,8 @@ language: php
 
 matrix:
   include:
-    - php: 5.3.3
-      env: DB=mysqli
+  #  - php: 5.3.3
+  #    env: DB=mysqli
     - php: 5.3
       env: DB=mysqli # MyISAM
     - php: 5.4
@@ -47,7 +47,6 @@ branches:
     - /^release-.*$/
 
 install:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.3.3" ]; then composer self-update --rollback; fi
   - travis_retry composer install --no-interaction --prefer-source
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../../phpBB3
