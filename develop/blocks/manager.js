@@ -536,6 +536,7 @@
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
+					settings.url += '&_referer=' + window.location.href;
 				},
 				// Display any returned message
 				'complete': function(data) {

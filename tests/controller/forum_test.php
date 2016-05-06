@@ -54,6 +54,8 @@ class forum_test extends \phpbb_database_test_case
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
+		$request = $this->getMock('\phpbb\request\request_interface');
+
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
