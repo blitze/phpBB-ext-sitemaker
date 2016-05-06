@@ -528,6 +528,7 @@
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
+					settings.url += '&_referer=' + window.location.href;
 				},
 				'complete': function() {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
