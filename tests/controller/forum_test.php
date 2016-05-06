@@ -40,13 +40,15 @@ class forum_test extends \phpbb_database_test_case
 	 */
 	protected function get_controller()
 	{
-		global $phpbb_dispatcher, $phpbb_container, $auth, $db, $template, $user, $phpbb_root_path, $phpEx;
+		global $phpbb_dispatcher, $phpbb_container, $auth, $db, $request, $template, $user, $phpbb_root_path, $phpEx;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$db = $this->new_dbal();
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$config = new \phpbb\config\config(array());
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
+
+		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
