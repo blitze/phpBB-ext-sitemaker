@@ -146,6 +146,7 @@
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, data) {
+				data.content = fixPaths(data.content);
 				$('#block-' + data.id).html(template.render(data));
 			});
 		});
@@ -202,6 +203,7 @@
 			$.each(resp.data, function(position, data) {
 				var pos = $('#pos-' + position);
 				$.each(data, function(idx, row) {
+					row.content = fixPaths(row.content);
 					var html = template.render(row);
 
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
@@ -536,6 +538,7 @@
 				'complete': function(data) {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
+					// Display any returned message
 					if (data.responseJSON.message) {
 						showMessage(data.responseJSON.message);
 					}
@@ -543,13 +546,6 @@
 					// Fix relative paths
 					if (data.responseJSON.content) {
 						data.responseJSON.content = fixPaths(data.responseJSON.content);
-					}
-				},
-				// Display any returned message
-				'success': function(data) {
-					if (data.message) {
-						$('#loading').hide();
-						showMessage(data.message);
 					}
 				},
 				'error': function(event) {
