@@ -365,6 +365,10 @@
 		}
 	};
 
+	var fixPaths = function(subject) {
+		return subject.replace(new RegExp('./../../', 'g'), './../');
+	};
+
 	$(document).ready(function() {
 		editMode = window.editMode || false;
 		lang = window.lang || {};
@@ -536,14 +540,18 @@
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
-					settings.url += '&_referer=' + window.location.href;
 				},
-				// Display any returned message
 				'complete': function(data) {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
+					// Display any returned message
 					if (data.responseJSON.message) {
 						showMessage(data.responseJSON.message);
+					}
+
+					// Fix relative paths
+					if (data.responseJSON.content) {
+						data.responseJSON.content = fixPaths(data.responseJSON.content);
 					}
 				},
 				'error': function(event) {
