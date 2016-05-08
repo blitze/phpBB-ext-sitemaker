@@ -151,6 +151,7 @@
 			dialogEdit.dialog('close');
 
 			$.each(resp, function(i, block) {
+				block.content = fixPaths(block.content);
 				blockData.block = block;
 				$('#block-' + block.id).html(template.render(blockData));
 			});
@@ -208,6 +209,7 @@
 			$.each(resp.data, function(position, data) {
 				var pos = $('#pos-' + position);
 				$.each(data, function(idx, row) {
+					row.content = fixPaths(row.content);
 					blockData.block = row;
 
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
