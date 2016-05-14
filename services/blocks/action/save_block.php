@@ -56,7 +56,9 @@ class save_block extends base_action
 			$updated_blocks += $this->update_similar($old_hash, $new_hash, $submitted_settings);
 		}
 
-		return $updated_blocks;
+		return array(
+			'list'	=> $updated_blocks,
+		);
 	}
 
 	/**

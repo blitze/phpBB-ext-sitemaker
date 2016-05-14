@@ -116,7 +116,7 @@ class save_block_test extends base_action
 		$result = $command->execute(1);
 
 		$actual_similar = 0;
-		$updated_block = array_shift($result);
+		$updated_block = array_shift($result['list']);
 
 		if ($updated_block['hash'])
 		{

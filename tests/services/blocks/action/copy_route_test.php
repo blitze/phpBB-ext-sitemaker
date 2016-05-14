@@ -230,7 +230,7 @@ class copy_route_test extends base_action
 		$comp_keys = array_fill_keys(array('id', 'style', 'title', 'content', 'name', 'position', 'settings'), '');
 
 		$actual = array();
-		foreach ($result['data'] as $position => $blocks)
+		foreach ($result['list'] as $position => $blocks)
 		{
 			$actual[$position] = array();
 			foreach ($blocks as $block)

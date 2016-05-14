@@ -145,10 +145,12 @@
 		$.getJSON(config.ajaxUrl + '/blocks/save_block?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
 			dialogEdit.dialog('close');
 
-			$.each(resp, function(i, data) {
-				data.content = fixPaths(data.content);
-				$('#block-' + data.id).html(template.render(data));
-			});
+			if (resp.list) {
+				$.each(resp.list, function(i, row) {
+					row.content = fixPaths(row.content);
+					$('#block-' + row.id).html(template.render(row));
+				});
+			}
 		});
 	};
 
@@ -193,16 +195,16 @@
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
 		$.getJSON(config.ajaxUrl + '/blocks/copy_route?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
-			if (resp.data.length === 0) {
+			if (resp.list.length === 0) {
 				return;
 			}
 
 			showAllPositions();
 			position.empty();
 
-			$.each(resp.data, function(position, data) {
+			$.each(resp.list, function(position, blocks) {
 				var pos = $('#pos-' + position);
-				$.each(data, function(idx, row) {
+				$.each(blocks, function(i, row) {
 					row.content = fixPaths(row.content);
 					var html = template.render(row);
 
