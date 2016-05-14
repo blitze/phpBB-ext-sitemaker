@@ -32,7 +32,7 @@ class copy_route extends base_action
 
 		$route_data = array(
 			'config'	=> array(),
-			'data'		=> array(),
+			'list'		=> array(),
 		);
 
 		$condition = array(
@@ -55,7 +55,7 @@ class copy_route extends base_action
 		$copied_blocks = $this->duplicate_blocks($from_entity->get_blocks(), $copied_route->get_route_id(), $copied_route->get_style());
 
 		$route_data['config'] = $copied_route->to_array();
-		$route_data['data'] = array_map('array_filter', $copied_blocks);
+		$route_data['list'] = array_map('array_filter', $copied_blocks);
 
 		return $route_data;
 	}
