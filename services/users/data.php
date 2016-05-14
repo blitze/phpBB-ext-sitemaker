@@ -303,7 +303,7 @@ class data extends contacts
 	 */
 	protected function get_sql_statement($sql_where = '', $order_by = '')
 	{
-		return 'SELECT user_id, username, user_type, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank, user_allow_viewemail, user_allow_pm, user_jabber, user_inactive_reason
+		return 'SELECT user_id, username, user_type, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank, user_email, user_allow_viewemail, user_allow_pm, user_jabber, user_inactive_reason
 			FROM ' . USERS_TABLE .
 			(($sql_where) ? ' WHERE ' . $sql_where : '') .
 			(($order_by) ? ' ORDER BY ' . $order_by : '');
