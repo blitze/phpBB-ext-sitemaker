@@ -109,6 +109,7 @@ class login_test extends blocks_base
 				false,
 				'index.php',
 				array(
+					'S_USER_LOGGED_IN' => true,
 					'S_SHOW_HIDE_ME' => true,
 					'S_AUTOLOGIN_ENABLED' => true,
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',
@@ -128,6 +129,7 @@ class login_test extends blocks_base
 				false,
 				'app.php/page/about',
 				array(
+					'S_USER_LOGGED_IN' => false,
 					'S_SHOW_HIDE_ME' => false,
 					'S_AUTOLOGIN_ENABLED' => false,
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',

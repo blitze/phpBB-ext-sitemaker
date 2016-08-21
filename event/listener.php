@@ -170,10 +170,8 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_var('S_PT_SHOW_FORUM', true);
 		}
 
-		// Hide login/whois/birthday on index_body.html
-		// @TODO move this to the login block so we only hide if there is a block that replaces it
+		// Hide whois/birthday on index_body.html
 		$this->template->assign_vars(array(
-			'S_USER_LOGGED_IN'			=> true,
 			'S_DISPLAY_ONLINE_LIST'		=> false,
 			'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 		));
