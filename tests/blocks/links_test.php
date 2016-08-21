@@ -179,22 +179,22 @@ class links_test extends blocks_base
 				false,
 				'<ul class="sm-list fa-ul">' .
 					'<li>' .
-						'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw"></i>Home</a>' .
+						'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
 					'</li>' .
 					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw"></i>Content</a>' .
+						'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
 						'<ul class="sm-list fa-ul">' .
 							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw"></i>News</a>' .
+								'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
 								'<ul class="sm-list fa-ul">' .
 									'<li>' .
-										'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw"></i>USA</a>' .
+										'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
 										'<ul class="sm-list fa-ul">' .
 											'<li>' .
-												'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw"></i>Business</a>' .
+												'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
 												'<ul class="sm-list fa-ul">' .
 													'<li>' .
-														'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw"></i>Startups</a>' .
+														'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw" aria-hidden="true"></i>Startups</a>' .
 													'</li>' .
 												'</ul>' .
 											'</li>' .
@@ -203,12 +203,12 @@ class links_test extends blocks_base
 								'</ul>' .
 							'</li>' .
 							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw"></i>Articles</a>' .
+								'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
 							'</li>' .
 						'</ul>' .
 					'</li>' .
 					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw"></i>About Us</a>' .
+						'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
 					'</li>' .
 				'</ul>',
 			),
