@@ -102,11 +102,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 					),
 				),
 			),
-			'add_columns'	=> array(
-				$this->table_prefix . 'forums'	=> array(
-					'hidden_forum'		=> array('BOOL', 0),
-				),
-			),
 		);
 	}
 
