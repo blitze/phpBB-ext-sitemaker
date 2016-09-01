@@ -567,13 +567,17 @@
 			};
 
 			dButtons[lang.remove] = function() {
-				var p = blockObj.parent('.horizontal');
-				blockObj.hide('scale', {percent: 5}, 3000).parent().remove();
+				var horizontalPos = blockObj.parent('.horizontal');
 
-				var items = p.find('.block');
+				blockObj.remove();
+				horizontalPos.find('.ui-effects-placeholder').remove();
+
+				var items = horizontalPos.find('.block');
+
 				if (items.length > 0) {
 					sortHorizontal(items);
 				}
+
 				hideEmptyPositions();
 				saveBtn.button('enable');
 				$(this).dialog('close');
