@@ -281,7 +281,7 @@
 
 	var previewBlock = function() {
 		// make a copy of block data
-		var data = jQuery.extend(true, {}, blockData);
+		var data = $.extend(true, {}, blockData);
 		var formData = dialogEdit.find('#edit_form').serializeArray();
 
 		$.each(formData, function() {
@@ -540,14 +540,16 @@
 				'complete': function(data) {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
-					// Display any returned message
-					if (data.responseJSON.message) {
-						showMessage(data.responseJSON.message);
-					}
-
-					// Fix relative paths
-					if (data.responseJSON.content) {
-						data.responseJSON.content = fixPaths(data.responseJSON.content);
+					if (data.responseJSON) {
+						// Display any returned message
+						if (data.responseJSON.message) {
+							showMessage(data.responseJSON.message);
+						}
+	
+						// Fix relative paths
+						if (data.responseJSON.content) {
+							data.responseJSON.content = fixPaths(data.responseJSON.content);
+						}
 					}
 				},
 				'error': function(event) {
