@@ -176,7 +176,7 @@ class featured_member extends block
 	 */
 	private function query_recent(&$sql)
 	{
-		$sql .= ' AND user_posts > 0 ORDER BY user_regdate DESC';
+		$sql .= ' ORDER BY user_regdate DESC';
 	}
 
 	/**
@@ -184,7 +184,7 @@ class featured_member extends block
 	 */
 	private function query_posts(&$sql)
 	{
-		$sql .= ' AND user_posts > 0 ORDER BY user_posts DESC';
+		$sql .= ' ORDER BY user_posts DESC';
 	}
 
 	/**
