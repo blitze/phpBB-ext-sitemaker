@@ -6,10 +6,10 @@
     "jqueryui-touch-punch": "*",
     "jquery-ui": "^1.11.4",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
-    "nestedSortable": "ilikenwf/nestedSortable",
+    "nestedSortable": "*",
     "tinymce": "^4.3.8",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
-    "twig.js": "latest"
+    "twig.js": "^0.9.5"
   },
   "overrides": {
     "ace": {
