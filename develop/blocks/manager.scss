@@ -289,3 +289,12 @@
 		text-align: left;
 	}
 }
+
+.block-settings {
+	padding-left: 0;
+	padding-right: 0;
+
+	fieldset textarea {
+		width: 100%;
+	}
+}

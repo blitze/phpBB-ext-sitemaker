@@ -47,12 +47,26 @@ class custom extends block
 	/**
 	 * {@inheritdoc}
 	 */
+	public function get_config(array $settings)
+	{
+		return array(
+			'legend1'		=> 'SOURCE',
+			'source'	=> array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'SOURCE_EXPLAIN'),
+		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
 		$cblock = $this->get_block_data($bdata['bid']);
-		$content = $this->get_content_for_display($cblock);
+		$content = $this->get_content_for_display($cblock, $bdata['settings']['source']);
 
-		$this->show_editor($cblock, $content, $edit_mode);
+		if (!$bdata['settings']['source'])
+		{
+			$this->show_editor($cblock, $content, $edit_mode);
+		}
 
 		return array(
 			'title'		=> 'BLOCK_TITLE',
@@ -116,9 +130,12 @@ class custom extends block
 	 * @param array $data
 	 * @return string
 	 */
-	private function get_content_for_display(array $data)
+	private function get_content_for_display(array $data, $content = '')
 	{
-		$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
+		if (!$content)
+		{
+			$content = generate_text_for_display($data['block_content'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']);
+		}
 		return html_entity_decode($content);
 	}
 

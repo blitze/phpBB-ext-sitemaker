@@ -130,6 +130,8 @@ $lang = array_merge($lang, array(
 	'SHOW_MEMBER_MENU'							=> 'Show user menu?',
 	'SHOW_MEMBER_MENU_EXPLAIN'					=> 'Replace login box with user menu if user is logged in',
 	'SHOW_WORD_COUNT'							=> 'Show word count?',
+	'SOURCE'									=> 'Source',
+	'SOURCE_EXPLAIN'							=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
 
 	'TEMPLATE'									=> 'Template',
 	'TOPICS'									=> 'Topics',
