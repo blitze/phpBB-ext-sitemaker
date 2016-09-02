@@ -22,6 +22,9 @@ class birthday extends block
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -33,13 +36,15 @@ class birthday extends block
 	 *
 	 * @param \phpbb\cache\driver\driver_interface	$cache		Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db     	Database connection
+	 * @param \phpbb\template\template				$template	Template object
 	 * @param \phpbb\user                           $user		User object
 	 * @param string								$time		String in a format accepted by strtotime().
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $time = 'now')
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $time = 'now')
 	{
 		$this->cache = $cache;
 		$this->db = $db;
+		$this->template = $template;
 		$this->user = $user;
 		$this->time = $time;
 	}
@@ -60,6 +65,8 @@ class birthday extends block
 				$this->cache->put('pt_block_data_' . $bdata['bid'], $content, 3600);
 			}
 		}
+
+		$this->template->assign_var('S_DISPLAY_BIRTHDAY_LIST', false);
 
 		return array(
 			'title'		=> 'BIRTHDAYS',

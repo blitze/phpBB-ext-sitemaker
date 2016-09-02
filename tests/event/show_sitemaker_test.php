@@ -53,12 +53,6 @@ class show_sitemaker_test extends listener_base
 			->method('assign_var')
 			->withConsecutive(array('S_PT_SHOW_FORUM'), array(true));
 
-		$this->template->expects($this->exactly(1))
-			->method('assign_vars')
-			->with($this->equalTo(array(
-				'S_DISPLAY_BIRTHDAY_LIST'	=> false,
-			)));
-
 		$dispatcher = new EventDispatcher();
 		$dispatcher->addListener('core.page_footer', array($listener, 'show_sitemaker'));
 		$dispatcher->dispatch('core.page_footer');

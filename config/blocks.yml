@@ -20,6 +20,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@dbal.conn'
+            - '@template'
             - '@user'
         calls:
             - [set_name, [blitze.sitemaker.block.birthday]]
