@@ -209,4 +209,14 @@
 			right: -5px;
 		}
 	}
+
+	@media (min-width: 940px) {
+		.sidebar .block .no-wrap {
+			background: none;
+
+			h2 {
+				border: 0;
+			}
+		}
+	}
 }

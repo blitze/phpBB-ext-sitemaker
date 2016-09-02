@@ -22,8 +22,7 @@
 					<div id="pos-boxes" class="block-position horizontal equal grid">
 						<!-- BEGIN boxes -->
 						<div id="block-{boxes.BID}" class="block grid__col <!-- IF $DIV > 1 -->grid__col--1-of-{$DIV}<!-- ELSE -->grid__col--5-of-5<!-- ENDIF -->">
-							<!-- IF not boxes.NO_WRAP -->
-							<div class="panel post{boxes.CLASS} sm-block-spacing">
+							<div class="panel post{boxes.CLASS}<!-- IF boxes.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
 								<h2>
 									<span class="block-icon"><i class="{boxes.ICON}" aria-hidden="true"></i></span>
@@ -34,17 +33,6 @@
 									{boxes.CONTENT}
 								</div>
 							</div>
-							<!-- ELSE -->
-							<div class="post{boxes.CLASS} sm-block-spacing">
-								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
-								<h2>
-									<span class="block-icon"><i class="{boxes.ICON}" aria-hidden="true"></i></span>
-									<span class="block-title{EDITABLE_CLASS}">{boxes.TITLE}</span>
-								</h2>
-								<!-- ENDIF -->
-								{boxes.CONTENT}
-							</div>
-							<!-- ENDIF -->
 							{S_BLOCK_CONTROLS}
 						</div>
 						<!-- END boxes -->
@@ -56,8 +44,7 @@
 						<div id="pos-bottom" class="grid__col grid__col--5-of-5 block-position">
 							<!-- BEGIN bottom -->
 							<div id="block-{bottom.BID}" class="block">
-								<!-- IF not bottom.NO_WRAP -->
-								<div class="panel post sm-block-container{bottom.CLASS} sm-block-spacing">
+								<div class="panel post sm-block-container{bottom.CLASS}<!-- IF bottom.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 									<div class="inner">
 										<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
 										<h2>
@@ -70,17 +57,6 @@
 										</div>
 									</div>
 								</div>
-								<!-- ELSE -->
-								<div class="post{bottom.CLASS} sm-block-spacing">
-									<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
-									<h2>
-										<span class="block-icon"><i class="{bottom.ICON}" aria-hidden="true"></i></span>
-										<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
-									</h2>
-									<!-- ENDIF -->
-									{bottom.CONTENT}
-								</div>
-								<!-- ENDIF -->
 								{S_BLOCK_CONTROLS}
 							</div>
 							<!-- END bottom -->
@@ -93,8 +69,7 @@
 				<div id="pos-subcontent" class="block-position sidebar sidebar-right grid__col grid__col--1-of-4">
 					<!-- BEGIN subcontent -->
 					<div id="block-{subcontent.BID}" class="block">
-						<!-- IF not subcontent.NO_WRAP -->
-						<div class="panel post sm-block-container{subcontent.CLASS} sm-block-spacing">
+						<div class="panel post sm-block-container{subcontent.CLASS}<!-- IF subcontent.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 							<div class="inner">
 								<!-- IF subcontent.TITLE and not subcontent.HIDE_TITLE -->
 								<h2>
@@ -107,17 +82,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- ELSE -->
-						<div class="post{subcontent.CLASS} sm-block-spacing">
-							<!-- IF subcontent.TITLE and not subcontent.HIDE_TITLE -->
-							<h2>
-								<span class="block-icon"><i class="{subcontent.ICON}" aria-hidden="true"></i></span>
-								<span class="block-title{EDITABLE_CLASS}">{subcontent.TITLE}</span>
-							</h2>
-							<!-- ENDIF -->
-							{subcontent.CONTENT}
-						</div>
-						<!-- ENDIF -->
 						{S_BLOCK_CONTROLS}
 					</div>
 					<!-- END subcontent -->
@@ -141,8 +105,7 @@
 			<!-- ENDIF -->
 			<!-- BEGIN footer -->
 			<div id="block-{footer.BID}" class="block grid__col <!-- IF $DIV > 1 -->grid__col--1-of-{$DIV}<!-- ELSE -->grid__col--5-of-5<!-- ENDIF -->">
-				<!-- IF not footer.NO_WRAP -->
-				<div class="panel post{footer.CLASS} sm-block-spacing">
+				<div class="panel post{footer.CLASS}<!-- IF footer.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 					<div class="inner">
 						<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
 						<h2>
@@ -155,17 +118,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- ELSE -->
-				<div class="post{footer.CLASS} sm-block-spacing">
-					<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
-					<h2>
-						<span class="block-icon"><i class="{footer.ICON}" aria-hidden="true"></i></span>
-						<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
-					</h2>
-					<!-- ENDIF -->
-					{footer.CONTENT}
-				</div>
-				<!-- ENDIF -->
 				{S_BLOCK_CONTROLS}
 			</div>
 			<!-- END footer -->

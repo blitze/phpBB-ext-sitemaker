@@ -20,8 +20,7 @@
 		<div id="pos-panel" class="grid__col grid__col--5-of-5 block-position">
 			<!-- BEGIN panel -->
 			<div id="block-{panel.BID}" class="block">
-				<!-- IF not panel.NO_WRAP -->
-				<div class="panel post sm-block-container{panel.CLASS} sm-block-spacing">
+				<div class="panel post sm-block-container{panel.CLASS}<!-- IF panel.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 					<div class="inner">
 						<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
 						<h2>
@@ -34,17 +33,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- ELSE -->
-				<div class="post{panel.CLASS} sm-block-spacing">
-					<!-- IF panel.TITLE and not panel.HIDE_TITLE -->
-					<h2>
-						<span class="block-icon"><i class="{panel.ICON}" aria-hidden="true"></i></span>
-						<span class="block-title{EDITABLE_CLASS}">{panel.TITLE}</span>
-					</h2>
-					<!-- ENDIF -->
-					{panel.CONTENT}
-				</div>
-				<!-- ENDIF -->
 				{S_BLOCK_CONTROLS}
 			</div>
 			<!-- END panel -->
@@ -57,8 +45,7 @@
 		<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5 sidebar sidebar-left">
 			<!-- BEGIN sidebar -->
 			<div id="block-{sidebar.BID}" class="block">
-				<!-- IF not sidebar.NO_WRAP -->
-				<div class="panel post sm-block-container{sidebar.CLASS} sm-block-spacing">
+				<div class="panel post sm-block-container{sidebar.CLASS}<!-- IF sidebar.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 					<div class="inner">
 						<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
 						<h2>
@@ -71,17 +58,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- ELSE -->
-				<div class="post{sidebar.CLASS} sm-block-spacing">
-					<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
-					<h2>
-						<span class="block-icon"><i class="{sidebar.ICON}" aria-hidden="true"></i></span>
-						<span class="block-title{EDITABLE_CLASS}">{sidebar.TITLE}</span>
-					</h2>
-					<!-- ENDIF -->
-					{sidebar.CONTENT}
-				</div>
-				<!-- ENDIF -->
 				{S_BLOCK_CONTROLS}
 			</div>
 			<!-- END sidebar -->
@@ -107,8 +83,7 @@
 						<!-- ENDIF -->
 					<!-- ENDIF -->
 				<div id="block-{top_hor.BID}" class="block grid__col <!-- IF SIZE > 1 -->grid__col--1-of-{SIZE}<!-- ELSE -->grid__col--3-of-3<!-- ENDIF -->">
-					<!-- IF not top_hor.NO_WRAP -->
-					<div class="panel post sm-block-container{top_hor.CLASS} sm-block-spacing">
+					<div class="panel post sm-block-container{top_hor.CLASS}<!-- IF top_hor.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 						<div class="inner">
 							<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
 							<h2>
@@ -121,17 +96,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- ELSE -->
-					<div class="post{top_hor.CLASS} sm-block-spacing">
-						<!-- IF top_hor.TITLE and not sidebar.HIDE_TITLE -->
-						<h2>
-							<span class="block-icon"><i class="{top_hor.ICON}" aria-hidden="true"></i></span>
-							<span class="block-title{EDITABLE_CLASS}">{top_hor.TITLE}</span>
-						</h2>
-						<!-- ENDIF -->
-						{top_hor.CONTENT}
-					</div>
-					<!-- ENDIF -->
 					{S_BLOCK_CONTROLS}
 				</div>
 					<!-- IF (top_hor.S_ROW_COUNT % DIV + 1) eq DIV and not top_hor.S_LAST_ROW -->
@@ -148,8 +112,7 @@
 						<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
 							<!-- BEGIN top -->
 							<div id="block-{top.BID}" class="block">
-								<!-- IF not top.NO_WRAP -->
-								<div class="panel post sm-block-container{top.CLASS} sm-block-spacing">
+								<div class="panel post sm-block-container{top.CLASS}<!-- IF top.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 									<div class="inner">
 										<!-- IF top.TITLE and not top.HIDE_TITLE -->
 										<h2>
@@ -162,17 +125,6 @@
 										</div>
 									</div>
 								</div>
-								<!-- ELSE -->
-								<div class="post{top.CLASS} sm-block-spacing">
-									<!-- IF top.TITLE and not top.HIDE_TITLE -->
-									<h2>
-										<span class="block-icon"><i class="{top.ICON}" aria-hidden="true"></i></span>
-										<span class="block-title{EDITABLE_CLASS}">{top.TITLE}</span>
-									</h2>
-									<!-- ENDIF -->
-									{top.CONTENT}
-								</div>
-								<!-- ENDIF -->
 								{S_BLOCK_CONTROLS}
 							</div>
 							<!-- END top -->

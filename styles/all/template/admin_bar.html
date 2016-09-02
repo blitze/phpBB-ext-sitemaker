@@ -103,8 +103,7 @@
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
 	{% verbatim %}
-	{% if no_wrap == false %}
-		<div class="panel post sm-block-container {{ class }} sm-block-spacing">
+		<div class="panel post sm-block-container {{ class }}{% if no_wrap == true %}no-wrap{% endif %} sm-block-spacing">
 			<div class="inner">
 				{% if title is not empty and hide_title == false %}
 				<h2>
@@ -117,17 +116,6 @@
 				</div>
 			</div>
 		</div>
-	{% else %}
-		<div class="post {{ class }} sm-block-spacing">
-			{% if title is not empty and hide_title == false %}
-			<h2>
-				<span class="block-icon"><i class="{{ icon }}"></i></span>
-				<span class="block-title">{{ title }}</span>
-			</h2>
-			{% endif %}
-			{{ content }}
-		</div>
-	{% endif %}
 	{% endverbatim %}
 	<div class="block-controls">
 		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>

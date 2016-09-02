@@ -24,13 +24,6 @@ img {
 		@include set-avatar-size($medium-avatar-size, top);
 	}
 
-	.post & {
-		max-width: 99%;
-		width: 99%;
-		height: auto;
-		-ms-interpolation-mode: bicubic;
-	}
-
 	.feeds & {
 		max-width: 100%;
 		margin: 0 0.25rem;
@@ -43,7 +36,8 @@ img {
 }
 
 /* Block images */
-.img-ui {
+.img-ui,
+.postimage {
 	display: block;
 	margin: 0 0 0.25rem 0;
 
@@ -56,13 +50,16 @@ img {
 	}
 
 	.large-img & {
-		max-width: $large-image-size;
-		width: auto;
 		width: $large-image-size;
 	}
 
+	.fullwidth-img & {
+		width: 100%;
+		height: auto;
+	}
+
 	.landscape-img & {
-		width: 97%;
+		width: 100%;
 		height: 4.5rem;
 		text-align: center;
 		margin: 0;
