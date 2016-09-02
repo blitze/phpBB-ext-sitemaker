@@ -194,6 +194,7 @@ services:
             - '@auth'
             - '@config'
             - '@template_context'
+            - '@template'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'

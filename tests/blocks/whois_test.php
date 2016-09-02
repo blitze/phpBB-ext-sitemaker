@@ -28,9 +28,10 @@ class whois_test extends blocks_base
 	 *
 	 * @param bool $authed
 	 * @param string $current_page
+	 * @param integer $call_count
 	 * @return \blitze\sitemaker\blocks\stats
 	 */
-	protected function get_block($authed = false, $current_page = '')
+	protected function get_block($authed = false, $current_page = '', $call_count = 0)
 	{
 		global $auth, $db, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
@@ -71,6 +72,16 @@ class whois_test extends blocks_base
 				return $data;
 			});
 
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$template->expects($this->exactly($call_count))
+			->method('assign_var')
+			->with(
+				$this->equalTo('S_DISPLAY_ONLINE_LIST'),
+				$this->equalTo(false)
+			);
+
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
@@ -80,7 +91,7 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new whois($auth, $config, $context, $user, $phpbb_root_path, $phpEx);
+		$block = new whois($auth, $config, $context, $template, $user, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -135,7 +146,7 @@ class whois_test extends blocks_base
 	 */
 	public function test_block_display($authed, $current_page, array $expected)
 	{
-		$block = $this->get_block($authed, $current_page);
+		$block = $this->get_block($authed, $current_page, 1);
 		$result = $block->display(array());
 
 		$this->assertSame($expected, $result['content']);

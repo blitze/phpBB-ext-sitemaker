@@ -172,7 +172,6 @@ class listener implements EventSubscriberInterface
 
 		// Hide whois/birthday on index_body.html
 		$this->template->assign_vars(array(
-			'S_DISPLAY_ONLINE_LIST'		=> false,
 			'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 		));
 	}

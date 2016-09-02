@@ -56,7 +56,6 @@ class show_sitemaker_test extends listener_base
 		$this->template->expects($this->exactly(1))
 			->method('assign_vars')
 			->with($this->equalTo(array(
-				'S_DISPLAY_ONLINE_LIST'		=> false,
 				'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 			)));
 
