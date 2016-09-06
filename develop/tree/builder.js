@@ -24,6 +24,7 @@
 
 			addBtn: '#add-new',
 			addBulkBtn: '#add-bulk',
+			addBulkList: '#add_list',
 			saveBtn: '#save',
 			deleteSelBtn: '#delete-selected',
 			rebuildBtn: '#rebuild-tree',
@@ -48,6 +49,7 @@
 			var eButtons = {};
 			var dButtons = {};
 			var sButtons = {};
+			var codeMirror = {};
 
 			// call nested sortable
 			this.nestedList = this.element.addClass('tree-builder').find(this.options.nestedList).nestedSortable({
@@ -238,12 +240,11 @@
 			}).next().click(function(event) {
 				var form = $(event.target).parentsUntil('form').parent();
 				var data = {
-					'add_list': form.find('#add_list').val(),
+					'add_list': codeMirror.getValue(),
 					'parent_id': form.find('#parent_id').val()
 				};
 				self._addBulk($.param(data));
 				self.addBulkBtn.trigger('click');
-				form.find('textarea').val('');
 				event.preventDefault();
 			});
 
@@ -287,6 +288,25 @@
 			twig({
 				id: 'item_template',
 				data: this.element.find(this.options.itemTemplate).html()
+			});
+
+			/* global CodeMirror */
+			codeMirror = CodeMirror.fromTextArea($(this.options.addBulkList).get(0), {
+				theme: "monokai",
+				lineNumbers: true,
+				lineWrapping : false,
+				autoRefresh: true,
+				styleActiveLine: true,
+				fixedGutter: true,
+				indentUnit: 4,
+				coverGutterNextToScrollbar: false,
+				tabMode: "shift",
+				extraKeys: {
+					'Tab': function(cm) {
+						var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+						cm.replaceSelection(spaces);
+					}
+				}
 			});
 
 			this.getItems();
