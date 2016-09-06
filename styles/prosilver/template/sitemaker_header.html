@@ -9,11 +9,6 @@
 {% endif %}
 <div class="sm-block-spacing"></div>
 
-<div class="sm-responsive-show">
-	<!-- IF .sidebar or S_EDIT_MODE --><a class="sidebar-control left-box" href="#" data-toggle="sidebar"><i class="fa fa-exchange fa-lg"></i></a><!-- ENDIF -->
-	<!-- IF .subcontent or S_EDIT_MODE --><a class="sidebar-control right-box" href="#" data-toggle="subcontent"><i class="fa fa-exchange fa-lg"></i></a><!-- ENDIF -->
-</div>
-
 <div class="sitemaker">
 	<!-- IF .panel or S_EDIT_MODE -->
 	<div class="grid">
@@ -64,7 +59,7 @@
 		</div>
 		<!-- ENDIF -->
 
-		<div class="grid__col <!-- IF .sidebar or S_EDIT_MODE -->grid__col--4-of-5<!-- IF not .sidebar --> lastUnit<!-- ENDIF --><!-- ELSE --> grid__col--5-of-5<!-- ENDIF --> sm-responsive-full-width">
+		<div class="grid__col <!-- IF .sidebar or S_EDIT_MODE -->grid__col--4-of-5<!-- IF not .sidebar --> lastUnit<!-- ENDIF --><!-- ELSE --> grid__col--5-of-5<!-- ENDIF -->">
 			<!-- IF .top_hor or S_EDIT_MODE -->
 				{% set DIV = 0 %}
 				{% set SIZE = 3 %}
@@ -106,7 +101,7 @@
 			</div>
 			<!-- ENDIF -->
 			<div class="grid">
-				<div id="main-content" class="grid__col <!-- IF S_EDIT_MODE or .subcontent -->grid__col--3-of-4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->grid__col--4-of-4<!-- ENDIF --> sm-responsive-full-width">
+				<div id="main-content" class="grid__col <!-- IF S_EDIT_MODE or .subcontent -->grid__col--3-of-4<!-- IF not .subcontent --> lastUnit<!-- ENDIF --><!-- ELSE -->grid__col--4-of-4<!-- ENDIF -->">
 					<!-- IF .top or S_EDIT_MODE -->
 					<div class="grid">
 						<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">

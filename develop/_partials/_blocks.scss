@@ -45,14 +45,6 @@
 	}
 }
 
-.sidebar-control {
-	width: auto;
-	padding: 5px;
-	margin: 4px 0;
-	@include rgba-background($sidebar-bgcolor, 0.7);
-	color: set-text-color($sidebar-bgcolor);
-}
-
 /* blocks layout */
 .sm-block-spacing {
 	margin-bottom: $gutter-width;
@@ -143,43 +135,6 @@
 		}
 	}
 
-	@media screen and (max-width : 940px) {
-		.sidebar {
-			display: none;
-			position: absolute;
-			width: 250px;
-			@include rgba-background($sidebar-bgcolor, 0.7);
-			z-index: 100;
-			top: -4px;
-
-			&.grid__col {
-				padding: 5px 5px 0 5px;
-				overflow-x: hidden;
-				overflow-y: auto;
-			}
-
-			.block {
-				.sm-block-spacing {
-					margin-bottom: 5px;
-				}
-			}
-		}
-
-		.sm-show-sidebar {
-			display: inline-block;
-		}
-
-		.sidebar-left {
-			border-radius: 0 4px 4px 4px;
-			left: 0;
-		}
-
-		.sidebar-right {
-			border-radius: 4px 0 4px 4px;
-			right: 4px;
-		}
-	}
-
 	@media (max-width: 700px) {
 		.sitemaker {
 			margin-left: -5px;
@@ -195,28 +150,12 @@
 			margin-right: 0;
 		}
 
-		.sidebar {
-			&.grid__col {
-				padding: 5px 10px 0 10px;
-			}
-		}
-
 		.sidebar-left {
 			left: -5px;
 		}
 
 		.sidebar-right {
 			right: -5px;
-		}
-	}
-
-	@media (min-width: 940px) {
-		.sidebar .block .no-wrap {
-			background: none;
-
-			h2 {
-				border: 0;
-			}
 		}
 	}
 }

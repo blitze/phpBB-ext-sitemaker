@@ -82,19 +82,11 @@
 }
 
 @media screen and (max-width : 940px) {
-	.sitemaker {
-		position: relative;
-	}
-
 	.sm-responsive-show {
 		display: block;
 	}
 
 	.sm-responsive-hide {
 		display: none;
-	}
-
-	.sm-responsive-full-width {
-		width: 100%;
 	}
 }
