@@ -43,6 +43,7 @@ $lang = array_merge($lang, array(
 
 	'JOIN_DATE'						=> 'Join Date',
 
+	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
 	'LAST_VISITED'					=> 'Last Visited',
 	'LINKS'							=> 'Links',
 
