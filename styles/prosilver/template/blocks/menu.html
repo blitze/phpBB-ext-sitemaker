@@ -12,10 +12,10 @@
 		<!-- ENDIF -->
 		<!-- IF tree.ITEM_URL -->
 		<li<!-- IF tree.IS_CURRENT --> class="active"<!-- ENDIF -->>
-			<a href="{tree.FULL_URL}"<!-- IF tree.ITEM_TARGET --> target="_blank" rel="noopener" rel="noreferrer"<!-- ENDIF -->><i class="{tree.ITEM_ICON}fa-fw"></i>{tree.ITEM_TITLE}</a>
+			<a href="{tree.FULL_URL}"<!-- IF tree.ITEM_TARGET --> target="_blank" rel="noopener" rel="noreferrer"<!-- ENDIF -->><i class="{tree.ITEM_ICON}fa-fw" aria-hidden="true"></i>{tree.ITEM_TITLE}</a>
 		<!-- ELSE -->
 		<li class="nav-header">
-			<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON}fa-fw"></i>{tree.ITEM_TITLE}<!-- ELSE --><hr /><!-- ENDIF -->
+			<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON}fa-fw" aria-hidden="true"></i>{tree.ITEM_TITLE}<!-- ELSE --><hr /><!-- ENDIF -->
 		<!-- ENDIF -->
 		<!-- IF tree.NUM_KIDS == 0 -->
 		</li>

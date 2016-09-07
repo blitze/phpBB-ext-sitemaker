@@ -69,6 +69,7 @@ class login extends block
 		if (!$this->user->data['is_registered'] || $edit_mode === true)
 		{
 			$this->ptemplate->assign_vars(array(
+				'S_USER_LOGGED_IN'		=> $this->hide_quicklogin(),
 				'S_SHOW_HIDE_ME'		=> ($settings['show_hide_me']) ? true : false,
 				'S_AUTOLOGIN_ENABLED'   => ($settings['allow_autologin']) ? true : false,
 				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp." . $this->php_ext, 'mode=login'),
@@ -90,5 +91,14 @@ class login extends block
 			'title'		=> 'LOGIN',
 			'content'	=> $content,
 		);
+	}
+
+	/**
+	 * Quicklogin is only displayed on forum index. So we only need to hide on forum index
+	 */
+	private function hide_quicklogin()
+	{
+		$current_page = $this->user->page['page_name'];
+		return ($current_page === 'index.php' || $current_page === '') ? true : false;
 	}
 }

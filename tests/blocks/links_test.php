@@ -160,13 +160,13 @@ class links_test extends blocks_base
 				false,
 				'<ul class="sm-list fa-ul">' .
 					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw"></i>Item 1</a>' .
+						'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
 						'<ul class="sm-list fa-ul">' .
 							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw"></i>Item 2</a>' .
+								'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
 								'<ul class="sm-list fa-ul">' .
 									'<li>' .
-										'<a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw"></i>Item 3</a>' .
+										'<a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw" aria-hidden="true"></i>Item 3</a>' .
 									'</li>' .
 								'</ul>' .
 							'</li>' .

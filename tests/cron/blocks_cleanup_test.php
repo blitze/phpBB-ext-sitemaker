@@ -41,8 +41,36 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 	protected function create_cron_manager($tasks)
 	{
 		global $phpbb_root_path, $phpEx;
+		global $phpbb_root_path, $phpEx;
 
-		return new \phpbb\cron\manager($tasks, $phpbb_root_path, $phpEx);
+		$mock_config = new \phpbb\config\config(array(
+			'force_server_vars' => false,
+			'enable_mod_rewrite' => '',
+		));
+
+		$mock_router = $this->getMockBuilder('\phpbb\routing\router')
+			->setMethods(array('setContext', 'generate'))
+			->disableOriginalConstructor()
+			->getMock();
+		$mock_router->method('setContext')
+			->willReturn(true);
+		$mock_router->method('generate')
+			->willReturn('foobar');
+
+		$request = new \phpbb\request\request();
+		$request->enable_super_globals();
+
+		$routing_helper = new \phpbb\routing\helper(
+			$mock_config,
+			$mock_router,
+			new \phpbb\symfony_request($request),
+			$request,
+			new \phpbb\filesystem\filesystem(),
+			$phpbb_root_path,
+			$phpEx
+		);
+
+		return new \phpbb\cron\manager($tasks, $routing_helper, $phpbb_root_path, $phpEx);
 	}
 
 	/**
