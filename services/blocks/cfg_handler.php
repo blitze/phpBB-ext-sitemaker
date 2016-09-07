@@ -264,7 +264,7 @@ class cfg_handler extends cfg_fields
 	 */
 	private function get_field_value($field, $default, array $db_settings)
 	{
-		return (!empty($db_settings[$field])) ? $db_settings[$field] : $default;
+		return (isset($db_settings[$field])) ? $db_settings[$field] : $default;
 	}
 
 	/**
