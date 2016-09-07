@@ -697,7 +697,7 @@
 				var id = $(this).attr('href');
 				var obj = $('#classes-scroller');
 				obj.animate({
-					scrollTop: obj.scrollTop() + $(id).position().top - 200
+					scrollTop: obj.scrollTop() + $(id).position().top
 				}, 1000);
 				e.preventDefault();
 			}).on('click', '.transform', function(e) {

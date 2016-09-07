@@ -257,6 +257,13 @@
 		display: block;
 		height: auto;
 	}
+	
+	.scroll-list {
+		position: relative;
+		height: 100px;
+		overflow: auto;
+		padding-right: 3px;
+	}
 }
 
 .block-admin-button-active {
