@@ -198,7 +198,7 @@
 
 		_scrollToIcon: function(element) {
 			this.fontList.animate({
-				scrollTop: this.fontList.scrollTop() + element.position().top - 12
+				scrollTop: this.fontList.scrollTop() + element.position().top + 20
 			}, 1000);
 		},
 

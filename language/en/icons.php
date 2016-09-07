@@ -21,6 +21,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'ICON_ACCESSIBILITY'	=> 'Accessibility',
 	'ICON_BRAND'			=> 'Brand',
 	'ICON_CHART'			=> 'Chart',
 	'ICON_COLOR'			=> 'Color',
@@ -36,6 +37,7 @@ $lang = array_merge($lang, array(
 	'ICON_FONT'				=> 'Font Icons',
 	'ICON_FORM_CONTROL'		=> 'Form Control',
 	'ICON_GENDER'			=> 'Gender',
+	'ICON_HANDS'			=> 'Hands',
 	'ICON_IMAGE'			=> 'Image',
 	'ICON_INSERT_UPDATE'	=> 'Insert/Update',
 	'ICON_MEDICAL'			=> 'Medical',
