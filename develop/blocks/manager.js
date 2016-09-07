@@ -89,6 +89,24 @@
 		});
 	};
 
+	var renderBlock = function(blockObj, blockData) {
+		var id = 'block-editor-' + blockData.id;
+
+		// if tinymce editor instance already exists, remove it
+		if (tinymce.get(id)) {
+			tinymce.EditorManager.execCommand('mceFocus', false, id);                    
+			tinymce.EditorManager.execCommand('mceRemoveEditor', true, id);
+		}
+
+		// update the html
+		blockObj.html(template.render(blockData));
+
+		// if custom block, add editor
+		if (blockObj.find('#' + id).length) {
+			tinymce.EditorManager.execCommand('mceAddEditor', false, id);
+		}
+	};
+
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('block')
@@ -109,9 +127,11 @@
 				return;
 			}
 
-			var html = template.render(result);
-			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
-			initTinyMce();
+			var blockObj = $(droppedElement).attr('id', 'block-' + result.id);
+
+			renderBlock(blockObj, result);
+			blockObj.children().not('.block-controls')
+				.show('scale', {percent: 100}, 1000);
 
 			if (updated) {
 				saveLayout();
@@ -148,7 +168,7 @@
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
 					row.content = fixPaths(row.content);
-					$('#block-' + row.id).html(template.render(row));
+					renderBlock($('#block-' + row.id), row);
 				});
 			}
 		});
@@ -288,11 +308,11 @@
 			data[this.name] = this.value;
 		});
 
-		blockObj.html(template.render(data));
+		renderBlock(blockObj, data);
 	};
 
 	var undoPreviewBlock = function() {
-		blockObj.html(template.render(blockData));
+		renderBlock(blockObj, blockData);
 	};
 
 	var initTinyMce = function() {
