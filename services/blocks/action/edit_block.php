@@ -17,6 +17,8 @@ class edit_block extends base_action
 	 */
 	public function execute($style_id)
 	{
+		$this->user->add_lang_ext('blitze/sitemaker', 'css_presets');
+
 		$block_id = $this->request->variable('id', 0);
 
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
