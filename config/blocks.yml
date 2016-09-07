@@ -20,6 +20,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@dbal.conn'
+            - '@template'
             - '@user'
         calls:
             - [set_name, [blitze.sitemaker.block.birthday]]
@@ -196,6 +197,7 @@ services:
             - '@config'
             - '@template_context'
             - '@language'
+            - '@template'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'

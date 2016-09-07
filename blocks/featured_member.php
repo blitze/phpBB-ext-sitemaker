@@ -120,8 +120,7 @@ class featured_member extends block
 	 */
 	protected function get_user_data($change_user)
 	{
-		$sql_where = 'user_posts > 0
-			AND ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
+		$sql_where = $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
 
 		$sort_keys = array(
 			'recent'	=> 'user_regdate DESC',

@@ -92,6 +92,24 @@
 		});
 	};
 
+	var renderBlock = function(blockObj, blockData) {
+		var id = 'block-editor-' + blockData.id;
+
+		// if tinymce editor instance already exists, remove it
+		if (tinymce.get(id)) {
+			tinymce.EditorManager.execCommand('mceFocus', false, id);                    
+			tinymce.EditorManager.execCommand('mceRemoveEditor', true, id);
+		}
+
+		// update the html
+		blockObj.html(template.render(blockData));
+
+		// if custom block, add editor
+		if (blockObj.find('#' + id).length) {
+			tinymce.EditorManager.execCommand('mceAddEditor', false, id);
+		}
+	};
+
 	var addBlock = function(posID, blockName, droppedElement) {
 		$(droppedElement).removeAttr('role aria-disabled data-block class style')
 			.addClass('block')
@@ -112,11 +130,11 @@
 				return;
 			}
 
-			blockData.block = result;
-			var html = template.render(blockData);
+			var blockObj = $(droppedElement).attr('id', 'block-' + result.id);
 
-			$(droppedElement).attr('id', 'block-' + result.id).html(html).children().not('.block-controls').show('scale', {percent: 100}, 1000);
-			initTinyMce();
+			renderBlock(blockObj, result);
+			blockObj.children().not('.block-controls')
+				.show('scale', {percent: 100}, 1000);
 
 			if (updated) {
 				saveLayout();
@@ -151,10 +169,9 @@
 			dialogEdit.dialog('close');
 
 			if (resp.list) {
-				$.each(resp.list, function(i, block) {
-					block.content = fixPaths(block.content);
-					blockData.block = block;
-					$('#block-' + block.id).html(template.render(blockData));
+				$.each(resp.list, function(i, row) {
+					row.content = fixPaths(row.content);
+					renderBlock($('#block-' + row.id), row);
 				});
 			}
 		});
@@ -295,11 +312,12 @@
 		});
 
 		data.block['class'] = ' ' + data.block['class'].trim();
-		blockObj.html(template.render(data));
+
+		renderBlock(blockObj, data);
 	};
 
 	var undoPreviewBlock = function() {
-		blockObj.html(template.render(blockData));
+		renderBlock(blockObj, blockData);
 	};
 
 	var initTinyMce = function() {
@@ -370,7 +388,7 @@
 	};
 
 	var fixPaths = function(subject) {
-		return subject.replace(new RegExp('./../../', 'g'), './../');
+		return subject.replace(new RegExp('./../../', 'g'), './');
 	};
 
 	$(document).ready(function() {
@@ -548,14 +566,16 @@
 				'complete': function(data) {
 					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
-					// Display any returned message
-					if (data.responseJSON.message) {
-						showMessage(data.responseJSON.message);
-					}
-
-					// Fix relative paths
-					if (data.responseJSON.content) {
-						data.responseJSON.content = fixPaths(data.responseJSON.content);
+					if (data.responseJSON) {
+						// Display any returned message
+						if (data.responseJSON.message) {
+							showMessage(data.responseJSON.message);
+						}
+	
+						// Fix relative paths
+						if (data.responseJSON.content) {
+							data.responseJSON.content = fixPaths(data.responseJSON.content);
+						}
 					}
 				},
 				'error': function(event) {
@@ -573,13 +593,17 @@
 			};
 
 			dButtons[lang.remove] = function() {
-				var p = blockObj.parent('.horizontal');
-				blockObj.hide('scale', {percent: 5}, 3000).parent().remove();
+				var horizontalPos = blockObj.parent('.horizontal');
 
-				var items = p.find('.block');
+				blockObj.remove();
+				horizontalPos.find('.ui-effects-placeholder').remove();
+
+				var items = horizontalPos.find('.block');
+
 				if (items.length > 0) {
 					sortHorizontal(items);
 				}
+
 				hideEmptyPositions();
 				saveBtn.button('enable');
 				$(this).dialog('close');
@@ -679,7 +703,7 @@
 				var id = $(this).attr('href');
 				var obj = $('#classes-scroller');
 				obj.animate({
-					scrollTop: obj.scrollTop() + $(id).position().top - 200
+					scrollTop: obj.scrollTop() + $(id).position().top
 				}, 1000);
 				e.preventDefault();
 			}).on('click', '.transform', function(e) {

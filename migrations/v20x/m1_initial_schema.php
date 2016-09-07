@@ -17,6 +17,7 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 	public static function depends_on()
 	{
 		return array(
+			'\phpbb\db\migration\data\v31x\v312',
 			'\blitze\sitemaker\migrations\converter\c3_update_tables',
 			'\blitze\sitemaker\migrations\v20x\m3_initial_permission',
 		);
@@ -100,11 +101,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 					'KEYS'			=> array(
 						'menu_id'		=> array('INDEX', 'menu_id'),
 					),
-				),
-			),
-			'add_columns'	=> array(
-				$this->table_prefix . 'forums'	=> array(
-					'hidden_forum'		=> array('BOOL', 0),
 				),
 			),
 		);

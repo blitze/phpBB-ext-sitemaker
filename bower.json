@@ -5,10 +5,10 @@
     "jquery-ui": "^1.11.4",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
     "nestedSortable": "*",
-    "tinymce": "*",
+    "tinymce": "^4.3.8",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
-    "twig.js": "latest",
-    "codemirror": "^5.14.2"
+    "twig.js": "^0.9.5",
+    "codemirror": "^5.18.2"
   },
   "overrides": {
     "codemirror": {

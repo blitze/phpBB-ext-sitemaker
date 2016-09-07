@@ -41,7 +41,8 @@ img {
 }
 
 /* Block images */
-.img-ui {
+.img-ui,
+.postimage {
 	display: block;
 	margin: 0 0 0.25rem 0;
 
@@ -53,14 +54,17 @@ img {
 		width: $medium-image-size;
 	}
 
-	.large-img & img {
-		max-width: $large-image-size;
-		width: auto;
+	.large-img & {
 		width: $large-image-size;
 	}
 
-	.landscape-img & img {
-		width: 97%;
+	.fullwidth-img & {
+		width: 100%;
+		height: auto;
+	}
+
+	.landscape-img & {
+		width: 100%;
 		height: 4.5rem;
 		text-align: center;
 		margin: 0;

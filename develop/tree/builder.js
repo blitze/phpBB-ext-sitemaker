@@ -49,6 +49,7 @@
 			var eButtons = {};
 			var dButtons = {};
 			var sButtons = {};
+			var codeMirror = {};
 
 			// call nested sortable
 			this.nestedList = this.element.addClass('tree-builder').find(this.options.nestedList).nestedSortable({
@@ -239,7 +240,7 @@
 			}).next().click(function(event) {
 				var form = $(event.target).parentsUntil('form').parent();
 				var data = {
-					'add_list': form.find('#add_list').val(),
+					'add_list': codeMirror.getValue(),
 					'parent_id': form.find('#parent_id').val()
 				};
 				self._addBulk($.param(data));
@@ -290,7 +291,7 @@
 			});
 
 			/* global CodeMirror */
-			CodeMirror.fromTextArea($(this.options.addBulkList).get(0), {
+			codeMirror = CodeMirror.fromTextArea($(this.options.addBulkList).get(0), {
 				theme: "monokai",
 				lineNumbers: true,
 				lineWrapping : false,

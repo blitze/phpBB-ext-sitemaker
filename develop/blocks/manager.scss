@@ -257,6 +257,13 @@
 		display: block;
 		height: auto;
 	}
+	
+	.scroll-list {
+		position: relative;
+		height: 100px;
+		overflow: auto;
+		padding-right: 3px;
+	}
 }
 
 .block-admin-button-active {
@@ -288,4 +295,19 @@
 		left: -50%;
 		text-align: left;
 	}
+}
+
+.block-settings {
+	padding-left: 0;
+	padding-right: 0;
+
+	fieldset textarea {
+		width: 100%;
+	}
+}
+
+.sm-responsive-show,
+.sm-responsive-hide {
+	display: block;
+	opacity: 0.5;
 }

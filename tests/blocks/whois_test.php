@@ -28,9 +28,10 @@ class whois_test extends blocks_base
 	 *
 	 * @param bool $authed
 	 * @param string $current_page
+	 * @param integer $call_count
 	 * @return \blitze\sitemaker\blocks\stats
 	 */
-	protected function get_block($authed = false, $current_page = '')
+	protected function get_block($authed = false, $current_page = '', $call_count = 0)
 	{
 		global $user;
 
@@ -75,6 +76,16 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$template->expects($this->exactly($call_count))
+			->method('assign_var')
+			->with(
+				$this->equalTo('S_DISPLAY_ONLINE_LIST'),
+				$this->equalTo(false)
+			);
+
 		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->expects($this->any())
@@ -83,7 +94,7 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new whois($this->auth, $this->config, $template_context, $translator, $user, $this->phpbb_root_path, $this->php_ext);
+		$block = new whois($this->auth, $this->config, $template_context, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -138,7 +149,7 @@ class whois_test extends blocks_base
 	 */
 	public function test_block_display($authed, $current_page, array $expected)
 	{
-		$block = $this->get_block($authed, $current_page);
+		$block = $this->get_block($authed, $current_page, 1);
 		$result = $block->display(array());
 
 		$this->assertSame($expected, $result['content']);

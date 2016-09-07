@@ -26,11 +26,22 @@ class birthday_test extends blocks_base
 	/**
 	 * Create the birthday block
 	 * @param string $time
+	 * @param integer $call_count
 	 * @return \blitze\sitemaker\blocks\birthday
 	 */
-	protected function get_block($time = 'now')
+	protected function get_block($time = 'now', $call_count = 0)
 	{
-		$block = new birthday($this->cache, $this->db, $this->user, $time);
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$template->expects($this->exactly($call_count))
+			->method('assign_var')
+			->with(
+				$this->equalTo('S_DISPLAY_BIRTHDAY_LIST'),
+				$this->equalTo(false)
+			);
+
+		$block = new birthday($this->cache, $this->db, $template, $this->user, $time);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -94,7 +105,7 @@ class birthday_test extends blocks_base
 	 */
 	public function test_block_display($time, $expected)
 	{
-		$block = $this->get_block($time);
+		$block = $this->get_block($time, 1);
 		$result = $block->display(array());
 
 		$this->assertEquals($expected, $result['content']);

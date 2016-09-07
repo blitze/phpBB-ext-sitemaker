@@ -50,7 +50,12 @@ class custom_test extends blocks_base
 		$block = $this->get_block();
 		$config = $block->get_config(array());
 
-		$this->assertEquals(array(), $config);
+		$expected_keys = array(
+			'legend1',
+			'source',
+		);
+
+		$this->assertEquals($expected_keys, array_keys($config));
 	}
 
 	/**
@@ -64,6 +69,9 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'settings' => array(
+						'source' => '',
+					),
 				),
 				false,
 				'',
@@ -71,6 +79,9 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'settings' => array(
+						'source' => '',
+					),
 				),
 				true,
 				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw=""></div>',
@@ -78,6 +89,9 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'settings' => array(
+						'source' => '',
+					),
 				),
 				false,
 				'<p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p>',
@@ -85,9 +99,32 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'settings' => array(
+						'source' => '',
+					),
 				),
 				true,
 				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;"><p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p></div>',
+			),
+			array(
+				array(
+					'bid' => 1,
+					'settings' => array(
+						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
+					),
+				),
+				false,
+				"<script>\nalert('yes');\n</script>",
+			),
+			array(
+				array(
+					'bid' => 1,
+					'settings' => array(
+						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
+					),
+				),
+				true,
+				"<script>\nalert('yes');\n</script>",
 			),
 		);
 	}

@@ -209,14 +209,13 @@ abstract class base_mapper implements mapper_interface
 	 */
 	protected function get_sql_where_array($field, array $value, $operator)
 	{
+		$sql_where = '';
 		if (sizeof($value))
 		{
-			return $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
+			$sql_where = $this->db->sql_in_set($field, $value, ($operator == '=') ? false : true);
 		}
-		else
-		{
-			return '';
-		}
+
+		return $sql_where;
 	}
 
 	/**

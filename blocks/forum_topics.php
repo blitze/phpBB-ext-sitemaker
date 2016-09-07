@@ -288,7 +288,7 @@ class forum_topics extends block
 	 */
 	private function get_post_data(array $topic_data)
 	{
-		if ($this->settings['display_preview'])
+		if ($this->settings['display_preview'] && $this->settings['preview_max_chars'])
 		{
 			$post_data = $this->forum_data->get_post_data($this->settings['display_preview']);
 		}

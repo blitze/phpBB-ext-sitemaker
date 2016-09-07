@@ -80,6 +80,7 @@ final class item extends base_entity
 
 	/** @var array */
 	protected $db_fields = array(
+		'item_id',
 		'menu_id',
 		'parent_id',
 		'item_title',
@@ -146,9 +147,10 @@ final class item extends base_entity
 	public function set_item_url($item_url)
 	{
 		$this->item_url = ltrim(str_replace($this->board_url, '', $item_url), './');
-		$parts = parse_url($this->item_url);
 
-		if ($this->item_url && empty($parts['host']) && strpos($parts['path'], '.') === false)
+		// to make things uniform and easy to switch between mod_rewrite_enabled or not without
+		// having to edit menu items, we add app.php/ for all extension routes
+		if ($this->item_url && $this->is_extension_route($item_url))
 		{
 			$this->item_url = 'app.php/' . $this->item_url;
 		}
@@ -175,5 +177,17 @@ final class item extends base_entity
 		}
 
 		return $item_url;
+	}
+
+	/**
+	 * Checks if a url is an extension route
+	 *
+	 * @param string $item_url
+	 * @return true|false
+	 */
+	public function is_extension_route($item_url)
+	{
+		$parts = parse_url($item_url);
+		return (empty($parts['host']) && strpos($parts['path'], '.') === false && !is_dir($item_url)) ? true : false;
 	}
 }

@@ -17,7 +17,7 @@
 	}
 
 	.tab-content {
-		height: 380px;
+		height: 400px;
 	}
 
 	.icons-bottom-tabs {
@@ -99,6 +99,7 @@
 	}
 
 	.icons {
+		position: relative;
 		height: 150px;
 		overflow: hidden;
 		overflow-y: auto;
