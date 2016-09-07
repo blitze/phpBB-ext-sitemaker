@@ -382,7 +382,7 @@
 	};
 
 	var fixPaths = function(subject) {
-		return subject.replace(new RegExp('./../../', 'g'), './../');
+		return subject.replace(new RegExp('./../../', 'g'), './');
 	};
 
 	$(document).ready(function() {
