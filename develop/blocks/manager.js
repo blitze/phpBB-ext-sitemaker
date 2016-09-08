@@ -388,7 +388,12 @@
 	};
 
 	var fixPaths = function(subject) {
-		return subject.replace(new RegExp('./../../', 'g'), './');
+		// only fix paths for pages that don't go through app.php
+		if (!config.ext) {
+			subject = subject.replace(new RegExp('./../../', 'g'), './');
+		}
+
+		return subject;
 	};
 
 	$(document).ready(function() {
