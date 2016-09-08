@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
 	"description": "A Site Maker for phpBB3.1x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"time": "2014-01-14 01:01:01",
 	"license": "GPL-2.0",
 	"authors": [{
