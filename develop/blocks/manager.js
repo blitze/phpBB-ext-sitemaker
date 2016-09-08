@@ -382,7 +382,12 @@
 	};
 
 	var fixPaths = function(subject) {
-		return subject.replace(new RegExp('./../../', 'g'), './');
+		// only fix paths for pages that don't go through app.php
+		if (!config.ext) {
+			subject = subject.replace(new RegExp('./../../', 'g'), './');
+		}
+
+		return subject;
 	};
 
 	$(document).ready(function() {
@@ -670,7 +675,7 @@
 					url += ((fromRoute.substring(0, 1) === '/') ? config.ajaxUrl : config.boardUrl + '/') + fromRoute;
 					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle + '&edit_mode=1';
 
-					location.href = url;
+					window.location.href = url;
 				}
 			});
 
