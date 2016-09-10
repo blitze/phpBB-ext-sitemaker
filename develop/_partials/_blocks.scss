@@ -143,6 +143,11 @@
 		}
 	}
 
+	.sidebar-left {
+		float: left;
+		margin-right: 0;
+	}
+
 	@media screen and (max-width : 940px) {
 		.sidebar {
 			display: none;
@@ -214,7 +219,7 @@
 		.sidebar .block .no-wrap {
 			background: none;
 
-			h2 {
+			.sm-block-header {
 				border: 0;
 			}
 		}

@@ -24,7 +24,7 @@
 						<div id="block-{boxes.BID}" class="block grid__col <!-- IF $DIV > 1 -->grid__col--1-of-{$DIV}<!-- ELSE -->grid__col--5-of-5<!-- ENDIF -->">
 							<div class="panel post{boxes.CLASS}<!-- IF boxes.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 								<!-- IF boxes.TITLE and not boxes.HIDE_TITLE -->
-								<h2>
+								<h2 class="sm-block-header">
 									<span class="block-icon"><i class="{boxes.ICON}" aria-hidden="true"></i></span>
 									<span class="block-title{EDITABLE_CLASS}">{boxes.TITLE}</span>
 								</h2>
@@ -47,7 +47,7 @@
 								<div class="panel post sm-block-container{bottom.CLASS}<!-- IF bottom.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 									<div class="inner">
 										<!-- IF bottom.TITLE and not bottom.HIDE_TITLE -->
-										<h2>
+										<h2 class="sm-block-header">
 											<span class="block-icon"><i class="{bottom.ICON}" aria-hidden="true"></i></span>
 											<span class="block-title{EDITABLE_CLASS}">{bottom.TITLE}</span>
 										</h2>
@@ -72,7 +72,7 @@
 						<div class="panel post sm-block-container{subcontent.CLASS}<!-- IF subcontent.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 							<div class="inner">
 								<!-- IF subcontent.TITLE and not subcontent.HIDE_TITLE -->
-								<h2>
+								<h2 class="sm-block-header">
 									<span class="block-icon"><i class="{subcontent.ICON}" aria-hidden="true"></i></span>
 									<span class="block-title{EDITABLE_CLASS}">{subcontent.TITLE}</span>
 								</h2>
@@ -89,6 +89,29 @@
 				<!-- ENDIF -->
 			</div>
 		</div>
+
+		<!-- IF .sidebar or S_EDIT_MODE -->
+		<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5 sidebar sidebar-left">
+			<!-- BEGIN sidebar -->
+			<div id="block-{sidebar.BID}" class="block">
+				<div class="panel post sm-block-container{sidebar.CLASS}<!-- IF sidebar.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
+					<div class="inner">
+						<!-- IF sidebar.TITLE and not sidebar.HIDE_TITLE -->
+						<h2 class="sm-block-header">
+							<span class="block-icon"><i class="{sidebar.ICON}" aria-hidden="true"></i></span>
+							<span class="block-title{EDITABLE_CLASS}">{sidebar.TITLE}</span>
+						</h2>
+						<!-- ENDIF -->
+						<div class="sm-block-content">
+							{sidebar.CONTENT}
+						</div>
+					</div>
+				</div>
+				{S_BLOCK_CONTROLS}
+			</div>
+			<!-- END sidebar -->
+		</div>
+		<!-- ENDIF -->
 	</div>
 
 	<!-- IF .footer or S_EDIT_MODE -->
@@ -108,7 +131,7 @@
 				<div class="panel post{footer.CLASS}<!-- IF footer.NO_WRAP --> no-wrap<!-- ENDIF --> sm-block-spacing">
 					<div class="inner">
 						<!-- IF footer.TITLE and not footer.HIDE_TITLE -->
-						<h2>
+						<h2 class="sm-block-header">
 							<span class="block-icon"><i class="{footer.ICON}" aria-hidden="true"></i></span>
 							<span class="block-title{EDITABLE_CLASS}">{footer.TITLE}</span>
 						</h2>
