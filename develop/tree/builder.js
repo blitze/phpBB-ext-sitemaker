@@ -186,8 +186,9 @@
 				switch (action) {
 					case 'edit':
 						this.dialogID = this.options.dialogEdit;
-						this._populateForm(this.itemID);
-						$(this.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+						this._populateForm(this.itemID, function(dialogID) {
+							$(dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+						});
 					break;
 					case 'delete':
 						var buttons = $.extend({}, dButtons);
@@ -439,11 +440,13 @@
 			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();
 		},
 
-		_populateForm: function(id) {
+		_populateForm: function(id, callBack) {
 			var self = this;
 			$.get(this.options.ajaxUrl + 'load_item?item_id=' + id, function(data) {
+				data.item_url = data.item_url.replace('/app.php/', '');
 				self.showMessage(data.message);
 				self.editForm.populate(data);
+				callBack(self.dialogID);
 			}, 'json');
 
 			return {};

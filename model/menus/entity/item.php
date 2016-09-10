@@ -146,13 +146,14 @@ final class item extends base_entity
 	 */
 	public function set_item_url($item_url)
 	{
-		$this->item_url = ltrim(str_replace($this->board_url, '', $item_url), './');
+		$this->item_url = str_replace($this->board_url . '/', '', $item_url);
 
 		// to make things uniform and easy to switch between mod_rewrite_enabled or not without
 		// having to edit menu items, we add app.php/ for all extension routes
-		if ($this->item_url && $this->is_extension_route($item_url))
+		if (strpos($item_url, 'app.php') === false && $this->is_extension_route($item_url))
 		{
-			$this->item_url = 'app.php/' . $this->item_url;
+			$this->item_url = ltrim($this->item_url, './');
+			$this->item_url = '/app.php/' . $this->item_url;
 		}
 
 		return $this;
@@ -168,7 +169,7 @@ final class item extends base_entity
 
 		if ($item_url && empty($host))
 		{
-			$item_url = $this->board_url . '/' . $item_url;
+			$item_url = $this->add_board_url($item_url);
 
 			if ($this->mod_rewrite_enabled === true)
 			{
@@ -185,9 +186,17 @@ final class item extends base_entity
 	 * @param string $item_url
 	 * @return true|false
 	 */
-	public function is_extension_route($item_url)
+	private function is_extension_route($item_url)
 	{
-		$parts = parse_url($item_url);
-		return (empty($parts['host']) && strpos($parts['path'], '.') === false && !is_dir($item_url)) ? true : false;
+		$host = parse_url($item_url, PHP_URL_HOST);
+		$extension = pathinfo($item_url, PATHINFO_EXTENSION);
+		$is_absolute_path = phpbb_is_absolute($item_url);
+
+		return ($host || $extension || is_dir($item_url) || $is_absolute_path) ? false : true;
+	}
+
+	private function add_board_url($item_url)
+	{
+		return $this->board_url . ($item_url[0] === '/' ? '' : '/') . $item_url;
 	}
 }

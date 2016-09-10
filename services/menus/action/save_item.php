@@ -31,7 +31,7 @@ class save_item extends base_action
 			->set_item_url($this->request->variable('item_url', ''))
 			->set_item_target($this->request->variable('item_target', 0));
 
-		$item_mapper->save($entity);
+		$entity = $item_mapper->save($entity);
 
 		return $entity->to_array();
 	}
