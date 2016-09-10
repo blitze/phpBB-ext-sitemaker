@@ -306,8 +306,10 @@
 	}
 }
 
-.sm-responsive-show,
-.sm-responsive-hide {
-	display: block;
-	opacity: 0.5;
+.block-position {
+	.sm-responsive-show,
+	.sm-responsive-hide {
+		display: block;
+		opacity: 0.5;
+	}
 }
