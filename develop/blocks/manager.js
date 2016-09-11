@@ -346,13 +346,20 @@
 			'selector': 'div.editable-block',
 			'inline': true,
 			'image_advtab': true,
+			'hidden_input': false,
 			'plugins': [
-				'advlist autolink lists link image imagetools charmap anchor',
-				'visualblocks code hr',
-				'media table contextmenu paste'
+				'advlist autolink lists link image charmap preview hr anchor pagebreak',
+				'visualblocks visualchars code',
+				'media nonbreaking save table contextmenu directionality',
+				'paste textcolor colorpicker textpattern imagetools'
+			],
+			'toolbar': [
+				'undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
+				'bullist numlist outdent indent | hr pagebreak | image media | link | table | preview code'
 			],
 			'valid_elements': '*[*]',
-			'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr link image | code',
+			'visualblocks_default_state': true,
+			'end_container_on_empty_block': true,
 			'setup': function(editor) {
 				var editorPreview = '';
 				var editorContent = '';
