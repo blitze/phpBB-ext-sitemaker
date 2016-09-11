@@ -49,7 +49,8 @@
 	width: auto;
 	padding: 5px;
 	margin: 4px 0;
-	@include rgba-background($sidebar-bgcolor, 0.7);
+	border-radius: 4px;
+	background-color: $sidebar-bgcolor;
 	color: set-text-color($sidebar-bgcolor);
 }
 
@@ -148,14 +149,23 @@
 		margin-right: 0;
 	}
 
+	.sidebar .block .no-wrap {
+		background: none;
+
+		.sm-block-header {
+			border: 0;
+		}
+	}
+
 	@media screen and (max-width : 940px) {
 		.sidebar {
 			display: none;
 			position: absolute;
 			width: 250px;
-			@include rgba-background($sidebar-bgcolor, 0.7);
+			background-color: $sidebar-bgcolor;
+			color: set-text-color($sidebar-bgcolor);
 			z-index: 100;
-			top: -4px;
+			top: -7px;
 
 			&.grid__col {
 				padding: 5px 5px 0 5px;
@@ -212,16 +222,6 @@
 
 		.sidebar-right {
 			right: -5px;
-		}
-	}
-
-	@media (min-width: 940px) {
-		.sidebar .block .no-wrap {
-			background: none;
-
-			.sm-block-header {
-				border: 0;
-			}
 		}
 	}
 }
