@@ -358,7 +358,6 @@
 				'bullist numlist outdent indent | hr pagebreak | image media | link | table | preview code'
 			],
 			'valid_elements': '*[*]',
-			'visualblocks_default_state': true,
 			'end_container_on_empty_block': true,
 			'setup': function(editor) {
 				var editorPreview = '';
