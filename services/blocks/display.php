@@ -67,7 +67,7 @@ class display
 	public function show()
 	{
 		$this->phpbb_container->get('blitze.sitemaker.util')->add_assets(array(
-			'css' => array('@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css')
+			'css' => array('@blitze_sitemaker/vendor/fontawesome/css/font-awesome.css')
 		));
 
 		$this->template->assign_var('L_INDEX', $this->user->lang('HOME'));

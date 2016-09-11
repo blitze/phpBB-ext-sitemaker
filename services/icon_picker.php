@@ -49,7 +49,7 @@ class icon_picker
 				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),
 			'css'	=> array(
-				'@blitze_sitemaker/vendor/fontawesome/css/font-awesome.min.css',
+				'@blitze_sitemaker/vendor/fontawesome/css/font-awesome.css',
 				'@blitze_sitemaker/assets/icons/picker.min.css',
 			)
 		));
