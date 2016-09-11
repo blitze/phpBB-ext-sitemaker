@@ -32,6 +32,22 @@
 	var tinymce = {};
 	var twig = {};
 
+	var fixPaths = function(subject) {
+		// only fix paths for pages that don't go through app.php
+		if (!config.ext) {
+			subject = subject.replace(new RegExp('./../../', 'g'), './');
+		}
+
+		return subject;
+	};
+
+	var removeGrid = function(items) {
+		items.removeClass(function() {
+			var matches = this.className.match(/grid__col+(\S+)?/gi);
+			return (matches) ? matches.join(' ') : '';
+		});
+	};
+
 	var sortHorizontal = function(items) {
 		var numItems = items.length;
 		var numCols = (items.parent().data('columns') !== undefined) ? ((items.parent().data('columns') <= 5) ? items.parent().data('columns') : 5) : 3;
@@ -70,13 +86,6 @@
 		}
 	};
 
-	var removeGrid = function(items) {
-		items.removeClass(function() {
-			var matches = this.className.match(/grid__col+(\S+)?/gi);
-			return (matches) ? matches.join(' ') : '';
-		});
-	};
-
 	var showAllPositions = function() {
 		blockPositions.addClass('show-position');
 		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col').removeClass('lastUnit');
@@ -87,6 +96,25 @@
 		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function(i, pos) {
 			$(pos).siblings('.grid__col').last().addClass('lastUnit');
 		});
+	};
+
+	var makeEditable = function(element) {
+		if (editing === true) {
+			inlineForm.children(':input').trigger('blur');
+			return;
+		}
+		editing = true;
+		editorVal = element.removeClass('editable').text();
+		inlineForm.show().appendTo(element.text('')).children(':input').val(editorVal).focus().select().end();
+	};
+
+	var undoEditable = function(v) {
+		var element = inlineForm.parent();
+
+		editing = false;
+		editorVal = '';
+		element.addClass('editable').text(v);
+		inlineForm.hide().appendTo($('body'));
 	};
 
 	var renderBlock = function(blockObj, blockData) {
@@ -102,9 +130,37 @@
 		blockObj.html(template.render(blockData));
 
 		// if custom block, add editor
-		if (blockObj.find('#' + id).length) {
-			tinymce.EditorManager.execCommand('mceAddEditor', false, id);
+		if (blockData.name === 'blitze.sitemaker.block.custom') {
+			if (blockObj.find('#' + id).length) {
+				tinymce.EditorManager.execCommand('mceAddEditor', false, id);
+			} else if (blockData.content.indexOf('script') > -1) {
+				eval(blockObj.find('.sm-block-content').html());
+			}
 		}
+	};
+
+	var saveLayout = function() {
+		var blocks = {};
+		$('.block-position').each(function() {
+			var weight = 0;
+			var pos = $(this).attr('id');
+			$(this).find('.block').each(function(i, e) {
+				var id = $(e).attr('id');
+				if (pos !== undefined && id !== undefined) {
+					var bid = id.substring(6);
+					blocks[bid] = {
+						'position': pos.substring(4),
+						'weight': weight
+					};
+					weight++;
+				}
+			});
+		});
+
+		$.post(config.ajaxUrl + '/blocks/save_blocks', {route: config.route, blocks: blocks}, function() {
+			saveBtn.button('disable');
+			updated = false;
+		});
 	};
 
 	var addBlock = function(posID, blockName, droppedElement) {
@@ -161,10 +217,23 @@
 	var saveForm = function(block) {
 		var form = $('#edit_form');
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
+		var data = {
+			id: block.attr('id').substring(6),
+			route: config.route,
+			similar: updateSimilar
+		};
 
-		$.getJSON(config.ajaxUrl + '/blocks/save_block?route=' + config.route + '&id=' + block.attr('id').substring(6) + '&similar=' + updateSimilar + '&' + form.serialize(), function(resp) {
-			dialogEdit.dialog('close');
+		form.serializeArray().map(function(prop) {
+			data[prop.name] = prop.value;
+		});
 
+		if (data['config[source]']) {
+			data['config[source]'] = encodeURI(data['config[source]']);
+		}
+
+		dialogEdit.dialog('close');
+
+		$.post(config.ajaxUrl + '/blocks/save_block', data, function(resp) {
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
 					row.content = fixPaths(row.content);
@@ -179,13 +248,13 @@
 			return false;
 		}
 		$.post(config.ajaxUrl + '/blocks/update_block' + '?route=' + config.route, data,
-			function(resp) {
-				if (editing === true) {
-					undoEditable(resp.title);
-				}
-			},
-			'json'
-		);
+			   function(resp) {
+			if (editing === true) {
+				undoEditable(resp.title);
+			}
+		},
+			   'json'
+			  );
 	};
 
 	var customBlockAction = function(data) {
@@ -193,7 +262,7 @@
 			return;
 		}
 
-		$.getJSON(config.ajaxUrl + '/blocks/handle_custom_action', data, function(resp) {
+		$.post(config.ajaxUrl + '/blocks/handle_custom_action', data, function(resp) {
 			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
 				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
 			}
@@ -238,49 +307,6 @@
 			});
 			hideEmptyPositions();
 		});
-	};
-
-	var saveLayout = function() {
-		var blocks = {};
-		$('.block-position').each(function() {
-			var weight = 0;
-			var pos = $(this).attr('id');
-			$(this).find('.block').each(function(i, e) {
-				var id = $(e).attr('id');
-				if (pos !== undefined && id !== undefined) {
-					var bid = id.substring(6);
-					blocks[bid] = {
-						'position': pos.substring(4),
-						'weight': weight
-					};
-					weight++;
-				}
-			});
-		});
-
-		$.post(config.ajaxUrl + '/blocks/save_blocks', {route: config.route, blocks: blocks}, function() {
-			saveBtn.button('disable');
-			updated = false;
-		});
-	};
-
-	var makeEditable = function(element) {
-		if (editing === true) {
-			inlineForm.children(':input').trigger('blur');
-			return;
-		}
-		editing = true;
-		editorVal = element.removeClass('editable').text();
-		inlineForm.show().appendTo(element.text('')).children(':input').val(editorVal).focus().select().end();
-	};
-
-	var undoEditable = function(v) {
-		var element = inlineForm.parent();
-
-		editing = false;
-		editorVal = '';
-		element.addClass('editable').text(v);
-		inlineForm.hide().appendTo($('body'));
 	};
 
 	var processInput = function(e) {
@@ -379,15 +405,6 @@
 		} else if (positions.length) {
 			showMessage('<span><i class="fa fa-info-circle fa-blue fa-lg"></i> ' + lang.hidingPos + ': <strong>' + positions.join(', ') + '</strong></span>');
 		}
-	};
-
-	var fixPaths = function(subject) {
-		// only fix paths for pages that don't go through app.php
-		if (!config.ext) {
-			subject = subject.replace(new RegExp('./../../', 'g'), './');
-		}
-
-		return subject;
 	};
 
 	$(document).ready(function() {
@@ -570,7 +587,7 @@
 						if (data.responseJSON.message) {
 							showMessage(data.responseJSON.message);
 						}
-	
+
 						// Fix relative paths
 						if (data.responseJSON.content) {
 							data.responseJSON.content = fixPaths(data.responseJSON.content);
@@ -578,7 +595,7 @@
 					}
 				},
 				'error': function(event) {
-					showMessage((event.responseJSON.message) ? event.responseJSON.message : lang.ajaxError);
+					showMessage((event.responseJSON && event.responseJSON.message) ? event.responseJSON.message : lang.ajaxError);
 				}
 			});
 
@@ -684,7 +701,7 @@
 				if (dialogEditOpened === false) {
 					var pane = $(this).dialog('widget').find('.ui-dialog-buttonpane');
 					dialogEditOpened = true;
-					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" checked="checked" />' + lang.updateSimilar + '</label>').prependTo(pane);
+					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" />' + lang.updateSimilar + '</label>').prependTo(pane);
 				}
 			};
 
@@ -693,10 +710,10 @@
 				switch ($(this).data('action')) {
 					case 'clear':
 						dialogEdit.find('#block_class').val('').change();
-					break;
+						break;
 					case 'toggle':
 						dialogEdit.find('#css-class-options').slideToggle();
-					break;
+						break;
 				}
 			}).on('click', '.class-cat', function(e) {
 				var id = $(this).attr('href');
