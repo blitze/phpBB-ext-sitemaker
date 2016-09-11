@@ -58,8 +58,8 @@ class menu_test extends blocks_base
 		$user->page = $page_data;
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style = array (
-			'style_name' => 'prosilver',
-			'style_path' => 'prosilver',
+			'style_name' => 'all',
+			'style_path' => 'all',
 		);
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
@@ -105,7 +105,7 @@ class menu_test extends blocks_base
 				)
 			)
 		);
-		$ptemplate->set_custom_style('prosilver', $phpbb_root_path . 'ext/blitze/sitemaker/styles/prosilver');
+		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
 
 		$block = new menu($cache, $config, $user, $mapper_factory, $tree);
 		$block->set_template($ptemplate);
