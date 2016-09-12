@@ -146,14 +146,15 @@ final class item extends base_entity
 	 */
 	public function set_item_url($item_url)
 	{
-		$this->item_url = str_replace($this->board_url . '/', '', $item_url);
+		$search = array('&amp;', $this->board_url);
+		$replace = array('&', '');
+		$this->item_url = ltrim(str_replace($search, $replace, $item_url), './');
 
 		// to make things uniform and easy to switch between mod_rewrite_enabled or not without
 		// having to edit menu items, we add app.php/ for all extension routes
-		if (strpos($item_url, 'app.php') === false && $this->is_extension_route($item_url))
+		if (strpos($this->item_url, 'app.php') === false && $this->is_extension_route($this->item_url))
 		{
-			$this->item_url = ltrim($this->item_url, './');
-			$this->item_url = '/app.php/' . $this->item_url;
+			$this->item_url = 'app.php/' . $this->item_url;
 		}
 
 		return $this;
@@ -190,11 +191,14 @@ final class item extends base_entity
 	{
 		$host = parse_url($item_url, PHP_URL_HOST);
 		$extension = pathinfo($item_url, PATHINFO_EXTENSION);
-		$is_absolute_path = phpbb_is_absolute($item_url);
 
-		return ($host || $extension || is_dir($item_url) || $is_absolute_path) ? false : true;
+		return ($host || $extension || is_dir($item_url)) ? false : true;
 	}
 
+	/**
+	 * @param string $item_url
+	 * @return string
+	 */
 	private function add_board_url($item_url)
 	{
 		return $this->board_url . ($item_url[0] === '/' ? '' : '/') . $item_url;

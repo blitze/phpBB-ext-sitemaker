@@ -443,7 +443,7 @@
 		_populateForm: function(id, callBack) {
 			var self = this;
 			$.get(this.options.ajaxUrl + 'load_item?item_id=' + id, function(data) {
-				data.item_url = data.item_url.replace('/app.php/', '');
+				data.item_url = data.item_url.replace('app.php/', '');
 				self.showMessage(data.message);
 				self.editForm.populate(data);
 				callBack(self.dialogID);
