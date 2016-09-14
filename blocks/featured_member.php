@@ -140,21 +140,24 @@ class featured_member extends block
 	 */
 	private function get_user_data($change_user)
 	{
-		$sql = 'SELECT user_id, username, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank
-			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
+		$sql_array = array(
+			'SELECT'	=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_height, u.user_avatar_width, u.user_regdate, u.user_lastvisit, u.user_birthday, u.user_posts, u.user_rank',
+			'FROM'		=> array(USERS_TABLE => 'u'),
+			'WHERE'		=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
+		);
 
 		$method = 'query_' . $this->settings['qtype'];
 
 		if (is_callable(array($this, $method)))
 		{
-			call_user_func_array(array($this, $method), array(&$sql, $change_user));
+			call_user_func_array(array($this, $method), array(&$sql_array, $change_user));
 		}
 		else
 		{
 			return array();
 		}
 
+		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, 1, 0, $this->get_cache_time($this->settings['qtype'], $this->settings['rotation']));
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -163,28 +166,28 @@ class featured_member extends block
 	}
 
 	/**
-	 * @param string $sql
+	 * @param array $sql_array
 	 * @param bool $change_user
 	 */
-	private function query_featured(&$sql, $change_user)
+	private function query_featured(array &$sql_array, $change_user)
 	{
-		$sql .= ' AND user_id = ' . userlist::get_user_id($this->settings, $change_user);
+		$sql_array['WHERE'] .= ' AND user_id = ' . userlist::get_user_id($this->settings, $change_user);
 	}
 
 	/**
-	 * @param string $sql
+	 * @param array $sql_array
 	 */
-	private function query_recent(&$sql)
+	private function query_recent(array &$sql_array)
 	{
-		$sql .= ' ORDER BY user_regdate DESC';
+		$sql_array['WHERE'] = 'user_id = ' . (int) $this->config['newest_user_id'];
 	}
 
 	/**
-	 * @param string $sql
+	 * @param array $sql_array
 	 */
-	private function query_posts(&$sql)
+	private function query_posts(array &$sql_array)
 	{
-		$sql .= ' ORDER BY user_posts DESC';
+		$sql_array['ORDER_BY'] = 'user_posts DESC';
 	}
 
 	/**

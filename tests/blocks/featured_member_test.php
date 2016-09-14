@@ -41,7 +41,10 @@ class featured_member_test extends blocks_base
 		$request = $this->getMock('\phpbb\request\request');
 		$template = $this->getMock('\phpbb\template\template');
 
-		$config = new \phpbb\config\config(array('num_posts' => 8));
+		$config = new \phpbb\config\config(array(
+			'num_posts' => 8,
+			'newest_user_id' => 48,
+		));
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
