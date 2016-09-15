@@ -572,11 +572,14 @@
 				//$(this).prev().trigger('click');
 			});
 
-			$('#admin-options').show(100, function() {
+			var adminBarOptions = $('#admin-options').show(100, function() {
 				var exPos = $.grep(exPositions.val(), function(str) {
 					return str.length;
 				});
 				showCurrentState(isHidingBlocks, exPos);
+
+				// Thanks KungFuJosh, for this tip
+				$('body').css('padding-top', adminBarOptions.height());
 			});
 
 			$.ajaxSetup({
