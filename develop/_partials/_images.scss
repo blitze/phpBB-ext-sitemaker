@@ -2,6 +2,9 @@
 
 /* Avatar sizes */
 img {
+	max-width: 100%;
+	height: auto;
+
 	@mixin set-avatar-size($size, $valign) {
 		vertical-align: $valign;
 		max-width: $size;
