@@ -150,11 +150,10 @@ final class item extends base_entity
 		$replace = array('&', '');
 		$this->item_url = ltrim(str_replace($search, $replace, $item_url), './');
 
-		// to make things uniform and easy to switch between mod_rewrite_enabled or not without
-		// having to edit menu items, we add app.php/ for all extension routes
-		if (strpos($this->item_url, 'app.php') === false && $this->is_extension_route($this->item_url))
+		// add leading / for local paths
+		if ($this->item_url && $this->is_local_path($this->item_url))
 		{
-			$this->item_url = 'app.php/' . $this->item_url;
+			$this->item_url = '/' . $this->item_url;
 		}
 
 		return $this;
@@ -166,13 +165,11 @@ final class item extends base_entity
 	public function get_full_url()
 	{
 		$item_url = $this->item_url;
-		$host = parse_url($item_url, PHP_URL_HOST);
 
-		if ($item_url && empty($host))
+		if ($item_url && $item_url[0] === '/')
 		{
-			$item_url = $this->add_board_url($item_url);
-
-			if ($this->mod_rewrite_enabled === true)
+			$item_url = $this->board_url . $item_url;
+			if ($this->mod_rewrite_enabled)
 			{
 				$item_url = str_replace('app.php/', '', $item_url);
 			}
@@ -182,25 +179,16 @@ final class item extends base_entity
 	}
 
 	/**
-	 * Checks if a url is an extension route
+	 * Checks if a url is in local path
+	 * We already stripped out the board url so if it has a host, it is a remote url
 	 *
 	 * @param string $item_url
 	 * @return true|false
 	 */
-	private function is_extension_route($item_url)
+	private function is_local_path($item_url)
 	{
 		$host = parse_url($item_url, PHP_URL_HOST);
-		$extension = pathinfo($item_url, PATHINFO_EXTENSION);
 
-		return ($host || $extension || is_dir($item_url)) ? false : true;
-	}
-
-	/**
-	 * @param string $item_url
-	 * @return string
-	 */
-	private function add_board_url($item_url)
-	{
-		return $this->board_url . ($item_url[0] === '/' ? '' : '/') . $item_url;
+		return ($host) ? false : true;
 	}
 }

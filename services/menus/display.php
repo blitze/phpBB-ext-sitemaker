@@ -197,7 +197,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function is_current_path($curr_page, array $curr_parts, array $row)
 	{
-		return ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
+		return ($curr_page === ltrim($row['url_path'], './') && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
 	}
 
 	/**

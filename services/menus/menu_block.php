@@ -106,6 +106,7 @@ abstract class menu_block extends block
 	{
 		$url_info = parse_url($data['item_url']);
 
+		$data['host'] = (isset($url_info['host'])) ? $url_info['host'] : '';
 		$data['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
 		$data['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
 	}
