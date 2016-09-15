@@ -140,7 +140,7 @@ class display extends \blitze\sitemaker\services\tree\display
 				'prev_depth'	=> $prev_depth,
 				'this_depth'	=> $this_depth,
 				'is_current'	=> $is_current_item,
-				'full_url'		=> append_sid($row['full_url']),
+				'full_url'		=> $this->get_full_url($row),
 			));
 
 			$prev_depth = $this_depth;
@@ -298,5 +298,22 @@ class display extends \blitze\sitemaker\services\tree\display
 
 			$this->find_parents($data, $row['parent_id']);
 		}
+	}
+
+	/**
+	 * Append session id to local, non-directory paths
+	 *
+	 * @param array $row
+	 * @return string
+	 */
+	protected function get_full_url(array $row)
+	{
+		$full_url = $row['full_url'];
+		if (empty($row['host']) && !is_dir('.' . $row['item_url']))
+		{
+			$full_url = append_sid($row['full_url']);
+		}
+
+		return $full_url;
 	}
 }
