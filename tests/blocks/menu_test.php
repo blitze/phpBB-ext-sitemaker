@@ -107,7 +107,7 @@ class menu_test extends blocks_base
 		);
 		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
 
-		$block = new menu($cache, $config, $user, $mapper_factory, $tree);
+		$block = new menu($cache, $config, $user, $mapper_factory, $tree, $phpEx);
 		$block->set_template($ptemplate);
 
 		return $block;

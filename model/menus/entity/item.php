@@ -150,8 +150,8 @@ final class item extends base_entity
 		$replace = array('&', '');
 		$this->item_url = ltrim(str_replace($search, $replace, $item_url), './');
 
-		// add leading / for local paths
-		if ($this->item_url && $this->is_local_path($this->item_url))
+		// add leading / for local paths, except leading hashtags
+		if ($this->item_url && $this->item_url[0] !== '#' && $this->is_local_path($this->item_url))
 		{
 			$this->item_url = '/' . $this->item_url;
 		}
