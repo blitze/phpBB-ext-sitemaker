@@ -428,14 +428,16 @@
 		};
 
 		var copyFrom = '';
+		var body = {};
 		var blocksPanel = {};
 		var exPositions = {};
 		var overPosition = {};
 		var isHidingBlocks = false;
 
-		var loader = $('#admin-bar').delay(300).slideDown().find('#admin-control').click(function() {
+		var loader = $('#admin-bar').show().find('#admin-control').click(function() {
 			if (editMode) {
-				$(this).prev().toggle();
+				$(this).toggleClass('admin-bar-toggler').prev().toggle();
+				body.toggleClass('push-down');
 				return false;
 			}
 		}).find('i');
@@ -572,15 +574,21 @@
 				//$(this).prev().trigger('click');
 			});
 
-			var adminBarOptions = $('#admin-options').show(100, function() {
+			$('#admin-options').show(100, function() {
 				var exPos = $.grep(exPositions.val(), function(str) {
 					return str.length;
 				});
 				showCurrentState(isHidingBlocks, exPos);
 
 				// Thanks KungFuJosh, for this tip
-				$('body').css('padding-top', adminBarOptions.height());
+				body = $('body').addClass('push-down');
 			});
+
+			// Only show style selector if there are other styles
+			var styleSelector = $('#style-options');
+			if (styleSelector.find('option').length > 1) {
+				styleSelector.show();
+			}
 
 			$.ajaxSetup({
 				// add style id to ajax requests

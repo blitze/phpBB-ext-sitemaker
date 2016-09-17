@@ -149,8 +149,6 @@
 	<!-- ENDIF -->
 </div>
 
-<!-- IF U_EDIT_MODE -->
-<div class="admin-bar-container">
-	<a class="admin-bar-control" href="{U_EDIT_MODE}"><i class="fa fa-gear"></i></a>
-</div>
+<!-- IF U_EDIT_MODE && not S_EDIT_MODE -->
+<a class="edit-mode-btn bg3" href="{U_EDIT_MODE}"><i class="fa fa-pencil"></i></a>
 <!-- ENDIF -->

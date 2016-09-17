@@ -72,13 +72,13 @@
 			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {L_SAVE_CHANGES}</span></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
-				<select id="style-options" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{PAGE_URL}&amp;style='+this.options[this.selectedIndex].value;}">
+				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{PAGE_URL}&amp;style='+this.options[this.selectedIndex].value;}">
 					{S_STYLE_OPTIONS}
 				</select>
 			</li>
 		</ul>
 	</div>
-	<a id="admin-control" class="admin-bar-control" href="#"><i class="fa fa-gear"></i></a>
+	<a id="admin-control" class="admin-bar-control" href="#"><i class="fa fa-exchange"></i></a>
 
 	<div class="message-container">
 		<div id="ajax-message" class="flash-message"></div>
@@ -106,7 +106,7 @@
 		<div class="panel post sm-block-container {{ class }}{% if no_wrap == true %}no-wrap{% endif %} sm-block-spacing">
 			<div class="inner">
 				{% if title is not empty and hide_title == false %}
-				<h2>
+				<h2 class="sm-block-header">
 					<span class="block-icon"><i class="{{ icon }}"></i></span>
 					<span class="block-title">{{ title }}</span>
 				</h2>
