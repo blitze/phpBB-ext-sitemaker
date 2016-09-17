@@ -105,8 +105,8 @@ class forum_topics extends block
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
-			'display_preview'	=> array('lang' => 'DISPLAY_PREVIEW', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => '', 'explain' => false),
-			'preview_max_chars'	=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 125),
+			'context'			=> array('lang' => 'CONTEXT', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last', 'explain' => false),
+			'preview_chars'		=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 0),
 		);
 	}
 
@@ -213,7 +213,7 @@ class forum_topics extends block
 	protected function get_post_preview(array $row)
 	{
 		$preview = '';
-		if ($this->settings['display_preview'])
+		if ($this->settings['preview_chars'])
 		{
 			$method = ($this->settings['template'] === 'context') ? 'get_trimmed_text' : 'get_tooltip_text';
 			$preview = call_user_func_array(array($this, $method), array($row));
@@ -227,7 +227,7 @@ class forum_topics extends block
 	 */
 	protected function get_trimmed_text(array $row)
 	{
-		$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_max_chars']);
+		$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_chars']);
 		$row['post_text'] = $trim->message();
 		unset($trim);
 
@@ -242,7 +242,7 @@ class forum_topics extends block
 	{
 		strip_bbcode($row['post_text'], $row['bbcode_uid']);
 
-		$row['post_text'] = truncate_string($row['post_text'], $this->settings['preview_max_chars']);
+		$row['post_text'] = truncate_string($row['post_text'], $this->settings['preview_chars']);
 		return wordwrap($row['post_text'], 40, "\n");
 	}
 
@@ -278,9 +278,9 @@ class forum_topics extends block
 	 */
 	private function get_post_data(array $topic_data)
 	{
-		if ($this->settings['display_preview'] && $this->settings['preview_max_chars'])
+		if ($this->settings['context'] && $this->settings['preview_chars'])
 		{
-			$post_data = $this->forum_data->get_post_data($this->settings['display_preview']);
+			$post_data = $this->forum_data->get_post_data($this->settings['context']);
 		}
 		else
 		{
@@ -295,7 +295,7 @@ class forum_topics extends block
 	 */
 	private function set_display_fields()
 	{
-		if ($this->settings['display_preview'] == 'last')
+		if ($this->settings['context'] === 'last')
 		{
 			$this->fields['time'] = 'topic_last_post_time';
 			$this->fields['user_id'] = 'topic_last_poster_id';
@@ -362,9 +362,8 @@ class forum_topics extends block
 	private function get_preview_options()
 	{
 		return array(
-			''      => 'NO',
-			'first' => 'SHOW_FIRST_POST',
 			'last'  => 'SHOW_LAST_POST',
+			'first' => 'SHOW_FIRST_POST',
 		);
 	}
 
