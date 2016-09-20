@@ -42,9 +42,11 @@
 		<dl>
 			<dt><label for="block_class">{L_BLOCK_CLASS}</label></dt>
 			<dd>
-				<textarea id="block_class" class="block-preview" name="class" style="width: 97%">{S_BLOCK_CLASS}</textarea>
+				<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{S_BLOCK_CLASS}</div>
 				<div class="right-box small">
-					<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-reply"></i>{L_CLEAR}</a>&nbsp;&nbsp;
+					<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{L_UNDO}</a>
+					<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{L_REDO}</a>
+					<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{L_CLEAR}</a>
 					<a data-action="toggle" class="block-class-actions" href="#"><i class="fa fa-sort"></i>{L_TOGGLE}</a>
 				</div>
 			</dd>

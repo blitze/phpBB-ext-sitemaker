@@ -334,6 +334,8 @@
 			data[this.name] = this.value;
 		});
 
+		data['class'] = dialogEdit.find('#block_class').text().trim();
+
 		renderBlock(blockObj, data);
 	};
 
@@ -597,7 +599,7 @@
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
 				},
 				'complete': function(data) {
-					loader.delay(1000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
+					loader.delay(2000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
 					if (data.responseJSON) {
 						// Display any returned message
@@ -724,12 +726,20 @@
 
 			dialogEdit = $('#dialog-edit').dialog(defDialog).on('click', '.block-class-actions', function(e) {
 				e.preventDefault();
-				switch ($(this).data('action')) {
+				var action = $(this).data('action');
+				var editor = dialogEdit.find('#block_class');
+				switch (action) {
 					case 'clear':
-						dialogEdit.find('#block_class').val('').change();
+						editor.text('').change();
 						break;
 					case 'toggle':
 						dialogEdit.find('#css-class-options').slideToggle();
+						break;
+					case 'undo':
+					case 'redo':
+						editor.focus();
+						document.execCommand(action, false, null);
+						editor.change();
 						break;
 				}
 			}).on('click', '.class-cat', function(e) {
@@ -740,10 +750,10 @@
 				}, 1000);
 				e.preventDefault();
 			}).on('click', '.transform', function(e) {
-				var classObj = dialogEdit.find('#block_class');
-				var classes = classObj.val();
-				classes = ((classes) ? classes + ' ' : '') + $(this).text();
-				classObj.val(classes).change();
+				var editor = dialogEdit.find('#block_class');
+				editor.focus();
+				document.execCommand('insertText', false, $(this).text() + ' ');
+				editor.change();
 				e.preventDefault();
 			}).on('change', '.block-preview', function() {
 				previewBlock();

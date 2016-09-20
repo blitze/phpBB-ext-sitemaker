@@ -322,6 +322,21 @@ body {
 	margin-top: 1em;
 }
 
+.multiline-radio {
+	display: block;
+    margin-top: 8px;
+
+	input {
+		float: left;
+	    margin-top: 8px;
+	    margin-right: 8px;
+	}
+}
+
+.block-class-actions {
+	margin-left: 5px;
+}
+
 .message-container {
 	position: relative;
 	left: 50%;
@@ -355,4 +370,11 @@ body {
 		display: block;
 		opacity: 0.5;
 	}
+}
+
+.block-class-editor {
+	width: 99%;
+	outline: 1px solid #666;
+	height: 40px;
+	overflow: auto;
 }

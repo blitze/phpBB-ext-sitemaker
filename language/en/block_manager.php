@@ -87,6 +87,7 @@ $lang = array_merge($lang, array(
 
 	'PT_REQUIRED_FIELDS'						=> '* Required Fields',
 
+	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
 	'REMOVE_STARTPAGE'							=> 'Remove Start Page',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Blocks are being hidden for this page',
@@ -106,6 +107,7 @@ $lang = array_merge($lang, array(
 	'TITLES'									=> 'Titles',
 	'TOGGLE'									=> 'Toggle',
 
+	'UNDO'										=> 'Undo',
 	'UPDATE_SIMILAR'							=> 'Update blocks with similar settings',
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
