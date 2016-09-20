@@ -49,6 +49,9 @@ class stats_test extends blocks_base
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
 		$user = $this->getMock('\phpbb\user', array(), array('\phpbb\datetime'));
 		$user->expects($this->any())
 			->method('lang')
@@ -56,7 +59,7 @@ class stats_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new stats($config, $user);
+		$block = new stats($config, $template, $user);
 		$block->set_template($this->ptemplate);
 
 		return $block;

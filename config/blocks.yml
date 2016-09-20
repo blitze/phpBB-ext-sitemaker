@@ -165,6 +165,7 @@ services:
         class: blitze\sitemaker\blocks\stats
         arguments:
             - '@config'
+            - '@template'
             - '@user'
         calls:
             - [set_name, [blitze.sitemaker.block.stats]]
