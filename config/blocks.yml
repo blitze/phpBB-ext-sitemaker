@@ -103,6 +103,7 @@ services:
         class: blitze\sitemaker\blocks\login
         arguments:
             - '@service_container'
+            - '@template'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'

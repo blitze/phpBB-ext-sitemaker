@@ -28,9 +28,10 @@ class login_test extends blocks_base
 	 *
 	 * @param bool $user_is_logged_in
 	 * @param string $curr_page
+	 * @param integer $call_count
 	 * @return \blitze\sitemaker\blocks\login
 	 */
-	protected function get_block($user_is_logged_in = false, $curr_page = '')
+	protected function get_block($user_is_logged_in = false, $curr_page = '', $call_count = 0)
 	{
 		global $user, $phpbb_dispatcher, $phpbb_path_helper, $request, $phpbb_root_path, $phpEx;
 
@@ -64,12 +65,22 @@ class login_test extends blocks_base
 				'content' => 'Member Menu',
 			));
 
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
+
+		$template->expects($this->exactly($call_count))
+			->method('assign_var')
+			->with(
+				$this->equalTo('S_USER_LOGGED_IN'),
+				$this->equalTo(true)
+			);
+
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('blitze.sitemaker.block.member_menu', $member_menu);
 
-		$block = new login($phpbb_container, $user, $phpbb_root_path, $phpEx);
+		$block = new login($phpbb_container, $template, $user, $phpbb_root_path, $phpEx);
 		$block->set_template($this->ptemplate);
 
 		return $block;
@@ -108,8 +119,8 @@ class login_test extends blocks_base
 				),
 				false,
 				'index.php',
+				1,
 				array(
-					'S_USER_LOGGED_IN' => true,
 					'S_SHOW_HIDE_ME' => true,
 					'S_AUTOLOGIN_ENABLED' => true,
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',
@@ -128,8 +139,8 @@ class login_test extends blocks_base
 				),
 				false,
 				'app.php/page/about',
+				0,
 				array(
-					'S_USER_LOGGED_IN' => false,
 					'S_SHOW_HIDE_ME' => false,
 					'S_AUTOLOGIN_ENABLED' => false,
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',
@@ -148,6 +159,7 @@ class login_test extends blocks_base
 				),
 				true,
 				'index.php',
+				0,
 				'',
 			),
 			array(
@@ -160,6 +172,7 @@ class login_test extends blocks_base
 				),
 				true,
 				'index.php',
+				0,
 				'Member Menu',
 			),
 		);
@@ -174,9 +187,9 @@ class login_test extends blocks_base
 	 * @param string $curr_page
 	 * @param mixed $expected
 	 */
-	public function test_block_display(array $bdata, $user_is_logged_in, $curr_page, $expected)
+	public function test_block_display(array $bdata, $user_is_logged_in, $curr_page, $call_count, $expected)
 	{
-		$block = $this->get_block($user_is_logged_in, $curr_page);
+		$block = $this->get_block($user_is_logged_in, $curr_page, $call_count);
 		$result = $block->display($bdata);
 
 		$this->assertSame($expected, $result['content']);
