@@ -211,11 +211,11 @@ class routes
 	 */
 	protected function get_parent_route(array $all_routes, $current_route, $style_id, $edit_mode, &$is_sub_route)
 	{
-		$data = $all_routes[$style_id];
+		$data = $this->get_routes_for_style($all_routes, $style_id);
 		$data[$current_route] = array();
 		$routes = array_keys($data);
 		sort($routes);
-		$index = array_search($current_route, $routes);
+		$index = (int) array_search($current_route, $routes);
 
 		$default_route = $this->config['sitemaker_default_layout'];
 		if ($edit_mode === false && isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
@@ -225,6 +225,16 @@ class routes
 		}
 
 		return $default_route;
+	}
+
+	/**
+	 * @param array $all_routes
+	 * @param int $style_id
+	 * @return array
+	 */
+	protected function get_routes_for_style(array $all_routes, $style_id)
+	{
+		return (isset($all_routes[$style_id])) ? $all_routes[$style_id] : array();
 	}
 
 	/**
