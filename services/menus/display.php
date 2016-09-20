@@ -118,7 +118,6 @@ class display extends \blitze\sitemaker\services\tree\display
 					unset($data[$item_id]);
 					continue;
 				}
-				$leaf = array();
 			}
 
 			$is_current_item = $this->is_current_item($row);
