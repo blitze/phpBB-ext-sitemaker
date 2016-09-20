@@ -26,9 +26,9 @@
 			<dl>
 				<dt><label for="block_type">{L_BLOCK_DISPLAY_TYPE}</label></dt>
 				<dd>
-					<input type="radio" name="type" value="0"<!-- IF not S_TYPE --> checked="checked"<!-- ENDIF --> id="block_type" /> {L_BLOCK_SHOW_ALWAYS}<br />
-					<input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_SHOW_LANDING_ONLY}<br />
-					<input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_SHOW_SUBPAGE_ONLY}
+					<label><input type="radio" name="type" value="0"<!-- IF not S_TYPE --> checked="checked"<!-- ENDIF --> id="block_type" /> {L_BLOCK_SHOW_ALWAYS}</label>
+					<label class="multiline-radio"><input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_PARENT_ROUTE_ONLY}</label>
+					<label class="multiline-radio"><input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTE_ONLY}</label>
 				</dd>
 			</dl>
 		<dl>
