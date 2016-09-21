@@ -45,6 +45,7 @@ $lang = array_merge($lang, array(
 	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
 	'ADD_MENU'					=> 'Add Menu',
 	'ADD_MENU_ITEM'				=> 'Add Menu Item',
+	'ADD_ITEM'					=> 'Add new Item',
 	'AJAX_PROCESSING'			=> 'Working',
 
 	'CHANGE_ME'					=> 'Change Me',
@@ -57,12 +58,14 @@ $lang = array_merge($lang, array(
 	'DELETE_MENU_ITEM_CONFIRM'	=> 'Are you sure you want to delete this menu item?',
 	'DELETE_SELECTED'			=> 'Delete Selected',
 
+	'EDIT_ITEM'					=> 'Edit Item',
+
 	'HIDE'						=> 'Hide',
 
 	'ITEM_ACTIVE'				=> 'Active',
 	'ITEM_INACTIVE'				=> 'Inactive',
-	'ITEM_NAME'					=> 'Item Name',
-	'ITEM_NAME_EXPLAIN'			=> 'Set as ’-’ for divider',
+	'ITEM_TITLE'				=> 'Item Title',
+	'ITEM_TITLE_EXPLAIN'		=> 'Set as ’-’ for divider',
 	'ITEM_TARGET'				=> 'Item Target',
 	'ITEM_URL'					=> 'Item URL',
 	'ITEM_URL_EXPLAIN'			=> 'Leave empty for headings',
@@ -79,6 +82,7 @@ $lang = array_merge($lang, array(
 	'REQUIRED_FIELDS'			=> '* Required fields',
 
 	'SAVE_CHANGES'				=> 'Save Changes',
+	'SAVE'						=> 'Save',
 	'SELECT_ALL'				=> 'Select All',
 	'SHOW'						=> 'Show',
 

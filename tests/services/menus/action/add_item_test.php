@@ -20,6 +20,9 @@ class add_item_test extends base_action
 	{
 		$variable_map = array(
 			array('menu_id', 0, false, request_interface::REQUEST, 1),
+			array('item_title', '', true, request_interface::REQUEST, 'item 1'),
+			array('item_url', '', false, request_interface::REQUEST, 'index.php'),
+			array('item_target', 0, false, request_interface::REQUEST, 1),
 		);
 
 		$command = $this->get_command('add_item', $variable_map);
@@ -27,11 +30,14 @@ class add_item_test extends base_action
 		$result = $command->execute();
 
 		$expected = array(
-			'parent_id'	=> 0,
-			'left_id'	=> 7,
-			'right_id'	=> 8,
-			'depth'		=> 0,
-			'item_id'	=> 7,
+			'parent_id'		=> 0,
+			'left_id'		=> 7,
+			'right_id'		=> 8,
+			'depth'			=> 0,
+			'item_id'		=> 7,
+			'item_title'	=> 'Item 1',
+			'item_url'		=> '/index.php',
+			'item_target'	=> 1,
 		);
 
 		$this->assertEquals($expected, array_intersect_key($result, $expected));

@@ -63,7 +63,7 @@ class item_test extends \phpbb_test_case
 	 */
 	public function test_required_fields()
 	{
-		$required_fields = array('menu_id');
+		$required_fields = array('menu_id', 'item_title');
 		$data = array(
 			'menu_id'		=> '2',
 			'item_title'	=> 'item 1',

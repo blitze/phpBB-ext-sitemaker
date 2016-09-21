@@ -106,7 +106,7 @@
 				<fieldset>
 					<p class="small">{L_REQUIRED_FIELDS}</p><br />
 					<dl>
-						<dt><label>{L_ITEM_NAME}*</label><br /><span class="small">{L_ITEM_NAME_EXPLAIN}</span></dt>
+						<dt><label>{L_ITEM_TITLE}*</label><br /><span class="small">{L_ITEM_TITLE_EXPLAIN}</span></dt>
 						<dd><input id="item_title" class="required" type="text" name="item_title" value="" /></dd>
 					</dl>
 					<dl>
@@ -116,7 +116,7 @@
 					<dl>
 						<dt><label>{L_ITEM_TARGET}*</label></dt>
 						<dd>
-							<input id="item_target" class="required" type="radio" name="item_target" value="0" /> {L_TARGET_PARENT}
+							<input id="item_target" class="required" type="radio" name="item_target" value="0" checked="checked" /> {L_TARGET_PARENT}
 							<input class="required" type="radio" name="item_target" value="1" /> {L_TARGET_BLANK}
 						</dd>
 					</dl>
@@ -133,9 +133,10 @@
 	var menuId	= {UA_MENU_ID};
 	var lang = {
 		none				: '{LA_NONE}',
-		changeMe			: '{LA_CHANGE_ME}',
 		addNode				: '{LA_ADD_ITEM}',
-		editNode			: '{LA_EDIT}',
+		editNode			: '{LA_EDIT_ITEM}',
+		changeMe			: '{LA_CHANGE_ME}',
+		saveNode			: '{LA_SAVE}',
 		hideNode			: '{LA_HIDE}',
 		showNode			: '{LA_SHOW}',
 		cancel				: '{LA_CANCEL}',
