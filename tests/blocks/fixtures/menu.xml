@@ -11,6 +11,18 @@
 			<value>2</value>
 			<value>Menu-2</value>
 		</row>
+		<row>
+			<value>4</value>
+			<value>External parent</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>Target blank parent</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>Non-php parent file</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_menu_items">
 		<column>item_id</column>
@@ -29,7 +41,7 @@
 			<value>1</value>
 			<value>0</value>
 			<value>Home</value>
-			<value>index.php</value>
+			<value>/index.php</value>
 			<value>fa fa-home </value>
 			<value>0</value>
 			<value>1</value>
@@ -42,7 +54,7 @@
 			<value>1</value>
 			<value>0</value>
 			<value>Content</value>
-			<value>app.php/page/content/</value>
+			<value>/app.php/page/content/</value>
 			<value></value>
 			<value>0</value>
 			<value>3</value>
@@ -55,7 +67,7 @@
 			<value>1</value>
 			<value>2</value>
 			<value>News</value>
-			<value>app.php/page/news</value>
+			<value>/app.php/page/news</value>
 			<value></value>
 			<value>0</value>
 			<value>4</value>
@@ -68,7 +80,7 @@
 			<value>1</value>
 			<value>3</value>
 			<value>USA</value>
-			<value>app.php/page/USA</value>
+			<value>/app.php/page/USA</value>
 			<value></value>
 			<value>0</value>
 			<value>5</value>
@@ -81,7 +93,7 @@
 			<value>1</value>
 			<value>4</value>
 			<value>Business</value>
-			<value>viewtopic.php?f=1&amp;t=2</value>
+			<value>/viewtopic.php?f=1&amp;t=2</value>
 			<value></value>
 			<value>0</value>
 			<value>6</value>
@@ -94,7 +106,7 @@
 			<value>1</value>
 			<value>5</value>
 			<value>Startups</value>
-			<value>app.php/page/startups</value>
+			<value>/app.php/page/startups</value>
 			<value></value>
 			<value>0</value>
 			<value>7</value>
@@ -107,7 +119,7 @@
 			<value>1</value>
 			<value>2</value>
 			<value>Articles</value>
-			<value>app.php/content/articles</value>
+			<value>/app.php/content/articles</value>
 			<value></value>
 			<value>1</value>
 			<value>12</value>
@@ -120,12 +132,90 @@
 			<value>1</value>
 			<value>0</value>
 			<value>About Us</value>
-			<value>app.php/page/about</value>
+			<value>/app.php/page/about</value>
 			<value></value>
 			<value>0</value>
 			<value>15</value>
 			<value>16</value>
 			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>13</value>
+			<value>4</value>
+			<value>0</value>
+			<value>Item 1</value>
+			<value>http://www.google.com</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>4</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>14</value>
+			<value>4</value>
+			<value>13</value>
+			<value>Item 2</value>
+			<value>#</value>
+			<value></value>
+			<value>0</value>
+			<value>2</value>
+			<value>3</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>15</value>
+			<value>5</value>
+			<value>0</value>
+			<value>Item 1</value>
+			<value>/faq.php</value>
+			<value></value>
+			<value>1</value>
+			<value>1</value>
+			<value>4</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>16</value>
+			<value>5</value>
+			<value>15</value>
+			<value>Item 2</value>
+			<value>#</value>
+			<value></value>
+			<value>0</value>
+			<value>2</value>
+			<value>3</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>17</value>
+			<value>6</value>
+			<value>0</value>
+			<value>Item 1</value>
+			<value>/file.zip</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>4</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>18</value>
+			<value>6</value>
+			<value>17</value>
+			<value>Item 2</value>
+			<value>#</value>
+			<value></value>
+			<value>0</value>
+			<value>2</value>
+			<value>3</value>
+			<value>1</value>
 			<value></value>
 		</row>
 	</table>

@@ -129,11 +129,11 @@ class menu_test extends blocks_base
 	}
 
 	/**
-	 * Data set for test_block_display
+	 * Data set for test_menu_block_display
 	 *
 	 * @return array
 	 */
-	public function block_test_data()
+	public function menu_block_test_data()
 	{
 		return array(
 			array(
@@ -402,20 +402,101 @@ class menu_test extends blocks_base
 				'</nav>',
 				array(),
 			),
+			array(
+				array(
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				array(
+					'settings' => array(
+						'menu_id' => 4,
+						'expanded' => 0,
+						'max_depth' => 3,
+					),
+				),
+				false,
+				'<nav>' .
+					'<ul class="sm-list fa-ul">' .
+						'<li>' .
+							'<a href="http://www.google.com"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+							'<ul class="sm-list fa-ul">' .
+								'<li>' .
+									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+								'</li>' .
+							'</ul>' .
+						'</li>' .
+					'</ul>' .
+				'</nav>',
+				array(),
+			),
+			array(
+				array(
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				array(
+					'settings' => array(
+						'menu_id' => 5,
+						'expanded' => 0,
+						'max_depth' => 3,
+					),
+				),
+				false,
+				'<nav>' .
+					'<ul class="sm-list fa-ul">' .
+						'<li>' .
+							'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+							'<ul class="sm-list fa-ul">' .
+								'<li>' .
+									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+								'</li>' .
+							'</ul>' .
+						'</li>' .
+					'</ul>' .
+				'</nav>',
+				array(),
+			),
+			array(
+				array(
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				array(
+					'settings' => array(
+						'menu_id' => 6,
+						'expanded' => 0,
+						'max_depth' => 3,
+					),
+				),
+				false,
+				'<nav>' .
+					'<ul class="sm-list fa-ul">' .
+						'<li>' .
+							'<a href="http://www.example.com/phpBB/file.zip"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+							'<ul class="sm-list fa-ul">' .
+								'<li>' .
+									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+								'</li>' .
+							'</ul>' .
+						'</li>' .
+					'</ul>' .
+				'</nav>',
+				array(),
+			),
 		);
 	}
 
 	/**
-	 * Test block display
+	 * Test menu block display
 	 *
-	 * @dataProvider block_test_data
+	 * @dataProvider menu_block_test_data
 	 * @param array $page_data
 	 * @param array $bdata
 	 * @param bool $editing
 	 * @param string $expected_list
 	 * @param array $expected_breadcrumb
 	 */
-	public function test_block_display(array $page_data, array $bdata, $editing, $expected_list, $expected_breadcrumb)
+	public function test_menu_block_display(array $page_data, array $bdata, $editing, $expected_list, $expected_breadcrumb)
 	{
 		$block = $this->get_block($page_data);
 		$result = $block->display($bdata, $editing);

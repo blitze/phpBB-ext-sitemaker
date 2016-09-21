@@ -130,10 +130,20 @@ abstract class menu_block extends block
 	 * @param array $row
 	 * @return bool
 	 */
-	 protected function is_navigable(array $row)
-	 {
-	 	return (!$row['host'] && (!file_exists('.' . $row['item_url']) || pathinfo($row['item_url'], PATHINFO_EXTENSION ) === $this->php_ext)) ? true : false;
-	 }
+	protected function is_navigable(array $row)
+	{
+		return ($row['host'] || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+	}
+
+	/**
+	 * @param string $url_path
+	 * @return bool
+	 */
+	protected function is_not_php_file($url_path)
+	{
+		$extension = pathinfo($url_path, PATHINFO_EXTENSION);
+		return ($extension && $extension !== $this->php_ext) ? true : false;
+	}
 
 	/**
 	 * @return array
