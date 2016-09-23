@@ -219,6 +219,7 @@
 				if (self.options.dialogEdit.length) {
 					self.itemID = undefined;
 					self.dialogID = self.options.dialogEdit;
+					self.editForm.populate({});
 					$(self.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.addNode).dialog('open');
 				} else {
 					self.addItem();
