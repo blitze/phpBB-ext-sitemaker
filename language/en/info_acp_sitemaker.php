@@ -45,7 +45,7 @@ $lang = array_merge($lang, array(
 	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
 	'ADD_MENU'					=> 'Add Menu',
 	'ADD_MENU_ITEM'				=> 'Add Menu Item',
-	'ADD_ITEM'					=> 'Add new Item',
+	'ADD_ITEM'					=> 'Add New Item',
 	'AJAX_PROCESSING'			=> 'Working',
 
 	'CHANGE_ME'					=> 'Change Me',
