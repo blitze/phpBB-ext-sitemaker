@@ -31,9 +31,9 @@ abstract class builder extends \phpbb\tree\nestedset
 				'@blitze_sitemaker/assets/tree/builder.min.js',
 			),
 			'css'   => array(
-				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
-				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.min.css',
-				'@blitze_sitemaker/vendor/codemirror/theme/monokai.min.css',
+				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.css',
+				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.css',
+				'@blitze_sitemaker/vendor/codemirror/theme/monokai.css',
 				'@blitze_sitemaker/assets/tree/builder.min.css',
 			)
 		));

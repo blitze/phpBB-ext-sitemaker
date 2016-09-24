@@ -27,7 +27,7 @@ class save_item_test extends base_action
 
 		$expected = array(
 			'item_title'	=> 'About us',
-			'item_url'		=> 'index.php',
+			'item_url'		=> '/index.php',
 			'item_target'	=> 1,
 		);
 

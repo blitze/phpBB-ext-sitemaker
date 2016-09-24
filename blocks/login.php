@@ -20,6 +20,9 @@ class login extends block
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -32,14 +35,16 @@ class login extends block
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface	$phpbb_container		Service container
-	 * @param \phpbb\user			$user					User object
-	 * @param string 				$phpbb_root_path		Relative path to phpBB root
-	 * @param string 				$php_ext				PHP extension (php)
+	 * @param ContainerInterface			$phpbb_container		Service container
+	 * @param \phpbb\template\template		$template				Template object
+	 * @param \phpbb\user					$user					User object
+	 * @param string 						$phpbb_root_path		Relative path to phpBB root
+	 * @param string 						$php_ext				PHP extension (php)
 	 */
-	public function __construct(ContainerInterface $phpbb_container, \phpbb\user $user, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->phpbb_container = $phpbb_container;
+		$this->template = $template;
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -68,8 +73,8 @@ class login extends block
 		$content = '';
 		if (!$this->user->data['is_registered'] || $edit_mode === true)
 		{
+			$this->hide_quicklogin();
 			$this->ptemplate->assign_vars(array(
-				'S_USER_LOGGED_IN'		=> $this->hide_quicklogin(),
 				'S_SHOW_HIDE_ME'		=> ($settings['show_hide_me']) ? true : false,
 				'S_AUTOLOGIN_ENABLED'   => ($settings['allow_autologin']) ? true : false,
 				'S_LOGIN_ACTION'		=> append_sid("{$this->phpbb_root_path}ucp." . $this->php_ext, 'mode=login'),
@@ -99,6 +104,9 @@ class login extends block
 	private function hide_quicklogin()
 	{
 		$current_page = $this->user->page['page_name'];
-		return ($current_page === 'index.php' || $current_page === '') ? true : false;
+		if ($current_page === 'index.php')
+		{
+			$this->template->assign_var('S_USER_LOGGED_IN', true);
+		}
 	}
 }

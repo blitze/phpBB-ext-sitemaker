@@ -34,15 +34,9 @@ class display
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var bool */
-	private $is_subpage;
-
-	/** @var string */
-	public $route;
-
-	const SHOW_BLOCK_BOTH = 0;
-	const SHOW_BLOCK_LANDING = 1;
-	const SHOW_BLOCK_SUBPAGE = 2;
+	const SHOW_ON_ALL_ROUTES = 0;
+	const SHOW_ON_PARENT_ROUTE_ONLY = 1;
+	const SHOW_ON_CHILD_ROUTE_ONLY = 2;
 
 	/**
 	 * Constructor
@@ -75,12 +69,17 @@ class display
 
 		if ($this->page_can_have_blocks())
 		{
-			$style_id = $this->get_style_id();
+			$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
+
 			$edit_mode = $this->toggle_edit_mode();
-			$display_modes = $this->get_display_modes();
+			$style_id = $this->get_style_id();
+			$route_info = $blocks->get_route_info($this->user->page['page_name'], $style_id, $edit_mode);
+
+			$display_modes = $this->get_display_modes($route_info['is_sub_route']);
 			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);
 
-			$this->show_blocks($style_id, $edit_mode, $display_modes);
+			$this->show_admin_bar($edit_mode, $route_info);
+			$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
 
 			$this->template->assign_vars(array(
 				'S_SITEMAKER'		=> true,
@@ -88,15 +87,6 @@ class display
 				'U_EDIT_MODE'		=> $u_edit_mode,
 			));
 		}
-	}
-
-	/**
-	 * Set current route
-	 */
-	public function set_route()
-	{
-		$this->route = $this->user->page['page_name'];
-		$this->is_subpage = ($this->user->page['query_string']) ? true : false;
 	}
 
 	/**
@@ -125,18 +115,6 @@ class display
 	}
 
 	/**
-	 * @param bool  $edit_mode
-	 * @param array $route_info
-	 */
-	protected function show_admin_bar($edit_mode, array $route_info)
-	{
-		if ($edit_mode)
-		{
-			$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->show($route_info);
-		}
-	}
-
-	/**
 	 * @return bool
 	 */
 	protected function toggle_edit_mode()
@@ -153,26 +131,25 @@ class display
 	}
 
 	/**
+	 * @param bool $is_sub_route
 	 * @return array
 	 */
-	protected function get_display_modes()
+	protected function get_display_modes($is_sub_route)
 	{
-		$this->set_route();
-
-		if ($this->is_subpage === false)
+		if ($is_sub_route === false)
 		{
 			$modes = array(
-				self::SHOW_BLOCK_BOTH		=> true,
-				self::SHOW_BLOCK_LANDING	=> true,
-				self::SHOW_BLOCK_SUBPAGE	=> false,
+				self::SHOW_ON_ALL_ROUTES		=> true,
+				self::SHOW_ON_PARENT_ROUTE_ONLY	=> true,
+				self::SHOW_ON_CHILD_ROUTE_ONLY	=> false,
 			);
 		}
 		else
 		{
 			$modes = array(
-				self::SHOW_BLOCK_BOTH		=> true,
-				self::SHOW_BLOCK_LANDING	=> false,
-				self::SHOW_BLOCK_SUBPAGE	=> true,
+				self::SHOW_ON_ALL_ROUTES		=> true,
+				self::SHOW_ON_PARENT_ROUTE_ONLY	=> false,
+				self::SHOW_ON_CHILD_ROUTE_ONLY	=> true,
 			);
 		}
 
@@ -192,13 +169,13 @@ class display
 			if ($edit_mode)
 			{
 				$modes = array(
-					self::SHOW_BLOCK_BOTH		=> true,
-					self::SHOW_BLOCK_LANDING	=> true,
-					self::SHOW_BLOCK_SUBPAGE	=> true,
+					self::SHOW_ON_ALL_ROUTES		=> true,
+					self::SHOW_ON_PARENT_ROUTE_ONLY	=> true,
+					self::SHOW_ON_CHILD_ROUTE_ONLY	=> true,
 				);
 			}
 
-			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'style')), '?'), './../'), 'edit_mode=' . (int) !$edit_mode);
+			$u_edit_mode = append_sid(generate_board_url() . '/' . ltrim(rtrim(build_url(array('edit_mode', 'sid', 'style')), '?'), './../'), 'edit_mode=' . (int) !$edit_mode);
 		}
 		else
 		{
@@ -215,7 +192,7 @@ class display
 	protected function get_layout($style_id)
 	{
 		$config_text = $this->phpbb_container->get('config_text');
-		$style_prefs = json_decode($config_text->get('sm_layout_prefs'), true);
+		$style_prefs = array_filter(json_decode($config_text->get('sm_layout_prefs'), true));
 
 		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'portal';
 	}
@@ -223,16 +200,13 @@ class display
 	/**
 	 * @param int $style_id
 	 * @param bool  $edit_mode
-	 * @param array $display_modes
+	 * @param array $route_info
 	 */
-	protected function show_blocks($style_id, $edit_mode, array $display_modes)
+	protected function show_admin_bar($edit_mode, array $route_info)
 	{
-		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
-
-		$route_info = $blocks->get_route_info($this->route, $style_id, $edit_mode);
-
-		$this->show_admin_bar($edit_mode, $route_info);
-
-		$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
+		if ($edit_mode)
+		{
+			$this->phpbb_container->get('blitze.sitemaker.blocks.admin_bar')->show($route_info);
+		}
 	}
 }

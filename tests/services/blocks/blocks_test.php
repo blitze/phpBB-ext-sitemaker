@@ -144,6 +144,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => true,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(
 					'positions' => array(
@@ -174,6 +175,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => true,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(
 					'positions' => array(
@@ -213,6 +215,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => true,
 					'ex_positions' => array(),
+					'is_sub_route' => false,
 				),
 				array(
 					'positions' => array(
@@ -244,6 +247,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => false,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(),
 			),
@@ -265,6 +269,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => false,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(
 					'positions' => array(
@@ -296,6 +301,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => false,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(),
 			),
@@ -317,6 +323,7 @@ class blocks_test extends \phpbb_database_test_case
 					'hide_blocks' => false,
 					'has_blocks' => false,
 					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
 				),
 				array(),
 			),

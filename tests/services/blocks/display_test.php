@@ -14,6 +14,8 @@ use blitze\sitemaker\services\blocks\display;
 
 require_once dirname(__FILE__) . '../../../../../../../includes/functions.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/foo_bar_controller.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
 
 class display_test extends \phpbb_database_test_case
 {
@@ -36,7 +38,7 @@ class display_test extends \phpbb_database_test_case
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/blocks.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/routes.xml');
 	}
 
 	/**
@@ -47,12 +49,19 @@ class display_test extends \phpbb_database_test_case
 	 * @param array $page_data
 	 * @param mixed $config_text_data
 	 * @param bool $show_admin_bar
-	 * @param bool $show_blocks
 	 * @return \blitze\sitemaker\services\blocks\display
 	 */
-	protected function get_service(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, $show_blocks)
+	protected function get_service(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar)
 	{
 		global $db, $request, $phpbb_path_helper, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+
+		$table_prefix = 'phpbb_';
+		$tables = array(
+			'mapper_tables'	=> array(
+				'blocks'	=> $table_prefix . 'sm_blocks',
+				'routes'	=> $table_prefix . 'sm_block_routes'
+			)
+		);
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$auth->expects($this->any())
@@ -69,10 +78,14 @@ class display_test extends \phpbb_database_test_case
 		$user->data['user_style'] = 1;
 		$user->page = $page_data;
 
+		$cache = new \phpbb_mock_cache();
+		$db = $this->new_dbal();
+
 		$config = new \phpbb\config\config(array(
 			'default_style' => 1,
-			'override_user_style' => false,
 			'cookie_name' => 'test',
+			'override_user_style' => true,
+		    'sitemaker_default_layout' => 'index.php',
 		));
 
 		$config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
@@ -114,23 +127,40 @@ class display_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		$blocks = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
-			->disableOriginalConstructor()
-			->getMock();
-		$blocks->expects($this->exactly((int) $show_blocks))
-			->method('display');
-		$blocks->expects($this->any())
-			->method('get_route_info')
-			->willReturn(array());
-
 		$admin_bar = $this->getMockBuilder('\blitze\sitemaker\services\blocks\admin_bar')
 			->disableOriginalConstructor()
 			->getMock();
 		$admin_bar->expects($this->exactly((int) $show_admin_bar))
 			->method('show');
 
+		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
+			->disableOriginalConstructor()
+			->getMock();
+		$groups->expects($this->any())
+			->method('get_users_groups')
+			->willReturn(array(2, 3));
+
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('config_text', $config_text);
+
+		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
+		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
+		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
+
+		$blocks_collection = new \phpbb\di\service_collection($phpbb_container);
+
+		$blocks_collection->add('my.baz.block');
+		$blocks_collection->add('my.empty.block');
+		$blocks_collection->add('my.foo.block');
+
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory);
+
 		$phpbb_container->set('blitze.sitemaker.blocks', $blocks);
 		$phpbb_container->set('blitze.sitemaker.blocks.admin_bar', $admin_bar);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
@@ -170,7 +200,7 @@ class display_test extends \phpbb_database_test_case
 				),
 				'',
 				false,
-				false,
+				array(),
 				array(),
 			),
 			array(
@@ -185,14 +215,16 @@ class display_test extends \phpbb_database_test_case
 				),
 				'',
 				false,
-				false,
+				array(),
 				array(),
 			),
 			array(
 				array(
 					array('a_sm_manage_blocks', 0, false),
 				),
-				array(),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, true),
+				),
 				array(
 					'page_dir' => '',
 					'page_name' => 'index.php',
@@ -202,18 +234,20 @@ class display_test extends \phpbb_database_test_case
 					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal/'
 				),
 				false,
-				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => '',
 				),
+				array(1),
 			),
 			array(
 				array(
 					array('a_sm_manage_blocks', 0, true),
 				),
-				array(),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
 				array(
 					'page_dir' => '',
 					'page_name' => 'index.php',
@@ -223,19 +257,19 @@ class display_test extends \phpbb_database_test_case
 					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/'
 				),
 				false,
-				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal_alt',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=1',
 				),
+				array(1),
 			),
 			array(
 				array(
 					array('a_sm_manage_blocks', 0, true),
 				),
 				array(
-					array('edit_mode', false, false, request_interface::REQUEST, 1),
+					array('edit_mode', false, false, request_interface::REQUEST, true),
 					array('test_sm_edit_mode', false, false, request_interface::COOKIE, false),
 				),
 				array(
@@ -247,12 +281,12 @@ class display_test extends \phpbb_database_test_case
 					'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/portal/'
 				),
 				true,
-				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
 				),
+				array(1),
 			),
 			array(
 				array(
@@ -260,21 +294,115 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(
 					array('style', 0, false, request_interface::REQUEST, 2),
+					array('edit_mode', false, false, request_interface::REQUEST, false),
 					array('test_sm_edit_mode', false, false, request_interface::COOKIE, true),
 				),
 				array(
 					'page_dir' => '',
-					'page_name' => 'index.php',
+					'page_name' => 'faq.php',
 					'query_string' => '',
 				),
 				'',
-				true,
 				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
 				),
+				array(),
+			),
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('style', 0, false, request_interface::REQUEST, 2),
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+					array('test_sm_edit_mode', false, false, request_interface::COOKIE, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'faq.php',
+					'query_string' => '',
+				),
+				'',
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => '',
+				),
+				array(5),
+			),
+			// has own blocks, but block id #4 is set to only display on sub-route
+			// and should therefore not show here
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'app.php/articles',
+					'query_string' => '',
+				),
+				'',
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => '',
+				),
+				array(2, 3),
+			),
+			// sub route: does not have own blocks and therefore should inherit from parent
+			// parent route has block (id #4) that should only display on child route and
+			// a block (id #2) set to display always
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'app.php/articles/1234/my-first-post',
+					'query_string' => '',
+				),
+				'',
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => '',
+				),
+				array(2, 4),
+			),
+			// in edit_mode, we do not inherit any blocks
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, true),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, true),
+					array('test_sm_edit_mode', false, false, request_interface::COOKIE, true),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'app.php/articles/1234/my-first-post',
+					'query_string' => '',
+				),
+				'',
+				true,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+				),
+				array(),
 			),
 		);
 	}
@@ -288,17 +416,56 @@ class display_test extends \phpbb_database_test_case
 	 * @param array $page_data
 	 * @param mixed $config_text
 	 * @param bool $show_admin_bar
-	 * @param bool $show_blocks
-	 * @param array $expected
+	 * @param array $expected_vars
+	 * @param array $expected_block_ids
 	 */
-	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, $show_blocks, array $expected)
+	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, array $expected_vars, array $expected_block_ids)
 	{
-		$display = $this->get_service($auth_map, $variable_map, $page_data, $config_text_data, $show_admin_bar, $show_blocks);
+		$display = $this->get_service($auth_map, $variable_map, $page_data, $config_text_data, $show_admin_bar);
 
 		$display->show();
 
 		$result = $this->template->assign_display('page');
 
-		$this->assertSame($expected, $result);
+		$this->assertSame($expected_vars, $this->get_tested_vars($result));
+		$this->assertSame($expected_block_ids, $this->get_block_ids($result));
+	}
+
+	/**
+	 * @param array $result
+	 * @return array
+	 */
+	private function get_tested_vars(array $result)
+	{
+		$vars = array();
+		if (sizeof($result))
+		{
+			$vars = array_intersect_key($result, array(
+				'S_SITEMAKER'	=> '',
+				'S_LAYOUT'		=> '',
+				'U_EDIT_MODE'	=> '',
+			));
+		}
+		return $vars;
+	}
+
+	/**
+	 * @param array $result
+	 * @return array
+	 */
+	private function get_block_ids(array $result)
+	{
+		$block_ids = array();
+		if (isset($result['positions']))
+		{
+			foreach ($result['positions'] as $pos => $blocks)
+			{
+				foreach ($blocks as $block)
+				{
+					$block_ids[] = $block['bid'];
+				}
+			}
+		}
+		return $block_ids;
 	}
 }

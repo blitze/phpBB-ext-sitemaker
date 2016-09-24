@@ -28,6 +28,9 @@ abstract class menu_block extends block
 	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
 
+	/** @var string */
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
@@ -36,14 +39,16 @@ abstract class menu_block extends block
 	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
+	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->translator = $translator;
 		$this->mapper_factory = $mapper_factory;
 		$this->tree = $tree;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -76,6 +81,7 @@ abstract class menu_block extends block
 		{
 			$row = $entity->to_array();
 			$this->set_path_info($row);
+			$this->pre_parse($row);
 
 			$data[$row['menu_id']][$row['item_id']] = $row;
 		}
@@ -100,14 +106,43 @@ abstract class menu_block extends block
 	}
 
 	/**
-	 * @param array $data
+	 * @param array $row
 	 */
-	protected function set_path_info(array &$data)
+	protected function set_path_info(array &$row)
 	{
-		$url_info = parse_url($data['item_url']);
+		$url_info = parse_url($row['item_url']);
 
-		$data['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
-		$data['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+		$row['host'] = (isset($url_info['host'])) ? $url_info['host'] : '';
+		$row['url_path'] = (isset($url_info['path'])) ? $url_info['path'] : '';
+		$row['url_query'] = (isset($url_info['query'])) ? explode('&', $url_info['query']) : array();
+	}
+
+	/**
+	 * @param array $row
+	 */
+	protected function pre_parse(array &$row)
+	{
+		$row['is_navigable'] = $this->is_navigable($row);
+		$row['is_expandable'] = ($row['is_navigable'] && !$row['item_target']) ? true : false;
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function is_navigable(array $row)
+	{
+		return ($row['host'] || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+	}
+
+	/**
+	 * @param string $url_path
+	 * @return bool
+	 */
+	protected function is_not_php_file($url_path)
+	{
+		$extension = pathinfo($url_path, PATHINFO_EXTENSION);
+		return ($extension && $extension !== $this->php_ext) ? true : false;
 	}
 
 	/**

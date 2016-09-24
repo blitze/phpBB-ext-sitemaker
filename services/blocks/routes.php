@@ -23,6 +23,8 @@ class routes
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
+	public $sub_route = false;
+
 	/**
 	 * Constructor
 	 *
@@ -49,14 +51,18 @@ class routes
 	{
 		$all_routes = $this->get_all_routes();
 
+		$is_sub_route = false;
 		if (isset($all_routes[$style_id][$current_route]))
 		{
-			return $all_routes[$style_id][$current_route];
+			$route_info = $all_routes[$style_id][$current_route];
 		}
 		else
 		{
-			return $this->get_default_route_info($all_routes, $current_route, $style_id, $edit_mode);
+			$route_info = $this->get_default_route_info($all_routes, $current_route, $style_id, $edit_mode, $is_sub_route);
 		}
+		$route_info['is_sub_route'] = $is_sub_route;
+
+		return $route_info;
 	}
 
 	/**
@@ -177,19 +183,58 @@ class routes
 	 * @param bool $edit_mode
 	 * @return array
 	 */
-	protected function get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode)
+	protected function get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode, &$is_sub_route)
 	{
-		$default_route = $this->config['sitemaker_default_layout'];
+		$default_route = $this->get_parent_route($all_routes, $current_route, $style_id, $edit_mode, $is_sub_route);
+
 		$default_info = array(
 			'route_id'		=> 0,
-			'route'			=> $current_route,
-			'style'			=> $style_id,
 			'hide_blocks'	=> false,
 			'ex_positions'	=> array(),
 			'has_blocks'	=> false,
 		);
 
-		return ($edit_mode === false && isset($all_routes[$style_id][$default_route])) ? $all_routes[$style_id][$default_route] : $default_info;
+		$route_info = ($edit_mode === false && isset($all_routes[$style_id][$default_route])) ? $all_routes[$style_id][$default_route] : $default_info;
+		$route_info['route'] = $current_route;
+		$route_info['style'] = $style_id;
+
+		return $route_info;
+	}
+
+	/**
+	 * @param array $all_routes
+	 * @param string $current_route
+	 * @param int $style_id
+	 * @param bool $edit_mode
+	 * @param bool $is_sub_route
+	 * @return string
+	 */
+	protected function get_parent_route(array $all_routes, $current_route, $style_id, $edit_mode, &$is_sub_route)
+	{
+		$data = $this->get_routes_for_style($all_routes, $style_id);
+		$data[$current_route] = array();
+		$routes = array_keys($data);
+		sort($routes);
+		$index = (int) array_search($current_route, $routes);
+
+		$default_route = $this->config['sitemaker_default_layout'];
+		if ($edit_mode === false && isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
+		{
+			$is_sub_route = true;
+			$default_route = $routes[$index - 1];
+		}
+
+		return $default_route;
+	}
+
+	/**
+	 * @param array $all_routes
+	 * @param int $style_id
+	 * @return array
+	 */
+	protected function get_routes_for_style(array $all_routes, $style_id)
+	{
+		return (isset($all_routes[$style_id])) ? $all_routes[$style_id] : array();
 	}
 
 	/**
@@ -216,7 +261,7 @@ class routes
 	 */
 	protected function cache_block(array $blocks, $edit_mode)
 	{
-		if (!$edit_mode)
+		if ($edit_mode === false)
 		{
 			$this->cache->put('sitemaker_blocks', $blocks);
 		}

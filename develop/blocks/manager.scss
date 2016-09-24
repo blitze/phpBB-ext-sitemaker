@@ -1,6 +1,45 @@
 @import "../_partials/globals";
 
+body {
+	transition: padding 400ms;
+}
+
+.push-down {
+	padding-top: $admin-bar-height;
+}
+
 .admin-bar-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	z-index: 1000;
+
+	.admin-bar-control {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0 8px;
+		height: $admin-bar-height;
+		line-height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		color: invert($admin-bar-bgcolor);
+		font-size: 18px;
+		text-align: center;
+
+		&:hover {
+			text-decoration: none;
+			font-weight: bolder;
+			color: #ddd;
+		}
+	}
+
+	.admin-bar-toggler {
+		opacity: 0.5;
+		border-bottom-left-radius: 1rem;
+	}
+
 	.admin-bar-inner {
 		display: block;
 		width: 100%;
@@ -94,6 +133,10 @@
 		padding: 0;
 		height: 160px;
 		overflow: auto;
+
+		.grid {
+			margin-right: 8px;
+		}
 	}
 }
 
@@ -279,6 +322,21 @@
 	margin-top: 1em;
 }
 
+.multiline-radio {
+	display: block;
+    margin-top: 8px;
+
+	input {
+		float: left;
+	    margin-top: 8px;
+	    margin-right: 8px;
+	}
+}
+
+.block-class-actions {
+	margin-left: 5px;
+}
+
 .message-container {
 	position: relative;
 	left: 50%;
@@ -306,8 +364,17 @@
 	}
 }
 
-.sm-responsive-show,
-.sm-responsive-hide {
-	display: block;
-	opacity: 0.5;
+.block-position {
+	.sm-responsive-show,
+	.sm-responsive-hide {
+		display: block;
+		opacity: 0.5;
+	}
+}
+
+.block-class-editor {
+	width: 99%;
+	outline: 1px solid #666;
+	height: 40px;
+	overflow: auto;
 }

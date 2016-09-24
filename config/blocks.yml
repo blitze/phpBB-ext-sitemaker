@@ -90,6 +90,7 @@ services:
             - '@language'
             - '@blitze.sitemaker.mapper.factory'
             - '@blitze.sitemaker.menus.display'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.links]]
         tags:
@@ -99,6 +100,7 @@ services:
         class: blitze\sitemaker\blocks\login
         arguments:
             - '@service_container'
+            - '@template'
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -140,6 +142,7 @@ services:
             - '@language'
             - '@blitze.sitemaker.mapper.factory'
             - '@blitze.sitemaker.menus.display'
+            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.menu]]
         tags:
@@ -162,6 +165,7 @@ services:
         class: blitze\sitemaker\blocks\stats
         arguments:
             - '@config'
+            - '@template'
             - '@language'
         calls:
             - [set_name, [blitze.sitemaker.block.stats]]

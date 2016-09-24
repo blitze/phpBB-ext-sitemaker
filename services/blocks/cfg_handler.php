@@ -90,6 +90,7 @@ class cfg_handler extends cfg_fields
 		// @codeCoverageIgnoreEnd
 
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
+		$cfg_array = $this->decode_source_html($cfg_array);
 
 		$errors = array();
 		validate_config_vars($default_settings, $cfg_array, $errors);
@@ -102,6 +103,24 @@ class cfg_handler extends cfg_fields
 		$this->get_multi_select($cfg_array, $default_settings);
 
 		return array_intersect_key($cfg_array, $default_settings);
+	}
+
+	/**
+	 * As a workaround to prevent mod_security and similar from preventing us
+	 * from posting html/script, we use encodeURI before submitting data.
+	 * This decodes the data before submitting to the database
+	 *
+	 * @param array $cfg_array
+	 * @return array
+	 */
+	private function decode_source_html(array $cfg_array)
+	{
+		if (isset($cfg_array['source']))
+		{
+			$cfg_array['source'] = urldecode($cfg_array['source']);
+		}
+
+		return $cfg_array;
 	}
 
 	/**

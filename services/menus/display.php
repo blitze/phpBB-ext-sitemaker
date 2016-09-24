@@ -103,13 +103,14 @@ class display extends \blitze\sitemaker\services\tree\display
 	{
 		$this->set_current_item($data);
 
+		$leaf = array();
 		$prev_depth = $this->min_depth;
 		$this->parental_depth = array(0 => -1);
 
 		foreach ($data as $item_id => $row)
 		{
 			// Skip branch
-			if (isset($leaf))
+			if (sizeof($leaf))
 			{
 				if ($row['left_id'] < $leaf['right_id'])
 				{
@@ -117,18 +118,13 @@ class display extends \blitze\sitemaker\services\tree\display
 					unset($data[$item_id]);
 					continue;
 				}
-				unset($leaf);
 			}
 
 			$is_current_item = $this->is_current_item($row);
 			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
+			$leaf = $this->get_leaf_node($row, $is_current_item);
 
-			$this->set_parental_depth($row, $this_depth, $leaf, $is_current_item);
-
-			if ($row['depth'] == $this->max_depth)
-			{
-				$leaf = $row;
-			}
+			$this->parental_depth[$row[$this->pk]] = $this_depth;
 
 			if ($row['depth'] < $this->min_depth)
 			{
@@ -140,11 +136,12 @@ class display extends \blitze\sitemaker\services\tree\display
 				'prev_depth'	=> $prev_depth,
 				'this_depth'	=> $this_depth,
 				'is_current'	=> $is_current_item,
-				'full_url'		=> append_sid($row['full_url']),
+				'full_url'		=> $this->get_full_url($row),
 			));
 
 			$prev_depth = $this_depth;
 		}
+		unset($this->parental_depth, $data);
 	}
 
 	/**
@@ -197,7 +194,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function is_current_path($curr_page, array $curr_parts, array $row)
 	{
-		return ($curr_page == $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
+		return ($curr_page === ltrim($row['url_path'], './') && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
 	}
 
 	/**
@@ -211,21 +208,23 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	/**
 	 * @param array $row
-	 * @param int $depth
-	 * @param array|null $leaf
-	 * @param bool $is_current_item
-	 * @return void
+	 * @return bool
 	 */
-	protected function set_parental_depth(array $row, $depth, &$leaf, $is_current_item)
+	protected function is_child_of_current_item(array $row)
 	{
-		if ($is_current_item || $this->expanded || !$row['item_url'] || ($row['left_id'] < $this->current_item['left_id'] && $row['right_id'] > $this->current_item['right_id']))
-		{
-			$this->parental_depth[$row[$this->pk]] = $depth;
-		}
-		else
-		{
-			$leaf = $row;
-		}
+		return ($row['left_id'] < $this->current_item['left_id'] && $row['right_id'] > $this->current_item['right_id']) ? true : false;
+	}
+
+	/**
+	 * Does the branch end here?
+	 *
+	 * @param array $row
+	 * @param bool $is_current_item
+	 * @return array
+	 */
+	protected function get_leaf_node(array $row, $is_current_item)
+	{
+		return (($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) && !$is_current_item && $row['is_expandable']) ? $row : array();
 	}
 
 	/**
@@ -298,5 +297,22 @@ class display extends \blitze\sitemaker\services\tree\display
 
 			$this->find_parents($data, $row['parent_id']);
 		}
+	}
+
+	/**
+	 * Append session id to local, non-directory paths
+	 *
+	 * @param array $row
+	 * @return string
+	 */
+	protected function get_full_url(array $row)
+	{
+		$full_url = $row['full_url'];
+		if ($row['is_navigable'])
+		{
+			$full_url = append_sid($row['full_url'], false, false);
+		}
+
+		return $full_url;
 	}
 }

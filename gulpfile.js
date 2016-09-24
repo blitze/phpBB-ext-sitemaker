@@ -79,7 +79,6 @@ gulp.task('vendor', function() {
 		.pipe(jsFilter.restore)
 
 		.pipe(cssFilter)
-		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.cleanCss())
 		.pipe(gulp.dest(paths.prod.vendor))
 		.pipe(cssFilter.restore)

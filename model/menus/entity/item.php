@@ -76,7 +76,7 @@ final class item extends base_entity
 	protected $mod_rewrite_enabled;
 
 	/** @var array */
-	protected $required_fields = array('menu_id');
+	protected $required_fields = array('menu_id', 'item_title');
 
 	/** @var array */
 	protected $db_fields = array(
@@ -146,13 +146,14 @@ final class item extends base_entity
 	 */
 	public function set_item_url($item_url)
 	{
-		$this->item_url = ltrim(str_replace($this->board_url, '', $item_url), './');
+		$search = array('&amp;', $this->board_url);
+		$replace = array('&', '');
+		$this->item_url = ltrim(str_replace($search, $replace, $item_url), './');
 
-		// to make things uniform and easy to switch between mod_rewrite_enabled or not without
-		// having to edit menu items, we add app.php/ for all extension routes
-		if ($this->item_url && $this->is_extension_route($item_url))
+		// add leading / for local paths, except leading hashtags
+		if ($this->item_url && $this->item_url[0] !== '#' && $this->is_local_path($this->item_url))
 		{
-			$this->item_url = 'app.php/' . $this->item_url;
+			$this->item_url = '/' . $this->item_url;
 		}
 
 		return $this;
@@ -164,13 +165,11 @@ final class item extends base_entity
 	public function get_full_url()
 	{
 		$item_url = $this->item_url;
-		$host = parse_url($item_url, PHP_URL_HOST);
 
-		if ($item_url && empty($host))
+		if ($item_url && $item_url[0] === '/')
 		{
-			$item_url = $this->board_url . '/' . $item_url;
-
-			if ($this->mod_rewrite_enabled === true)
+			$item_url = $this->board_url . $item_url;
+			if ($this->mod_rewrite_enabled)
 			{
 				$item_url = str_replace('app.php/', '', $item_url);
 			}
@@ -180,14 +179,16 @@ final class item extends base_entity
 	}
 
 	/**
-	 * Checks if a url is an extension route
+	 * Checks if a url is in local path
+	 * We already stripped out the board url so if it has a host, it is a remote url
 	 *
 	 * @param string $item_url
 	 * @return true|false
 	 */
-	public function is_extension_route($item_url)
+	private function is_local_path($item_url)
 	{
-		$parts = parse_url($item_url);
-		return (empty($parts['host']) && strpos($parts['path'], '.') === false && !is_dir($item_url)) ? true : false;
+		$host = parse_url($item_url, PHP_URL_HOST);
+
+		return ($host) ? false : true;
 	}
 }

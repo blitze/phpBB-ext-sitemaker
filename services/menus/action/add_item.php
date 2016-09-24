@@ -28,7 +28,10 @@ class add_item extends base_action
 		}
 
 		$entity = $items_mapper->create_entity(array(
-			'menu_id'	=> $menu_id,
+			'menu_id'		=> $menu_id,
+			'item_title'	=> $this->request->variable('item_title', '', true),
+			'item_url'		=> $this->request->variable('item_url', ''),
+			'item_target'	=> $this->request->variable('item_target', 0),
 		));
 
 		$entity = $items_mapper->save($entity);

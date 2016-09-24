@@ -1,10 +1,8 @@
 {% if S_SITEMAKER %}
 	{% include 'layouts/' ~ S_LAYOUT ~ '/footer_layout.twig' %}
 
-	{% if U_EDIT_MODE %}
-	<div class="admin-bar-container">
-		<a class="admin-bar-control" href="{{ U_EDIT_MODE }}"><i class="fa fa-gear"></i></a>
-	</div>
+	{% if U_EDIT_MODE && !S_EDIT_MODE %}
+	<a class="edit-mode-btn bg3" href="{{ U_EDIT_MODE }}"><i class="fa fa-pencil"></i></a>
 	{% endif %}
 
 	{% if S_EDIT_MODE %}

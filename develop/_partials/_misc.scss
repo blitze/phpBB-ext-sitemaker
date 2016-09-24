@@ -4,31 +4,19 @@
 	margin-right: 3px;
 }
 
-.admin-bar-container {
+.edit-mode-btn {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	margin: 0;
+	top: 5px;
+	right: 5px;
+	padding: 12px 15px;
+	font-size: 18px;
+	border-radius: 100%;
+	opacity: 0.8;
 	z-index: 1000;
 
-	.admin-bar-control {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 35px;
-		height: $admin-bar-height;
-		line-height: $admin-bar-height;
-		background-color: $admin-bar-bgcolor;
-		color: invert($admin-bar-bgcolor);
-		font-size: 18px;
-		text-align: center;
-
-		&:hover {
-			text-decoration: none;
-			font-weight: bolder;
-			color: #ddd;
-		}
+	&:hover {
+		opacity: 0.6;
+		transform: rotate(15deg);
 	}
 }
 
@@ -86,11 +74,23 @@
 }
 
 @media screen and (max-width : 940px) {
+	.sitemaker {
+		position: relative;
+	}
+
 	.sm-responsive-show {
 		display: block;
 	}
 
 	.sm-responsive-hide {
 		display: none;
+	}
+
+	.sm-responsive-full-width {
+		width: 100%;
+	}
+
+	.edit-mode-btn {
+		padding: 7px 10px;
 	}
 }

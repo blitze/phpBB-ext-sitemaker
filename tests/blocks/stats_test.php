@@ -48,7 +48,7 @@ class stats_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new stats($config, $translator);
+		$block = new stats($config, $this->template, $translator);
 		$block->set_template($this->ptemplate);
 
 		return $block;

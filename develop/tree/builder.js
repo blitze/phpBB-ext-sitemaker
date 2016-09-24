@@ -94,11 +94,9 @@
 				$(this).dialog('close');
 			};
 
-			eButtons[lang.editNode] = function() {
+			eButtons[lang.saveNode] = function() {
 				if (self._checkRequired()) {
-					if (self.itemID) {
-						self._updateItem(self.itemID);
-					}
+					self._submitForm(self.itemID);
 					$(this).dialog('close');
 				}
 			};
@@ -133,16 +131,22 @@
 			$(this.options.dialogConfirm).dialog(defDialog);
 
 			// register events
-			this.msgObj = this.element.find(this.options.ajaxMessage).ajaxError(function() {
-				self.showMessage(lang.errorMessage);
-				return false;
-			});
+			this.msgObj = this.element.find(this.options.ajaxMessage);
 
 			var loader = this.element.find(this.options.loading);
 			$(document).ajaxStart(function() {
 				loader.fadeIn();
 			}).ajaxStop(function() {
 				loader.fadeOut();
+			}).ajaxComplete(function(event, xhr) {
+				if (xhr.responseJSON) {
+					// Display any returned message
+					if (xhr.responseJSON.message) {
+						self.showMessage(xhr.responseJSON.message);
+					}
+				}
+			}).ajaxError(function() {
+				self.showMessage(lang.errorMessage);
 			});
 
 			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {
@@ -186,8 +190,9 @@
 				switch (action) {
 					case 'edit':
 						this.dialogID = this.options.dialogEdit;
-						this._populateForm(this.itemID);
-						$(this.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+						this._populateForm(this.itemID, function(dialogID) {
+							$(dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.editNode).dialog('open');
+						});
 					break;
 					case 'delete':
 						var buttons = $.extend({}, dButtons);
@@ -210,8 +215,15 @@
 					primary: 'ui-icon-plus'
 				}
 			}).click(function(event) {
-				self.addItem();
 				event.preventDefault();
+				if (self.options.dialogEdit.length) {
+					self.itemID = undefined;
+					self.dialogID = self.options.dialogEdit;
+					self.editForm.populate({});
+					$(self.dialogID).dialog({buttons: eButtons}).dialog('option', 'title', lang.addNode).dialog('open');
+				} else {
+					self.addItem();
+				}
 			});
 
 			this.addBulkBtn = this.element.find(this.options.addBulkBtn).button({
@@ -439,11 +451,12 @@
 			this.editor = $('#inline-edit').data('field', element.data('field')).focus().select();
 		},
 
-		_populateForm: function(id) {
+		_populateForm: function(id, callBack) {
 			var self = this;
 			$.get(this.options.ajaxUrl + 'load_item?item_id=' + id, function(data) {
 				self.showMessage(data.message);
 				self.editForm.populate(data);
+				callBack(self.dialogID);
 			}, 'json');
 
 			return {};
@@ -492,7 +505,9 @@
 
 									self._showActions();
 									self._scrollTo(element, self.addBtnOffset.top, function() {
-										element.find('.editable').trigger('click');
+										if (!self.options.dialogEdit.length) {
+											element.find('.editable').trigger('click');
+										}
 									});
 								});
 							break;
@@ -573,8 +588,10 @@
 			this.editor.parent().replaceWith('<span class="editable" data-field="' + this.editor.data('field') + '">' + v + '</span>');
 		},
 
-		_updateItem: function(itemID) {
-			this._saveItem('save_item', this.editForm.serializeArray(), itemID);
+		_submitForm: function(itemID) {
+			console.log(itemID);
+			var action = itemID ? 'save_item' : 'add_item';
+			this._saveItem(action, this.editForm.serializeArray(), itemID);
 		}
 	});
 })(jQuery, window, document);
