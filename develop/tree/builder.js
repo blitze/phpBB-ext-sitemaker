@@ -267,6 +267,11 @@
 					'add_list': codeMirror.getValue(),
 					'parent_id': form.find('#parent_id').val()
 				};
+
+				// reset codemirror
+				codeMirror.setValue("");
+				codeMirror.clearHistory();
+
 				self._addBulk($.param(data));
 				self.addBulkBtn.trigger('click');
 				event.preventDefault();
