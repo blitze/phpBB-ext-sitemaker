@@ -75,10 +75,14 @@ $lang = array_merge($lang, array(
 	'MENU_ITEMS'				=> 'Menu Items',
 	'MENU_ITEM_PARENT'			=> 'Parent Item',
 
+	'NONE'						=> 'None',
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
 
+	'PROCESSING_ERROR'			=> 'Processing error',
+
 	'REBUILD_TREE'				=> 'Rebuild Tree',
+	'REQUIRED'					=> 'Required',
 	'REQUIRED_FIELDS'			=> '* Required fields',
 
 	'SAVE_CHANGES'				=> 'Save Changes',
@@ -88,6 +92,8 @@ $lang = array_merge($lang, array(
 
 	'TARGET_BLANK'				=> 'Blank Page',
 	'TARGET_PARENT'				=> 'Parent',
+
+	'UNSAVED_CHANGES'			=> 'You have unsaved changes',
 
 	'VISIT_PAGE'				=> 'Visit Page',
 ));

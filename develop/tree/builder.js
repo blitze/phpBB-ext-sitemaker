@@ -149,6 +149,18 @@
 				self.showMessage(lang.errorMessage);
 			});
 
+			window.onbeforeunload = function(e) {
+				if (self.itemsChanged === true) {
+					e = e || window.event;
+					// For IE and Firefox
+					if (e) {
+						e.returnValue = lang.unsavedChanges;
+					}
+					// For Safari
+					return lang.unsavedChanges;
+				}
+			};
+
 			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {
 				self.nestedList.find(self.options.selectItemClass).prop('checked', this.checked);
 				if (this.checked) {
