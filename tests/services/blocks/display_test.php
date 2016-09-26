@@ -147,7 +147,7 @@ class display_test extends \phpbb_database_test_case
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($user, $ptemplate, $blocks_collection);
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $this->template, $user, $block_factory, $groups, $mapper_factory);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $this->template, $user, $block_factory, $groups, $mapper_factory, $phpEx);
 
 		$phpbb_container->set('blitze.sitemaker.blocks', $blocks);
 		$phpbb_container->set('blitze.sitemaker.blocks.admin_bar', $admin_bar);
@@ -368,6 +368,86 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(),
 			),
+			// local directory with own blocks (3): block id # 8 is set to only display on child directory and should not show here
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => 'test-dir',
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(6, 7),
+			),
+			// sub-directory with no blocks should inherit from parent directory/index.php if it has own blocks
+			// in this case, parent directory is test-dir and has block # 6 showing always, #8 showing only on child directory (this directory), and #7 showing only on parent directory
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => 'test-dir/sub-dir',
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(6, 8),
+			),
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => 'test-dir/sub-dir',
+					'page_name' => 'test.php',
+					'query_string' => '',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(6, 8),
+			),
+			// parent directory has no blocks, so child directory gets blocks from default route
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => 'dir-no-blocks/sub-dir',
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(1),
+			),
 		);
 	}
 
@@ -384,7 +464,7 @@ class display_test extends \phpbb_database_test_case
 	 */
 	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $show_admin_bar, array $expected_vars, array $expected_block_ids)
 	{
-		$display = $this->get_service($auth_map, $variable_map, $page_data, $show_admin_bar, $show_blocks);
+		$display = $this->get_service($auth_map, $variable_map, $page_data, $show_admin_bar);
 		$display->show();
 
 		$result = $this->template->assign_display('page');

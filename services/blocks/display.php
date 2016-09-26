@@ -68,7 +68,8 @@ class display
 
 			$edit_mode = $this->toggle_edit_mode();
 			$style_id = $this->get_style_id();
-			$route_info = $blocks->get_route_info($this->user->page['page_name'], $style_id, $edit_mode);
+			$current_route = ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
+			$route_info = $blocks->get_route_info($current_route, $this->user->page['page_dir'], $style_id, $edit_mode);
 
 			$display_modes = $this->get_display_modes($route_info['is_sub_route']);
 			$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);

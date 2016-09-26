@@ -23,6 +23,7 @@ services:
             - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.groups'
             - '@blitze.sitemaker.mapper.factory'
+            - '%core.php_ext%'
 
     blitze.sitemaker.blocks.action_handler:
         class: blitze\sitemaker\services\blocks\action_handler
@@ -198,6 +199,7 @@ services:
             - '@user'
             - '%tables.sitemaker.menu_items%'
             - 'item_id'
+            - '%core.php_ext%'
 
     blitze.sitemaker.poll:
         class: blitze\sitemaker\services\poll

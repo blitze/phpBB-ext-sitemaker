@@ -75,7 +75,7 @@ class links_test extends blocks_base
 
 		$mapper_factory = new mapper_factory($config, $db, $tables);
 
-		$tree = new display($db, $this->template, $user, $tables['mapper_tables']['items'], 'item_id');
+		$tree = new display($db, $this->template, $user, $tables['mapper_tables']['items'], 'item_id', $phpEx);
 
 		$ptemplate = new template(
 			new \phpbb\path_helper(

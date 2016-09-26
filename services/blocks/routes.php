@@ -17,11 +17,17 @@ class routes
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
+
+	/** @var string phpEx */
+	protected $php_ext;
 
 	public $sub_route = false;
 
@@ -30,24 +36,29 @@ class routes
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
+	 * @param \phpbb\user									$user					User object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
+	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->user = $user;
 		$this->block_factory = $block_factory;
 		$this->mapper_factory = $mapper_factory;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
 	 * @param string $current_route
+	 * @param string $page_dir
 	 * @param int $style_id
 	 * @param bool|false $edit_mode
 	 * @return array
 	 */
-	public function get_route_info($current_route, $style_id, $edit_mode = false)
+	public function get_route_info($current_route, $page_dir, $style_id, $edit_mode = false)
 	{
 		$all_routes = $this->get_all_routes();
 
@@ -58,7 +69,7 @@ class routes
 		}
 		else
 		{
-			$route_info = $this->get_default_route_info($all_routes, $current_route, $style_id, $edit_mode, $is_sub_route);
+			$route_info = $this->get_default_route_info($all_routes, $current_route, $page_dir, $style_id, $edit_mode, $is_sub_route);
 		}
 		$route_info['is_sub_route'] = $is_sub_route;
 
@@ -179,14 +190,13 @@ class routes
 	/**
 	 * @param array $all_routes
 	 * @param string $current_route
+	 * @param string $page_dir
 	 * @param int $style_id
 	 * @param bool $edit_mode
 	 * @return array
 	 */
-	protected function get_default_route_info(array $all_routes, $current_route, $style_id, $edit_mode, &$is_sub_route)
+	protected function get_default_route_info(array $all_routes, $current_route, $page_dir, $style_id, $edit_mode, &$is_sub_route)
 	{
-		$default_route = $this->get_parent_route($all_routes, $current_route, $style_id, $edit_mode, $is_sub_route);
-
 		$default_info = array(
 			'route_id'		=> 0,
 			'hide_blocks'	=> false,
@@ -194,37 +204,51 @@ class routes
 			'has_blocks'	=> false,
 		);
 
-		$route_info = ($edit_mode === false && isset($all_routes[$style_id][$default_route])) ? $all_routes[$style_id][$default_route] : $default_info;
-		$route_info['route'] = $current_route;
-		$route_info['style'] = $style_id;
+		if (!$edit_mode)
+		{
+			$default_route = $this->get_parent_route($all_routes, $current_route, $page_dir, $style_id, $is_sub_route);
+			$default_info = (isset($all_routes[$style_id][$default_route])) ? $all_routes[$style_id][$default_route] : $default_info;
+		}
 
-		return $route_info;
+		$default_info['route'] = $current_route;
+		$default_info['style'] = $style_id;
+
+		return $default_info;
 	}
 
 	/**
 	 * @param array $all_routes
 	 * @param string $current_route
+	 * @param string $page_dir
 	 * @param int $style_id
-	 * @param bool $edit_mode
 	 * @param bool $is_sub_route
 	 * @return string
 	 */
-	protected function get_parent_route(array $all_routes, $current_route, $style_id, $edit_mode, &$is_sub_route)
+	protected function get_parent_route(array $all_routes, $current_route, $page_dir, $style_id, &$is_sub_route)
 	{
 		$data = $this->get_routes_for_style($all_routes, $style_id);
-		$data[$current_route] = array();
-		$routes = array_keys($data);
-		sort($routes);
-		$index = (int) array_search($current_route, $routes);
+		$parent_route = $this->config['sitemaker_default_layout'];
 
-		$default_route = $this->config['sitemaker_default_layout'];
-		if ($edit_mode === false && isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
+		if ($page_dir)
 		{
 			$is_sub_route = true;
-			$default_route = $routes[$index - 1];
+			$parent_route = ltrim(dirname($page_dir) . '/index.php', './');
+		}
+		else
+		{
+			$data[$current_route] = array();
+			$routes = array_keys($data);
+			sort($routes);
+			$index = (int) array_search($current_route, $routes);
+
+			if (isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
+			{
+				$is_sub_route = true;
+				$parent_route = $routes[$index - 1];
+			}
 		}
 
-		return $default_route;
+		return $parent_route;
 	}
 
 	/**
@@ -248,7 +272,7 @@ class routes
 		$route_id = $route_info['route_id'];
 		if ($edit_mode === false && !$route_info['has_blocks'])
 		{
-			$default_route = $this->get_route_info($this->config['sitemaker_default_layout'], $style_id, $edit_mode);
+			$default_route = $this->get_route_info($this->config['sitemaker_default_layout'], '', $style_id, $edit_mode);
 			$route_id = $default_route['route_id'];
 		}
 

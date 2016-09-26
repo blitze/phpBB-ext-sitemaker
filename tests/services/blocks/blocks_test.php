@@ -48,6 +48,8 @@ class blocks_test extends \phpbb_database_test_case
 	 */
 	protected function get_service($default_layout)
 	{
+		global $phpEx;
+
 		$table_prefix = 'phpbb_';
 		$tables = array(
 			'mapper_tables'	=> array(
@@ -61,6 +63,7 @@ class blocks_test extends \phpbb_database_test_case
 		$config = new \phpbb\config\config(array(
 			'sitemaker_default_layout'	=> $default_layout,
 		));
+
 		$user = new \phpbb\user('\phpbb\datetime');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
@@ -112,7 +115,7 @@ class blocks_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new blocks($cache, $config, $this->template, $user, $block_factory, $groups, $mapper_factory);
+		return new blocks($cache, $config, $this->template, $user, $block_factory, $groups, $mapper_factory, $phpEx);
 	}
 
 	/**
@@ -125,6 +128,7 @@ class blocks_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'index.php',
+				'',
 				false,
 				'',
 				array (
@@ -156,6 +160,7 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			array(
 				'index.php',
+				'',
 				true,
 				'',
 				array (
@@ -196,6 +201,7 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			array(
 				'app.php/foo/test/',
+				'',
 				false,
 				'',
 				array (
@@ -228,6 +234,7 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks and hiding blocks for bottom position, no default layout
 			array(
 				'search.php',
+				'',
 				false,
 				'',
 				array (
@@ -250,6 +257,7 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on other positions
 			array(
 				'search.php',
+				'',
 				false,
 				'index.php',
 				array (
@@ -282,6 +290,7 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on bottom position
 			array(
 				'search.php',
+				'',
 				false,
 				'faq.php',
 				array (
@@ -304,6 +313,7 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks, and hiding blocks for bottom position, we are in edit mode
 			array(
 				'search.php',
+				'',
 				false,
 				'index.php',
 				array (
@@ -331,17 +341,18 @@ class blocks_test extends \phpbb_database_test_case
 	 *
 	 * @dataProvider blocks_display_test_data
 	 * @param string $current_page
+	 * @param string $page_dir
 	 * @param bool $edit_mode
 	 * @param string $default_layout
 	 * @param array $display_modes
 	 * @param array $expected_route_info
 	 * @param array $expected_data
 	 */
-	public function test_blocks_display($current_page, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
+	public function test_blocks_display($current_page, $page_dir, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
 	{
 		$block = $this->get_service($default_layout);
 
-		$route_info = $block->get_route_info($current_page, 1, $edit_mode);
+		$route_info = $block->get_route_info($current_page, $page_dir, 1, $edit_mode);
 		$block->display($edit_mode, $route_info, 1, $display_modes);
 		$result = $this->template->assign_display('blocks');
 
