@@ -428,7 +428,7 @@
 
 			list.children('li').each(function(i, element) {
 				var item = $(element);
-				var id = self._getItemId(element);
+				var id = self._getItemId(item);
 				var title = padding + '&#x251c;&#x2500; ' + item.find('.editable:first').text();
 				var option = '<option value="' + id + '">' + title + '</option>';
 
@@ -589,7 +589,6 @@
 		},
 
 		_submitForm: function(itemID) {
-			console.log(itemID);
 			var action = itemID ? 'save_item' : 'add_item';
 			this._saveItem(action, this.editForm.serializeArray(), itemID);
 		}
