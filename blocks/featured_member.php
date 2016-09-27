@@ -140,12 +140,7 @@ class featured_member extends block
 	 */
 	private function get_user_data($change_user)
 	{
-		$sql_array = array(
-			'SELECT'	=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_height, u.user_avatar_width, u.user_regdate, u.user_lastvisit, u.user_birthday, u.user_posts, u.user_rank',
-			'FROM'		=> array(USERS_TABLE => 'u'),
-			'WHERE'		=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
-		);
-
+		$sql_array = $this->get_sql_array();
 		$method = 'query_' . $this->settings['qtype'];
 
 		if (is_callable(array($this, $method)))
@@ -163,6 +158,18 @@ class featured_member extends block
 		$this->db->sql_freeresult($result);
 
 		return $row;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function get_sql_array()
+	{
+		return array(
+			'SELECT'	=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_height, u.user_avatar_width, u.user_regdate, u.user_lastvisit, u.user_birthday, u.user_posts, u.user_rank',
+			'FROM'		=> array(USERS_TABLE => 'u'),
+			'WHERE'		=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
+		);
 	}
 
 	/**

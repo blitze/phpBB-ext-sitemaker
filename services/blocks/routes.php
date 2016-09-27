@@ -226,7 +226,6 @@ class routes
 	 */
 	protected function get_parent_route(array $all_routes, $current_route, $page_dir, $style_id, &$is_sub_route)
 	{
-		$data = $this->get_routes_for_style($all_routes, $style_id);
 		$parent_route = $this->config['sitemaker_default_layout'];
 
 		if ($page_dir)
@@ -236,16 +235,31 @@ class routes
 		}
 		else
 		{
-			$data[$current_route] = array();
-			$routes = array_keys($data);
-			sort($routes);
-			$index = (int) array_search($current_route, $routes);
+			$routes = $this->get_routes_for_style($all_routes, $style_id);
+			$parent_route = $this->get_virtual_parent($routes, $current_route, $is_sub_route);
+		}
 
-			if (isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
-			{
-				$is_sub_route = true;
-				$parent_route = $routes[$index - 1];
-			}
+		return $parent_route;
+	}
+
+	/**
+	 * @param array $routes
+	 * @param string $current_route
+	 * @param bool $is_sub_route
+	 * @return string
+	 */
+	protected function get_virtual_parent(array $routes, $current_route, &$is_sub_route)
+	{
+		$routes[$current_route] = array();
+		$routes = array_keys($routes);
+		sort($routes);
+		$index = (int) array_search($current_route, $routes);
+
+		$parent_route = '';
+		if (isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
+		{
+			$is_sub_route = true;
+			$parent_route = $routes[$index - 1];
 		}
 
 		return $parent_route;

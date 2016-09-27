@@ -230,7 +230,16 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function get_leaf_node(array $row, $is_current_item)
 	{
-		return (($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) && !$is_current_item && $row['is_expandable']) ? $row : array();
+		return ($this->must_not_expand($row) && !$is_current_item && $row['is_expandable']) ? $row : array();
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function must_not_expand(array $row)
+	{
+		return ($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) ? true : false;
 	}
 
 	/**
@@ -267,8 +276,7 @@ class display extends \blitze\sitemaker\services\tree\display
 		if ($this->needs_adjustment($depth))
 		{
 			$adjustment = ($this->count_descendants($row)) ? 1 : 0;
-			$this->min_depth = ($this->max_depth && $depth >= $this->max_depth) ? $depth - $this->max_depth + $adjustment : 0;
-			$this->max_depth = $depth + $adjustment;
+			$this->set_depth_limits($depth, $adjustment);
 		}
 	}
 
@@ -320,5 +328,15 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 
 		return $full_url;
+	}
+
+	/**
+	 * @param int $depth
+	 * @param int $adjustment
+	 */
+	protected function set_depth_limits($depth, $adjustment)
+	{
+		$this->min_depth = ($this->max_depth && $depth >= $this->max_depth) ? $depth - $this->max_depth + $adjustment : 0;
+		$this->max_depth = $depth + $adjustment;
 	}
 }

@@ -133,7 +133,16 @@ abstract class menu_block extends block
 	 */
 	protected function is_navigable(array $row)
 	{
-		return (!$row['item_url'] || $row['host'] || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+		return (!$this->is_local($row) || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function is_local(array $row)
+	{
+		return ($row['item_url'] && !$row['host']) ? true : false;
 	}
 
 	/**
