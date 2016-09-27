@@ -1,7 +1,7 @@
 {
 	"name": "blitze/sitemaker",
     "type": "phpbb-extension",
-	"description": "A Site Maker for phpBB3.1x.",
+	"description": "Transform your phpBB board into a full-blown site.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
 	"version": "2.0.4",
 	"time": "2014-01-14 01:01:01",
