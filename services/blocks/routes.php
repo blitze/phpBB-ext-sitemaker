@@ -226,8 +226,6 @@ class routes
 	 */
 	protected function get_parent_route(array $all_routes, $current_route, $page_dir, $style_id, &$is_sub_route)
 	{
-		$parent_route = $this->config['sitemaker_default_layout'];
-
 		if ($page_dir)
 		{
 			$is_sub_route = true;
