@@ -137,7 +137,7 @@ class routes
 		if (empty($route_info['has_blocks']))
 		{
 			unset($route_info['route_id'], $route_info['has_blocks']);
-			$route_info += $this->get_parent_route($routes, $current_route, $page_dir, $style_id);
+			$route_info += $this->get_parent_route($routes, $current_route, $page_dir);
 		}
 
 		// fill in missing fields, while forcing route and style props to current route and style
