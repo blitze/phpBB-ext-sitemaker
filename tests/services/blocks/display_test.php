@@ -448,6 +448,44 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(1),
 			),
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'viewforum.php',
+					'query_string' => 'f=2',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(),
+			),
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'viewtopic.php',
+					'query_string' => 'f=2&t=1',
+				),
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'U_EDIT_MODE' => '',
+				),
+				array(9),
+			),
 		);
 	}
 

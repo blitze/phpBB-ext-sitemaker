@@ -47,6 +47,14 @@
 			<value></value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>6</value>
+			<value></value>
+			<value>viewforum.php</value>
+			<value>1</value>
+			<value></value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
 		<column>bid</column>
@@ -139,6 +147,17 @@
 			<value>8</value>
 			<value>my.baz.block</value>
 			<value>4</value>
+			<value>1</value>
+			<value>sidebar</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>2</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value>my.baz.block</value>
+			<value>6</value>
 			<value>1</value>
 			<value>sidebar</value>
 			<value></value>
