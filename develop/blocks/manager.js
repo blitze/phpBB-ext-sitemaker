@@ -757,7 +757,7 @@
 						editor.text('').change();
 						break;
 					case 'toggle':
-						dialogEdit.find('#css-class-options').slideToggle();
+						dialogEdit.find($(this).attr('href')).slideToggle();
 						break;
 					case 'undo':
 					case 'redo':

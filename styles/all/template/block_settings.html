@@ -24,50 +24,77 @@
 				</dd>
 			</dl>
 			<dl>
-				<dt><label for="block_type">{L_BLOCK_DISPLAY_TYPE}</label></dt>
+				<dt>
+					<label for="block_type">{L_BLOCK_DISPLAY_TYPE}</label>
+					<a data-action="toggle" class="block-class-actions" href="#examples"><i class="fa fa-question-circle-o fa-lg"></i></a>
+				</dt>
 				<dd>
 					<label><input type="radio" name="type" value="0"<!-- IF not S_TYPE --> checked="checked"<!-- ENDIF --> id="block_type" /> {L_BLOCK_SHOW_ALWAYS}</label>
-					<label class="multiline-radio"><input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_PARENT_ROUTE_ONLY}</label>
-					<label class="multiline-radio"><input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTE_ONLY}</label>
+					<label><input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTES_HIDE}</label>
+					<label><input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTES_ONLY}</label>
 				</dd>
 			</dl>
-		<dl>
-			<dt><label for="permission">{L_BLOCK_PERMISSION}</label></dt>
-			<dd>
-				<select id="permission" name="permission[]" multiple="multiple" size="3">
-					{S_GROUP_OPS}
-				</select>
-			</dd>
-		</dl>
-		<dl>
-			<dt><label for="block_class">{L_BLOCK_CLASS}</label></dt>
-			<dd>
-				<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{S_BLOCK_CLASS}</div>
-				<div class="right-box small">
-					<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{L_UNDO}</a>
-					<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{L_REDO}</a>
-					<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{L_CLEAR}</a>
-					<a data-action="toggle" class="block-class-actions" href="#"><i class="fa fa-sort"></i>{L_TOGGLE}</a>
-				</div>
-			</dd>
-		</dl>
-		<div id="css-class-options" class="modifiers rules small">
-			<!-- INCLUDE block_css_presets.html -->
-		</div>
-		<dl>
-			<dt><label for="no-wrap">{L_BLOCK_HIDE_CONTAINER}</label></dt>
-			<dd>
-				<input class="block-preview" type="radio" name="no_wrap" value="1"<!-- IF S_NO_WRAP --> checked="checked"<!-- ENDIF --> id="no-wrap" /> {L_YES}&nbsp;
-				<input class="block-preview" type="radio" name="no_wrap" value="0"<!-- IF not S_NO_WRAP --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
-		</dl>
-		<dl>
-			<dt><label for="hide_title">{L_BLOCK_HIDE_TITLE}</label></dt>
-			<dd>
-				<input class="block-preview" type="radio" name="hide_title" value="1"<!-- IF S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> id="hide_title" /> {L_YES}&nbsp;
-				<input class="block-preview" type="radio" name="hide_title" value="0"<!-- IF not S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
-		</dl>
+			<div id="examples" class="panel bg1 small" style="display: none">
+				<table>
+					<thead>
+						<tr>
+							<th width="45%"><strong>{L_PARENT_ROUTE}</strong></th>
+							<th><strong>{L_CHILD_ROUTE}</strong></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>/index.php</td>
+							<td>/viewforum.php, /dir/index.php</td>
+						</tr>
+						<tr>
+							<td>/viewforum.php?f=2</td>
+							<td>/viewtopic.php?f=2&t=1</td>
+						</tr>
+						<tr>
+							<td>/articles</td>
+							<td>/articles/my-article</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<dl>
+				<dt><label for="permission">{L_BLOCK_PERMISSION}</label></dt>
+				<dd>
+					<select id="permission" name="permission[]" multiple="multiple" size="3">
+						{S_GROUP_OPS}
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="block_class">{L_BLOCK_CLASS}</label></dt>
+				<dd>
+					<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{S_BLOCK_CLASS}</div>
+					<div class="right-box small">
+						<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{L_UNDO}</a>
+						<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{L_REDO}</a>
+						<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{L_CLEAR}</a>
+						<a data-action="toggle" class="block-class-actions" href="#css-class-options"><i class="fa fa-sort"></i>{L_TOGGLE}</a>
+					</div>
+				</dd>
+			</dl>
+			<div id="css-class-options" class="modifiers rules small">
+				<!-- INCLUDE block_css_presets.html -->
+			</div>
+			<dl>
+				<dt><label for="no-wrap">{L_BLOCK_HIDE_CONTAINER}</label></dt>
+				<dd>
+					<input class="block-preview" type="radio" name="no_wrap" value="1"<!-- IF S_NO_WRAP --> checked="checked"<!-- ENDIF --> id="no-wrap" /> {L_YES}&nbsp;
+					<input class="block-preview" type="radio" name="no_wrap" value="0"<!-- IF not S_NO_WRAP --> checked="checked"<!-- ENDIF --> /> {L_NO}
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="hide_title">{L_BLOCK_HIDE_TITLE}</label></dt>
+				<dd>
+					<input class="block-preview" type="radio" name="hide_title" value="1"<!-- IF S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> id="hide_title" /> {L_YES}&nbsp;
+					<input class="block-preview" type="radio" name="hide_title" value="0"<!-- IF not S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> /> {L_NO}
+				</dd>
+			</dl>
 	<!-- BEGIN options -->
 		<!-- IF options.S_LEGEND -->
 		</fieldset>
