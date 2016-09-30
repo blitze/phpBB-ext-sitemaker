@@ -10,7 +10,7 @@
 			"name": "Daniel A.",
 			"email": "shizzah@hotmail.com",
 			"homepage": "https://github.com/blitze",
-			"role": "Lead Developer"
+			"role": "Developer"
 		}],
 	"require": {
 		"php": ">=5.3.3",
@@ -24,8 +24,9 @@
 		},
 		"version-check": {
 			"host": "blitze.github.io",
-			"directory": "/versions",
-			"filename": "sitemaker.json"
+			"directory": "/version-check/phpbb-extensions",
+			"filename": "sitemaker_versions.json",
+			"ssl": true
 		}
 	}
 }
