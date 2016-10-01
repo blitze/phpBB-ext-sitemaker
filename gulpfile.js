@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+	argv = require('yargs').argv,
 	plugins = require("gulp-load-plugins")({
 		pattern: ['gulp-*', 'gulp.*', 'main-bower-files', 'jshint-stylish', 'del'],
 		scope: ['devDependencies'],
@@ -12,14 +13,15 @@ var gulp = require('gulp'),
 		outputStyle: 'expanded'
 	},
 	sourceMapsDir = './',
+	theme = argv.theme || 'all',
 	paths = {
 		'dev': {
 			'scripts': 'develop/',
 			'vendor': 'bower_components/'
 		},
 		'prod': {
-			'scripts': 'styles/all/theme/assets/',
-			'vendor': 'styles/all/theme/vendor/'
+			'scripts': 'styles/' + theme + '/theme/assets/',
+			'vendor': 'styles/' + theme + '/theme/vendor/'
 		}
 	};
 
@@ -32,6 +34,7 @@ gulp.task('bower', function() {
 // JS
 gulp.task('js', function() {
 	return gulp.src(paths.dev.scripts + '**/*.js')
+		.pipe(plugins.changed(paths.prod.scripts))
 		.pipe(plugins.sourcemaps.init())
 			.pipe(plugins.jscs())
 			.pipe(plugins.jshint())
@@ -45,6 +48,7 @@ gulp.task('js', function() {
 // SASS
 gulp.task('sass', function() {
 	gulp.src(paths.dev.scripts + '**/*.scss')
+		.pipe(plugins.changed(paths.prod.scripts))
 		.pipe(plugins.sourcemaps.init())
 			.pipe(plugins.sass(sassOptions).on('error', plugins.sass.logError))
 			.pipe(plugins.csscomb())
@@ -74,6 +78,7 @@ gulp.task('vendor', function() {
 	var cssFilter = plugins.filter(['**/*.css', '!**/*.min.css'], {restore: true});
 
 	return gulp.src(mainFiles, {base: paths.dev.vendor })
+		.pipe(plugins.changed(paths.prod.vendor))
 		.pipe(jsFilter)
 		.pipe(gulp.dest(paths.prod.vendor))
 		.pipe(jsFilter.restore)
