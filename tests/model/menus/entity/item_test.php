@@ -251,6 +251,7 @@ class item_test extends \phpbb_test_case
 			array(true, '/docs', 'http://www.example.com/phpBB/docs'),
 			array(false, 'http://www.google.com', 'http://www.google.com'),
 			array(true, 'http://www.google.com', 'http://www.google.com'),
+			array(false, '//google.com', '//google.com'),
 		);
 	}
 

@@ -148,12 +148,12 @@ final class item extends base_entity
 	{
 		$search = array('&amp;', $this->board_url);
 		$replace = array('&', '');
-		$this->item_url = ltrim(str_replace($search, $replace, $item_url), './');
+		$this->item_url = str_replace($search, $replace, $item_url);
 
 		// add leading / for local paths, except leading hashtags
-		if ($this->item_url && $this->item_url[0] !== '#' && $this->is_local_path($this->item_url))
+		if ($this->is_local($this->item_url) && $this->item_url[0] !== '#')
 		{
-			$this->item_url = '/' . $this->item_url;
+			$this->item_url = '/' . ltrim($this->item_url, './');
 		}
 
 		return $this;
@@ -166,7 +166,7 @@ final class item extends base_entity
 	{
 		$item_url = $this->item_url;
 
-		if ($item_url && $item_url[0] === '/')
+		if ($this->is_local($item_url) && $item_url[0] === '/')
 		{
 			$item_url = $this->board_url . $item_url;
 			if ($this->mod_rewrite_enabled)
@@ -179,16 +179,11 @@ final class item extends base_entity
 	}
 
 	/**
-	 * Checks if a url is in local path
-	 * We already stripped out the board url so if it has a host, it is a remote url
-	 *
 	 * @param string $item_url
 	 * @return true|false
 	 */
-	private function is_local_path($item_url)
+	private function is_local($item_url)
 	{
-		$host = parse_url($item_url, PHP_URL_HOST);
-
-		return ($host) ? false : true;
+		return ($item_url && !parse_url($item_url, PHP_URL_HOST)) ? true : false;
 	}
 }
