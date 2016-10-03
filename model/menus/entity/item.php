@@ -184,6 +184,7 @@ final class item extends base_entity
 	 */
 	private function is_local($item_url)
 	{
-		return ($item_url && !parse_url($item_url, PHP_URL_HOST)) ? true : false;
+		$host = parse_url($item_url, PHP_URL_HOST);
+		return (!$item_url || $host || substr($item_url, 0, 2) === '//') ? false: true;
 	}
 }
