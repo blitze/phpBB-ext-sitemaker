@@ -40,7 +40,7 @@ class blocks extends routes
 	 */
 	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
 	{
-		parent::__construct($cache, $config, $user, $block_factory, $mapper_factory, $php_ext);
+		parent::__construct($cache, $config, $block_factory, $mapper_factory, $php_ext);
 
 		$this->template = $template;
 		$this->user = $user;

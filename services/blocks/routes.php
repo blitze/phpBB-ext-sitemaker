@@ -17,9 +17,6 @@ class routes
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
 
@@ -37,16 +34,14 @@ class routes
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
-	 * @param \phpbb\user									$user					User object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\user $user, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
-		$this->user = $user;
 		$this->block_factory = $block_factory;
 		$this->mapper_factory = $mapper_factory;
 		$this->php_ext = $php_ext;
