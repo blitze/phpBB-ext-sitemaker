@@ -124,6 +124,7 @@ abstract class menu_block extends block
 	{
 		$row['is_navigable'] = $this->is_navigable($row);
 		$row['is_expandable'] = ($row['is_navigable'] && !$row['item_target']) ? true : false;
+		$row['url_path'] = str_replace('/index.' . $this->php_ext, '/', $row['url_path']);
 	}
 
 	/**
@@ -132,7 +133,16 @@ abstract class menu_block extends block
 	 */
 	protected function is_navigable(array $row)
 	{
-		return ($row['host'] || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+		return (!$this->is_local($row) || substr($row['item_url'], 0, 1) === '#' || $this->is_not_php_file($row['url_path'])) ? false : true;
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function is_local(array $row)
+	{
+		return ($row['item_url'] && !$row['host']) ? true : false;
 	}
 
 	/**

@@ -36,10 +36,11 @@ class blocks extends routes
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\services\groups				$groups					Groups Object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
+	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
 	{
-		parent::__construct($cache, $config, $block_factory, $mapper_factory);
+		parent::__construct($cache, $config, $block_factory, $mapper_factory, $php_ext);
 
 		$this->template = $template;
 		$this->translator = $translator;

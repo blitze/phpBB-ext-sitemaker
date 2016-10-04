@@ -52,7 +52,7 @@ class menu_test extends blocks_base
 
 		$mapper_factory = new mapper_factory($this->config, $this->db, $tables);
 
-		$tree = new display($this->db, $this->template, $this->user, $tables['mapper_tables']['items'], 'item_id');
+		$tree = new display($this->db, $this->template, $this->user, $tables['mapper_tables']['items'], 'item_id', $this->php_ext);
 
 		$filesystem = new \phpbb\filesystem\filesystem();
 
@@ -173,6 +173,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'faq.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -201,6 +202,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'index.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -229,6 +231,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'app.php/page/USA',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -286,6 +289,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'viewtopic.php',
+					'page_dir' => '',
 					'query_string' => 'f=1&t=2',
 				),
 				array(
@@ -341,6 +345,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'index.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -387,6 +392,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'index.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -414,6 +420,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'index.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(
@@ -441,6 +448,7 @@ class menu_test extends blocks_base
 			array(
 				array(
 					'page_name' => 'index.php',
+					'page_dir' => '',
 					'query_string' => '',
 				),
 				array(

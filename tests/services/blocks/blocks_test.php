@@ -116,7 +116,7 @@ class blocks_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory);
+		return new blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
 	}
 
 	/**
@@ -129,6 +129,7 @@ class blocks_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'index.php',
+				'',
 				false,
 				'',
 				array (
@@ -160,6 +161,7 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			array(
 				'index.php',
+				'',
 				true,
 				'',
 				array (
@@ -200,6 +202,7 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			array(
 				'app.php/foo/test/',
+				'',
 				false,
 				'',
 				array (
@@ -229,9 +232,10 @@ class blocks_test extends \phpbb_database_test_case
 					),
 				),
 			),
-			// route has no blocks and hiding blocks for bottom position, no default layout
+			// route has no blocks and hiding blocks for bottom position, no default layout, not in edit_mode
 			array(
 				'search.php',
+				'',
 				false,
 				'',
 				array (
@@ -240,7 +244,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 4,
+					'route_id' => 0,	// no route to inherit from
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -254,6 +258,7 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on other positions
 			array(
 				'search.php',
+				'',
 				false,
 				'index.php',
 				array (
@@ -262,7 +267,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 4,
+					'route_id' => 1,	// route id of default route (index.php), there4 showing blocks from index.php
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -283,9 +288,10 @@ class blocks_test extends \phpbb_database_test_case
 					),
 				),
 			),
-			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on bottom position
+			// route has no blocks, and hiding blocks for bottom position, default route is set with blocks on bottom position
 			array(
 				'search.php',
+				'',
 				false,
 				'faq.php',
 				array (
@@ -294,7 +300,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 4,
+					'route_id' => 0,
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -308,15 +314,16 @@ class blocks_test extends \phpbb_database_test_case
 			// route has no blocks, and hiding blocks for bottom position, we are in edit mode
 			array(
 				'search.php',
-				false,
+				'',
+				true,
 				'index.php',
 				array (
 					0 => true,
 					1 => true,
-					2 => false,
+					2 => true,
 				),
 				array(
-					'route_id' => 4,
+					'route_id' => 4,	// always own route_id in edit mode
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -335,17 +342,18 @@ class blocks_test extends \phpbb_database_test_case
 	 *
 	 * @dataProvider blocks_display_test_data
 	 * @param string $current_page
+	 * @param string $page_dir
 	 * @param bool $edit_mode
 	 * @param string $default_layout
 	 * @param array $display_modes
 	 * @param array $expected_route_info
 	 * @param array $expected_data
 	 */
-	public function test_blocks_display($current_page, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
+	public function test_blocks_display($current_page, $page_dir, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
 	{
 		$block = $this->get_service($default_layout);
 
-		$route_info = $block->get_route_info($current_page, 1, $edit_mode);
+		$route_info = $block->get_route_info($current_page, $page_dir, 1, $edit_mode);
 		$block->display($edit_mode, $route_info, 1, $display_modes);
 		$result = $this->template->assign_display('blocks');
 

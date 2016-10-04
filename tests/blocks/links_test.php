@@ -52,7 +52,7 @@ class links_test extends blocks_base
 
 		$mapper_factory = new mapper_factory($this->config, $this->db, $tables);
 
-		$tree = new display($this->db, $this->template, $this->user, $tables['mapper_tables']['items'], 'item_id');
+		$tree = new display($this->db, $this->template, $this->user, $tables['mapper_tables']['items'], 'item_id', $this->php_ext);
 
 		$filesystem = new \phpbb\filesystem\filesystem();
 

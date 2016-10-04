@@ -149,6 +149,18 @@
 				self.showMessage(lang.errorMessage);
 			});
 
+			window.onbeforeunload = function(e) {
+				if (self.itemsChanged === true) {
+					e = e || window.event;
+					// For IE and Firefox
+					if (e) {
+						e.returnValue = lang.unsavedChanges;
+					}
+					// For Safari
+					return lang.unsavedChanges;
+				}
+			};
+
 			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {
 				self.nestedList.find(self.options.selectItemClass).prop('checked', this.checked);
 				if (this.checked) {
@@ -255,6 +267,11 @@
 					'add_list': codeMirror.getValue(),
 					'parent_id': form.find('#parent_id').val()
 				};
+
+				// reset codemirror
+				codeMirror.setValue("");
+				codeMirror.clearHistory();
+
 				self._addBulk($.param(data));
 				self.addBulkBtn.trigger('click');
 				event.preventDefault();
@@ -428,7 +445,7 @@
 
 			list.children('li').each(function(i, element) {
 				var item = $(element);
-				var id = self._getItemId(element);
+				var id = self._getItemId(item);
 				var title = padding + '&#x251c;&#x2500; ' + item.find('.editable:first').text();
 				var option = '<option value="' + id + '">' + title + '</option>';
 
@@ -589,7 +606,6 @@
 		},
 
 		_submitForm: function(itemID) {
-			console.log(itemID);
 			var action = itemID ? 'save_item' : 'add_item';
 			this._saveItem(action, this.editForm.serializeArray(), itemID);
 		}

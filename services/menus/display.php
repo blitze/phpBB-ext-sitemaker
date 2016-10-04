@@ -17,6 +17,9 @@ class display extends \blitze\sitemaker\services\tree\display
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $php_ext;
+
 	/** @var bool */
 	private $expanded = false;
 
@@ -40,13 +43,15 @@ class display extends \blitze\sitemaker\services\tree\display
 	 * @param \phpbb\user							$user				User Object
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key
+	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $menu_items_table, $pk)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $menu_items_table, $pk, $php_ext)
 	{
 		parent::__construct($db, $menu_items_table, $pk);
 
 		$this->template = $template;
 		$this->user = $user;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -150,7 +155,8 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function set_current_item(array $data)
 	{
-		$curr_page = $this->user->page['page_name'];
+		$curr_page = '/' . ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
+		$curr_page = str_replace('/index.' . $this->php_ext, '/', $curr_page);
 		$curr_parts = explode('&', $this->user->page['query_string']);
 
 		$data = array_values($data);
@@ -194,7 +200,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function is_current_path($curr_page, array $curr_parts, array $row)
 	{
-		return ($curr_page === ltrim($row['url_path'], './') && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
+		return ($curr_page === $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
 	}
 
 	/**
@@ -224,7 +230,16 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function get_leaf_node(array $row, $is_current_item)
 	{
-		return (($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) && !$is_current_item && $row['is_expandable']) ? $row : array();
+		return ($this->must_not_expand($row) && !$is_current_item && $row['is_expandable']) ? $row : array();
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function must_not_expand(array $row)
+	{
+		return ($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) ? true : false;
 	}
 
 	/**
@@ -261,8 +276,7 @@ class display extends \blitze\sitemaker\services\tree\display
 		if ($this->needs_adjustment($depth))
 		{
 			$adjustment = ($this->count_descendants($row)) ? 1 : 0;
-			$this->min_depth = ($this->max_depth && $depth >= $this->max_depth) ? $depth - $this->max_depth + $adjustment : 0;
-			$this->max_depth = $depth + $adjustment;
+			$this->set_depth_limits($depth, $adjustment);
 		}
 	}
 
@@ -314,5 +328,15 @@ class display extends \blitze\sitemaker\services\tree\display
 		}
 
 		return $full_url;
+	}
+
+	/**
+	 * @param int $depth
+	 * @param int $adjustment
+	 */
+	protected function set_depth_limits($depth, $adjustment)
+	{
+		$this->min_depth = ($this->max_depth && $depth >= $this->max_depth) ? $depth - $this->max_depth + $adjustment : 0;
+		$this->max_depth = $depth + $adjustment;
 	}
 }

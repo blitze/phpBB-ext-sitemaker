@@ -42,7 +42,7 @@ $lang = array_merge($lang, array(
 	'ACP_MENU'					=> 'Menu',
 	'ACP_MENU_MANAGE'			=> 'Menu Management',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Here you can create and manage menus for your site',
-	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|./index.php',
+	'ADD_BULK_EXPLAIN'			=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|index.php',
 	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
 	'ADD_MENU'					=> 'Add Menu',
 	'ADD_MENU_ITEM'				=> 'Add Menu Item',
@@ -75,7 +75,7 @@ $lang = array_merge($lang, array(
 	'ITEM_TITLE_EXPLAIN'		=> 'Set as ’-’ for divider',
 	'ITEM_TARGET'				=> 'Item Target',
 	'ITEM_URL'					=> 'Item URL',
-	'ITEM_URL_EXPLAIN'			=> 'Leave empty for headings',
+	'ITEM_URL_EXPLAIN'			=> '- Leave empty for headings<br />- External sites must begin with http(s)://, ftp://, //, etc',
 
 	'LAYOUT_BLOG'				=> 'Blog',
 	'LAYOUT_PORTAL'				=> 'Portal',
@@ -87,10 +87,14 @@ $lang = array_merge($lang, array(
 	'MENU_ITEM_PARENT'			=> 'Parent Item',
 
 	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
+	'NONE'						=> 'None',
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
 
+	'PROCESSING_ERROR'			=> 'Processing error',
+
 	'REBUILD_TREE'				=> 'Rebuild Tree',
+	'REQUIRED'					=> 'Required',
 	'REQUIRED_FIELDS'			=> '* Required fields',
 
 	'SAVE_CHANGES'				=> 'Save Changes',
@@ -104,6 +108,8 @@ $lang = array_merge($lang, array(
 
 	'TARGET_BLANK'				=> 'Blank Page',
 	'TARGET_PARENT'				=> 'Parent',
+
+	'UNSAVED_CHANGES'			=> 'You have unsaved changes',
 
 	'VISIT_PAGE'				=> 'Visit Page',
 ));

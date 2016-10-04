@@ -30,10 +30,11 @@ $lang = array_merge($lang, array(
 	'BLOCKS'									=> 'Blocks',
 	'BLOCKS_COPY_FROM'							=> 'Copy Blocks',
 	'BLOCK_ACTIVE'								=> 'Active',
-	'BLOCK_CHILD_ROUTE_ONLY'					=> 'Child route only<br />e.g. /articles/my-article-title',
+	'BLOCK_CHILD_ROUTES_ONLY'					=> 'Show on child routes only',
+	'BLOCK_CHILD_ROUTES_HIDE'					=> 'Hide on child routes',
 	'BLOCK_CLASS'								=> 'CSS Class',
 	'BLOCK_DESIGN'								=> 'Appearance',
-	'BLOCK_DISPLAY_TYPE'						=> 'Display on route',
+	'BLOCK_DISPLAY_TYPE'						=> 'Display',
 	'BLOCK_HIDE_CONTAINER'						=> 'Hide block container?',
 	'BLOCK_HIDE_TITLE'							=> 'Hide block title?',
 	'BLOCK_INACTIVE'							=> 'Inactive',
@@ -41,12 +42,12 @@ $lang = array_merge($lang, array(
 	'BLOCK_NO_DATA'								=> 'No data to display',
 	'BLOCK_NO_ID'								=> 'Oops! Missing block id',
 	'BLOCK_PERMISSION'							=> 'Viewable by',
-	'BLOCK_PARENT_ROUTE_ONLY'					=> 'Parent route only<br />e.g. /artices',
 	'BLOCK_SHOW_ALWAYS'							=> 'Always',
 	'BLOCK_STATUS'								=> 'Status',
 	'BLOCK_UPDATED'								=> 'Block settings successfully updated',
 
 	'CANCEL'									=> 'Cancel',
+	'CHILD_ROUTE'								=> 'Child',
 	'CLEAR'										=> 'Clear',
 	'COPY'										=> 'Copy',
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
@@ -85,6 +86,7 @@ $lang = array_merge($lang, array(
 
 	'OR'										=> '<strong>OR</strong>',
 
+	'PARENT_ROUTE'								=> 'Parent',
 	'PT_REQUIRED_FIELDS'						=> '* Required Fields',
 
 	'REDO'										=> 'Redo',

@@ -123,7 +123,7 @@ class featured_member extends block
 		$sql_where = $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER));
 
 		$sort_keys = array(
-			'recent'	=> 'user_regdate DESC',
+			'recent'	=> 'user_id DESC',
 			'posts'		=> 'user_posts DESC',
 		);
 

@@ -82,18 +82,9 @@ class cfg_handler extends cfg_fields
 	 */
 	public function get_submitted_settings(array $default_settings)
 	{
-		// @codeCoverageIgnoreStart
-		if (!function_exists('validate_config_vars'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
-		}
-		// @codeCoverageIgnoreEnd
-
 		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
 		$cfg_array = $this->decode_source_html($cfg_array);
-
-		$errors = array();
-		validate_config_vars($default_settings, $cfg_array, $errors);
+		$errors = $this->validate_block_settings($default_settings, $cfg_array);
 
 		if (sizeof($errors))
 		{
@@ -103,6 +94,26 @@ class cfg_handler extends cfg_fields
 		$this->get_multi_select($cfg_array, $default_settings);
 
 		return array_intersect_key($cfg_array, $default_settings);
+	}
+
+	/**
+	 * @param array $default_settings
+	 * @param array $cfg_array
+	 * @return array
+	 */
+	protected function validate_block_settings(array $default_settings, array $cfg_array)
+	{
+		// @codeCoverageIgnoreStart
+		if (!function_exists('validate_config_vars'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext);
+		}
+		// @codeCoverageIgnoreEnd
+
+		$errors = array();
+		validate_config_vars($default_settings, $cfg_array, $errors);
+
+		return $errors;
 	}
 
 	/**

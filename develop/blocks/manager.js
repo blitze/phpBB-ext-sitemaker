@@ -198,6 +198,24 @@
 		});
 	};
 
+	// Credit: http://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser/4238971#4238971
+	var placeCaretAtEnd = function(el) {
+		el.focus();
+		if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
+			var range = document.createRange();
+			range.selectNodeContents(el);
+			range.collapse(false);
+			var sel = window.getSelection();
+			sel.removeAllRanges();
+			sel.addRange(range);
+		} else if (typeof document.body.createTextRange !== "undefined") {
+			var textRange = document.body.createTextRange();
+			textRange.moveToElementText(el);
+			textRange.collapse(false);
+			textRange.select();
+		}
+	};
+
 	var getEditForm = function(block) {
 		$.getJSON(config.ajaxUrl + '/blocks/edit_block', {id: block.attr('id').substring(6)}, function(resp) {
 			blockData.block = resp;
@@ -213,8 +231,15 @@
 					phpbb.toggleSelectSettings($this);
 				});
 				dialogEdit.dialog({buttons: eButtons}).dialog('option', 'title', lang.edit + ' - ' + resp.title).dialog('open');
+				setTimeout(function() {
+					placeCaretAtEnd(dialogEdit.find('#block_class').get(0));
+				}, 1000);
 			}
 		});
+	};
+
+	var getCustomClasses = function() {
+		return dialogEdit.find('#block_class').text().trim();
 	};
 
 	var saveForm = function(block) {
@@ -234,6 +259,8 @@
 			data['config[source]'] = encodeURI(data['config[source]']);
 		}
 
+		data['class'] = getCustomClasses();
+
 		dialogEdit.dialog('close');
 
 		$.post(config.ajaxUrl + '/blocks/save_block', data, function(resp) {
@@ -250,14 +277,11 @@
 		if (data.id === undefined) {
 			return false;
 		}
-		$.post(config.ajaxUrl + '/blocks/update_block' + '?route=' + config.route, data,
-			   function(resp) {
+		$.post(config.ajaxUrl + '/blocks/update_block' + '?route=' + config.route, data, function(resp) {
 			if (editing === true) {
 				undoEditable(resp.title);
 			}
-		},
-			   'json'
-			  );
+		});
 	};
 
 	var customBlockAction = function(data) {
@@ -337,7 +361,7 @@
 			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
 		});
 
-		data.block['class'] = dialogEdit.find('#block_class').text().trim();
+		data.block['class'] = getCustomClasses();
 
 		renderBlock(blockObj, data);
 	};
@@ -736,7 +760,7 @@
 						editor.text('').change();
 						break;
 					case 'toggle':
-						dialogEdit.find('#css-class-options').slideToggle();
+						dialogEdit.find($(this).attr('href')).slideToggle();
 						break;
 					case 'undo':
 					case 'redo':
@@ -754,8 +778,9 @@
 				e.preventDefault();
 			}).on('click', '.transform', function(e) {
 				var editor = dialogEdit.find('#block_class');
-				editor.focus();
-				document.execCommand('insertText', false, $(this).text() + ' ');
+				var currClassesLength = editor.text().length;
+				var space = currClassesLength ? ' ' : '';
+				document.execCommand('insertText', false, space + $(this).text());
 				editor.change();
 				e.preventDefault();
 			}).on('change', '.block-preview', function() {

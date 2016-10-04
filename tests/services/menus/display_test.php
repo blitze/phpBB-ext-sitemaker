@@ -43,7 +43,7 @@ class display_test extends \phpbb_database_test_case
 	 */
 	protected function get_service($current_page)
 	{
-		global $phpbb_dispatcher;
+		global $phpbb_dispatcher, $phpEx;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -73,7 +73,7 @@ class display_test extends \phpbb_database_test_case
 		$menu_items_table = 'phpbb_sm_menu_items';
 		$primary_key = 'item_id';
 
-		return new display($db, $template, $user, $menu_items_table, $primary_key);
+		return new display($db, $template, $user, $menu_items_table, $primary_key, $phpEx);
 	}
 
 	/**
@@ -86,6 +86,7 @@ class display_test extends \phpbb_database_test_case
 			array(
 				array(
 					'page_name'		=> 'index.php',
+					'page_dir'		=> '',
 					'query_string'	=> '',
 				),
 				array(
@@ -96,8 +97,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
-						'item_url'		=> 'index.php',
-						'url_path'		=> 'index.php',
+						'item_url'		=> '/index.php',
+						'url_path'		=> '/',
 						'url_query'		=> array(),
 						'parent_id'		=> 0,
 						'left_id'		=> 1,
@@ -107,8 +108,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 2,
 						'item_title'	=> 'Item 2',
-						'item_url'		=> 'viewtopic.php?f=1&t=2',
-						'url_path'		=> 'viewtopic.php',
+						'item_url'		=> '/viewtopic.php?f=1&t=2',
+						'url_path'		=> '/viewtopic.php',
 						'url_query'		=> array('f=1', 'amp;t=2'),
 						'parent_id'		=> 1,
 						'left_id'		=> 2,
@@ -118,8 +119,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 3,
 						'item_title'	=> 'Item 3',
-						'item_url'		=> 'app.php/forum',
-						'url_path'		=> 'app.php/forum',
+						'item_url'		=> '/app.php/forum',
+						'url_path'		=> '/app.php/forum',
 						'url_query'		=> array(),
 						'parent_id'		=> 0,
 						'left_id'		=> 5,
@@ -154,6 +155,7 @@ class display_test extends \phpbb_database_test_case
 			array(
 				array(
 					'page_name'		=> 'app.php/forum',
+					'page_dir'		=> '',
 					'query_string'	=> '',
 				),
 				array(
@@ -164,8 +166,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
-						'item_url'		=> 'index.php',
-						'url_path'		=> 'index.php',
+						'item_url'		=> '/index.php',
+						'url_path'		=> '/',
 						'url_query'		=> array(),
 						'parent_id'		=> 0,
 						'left_id'		=> 1,
@@ -175,8 +177,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 2,
 						'item_title'	=> 'Item 2',
-						'item_url'		=> 'viewtopic.php?f=1&t=2',
-						'url_path'		=> 'viewtopic.php',
+						'item_url'		=> '/viewtopic.php?f=1&t=2',
+						'url_path'		=> '/viewtopic.php',
 						'url_query'		=> array('f=1', 'amp;t=2'),
 						'parent_id'		=> 1,
 						'left_id'		=> 2,
@@ -186,8 +188,8 @@ class display_test extends \phpbb_database_test_case
 					array(
 						'item_id'		=> 3,
 						'item_title'	=> 'Item 3',
-						'item_url'		=> 'app.php/forum',
-						'url_path'		=> 'app.php/forum',
+						'item_url'		=> '/app.php/forum',
+						'url_path'		=> '/app.php/forum',
 						'url_query'		=> array(),
 						'parent_id'		=> 0,
 						'left_id'		=> 3,

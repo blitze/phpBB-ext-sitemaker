@@ -33,6 +33,8 @@ class action_handler_test extends \phpbb_test_case
 	 */
 	public function get_action_handler()
 	{
+		global $phpEx;
+
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
@@ -62,7 +64,7 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper, $phpEx);
 
 		return new action_handler($config, $phpbb_container, $request, $this->translator, $blocks, $block_factory, $mapper);
 	}
