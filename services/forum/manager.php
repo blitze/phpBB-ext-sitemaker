@@ -55,7 +55,13 @@ class manager
 		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+	}
 
+	/**
+	 * @return void
+	 */
+	protected function init()
+	{
 		if (!class_exists('acp_forums'))
 		{
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
@@ -71,10 +77,7 @@ class manager
 	 */
 	public function add(array &$forum_data, $forum_perm_from = 0)
 	{
-		$forum_data += array(
-			'parent_id' => $this->config['sitemaker_parent_forum_id'],
-		);
-
+		$this->init();
 		$errors = admin::save($forum_data);
 
 		if (!sizeof($errors))
@@ -88,8 +91,7 @@ class manager
 				phpbb_cache_moderators($this->db, $this->cache, $this->auth);
 			}
 
-			$this->auth->acl_clear_prefetch();
-			$this->cache->destroy('sql', FORUMS_TABLE);
+			$this->reset();
 		}
 
 		return $errors;
@@ -104,6 +106,21 @@ class manager
 	 */
 	public function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
-		admin::remove($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
+		$this->init();
+		$errors = admin::remove($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
+
+		if (!sizeof($errors))
+		{
+			$this->reset();
+		}
+	}
+	
+	/**
+	 * @return void
+	 */
+	protected function reset()
+	{
+		$this->auth->acl_clear_prefetch();
+		$this->cache->destroy('sql', FORUMS_TABLE);
 	}
 }
