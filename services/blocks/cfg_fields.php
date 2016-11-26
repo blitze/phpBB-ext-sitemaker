@@ -125,7 +125,7 @@ abstract class cfg_fields
 	 */
 	protected function ensure_array($selected_items)
 	{
-		return array_filter(is_array($selected_items) ? $selected_items : explode(',', $selected_items));
+		return array_filter(is_array($selected_items) ? $selected_items : explode(',', $selected_items), 'strlen');
 	}
 
 	/**
@@ -167,12 +167,14 @@ abstract class cfg_fields
 	 */
 	protected function get_checkbox_column(array $row, array $selected_items, $field, $column_count, $column_class)
 	{
+		$idx = 0;
 		$column = '<div class="' . $column_class . $field . '-checkbox" id="' . $field . '-col-' . $column_count . '">';
 		foreach ($row as $value => $title)
 		{
 			$title = $this->user->lang($title);
 			$selected = $this->get_selected_option($value, $selected_items, 'checked');
-			$column .= '<label><input type="checkbox" name="config[' . $field . '][]" value="' . $value . '"' . $selected . ' accesskey="' . $field . '" class="checkbox" /> ' . $title . '</label><br />';
+			$column .= '<label><input type="checkbox" name="config[' . $field . '][' . $idx . ']" value="' . $value . '"' . $selected . ' class="checkbox" /> ' . $title . '</label><br />';
+			$idx++;
 		}
 		$column .= '</div>';
 
