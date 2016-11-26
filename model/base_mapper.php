@@ -17,7 +17,7 @@ abstract class base_mapper implements mapper_interface
 	/** @var \blitze\sitemaker\model\base_collection */
 	protected $collection;
 
-	/** @var \blitze\sitemaker\model\mapper_factory */
+	/** @var \blitze\sitemaker\model\mapper_factory_interface */
 	protected $mapper_factory;
 
 	/** @var string */
@@ -32,12 +32,12 @@ abstract class base_mapper implements mapper_interface
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface				$db					Database object
-	 * @param \blitze\sitemaker\model\base_collection		$collection			Entity collection
-	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory		Mapper factory object
-	 * @param string										$entity_table
+	 * @param \phpbb\db\driver\driver_interface						$db					Database object
+	 * @param \blitze\sitemaker\model\base_collection				$collection			Entity collection
+	 * @param \blitze\sitemaker\model\mapper_factory_interface		$mapper_factory		Mapper factory object
+	 * @param string												$entity_table
 	 */
-	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory $mapper_factory, $entity_table)
+	public function  __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\model\base_collection $collection, \blitze\sitemaker\model\mapper_factory_interface $mapper_factory, $entity_table)
 	{
 		$this->db = $db;
 		$this->collection = $collection;
@@ -183,10 +183,7 @@ abstract class base_mapper implements mapper_interface
 			list($field, $operator, $value) = $info;
 
 			$callable = 'get_sql_where_' . gettype($value);
-			if (is_callable(array($this, $callable)))
-			{
-				$sql_where[] = call_user_func_array(array($this, $callable), array($field, $value, $operator));
-			}
+			$sql_where[] = $this->$callable($field, $value, $operator);
 		}
 
 		return $sql_where;
