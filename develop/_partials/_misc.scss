@@ -24,14 +24,16 @@
 .field-label {
 	font-weight: bold;
 	margin-top: 5px;
+	margin-right: 4px;
 }
 
 .label-hidden {
-	display: none;
+	visibility: hidden;
+	height: 0;
 }
 
 .label-inline {
-	display: inline;
+	display: inline-block;
 }
 
 .label-newline {
