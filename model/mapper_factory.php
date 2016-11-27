@@ -27,7 +27,7 @@ class mapper_factory implements mapper_factory_interface
 	 * @param \phpbb\db\driver\driver_interface		$db			Database object
 	 * @param array									$tables		Tables for data mapping
 	 */
-	public function  __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, array $tables)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, array $tables)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -37,7 +37,7 @@ class mapper_factory implements mapper_factory_interface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function create($type, $mapper)
+	public function create($type, $mapper = '')
 	{
 		$mapper_class = 'blitze\\sitemaker\\model\\' . $type . '\\mapper\\' . $mapper;
 		$collection = 'blitze\\sitemaker\\model\\' . $type . '\\collections\\' . $mapper;

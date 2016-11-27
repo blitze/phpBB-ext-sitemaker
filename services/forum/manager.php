@@ -114,7 +114,7 @@ class manager
 			$this->reset();
 		}
 	}
-	
+
 	/**
 	 * @return void
 	 */
