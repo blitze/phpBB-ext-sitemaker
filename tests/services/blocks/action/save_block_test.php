@@ -28,7 +28,7 @@ class save_block_test extends base_action
 					array('class', '', false, request_interface::REQUEST, 'bg3'),
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
 					array('permission', array(0), false, request_interface::REQUEST, array(1, 4)),
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
 						'my_setting'	=> 0,
 						'other_setting'	=> 1,
@@ -55,7 +55,7 @@ class save_block_test extends base_action
 					array('id', 0, false, request_interface::REQUEST, 6),
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
 					array('permission', array(0), false, request_interface::REQUEST, array()),
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
 						'my_setting'	=> 1,
 						'other_setting'	=> 1,
@@ -84,7 +84,7 @@ class save_block_test extends base_action
 					array('type', 0, false, request_interface::REQUEST, 2),
 					array('no_wrap', 0, false, request_interface::REQUEST, 1),
 					array('permission', array(0), false, request_interface::REQUEST, array()),
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
 				),
 				array(

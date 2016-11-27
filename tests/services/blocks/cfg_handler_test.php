@@ -105,9 +105,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<div class="my_var-checkbox" id="my_var-col-0">' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" accesskey="my_var" class="checkbox" /> Option 1</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option2" accesskey="my_var" class="checkbox" /> Option 2</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" accesskey="my_var" class="checkbox" /> Option 3</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][0]" value="option1" checked="checked" class="checkbox" /> Option 1</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][1]" value="option2" class="checkbox" /> Option 2</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][2]" value="option3" checked="checked" class="checkbox" /> Option 3</label><br />' .
 						'</div>',
 				),
 			),
@@ -176,6 +176,21 @@ class cfg_handler_test extends \phpbb_test_case
 					'CONTENT'		=> '<div>Hello foo foo</div>',
 				),
 			),
+			array(
+				'option2',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:toggable', 'object' => $this, 'method' => 'create_test_options', 'options' => $options, 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var]" data-togglable-settings="true">' .
+						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
+						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
+						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
+						'</select>',
+				),
+			),
 		);
 	}
 
@@ -231,7 +246,7 @@ class cfg_handler_test extends \phpbb_test_case
 		return array(
 			array(
 				array(
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array(
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array(
 						'my_var' => array('option2', 'option4'),
 					)),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
@@ -241,7 +256,7 @@ class cfg_handler_test extends \phpbb_test_case
 			),
 			array(
 				array(
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 'option3')),
 				),
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
@@ -249,7 +264,7 @@ class cfg_handler_test extends \phpbb_test_case
 			),
 			array(
 				array(
-					array('config', array('' => array('' => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 200)),
 				),
 				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10),
@@ -393,9 +408,9 @@ class cfg_handler_test extends \phpbb_test_case
 				'',
 				'topic_ids',
 				'<div class="topic_ids-checkbox" id="topic_ids-col-0">' .
-				'<label><input type="checkbox" name="config[topic_ids][]" value="option1" accesskey="topic_ids" class="checkbox" /> Option #1</label><br />' .
-				'<label><input type="checkbox" name="config[topic_ids][]" value="option2" accesskey="topic_ids" class="checkbox" /> Option #2</label><br />' .
-				'<label><input type="checkbox" name="config[topic_ids][]" value="option3" accesskey="topic_ids" class="checkbox" /> Option #3</label><br />' .
+				'<label><input type="checkbox" name="config[topic_ids][0]" value="option1" class="checkbox" /> Option #1</label><br />' .
+				'<label><input type="checkbox" name="config[topic_ids][1]" value="option2" class="checkbox" /> Option #2</label><br />' .
+				'<label><input type="checkbox" name="config[topic_ids][2]" value="option3" class="checkbox" /> Option #3</label><br />' .
 				'</div>'
 			),
 			array(
@@ -412,12 +427,12 @@ class cfg_handler_test extends \phpbb_test_case
 				'',
 				'content_type',
 				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-news">' .
-				'<label><input type="checkbox" name="config[content_type][]" value="news_field1" accesskey="content_type" class="checkbox" /> News Label 1</label><br />' .
-				'<label><input type="checkbox" name="config[content_type][]" value="news_field2" accesskey="content_type" class="checkbox" /> News Label 2</label><br />' .
+				'<label><input type="checkbox" name="config[content_type][0]" value="news_field1" class="checkbox" /> News Label 1</label><br />' .
+				'<label><input type="checkbox" name="config[content_type][1]" value="news_field2" class="checkbox" /> News Label 2</label><br />' .
 				'</div>' .
 				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-articles">' .
-				'<label><input type="checkbox" name="config[content_type][]" value="article_field1" accesskey="content_type" class="checkbox" /> Article Label 1</label><br />' .
-				'<label><input type="checkbox" name="config[content_type][]" value="article_field2" accesskey="content_type" class="checkbox" /> Article Label 2</label><br />' .
+				'<label><input type="checkbox" name="config[content_type][2]" value="article_field1" class="checkbox" /> Article Label 1</label><br />' .
+				'<label><input type="checkbox" name="config[content_type][3]" value="article_field2" class="checkbox" /> Article Label 2</label><br />' .
 				'</div>'
 			),
 		);
@@ -470,5 +485,22 @@ class cfg_handler_test extends \phpbb_test_case
 		$html = $cfg_fields->build_hidden($value, $key);
 
 		$this->assertEquals($expected, $html);
+	}
+
+	/**
+	 * @param array $options
+	 * @param string $current
+	 * @return string
+	 */
+	public function create_test_options(array $options, $current)
+	{
+		$html = '';
+		foreach ($options as $value => $title)
+		{
+			$selected = ($current == $value) ? ' selected="selected"' : '';
+			$html .= '<option value="' . $value . '"' . $selected . ' data-toggle-setting="#test-' . $value . '">' . $title . '</option>';
+		}
+
+		return $html;
 	}
 }

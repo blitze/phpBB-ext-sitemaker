@@ -51,7 +51,7 @@ class manager_test extends \phpbb_database_test_case
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array('sitemaker_parent_forum_id' => 2));
+		$config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$this->db = $db = $this->new_dbal();
 		$user = new \phpbb\user('\phpbb\datetime');
@@ -69,7 +69,7 @@ class manager_test extends \phpbb_database_test_case
 		$forum_data = array('forum_name' => 'my forum');
 		$expected = array(
 			'forum_name'	=> 'my forum',
-			'parent_id'		=> 2,
+			'parent_id'		=> 0,
 			'forum_type'	=> 1,
 			'hidden_forum'	=> 1,
 			'forum_id'		=> 3,
