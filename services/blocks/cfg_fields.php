@@ -90,6 +90,7 @@ abstract class cfg_fields
 	public function build_checkbox(array $option_ary, $selected_items, $field)
 	{
 		$column_class = 'grid__col grid__col--1-of-2 ';
+		$index = 0;
 		$html = '';
 
 		$selected_items = $this->ensure_array($selected_items);
@@ -97,7 +98,7 @@ abstract class cfg_fields
 
 		foreach ($option_ary as $col => $row)
 		{
-			$html .= $this->get_checkbox_column($row, $selected_items, $field, $col, $column_class);
+			$html .= $this->get_checkbox_column($row, $selected_items, $field, $column_class, $col, $index);
 		}
 
 		return $html;
@@ -140,12 +141,12 @@ abstract class cfg_fields
 	/**
 	 * Force array
 	 *
-	 * @param mixed $selected_items
+	 * @param mixed $items
 	 * @return array
 	 */
-	protected function ensure_array($selected_items)
+	protected function ensure_array($items)
 	{
-		return array_filter(is_array($selected_items) ? $selected_items : explode(',', $selected_items));
+		return is_array($items) ? $items : explode(',', $items);
 	}
 
 	/**
@@ -163,7 +164,7 @@ abstract class cfg_fields
 			$css_class = '';
 			$options = array($options);
 		}
-		return $options;
+		return array_map('array_filter', $options);
 	}
 
 	/**
@@ -181,18 +182,20 @@ abstract class cfg_fields
 	 * @param array $row
 	 * @param array $selected_items
 	 * @param string $field
-	 * @param integer $column_count
 	 * @param string $column_class
+	 * @param int $column_count
+	 * @param int $index
 	 * @return string
 	 */
-	protected function get_checkbox_column(array $row, array $selected_items, $field, $column_count, $column_class)
+	protected function get_checkbox_column(array $row, array $selected_items, $field, $column_class, $column_count, &$index)
 	{
 		$column = '<div class="' . $column_class . $field . '-checkbox" id="' . $field . '-col-' . $column_count . '">';
 		foreach ($row as $value => $title)
 		{
 			$title = $this->translator->lang($title);
 			$selected = $this->get_selected_option($value, $selected_items, 'checked');
-			$column .= '<label><input type="checkbox" name="config[' . $field . '][]" value="' . $value . '"' . $selected . ' accesskey="' . $field . '" class="checkbox" /> ' . $title . '</label><br />';
+			$column .= '<label><input type="checkbox" name="config[' . $field . '][' . $index . ']" value="' . $value . '"' . $selected . ' class="checkbox" /> ' . $title . '</label><br />';
+			$index++;
 		}
 		$column .= '</div>';
 
