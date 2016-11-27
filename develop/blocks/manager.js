@@ -121,7 +121,7 @@
 	};
 
 	var renderBlock = function(blockObj, blockData) {
-		var id = 'block-editor-' + blockData.id;
+		var id = 'block-editor-' + blockData.block.id;
 
 		// if tinymce editor instance already exists, remove it
 		if (tinymce.get(id)) {
@@ -133,10 +133,10 @@
 		blockObj.html(template.render(blockData));
 
 		// if custom block, add editor
-		if (blockData.name === 'blitze.sitemaker.block.custom') {
+		if (blockData.block.name === "blitze.sitemaker.block.custom") {
 			if (blockObj.find('#' + id).length) {
 				tinymce.EditorManager.execCommand('mceAddEditor', false, id);
-			} else if (blockData.content.indexOf('script') > -1) {
+			} else if (blockData.data.content.indexOf('script') > -1) {
 				eval(blockObj.find('.sm-block-content').html());
 			}
 		}
@@ -188,7 +188,7 @@
 
 			var blockObj = $(droppedElement).attr('id', 'block-' + result.id);
 
-			renderBlock(blockObj, result);
+			renderBlock(blockObj, { block: result });
 			blockObj.children().not('.block-controls')
 				.show('scale', {percent: 100}, 1000);
 
@@ -196,24 +196,6 @@
 				saveLayout();
 			}
 		});
-	};
-
-	// Credit: http://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser/4238971#4238971
-	var placeCaretAtEnd = function(el) {
-		el.focus();
-		if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
-			var range = document.createRange();
-			range.selectNodeContents(el);
-			range.collapse(false);
-			var sel = window.getSelection();
-			sel.removeAllRanges();
-			sel.addRange(range);
-		} else if (typeof document.body.createTextRange !== "undefined") {
-			var textRange = document.body.createTextRange();
-			textRange.moveToElementText(el);
-			textRange.collapse(false);
-			textRange.select();
-		}
 	};
 
 	var getEditForm = function(block) {
@@ -231,15 +213,8 @@
 					phpbb.toggleSelectSettings($this);
 				});
 				dialogEdit.dialog({buttons: eButtons}).dialog('option', 'title', lang.edit + ' - ' + resp.title).dialog('open');
-				setTimeout(function() {
-					placeCaretAtEnd(dialogEdit.find('#block_class').get(0));
-				}, 1000);
 			}
 		});
-	};
-
-	var getCustomClasses = function() {
-		return dialogEdit.find('#block_class').text().trim();
 	};
 
 	var saveForm = function(block) {
@@ -259,15 +234,13 @@
 			data['config[source]'] = encodeURI(data['config[source]']);
 		}
 
-		data['class'] = getCustomClasses();
-
 		dialogEdit.dialog('close');
 
 		$.post(config.ajaxUrl + '/blocks/save_block', data, function(resp) {
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
 					row.content = fixPaths(row.content);
-					renderBlock($('#block-' + row.id), row);
+					renderBlock($('#block-' + row.id), { block: row });
 				});
 			}
 		});
@@ -281,7 +254,7 @@
 			if (editing === true) {
 				undoEditable(resp.title);
 			}
-		});
+		}, 'json');
 	};
 
 	var customBlockAction = function(data) {
@@ -361,7 +334,7 @@
 			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
 		});
 
-		data.block['class'] = getCustomClasses();
+		data.block['class'] = dialogEdit.find('#block_class').text().trim();
 
 		renderBlock(blockObj, data);
 	};
@@ -760,7 +733,7 @@
 						editor.text('').change();
 						break;
 					case 'toggle':
-						dialogEdit.find($(this).attr('href')).slideToggle();
+						dialogEdit.find('#css-class-options').slideToggle();
 						break;
 					case 'undo':
 					case 'redo':
@@ -778,9 +751,8 @@
 				e.preventDefault();
 			}).on('click', '.transform', function(e) {
 				var editor = dialogEdit.find('#block_class');
-				var currClassesLength = editor.text().length;
-				var space = currClassesLength ? ' ' : '';
-				document.execCommand('insertText', false, space + $(this).text());
+				editor.focus();
+				document.execCommand('insertText', false, $(this).text() + ' ');
 				editor.change();
 				e.preventDefault();
 			}).on('change', '.block-preview', function() {
