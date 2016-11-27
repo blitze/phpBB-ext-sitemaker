@@ -70,10 +70,11 @@ class admin
 	 * @param string $action_subforums
 	 * @param int $posts_to_id
 	 * @param int $subforums_to_id
+	 * @return array
 	 */
 	public static function remove($forum_id, $action_posts = 'delete', $action_subforums = 'delete', $posts_to_id = 0, $subforums_to_id = 0)
 	{
 		$forum = new \acp_forums();
-		$forum->delete_forum($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
+		return $forum->delete_forum($forum_id, $action_posts, $action_subforums, $posts_to_id, $subforums_to_id);
 	}
 }
