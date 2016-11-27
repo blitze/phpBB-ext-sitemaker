@@ -58,16 +58,10 @@ class cfg_handler extends cfg_fields
 	 */
 	public function get_edit_form(array $block_data, array $default_settings)
 	{
-		global $module;
-
 		if (!function_exists('build_cfg_template'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_acp.' . $this->php_ext); // @codeCoverageIgnore
 		}
-
-		// We fake this class as it is needed by the build_cfg_template function
-		$module = new \stdClass();
-		$module->module = $this;
 
 		$this->generate_config_fields($block_data['settings'], $default_settings);
 
@@ -197,17 +191,33 @@ class cfg_handler extends cfg_fields
 	 */
 	private function get_field_template($field, array &$db_settings, array &$vars)
 	{
+		global $module;
+
 		$vars['lang_explain'] = $this->explain_field($vars);
 		$vars['append'] = $this->append_field($vars);
 
 		$type = explode(':', $vars['type']);
-		$method = 'prep_' . $type[0] . '_field_for_display';
 
-		if (is_callable(array($this, $method)))
+		if (empty($vars['object']))
 		{
-			$this->set_params($field, $vars, $db_settings);
-			$this->$method($vars, $type, $field, $db_settings);
+			$object = $this;
+			$method = 'prep_' . $type[0] . '_field_for_display';
+
+			if (is_callable(array($this, $method)))
+			{
+				$this->set_params($field, $vars, $db_settings);
+				$this->$method($vars, $type, $field, $db_settings);
+			}
 		}
+		else
+		{
+			$object = $vars['object'];
+			$this->set_params($field, $vars, $db_settings);
+		}
+
+		// We fake this class as it is needed by the build_cfg_template function
+		$module = new \stdClass();
+		$module->module = $object;
 
 		return build_cfg_template($type, $field, $db_settings, $field, $vars);
 	}
@@ -394,7 +404,7 @@ class cfg_handler extends cfg_fields
 	 */
 	private function get_multi_select(array &$cfg_array, array $df_settings)
 	{
-		$multi_select = utf8_normalize_nfc($this->request->variable('config', array('' => array('' => '')), true));
+		$multi_select = $this->request->variable('config', array('' => array(0 => '')), true);
 		$multi_select = array_filter($multi_select);
 
 		foreach ($multi_select as $field => $settings)
