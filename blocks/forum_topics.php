@@ -10,7 +10,7 @@
 namespace blitze\sitemaker\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
-use Nickvergessen\TrimMessage\TrimMessage;
+use Urodoz\Truncate\TruncateService;
 
 /**
  * Forum Topics Block
@@ -237,12 +237,11 @@ class forum_topics extends block
 	 */
 	protected function get_trimmed_text(array $row)
 	{
-		$trim = new TrimMessage($row['post_text'], $row['bbcode_uid'], $this->settings['preview_chars']);
-		$row['post_text'] = $trim->message();
-		unset($trim);
-
 		$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
-		return generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+		$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+
+		$truncateService = new TruncateService();
+		return $truncateService->truncate($row['post_text'], $this->settings['preview_chars']);
 	}
 
 	/**

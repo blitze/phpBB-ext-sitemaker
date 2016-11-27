@@ -1,7 +1,7 @@
 {
 	"name": "blitze/sitemaker",
     "type": "phpbb-extension",
-	"description": "Transform your phpBB board into a full-blown site.",
+	"description": "A Site Maker for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
 	"version": "3.0.0-dev",
 	"time": "2014-01-14 01:01:01",
@@ -10,12 +10,12 @@
 			"name": "Daniel A.",
 			"email": "shizzah@hotmail.com",
 			"homepage": "https://github.com/blitze",
-			"role": "Developer"
+			"role": "Lead Developer"
 		}],
 	"require": {
 		"php": ">=5.4,<7.1",
 		"composer/installers": "^1.1",
-		"nickvergessen/phpbb-tool-trimmessage": "^1.3"
+		"urodoz/truncate-html": "@stable"
 	},
 	"extra": {
 		"display-name": "phpBB SiteMaker",
@@ -24,9 +24,8 @@
 		},
 		"version-check": {
 			"host": "blitze.github.io",
-			"directory": "/version-check/phpbb-extensions",
-			"filename": "sitemaker_versions.json",
-			"ssl": true
+			"directory": "/versions",
+			"filename": "sitemaker.json"
 		}
 	}
 }
