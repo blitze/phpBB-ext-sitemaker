@@ -14,7 +14,7 @@ class members
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var\phpbb\language\language */
+	/** @var \phpbb\language\language */
 	protected $translator;
 
 	/** @var \phpbb\user */
