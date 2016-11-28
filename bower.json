@@ -12,18 +12,18 @@
     "codemirror": "^5.18.2"
   },
   "overrides": {
+    "fontawesome": {
+      "main": [
+        "./css/font-awesome.css",
+        "./fonts/*"
+      ]
+    },
     "codemirror": {
       "main": [
         "lib/codemirror.js",
         "lib/codemirror.css",
         "addon/display/autorefresh.js",
         "theme/monokai.css"
-      ]
-    },
-    "fontawesome": {
-      "main": [
-        "./css/font-awesome.css",
-        "./fonts/*"
       ]
     },
     "jquery-ui": {
