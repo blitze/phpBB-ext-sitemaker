@@ -23,6 +23,9 @@ class manager
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $translator;
+
 	/** @var \acp_forums */
 	protected $forum;
 
@@ -49,6 +52,7 @@ class manager
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
+		$this->translator = $translator;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -63,7 +67,7 @@ class manager
 			include($this->phpbb_root_path . 'includes/acp/acp_forums.' . $this->php_ext);
 		}
 
-		$translator->add_lang('acp/forums');
+		$this->translator->add_lang('acp/forums');
 	}
 
 	/**
