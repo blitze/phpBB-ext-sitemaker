@@ -53,7 +53,7 @@ install:
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
   - sh -c "if [ '$COVERAGE' != '0' ] && [ '$NOTESTS' != '1' ]; then ../$GITREPO/travis/prepare-coverage.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
-  - sh -c "if [ '$EPV' != '0' ]; then ../$GITREPO/travis/prepare-epv.sh $DB $TRAVIS_PHP_VERSION; fi"
+  - sh -c "if [ '$EPV' != '0' ]; then ../$GITREPO/travis/prepare-epv.sh $NOTESTS; fi"
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
