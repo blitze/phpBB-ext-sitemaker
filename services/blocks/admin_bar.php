@@ -144,7 +144,7 @@ class admin_bar
 		$symfony_request = $this->phpbb_container->get('symfony_request');
 		$controller = $symfony_request->attributes->get('_controller');
 
-		if ($controller && $controller !== 'blitze.sitemaker.forum.controller:handle')
+		if ($controller)
 		{
 			list($controller_service, $controller_method) = explode(':', $controller);
 			$controller_params	= $symfony_request->attributes->get('_route_params');
