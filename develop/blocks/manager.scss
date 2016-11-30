@@ -175,6 +175,11 @@ body {
 	top: 15px;
 	right: 15px;
 	width: auto;
+
+	.forabg + & {
+		top: 7px;
+		right: 4px;
+	}
 }
 
 .block-receiver {
