@@ -26,9 +26,9 @@ class edit_block extends base_action
 		$block_id = $this->request->variable('id', 0);
 
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
-		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$block_mapper = $this->mapper_factory->create('blocks');
 
-		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
+		/** @type \blitze\sitemaker\model\entity\block $entity */
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('bid');

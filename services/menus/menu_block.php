@@ -72,7 +72,7 @@ abstract class menu_block extends block
 	 */
 	protected function get_all_menus()
 	{
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
+		$item_mapper = $this->mapper_factory->create('items');
 
 		$collection = $item_mapper->find();
 
@@ -160,7 +160,7 @@ abstract class menu_block extends block
 	 */
 	protected function get_menu_options()
 	{
-		$collection = $this->mapper_factory->create('menus', 'menus')->find();
+		$collection = $this->mapper_factory->create('menus')->find();
 
 		$options = array();
 		foreach ($collection as $entity)

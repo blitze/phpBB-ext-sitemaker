@@ -100,7 +100,7 @@ class set_route_prefs_test extends base_action
 
 		$this->assertEquals('ROUTE_UPDATED', $result['message']);
 
-		$mapper = $this->mapper_factory->create('blocks', 'routes');
+		$mapper = $this->mapper_factory->create('routes');
 		$entity = $mapper->load(array(
 			array('route', '=', $variable_map[0][4]),
 			array('style', '=', 1),

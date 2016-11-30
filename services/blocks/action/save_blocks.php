@@ -14,10 +14,10 @@ class save_blocks extends base_action
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $block_mapper;
 
-	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
+	/** @var \blitze\sitemaker\model\mapper\routes */
 	protected $route_mapper;
 
 	/**
@@ -28,15 +28,15 @@ class save_blocks extends base_action
 		$route = $this->request->variable('route', '');
 		$blocks = $this->request->variable('blocks', array(0 => array('' => '')));
 
-		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
-		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$this->route_mapper = $this->mapper_factory->create('routes');
+		$this->block_mapper = $this->mapper_factory->create('blocks');
 
 		$route_entity = $this->force_get_route(array(
 			'route'	=> $route,
 			'style'	=> $style_id,
 		));
 
-		/** @type \blitze\sitemaker\model\blocks\entity\route $route_entity */
+		/** @type \blitze\sitemaker\model\entity\route $route_entity */
 		$this->save($route_entity, $blocks);
 
 		return array('message' => $this->translator->lang('LAYOUT_SAVED'));
@@ -45,10 +45,10 @@ class save_blocks extends base_action
 	/**
 	 * Save blocks for route
 	 *
-	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 * @param \blitze\sitemaker\model\entity\route $entity
 	 * @param array $blocks
 	 */
-	protected function save(\blitze\sitemaker\model\blocks\entity\route $entity, array $blocks)
+	protected function save(\blitze\sitemaker\model\entity\route $entity, array $blocks)
 	{
 		// find all blocks for this route
 		$db_blocks = $this->get_blocks($entity);
@@ -64,10 +64,10 @@ class save_blocks extends base_action
 	/**
 	 * Get all blocks for route
 	 *
-	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 * @param \blitze\sitemaker\model\entity\route $entity
 	 * @return array
 	 */
-	protected function get_blocks(\blitze\sitemaker\model\blocks\entity\route $entity)
+	protected function get_blocks(\blitze\sitemaker\model\entity\route $entity)
 	{
 		$collection = $entity->get_blocks();
 
@@ -109,9 +109,9 @@ class save_blocks extends base_action
 	 * Update route if it has blocks or route is customized, otherwise, delete the route
 	 *
 	 * @param array                                       $blocks_to_update
-	 * @param \blitze\sitemaker\model\blocks\entity\route $entity
+	 * @param \blitze\sitemaker\model\entity\route $entity
 	 */
-	protected function update_route(array $blocks_to_update, \blitze\sitemaker\model\blocks\entity\route $entity)
+	protected function update_route(array $blocks_to_update, \blitze\sitemaker\model\entity\route $entity)
 	{
 		$has_blocks = (sizeof($blocks_to_update)) ? true : false;
 

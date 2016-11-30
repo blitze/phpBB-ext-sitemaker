@@ -16,9 +16,9 @@ class add_menu extends base_action
 	 */
 	public function execute()
 	{
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus');
 
-		/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
+		/** @type \blitze\sitemaker\model\entity\menu $entity */
 		$entity = $menu_mapper->create_entity(array(
 			'menu_name' => $this->translator->lang('MENU') . '-' . mt_rand(1000, 9999),
 		));

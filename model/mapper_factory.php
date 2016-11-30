@@ -37,11 +37,11 @@ class mapper_factory implements mapper_factory_interface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function create($type, $mapper = '')
+	public function create($type)
 	{
-		$mapper_class = 'blitze\\sitemaker\\model\\' . $type . '\\mapper\\' . $mapper;
-		$collection = 'blitze\\sitemaker\\model\\' . $type . '\\collections\\' . $mapper;
+		$mapper_class = 'blitze\\sitemaker\\model\\mapper\\' . $type;
+		$collection = 'blitze\\sitemaker\\model\\collections\\' . $type;
 
-		return new $mapper_class($this->db, new $collection, $this, $this->mapper_tables[$mapper], $this->config);
+		return new $mapper_class($this->db, new $collection, $this, $this->mapper_tables[$type], $this->config);
 	}
 }

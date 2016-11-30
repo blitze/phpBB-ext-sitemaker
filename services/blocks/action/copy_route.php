@@ -11,10 +11,10 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class copy_route extends base_action
 {
-	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $block_mapper;
 
-	/** @var \blitze\sitemaker\model\blocks\mapper\routes */
+	/** @var \blitze\sitemaker\model\mapper\routes */
 	protected $route_mapper;
 
 	/**
@@ -27,8 +27,8 @@ class copy_route extends base_action
 		$from_route = $this->request->variable('from_route', '');
 		$from_style = $this->request->variable('from_style', $style_id);
 
-		$this->route_mapper = $this->mapper_factory->create('blocks', 'routes');
-		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$this->route_mapper = $this->mapper_factory->create('routes');
+		$this->block_mapper = $this->mapper_factory->create('blocks');
 
 		$route_data = array(
 			'config'	=> array(),
@@ -48,10 +48,10 @@ class copy_route extends base_action
 		// delete the current route and all it's blocks
 		$this->delete_route($route, $style_id);
 
-		/** @type \blitze\sitemaker\model\blocks\entity\route $from_entity */
+		/** @type \blitze\sitemaker\model\entity\route $from_entity */
 		$copied_route = $this->duplicate_route($from_entity, $route, $ext_name, $style_id);
 
-		/** @type \blitze\sitemaker\model\blocks\entity\route $copied_route */
+		/** @type \blitze\sitemaker\model\entity\route $copied_route */
 		$copied_blocks = $this->duplicate_blocks($from_entity->get_blocks(), $copied_route->get_route_id(), $copied_route->get_style());
 
 		$route_data['config'] = $copied_route->to_array();
@@ -80,13 +80,13 @@ class copy_route extends base_action
 	/**
 	 * Copy the route preferences
 	 *
-	 * @param \blitze\sitemaker\model\blocks\entity\route $from_entity
+	 * @param \blitze\sitemaker\model\entity\route $from_entity
 	 * @param string $route
 	 * @param string $ext_name
 	 * @param int $style
 	 * @return \blitze\sitemaker\model\entity_interface
 	 */
-	protected function duplicate_route(\blitze\sitemaker\model\blocks\entity\route $from_entity, $route, $ext_name, $style)
+	protected function duplicate_route(\blitze\sitemaker\model\entity\route $from_entity, $route, $ext_name, $style)
 	{
 		$copy = clone $from_entity;
 		$copy->set_route($route)
@@ -99,12 +99,12 @@ class copy_route extends base_action
 	/**
 	 * Copy the blocks
 	 *
-	 * @param \blitze\sitemaker\model\blocks\collections\blocks $collection
+	 * @param \blitze\sitemaker\model\collections\blocks $collection
 	 * @param int $route_id
 	 * @param int $style_id
 	 * @return array
 	 */
-	protected function duplicate_blocks(\blitze\sitemaker\model\blocks\collections\blocks $collection, $route_id, $style_id)
+	protected function duplicate_blocks(\blitze\sitemaker\model\collections\blocks $collection, $route_id, $style_id)
 	{
 		$blocks = array();
 		foreach ($collection as $entity)
@@ -113,7 +113,7 @@ class copy_route extends base_action
 			$copy->set_style($style_id)
 				->set_route_id($route_id);
 
-			/** @type \blitze\sitemaker\model\blocks\entity\block $copied */
+			/** @type \blitze\sitemaker\model\entity\block $copied */
 			$copied = $this->block_mapper->save($copy);
 			$position = $copied->get_position();
 
@@ -127,9 +127,9 @@ class copy_route extends base_action
 
 	/**
 	 * @param int $from_bid
-	 * @param \blitze\sitemaker\model\blocks\entity\block $entity
+	 * @param \blitze\sitemaker\model\entity\block $entity
 	 */
-	protected function copy_custom_block($from_bid, \blitze\sitemaker\model\blocks\entity\block $entity)
+	protected function copy_custom_block($from_bid, \blitze\sitemaker\model\entity\block $entity)
 	{
 		if ($entity->get_name() === 'blitze.sitemaker.block.custom')
 		{

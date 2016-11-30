@@ -19,9 +19,9 @@ class save_item extends base_action
 	{
 		$item_id = $this->request->variable('item_id', 0);
 
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
+		$item_mapper = $this->mapper_factory->create('items');
 
-		/** @type \blitze\sitemaker\model\menus\entity\item $entity */
+		/** @type \blitze\sitemaker\model\entity\item $entity */
 		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('item_id');

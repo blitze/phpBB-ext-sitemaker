@@ -21,9 +21,9 @@ class load_items extends base_action
 
 		if ($menu_id)
 		{
-			$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+			$menu_mapper = $this->mapper_factory->create('menus');
 
-			/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
+			/** @type \blitze\sitemaker\model\entity\menu $entity */
 			if (($entity = $menu_mapper->load(array('menu_id', '=', $menu_id))) === null)
 			{
 				throw new \blitze\sitemaker\exception\out_of_bounds('menu_id');

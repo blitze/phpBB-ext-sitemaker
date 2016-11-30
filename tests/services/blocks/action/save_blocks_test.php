@@ -128,7 +128,7 @@ class save_blocks_test extends base_action
 
 		$this->assertEquals('LAYOUT_SAVED', $result['message']);
 
-		$mapper = $this->mapper_factory->create('blocks', 'routes');
+		$mapper = $this->mapper_factory->create('routes');
 		$entity = $mapper->load(array('route', '=', $route));
 
 		if ($entity)

@@ -19,7 +19,7 @@ class load_item extends base_action
 	{
 		$item_id = $this->request->variable('item_id', 0);
 
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
+		$item_mapper = $this->mapper_factory->create('items');
 
 		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{

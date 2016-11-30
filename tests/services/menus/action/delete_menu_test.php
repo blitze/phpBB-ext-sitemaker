@@ -27,7 +27,7 @@ class delete_menu_test extends base_action
 
 		$result = $command->execute();
 
-		$items_mapper = $this->mapper_factory->create('menus', 'items');
+		$items_mapper = $this->mapper_factory->create('items');
 
 		$collection = $items_mapper->find(array('menu_id', '=', $menu_id));
 

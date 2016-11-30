@@ -25,7 +25,7 @@ class update_block extends base_action
 			'icon'	=> $this->request->variable('icon', ''),
 		);
 
-		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$block_mapper = $this->mapper_factory->create('blocks');
 
 		if (($entity = $block_mapper->load(array('bid', '=', $block_id))) === null)
 		{

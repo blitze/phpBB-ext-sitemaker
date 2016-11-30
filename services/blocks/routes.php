@@ -249,7 +249,7 @@ class routes
 	 */
 	protected function get_all_blocks()
 	{
-		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$block_mapper = $this->mapper_factory->create('blocks');
 		$collection = $block_mapper->find();
 
 		$blocks = array();
@@ -280,7 +280,7 @@ class routes
 	{
 		if (($all_routes = $this->cache->get('sitemaker_block_routes')) === false)
 		{
-			$route_mapper = $this->mapper_factory->create('blocks', 'routes');
+			$route_mapper = $this->mapper_factory->create('routes');
 			$collection = $route_mapper->find();
 
 			$all_routes = array();

@@ -19,8 +19,8 @@ class add_item extends base_action
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
-		$items_mapper = $this->mapper_factory->create('menus', 'items');
+		$menu_mapper = $this->mapper_factory->create('menus');
+		$items_mapper = $this->mapper_factory->create('items');
 
 		if ($menu_mapper->load(array('menu_id', '=', $menu_id)) === null)
 		{

@@ -70,7 +70,7 @@ abstract class base_action implements action_interface
 	 */
 	protected function force_get_route(array $route_data, $has_blocks = false)
 	{
-		$route_mapper = $this->mapper_factory->create('blocks', 'routes');
+		$route_mapper = $this->mapper_factory->create('routes');
 
 		if (($route = $route_mapper->load($this->get_condition($route_data))) === null)
 		{
@@ -102,7 +102,7 @@ abstract class base_action implements action_interface
 	 */
 	protected function render_block(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
+		/** @type \blitze\sitemaker\model\entity\block $entity */
 		$block_name = $entity->get_name();
 		if ($block_instance = $this->block_factory->get_block($block_name))
 		{

@@ -20,9 +20,9 @@ class save_tree extends base_action
 		$menu_id = $this->request->variable('menu_id', 0);
 		$raw_tree = $this->request->variable('tree', array(0 => array('' => 0)));
 
-		/** @type \blitze\sitemaker\model\menus\mapper\items $item_mapper */
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+		/** @type \blitze\sitemaker\model\mapper\items $item_mapper */
+		$item_mapper = $this->mapper_factory->create('items');
+		$menu_mapper = $this->mapper_factory->create('menus');
 
 		if ($menu_mapper->load(array('menu_id', '=', $menu_id)) === null)
 		{

@@ -35,7 +35,7 @@ class add_block extends base_action
 		$default_settings = $block_instance->get_config(array());
 		$block_settings = $this->blocks->sync_settings($default_settings);
 
-		$block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$block_mapper = $this->mapper_factory->create('blocks');
 
 		$entity = $block_mapper->create_entity(array(
 			'name'			=> $name,

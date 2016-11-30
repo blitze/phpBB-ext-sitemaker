@@ -205,7 +205,7 @@ class copy_route_test extends base_action
 
 		$command = $this->get_command('copy_route', $variable_map);
 
-		$block_mapper = $this->mapper_factory->create('blocks', 'routes');
+		$block_mapper = $this->mapper_factory->create('routes');
 
 		$orig_route = $block_mapper->load(array('route', '=', $current_route));
 

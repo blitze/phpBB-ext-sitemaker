@@ -11,7 +11,7 @@ namespace blitze\sitemaker\services\blocks\action;
 
 class save_block extends base_action
 {
-	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $block_mapper;
 
 	/**
@@ -23,9 +23,9 @@ class save_block extends base_action
 		$block_id = $this->request->variable('id', 0);
 		$update_similar = $this->request->variable('similar', false);
 
-		$this->block_mapper = $this->mapper_factory->create('blocks', 'blocks');
+		$this->block_mapper = $this->mapper_factory->create('blocks');
 
-		/** @type \blitze\sitemaker\model\blocks\entity\block $entity */
+		/** @type \blitze\sitemaker\model\entity\block $entity */
 		if (($entity = $this->block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('bid');

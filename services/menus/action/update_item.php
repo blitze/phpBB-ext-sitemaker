@@ -25,7 +25,7 @@ class update_item extends base_action
 			'item_title'	=> $this->request->variable('item_title', '', true),
 		);
 
-		$item_mapper = $this->mapper_factory->create('menus', 'items');
+		$item_mapper = $this->mapper_factory->create('items');
 
 		if (($entity = $item_mapper->load(array('item_id', '=', $item_id))) === null)
 		{

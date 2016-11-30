@@ -31,10 +31,10 @@ class mapper_factory_test extends \phpbb_test_case
 	public function create_mapper_test_data()
 	{
 		return array(
-			array('blocks', 'blocks', '\blitze\sitemaker\model\blocks\mapper\blocks'),
-			array('blocks', 'routes', '\blitze\sitemaker\model\blocks\mapper\routes'),
-			array('menus', 'menus', '\blitze\sitemaker\model\menus\mapper\menus'),
-			array('menus', 'items', '\blitze\sitemaker\model\menus\mapper\items'),
+			array('blocks', '\blitze\sitemaker\model\mapper\blocks'),
+			array('routes', '\blitze\sitemaker\model\mapper\routes'),
+			array('menus', '\blitze\sitemaker\model\mapper\menus'),
+			array('items', '\blitze\sitemaker\model\mapper\items'),
 		);
 	}
 
@@ -42,11 +42,10 @@ class mapper_factory_test extends \phpbb_test_case
 	 * Test mapper factory
 	 *
 	 * @dataProvider create_mapper_test_data
-	 * @param string $mapper
 	 * @param string $type
 	 * @param string $expected_class
 	 */
-	public function test_create_mapper($mapper, $type, $expected_class)
+	public function test_create_mapper($type, $expected_class)
 	{
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -63,6 +62,6 @@ class mapper_factory_test extends \phpbb_test_case
 
 		$mapper_factory = new mapper_factory($config, $db, $tables);
 
-		$this->assertInstanceOf($expected_class, $mapper_factory->create($mapper, $type));
+		$this->assertInstanceOf($expected_class, $mapper_factory->create( $type));
 	}
 }

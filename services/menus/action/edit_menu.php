@@ -20,9 +20,9 @@ class edit_menu extends base_action
 		$menu_id = $this->request->variable('menu_id', 0);
 		$menu_name = $this->request->variable('title', '', true);
 
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus');
 
-		/** @type \blitze\sitemaker\model\menus\entity\menu $entity */
+		/** @type \blitze\sitemaker\model\entity\menu $entity */
 		if (($entity = $menu_mapper->load(array('menu_id', '=', $menu_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('menu_id');

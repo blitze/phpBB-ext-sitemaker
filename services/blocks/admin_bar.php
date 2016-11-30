@@ -230,12 +230,12 @@ class admin_bar
 	protected function get_routes()
 	{
 		$factory = $this->phpbb_container->get('blitze.sitemaker.mapper.factory');
-		$collection = $factory->create('blocks', 'routes')->find();
+		$collection = $factory->create('routes')->find();
 
 		$routes_ary = array();
 		foreach ($collection as $entity)
 		{
-			/** @type \blitze\sitemaker\model\blocks\entity\route $entity */
+			/** @type \blitze\sitemaker\model\entity\route $entity */
 			$route_name = $entity->get_route();
 			$routes_ary[$route_name] = $route_name;
 		}

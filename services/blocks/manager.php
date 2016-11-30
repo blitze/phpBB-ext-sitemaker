@@ -17,10 +17,10 @@ class manager
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
 
-	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $block_mapper;
 
-	/** @var \blitze\sitemaker\model\blocks\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $route_mapper;
 
 	/**
@@ -35,8 +35,8 @@ class manager
 		$this->cache = $cache;
 		$this->block_factory = $block_factory;
 
-		$this->block_mapper = $mapper_factory->create('blocks', 'blocks');
-		$this->route_mapper = $mapper_factory->create('blocks', 'routes');
+		$this->block_mapper = $mapper_factory->create('blocks');
+		$this->route_mapper = $mapper_factory->create('routes');
 	}
 
 	/**

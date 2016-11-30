@@ -118,7 +118,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$this->block_mapper = $mapper_factory->create('blocks', 'blocks');
+		$this->block_mapper = $mapper_factory->create('blocks');
 
 		$blocks_manager = new manager($cache, $blocks_factory, $mapper_factory);
 

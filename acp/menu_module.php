@@ -74,7 +74,7 @@ class menu_module
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
-		$menu_mapper = $this->mapper_factory->create('menus', 'menus');
+		$menu_mapper = $this->mapper_factory->create('menus');
 
 		// Get all menus
 		$collection = $menu_mapper->find();
