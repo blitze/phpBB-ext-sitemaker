@@ -37,7 +37,7 @@
 
 	var fixPaths = function(subject) {
 		var search = (config.ext) ? '.\/..\/' : '.\/..\/..\/';
-		return subject.replace(new RegExp(search, './'));
+		return subject.replace(new RegExp(search, 'g'), './'); 
 	};
 
 	var removeGrid = function(items) {
