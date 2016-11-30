@@ -24,18 +24,6 @@ class forum_topics_test extends blocks_base
 	{
 		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/forum.xml');
 	}
-	
-	/**
-	 * Configure the test environment.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-		
-		require_once dirname(__FILE__) . '/../../vendor/nickvergessen/phpbb-tool-trimmessage/src/Nickvergessen/TrimMessage/TrimMessage.php';
-	}
 
 	/**
 	 * Create the forum topics block
