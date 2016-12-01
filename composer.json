@@ -4,7 +4,7 @@
 	"description": "A Site Maker for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
 	"version": "3.0.0-dev",
-	"time": "2014-01-14 01:01:01",
+	"keywords": ["phpbb", "extension", "portal", "cms"],
 	"license": "GPL-2.0",
 	"authors": [{
 			"name": "Daniel A.",
@@ -13,14 +13,14 @@
 			"role": "Lead Developer"
 		}],
 	"require": {
-		"php": ">=5.4,<7.1",
+		"php": ">=5.4",
 		"composer/installers": "^1.1",
 		"urodoz/truncate-html": "@stable"
 	},
 	"extra": {
 		"display-name": "phpBB SiteMaker",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0-rc1"
+			"phpbb/phpbb": ">=3.2.0-rc1,<3.3.0@dev"
 		},
 		"version-check": {
 			"host": "blitze.github.io",
