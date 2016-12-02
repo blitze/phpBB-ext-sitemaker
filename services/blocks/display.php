@@ -180,7 +180,7 @@ class display
 	protected function get_layout($style_id)
 	{
 		$config_text = $this->phpbb_container->get('config_text');
-		$style_prefs = array_filter(json_decode($config_text->get('sm_layout_prefs'), true));
+		$style_prefs = array_filter((array) json_decode($config_text->get('sm_layout_prefs'), true));
 
 		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'portal';
 	}

@@ -111,8 +111,8 @@ class cfg_handler extends cfg_fields
 	}
 
 	/**
-	 * As a workaround to prevent mod_security and similar from preventing us
-	 * from posting html/script, we use encodeURI before submitting data.
+	 * As a workaround to prevent mod_security and similar from preventing us from posting html/script,
+	 * we use encodeURI before submitting data via ajax (see develop/blocks/manager.js).
 	 * This decodes the data before submitting to the database
 	 *
 	 * @param array $cfg_array
@@ -164,7 +164,7 @@ class cfg_handler extends cfg_fields
 	{
 		foreach ($default_settings as $field => $vars)
 		{
-			if ($this->set_legend($field, $vars) || !is_array($vars))
+			if (!$this->is_input_field($field, $vars))
 			{
 				continue;
 			}
@@ -179,7 +179,6 @@ class cfg_handler extends cfg_fields
 				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
 				'CONTENT'		=> $content,
 			));
-			unset($default_settings[$field]);
 		}
 	}
 
@@ -200,6 +199,22 @@ class cfg_handler extends cfg_fields
 
 		$type = explode(':', $vars['type']);
 
+		// We fake this class as it is needed by the build_cfg_template function
+		$module = new \stdClass();
+		$module->module = $this->get_field_object($vars, $type, $db_settings, $field);
+
+		return build_cfg_template($type, $field, $db_settings, $field, $vars);
+	}
+
+	/**
+	 * @param array $vars
+	 * @param array $type
+	 * @param array $db_settings
+	 * @param string $field
+	 * @return object
+	 */
+	private function get_field_object(array &$vars, array &$type, array &$db_settings, $field)
+	{
 		if (empty($vars['object']))
 		{
 			$object = $this;
@@ -217,11 +232,19 @@ class cfg_handler extends cfg_fields
 			$this->set_params($field, $vars, $db_settings);
 		}
 
-		// We fake this class as it is needed by the build_cfg_template function
-		$module = new \stdClass();
-		$module->module = $object;
+		return $object;
+	}
 
-		return build_cfg_template($type, $field, $db_settings, $field, $vars);
+	/**
+	 * Set field legend
+	 *
+	 * @param string $field
+	 * @param string|array $vars
+	 * @return boolean
+	 */
+	private function is_input_field($field, $vars)
+	{
+		return ($this->set_legend($field, $vars) || !is_array($vars)) ? false : true;
 	}
 
 	/**

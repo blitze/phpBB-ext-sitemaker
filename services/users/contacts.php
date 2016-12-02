@@ -180,21 +180,54 @@ abstract class contacts
 	protected function can_receive_pm(array $row, array $can_receive_pm_list, array $permanently_banned_users)
 	{
 		return (
-			// They must be a "normal" user
-			$row['user_type'] != USER_IGNORE &&
-
-			// They must not be deactivated by the administrator
-			($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL) &&
+			$this->user_is_allowed_to_pm($row, $permanently_banned_users) &&
 
 			// They must be able to read PMs
 			in_array($row['user_id'], $can_receive_pm_list) &&
 
+			// They must allow users to contact via PM
+			$this->user_allows_pm_contact($row['user_allow_pm'])
+		);
+	}
+
+	/**
+	 * @param array $row
+	 * @param array $permanently_banned_users
+	 * @return bool
+	 */
+	protected function user_is_allowed_to_pm(array $row, array $permanently_banned_users)
+	{
+		return (
 			// They must not be permanently banned
 			!in_array($row['user_id'], $permanently_banned_users) &&
 
-			// They must allow users to contact via PM
-			(($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $row['user_allow_pm'])
+			// is this user type allowed to send pms?
+			$this->user_type_can_pm($row)
 		);
+	}
+
+	/**
+	 * @param array $row
+	 * @return bool
+	 */
+	protected function user_type_can_pm(array $row)
+	{
+		return (
+			// They must be a "normal" user
+			$row['user_type'] != USER_IGNORE &&
+
+			// They must not be deactivated by the administrator
+			($row['user_type'] != USER_INACTIVE || $row['user_inactive_reason'] != INACTIVE_MANUAL)
+		);
+	}
+
+	/**
+	 * @param bool $user_allow_pm
+	 * @return bool
+	 */
+	protected function user_allows_pm_contact($user_allow_pm)
+	{
+		return (($this->auth->acl_gets('a_', 'm_') || $this->auth->acl_getf_global('m_')) || $user_allow_pm);
 	}
 
 	/**

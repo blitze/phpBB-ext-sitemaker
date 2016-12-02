@@ -249,8 +249,7 @@ class routes
 	 */
 	protected function get_all_blocks()
 	{
-		$block_mapper = $this->mapper_factory->create('blocks');
-		$collection = $block_mapper->find();
+		$collection = $this->mapper_factory->create('blocks')->find();
 
 		$blocks = array();
 		foreach ($collection as $entity)
@@ -259,14 +258,9 @@ class routes
 			{
 				$default_settings = $block_instance->get_config(array());
 				$settings = $this->sync_settings($default_settings, $entity->get_settings());
-
 				$entity->set_settings($settings);
 
-				$style = $entity->get_style();
-				$route_id = $entity->get_route_id();
-				$position = $entity->get_position();
-
-				$blocks[$style][$route_id][$position][] = $entity;
+				$blocks[$entity->get_style()][$entity->get_route_id()][$entity->get_position()][] = $entity;
 			}
 		}
 

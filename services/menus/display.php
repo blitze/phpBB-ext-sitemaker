@@ -115,14 +115,11 @@ class display extends \blitze\sitemaker\services\tree\display
 		foreach ($data as $item_id => $row)
 		{
 			// Skip branch
-			if (sizeof($leaf))
+			if ($this->should_skip_branch($row, $leaf))
 			{
-				if ($row['left_id'] < $leaf['right_id'])
-				{
-					$this->adjust_right_id($leaf['item_id'], $data, $leaf);
-					unset($data[$item_id]);
-					continue;
-				}
+				$this->adjust_right_id($leaf['item_id'], $data, $leaf);
+				unset($data[$item_id]);
+				continue;
 			}
 
 			$is_current_item = $this->is_current_item($row);
@@ -147,6 +144,16 @@ class display extends \blitze\sitemaker\services\tree\display
 			$prev_depth = $this_depth;
 		}
 		unset($this->parental_depth, $data);
+	}
+
+	/**
+	 * @param array $row
+	 * @param array $leaf
+	 * @return bool
+	 */
+	protected function should_skip_branch(array $row, array $leaf)
+	{
+		return (sizeof($leaf) && $row['left_id'] < $leaf['right_id']);
 	}
 
 	/**

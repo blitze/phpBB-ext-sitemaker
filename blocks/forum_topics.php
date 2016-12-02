@@ -9,13 +9,12 @@
 
 namespace blitze\sitemaker\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
 use Urodoz\Truncate\TruncateService;
 
 /**
  * Forum Topics Block
  */
-class forum_topics extends block
+class forum_topics extends forum_topics_config
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -53,10 +52,6 @@ class forum_topics extends block
 	/** @var array */
 	private $topic_tracking_info = array();
 
-	const FORUMS_ORDER_FIRST_POST = 0;
-	const FORUMS_ORDER_LAST_POST = 1;
-	const FORUMS_ORDER_LAST_READ = 2;
-
 	/**
 	 * Constructor
 	 *
@@ -72,44 +67,16 @@ class forum_topics extends block
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
 	{
+		parent::__construct($forum_options);
+
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;
 		$this->translator = $translator;
 		$this->user = $user;
 		$this->date_range = $date_range;
 		$this->forum_data = $forum_data;
-		$this->forum_options = $forum_options;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_config(array $settings)
-	{
-		$forum_options = $this->forum_options->get_all();
-		$topic_type_options = $this->get_topic_type_options();
-		$preview_options = $this->get_preview_options();
-		$range_options = $this->get_range_options();
-		$sort_options = $this->get_sorting_options();
-		$template_options = $this->get_view_options();
-
-		return array(
-			'legend1'		=> 'SETTINGS',
-			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
-			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
-			'max_topics'		=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
-			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => self::FORUMS_ORDER_LAST_POST, 'explain' => false),
-
-			'legend2'		=> 'DISPLAY',
-			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
-			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
-			'context'			=> array('lang' => 'CONTEXT', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last', 'explain' => false),
-			'preview_chars'		=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 0),
-		);
 	}
 
 	/**
@@ -186,7 +153,7 @@ class forum_topics extends block
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
 				'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $row['topic_attachment']),
 				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
-				'VIEWS'				=> $row['topic_views'],
+				'VIEWS'				=> (int) $row['topic_views'],
 				'S_UNREAD_TOPIC'	=> $this->is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
 
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
@@ -346,67 +313,5 @@ class forum_topics extends block
 	private function is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
 	{
 		return (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_last_post_time > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false;
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_topic_type_options()
-	{
-		return array(
-			POST_NORMAL     => 'POST_NORMAL',
-			POST_STICKY     => 'POST_STICKY',
-			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
-			POST_GLOBAL     => 'POST_GLOBAL',
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_preview_options()
-	{
-		return array(
-			'last'  => 'SHOW_LAST_POST',
-			'first' => 'SHOW_FIRST_POST',
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_range_options()
-	{
-		return array(
-			''      => 'ALL_TIME',
-			'today' => 'TODAY',
-			'week'  => 'THIS_WEEK',
-			'month' => 'THIS_MONTH',
-			'year'  => 'THIS_YEAR',
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_sorting_options()
-	{
-		return array(
-			self::FORUMS_ORDER_FIRST_POST => 'FIRST_POST_TIME',
-			self::FORUMS_ORDER_LAST_POST  => 'LAST_POST_TIME',
-			self::FORUMS_ORDER_LAST_READ  => 'LAST_READ_TIME',
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_view_options()
-	{
-		return array(
-			'titles'    => 'TITLES',
-			'mini'      => 'MINI',
-			'context'   => 'CONTEXT',
-		);
 	}
 }

@@ -248,24 +248,39 @@ class cfg_handler_test extends \phpbb_test_case
 					)),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
 				),
-				array('lang' => 'SELECT_OPTION', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
+				array('my_var' => array('lang' => 'SELECT_OPTION', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false)),
 				array('my_var' => array('option2', 'option4')),
 			),
 			array(
 				array(
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
-					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 'option3')),
+					array('config', array('' => ''), true, request_interface::REQUEST, array(
+						'other_var' => 'option3',
+					)),
 				),
-				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
-				array('my_var' => 'option3'),
+				array('other_var' => array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => '')),
+				array('other_var' => 'option3'),
 			),
 			array(
 				array(
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
-					array('config', array('' => ''), true, request_interface::REQUEST, array('my_var' => 200)),
+					array('config', array('' => ''), true, request_interface::REQUEST, array(
+						'foo_var' => 200,
+					)),
 				),
-				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10),
+				array('foo_var' => array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10)),
 				array('errors' => ''),
+			),
+			// special case for custom block
+			array(
+				array(
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => ''), true, request_interface::REQUEST, array(
+						'source' => '%3Cscript%3Ealert(\'yes\');%3C/script%3E',
+					)),
+				),
+				array('source' => array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'SOURCE_EXPLAIN')),
+				array('source' => '<script>alert(\'yes\');</script>'),
 			),
 		);
 	}
@@ -275,14 +290,13 @@ class cfg_handler_test extends \phpbb_test_case
 	 *
 	 * @dataProvider get_submitted_settings_test_data
 	 * @param array $variable_map
-	 * @param array $field_settings
+	 * @param array $default_settings
 	 * @param array $expected
 	 */
-	public function test_get_submitted_settings(array $variable_map, array $field_settings, array $expected)
+	public function test_get_submitted_settings(array $variable_map, array $default_settings, array $expected)
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
-		$default_settings = array('my_var' => $field_settings);
 		$data = $cfg_fields->get_submitted_settings($default_settings);
 
 		$this->assertSame($expected, $data);

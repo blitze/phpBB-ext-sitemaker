@@ -75,15 +75,15 @@ class poll
 		$forum_id = (int) $topic_data['forum_id'];
 		$topic_id = (int) $topic_data['topic_id'];
 
-		$cur_voted_id = $this->_get_users_votes($topic_id);
-		$s_can_vote = $this->_user_can_vote($forum_id, $topic_data, $cur_voted_id);
+		$cur_voted_id = $this->get_users_votes($topic_id);
+		$s_can_vote = $this->user_can_vote($forum_id, $topic_data, $cur_voted_id);
 		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", "f=$forum_id&amp;t=$topic_id");
 
 		$poll_total = $poll_most = 0;
-		$poll_info = $this->_get_poll_info($topic_data, $poll_total, $poll_most);
+		$poll_info = $this->get_poll_info($topic_data, $poll_total, $poll_most);
 		$poll_end = $topic_data['poll_length'] + $topic_data['poll_start'];
 
-		$this->_build_poll_options($cur_voted_id, $poll_info, $poll_total, $poll_most, $template);
+		$this->build_poll_options($cur_voted_id, $poll_info, $poll_total, $poll_most, $template);
 
 		$template->assign_vars(array(
 			'POLL_QUESTION'		=> $topic_data['poll_title'],
@@ -92,11 +92,11 @@ class poll
 			'POLL_RIGHT_CAP_IMG'=> $this->user->img('poll_right'),
 
 			'MAX_VOTES'			=> $this->translator->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
-			'POLL_LENGTH'		=> $this->_get_poll_length_lang($topic_data['poll_length'], $poll_end),
+			'POLL_LENGTH'		=> $this->get_poll_length_lang($topic_data['poll_length'], $poll_end),
 
 			'S_CAN_VOTE'		=> $s_can_vote,
-			'S_DISPLAY_RESULTS'	=> $this->_show_results($s_can_vote, $cur_voted_id),
-			'S_IS_MULTI_CHOICE'	=> $this->_poll_is_multiple_choice($topic_data['poll_max_options']),
+			'S_DISPLAY_RESULTS'	=> $this->show_results($s_can_vote, $cur_voted_id),
+			'S_IS_MULTI_CHOICE'	=> $this->poll_is_multiple_choice($topic_data['poll_max_options']),
 			'S_POLL_ACTION'		=> $viewtopic_url,
 			'S_FORM_TOKEN'		=> $this->sitemaker->get_form_key('posting'),
 
@@ -110,14 +110,53 @@ class poll
 	 * @param array $cur_voted_id
 	 * @return bool
 	 */
-	private function _user_can_vote($forum_id, array $topic_data, array $cur_voted_id)
+	private function user_can_vote($forum_id, array $topic_data, array $cur_voted_id)
 	{
-		return ($this->auth->acl_get('f_vote', $forum_id) &&
-			(($topic_data['poll_length'] != 0 && $topic_data['poll_start'] + $topic_data['poll_length'] > time()) || $topic_data['poll_length'] == 0) &&
-			$topic_data['topic_status'] != ITEM_LOCKED &&
-			$topic_data['forum_status'] != ITEM_LOCKED &&
-			(!sizeof($cur_voted_id) ||
-			($this->auth->acl_get('f_votechg', $forum_id) && $topic_data['poll_vote_change']))) ? true : false;
+		return (
+			$this->user_is_authorized($forum_id, $topic_data, $cur_voted_id) &&
+			$this->poll_is_still_open($topic_data) &&
+			$this->is_topic_status_eligible($topic_data)
+		);
+	}
+
+	/**
+	 * @param int $forum_id
+	 * @param array $topic_data
+	 * @param array $cur_voted_id
+	 * @return bool
+	 */
+	private function user_is_authorized($forum_id, array $topic_data, array $cur_voted_id)
+	{
+		return ($this->auth->acl_get('f_vote', $forum_id) && $this->user_can_change_vote($forum_id, $topic_data, $cur_voted_id));
+	}
+
+	/**
+	 * @param int $forum_id
+	 * @param array $topic_data
+	 * @param array $cur_voted_id
+	 * @return bool
+	 */
+	private function user_can_change_vote($forum_id, array $topic_data, array $cur_voted_id)
+	{
+		return (!sizeof($cur_voted_id) || ($this->auth->acl_get('f_votechg', $forum_id) && $topic_data['poll_vote_change']));
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @return bool
+	 */
+	private function poll_is_still_open(array $topic_data)
+	{
+		return (($topic_data['poll_length'] != 0 && $topic_data['poll_start'] + $topic_data['poll_length'] > time()) || $topic_data['poll_length'] == 0);
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @return bool
+	 */
+	private function is_topic_status_eligible(array $topic_data)
+	{
+		return ($topic_data['topic_status'] != ITEM_LOCKED && $topic_data['forum_status'] != ITEM_LOCKED);
 	}
 
 	/**
@@ -126,7 +165,7 @@ class poll
 	 * @param int $poll_most
 	 * @return array
 	 */
-	private function _get_poll_info(array $topic_data, &$poll_total, &$poll_most)
+	private function get_poll_info(array $topic_data, &$poll_total, &$poll_most)
 	{
 		$topic_id = (int) $topic_data['topic_id'];
 		$post_id = (int) $topic_data['topic_first_post_id'];
@@ -148,7 +187,7 @@ class poll
 		}
 		$this->db->sql_freeresult($result);
 
-		return $this->_parse_poll($topic_data, $poll_info);
+		return $this->parse_poll($topic_data, $poll_info);
 	}
 
 	/**
@@ -156,7 +195,7 @@ class poll
 	 * @param array $poll_info
 	 * @return array
 	 */
-	private function _parse_poll(array &$topic_data, array $poll_info)
+	private function parse_poll(array &$topic_data, array $poll_info)
 	{
 		$parse_flags = ($poll_info[0]['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 
@@ -177,12 +216,12 @@ class poll
 	 * @param int $poll_most
 	 * @param \phpbb\template\twig\twig $template
 	 */
-	private function _build_poll_options(array $cur_voted_id, array $poll_info, $poll_total, $poll_most, \phpbb\template\twig\twig &$template)
+	private function build_poll_options(array $cur_voted_id, array $poll_info, $poll_total, $poll_most, \phpbb\template\twig\twig &$template)
 	{
 		foreach ($poll_info as $poll_option)
 		{
-			$option_pct = $this->_calculate_option_percent($poll_option['poll_option_total'], $poll_total);
-			$option_pct_rel = $this->_calculate_option_percent_rel($poll_option['poll_option_total'], $poll_most);
+			$option_pct = $this->calculate_option_percent($poll_option['poll_option_total'], $poll_total);
+			$option_pct_rel = $this->calculate_option_percent_rel($poll_option['poll_option_total'], $poll_most);
 
 			$template->assign_block_vars('poll_option', array(
 				'POLL_OPTION_ID' 			=> $poll_option['poll_option_id'],
@@ -192,8 +231,8 @@ class poll
 				'POLL_OPTION_PERCENT_REL' 	=> sprintf("%.1d%%", round($option_pct_rel * 100)),
 				'POLL_OPTION_PCT'			=> round($option_pct * 100),
 				'POLL_OPTION_WIDTH'     	=> round($option_pct * 250),
-				'POLL_OPTION_VOTED'			=> $this->_user_has_voted_option($poll_option['poll_option_id'], $cur_voted_id),
-				'POLL_OPTION_MOST_VOTES'	=> $this->_is_most_voted($poll_option['poll_option_total'], $poll_most),
+				'POLL_OPTION_VOTED'			=> $this->user_has_voted_option($poll_option['poll_option_id'], $cur_voted_id),
+				'POLL_OPTION_MOST_VOTES'	=> $this->is_most_voted($poll_option['poll_option_total'], $poll_most),
 			));
 		}
 	}
@@ -202,7 +241,7 @@ class poll
 	 * @param int $topic_id
 	 * @return array
 	 */
-	private function _get_users_votes($topic_id)
+	private function get_users_votes($topic_id)
 	{
 		$cur_voted_id = array();
 		if ($this->user->data['is_registered'])
@@ -239,7 +278,7 @@ class poll
 	 * @param array $cur_voted_id
 	 * @return bool
 	 */
-	private function _user_has_voted_option($poll_option_id, array $cur_voted_id)
+	private function user_has_voted_option($poll_option_id, array $cur_voted_id)
 	{
 		return (in_array($poll_option_id, $cur_voted_id)) ? true : false;
 	}
@@ -249,7 +288,7 @@ class poll
 	 * @param int $poll_total
 	 * @return float|int
 	 */
-	private function _calculate_option_percent($poll_option_total, $poll_total)
+	private function calculate_option_percent($poll_option_total, $poll_total)
 	{
 		return ($poll_total > 0) ? $poll_option_total / $poll_total : 0;
 	}
@@ -259,7 +298,7 @@ class poll
 	 * @param int $poll_most
 	 * @return float|int
 	 */
-	private function _calculate_option_percent_rel($poll_option_total, $poll_most)
+	private function calculate_option_percent_rel($poll_option_total, $poll_most)
 	{
 		return ($poll_most > 0) ? $poll_option_total / $poll_most : 0;
 	}
@@ -269,7 +308,7 @@ class poll
 	 * @param int $poll_most
 	 * @return bool
 	 */
-	private function _is_most_voted($poll_option_total, $poll_most)
+	private function is_most_voted($poll_option_total, $poll_most)
 	{
 		return ($poll_option_total > 0 && $poll_option_total == $poll_most) ? true : false;
 	}
@@ -278,7 +317,7 @@ class poll
 	 * @param int $poll_max_options
 	 * @return bool
 	 */
-	private function _poll_is_multiple_choice($poll_max_options)
+	private function poll_is_multiple_choice($poll_max_options)
 	{
 		return ($poll_max_options > 1) ? true : false;
 	}
@@ -288,7 +327,7 @@ class poll
 	 * @param int $poll_end
 	 * @return string
 	 */
-	private function _get_poll_length_lang($poll_length, $poll_end)
+	private function get_poll_length_lang($poll_length, $poll_end)
 	{
 		return ($poll_length) ? $this->translator->lang(($poll_end > time()) ? 'POLL_RUN_TILL' : 'POLL_ENDED_AT', $this->user->format_date($poll_end)) : '';
 	}
@@ -298,7 +337,7 @@ class poll
 	 * @param array $cur_voted_id
 	 * @return bool
 	 */
-	private function _show_results($s_can_vote, array $cur_voted_id)
+	private function show_results($s_can_vote, array $cur_voted_id)
 	{
 		return (!$s_can_vote || ($s_can_vote && sizeof($cur_voted_id))) ? true : false;
 	}

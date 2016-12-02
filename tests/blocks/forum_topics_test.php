@@ -16,6 +16,19 @@ use blitze\sitemaker\blocks\forum_topics;
 class forum_topics_test extends blocks_base
 {
 	/**
+	 * Configure the test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		require_once dirname(__FILE__) . '/../../vendor/urodoz/truncate-html/src/TruncateInterface.php';
+		require_once dirname(__FILE__) . '/../../vendor/urodoz/truncate-html/src/TruncateService.php';
+	}
+
+	/**
 	 * Load required fixtures.
 	 *
 	 * @return mixed
@@ -251,6 +264,45 @@ class forum_topics_test extends blocks_base
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=3',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=3&amp;view=unread#unread',
 						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=3&amp;p=3#p3',
+					),
+				),
+			),
+			array(
+				array(
+					'settings' => array(
+						'forum_ids'			=> array(),
+						'topic_type'		=> array(),
+						'max_topics'		=> 1,
+						'date_range'		=> '',
+						'order_by'			=> 0,
+						'enable_tracking'	=> 1,
+						'topic_title_limit'	=> 25,
+						'template'			=> 'context',
+						'context'			=> 'first',
+						'preview_chars'		=> 10,
+					),
+				),
+				true,
+				'FORUM_RECENT_TOPICS',
+				array(
+					array(
+						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
+						'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
+						'LAST_POSTER' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
+						'LAST_AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
+
+						'FORUM_TITLE' => 'Second Forum',
+						'TOPIC_TITLE' => 'Topic with poll',
+						'TOPIC_PREVIEW' => 'This...',
+						'TOPIC_POST_TIME' => '',
+						'ATTACH_ICON_IMG' => '',
+						'REPLIES' => 0,
+						'VIEWS' => 0,
+						'S_UNREAD_TOPIC' => true,
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
+						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;p=12#p12',
 					),
 				),
 			),
