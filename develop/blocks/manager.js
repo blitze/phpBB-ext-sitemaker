@@ -34,7 +34,9 @@
 
 	var fixPaths = function(subject) {
 		var search = (config.ext) ? '.\/..\/' : '.\/..\/..\/';
-		return subject.replace(new RegExp(search, 'g'), './');
+		return subject.replace(new RegExp('(?:href|src)=(?:"|\')(' + search + ')+(?:.*?)(?:"|\')', 'gmi'), function(match) {
+			return match.replace(search, './');
+		});
 	};
 
 	var removeGrid = function(items) {
@@ -122,7 +124,7 @@
 			tinymce.EditorManager.execCommand('mceRemoveEditor', true, id);
 		}
 
-		// update the html
+		blockData.content = fixPaths(blockData.content);
 		blockObj.html(template.render(blockData));
 
 		// if custom block, add editor
@@ -259,7 +261,6 @@
 		$.post(config.ajaxUrl + '/blocks/save_block', data, function(resp) {
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
-					row.content = fixPaths(row.content);
 					renderBlock($('#block-' + row.id), row);
 				});
 			}
@@ -314,11 +315,8 @@
 			$.each(resp.list, function(position, blocks) {
 				var pos = $('#pos-' + position);
 				$.each(blocks, function(i, row) {
-					row.content = fixPaths(row.content);
-					var html = template.render(row);
-
 					pos.append('<div id="block-' + row.id + '" class="unit size1of1 block"></div>');
-					pos.find('#block-' + row.id).html(html);
+					renderBlock(pos.find('#block-' + row.id), row);
 				});
 
 				if (pos.hasClass('horizontal')) {
@@ -625,11 +623,6 @@
 						// Display any returned message
 						if (data.responseJSON.message) {
 							showMessage(data.responseJSON.message);
-						}
-
-						// Fix relative paths
-						if (data.responseJSON.content) {
-							data.responseJSON.content = fixPaths(data.responseJSON.content);
 						}
 					}
 				},
