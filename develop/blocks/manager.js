@@ -215,13 +215,18 @@
 		});
 	};
 
+	var getCustomClasses = function() {
+		return dialogEdit.find('#block_class').text().trim();
+	};
+
 	var saveForm = function(block) {
 		var form = $('#edit_form');
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
 		var data = {
-			id: block.attr('id').substring(6),
-			route: config.route,
-			similar: updateSimilar
+			'id': block.attr('id').substring(6),
+			'route': config.route,
+			'similar': updateSimilar,
+			'class': getCustomClasses()
 		};
 
 		form.serializeArray().map(function(prop) {
@@ -324,7 +329,7 @@
 		// make a copy of block data
 		var data = $.extend(true, {}, blockData);
 		var formData = dialogEdit.find('#edit_form').serializeArray();
-		var cssClass = dialogEdit.find('#block_class').text().trim();
+		var cssClass = getCustomClasses();
 
 		$.each(formData, function() {
 			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
