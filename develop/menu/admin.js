@@ -25,7 +25,7 @@
 		// Init icon picker
 		$('.items-list').iconPicker({
 			selector: '.icon-select',
-			onSelect: function(item, iconHtml, iconClass) {
+			onSelect: function(item, iconClass) {
 				var id = item.parentsUntil('li').parent().attr('id').substring(5);
 				menuAdmin.treeBuilder('updateItem', {'item_icon': iconClass}, id);
 			}

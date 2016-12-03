@@ -829,7 +829,7 @@
 			// Init Icon Picker
 			$('.sitemaker').iconPicker({
 				selector: '.block-icon',
-				onSelect: function(item, iconHtml, iconClass) {
+				onSelect: function(item, iconClass) {
 					var id = item.parentsUntil('.block').parent().attr('id').substring(6);
 					updateBlock({'id': id, 'icon': iconClass});
 				}
