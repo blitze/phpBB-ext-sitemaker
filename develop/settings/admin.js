@@ -26,7 +26,7 @@
 		// Init icon picker
 		$('#acp_settings').iconPicker({
 			selector: '.icon-select',
-			onSelect: function(item, iconHtml, iconClass) {
+			onSelect: function(item, iconClass) {
 				item.prev().val(iconClass);
 			}
 		});

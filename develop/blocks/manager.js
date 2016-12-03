@@ -324,12 +324,13 @@
 		// make a copy of block data
 		var data = $.extend(true, {}, blockData);
 		var formData = dialogEdit.find('#edit_form').serializeArray();
+		var cssClass = dialogEdit.find('#block_class').text().trim();
 
 		$.each(formData, function() {
 			data.block[this.name] = (typeof data.block[this.name] === 'boolean') ? ((this.value === '1') ? true : false) : this.value;
 		});
 
-		data.block['class'] = dialogEdit.find('#block_class').text().trim();
+		data.block['class'] = (cssClass) ? ' ' + cssClass : '';
 
 		renderBlock(blockObj, data);
 	};
@@ -805,7 +806,7 @@
 			// Init Icon Picker
 			$('.sitemaker').iconPicker({
 				selector: '.block-icon',
-				onSelect: function(item, iconHtml, iconClass) {
+				onSelect: function(item, iconClass) {
 					var id = item.parentsUntil('.block').parent().attr('id').substring(6);
 					updateBlock({'id': id, 'icon': iconClass});
 				}

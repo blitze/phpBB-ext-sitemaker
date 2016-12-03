@@ -126,7 +126,7 @@
 				var iconHtml = (iconClass) ? '<i class="' + iconClass + '"></i>' : '';
 
 				currentItem.html(iconHtml);
-				this.options.onSelect.call(this, currentItem, iconHtml, iconClass);
+				this.options.onSelect.call(this, currentItem, iconClass, iconHtml);
 			}
 
 			this.hidePicker();
