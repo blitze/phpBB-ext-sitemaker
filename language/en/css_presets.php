@@ -75,6 +75,7 @@ $lang = array_merge($lang, array(
 	'IMAGE_LANDSCAPE'		=> 'Landscape image',
 	'IMAGE_ALIGN_LEFT'		=> 'Float image left',
 	'IMAGE_ALIGN_RIGHT'		=> 'Float image right',
+	'IMAGE_CIRCLE'			=> 'Circular image',
 	'IMAGE_BORDER'			=> 'Bordered image',
 	'IMAGE_BORDER_PADDING'	=> 'Image border padding',
 
