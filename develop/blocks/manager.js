@@ -36,9 +36,8 @@
 	var twig = {};
 
 	var fixPaths = function(subject) {
-		var search = (config.ext) ? '.\/..\/' : '.\/..\/..\/';
-		return subject.replace(new RegExp('(?:href|src)=(?:"|\')(' + search + ')+(?:.*?)(?:"|\')', 'gmi'), function(match) {
-			return match.replace(search, './');
+		return subject.replace(new RegExp('(?:href|src)=(?:"|\')((?:.\/)?(?:\.\.\/)+)(?:.*?)(?:"|\')', 'gmi'), function(match, g1) {
+			return match.replace(g1, config.webRootPath);
 		});
 	};
 

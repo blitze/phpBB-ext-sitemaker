@@ -265,10 +265,11 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'S_IS_DEFAULT' => false,
 					'PAGE_URL' => 'phpBB/index.php?',
-					'UA_ROUTE' => 'index.php',
 					'UA_AJAX_URL' => 'http://my-site.com/phpBB/app.php',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
+					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
+					'UA_WEB_ROOT_PATH' => null,
 					'U_VIEW_DEFAULT' => false,
 				),
 			),
@@ -283,10 +284,11 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'S_IS_DEFAULT' => false,
 					'PAGE_URL' => 'phpBB/index.php?',
-					'UA_ROUTE' => 'index.php',
 					'UA_AJAX_URL' => 'http://my-site.com/phpBB',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
+					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
+					'UA_WEB_ROOT_PATH' => null,
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
 			)
