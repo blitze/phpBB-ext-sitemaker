@@ -111,10 +111,11 @@ class admin_bar
 
 			'PAGE_URL'			=> build_url(array('style')),
 
-			'UA_ROUTE'			=> $route,
 			'UA_AJAX_URL'		=> $ajax_url,
 			'UA_BOARD_URL'		=> $board_url,
+			'UA_ROUTE'			=> $route,
 			'UA_STYLE_ID'		=> $style_id,
+			'UA_WEB_ROOT_PATH'	=> $this->util->asset_path,
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));
