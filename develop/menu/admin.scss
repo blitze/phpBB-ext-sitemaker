@@ -6,6 +6,14 @@ $toast-gutter-width: 5px;
 	list-style: none;
 	margin: 40px -2px 0 0;
 
+	.menu-actions {
+		display: none;
+
+		i {
+			margin-right: 4px;
+		}
+	}
+
 	li {
 		padding: 4px;
 		position: relative;
@@ -40,10 +48,6 @@ $toast-gutter-width: 5px;
 				width: 95%;
 			}
 		}
-	}
-
-	.menu-actions {
-		display: none;
 	}
 }
 
