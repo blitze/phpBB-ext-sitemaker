@@ -104,7 +104,7 @@ class login extends block
 	private function hide_quicklogin()
 	{
 		$current_page = $this->user->page['page_name'];
-		if ($current_page === 'index.php')
+		if ($current_page === 'index.' . $this->php_ext)
 		{
 			$this->template->assign_var('S_USER_LOGGED_IN', true);
 		}
