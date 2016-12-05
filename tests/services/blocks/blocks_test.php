@@ -219,6 +219,28 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array(),
 					'is_sub_route' => false,
 				),
+				array(),
+			),
+			array(
+				'app.php/foo/test/',
+				'',
+				true,
+				'',
+				array (
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 2,
+					'ext_name' => 'foo/bar',
+					'route' => 'app.php/foo/test/',
+					'style' => 1,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => false,
+				),
 				array(
 					'blocks' => array(
 						'sidebar' => array(
