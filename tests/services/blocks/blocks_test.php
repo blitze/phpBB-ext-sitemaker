@@ -185,6 +185,7 @@ class blocks_test extends \phpbb_database_test_case
 								'BID' => 1,
 								'NAME' => 'my.baz.block',
 								'CONTENT' => 'I love myself',
+								'CLASS' => '',
 							),
 						),
 						'top' => array(
@@ -192,6 +193,7 @@ class blocks_test extends \phpbb_database_test_case
 								'BID' => 4,
 								'NAME' => 'my.empty.block',
 								'CONTENT' => 'BLOCK_NO_DATA',
+								'CLASS' => ' sm-inactive',
 							),
 						),
 					),
@@ -247,6 +249,7 @@ class blocks_test extends \phpbb_database_test_case
 							array(
 								'BID' => 5,
 								'NAME' => 'my.baz.block',
+								'CLASS' => ' sm-inactive',
 							),
 						),
 					),
@@ -303,6 +306,7 @@ class blocks_test extends \phpbb_database_test_case
 							array(
 								'BID' => 1,
 								'NAME' => 'my.baz.block',
+								'CLASS' => '',
 							),
 						),
 					),

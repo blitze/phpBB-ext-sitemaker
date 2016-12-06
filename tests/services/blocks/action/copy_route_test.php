@@ -47,7 +47,17 @@ class copy_route_test extends base_action
 							'content'	=> 'I love myself',
 						),
 					),
-					'top' => array(),
+					'top' => array(
+						array(
+							'name' => 'my.empty.block',
+							'title' => 'I am an empty block',
+							'position' => 'top',
+							'style' => 1,
+							'settings' => array(),
+							'id' => 9,
+							'content' => 'BLOCK_NO_DATA',
+						),
+					),
 				),
 			),
 			// copying from existing route with different style_id to existing route
@@ -240,8 +250,8 @@ class copy_route_test extends base_action
 		}
 
 		// returned data
-		$this->assertSame($expected_route_data, array_intersect_key($expected_route_data, $result['config']));
-		$this->assertSame($expected_return_data, $actual);
+		$this->assertEquals($expected_route_data, array_intersect_key($expected_route_data, $result['config']));
+		$this->assertEquals($expected_return_data, $actual);
 	}
 
 	public function test_copy_route_with_custom_block()

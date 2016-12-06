@@ -32,6 +32,7 @@ class add_block_test extends base_action
 					'route_id'	=> 1,
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
+					'class'		=> '',
 					'settings'	=> array(),
 				)
 			),
@@ -47,10 +48,27 @@ class add_block_test extends base_action
 					'route_id'	=> 6,
 					'title'		=> 'I am baz block',
 					'content'	=> 'I love myself',
+					'class'		=> '',
 					'settings'	=> array(
 						'my_setting'	=> 1,
 						'other_setting'	=> 0,
 					),
+				)
+			),
+			array(
+				array(
+					array('block', '', false, request_interface::REQUEST, 'my.empty.block'),
+					array('route', '', false, request_interface::REQUEST, 'app.php/foo/foo'),
+					array('position', '', false, request_interface::REQUEST, 'sidebar'),
+					array('weight', 0, false, request_interface::REQUEST, 0),
+				),
+				array(
+					'id'		=> 8,
+					'route_id'	=> 6,
+					'title'		=> 'I am an empty block',
+					'content'	=> 'BLOCK_NO_DATA',
+					'class'		=> ' sm-inactive',
+					'settings'	=> array(),
 				)
 			),
 		);
@@ -74,6 +92,7 @@ class add_block_test extends base_action
 			'route_id'	=> $result['route_id'],
 			'title'		=> $result['title'],
 			'content'	=> $result['content'],
+			'class'		=> $result['class'],
 			'settings'	=> $result['settings'],
 		);
 

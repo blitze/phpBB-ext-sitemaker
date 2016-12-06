@@ -26,6 +26,12 @@ class blocks extends routes
 	/** @var \blitze\sitemaker\services\groups */
 	protected $groups;
 
+	/** @var array */
+	protected static $status_class = array(
+		0	=> ' sm-inactive',
+		1	=> '',
+	);
+
 	/**
 	 * Constructor
 	 *
@@ -82,27 +88,28 @@ class blocks extends routes
 	 *
 	 * @param array $display_modes
 	 * @param bool $edit_mode
-	 * @param array $data
+	 * @param array $db_data
 	 * @param array $users_groups
 	 * @param int $position_counter
 	 */
-	public function render(array $display_modes, $edit_mode, array $data, array $users_groups, &$position_counter)
+	public function render(array $display_modes, $edit_mode, array $db_data, array $users_groups, &$position_counter)
 	{
-		$position = $data['position'];
-		$service_name = $data['name'];
+		$position = $db_data['position'];
+		$service_name = $db_data['name'];
 
-		if ($this->_block_is_viewable($data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
+		if ($this->_block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
-			$block = $block_instance->display($data, $edit_mode);
+			$returned_data = $block_instance->display($db_data, $edit_mode);
 
-			if ($content = $this->_get_block_content($block, $edit_mode))
+			if ($content = $this->_get_block_content($returned_data, $edit_mode))
 			{
-				$tpl_data = array_merge($data, array(
-					'TITLE'		=> $this->_get_block_title($data['title'], $block['title']),
-					'CONTENT'	=> $content,
-				));
+				$returned_data['title'] = $this->_get_block_title($db_data['title'], $returned_data['title']);
+				$returned_data['content'] = $content;
 
-				$this->template->assign_block_vars($position, array_change_key_case($tpl_data, CASE_UPPER));
+				$block = array_merge($db_data, $returned_data);
+				$block['class'] .= self::$status_class[$block['status']];
+
+				$this->template->assign_block_vars($position, array_change_key_case($block, CASE_UPPER));
 				$position_counter++;
 			}
 		}
@@ -139,19 +146,20 @@ class blocks extends routes
 	}
 
 	/**
-	 * @param array $block
+	 * @param array $returned_data
 	 * @param bool $edit_mode
 	 * @return string|null
 	 */
-	protected function _get_block_content(array $block, $edit_mode)
+	protected function _get_block_content(array &$returned_data, $edit_mode)
 	{
 		$content = '';
-		if (!empty($block['content']))
+		if (!empty($returned_data['content']))
 		{
-			$content = $block['content'];
+			$content = $returned_data['content'];
 		}
 		else if ($edit_mode)
 		{
+			$returned_data['status'] = 0;
 			$content = $this->user->lang('BLOCK_NO_DATA');
 		}
 

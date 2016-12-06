@@ -80,6 +80,7 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
@@ -90,16 +91,18 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
 				),
 				true,
-				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw=""></div>',
+				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="" data-active="1"></div>',
 			),
 			array(
 				array(
 					'bid' => 1,
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
@@ -110,16 +113,18 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'status' => 0,
 					'settings' => array(
 						'source' => '',
 					),
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="my custom content"><p>my <strong>custom</strong> content<br></p></div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="my custom content" data-active="0"><p>my <strong>custom</strong> content<br></p></div>',
 			),
 			array(
 				array(
 					'bid' => 1,
+					'status' => 1,
 					'settings' => array(
 						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
 					),
@@ -130,6 +135,7 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'status' => 0,
 					'settings' => array(
 						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
 					),
@@ -172,7 +178,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 1,
 					'content' => '',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 			array(
@@ -183,7 +188,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 1,
 					'content' => '<p>my <em>updated</em> content<br></p>',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 			array(
@@ -194,7 +198,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 2,
 					'content' => '<p>my new content</p>',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 		);

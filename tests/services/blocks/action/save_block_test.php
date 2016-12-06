@@ -25,6 +25,7 @@ class save_block_test extends base_action
 				array(
 					array('similar', false, false, request_interface::REQUEST, false),
 					array('id', 0, false, request_interface::REQUEST, 1),
+					array('status', 0, false, request_interface::REQUEST, 1),
 					array('class', '', false, request_interface::REQUEST, 'bg3'),
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
 					array('permission', array(0), false, request_interface::REQUEST, array(1, 4)),
@@ -39,6 +40,7 @@ class save_block_test extends base_action
 					'title'			=> 'I am baz block',
 					'permission'	=> array(1, 4),
 					'class'			=> ' bg3',
+					'status'		=> true,
 					'hide_title'	=> true,
 					'settings'		=> array(
 						'my_setting'	=> 0,
@@ -53,7 +55,8 @@ class save_block_test extends base_action
 				array(
 					array('similar', false, false, request_interface::REQUEST, true),
 					array('id', 0, false, request_interface::REQUEST, 6),
-					array('hide_title', 0, false, request_interface::REQUEST, 1),
+					array('status', 0, false, request_interface::REQUEST, 0),
+					array('hide_title', 0, false, request_interface::REQUEST, 0),
 					array('permission', array(0), false, request_interface::REQUEST, array()),
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
@@ -65,8 +68,9 @@ class save_block_test extends base_action
 					'bid'			=> 6,
 					'title'			=> 'I am baz block',
 					'permission'	=> array(),
-					'class'			=> '',
-					'hide_title'	=> true,
+					'class'			=> ' sm-inactive',
+					'status'		=> false,
+					'hide_title'	=> false,
 					'settings'		=> array(
 						'my_setting'	=> 1,
 						'other_setting'	=> 1,
@@ -90,6 +94,7 @@ class save_block_test extends base_action
 				array(
 					'bid'			=> 2,
 					'title'			=> 'I am foo block',
+					'class'			=> '',
 					'status'		=> true,
 					'type'			=> 2,
 					'no_wrap'		=> true,
