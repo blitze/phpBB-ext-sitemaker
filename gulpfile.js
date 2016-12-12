@@ -55,10 +55,11 @@ gulp.task('sass', function() {
 			.pipe(plugins.csslint({
 				'adjoining-classes': false,
 				'box-sizing': false,
+				'order-alphabetical': false,
 				'regex-selectors': false,
 				'unqualified-attributes': false
 			}))
-			.pipe(plugins.csslint.reporter())
+			.pipe(plugins.csslint.formatter())
 			.pipe(plugins.autoprefixer(supportedBrowsers))
 			.pipe(plugins.rename({ suffix: '.min' }))
 			.pipe(plugins.cleanCss())
