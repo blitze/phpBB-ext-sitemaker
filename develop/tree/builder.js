@@ -75,17 +75,18 @@
 
 			// register dialogs
 			dButtons[lang.deleteChildNodes] = function() {
-				$('li#item-' + self.itemID).remove();
+				var node = $('li#item-' + self.itemID);
+				self._removeNode(node);
 				$(this).dialog('close');
 				self._saveTree();
 			};
 
 			dButtons[lang.deleteNode] = function() {
-				var o = $('#item-' + self.itemID);
-				if (o.children(self.options.listType).length) {
-					o.parent(self.options.listType).parent('li').append('<' + self.options.listType + '>' + o.children(self.options.listType).html() + '</' + self.options.listType + '>');
+				var node = $('li#item-' + self.itemID);
+				if (node.children(self.options.listType).length) {
+					node.children(self.options.listType).children('li').appendTo(node.parent(self.options.listType));
 				}
-				o.remove();
+				self._removeNode(node);
 				$(this).dialog('close');
 				self._saveTree();
 			};
@@ -106,7 +107,9 @@
 			};
 
 			sButtons[lang.deleteNode] = function() {
-				self.element.find(self.options.selectItemClass + ':checked').parentsUntil('li').parent().remove();
+				self.element.find(self.options.selectItemClass + ':checked').parentsUntil('li').parent().each(function() {
+					self._removeNode($(this));
+				});
 				self._saveTree();
 				$(this).dialog('close');
 
@@ -588,6 +591,16 @@
 			this.deleteSelBtn.show();
 			this.saveBtn.show();
 			this.rebuildBtn.button('enable').show();
+		},
+
+		_removeNode: function(node) {
+			// if node has sibblings, remove node and leave parent
+			if (node.siblings().length) {
+				node.remove();
+			// if node does not have sibblings, remove parent ol/ul
+			} else {
+				node.parent(this.options.listType).remove();
+			}
 		},
 
 		_renderItem: function(data) {

@@ -60,17 +60,19 @@ class custom extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
+		$status = $bdata['status'];
 		$cblock = $this->get_block_data($bdata['bid']);
 		$content = $this->get_content_for_display($cblock, $bdata['settings']['source']);
 
 		if (!$bdata['settings']['source'])
 		{
-			$this->show_editor($cblock, $content, $edit_mode);
+			$this->show_editor($cblock, $content, $status, $edit_mode);
 		}
 
 		return array(
 			'title'		=> 'BLOCK_TITLE',
 			'content'	=> $content,
+			'status'	=> $status,
 		);
 	}
 
@@ -93,7 +95,6 @@ class custom extends block
 		return array(
 			'id'		=> $block_id,
 			'content'	=> $this->get_content_for_display($sql_data),
-			'callback'	=> 'previewCustomBlock',
 		);
 	}
 
@@ -128,6 +129,7 @@ class custom extends block
 
 	/**
 	 * @param array $data
+	 * @param string $content
 	 * @return string
 	 */
 	private function get_content_for_display(array $data, $content = '')
@@ -154,21 +156,24 @@ class custom extends block
 			$sql = 'UPDATE ' . $this->cblocks_table . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE block_id = ' . (int) $sql_data['block_id'];
 		}
 		$this->db->sql_query($sql);
-		$this->cache->destroy('pt_cblocks');
+		$this->cache->destroy('sm_cblocks');
 	}
 
 	/**
 	 * @param array $cblock
 	 * @param string $content
+	 * @param int $status
 	 * @param bool $edit_mode
-	 * @return string
 	 */
-	private function show_editor(array $cblock, &$content, $edit_mode)
+	private function show_editor(array $cblock, &$content, &$status, $edit_mode)
 	{
 		if ($edit_mode !== false)
 		{
 			decode_message($cblock['block_content'], $cblock['bbcode_uid']);
-			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="' . $cblock['block_content'] . '">' . $content . '</div>';
+
+			$block_is_active = $status;
+			$status = ($content && $status) ? true : false;
+			$content = '<div id="block-editor-' . $cblock['block_id'] . '" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="' . $cblock['block_content'] . '" data-active="' . $block_is_active . '">' . $content . '</div>';
 		}
 	}
 
@@ -177,7 +182,7 @@ class custom extends block
 	 */
 	private function get_custom_blocks()
 	{
-		if (($cblocks = $this->cache->get('pt_cblocks')) === false)
+		if (($cblocks = $this->cache->get('sm_cblocks')) === false)
 		{
 			$sql = 'SELECT *
 				FROM ' . $this->cblocks_table;
@@ -190,7 +195,7 @@ class custom extends block
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('pt_cblocks', $cblocks);
+			$this->cache->put('sm_cblocks', $cblocks);
 		}
 
 		return $cblocks;

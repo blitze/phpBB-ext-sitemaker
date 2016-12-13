@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 
 	'CANCEL'									=> 'Cancel',
 	'CHILD_ROUTE'								=> 'Child',
+	'CHILD_ROUTE_EXPLAIN'						=> '/viewforum.php, /dir/index.php<br />/viewtopic.php?f=2&t=1<br />/articles/my-article',
 	'CLEAR'										=> 'Clear',
 	'COPY'										=> 'Copy',
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
@@ -87,7 +88,7 @@ $lang = array_merge($lang, array(
 	'OR'										=> '<strong>OR</strong>',
 
 	'PARENT_ROUTE'								=> 'Parent',
-	'PT_REQUIRED_FIELDS'						=> '* Required Fields',
+	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
 
 	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',

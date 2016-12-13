@@ -26,6 +26,12 @@ class blocks extends routes
 	/** @var \blitze\sitemaker\services\groups */
 	protected $groups;
 
+	/** @var array */
+	protected static $status_class = array(
+		0	=> ' sm-inactive',
+		1	=> '',
+	);
+
 	/**
 	 * Constructor
 	 *
@@ -80,24 +86,25 @@ class blocks extends routes
 	 *
 	 * @param array $display_modes
 	 * @param bool $edit_mode
-	 * @param array $data
+	 * @param array $db_data
 	 * @param array $users_groups
 	 */
-	public function render(array $display_modes, $edit_mode, array $data, array $users_groups)
+	public function render(array $display_modes, $edit_mode, array $db_data, array $users_groups)
 	{
-		$service_name = $data['name'];
+		$service_name = $db_data['name'];
 
 		$single_block = array();
-		if ($this->_block_is_viewable($data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
+		if ($this->_block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
-			$block = $block_instance->display($data, $edit_mode);
+			$returned_data = $block_instance->display($db_data, $edit_mode);
 
-			if ($content = $this->_get_block_content($block, $edit_mode))
+			if ($content = $this->_get_block_content($returned_data, $edit_mode))
 			{
-				$single_block = array_merge($data, array(
-					'title'		=> $this->_get_block_title($data['title'], $block['title']),
-					'content'	=> $content,
-				));
+				$returned_data['title'] = $this->_get_block_title($db_data['title'], $returned_data['title']);
+				$returned_data['content'] = $content;
+
+				$single_block = array_merge($db_data, $returned_data);
+				$single_block['class'] .= self::$status_class[$single_block['status']];
 			}
 		}
 
@@ -137,19 +144,20 @@ class blocks extends routes
 	}
 
 	/**
-	 * @param array $block
+	 * @param array $returned_data
 	 * @param bool $edit_mode
 	 * @return string|null
 	 */
-	protected function _get_block_content(array $block, $edit_mode)
+	protected function _get_block_content(array &$returned_data, $edit_mode)
 	{
 		$content = '';
-		if (!empty($block['content']))
+		if (!empty($returned_data['content']))
 		{
-			$content = $block['content'];
+			$content = $returned_data['content'];
 		}
 		else if ($edit_mode)
 		{
+			$returned_data['status'] = 0;
 			$content = $this->translator->lang('BLOCK_NO_DATA');
 		}
 

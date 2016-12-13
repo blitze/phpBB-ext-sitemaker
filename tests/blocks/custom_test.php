@@ -69,6 +69,7 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
@@ -79,16 +80,18 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 3, // record does not exist in cblocks table
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
 				),
 				true,
-				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw=""></div>',
+				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="" data-active="1"></div>',
 			),
 			array(
 				array(
 					'bid' => 1,
+					'status' => 1,
 					'settings' => array(
 						'source' => '',
 					),
@@ -99,16 +102,18 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'status' => 0,
 					'settings' => array(
 						'source' => '',
 					),
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;"><p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p></div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;" data-active="0"><p>My custom content with <span style="font-weight: bold">bbcode</span> and <a href="#">html</a></p></div>',
 			),
 			array(
 				array(
 					'bid' => 1,
+					'status' => 1,
 					'settings' => array(
 						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
 					),
@@ -119,6 +124,7 @@ class custom_test extends blocks_base
 			array(
 				array(
 					'bid' => 1,
+					'status' => 0,
 					'settings' => array(
 						'source' => "&lt;script&gt;\nalert('yes');\n&lt;/script&gt;",
 					),
@@ -161,7 +167,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 1,
 					'content' => '',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 			array(
@@ -172,7 +177,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 1,
 					'content' => '<p>my <em>updated</em> content<br></p>',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 			array(
@@ -183,7 +187,6 @@ class custom_test extends blocks_base
 				array(
 					'id' => 2,
 					'content' => '<p>my new <span style="font-weight: bold">content</span></p>',
-					'callback' => 'previewCustomBlock',
 				),
 			),
 		);

@@ -83,8 +83,8 @@ class edit_block_test extends base_action
 
 		$result = $command->execute(1);
 
-		$this->assertSame($expected_block, array_intersect_key($result, $expected_block));
-		$this->assertSame($expected_form, $result['form']['options']);
+		$this->assertEquals($expected_block, array_intersect_key($result, $expected_block));
+		$this->assertEquals($expected_form, $result['form']['options']);
 	}
 
 	/**
@@ -110,12 +110,13 @@ class edit_block_test extends base_action
 	}
 
 	/**
-	 * Test editing non-exitent block service i.e id exists but block service does not
+	 * Test editing non-exitent block service i.e id exists (#7) but block service does not exist
+	 * In this test context, blitze.sitemaker.block.custom does not exist
 	 */
 	public function test_editing_invalid_block_service()
 	{
 		$variable_map = array(
-			array('id', 0, false, request_interface::REQUEST, 4),
+			array('id', 0, false, request_interface::REQUEST, 7),
 		);
 
 		$command = $this->get_command('edit_block', $variable_map);
@@ -127,7 +128,7 @@ class edit_block_test extends base_action
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-my.empty.block-SERVICE_NOT_FOUND', $e->get_message($this->translator));
+			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-blitze.sitemaker.block.custom-SERVICE_NOT_FOUND', $e->get_message($this->translator));
 		}
 	}
 }

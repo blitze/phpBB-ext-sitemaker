@@ -102,25 +102,54 @@ abstract class base_action implements action_interface
 	 */
 	protected function render_block(\blitze\sitemaker\model\entity_interface $entity)
 	{
+		$block = array();
 		/** @type \blitze\sitemaker\model\entity\block $entity */
-		$block_name = $entity->get_name();
-		if ($block_instance = $this->block_factory->get_block($block_name))
+		if ($block_instance = $this->block_factory->get_block($entity->get_name()))
 		{
 			$default_settings = $block_instance->get_config(array());
 			$settings = $this->blocks->sync_settings($default_settings, $entity->get_settings());
 			$entity->set_settings($settings);
 
-			$block_data = $entity->to_array();
-			$disp_data = $block_instance->display($block_data, true);
+			$db_data = $entity->to_array();
+			$returned_data = $block_instance->display($db_data, true);
 
-			return array_merge($block_data, array(
-				'id'		=> $block_data['bid'],
-				'title'		=> (!empty($block_data['title'])) ? $block_data['title'] : $this->translator->lang($disp_data['title']),
-				'content'	=> (!empty($disp_data['content'])) ? $disp_data['content'] : $this->translator->lang('BLOCK_NO_DATA'),
-			));
+			$returned_data['id'] = $db_data['bid'];
+			$returned_data['title'] = $this->get_block_title($db_data['title'], $returned_data['title']);
+			$returned_data['content'] = $this->get_block_content($returned_data);
+
+			$block = array_merge($db_data, $returned_data);
+			$block['class'] .= (!$block['status']) ? ' sm-inactive' : '';
 		}
 
-		return array();
+		return $block;
+	}
+
+	/**
+	 * @param string $custom_title
+	 * @param string $default_title
+	 * @return string
+	 */
+	protected function get_block_title($custom_title, $default_title)
+	{
+		return ($custom_title) ? $custom_title : $this->translator->lang($default_title);
+	}
+
+	/**
+	 * @param array $returned_data
+	 * @return string
+	 */
+	protected function get_block_content(array &$returned_data)
+	{
+		if (empty($returned_data['content']))
+		{
+			$content = $this->translator->lang('BLOCK_NO_DATA');
+			$returned_data['status'] = 0;
+		}
+		else
+		{
+			$content = $returned_data['content'];
+		}
+		return $content;
 	}
 
 	/**

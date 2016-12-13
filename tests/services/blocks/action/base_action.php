@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\tests\services\blocks\action;
 
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/empty_block.php';
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/baz_block.php';
 
 class base_action extends \phpbb_database_test_case
@@ -141,9 +142,11 @@ class base_action extends \phpbb_database_test_case
 
 		$blocks_collection->add('my.foo.block');
 		$blocks_collection->add('my.baz.block');
+		$blocks_collection->add('my.empty.block');
 
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
+		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('custom.block.service', $dummy_object);
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);

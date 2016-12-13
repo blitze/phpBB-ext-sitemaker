@@ -187,6 +187,7 @@ class blocks_test extends \phpbb_database_test_case
 								'name' => 'my.baz.block',
 								'content' => 'I love myself',
 								'view' => 'simple',
+								'class' => '',
 							),
 						),
 						'top' => array(
@@ -195,6 +196,7 @@ class blocks_test extends \phpbb_database_test_case
 								'name' => 'my.empty.block',
 								'content' => 'BLOCK_NO_DATA',
 								'view' => '',
+								'class' => ' sm-inactive',
 							),
 						),
 					),
@@ -220,6 +222,28 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array(),
 					'is_sub_route' => false,
 				),
+				array(),
+			),
+			array(
+				'app.php/foo/test/',
+				'',
+				true,
+				'',
+				array (
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 2,
+					'ext_name' => 'foo/bar',
+					'route' => 'app.php/foo/test/',
+					'style' => 1,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => false,
+				),
 				array(
 					'positions' => array(
 						'sidebar' => array(
@@ -227,6 +251,7 @@ class blocks_test extends \phpbb_database_test_case
 								'bid' => 5,
 								'name' => 'my.baz.block',
 								'view' => 'basic',
+								'class' => ' sm-inactive',
 							),
 						),
 					),
@@ -283,6 +308,7 @@ class blocks_test extends \phpbb_database_test_case
 								'bid' => 1,
 								'name' => 'my.baz.block',
 								'view' => 'simple',
+								'class' => ''
 							),
 						),
 					),

@@ -51,6 +51,7 @@ class menu extends menu_block
 			return array(
 				'title'		=> $title,
 				'content'	=> $this->get_message($menu_id, $editing),
+				'status'	=> (int) !$editing,
 			);
 		}
 

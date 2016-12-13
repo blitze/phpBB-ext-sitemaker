@@ -245,11 +245,12 @@ class routes
 	}
 
 	/**
+	 * @param array $condition
 	 * @return array
 	 */
-	protected function get_all_blocks()
+	protected function get_all_blocks(array $condition)
 	{
-		$collection = $this->mapper_factory->create('blocks')->find();
+		$collection = $this->mapper_factory->create('blocks')->find($condition);
 
 		$blocks = array();
 		foreach ($collection as $entity)
@@ -309,7 +310,8 @@ class routes
 	{
 		if (($blocks = $this->cache->get('sitemaker_blocks')) === false || $edit_mode)
 		{
-			$blocks = $this->get_all_blocks();
+			$condition = (!$edit_mode) ? array('status', '=', 1) : array();
+			$blocks = $this->get_all_blocks($condition);
 			$this->cache_block($blocks, $edit_mode);
 		}
 

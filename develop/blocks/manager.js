@@ -2,6 +2,7 @@
 	'use strict';
 
 	var editorVal = '';
+	var inactiveBlockClass = 'sm-inactive';
 	var editing = false;
 	var updated = false;
 	var dialogEditOpened = false;
@@ -93,8 +94,8 @@
 
 	var hideEmptyPositions = function() {
 		blockPositions.removeClass('show-position');
-		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function(i, pos) {
-			$(pos).siblings('.grid__col').last().addClass('lastUnit');
+		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function() {
+			$(this).siblings('.grid__col').last().addClass('lastUnit');
 		});
 	};
 
@@ -144,8 +145,8 @@
 		$('.block-position').each(function() {
 			var weight = 0;
 			var pos = $(this).attr('id');
-			$(this).find('.block').each(function(i, e) {
-				var id = $(e).attr('id');
+			$(this).find('.block').each(function() {
+				var id = $(this).attr('id');
 				if (pos !== undefined && id !== undefined) {
 					var bid = id.substring(6);
 					blocks[bid] = {
@@ -264,8 +265,19 @@
 		}
 
 		$.post(config.ajaxUrl + '/blocks/handle_custom_action', data, function(resp) {
-			if (typeof phpbb.ajaxCallbacks[resp.callback] === 'function') {
-				phpbb.ajaxCallbacks[resp.callback].call(undefined, resp);
+			if (resp.id) {
+				var id = 'block-editor-' + resp.id;
+				var rawHTML = fixPaths(resp.content);
+				var block = $('#block-' + resp.id + ' > .sm-block-container');
+				var editor = $('#' + id).attr('data-raw', rawHTML);
+
+				tinymce.get(id).setContent(rawHTML ? rawHTML : lang.placeholder);
+
+				if (!resp.content || !editor.data('active')) {
+					block.addClass(inactiveBlockClass);
+				} else  {
+					block.removeClass(inactiveBlockClass);
+				}
 			}
 		});
 	};
@@ -362,28 +374,10 @@
 			'valid_elements': '*[*]',
 			'end_container_on_empty_block': true,
 			'setup': function(editor) {
-				var editorPreview = '';
-				var editorContent = '';
-				editor.on('blur', function() {
-					var content = editor.getContent({format: 'raw'});
-
-					if (editor.getContent().length > 0) {
-						var data = $('#' + editor.id).data('raw', content).data();
-
-						if (content !== editorContent && content !== lang.placeholder) {
-							data.id = editor.id.substring(13);
-							data.content = content;
-
-							customBlockAction(data);
-						} else {
-							editor.setContent(editorPreview);
-						}
-					} else if (editorPreview) {
-						editor.setContent(editorPreview);
-					} else {
-						editor.setContent(lang.placeholder);
-					}
-				});
+				var blockObj = {};
+				var blockIsInactive = true;
+				var editorRawHTML = '';
+				var blockRawHTML = '';
 
 				editor.on('init', function() {
 					if (editor.getContent().length === 0) {
@@ -392,9 +386,42 @@
 				});
 
 				editor.on('focus', function() {
-					editorContent = $('#' + editor.id).data('raw');
-					editorPreview = editor.getContent({format: 'raw'});
-					editor.setContent(editorContent);
+					var blockId = editor.id.substring(13);
+					blockObj = $('#block-' + blockId + ' > .sm-block-container');
+					blockIsInactive = blockObj.hasClass(inactiveBlockClass);
+					blockRawHTML = $('#' + editor.id).data('raw');
+					editorRawHTML = editor.getContent({format: 'raw'});
+					editor.setContent(blockRawHTML);
+				});
+
+				editor.on('keyUp', function() {
+					if (blockIsInactive && editor.getContent().length) {
+						blockIsInactive = false;
+						blockObj.removeClass(inactiveBlockClass);
+					} else if (!blockIsInactive && !editor.getContent().length) {
+						blockIsInactive = true;
+						blockObj.addClass(inactiveBlockClass);
+					}
+				});
+
+				editor.on('blur', function() {
+					var rawEditorContent = editor.getContent({format: 'raw'}).replace('<p><br data-mce-bogus="1"></p>', '');
+					var editorContent = editor.getContent();
+
+					if (rawEditorContent !== blockRawHTML && rawEditorContent !== lang.placeholder) {
+						if (!editorContent.length) {
+							rawEditorContent = '';
+							editor.setContent(lang.placeholder);
+						}
+
+						var blockData = $('#' + editor.id).data('raw', rawEditorContent).data();
+						blockData.id = editor.id.substring(13);
+						blockData.content = rawEditorContent;
+
+						customBlockAction(blockData);
+					} else if (!editorContent) {
+						editor.setContent(lang.placeholder);
+					}
 				});
 			}
 		});
@@ -548,15 +575,11 @@
 				e.preventDefault();
 				blockObj = $(this).parentsUntil('.block').parent();
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
-			}).each(function(i, pos) {
-				var p = $(pos).attr('id').substring(4);
-				if (exPositions.find('option[value=' + p + ']').length === 0) {
-					exPositions.append('<option value="' + p + '">' + p + '</option>');
+			}).each(function() {
+				var pos = $(this).attr('id').substring(4);
+				if (exPositions.find('option[value=' + pos + ']').length === 0) {
+					exPositions.append('<option value="' + pos + '">' + pos + '</option>');
 				}
-			});
-
-			phpbb.addAjaxCallback('previewCustomBlock', function(data) {
-				$('#block-editor-' + data.id).html(data.content.replace('./../../', ''));
 			});
 
 			saveBtn = $('#toggle-edit').button().click(function() {
