@@ -1,6 +1,6 @@
 # phpBB SiteMaker Extension
 
-phpBB SiteMaker is an Extension for [phpBB 3.1](https://www.phpbb.com/)
+phpBB SiteMaker is an Extension for [phpBB 3.2](https://www.phpbb.com/)
 
 ## Description
 
