@@ -1,12 +1,16 @@
 /* global jQuery */
-;(function($, window, document, undefined) {
+(function($, window, document, undefined) {
 	'use strict';
 
 	var preview;
 	var currPreview = '';
+	var defaultPreview = './images/spacer.gif';
 
 	var showPreview = function(layout) {
 		if (layout !== currPreview) {
+			preview.error(function() {
+				preview.attr('src', defaultPreview);
+			});
 			preview.attr('src', layout + 'preview.png');
 			currPreview = layout;
 		}
@@ -26,7 +30,7 @@
 		// Init icon picker
 		$('#acp_settings').iconPicker({
 			selector: '.icon-select',
-			onSelect: function(item, iconClass) {
+			onSelect: function(item, iconHtml, iconClass) {
 				item.prev().val(iconClass);
 			}
 		});
