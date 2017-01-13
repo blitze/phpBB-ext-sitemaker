@@ -154,7 +154,7 @@ class settings_module
 		{
 			$id = $row['style_id'];
 
-			$pref = $this->get_style_pref($id, $style_prefs);
+			$pref = $this->get_style_pref($id, $style_prefs, $layouts['portal']);
 
 			$styles[] = array(
 				'id'		=> $id,
@@ -172,12 +172,13 @@ class settings_module
 	/**
 	 * @param int $style_id
 	 * @param array $style_prefs
+	 * @param string $default_layout
 	 * @return array
 	 */
-	protected function get_style_pref($style_id, array $style_prefs)
+	protected function get_style_pref($style_id, array $style_prefs, $default_layout)
 	{
 		$pref = array(
-			'layout'	=> '',
+			'layout'	=> $default_layout,
 			'view'		=> '',
 		);
 

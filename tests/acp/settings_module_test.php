@@ -216,10 +216,10 @@ class settings_module_test extends \phpbb_database_test_case
 						array(
 							'id' => '2',
 							'name' => 'prosilver2',
-							'layout' => '',
+							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
 							'layouts' => '<option value="phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/">LAYOUT_BLOG</option>' .
 								'<option value="phpBB/ext/foo/bar/styles/prosilver/template/layouts/my_layout/">LAYOUT_MY_LAYOUT</option>' .
-								'<option value="phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/">LAYOUT_PORTAL</option>' .
+								'<option value="phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/" selected="selected">LAYOUT_PORTAL</option>' .
 								'<option value="phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/">LAYOUT_PORTAL_ALT</option>',
 							'views' => '<option value="">BLOCK_VIEW_DEFAULT</option>' .
 								'<option value="basic">BLOCK_VIEW_BASIC</option>' .
