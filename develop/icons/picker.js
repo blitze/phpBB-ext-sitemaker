@@ -164,7 +164,7 @@
 					icon.parent().addClass('icon-selected');
 
 					this.selectedIcon = 'fa ' + iconClass;
-					this._scrollToIcon(icon);
+					this._scrollToIcon(icon, true);
 
 					var $selects = $inputs.filter('select').children();
 
@@ -196,9 +196,13 @@
 			currentItem = element.addClass('icons-drop');
 		},
 
-		_scrollToIcon: function(element) {
+		_scrollToIcon: function(element, center) {
+			var adjustment = 20;
+			if (center) {
+				adjustment = -(this.fontList.height() / 2);
+			}
 			this.fontList.animate({
-				scrollTop: this.fontList.scrollTop() + element.position().top + 20
+				scrollTop: this.fontList.scrollTop() + element.position().top + adjustment
 			}, 1000);
 		},
 

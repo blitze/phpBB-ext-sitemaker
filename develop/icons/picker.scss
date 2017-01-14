@@ -74,9 +74,12 @@
 	}
 
 	.actions-container {
-		margin-top: 20px;
+		margin: 10px;
 
 		.action-btn {
+			display: block;
+			margin: 10px 0;
+			text-align: center;
 			padding: 10px;
 			background-color: #6c60ba;
 			color: #fff;
