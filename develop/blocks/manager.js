@@ -119,12 +119,12 @@
 	};
 
 	var renderBlock = function(blockObj, blockData) {
-		var id = 'block-editor-' + blockData.block.id;
 
 		// if tinymce editor instance already exists, remove it
-		if (tinymce.get(id)) {
-			tinymce.EditorManager.execCommand('mceFocus', false, id);                    
-			tinymce.EditorManager.execCommand('mceRemoveEditor', true, id);
+		var id = 'block-editor-' + blockData.block.id;
+		var editor = tinymce.get(id);
+		if (editor) {
+			tinymce.EditorManager.remove(editor);
 		}
 
 		blockData.block.content = fixPaths(blockData.block.content);
