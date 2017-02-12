@@ -71,6 +71,7 @@ class members_test extends \phpbb_database_test_case
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
+		$user->data['user_id'] = 2;
 
 		$db = $this->new_dbal();
 
@@ -155,14 +156,19 @@ class members_test extends \phpbb_database_test_case
 			array(
 				array(
 					'query_type'	=> 'visits',
-					'max_members'	=> 1,
+					'max_members'	=> 2,
 				),
 				array(
 					'member'	=> array(
 						array(
-							'USERNAME'		=> '<span class="username">founder</span>',
+							'USERNAME'		=> '<span class="username">member3</span>',
 							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '23 Aug 2015',
+							'USER_INFO'		=> '20 Aug 2015',
+						),
+						array(
+							'USERNAME'		=> '<span class="username">member1</span>',
+							'USER_AVATAR'	=> '',
+							'USER_INFO'		=> '16 Aug 2015',
 						),
 					),
 					'S_LIST'		=> 'visits',

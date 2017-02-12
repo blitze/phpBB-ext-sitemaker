@@ -184,7 +184,7 @@ class members
 	protected function set_visits_sql(array &$sql_ary)
 	{
 		$sql_ary['SELECT'] .= ', u.user_lastvisit as member_date';
-		$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0';
+		$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0 AND u.user_id <> ' . (int) $this->user->data['user_id'];
 		$sql_ary['ORDER_BY'] = 'u.user_lastvisit DESC';
 
 		$this->sql_date_field = 'user_lastvisit';
