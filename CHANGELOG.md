@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0 - 2017-1-13
+
+- Support for phpBB 3.2.x
+- Ability to choose icon for 'Forum' in navbar
+- Ability to hide phpBB's login, birthday, and who's online boxes on forum index in ACP
+- Ability to choose default block type (simple, boxed, or borderless) in ACP
+- Ability to choose block type (simple, boxed, or borderless) per block
+
 ## 2.0.4 - 2016-10-3
 
 - Fix issue with massive topic icons and smiles
