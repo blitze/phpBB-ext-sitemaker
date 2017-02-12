@@ -112,7 +112,7 @@ class mybookmarks extends block
 			unset($topic_data[$i]);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', $this->translator->lang('NO_BOOKMARKS'));
+		$this->ptemplate->assign_var('NO_RECORDS', $this->translator->lang('NO_BOOKMARKED_TOPICS'));
 	}
 
 	/**

@@ -58,7 +58,7 @@ abstract class forum_topics_config extends block
 			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
-			'context'			=> array('lang' => 'CONTEXT', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last', 'explain' => false),
+			'context'			=> array('lang' => 'BASED_ON', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last', 'explain' => false),
 			'preview_chars'		=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 0),
 		);
 	}

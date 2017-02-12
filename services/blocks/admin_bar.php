@@ -216,7 +216,7 @@ class admin_bar
 	 */
 	public function get_excluded_position_options(array $ex_positions)
 	{
-		$options = '<option value=""' . ((!sizeof($ex_positions)) ? ' selected="selected"' : '') . '>' . $this->translator->lang('NONE') . '</option>';
+		$options = '';
 		foreach ($ex_positions as $position)
 		{
 			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';

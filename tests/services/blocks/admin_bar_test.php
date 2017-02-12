@@ -189,7 +189,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EDIT_MODE' => true,
 					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '<option value="" selected="selected">NONE</option>',
+					'S_POSITION_OPS' => '',
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
@@ -215,7 +215,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EDIT_MODE' => true,
 					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '<option value="">NONE</option><option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
+					'S_POSITION_OPS' => '<option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
@@ -458,11 +458,11 @@ class admin_bar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				array(),
-				'<option value="" selected="selected">NONE</option>',
+				'',
 			),
 			array(
-				array(),
-				'<option value="" selected="selected">NONE</option>',
+				array('sidebar', 'bottom'),
+				'<option value="sidebar" selected="selected">sidebar</option><option value="bottom" selected="selected">bottom</option>',
 			),
 		);
 	}

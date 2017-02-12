@@ -108,7 +108,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'all',
 				array(
-					'' => 'ALL',
+					'' => 'ALL_GROUPS',
 					1 => 'G_GUESTS',
 					2 => 'G_REGISTERED',
 					3 => 'Some Group',
@@ -117,7 +117,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'special',
 				array(
-					'' => 'ALL',
+					'' => 'ALL_GROUPS',
 					1 => 'G_GUESTS',
 					2 => 'G_REGISTERED',
 				),
@@ -151,7 +151,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'all',
 				array(),
-				'<option value="0">ALL</option>' .
+				'<option value="0">ALL_GROUPS</option>' .
 				'<option class="sep" value="1">G_GUESTS</option>' .
 				'<option class="sep" value="2">G_REGISTERED</option>' .
 				'<option value="3">Some Group</option>',
@@ -159,7 +159,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'all',
 				array(1, 3),
-				'<option value="0">ALL</option>' .
+				'<option value="0">ALL_GROUPS</option>' .
 				'<option class="sep" value="1" selected="selected">G_GUESTS</option>' .
 				'<option class="sep" value="2">G_REGISTERED</option>' .
 				'<option value="3" selected="selected">Some Group</option>',
@@ -167,7 +167,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'special',
 				array(2),
-				'<option value="0">ALL</option>' .
+				'<option value="0">ALL_GROUPS</option>' .
 				'<option class="sep" value="1">G_GUESTS</option>' .
 				'<option class="sep" value="2" selected="selected">G_REGISTERED</option>',
 			),

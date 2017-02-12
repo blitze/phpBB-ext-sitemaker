@@ -21,7 +21,9 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL'										=> 'All',
+	'ALL_TYEPS'									=> 'All Types',
+	'ALL_FORUMS'								=> 'All Forums',
+	'ALL_GROUPS'								=> 'All Groups',
 	'ARCHIVES'									=> 'Archives',
 	'ATTACHMENTS_FROM_POSTS'					=> 'From Post Ids',
 	'ATTACHMENTS_FROM_POSTS_EXPLAIN'			=> 'Id(s) of posts to retrieve attachments from, separated by <strong>commas</strong>(,). Leave blank to select from any post.',
@@ -47,6 +49,7 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraph',
 
 	// block views
+	'BASED_ON'									=> 'Based on',
 	'BLOCK_VIEW'								=> 'Block View',
 	'BLOCK_VIEW_BASIC'							=> 'Basic',
 	'BLOCK_VIEW_BOXED'							=> 'Boxed',
@@ -97,8 +100,6 @@ $lang = array_merge($lang, array(
 	'MENU_NO_ITEMS'								=> 'No active items to display',
 	'MINI'										=> 'Mini',
 
-	'NONE'										=> 'None',
-
 	'OR'										=> '<strong>OR</strong>',
 	'ORDER_BY'									=> 'Order by',
 
@@ -111,7 +112,6 @@ $lang = array_merge($lang, array(
 	'POLL_FROM_TOPICS_EXPLAIN'					=> 'Id(s) of topics to retrieve polls from, separated by <strong>commas</strong>(,). Leave blank to select any topic.',
 	'POLL_FROM_USERS'							=> 'Display polls from user(s)',
 	'POLL_FROM_USERS_EXPLAIN'					=> 'Id(s) of user(s) whose polls you’d like to display, separated by <strong>commas</strong>(,). Leave blank to select polls from any user.',
-	'POSTS'										=> 'Posts',
 	'POSTS_TITLE_LIMIT'							=> 'Maximum # of characters for post title',
 	'POST_ANNOUNCEMENT'							=> 'Announcement',
 	'POST_GLOBAL'								=> 'Global',
@@ -142,7 +142,6 @@ $lang = array_merge($lang, array(
 	'SOURCE_EXPLAIN'							=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
 
 	'TEMPLATE'									=> 'Template',
-	'TOPICS'									=> 'Topics',
 	'TOPICS_ONLY'								=> 'Topics only?',
 	'TOPIC_TITLE_LIMIT'							=> 'Maximum # of characters for topic title',
 	'TOPIC_TYPE'								=> 'Topic Type',

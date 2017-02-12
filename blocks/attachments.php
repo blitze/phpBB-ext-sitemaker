@@ -70,7 +70,7 @@ class attachments extends block
 		$forum_options = $this->forum_options->get_all();
 		$topic_type_options = $this->get_topic_type_options();
 		$range_options = $this->get_range_options();
-		$attach_type_options = array('' => 'ALL', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
+		$attach_type_options = array('' => 'ALL_TYPES', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
 
 		return array(
 			'legend1'			=> 'SETTINGS',

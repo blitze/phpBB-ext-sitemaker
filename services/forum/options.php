@@ -40,7 +40,7 @@ class options
 	{
 		$forumlist = make_forum_select($select_id, $ignore_id, $ignore_acl, $ignore_nonpost, $ignore_emptycat, $only_acl_post, true);
 
-		$forum_options = array('' => 'ALL');
+		$forum_options = array('' => 'ALL_FORUMS');
 		foreach ($forumlist as $row)
 		{
 			$forum_options[$row['forum_id']] = $row['padding'] . $row['forum_name'];

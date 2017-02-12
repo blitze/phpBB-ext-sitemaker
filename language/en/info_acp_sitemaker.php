@@ -87,9 +87,9 @@ $lang = array_merge($lang, array(
 	'MENU_ITEM_PARENT'			=> 'Parent Item',
 
 	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
-	'NONE'						=> 'None',
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
+	'NO_PARENT'					=> 'No Parent',
 
 	'PROCESSING_ERROR'			=> 'Processing error',
 

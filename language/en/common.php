@@ -21,7 +21,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL'							=> 'All',
 	'ALL_TIME'						=> 'All Time',
 
 	'BLOCK_TITLE'					=> 'Block Title',
@@ -54,7 +53,7 @@ $lang = array_merge($lang, array(
 	'MOST_TENURED'					=> 'Most Tenured',
 	'MY_BOOKMARKS'					=> 'My Bookmarks',
 
-	'NO_BOOKMARKS'					=> 'You have not bookmarked any topics',
+	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
 	'NO_NEW_POSTS'					=> 'There are no new posts to display',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 

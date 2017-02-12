@@ -58,7 +58,7 @@ class options_test extends \phpbb_database_test_case
 	public function test_get_all()
 	{
 		$expected = array(
-			'' => 'ALL',
+			'' => 'ALL_FORUMS',
 			1 => 'Forum 1',
 			2 => 'Forum 2',
 		);
