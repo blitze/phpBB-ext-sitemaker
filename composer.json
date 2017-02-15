@@ -1,9 +1,9 @@
 {
 	"name": "blitze/sitemaker",
     "type": "phpbb-extension",
-	"description": "A Site Maker for phpBB 3.2x.",
+	"description": "A portal/CMS for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.0.0-dev",
+	"version": "3.0.0-rc1",
 	"keywords": ["phpbb", "extension", "portal", "cms"],
 	"license": "GPL-2.0",
 	"authors": [{
