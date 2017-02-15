@@ -1,12 +1,4 @@
-{% if S_EDIT_MODE %}
-	{% set editable = ' editable' %}
-	{% set block_controls %}
-		<div class="block-controls">
-			<a href="#" class="item-action delete-block" title="{{ lang('DELETE') }}"><span class="ui-icon ui-icon-closethick">{{ lang('DELETE') }}</span></a>
-			<a href="#" class="item-action edit-block" title="{{ lang('EDIT') }}"><span class="ui-icon ui-icon-gear">{{ lang('EDIT') }}</span></a>
-		</div>
-	{% endset %}
-{% endif %}
+{% include 'controls.twig' %}
 
 <div class="sitemaker">
 	{% if positions.panel or S_EDIT_MODE %}
