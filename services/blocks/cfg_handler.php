@@ -122,7 +122,7 @@ class cfg_handler extends cfg_fields
 	{
 		if (isset($cfg_array['source']))
 		{
-			$cfg_array['source'] = urldecode($cfg_array['source']);
+			$cfg_array['source'] = rawurldecode($cfg_array['source']);
 		}
 
 		return $cfg_array;
