@@ -32,24 +32,30 @@ class m10_remove_dashboard extends \phpbb\db\migration\migration
 		return array(
 			// Remove all ACP modules, if one exists
 			array('if', array(
-				array('module.exists', array('acp', 'ACP_SITEMAKER_EXTENSIONS', 'MENU')),
-				array('module.remove', array('acp', 'ACP_SITEMAKER_EXTENSIONS', 'MENU')),
+				array('module.exists', array('acp', false, array(
+					'module_basename'	=> '\blitze\sitemaker\acp\menu_module',
+					'modes'				=> array('menu'),
+				))),
+				array('module.remove', array('acp', false, array(
+					'module_basename'	=> '\blitze\sitemaker\acp\menu_module',
+					'modes'				=> array('menu'),
+				))),
 			)),
 			array('if', array(
-				array('module.exists', array('acp', 'ACP_CAT_SITEMAKER', 'SITEMAKER_DASHBOARD')),
-				array('module.remove', array('acp', 'ACP_CAT_SITEMAKER', 'SITEMAKER_DASHBOARD')),
+				array('module.exists', array('acp', false, 'SITEMAKER_DASHBOARD')),
+				array('module.remove', array('acp', false, 'SITEMAKER_DASHBOARD')),
 			)),
 			array('if', array(
-				array('module.exists', array('acp', 'SITEMAKER', 'ACP_SITEMAKER_EXTENSIONS')),
-				array('module.remove', array('acp', 'SITEMAKER', 'ACP_SITEMAKER_EXTENSIONS')),
+				array('module.exists', array('acp', false, 'ACP_SITEMAKER_EXTENSIONS')),
+				array('module.remove', array('acp', false, 'ACP_SITEMAKER_EXTENSIONS')),
 			)),
 			array('if', array(
-				array('module.exists', array('acp', 'SITEMAKER', 'ACP_CAT_SITEMAKER')),
-				array('module.remove', array('acp', 'SITEMAKER', 'ACP_CAT_SITEMAKER')),
+				array('module.exists', array('acp', false, 'ACP_CAT_SITEMAKER')),
+				array('module.remove', array('acp', false, 'ACP_CAT_SITEMAKER')),
 			)),
 			array('if', array(
-				array('module.exists', array('acp', false, 'SITEMAKER')),
-				array('module.remove', array('acp', false, 'SITEMAKER')),
+				array('module.exists', array('acp', 0, 'SITEMAKER')),
+				array('module.remove', array('acp', 0, 'SITEMAKER')),
 			)),
 
 			// Add Menu module to Extensions tab
