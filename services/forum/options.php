@@ -48,7 +48,7 @@ class options
 	}
 
 	/**
-	 * Get array of topic types. 
+	 * Get array of topic types.
 	 * This is used primarily by blocks config and the values are translated automatically
 	 *
 	 * @return array
