@@ -60,7 +60,7 @@ class forum_poll extends block
 	{
 		$forum_options = $this->forum_options->get_all();
 		$group_options = $this->groups->get_data();
-		$topic_type_options = array(POST_NORMAL => 'POST_NORMAL', POST_STICKY => 'POST_STICKY', POST_ANNOUNCE => 'POST_ANNOUNCEMENT', POST_GLOBAL => 'POST_GLOBAL');
+		$topic_type_options = $this->forum_options->get_topic_types();
 		$sort_options = array('' => 'RANDOM', self::FORUMS_ORDER_FIRST_POST	=> 'FIRST_POST_TIME', self::FORUMS_ORDER_LAST_POST => 'LAST_POST_TIME', self::FORUMS_ORDER_LAST_READ => 'LAST_READ_TIME');
 
 		return array(

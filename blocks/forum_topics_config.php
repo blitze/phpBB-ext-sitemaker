@@ -40,7 +40,7 @@ abstract class forum_topics_config extends block
 	public function get_config(array $settings)
 	{
 		$forum_options = $this->forum_options->get_all();
-		$topic_type_options = $this->get_topic_type_options();
+		$topic_type_options = $this->forum_options->get_topic_types();
 		$preview_options = $this->get_preview_options();
 		$range_options = $this->get_range_options();
 		$sort_options = $this->get_sorting_options();
@@ -60,19 +60,6 @@ abstract class forum_topics_config extends block
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles', 'explain' => false),
 			'context'			=> array('lang' => 'BASED_ON', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last', 'explain' => false),
 			'preview_chars'		=> array('lang' => 'PREVIEW_MAX_CHARS', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'explain' => false, 'default' => 0),
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_topic_type_options()
-	{
-		return array(
-			POST_NORMAL     => 'POST_NORMAL',
-			POST_STICKY     => 'POST_STICKY',
-			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
-			POST_GLOBAL     => 'POST_GLOBAL',
 		);
 	}
 

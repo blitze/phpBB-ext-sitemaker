@@ -125,7 +125,7 @@ class mybookmarks extends block
 				BOOKMARKS_TABLE		=> 'b',
 			),
 			'WHERE'		=> array(
-				'b.user_id = ' . $this->user->data['user_id'],
+				'b.user_id = ' . (int) $this->user->data['user_id'],
 				'b.topic_id = t.topic_id',
 			),
 		);

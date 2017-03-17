@@ -51,4 +51,18 @@ class m12_add_hidden_forum_column extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'drop_columns'	=> array(
+				$this->table_prefix . 'forums'	=> array(
+					'hidden_forum',
+				),
+			),
+		);
+	}
 }

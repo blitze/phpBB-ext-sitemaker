@@ -120,7 +120,7 @@ class member_menu extends block
 				POSTS_TABLE		=> 'p',
 			),
 			'WHERE'		=> array(
-				't.topic_id = p.topic_id AND p.post_time > ' . $this->user->data['user_lastvisit'],
+				't.topic_id = p.topic_id AND p.post_time > ' . (int) $this->user->data['user_lastvisit'],
 			),
 		);
 

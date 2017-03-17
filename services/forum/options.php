@@ -48,4 +48,20 @@ class options
 
 		return $forum_options;
 	}
+
+	/**
+	 * Get array of topic types.
+	 * This is used primarily by blocks config and the values are translated automatically
+	 *
+	 * @return array
+	 */
+	public function get_topic_types()
+	{
+		return array(
+			POST_NORMAL     => 'POST_NORMAL',
+			POST_STICKY     => 'POST_STICKY',
+			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
+			POST_GLOBAL     => 'POST_GLOBAL',
+		);
+	}
 }

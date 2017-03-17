@@ -22,6 +22,7 @@ class edit_block extends base_action
 	public function execute($style_id)
 	{
 		$this->translator->add_lang('css_presets', 'blitze/sitemaker');
+		$this->translator->add_lang('posting');
 
 		$block_id = $this->request->variable('id', 0);
 

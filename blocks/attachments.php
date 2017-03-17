@@ -68,7 +68,7 @@ class attachments extends block
 	public function get_config(array $settings)
 	{
 		$forum_options = $this->forum_options->get_all();
-		$topic_type_options = $this->get_topic_type_options();
+		$topic_type_options = $this->forum_options->get_topic_types();
 		$range_options = $this->get_range_options();
 		$attach_type_options = array('' => 'ALL_TYPES', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
 
@@ -200,19 +200,6 @@ class attachments extends block
 		}
 
 		return array_map('intval', $allowed_forums);
-	}
-
-	/**
-	 * @return array
-	 */
-	private function get_topic_type_options()
-	{
-		return array(
-			POST_NORMAL     => 'POST_NORMAL',
-			POST_STICKY     => 'POST_STICKY',
-			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
-			POST_GLOBAL     => 'POST_GLOBAL',
-		);
 	}
 
 	/**

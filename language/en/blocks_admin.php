@@ -113,10 +113,6 @@ $lang = array_merge($lang, array(
 	'POLL_FROM_USERS'							=> 'Display polls from user(s)',
 	'POLL_FROM_USERS_EXPLAIN'					=> 'Id(s) of user(s) whose polls you’d like to display, separated by <strong>commas</strong>(,). Leave blank to select polls from any user.',
 	'POSTS_TITLE_LIMIT'							=> 'Maximum # of characters for post title',
-	'POST_ANNOUNCEMENT'							=> 'Announcement',
-	'POST_GLOBAL'								=> 'Global',
-	'POST_NORMAL'								=> 'Normal',
-	'POST_STICKY'								=> 'Sticky',
 	'PREVIEW_MAX_CHARS'							=> 'Number of characters to preview',
 
 	'QUERY_TYPE'								=> 'Display Mode',
