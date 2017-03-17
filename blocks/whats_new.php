@@ -135,7 +135,7 @@ class whats_new extends block
 	{
 		return array(
 			'WHERE'		=> array(
-				't.topic_last_post_time > ' . $this->user->data['user_lastvisit'],
+				't.topic_last_post_time > ' . (int) $this->user->data['user_lastvisit'],
 				't.topic_moved_id = 0',
 			),
 		);

@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class blocks_admin
 {
@@ -75,7 +75,7 @@ class blocks_admin
 			}
 
 			$json_data['message'] = $this->user->lang('NOT_AUTHORISED');
-			return new Response(json_encode($json_data), 401);
+			return new JsonResponse($json_data, 401);
 		}
 
 		$style_id = $this->request->variable('style', 0);
@@ -94,6 +94,6 @@ class blocks_admin
 			$json_data['message'] = $e->get_message($this->user);
 		}
 
-		return new Response(json_encode(array_merge($json_data, $return_data)));
+		return new JsonResponse(array_merge($json_data, $return_data));
 	}
 }

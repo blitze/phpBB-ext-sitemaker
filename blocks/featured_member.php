@@ -307,8 +307,8 @@ class featured_member extends block
 		$tpl_data['row'] = array_merge($tpl_data['row'], array(
 			'USERNAME'			=> $username,
 			'AVATAR_IMG'		=> phpbb_get_user_avatar($row),
-			'POSTS_PCT'			=> sprintf($this->user->lang('POST_PCT'), $this->calculate_percent_posts($row['user_posts'])),
-			'L_VIEW_PROFILE'	=> sprintf($this->user->lang('VIEW_USER_PROFILE'), $username),
+			'POSTS_PCT'			=> $this->user->lang('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
+			'L_VIEW_PROFILE'	=> $this->user->lang('VIEW_USER_PROFILE', $username),
 			'JOINED'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
 			'VISITED'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
 			'POSTS'				=> $row['user_posts'],

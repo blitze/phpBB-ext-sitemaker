@@ -160,13 +160,13 @@ class query_builder
 			$this->store['sql_array']['SELECT'][] = 'tw.notify_status';
 			$this->store['sql_array']['LEFT_JOIN'][] = array(
 				'FROM'	=> array(TOPICS_WATCH_TABLE => 'tw'),
-				'ON'	=> 'tw.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tw.topic_id'
+				'ON'	=> 'tw.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.topic_id = tw.topic_id'
 			);
 
 			$this->store['sql_array']['SELECT'][] = 'fw.notify_status';
 			$this->store['sql_array']['LEFT JOIN'][] = array(
 				'FROM'	=> array(FORUMS_WATCH_TABLE => 'fw'),
-				'ON'	=> '(fw.forum_id = f.forum_id AND fw.user_id = ' . $this->user->data['user_id'] . ')',
+				'ON'	=> '(fw.forum_id = f.forum_id AND fw.user_id = ' . (int) $this->user->data['user_id'] . ')',
 			);
 		}
 
@@ -185,7 +185,7 @@ class query_builder
 			$this->store['sql_array']['SELECT'][] = 'bm.topic_id as bookmarked';
 			$this->store['sql_array']['LEFT_JOIN'][] = array(
 				'FROM'	=> array(BOOKMARKS_TABLE => 'bm'),
-				'ON'	=> 'bm.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = bm.topic_id'
+				'ON'	=> 'bm.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.topic_id = bm.topic_id'
 			);
 		}
 
@@ -206,12 +206,12 @@ class query_builder
 			$this->store['sql_array']['SELECT'][] = 'tt.mark_time, ft.mark_time as forum_mark_time';
 			$this->store['sql_array']['LEFT_JOIN'][] = array(
 				'FROM'	=> array(TOPICS_TRACK_TABLE => 'tt'),
-				'ON'	=> 'tt.user_id = ' . $this->user->data['user_id'] . ' AND t.topic_id = tt.topic_id'
+				'ON'	=> 'tt.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.topic_id = tt.topic_id'
 			);
 
 			$this->store['sql_array']['LEFT_JOIN'][] = array(
 				'FROM'	=> array(FORUMS_TRACK_TABLE => 'ft'),
-				'ON'	=> 'ft.user_id = ' . $this->user->data['user_id'] . ' AND t.forum_id = ft.forum_id'
+				'ON'	=> 'ft.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.forum_id = ft.forum_id'
 			);
 		}
 

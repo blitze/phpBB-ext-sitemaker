@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class menus_admin
 {
@@ -54,7 +54,7 @@ class menus_admin
 			redirect(generate_board_url(), $this->return_url);
 
 			$return_data['message'] = $this->user->lang('NOT_AUTHORISED');
-			return new Response(json_encode($return_data), 401);
+			return new JsonResponse($return_data, 401);
 		}
 
 		try
@@ -73,6 +73,6 @@ class menus_admin
 			$return_data['message'] = $this->user->lang($e->getMessage());
 		}
 
-		return new Response(json_encode($return_data));
+		return new JsonResponse($return_data);
 	}
 }
