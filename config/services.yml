@@ -244,6 +244,7 @@ services:
             - '%core.template.cache_path%'
             - '@ext.manager'
             - '@blitze.sitemaker.template.twig.loader'
+            - '@dispatcher'
             - []
         calls:
             - [setLexer, ['@template.twig.lexer']]
