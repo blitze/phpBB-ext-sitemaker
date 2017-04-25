@@ -358,13 +358,11 @@ body {
 	}
 }
 
-.block-position {
-	.sm-inactive,
-	.sm-responsive-show,
-	.sm-responsive-hide {
-		display: block;
-		opacity: 0.5;
-	}
+.sm-inactive,
+.sm-inactive > .block,
+.sm-responsive-show,
+.sm-responsive-hide {
+	opacity: 0.5;
 }
 
 .block-class-editor {

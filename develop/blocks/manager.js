@@ -34,7 +34,7 @@
 	// These objects are provided by third-party scripts
 	var phpbb = {};
 	var tinymce = {};
-	var twig = {};
+	var Twig = {};
 
 	var fixPaths = function(subject) {
 		return subject.replace(new RegExp('(?:href|src)=(?:"|\')((?:.\/)?(?:\.\.\/)+)(?:.*?)(?:"|\')', 'gmi'), function(match, g1) {
@@ -73,7 +73,7 @@
 		removeGrid(items);
 
 		if (divisibleItems > 0) {
-			items.slice(0, divisibleItems).addClass('grid__col grid__col--1-of-' + numCols);
+			items.slice(0, divisibleItems).addClass('grid__col grid__col--1-of-' + numCols + ' grid__col--m-1-of-' + numCols);
 		}
 
 		if (itemsLeft) {
@@ -83,20 +83,18 @@
 				itemsLeft = 5;
 			}
 			items.slice(divisibleItems, numItems)
-				.addClass('grid__col grid__col--' + n + '-of-' + itemsLeft);
+				.addClass('grid__col grid__col--' + n + '-of-' + itemsLeft + ' grid__col--m-' + n + '-of-' + itemsLeft);
 		}
 	};
 
 	var showAllPositions = function() {
 		blockPositions.addClass('show-position');
-		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col').removeClass('lastUnit');
+		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col');
 	};
 
 	var hideEmptyPositions = function() {
 		blockPositions.removeClass('show-position');
-		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function() {
-			$(this).siblings('.grid__col').last().addClass('lastUnit');
-		});
+		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
 	};
 
 	var makeEditable = function(element) {
@@ -290,8 +288,13 @@
 		$.post(config.ajaxUrl + '/blocks/set_startpage', $.param(info));
 	};
 
-	var setRoutePrefs = function(form) {
-		$.post(config.ajaxUrl + '/blocks/set_route_prefs' + '?route=' + config.route + '&ext=' + config.ext, form.serialize());
+	var setRoutePrefs = function(form, exPositions) {
+		$.post(config.ajaxUrl + '/blocks/set_route_prefs' + '?route=' + config.route + '&ext=' + config.ext, form.serialize(), function() {
+			blockPositions.removeClass(inactiveBlockClass);
+			if (exPositions) {
+				hidePositions(exPositions);
+			}
+		});
 	};
 
 	var copyBlocks = function(copyFrom) {
@@ -434,11 +437,18 @@
 		}
 	};
 
+	var hidePositions = function(positions) {
+		$.each(positions, function(i, name) {
+			$('#pos-' + name).addClass(inactiveBlockClass);
+		});
+	};
+
 	var showCurrentState = function(hidingBlocks, positions) {
 		if (hidingBlocks) {
 			showMessage('<span><i class="fa fa-info-circle fa-blue fa-lg"></i> ' + lang.hidingBlocks + '</span>');
 		} else if (positions.length) {
 			showMessage('<span><i class="fa fa-info-circle fa-blue fa-lg"></i> ' + lang.hidingPos + ': <strong>' + positions.join(', ') + '</strong></span>');
+			hidePositions(positions);
 		}
 	};
 
@@ -447,7 +457,7 @@
 		lang = window.lang || {};
 		phpbb = window.phpbb || {};
 		tinymce = window.tinymce || {};
-		twig = window.twig || {};
+		Twig = window.Twig || {};
 		config = window.config || {
 			ajaxUrl: '',
 			boardUrl: '',
@@ -477,7 +487,7 @@
 			msgObj = $('#ajax-message');
 			emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
 
-			template = twig({
+			template = Twig.twig({
 				data: $.trim($('#block-template-container').html())
 			});
 
@@ -600,10 +610,10 @@
 			});
 
 			$('#admin-options').show(100, function() {
-				var exPos = $.grep(exPositions.val(), function(str) {
-					return str.length;
-				});
-				showCurrentState(isHidingBlocks, exPos);
+				var exPos = exPositions.val();
+				if (exPos) {
+					showCurrentState(isHidingBlocks, exPos);
+				}
 
 				// Thanks KungFuJosh, for this tip
 				body = $('body').addClass('push-down');
@@ -814,7 +824,7 @@
 			});
 
 			isHidingBlocks = $('#route-settings').submit(function(e) {
-				setRoutePrefs($(this));
+				setRoutePrefs($(this), exPositions.val());
 				e.preventDefault();
 			}).find('#hide_blocks').is(':checked');
 
