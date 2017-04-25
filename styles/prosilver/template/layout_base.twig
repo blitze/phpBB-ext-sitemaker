@@ -8,7 +8,4 @@
 	{% endset %}
 {% endif %}
 
-<div class="sm-responsive-show">
-	{% if positions.sidebar or S_EDIT_MODE %}<a class="sidebar-control left-box" href="#" data-toggle="sidebar"><i class="fa fa-exchange fa-lg"></i></a>{% endif %}
-	{% if positions.subcontent or S_EDIT_MODE %}<a class="sidebar-control right-box" href="#" data-toggle="subcontent"><i class="fa fa-exchange fa-lg"></i></a>{% endif %}
-</div>
+{% block layout %}{% endblock %}

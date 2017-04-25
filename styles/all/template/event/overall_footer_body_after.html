@@ -1,22 +1,3 @@
 <!-- BEGIN js -->
 <!-- INCLUDEJS {js.UA_FILE} -->
 <!-- END js -->
-
-<script type="text/javascript">
-// <![CDATA[
-	$(function() {
-		$('.sidebar-control').click(function(e) {
-			e.preventDefault();
-			var target = $(this).data('toggle');
-			var other = (target === 'sidebar') ? 'subcontent' : 'sidebar';
-			var posObjects = {
-				'sidebar': $('#pos-sidebar'),
-				'subcontent': $('#pos-subcontent')
-			};
-
-			posObjects[target].toggleClass('sm-show-sidebar');
-			posObjects[other].removeClass('sm-show-sidebar');
-		});
-	});
-// ]]>
-</script>
