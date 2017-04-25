@@ -8,7 +8,7 @@
 	'use strict';
 
 	var lang = window.lang || {};
-	var twig = window.twig || {};
+	var Twig = window.Twig || {};
 
 	$.widget('sitemaker.treeBuilder', {
 		options: {
@@ -317,7 +317,7 @@
 			this.noItems = this.element.find(this.options.noItems);
 			this.editForm = $(this.options.editForm);
 
-			twig({
+			Twig.twig({
 				id: 'item_template',
 				data: this.element.find(this.options.itemTemplate).html()
 			});
@@ -604,7 +604,7 @@
 		},
 
 		_renderItem: function(data) {
-			return twig({ref: 'item_template'}).render(data);
+			return Twig.twig({ref: 'item_template'}).render(data);
 		},
 
 		_refreshItem: function(data) {
