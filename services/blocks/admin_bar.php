@@ -178,7 +178,7 @@ class admin_bar
 				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
 				'@blitze_sitemaker/vendor/tinymce/tinymce.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
+				'@blitze_sitemaker/vendor/twig.js/index.js',
 				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(

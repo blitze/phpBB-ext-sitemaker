@@ -24,7 +24,7 @@ abstract class builder extends \phpbb\tree\nestedset
 				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
 				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.js',
 				'@blitze_sitemaker/vendor/codemirror/addon/display/autorefresh.js',
-				'@blitze_sitemaker/vendor/twig.js/twig.min.js',
+				'@blitze_sitemaker/vendor/twig.js/index.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.js',
 				'@blitze_sitemaker/vendor/nestedSortable/jquery.ui.nestedSortable.js',
