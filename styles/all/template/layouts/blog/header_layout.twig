@@ -7,7 +7,7 @@
 			<div id="pos-panel" class="grid__col grid__col--5-of-5 block-position">
 			{% for block in positions.panel %}
 				<div id="block-{{ block.bid }}" class="block">
-					{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 					{{ block_controls }}
 				</div>
 			{% endfor %}
@@ -36,7 +36,7 @@
 							{% endif %}
 						{% endif %}
 						<div id="block-{{ block.bid }}" class="block grid__col {% if columns_per_row > 1 %}grid__col--1-of-{{ columns_per_row }} grid__col--m-1-of-{{ columns_per_row }}{% else %}grid__col--3-of-3{% endif %}">
-							{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 							{{ block_controls }}
 						</div>
 						{% if loop.index is divisible by(divisor) && !loop.last %}
@@ -54,7 +54,7 @@
 							<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
 								{% for block in positions.top %}
 								<div id="block-{{ block.bid }}" class="block">
-									{% include 'layouts/blocks/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+									{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 									{{ block_controls }}
 								</div>
 								{% endfor %}
