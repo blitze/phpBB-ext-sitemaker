@@ -45,25 +45,34 @@
 
     <fieldset>
         <legend>{{ lang('LAYOUT_SETTINGS') }}</legend>
-        <div class="style-layouts column1">
+        <div class="style-layouts">
+		{%- set views = ['basic', 'boxed', 'simple'] -%}
         {% for style in styles %}
             <dl data-layout="{{ style.layout }}">
                 <dt><label for="{{ style.name }}">{{ style.name }}</label></dt>
                 <dd>
                     <label>
-                        <select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">{{ style.layouts }}</select>
-                        <select class="view-option" name="layouts[{{ style.id }}][view]">{{ style.views }}</select>
+                        <select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">
+						{% for name, path in layouts %}
+							<option value="{{ path }}"{{ path === style.layout ? ' selected="selected"' : '' }}>{{ lang('LAYOUT_' ~ name|upper) }}</option>
+						{% endfor %}
+						</select>
+                        <select class="view-option" name="layouts[{{ style.id }}][view]">
+						{% for value in views %}
+							<option value="{{ value }}"{{ value === style.view ? ' selected="selected"' : '' }}>{{ lang('BLOCK_VIEW_' ~ value|upper) }}</option>
+						{% endfor %}
+						</select>
                     </label>
                 </dd>
             </dl>
             {% if !loop.first %}<hr />{% endif %}
         {% endfor %}
         </div>
-        <div class="layout-preview column2">
-            {% set preview = styles|first %}
-            <img src="{{ preview.layout }}preview.png" alt="" />
-            <div class="larger-view"><img src="{{ preview.layout }}preview.png" alt="" /></div>
-        </div>
+		<div class="layout-preview responsive-hide">
+			{% set preview = styles|first %}
+			<img src="{{ preview.layout }}preview.png" alt="" />
+			<div class="larger-view"><img src="{{ preview.layout }}preview.png" alt="" /></div>
+		</div>
     </fieldset>
 
     <fieldset>

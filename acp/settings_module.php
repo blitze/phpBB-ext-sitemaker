@@ -160,8 +160,7 @@ class settings_module
 				'id'		=> $id,
 				'name'		=> $row['style_name'],
 				'layout'	=> $pref['layout'],
-				'layouts'	=> $this->get_layout_options($layouts, $pref['layout']),
-				'views'		=> $this->get_view_options($pref['view']),
+				'view'		=> $pref['view'],
 			);
 		}
 		$this->db->sql_freeresult();
@@ -188,41 +187,6 @@ class settings_module
 		}
 
 		return $pref;
-	}
-
-	/**
-	 * @param array $layouts
-	 * @param string $pref
-	 * @return string
-	 */
-	protected function get_layout_options(array $layouts, $pref)
-	{
-		$options = '';
-		foreach ($layouts as $name => $path)
-		{
-			$selected = ($path == $pref) ? ' selected="selected"' : '';
-			$options .= '<option value="' . $path . '"' . $selected . '>' . $this->translator->lang('LAYOUT_' . strtoupper($name)) . '</option>';
-		}
-
-		return $options;
-	}
-
-	/**
-	 * @param string $pref
-	 * @return string
-	 */
-	protected function get_view_options($pref)
-	{
-		$views = array('basic', 'boxed', 'simple');
-
-		$options = '<option value="">' . $this->translator->lang('BLOCK_VIEW_DEFAULT') . '</option>';
-		foreach ($views as $view)
-		{
-			$selected = ($view == $pref) ? ' selected="selected"' : '';
-			$options .= '<option value="' . $view . '"' . $selected . '>' . $this->translator->lang('BLOCK_VIEW_' . strtoupper($view)) . '</option>';
-		}
-
-		return $options;
 	}
 
 	/**

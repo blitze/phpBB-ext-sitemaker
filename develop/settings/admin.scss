@@ -1,6 +1,8 @@
 .style-layouts {
+	float: left;
+	width: 80%;
 	height: 400px;
-	overflow: auto;
+	overflow-y: auto;
 
 	dl:hover {
 		background-color: #7c3;
@@ -10,7 +12,9 @@
 }
 
 .layout-preview {
-	height: 400px;
+	float: left;
+	width: 20%;
+	max-width: 400px;
 
 	img {
 		max-width: 100%;
