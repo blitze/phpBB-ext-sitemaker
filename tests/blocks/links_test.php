@@ -67,7 +67,6 @@ class links_test extends blocks_base
 		);
 
 		$cache_path = $this->phpbb_root_path . 'cache/twig';
-		$container = new \phpbb_mock_container_builder();
 		$template_context = new \phpbb\template\context();
 		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
@@ -77,7 +76,6 @@ class links_test extends blocks_base
 			$cache_path,
 			null,
 			$template_loader,
-			new \phpbb\event\dispatcher($container),
 			array(
 				'cache'			=> false,
 				'debug'			=> false,

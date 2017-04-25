@@ -63,7 +63,6 @@ class template_test extends \phpbb_test_case
 		$container = new \phpbb_mock_container_builder();
 
 		$cache_path = $phpbb_root_path . 'cache/twig';
-		$container = new \phpbb_mock_container_builder();
 		$loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
 			$config,
@@ -72,7 +71,6 @@ class template_test extends \phpbb_test_case
 			$cache_path,
 			null,
 			$loader,
-			new \phpbb\event\dispatcher($container),
 			array(
 				'cache'			=> false,
 				'debug'			=> false,
