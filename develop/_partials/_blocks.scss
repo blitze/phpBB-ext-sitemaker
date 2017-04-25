@@ -9,19 +9,19 @@
 			clear: left;
 			width: 40%;
 			margin: 0 0 0.7em 0;
-	
+
 			.sidebar & {
 				width: 100%;
 				padding-left: 0;
 			}
 		}
-	
+
 		> dd {
 			float: left;
 			width: 58%;
 			margin: 0;
 			position: relative;
-	
+
 			.sidebar & {
 				width: 100%;
 				padding-left: 0;
@@ -43,15 +43,6 @@
 			padding: 0;
 		}
 	}
-}
-
-.sidebar-control {
-	width: auto;
-	padding: 5px;
-	margin: 4px 0;
-	border-radius: 4px;
-	background-color: $sidebar-bgcolor;
-	color: set-text-color($sidebar-bgcolor);
 }
 
 /* blocks layout */
@@ -137,19 +128,6 @@
 }
 
 .grid {
-	.grid__col {
-		margin-right: -0.25rem;
-
-		&.lastUnit {
-			width: 100%;
-		}
-	}
-
-	.sidebar-left {
-		float: left;
-		margin-right: 0;
-	}
-
 	.sidebar .block .no-wrap {
 		background: none;
 
@@ -158,71 +136,13 @@
 		}
 	}
 
-	@media screen and (max-width : 940px) {
-		.sidebar {
-			display: none;
-			position: absolute;
-			width: 250px;
-			background-color: $sidebar-bgcolor;
-			color: set-text-color($sidebar-bgcolor);
-			z-index: 100;
-			top: -7px;
+	.grid__col--d-first {
+		padding-right: $toast-gutter-width / 2;
 
-			&.grid__col {
-				padding: 5px 5px 0 5px;
-				overflow-x: hidden;
-				overflow-y: auto;
-			}
-
-			.block {
-				.sm-block-spacing {
-					margin-bottom: 5px;
-				}
-			}
-		}
-
-		.sm-show-sidebar {
-			display: inline-block;
-		}
-
-		.sidebar-left {
-			border-radius: 0 4px 4px 4px;
-			left: 0;
-		}
-
-		.sidebar-right {
-			border-radius: 4px 0 4px 4px;
-			right: 4px;
-		}
-	}
-
-	@media (max-width: 700px) {
-		.sitemaker {
-			margin-left: -5px;
-			margin-right: -5px;
-
-			.forabg {
-				margin-left: 0;
-				margin-right: 0;
-			}
-		}
-
-		.grid__col {
-			margin-right: 0;
-		}
-
-		.sidebar {
-			&.grid__col {
-				padding: 5px 10px 0 10px;
-			}
-		}
-
-		.sidebar-left {
-			left: -5px;
-		}
-
-		.sidebar-right {
-			right: -5px;
+		@media screen and (max-width : 940px) {
+			float: none;
+			padding-right: 0;
+			width: 100%;
 		}
 	}
 }

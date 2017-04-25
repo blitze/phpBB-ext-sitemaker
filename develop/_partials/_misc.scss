@@ -18,6 +18,10 @@
 		opacity: 0.6;
 		transform: rotate(15deg);
 	}
+
+	@media screen and (max-width : 940px) {
+		padding: 7px 10px;
+	}
 }
 
 /* Misc */
@@ -66,33 +70,12 @@
 	text-align: left;
 }
 
-.sm-responsive-show {
-	display: none;
-	overflow: hidden;
-}
-
-.sm-responsive-hide {
-	display: block;
-}
-
 @media screen and (max-width : 940px) {
-	.sitemaker {
-		position: relative;
-	}
-
 	.sm-responsive-show {
 		display: block;
 	}
 
 	.sm-responsive-hide {
 		display: none;
-	}
-
-	.sm-responsive-full-width {
-		width: 100%;
-	}
-
-	.edit-mode-btn {
-		padding: 7px 10px;
 	}
 }

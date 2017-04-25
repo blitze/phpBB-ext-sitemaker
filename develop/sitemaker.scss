@@ -1,4 +1,15 @@
+$toast-col-groups: (2, 3, 4, 5, 8);
+
+// Gutter width
 $toast-gutter-width: 10px;
+
+// Breakpoints
+$toast-breakpoint-medium: 940px;
+$toast-breakpoint-small: 700px;
+
+// Pushes and pulls
+$toast-pushes: false;
+$toast-pulls: false;
 
 @import "bower_components/toast-grid/scss/grid";
 @import "./_partials/lists";
