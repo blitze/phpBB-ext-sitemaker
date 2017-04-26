@@ -103,11 +103,11 @@
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
 	{% verbatim %}{% if block.view == 'basic' %}{% endverbatim %}
-		{{ source('@blitze_sitemaker/layouts/blocks/basic_view.twig') }}
+		{{ source('@blitze_sitemaker/views/basic_view.twig') }}
 	{% verbatim %}{% elseif block.view == 'boxed' %}{% endverbatim %}
-		{{ source('@blitze_sitemaker/layouts/blocks/boxed_view.twig') }}
+		{{ source('@blitze_sitemaker/views/boxed_view.twig') }}
 	{% verbatim %}{% else %}{% endverbatim %}
-		{{ source('@blitze_sitemaker/layouts/blocks/simple_view.twig') }}
+		{{ source('@blitze_sitemaker/views/simple_view.twig') }}
 	{% verbatim %}{% endif %}{% endverbatim %}
 	<div class="block-controls">
 		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
