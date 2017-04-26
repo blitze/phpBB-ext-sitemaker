@@ -39,7 +39,7 @@ env:
     - IMAGE_ICC="0"    # Should we run icc profile sniffer on your images?
     - EPV="1"          # Should we run EPV (Extension Pre Validator) on your code?
     - COVERAGE="1"     # Should we send code coverage?
-    - PHPBB_BRANCH="3.2.x"
+    - PHPBB_BRANCH="prep-release-3.2.0"
 
 branches:
   only:
