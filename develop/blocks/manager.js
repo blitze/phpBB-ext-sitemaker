@@ -89,12 +89,14 @@
 
 	var showAllPositions = function() {
 		blockPositions.addClass('show-position');
-		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col');
+		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col').removeClass('lastUnit');
 	};
 
 	var hideEmptyPositions = function() {
 		blockPositions.removeClass('show-position');
-		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position');
+		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function() {
+			$(this).siblings('.grid__col').last().addClass('lastUnit');
+		});
 	};
 
 	var makeEditable = function(element) {
