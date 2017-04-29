@@ -370,7 +370,7 @@
 				'advlist autolink lists link image charmap preview hr anchor pagebreak',
 				'visualblocks visualchars code',
 				'media nonbreaking save table contextmenu directionality',
-				'paste textcolor colorpicker textpattern imagetools'
+				'paste textcolor colorpicker textpattern'
 			],
 			'toolbar': [
 				'undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
