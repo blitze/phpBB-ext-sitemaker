@@ -88,7 +88,7 @@ class custom extends block
 		$sql_data =	$this->get_default_fields($block_id);
 		$sql_data['block_content'] = $content;
 
-		generate_text_for_storage($sql_data['block_content'], $sql_data['bbcode_uid'], $sql_data['bbcode_bitfield'], $sql_data['bbcode_options'], true, true, true);
+		generate_text_for_storage($sql_data['block_content'], $sql_data['bbcode_uid'], $sql_data['bbcode_bitfield'], $sql_data['bbcode_options'], true, false, true);
 
 		$this->save($sql_data, isset($cblocks[$block_id]));
 
