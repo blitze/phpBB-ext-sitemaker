@@ -16,7 +16,7 @@
 		{% endif %}
 
 		<div class="grid">
-			<div class="grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5">
+			<div class="grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5{% if !positions.sidebar %} lastUnit{% endif %}">
 				{% if positions.top_hor or S_EDIT_MODE %}
 					{% set divisor = 0 %}
 					{% set columns_per_row = 3 %}
@@ -48,7 +48,7 @@
 				{% endif %}
 
 				<div class="grid">
-					<div id="main-content" class="grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}">
+					<div id="main-content" class="grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}{% if !positions.subcontent %} lastUnit{% endif %}">
 						{% if positions.top or S_EDIT_MODE %}
 						<div class="grid">
 							<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
