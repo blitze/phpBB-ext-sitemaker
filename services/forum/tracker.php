@@ -2,7 +2,7 @@
 /**
  *
  * @package sitemaker
- * @copyright (c) 201 Daniel A. (blitze)
+ * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */

@@ -72,7 +72,7 @@ class cfg_handler extends cfg_fields
 
 	/**
 	 * @param array $default_settings
-	 * @return array|void
+	 * @return array
 	 */
 	public function get_submitted_settings(array $default_settings)
 	{

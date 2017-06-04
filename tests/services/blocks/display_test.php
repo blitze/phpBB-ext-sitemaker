@@ -145,8 +145,6 @@ class display_test extends \phpbb_database_test_case
 			->willReturn(array(2, 3));
 
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('config_text', $config_text);
-
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
@@ -177,7 +175,7 @@ class display_test extends \phpbb_database_test_case
 			$phpEx
 		);
 
-		return new display($auth, $config, $phpbb_container, $request, $this->template, $translator, $user);
+		return new display($auth, $config, $config_text, $phpbb_container, $request, $this->template, $translator, $user);
 	}
 
 	/**

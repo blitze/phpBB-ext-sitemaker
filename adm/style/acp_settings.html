@@ -11,7 +11,7 @@
                 <span>{{ lang('SHOW_FORUM_NAV_EXPLAIN') }}</span>
             </dt>
             <dd>
-                <label><input type="radio" class="radio" name="show_forum_nav" value="1"{% if show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
+                <label><input type="radio" class="radio" id="show_forum_nav" name="show_forum_nav" value="1"{% if show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
                 <div class="icon-container">
                     <input type="hidden" name="forum_icon" value="{{ forum_icon }}" />
                     <a href="#" class="icon-select"><i class="{{ forum_icon }}"></i></a>
@@ -26,17 +26,21 @@
         <dl>
             <dt><label for="hide_login">{{ lang('HIDE_LOGIN') }}</label></dt>
             <dd>
-                <label><input type="radio" class="radio" name="hide_login" value="1"{% if hide_login %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" id="hide_login" name="hide_login" value="1"{% if hide_login %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
                 <label><input type="radio" class="radio" name="hide_login" value="0"{% if !hide_login %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
+        </dl>
+        <dl>
             <dt><label for="hide_online">{{ lang('HIDE_ONLINE') }}*</label></dt>
             <dd>
-                <label><input type="radio" class="radio" name="hide_online" value="1"{% if hide_online %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" id="hide_online" name="hide_online" value="1"{% if hide_online %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
                 <label><input type="radio" class="radio" name="hide_online" value="0"{% if !hide_online %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
+        </dl>
+        <dl>
             <dt><label for="hide_birthday">{{ lang('HIDE_BIRTHDAY') }}*</label></dt>
             <dd>
-                <label><input type="radio" class="radio" name="hide_birthday" value="1"{% if hide_birthday %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" id="hide_birthday" name="hide_birthday" value="1"{% if hide_birthday %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
                 <label><input type="radio" class="radio" name="hide_birthday" value="0"{% if !hide_birthday %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>

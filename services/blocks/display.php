@@ -19,6 +19,9 @@ class display
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
+
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -43,16 +46,18 @@ class display
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
 	 * @param \phpbb\config\config						$config					Config object
+	 * @param \phpbb\config\db_text						$config_text			Config text object
 	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\language\language					$translator				Language object
 	 * @param \phpbb\user								$user					User object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, ContainerInterface $phpbb_container, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
+		$this->config_text = $config_text;
 		$this->phpbb_container = $phpbb_container;
 		$this->request = $request;
 		$this->template = $template;
@@ -179,8 +184,7 @@ class display
 	 */
 	protected function get_layout($style_id)
 	{
-		$config_text = $this->phpbb_container->get('config_text');
-		$style_prefs = array_filter((array) json_decode($config_text->get('sm_layout_prefs'), true));
+		$style_prefs = array_filter((array) json_decode($this->config_text->get('sm_layout_prefs'), true));
 
 		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'portal';
 	}
