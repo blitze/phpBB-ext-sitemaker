@@ -184,6 +184,7 @@ body {
 
 .block-receiver {
 	min-height: 55px;
+	overflow: visible;
 
 	.block-controls {
 		.item-action {
@@ -196,10 +197,10 @@ body {
 
 		.inline-form {
 			display: inline;
-			font-size: 1rem;
 
 			input {
 				width: 65%;
+				font-size: 0.7rem;
 				cursor: pointer;
 				cursor: hand;
 			}
@@ -214,7 +215,7 @@ body {
 		}
 
 		&:hover {
-			.block-controls {
+			> .block-controls {
 				display: block;
 
 				a {

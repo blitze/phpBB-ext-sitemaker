@@ -23,6 +23,7 @@
 		editable: ' editable',
 		block: {}
 	};
+	var body = {};
 	var msgObj = {};
 	var saveBtn = {};
 
@@ -119,7 +120,6 @@
 	};
 
 	var renderBlock = function(blockObj, blockData) {
-
 		// if tinymce editor instance already exists, remove it
 		var id = 'block-editor-' + blockData.block.id;
 		var editor = tinymce.get(id);
@@ -128,7 +128,12 @@
 		}
 
 		blockData.block.content = fixPaths(blockData.block.content);
-		blockObj.html(template.render(blockData));
+
+		// Event to allow other extensions to manange how block is rendered
+		// setting $('body').data('renderBlock', false) will prevent a render here
+		if (body.trigger('renderBlock', [blockData.block, blockObj]).data('renderBlock') !== false) {
+			blockObj.html(template.render(blockData));
+		}
 
 		// if custom block, add editor
 		if (blockData.block.name === "blitze.sitemaker.block.custom") {
@@ -187,6 +192,7 @@
 			var blockObj = $(droppedElement).attr('id', 'block-' + result.id);
 
 			renderBlock(blockObj, { block: result });
+
 			blockObj.children().not('.block-controls')
 				.show('scale', {percent: 100}, 1000);
 
@@ -381,7 +387,6 @@
 			'setup': function(editor) {
 				var blockObj = {};
 				var blockIsInactive = true;
-				var editorRawHTML = '';
 				var blockRawHTML = '';
 
 				editor.on('init', function() {
@@ -395,7 +400,6 @@
 					blockObj = $('#block-' + blockId + ' > .sm-block-container');
 					blockIsInactive = blockObj.hasClass(inactiveBlockClass);
 					blockRawHTML = $('#' + editor.id).data('raw');
-					editorRawHTML = editor.getContent({format: 'raw'});
 					editor.setContent(blockRawHTML);
 				});
 
@@ -469,7 +473,6 @@
 		};
 
 		var copyFrom = '';
-		var body = {};
 		var blocksPanel = {};
 		var exPositions = {};
 		var overPosition = {};
@@ -517,7 +520,7 @@
 			});
 
 			exPositions = $('#ex_positions');
-			blockPositions = $('.block-position').addClass('block-receiver').sortable({
+			var sortableOptions = {
 				revert: true,
 				placeholder: 'ui-state-highlight grid__col sm-block-spacing block sortable placeholder',
 				connectWith: '.block-position',
@@ -532,7 +535,7 @@
 				start: function(event, ui) {
 					origin = $(ui.item).addClass('dragging').parent('.horizontal');
 					showAllPositions();
-					blockPositions.sortable('refresh');
+					$('.block-position').sortable('refresh');
 				},
 				over: function(event, ui) {
 					overPosition = ui.placeholder.parent('.horizontal').children('.block').addClass('sortable');
@@ -572,7 +575,10 @@
 					hideEmptyPositions();
 					$('body').trigger('layoutChanged');
 				}
-			}).on('click', '.block-title', function() {
+			};
+
+			blockPositions = $('.block-position').addClass('block-receiver').sortable(sortableOptions).on('click', '.block-title', function(e) {
+				e.stopPropagation();
 				makeEditable($(this));
 			}).on('submit', '.inline-form', function(e) {
 				e.preventDefault();
@@ -587,11 +593,24 @@
 				e.preventDefault();
 				blockObj = $(this).parentsUntil('.block').parent();
 				dialogConfirm.dialog({buttons: dButtons}).dialog('open');
+			}).on('click', '.editable-block', function() {
+				var editorId = $(this).attr('id');
+				if (!tinymce.get(editorId)) {
+					tinymce.EditorManager.execCommand('mceAddEditor', false, editorId);
+					$(this).blur();
+					setTimeout(function() {
+						tinymce.get(editorId).focus();
+					}, 300);
+				}
 			}).each(function() {
 				var pos = $(this).attr('id').substring(4);
 				if (exPositions.find('option[value=' + pos + ']').length === 0) {
 					exPositions.append('<option value="' + pos + '">' + pos + '</option>');
 				}
+			});
+
+			$('body').on('positionsChanged', function() {
+				blockPositions = $('.block-position').addClass('block-receiver').sortable(sortableOptions);
 			});
 
 			saveBtn = $('#toggle-edit').button().click(function() {
@@ -607,8 +626,6 @@
 				$(this).parentsUntil('ul').parent().find('.dropped').not($(this)).removeClass('dropped').next().hide();
 				blocksPanel = $(this).toggleClass('dropped');
 				blocksPanel.next().toggle();
-			}).next().mouseleave(function() {
-				//$(this).prev().trigger('click');
 			});
 
 			$('#admin-options').show(100, function() {
@@ -628,10 +645,11 @@
 			}
 
 			$.ajaxSetup({
-				// add style id to ajax requests
+				// add style and session ids to ajax requests
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
+					settings.url += (window.SID) ? '&sid=' + window.SID : '';
 				},
 				'complete': function(data) {
 					loader.delay(2000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
@@ -653,7 +671,6 @@
 			};
 
 			eButtons[lang.cancel] = function() {
-				undoPreviewBlock();
 				$(this).dialog('close');
 			};
 
@@ -750,8 +767,12 @@
 				if (dialogEditOpened === false) {
 					var pane = $(this).dialog('widget').find('.ui-dialog-buttonpane');
 					dialogEditOpened = true;
-					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" />' + lang.updateSimilar + '</label>').prependTo(pane);
+					$('<label class="dialog-check-button"><input id="update-similar" type="checkbox" /> ' + lang.updateSimilar + '</label>').prependTo(pane);
 				}
+			};
+
+			defDialog.beforeClose = function() {
+				undoPreviewBlock();
 			};
 
 			dialogEdit = $('#dialog-edit').dialog(defDialog).on('click', '.block-class-actions', function(e) {
