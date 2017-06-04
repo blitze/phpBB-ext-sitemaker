@@ -3,10 +3,10 @@
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
+    "gulp-autoprefixer": "^4.0.0",
     "gulp-bower": "0.0.13",
-    "gulp-changed": "^3.0.0",
-    "gulp-clean-css": "^3.0.4",
+    "gulp-changed": "^3.1.0",
+    "gulp-clean-css": "^3.4.1",
     "gulp-csscomb": "^3.0.8",
     "gulp-csslint": "^1.0.0",
     "gulp-filter": "^5.0.0",
@@ -16,10 +16,10 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "*",
     "gulp-sourcemaps": "*",
-    "gulp-uglify": "^2.1.2",
+    "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "main-bower-files": "^2.13.1",
-    "yargs": "^7.1.0"
+    "yargs": "^8.0.1"
   }
 }
