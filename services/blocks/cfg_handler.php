@@ -76,7 +76,7 @@ class cfg_handler extends cfg_fields
 	 */
 	public function get_submitted_settings(array $default_settings)
 	{
-		$cfg_array = utf8_normalize_nfc($this->request->variable('config', array('' => ''), true));
+		$cfg_array = $this->request->variable('config', array('' => ''), true);
 		$cfg_array = $this->decode_source_html($cfg_array);
 		$errors = $this->validate_block_settings($default_settings, $cfg_array);
 
@@ -389,10 +389,7 @@ class cfg_handler extends cfg_fields
 	 */
 	private function prep_hidden_field_for_display(array &$vars, array &$type)
 	{
-		$vars['method'] = 'build_hidden';
-		$vars['explain'] = '';
-		$vars['lang'] = '';
-		$type[0] = 'custom';
+		unset($vars);
 	}
 
 	/**

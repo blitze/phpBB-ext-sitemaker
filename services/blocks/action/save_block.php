@@ -33,18 +33,13 @@ class save_block extends base_action
 
 		$old_hash = $entity->get_hash();
 
-		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
-		$block_instance = $this->block_factory->get_block($entity->get_name());
-		$default_settings = $block_instance->get_config(array());
-		$submitted_settings = $cfg_handler->get_submitted_settings($default_settings);
-
 		$entity->set_permission($this->request->variable('permission', array(0)))
 			->set_class($this->request->variable('class', ''))
 			->set_hide_title($this->request->variable('hide_title', 0))
 			->set_status($this->request->variable('status', 0))
 			->set_type($this->request->variable('type', 0))
 			->set_view($this->request->variable('view', ''))
-			->set_settings($submitted_settings);
+			->set_settings($this->get_updated_settings($entity->get_name(), $entity->get_settings()));
 		$entity = $this->block_mapper->save($entity);
 
 		$new_hash = $entity->get_hash();
@@ -59,6 +54,25 @@ class save_block extends base_action
 		return array(
 			'list'	=> $updated_blocks,
 		);
+	}
+
+	/**
+	 * @param string $block_service
+	 * @param array $db_settings
+	 * @return array
+	 */
+	private function get_updated_settings($block_service, array $db_settings)
+	{
+		$block_instance = $this->block_factory->get_block($block_service);
+		$default_settings = $block_instance->get_config(array());
+
+		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
+		$submitted_settings = $cfg_handler->get_submitted_settings($default_settings);
+
+		$not_submitted = array_diff_key($default_settings, $submitted_settings);
+		$hidden_settings = array_intersect_key($db_settings, $not_submitted);
+
+		return array_merge($submitted_settings, $hidden_settings);
 	}
 
 	/**

@@ -127,18 +127,6 @@ abstract class cfg_fields
 	}
 
 	/**
-	 * Build hidden field for blocks config
-	 *
-	 * @param mixed $value
-	 * @param string $field
-	 * @return string
-	 */
-	public function build_hidden($value, $field)
-	{
-		return '<input type="hidden" name="config[' . $field . ']" value="' . $value . '" />';
-	}
-
-	/**
 	 * Force array
 	 *
 	 * @param mixed $items
