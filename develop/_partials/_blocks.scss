@@ -50,7 +50,7 @@
 	margin-bottom: $gutter-width;
 
 	.post & {
-		margin: 0.6em;
+		margin: 0.6em auto;
 	}
 }
 
@@ -77,7 +77,7 @@
 			display: inline-block;
 			position: relative;
 			width: 99%;
-			margin: 10px 0;
+			margin: $gutter-width 0;
 		}
 	}
 
@@ -100,7 +100,7 @@
 
 /* Footer */
 .footer {
-	margin-left: 10px;
+	margin-left: $gutter-width;
 	clear: both;
 
 	> .panel {
@@ -136,8 +136,14 @@
 		}
 	}
 
+	@media screen and (min-width : 940px) {
+		.grid__col {
+			margin-right: -0.25rem;
+		}
+	}
+
 	.grid__col--d-first {
-		padding-right: $toast-gutter-width / 2;
+		margin-right: 0;
 
 		@media screen and (max-width : 940px) {
 			float: none;
