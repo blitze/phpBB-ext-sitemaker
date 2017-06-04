@@ -14,6 +14,9 @@ class blocks extends routes
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $phpbb_dispatcher;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -37,6 +40,7 @@ class blocks extends routes
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
+	 * @param \phpbb\event\dispatcher_interface				$phpbb_dispatcher		Event dispatcher
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
@@ -44,10 +48,11 @@ class blocks extends routes
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
 	{
 		parent::__construct($cache, $config, $block_factory, $mapper_factory, $php_ext);
 
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->template = $template;
 		$this->translator = $translator;
 		$this->block_factory = $block_factory;
@@ -79,6 +84,18 @@ class blocks extends routes
 			'positions'		=> $positions,
 			'S_HAS_BLOCKS'	=> sizeof($positions),
 		));
+
+		/**
+		 * Event to modify block positions.
+		 *
+		 * @event blitze_sitemaker.modify_block_positions
+		 * @var	array	positions			Array of block positions
+		 * @since 3.0.1-RC1
+		 */
+		$vars = array(
+			'positions',
+		);
+		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.modify_block_positions', compact($vars)));
 	}
 
 	/**
@@ -88,12 +105,13 @@ class blocks extends routes
 	 * @param bool $edit_mode
 	 * @param array $db_data
 	 * @param array $users_groups
+	 * @param int $index
 	 */
-	public function render(array $display_modes, $edit_mode, array $db_data, array $users_groups)
+	public function render(array $display_modes, $edit_mode, array $db_data, array $users_groups, $index)
 	{
 		$service_name = $db_data['name'];
 
-		$single_block = array();
+		$block = array();
 		if ($this->_block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
 			$returned_data = $block_instance->display($db_data, $edit_mode);
@@ -103,12 +121,28 @@ class blocks extends routes
 				$returned_data['title'] = $this->_get_block_title($db_data['title'], $returned_data['title']);
 				$returned_data['content'] = $content;
 
-				$single_block = array_merge($db_data, $returned_data);
-				$single_block['class'] .= self::$status_class[$single_block['status']];
+				$block = array_merge($db_data, $returned_data);
+				$block['class'] .= self::$status_class[$block['status']];
 			}
+
+			/**
+			 * Event to modify a rendered block.
+			 *
+			 * @event blitze_sitemaker.modify_rendered_block
+			 * @var	array	block		Array of block properties
+			 * @var	int		index		Display order/index in position
+			 * @var \blitze\sitemaker\services\blocks\driver\block_interface	$block_instance
+			 * @since 3.0.1-RC1
+			 */
+			$vars = array(
+				'block',
+				'index',
+				'block_instance',
+			);
+			extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.modify_rendered_block', compact($vars)));
 		}
 
-		return $single_block;
+		return $block;
 	}
 
 	/**
@@ -124,9 +158,9 @@ class blocks extends routes
 		$pos_blocks = array();
 		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
 		{
-			foreach ($blocks as $entity)
+			foreach ($blocks as $index => $entity)
 			{
-				$pos_blocks[] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups);
+				$pos_blocks[$index] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $index);
 			}
 		}
 

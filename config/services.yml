@@ -19,6 +19,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@config'
+            - '@dispatcher'
             - '@template'
             - '@language'
             - '@blitze.sitemaker.blocks.factory'
