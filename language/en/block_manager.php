@@ -35,7 +35,6 @@ $lang = array_merge($lang, array(
 	'BLOCK_CLASS'								=> 'CSS Class',
 	'BLOCK_DESIGN'								=> 'Appearance',
 	'BLOCK_DISPLAY_TYPE'						=> 'Display',
-	'BLOCK_HIDE_CONTAINER'						=> 'Hide block container?',
 	'BLOCK_HIDE_TITLE'							=> 'Hide block title?',
 	'BLOCK_INACTIVE'							=> 'Inactive',
 	'BLOCK_NOT_FOUND'							=> 'Oops! The requested block service was not found',
