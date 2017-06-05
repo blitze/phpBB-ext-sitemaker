@@ -156,10 +156,10 @@ class cfg_handler_test extends \phpbb_test_case
 				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'hidden', 'default' => 0),
 				array(
 					'KEY'			=> 'my_var',
-					'TITLE'			=> '',
-					'S_EXPLAIN'		=> '',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> null,
 					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<input type="hidden" name="config[my_var]" value="1" />',
+					'CONTENT'		=> '',
 				),
 			),
 			array(
@@ -506,38 +506,6 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key);
-
-		$this->assertEquals($expected, $html);
-	}
-
-	/**
-	 * Data set for test_build_hidden
-	 *
-	 * @return array
-	 */
-	public function build_hidden_test_data()
-	{
-		return array(
-			array(
-				1,
-				'hide_me',
-				'<input type="hidden" name="config[hide_me]" value="1" />'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_hidden method
-	 *
-	 * @dataProvider build_hidden_test_data
-	 * @param string|int $value
-	 * @param string $key
-	 * @param string $expected
-	 */
-	public function test_build_hidden($value, $key, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_hidden($value, $key);
 
 		$this->assertEquals($expected, $html);
 	}

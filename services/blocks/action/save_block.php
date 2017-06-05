@@ -48,7 +48,7 @@ class save_block extends base_action
 
 		if ($update_similar && $new_hash !== $old_hash)
 		{
-			$updated_blocks += $this->update_similar($old_hash, $new_hash, $submitted_settings);
+			$updated_blocks += $this->update_similar($old_hash, $new_hash, $entity->get_settings());
 		}
 
 		return array(

@@ -145,6 +145,8 @@ class display_test extends \phpbb_database_test_case
 			->willReturn(array(2, 3));
 
 		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
@@ -157,13 +159,11 @@ class display_test extends \phpbb_database_test_case
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $phpbb_dispatcher, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
 
 		$phpbb_container->set('blitze.sitemaker.blocks', $blocks);
 		$phpbb_container->set('blitze.sitemaker.blocks.admin_bar', $admin_bar);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(

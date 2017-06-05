@@ -38,6 +38,7 @@ class action_handler_test extends \phpbb_test_case
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$this->translator = $this->getMockBuilder('\phpbb\language\language')
@@ -64,7 +65,7 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $template, $this->translator, $block_factory, $groups, $mapper, $phpEx);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $phpbb_dispatcher, $template, $this->translator, $block_factory, $groups, $mapper, $phpEx);
 
 		return new action_handler($config, $phpbb_container, $request, $this->translator, $blocks, $block_factory, $mapper);
 	}

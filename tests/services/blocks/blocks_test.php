@@ -68,6 +68,7 @@ class blocks_test extends \phpbb_database_test_case
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$blocks_collection = new \phpbb\di\service_collection($phpbb_container);
 
@@ -116,7 +117,7 @@ class blocks_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new blocks($cache, $config, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
+		return new blocks($cache, $config, $phpbb_dispatcher, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
 	}
 
 	/**
