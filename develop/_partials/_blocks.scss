@@ -171,7 +171,7 @@
 
 .main-content .block-position.horizontal {
 	@media (max-width: $toast-breakpoint-medium) {
-		margin-right: $gutter-width;
+		margin-right: 0.25em;
 	}
 
 	@media (max-width: $toast-breakpoint-small) {
