@@ -122,33 +122,61 @@
 		}
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: $toast-breakpoint-small) {
 		margin-left: 0;
 	}
 }
 
 .grid {
-	.sidebar .block .no-wrap {
-		background: none;
+	.grid__col {
+		margin-right: -0.25rem;
 
-		.sm-block-header {
-			border: 0;
-		}
-	}
-
-	@media screen and (min-width : 940px) {
-		.grid__col {
-			margin-right: -0.25rem;
-		}
-	}
-
-	.grid__col--d-first {
-		margin-right: 0;
-
-		@media screen and (max-width : 940px) {
-			float: none;
-			padding-right: 0;
+		&.lastUnit {
 			width: 100%;
 		}
 	}
+
+	.sidebar {
+		&.left {
+			margin-right: 0;
+
+			@media screen and (max-width: $toast-breakpoint-medium) {
+				float: none;
+			}
+		}
+
+		&.right {
+			@media screen and (max-width: $toast-breakpoint-medium) {
+				margin-right: 0.25em;
+			}
+		}
+	}
+
+	@media (max-width: $toast-breakpoint-small) {
+		.sitemaker {
+			margin-left: -5px;
+			margin-right: -5px;
+
+			.forabg {
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+
+		.grid__col {
+			margin-right: 0;
+		}
+	}
 }
+
+.main-content .block-position.horizontal {
+	@media (max-width: $toast-breakpoint-medium) {
+		margin-right: $gutter-width;
+	}
+
+	@media (max-width: $toast-breakpoint-small) {
+		margin-right: 0;
+	}
+}
+
+

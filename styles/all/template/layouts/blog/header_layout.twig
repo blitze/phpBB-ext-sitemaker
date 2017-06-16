@@ -16,13 +16,12 @@
 		{% endif %}
 
 		<div class="grid">
-			<div class="grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5{% if !positions.sidebar %} lastUnit{% endif %}">
+			<div class="grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5{% if !positions.sidebar %} lastUnit{% endif %} sm-responsive-full-width">
 				{% if positions.top_hor or S_EDIT_MODE %}
 					{% set divisor = 0 %}
 					{% set columns_per_row = 3 %}
 					{% set num_blocks = positions.top_hor|length %}
-				<div class="grid">
-					<div id="pos-top_hor" class="block-position horizontal">
+					<div id="pos-top_hor" class="block-position horizontal grid">
 					{% for block in positions.top_hor %}
 						{% if divisor == 0 %}
 							{% if loop.revindex is divisible by (3) or loop.revindex > 2 %}
@@ -44,11 +43,10 @@
 						{% endif %}
 					{% endfor %}
 					</div>
-				</div>
 				{% endif %}
 
 				<div class="grid">
-					<div id="main-content" class="grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}{% if !positions.subcontent %} lastUnit{% endif %}">
+					<div class="main-content grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}{% if !positions.subcontent %} lastUnit{% endif %} sm-responsive-full-width">
 						{% if positions.top or S_EDIT_MODE %}
 						<div class="grid">
 							<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">

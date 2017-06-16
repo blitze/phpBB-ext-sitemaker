@@ -38,7 +38,7 @@
 						{% endif %}
 					</div>
 					{% if positions.subcontent or S_EDIT_MODE %}
-					<div id="pos-subcontent" class="block-position grid__col grid__col--1-of-4{% block subcontent_class %}{% endblock %} sidebar">
+					<div id="pos-subcontent" class="block-position grid__col grid__col--1-of-4 sidebar{% block subcontent_class %} right{% endblock %}">
 						{% for block in positions.subcontent %}
 						<div id="block-{{ block.bid }}" class="block">
 							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
@@ -79,7 +79,7 @@
 				</div>
 			</div>
 			{% if positions.sidebar or S_EDIT_MODE %}
-			<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5{% block sidebar_class %}{% endblock %} sidebar">
+			<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5 sidebar{% block sidebar_class %} left{% endblock %}">
 				{% for block in positions.sidebar %}
 				<div id="block-{{ block.bid }}" class="block">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
