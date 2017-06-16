@@ -1,12 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "del": "^2.2.2",
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-bower": "0.0.13",
     "gulp-changed": "^3.1.0",
-    "gulp-clean-css": "^3.4.1",
+    "gulp-clean-css": "^3.4.2",
     "gulp-csscomb": "^3.0.8",
     "gulp-csslint": "^1.0.0",
     "gulp-filter": "^5.0.0",
@@ -20,6 +20,6 @@
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "main-bower-files": "^2.13.1",
-    "yargs": "^8.0.1"
+    "yargs": "^8.0.2"
   }
 }

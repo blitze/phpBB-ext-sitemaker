@@ -5,7 +5,7 @@
     "jquery-ui": "^1.12.1",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
     "nestedSortable": "*",
-    "tinymce": "^4.6.3",
+    "tinymce": "^4.6.4",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
     "twig.js": "https://raw.githubusercontent.com/philsbury/twigjs-bower/master/twig/twig.min.js",
     "codemirror": "^5.26.0"
