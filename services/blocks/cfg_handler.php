@@ -385,9 +385,8 @@ class cfg_handler extends cfg_fields
 
 	/**
 	 * @param array $vars
-	 * @param array $type
 	 */
-	private function prep_hidden_field_for_display(array &$vars, array &$type)
+	private function prep_hidden_field_for_display(array &$vars)
 	{
 		unset($vars);
 	}
