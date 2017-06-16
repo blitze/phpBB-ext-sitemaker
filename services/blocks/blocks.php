@@ -89,12 +89,10 @@ class blocks extends routes
 		 * Event to modify block positions.
 		 *
 		 * @event blitze_sitemaker.modify_block_positions
-		 * @var	array	positions			Array of block positions
+		 * @var	array	positions		Array of block positions
 		 * @since 3.0.1-RC1
 		 */
-		$vars = array(
-			'positions',
-		);
+		$vars = array('positions');
 		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.modify_block_positions', compact($vars)));
 	}
 
@@ -134,11 +132,7 @@ class blocks extends routes
 			 * @var \blitze\sitemaker\services\blocks\driver\block_interface	$block_instance
 			 * @since 3.0.1-RC1
 			 */
-			$vars = array(
-				'block',
-				'index',
-				'block_instance',
-			);
+			$vars = array('block', 'index', 'block_instance');
 			extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.modify_rendered_block', compact($vars)));
 		}
 
