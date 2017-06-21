@@ -127,6 +127,38 @@
 	}
 }
 
+.holygrail {
+	display: flex;
+
+	.middle {
+		flex: 1;
+	}
+
+	.sidebar {
+		flex: 0 0 200px;
+	}
+
+	.left {
+		order: -1;
+		padding-right: $gutter-width;
+		padding-left: 0;
+	}
+
+	.right {
+		padding-left: $gutter-width;
+		padding-right: 0;
+		margin-right: 0;
+	}
+
+	@media all and (max-width: $toast-breakpoint-medium) {
+		display: block;
+
+		.left, .right {
+			padding: 0;
+		}
+	}
+}
+
 .grid {
 	.grid__col {
 		margin-right: -0.25rem;
@@ -178,5 +210,3 @@
 		margin-right: 0;
 	}
 }
-
-

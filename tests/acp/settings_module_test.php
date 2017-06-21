@@ -218,6 +218,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'my_layout' => 'phpBB/ext/foo/bar/styles/prosilver/template/layouts/my_layout/',
 						'portal' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
 						'portal_alt' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/',
+						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
 					),
 				),
 			),

@@ -1,10 +1,11 @@
 {% extends 'layout_base.twig' %}
+{% set layout_row = block('layout_row')|default('grid') %}
 
 {% block layout %}
 	<div class="sitemaker">
 		{% if positions.panel or S_EDIT_MODE %}
 		<div class="grid">
-			<div id="pos-panel" class="grid__col grid__col--5-of-5 block-position">
+			<div id="pos-panel" class="grid__col grid__col--5-of-5 lastUnit block-position">
 			{% for block in positions.panel %}
 				<div id="block-{{ block.bid }}" class="block">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
@@ -15,8 +16,8 @@
 		</div>
 		{% endif %}
 
-		<div class="grid">
-			<div class="grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5{% if !positions.sidebar %} lastUnit{% endif %} sm-responsive-full-width">
+		<div class="{{ layout_row }}">
+			<div class="{% if layout_row === 'grid' %}grid__col grid__col--{{ (positions.sidebar or S_EDIT_MODE) ? 4 : 5 }}-of-5{% if !positions.sidebar %} lastUnit{% endif %}{% endif %} sm-responsive-full-width middle">
 				{% if positions.top_hor or S_EDIT_MODE %}
 					{% set divisor = 0 %}
 					{% set columns_per_row = 3 %}
@@ -45,11 +46,11 @@
 					</div>
 				{% endif %}
 
-				<div class="grid">
-					<div class="main-content grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}{% if !positions.subcontent %} lastUnit{% endif %} sm-responsive-full-width">
+				<div class="{{ layout_row }}">
+					<div class="{% if layout_row === 'grid' %}grid__col {{ (S_EDIT_MODE or positions.subcontent) ? 'grid__col--3-of-4' : 'grid__col--4-of-4' }}{% if !positions.subcontent %} lastUnit{% endif %}{% endif %} sm-responsive-full-width middle">
 						{% if positions.top or S_EDIT_MODE %}
 						<div class="grid">
-							<div id="pos-top" class="grid__col grid__col--5-of-5 block-position">
+							<div id="pos-top" class="grid__col grid__col--5-of-5 lastUnit block-position">
 								{% for block in positions.top %}
 								<div id="block-{{ block.bid }}" class="block">
 									{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
