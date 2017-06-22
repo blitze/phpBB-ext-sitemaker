@@ -235,17 +235,13 @@
 			'class': getCustomClasses()
 		};
 
-		form.serializeArray().map(function(prop) {
-			data[prop.name] = prop.value;
-		});
-
 		if (data['config[source]']) {
 			data['config[source]'] = encodeURI(data['config[source]']);
 		}
 
 		dialogEdit.dialog('close');
 
-		$.post(config.ajaxUrl + '/blocks/save_block', data, function(resp) {
+		$.post(config.ajaxUrl + '/blocks/save_block?' + form.serialize(), data, function(resp) {
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
 					renderBlock($('#block-' + row.id), { block: row });
