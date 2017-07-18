@@ -111,14 +111,14 @@ class forum_poll extends block
 
 		$this->limit_by_group($sql_array);
 
-		$this->forum_data->query()
+		$this->forum_data->query(false)
 			->fetch_forum($this->settings['forum_ids'])
 			->fetch_topic_type($this->settings['topic_type'])
 			->fetch_topic($this->get_array($this->settings['topic_ids']))
 			->fetch_topic_poster($this->get_array($this->settings['user_ids']))
 			->set_sorting($this->get_sorting())
 			->fetch_custom($sql_array)
-			->build();
+			->build(true, true, false);
 		$topic_data = $this->forum_data->get_topic_data(1);
 
 		return array_shift($topic_data);

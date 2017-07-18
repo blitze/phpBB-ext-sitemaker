@@ -153,11 +153,11 @@ class attachments extends block
 		$allowed_forums = $this->get_allowed_forums();
 		$post_ids = array_filter(explode(',', $this->settings['post_ids']));
 
-		$sql_array = $this->forum_data->query()
+		$sql_array = $this->forum_data->query(false)
 			->fetch_forum($allowed_forums)
 			->fetch_topic_type($this->settings['topic_type'])
 			->fetch_date_range($range_info['start'], $range_info['stop'])
-			->build()
+			->build(true, true, false)
 			->get_sql_array();
 
 		$sql_array['SELECT'] = '';
