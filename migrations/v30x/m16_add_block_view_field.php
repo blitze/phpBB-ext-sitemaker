@@ -45,4 +45,23 @@ class m16_add_block_view_field extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'add_columns'	=> array(
+				$this->table_prefix . 'sm_blocks'	=> array(
+					'no_wrap'		=> array('BOOL', 0),
+				),
+			),
+			'drop_columns'	=> array(
+				$this->table_prefix . 'sm_blocks'	=> array(
+					'view',
+				),
+			),
+		);
+	}
 }
