@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.1 - 2017-3-17
+
+- Added holy grail layout (fixed width sidebars with flexible middle column)
+- Updated responsive design to more standard responsive design patterns (no more floating sidebars)
+- Added event to modify block positions (blitze_sitemaker.modify_block_positions)
+- Added event to modify a rendered block (blitze_sitemaker.modify_rendered_block)
+- Added javascript events for when blocks are added or updated, or layout is changed
+
 ## 3.0.0 - 2017-3-17
 
 - Support for phpBB 3.2.x
