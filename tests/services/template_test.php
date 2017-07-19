@@ -55,7 +55,7 @@ class template_test extends \phpbb_test_case
 				new \phpbb_mock_request()
 			),
 			new \phpbb\filesystem(),
-			$this->createMock('\phpbb\request\request_interface'),
+			$this->getMock('\phpbb\request\request_interface'),
 			$phpbb_root_path,
 			$phpEx
 		);

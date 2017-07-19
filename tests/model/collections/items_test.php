@@ -34,7 +34,7 @@ class items_test extends \phpbb_test_case
 
 		parent::setUp();
 
-		$request = $this->createMock('\phpbb\request\request_interface');
+		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$this->translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

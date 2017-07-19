@@ -64,7 +64,7 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
-		$request = $this->createMock('\phpbb\request\request_interface');
+		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

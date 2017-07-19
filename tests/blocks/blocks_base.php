@@ -71,9 +71,9 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style['style_path'] = 'prosilver';
 
-		$request = $this->createMock('\phpbb\request\request');
+		$request = $this->getMock('\phpbb\request\request');
 
-		$auth = $this->createMock('\phpbb\auth\auth');
+		$auth = $this->getMock('\phpbb\auth\auth');
 		$auth->expects($this->any())
 			->method('acl_get')
 			->willReturn(true);

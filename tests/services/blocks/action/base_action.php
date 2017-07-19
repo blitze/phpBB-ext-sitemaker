@@ -68,7 +68,7 @@ class base_action extends \phpbb_database_test_case
 		$this->config = new \phpbb\config\config(array());
 		$this->config_text = new \phpbb\config\db_text($this->db, 'phpbb_config_text');
 
-		$request = $this->createMock('\phpbb\request\request_interface');
+		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())

@@ -49,7 +49,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 	{
 		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
-		$auth = $this->createMock('\phpbb\auth\auth');
+		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
@@ -60,7 +60,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
 
-		$request = $this->createMock('\phpbb\request\request_interface');
+		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$request->expects($this->any())
 			->method('is_ajax')

@@ -68,9 +68,9 @@ class listener_base extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->request = $this->createMock('\phpbb\request\request_interface');
+		$this->request = $this->getMock('\phpbb\request\request_interface');
 
-		$this->container = $this->createMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 
 		$this->container->expects($this->any())
 			->method('has')

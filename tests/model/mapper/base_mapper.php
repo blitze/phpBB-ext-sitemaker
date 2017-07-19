@@ -35,7 +35,7 @@ abstract class base_mapper extends \phpbb_database_test_case
 			'sitemaker.table_lock.menu_items_table' => 0
 		));
 
-		$request = $this->createMock('\phpbb\request\request_interface');
+		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()
