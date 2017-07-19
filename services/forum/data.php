@@ -112,7 +112,8 @@ class data extends query_builder
 	 */
 	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
-		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $this->_get_posts_sql_array($topic_first_or_last_post, $post_ids, $sql_array));
+		$sql_array = $this->_get_posts_sql_array($topic_first_or_last_post, $post_ids, $sql_array);
+		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
 		$post_data = array();
@@ -211,13 +212,13 @@ class data extends query_builder
 				'SELECT'	=> array('p.*'),
 				'FROM'		=> array(POSTS_TABLE => 'p'),
 				'WHERE'		=> $this->_get_post_data_where($post_ids, $topic_first_or_last_post),
-				'ORDER_BY'	=> 'p.post_time DESC',
 			),
 			$sql_array
 		);
 
-		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
-		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
+		$sql_array['SELECT'] = (is_array($sql_array['SELECT'])) ? join(', ', array_filter($sql_array['SELECT'])) : $sql_array['SELECT'];
+		$sql_array['WHERE'] = (is_array($sql_array['WHERE'])) ? join(' AND ', array_filter($sql_array['WHERE'])) : $sql_array['WHERE'];
+		$sql_array['ORDER_BY'] = ($sql_array['ORDER_BY']) ?: 'p.post_time DESC';
 
 		return $sql_array;
 	}
@@ -233,7 +234,7 @@ class data extends query_builder
 
 		if (sizeof($post_ids))
 		{
-			$sql_where[] = $this->db->sql_in_set('p.post_id', $post_ids);
+			return $this->db->sql_in_set('p.post_id', array_map('intval', $post_ids));
 		}
 		else if (sizeof($this->store['topic']))
 		{
@@ -255,7 +256,7 @@ class data extends query_builder
 
 		if ($topic_first_or_last_post)
 		{
-			$sql_where[] = $this->db->sql_in_set('p.post_id', $this->get_topic_post_ids($topic_first_or_last_post));
+			$sql_where[] = $this->db->sql_in_set('p.post_id', array_map('intval', $this->get_topic_post_ids($topic_first_or_last_post)));
 		}
 	}
 }

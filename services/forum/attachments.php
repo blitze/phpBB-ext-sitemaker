@@ -64,7 +64,7 @@ class attachments
 	 */
 	protected function user_can_download_attachments($forum_id)
 	{
-		return ($this->auth->acl_get('u_download') && (!$forum_id || $this->auth->acl_get('f_download', $forum_id))) ? true : false;
+		return ($this->auth->acl_get('u_download') && ($this->auth->acl_get('f_download', $forum_id))) ? true : false;
 	}
 
 	/**
@@ -78,7 +78,7 @@ class attachments
 	{
 		return 'SELECT *
 			FROM ' . ATTACHMENTS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('post_msg_id', $attach_ids) .
+			WHERE ' . $this->db->sql_in_set('post_msg_id', array_map('intval', $attach_ids)) .
 				(($exclude_in_message) ? ' AND in_message = 0' : '') .
 				(sizeof($allowed_extensions) ? ' AND ' . $this->db->sql_in_set('extension', $allowed_extensions) : '') . '
 			ORDER BY ' . $order_by;
