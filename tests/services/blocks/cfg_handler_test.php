@@ -38,7 +38,7 @@ class cfg_handler_test extends \phpbb_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())

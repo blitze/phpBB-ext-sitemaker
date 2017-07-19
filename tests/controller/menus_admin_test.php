@@ -49,7 +49,7 @@ class menus_admin_test extends \phpbb_database_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 
 		$request->expects($this->once())
 			->method('is_ajax')

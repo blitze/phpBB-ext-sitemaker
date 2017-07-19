@@ -66,7 +66,7 @@ class menu_module_test extends \phpbb_database_test_case
 			->with($this->equalTo('blitze_sitemaker_menus_admin'))
 			->willReturn('phpBB/app.php/menu/admin');
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())

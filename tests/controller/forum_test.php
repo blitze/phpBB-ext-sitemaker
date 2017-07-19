@@ -44,22 +44,22 @@ class forum_test extends \phpbb_database_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$db = $this->new_dbal();
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->createMock('\phpbb\auth\auth');
 		$config = new \phpbb\config\config(array());
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$phpbb_container = $this->createMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 		$phpbb_container->expects($this->any())
 			->method('get')
 			->with('content.visibility')

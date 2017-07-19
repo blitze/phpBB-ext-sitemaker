@@ -55,7 +55,7 @@ class template_test extends \phpbb_test_case
 				new \phpbb_mock_request()
 			),
 			new \phpbb\filesystem(),
-			$this->getMock('\phpbb\request\request_interface'),
+			$this->createMock('\phpbb\request\request_interface'),
 			$phpbb_root_path,
 			$phpEx
 		);
@@ -63,14 +63,16 @@ class template_test extends \phpbb_test_case
 		$container = new \phpbb_mock_container_builder();
 
 		$cache_path = $phpbb_root_path . 'cache/twig';
-		$loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
 			$config,
 			$filesystem,
 			$path_helper,
 			$cache_path,
 			null,
-			$loader,
+			$template_loader,
+			$phpbb_dispatcher,
 			array(
 				'cache'			=> false,
 				'debug'			=> false,

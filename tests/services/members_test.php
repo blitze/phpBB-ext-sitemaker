@@ -43,7 +43,7 @@ class members_test extends \phpbb_database_test_case
 	{
 		global $auth, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->createMock('\phpbb\auth\auth');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

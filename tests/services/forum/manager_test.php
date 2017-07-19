@@ -49,7 +49,7 @@ class manager_test extends \phpbb_database_test_case
 
 		parent::setUp();
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->createMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$config = new \phpbb\config\config(array());
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();

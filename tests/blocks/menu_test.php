@@ -67,6 +67,7 @@ class menu_test extends blocks_base
 		);
 
 		$cache_path = $phpbb_root_path . 'cache/twig';
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$template_context = new \phpbb\template\context();
 		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
 		$twig = new \phpbb\template\twig\environment(
@@ -76,6 +77,7 @@ class menu_test extends blocks_base
 			$cache_path,
 			null,
 			$template_loader,
+			$phpbb_dispatcher,
 			array(
 				'cache'			=> false,
 				'debug'			=> false,

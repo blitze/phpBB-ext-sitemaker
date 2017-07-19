@@ -89,7 +89,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->createMock('\phpbb\request\request_interface');
 
 		$config = new \phpbb\config\config(array(
 			// these config vars are set in migrations upon install
