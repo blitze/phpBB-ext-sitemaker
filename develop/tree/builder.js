@@ -14,7 +14,12 @@
 		options: {
 			ajaxUrl: '',
 			loadSpeed: 10,
-			primaryKey: 'item_id',
+
+			fields: {
+				itemId: 'item_id',
+				itemTitle: 'item_title',
+				parentId: 'parent_id'
+			},
 
 			listType: 'ol',
 			noNesting: '.no-nest',
@@ -37,7 +42,7 @@
 			selectItemClass: '.select-item',
 			iconSelectClass: '.icon-select',
 
-			dialogEdit: '#dialog-edit',
+			dialogEdit: '',
 			dialogConfirm: '#dialog-confirm',
 
 			loaded: function() {},
@@ -267,9 +272,10 @@
 			}).next().click(function(event) {
 				var form = $(event.target).parentsUntil('form').parent();
 				var data = {
-					'add_list': codeMirror.getValue(),
-					'parent_id': form.find('#parent_id').val()
+					'add_list': codeMirror.getValue()
 				};
+
+				data[self.options.fields.parentId] = form.find('#parent_id').val();
 
 				// reset codemirror
 				codeMirror.setValue("");
@@ -394,10 +400,10 @@
 				var html = {};
 				var item = items.shift();
 
-				item['item_title'] = (item['item_title']) ? item['item_title'] : lang.changeMe;
+				item[this.options.fields.itemTitle] = item[this.options.fields.itemTitle] || lang.changeMe;
 
-				if (item['parent_id'] > 0) {
-					var parentObj = $('#item-' + item['parent_id']);
+				if (item[this.options.fields.parentId] > 0) {
+					var parentObj = $('#item-' + item[this.options.fields.parentId]);
 					var children = parentObj.children(this.options.listType);
 
 					if (children.length === 0) {
@@ -473,7 +479,7 @@
 
 		_populateForm: function(id, callBack) {
 			var self = this;
-			$.get(this.options.ajaxUrl + 'load_item?item_id=' + id, function(data) {
+			$.get(this.options.ajaxUrl + 'load_item?' + this.options.fields.itemId + '=' + id, function(data) {
 				self.showMessage(data.message);
 				self.editForm.populate(data);
 				callBack(self.dialogID);
@@ -515,7 +521,7 @@
 
 		_saveItem: function(mode, data, id, field) {
 			var self = this;
-			$.post(this.options.ajaxUrl + mode + ((id) ? '?item_id=' + id : ''), data,
+			$.post(this.options.ajaxUrl + mode + ((id) ? '?' + this.options.fields.itemId + '=' + id : ''), data,
 				function(resp) {
 					if (!resp.error) {
 						switch (mode) {
@@ -609,7 +615,7 @@
 
 		_refreshItem: function(data) {
 			var replacement = $(this._renderItem(data)).children();
-			return $('#item-' + data[this.options.primaryKey]).children(':first').replaceWith(replacement);
+			return $('#item-' + data[this.options.fields.itemId]).children(':first').replaceWith(replacement);
 		},
 
 		_undoEditable: function(v) {
