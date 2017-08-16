@@ -275,6 +275,7 @@ class listener implements EventSubscriberInterface
 		if ($this->config['sitemaker_startpage_controller'])
 		{
 			$hide_online = $hide_birthday = true;
+			$this->template->assign_var('L_INDEX', $this->translator->lang('HOME'));
 		}
 
 		$this->template->assign_vars(array(

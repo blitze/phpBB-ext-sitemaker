@@ -66,6 +66,7 @@ class show_sitemaker_test extends listener_base
 					'S_USER_LOGGED_IN'			=> false,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
+					'L_INDEX'					=> 'HOME',
 				),
 			),
 			array(
@@ -82,6 +83,7 @@ class show_sitemaker_test extends listener_base
 					'S_USER_LOGGED_IN'			=> true,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
+					'L_INDEX'					=> 'HOME',
 				),
 			),
 		);
@@ -124,7 +126,7 @@ class show_sitemaker_test extends listener_base
 			->method('destroy_block_vars')
 			->with('navlinks');
 
-		$this->template->expects($this->exactly($count))
+		$this->template->expects($this->exactly($config_data['sitemaker_startpage_controller'] ? $count + 1 : $count))
 			->method('assign_var')
 			->will($this->returnCallback(function($key, $value) use (&$tpl_data) {
 				$tpl_data[$key] = $value;

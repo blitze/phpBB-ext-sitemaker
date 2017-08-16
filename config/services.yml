@@ -68,7 +68,6 @@ services:
             - '@service_container'
             - '@request'
             - '@template'
-            - '@language'
             - '@user'
 
     blitze.sitemaker.block_collection:

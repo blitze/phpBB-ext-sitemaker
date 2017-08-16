@@ -175,7 +175,7 @@ class display_test extends \phpbb_database_test_case
 			$phpEx
 		);
 
-		return new display($auth, $config, $config_text, $phpbb_container, $request, $this->template, $translator, $user);
+		return new display($auth, $config, $config_text, $phpbb_container, $request, $this->template, $user);
 	}
 
 	/**
