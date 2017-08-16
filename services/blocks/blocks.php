@@ -127,9 +127,9 @@ class blocks extends routes
 			 * Event to modify a rendered block.
 			 *
 			 * @event blitze_sitemaker.modify_rendered_block
-			 * @var	array	block		Array of block properties
-			 * @var	int		index		Display order/index in position
-			 * @var \blitze\sitemaker\services\blocks\driver\block_interface	$block_instance
+			 * @var	array														block			Array of block properties
+			 * @var	int															index			Display order/index in position
+			 * @var	\blitze\sitemaker\services\blocks\driver\block_interface	block_instance	The block instance
 			 * @since 3.0.1-RC1
 			 */
 			$vars = array('block', 'index', 'block_instance');
