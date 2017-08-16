@@ -33,10 +33,6 @@ img {
 		height: auto;
 	}
 
-	.attach-image & {
-		width: 99%;
-	}
-
 	.feeds & {
 		max-width: 100%;
 		margin: 0 0.25rem;
@@ -44,7 +40,7 @@ img {
 }
 
 /* Block images */
-.img-ui, .postimage {
+.img-ui, .attach-image {
 	display: block;
 	margin: 0 0 0.25rem 0;
 
@@ -56,36 +52,22 @@ img {
 		width: $medium-image-size;
 	}
 
-	.large-img & {
+	.large-img & img {
 		width: $large-image-size;
 	}
 
-	.fullwidth-img & {
+	.fullwidth-img & img {
 		width: 100%;
-		height: auto;
-	}
-
-	.landscape-img & {
-		width: 100%;
-		height: 4.5rem;
-		text-align: center;
-		margin: 0;
-
-		img {
-			width: 100%;
-			margin: -50% auto;
-			vertical-align: middle;
-		}
 	}
 
 	.img-align-left & img {
 		float: left;
-		margin: 0 1rem 0 0;
+		margin: 0.7rem 1rem 0 0;
 	}
 
-	.img-align-right & {
+	.img-align-right & img {
 		float: right;
-		margin: 0 0 0 1rem;
+		margin: 0.7rem 0 0 1rem;
 	}
 
 	.img-border & img,
