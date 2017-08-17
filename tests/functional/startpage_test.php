@@ -89,7 +89,7 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->assert_response_status_code('200');
 
 		// Go to index.php
-		$link = $crawler->selectLink('Home')->link();
+		$link = $crawler->selectLink('Board index')->link();
 		self::$client->click($link);
 
 		// Confirm it now displays the contents of foo/bar controller

@@ -21,12 +21,13 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TYEPS'									=> 'All Types',
+	'ALL_TYPES'									=> 'All Types',
 	'ALL_FORUMS'								=> 'All Forums',
 	'ALL_GROUPS'								=> 'All Groups',
 	'ARCHIVES'									=> 'Archives',
-	'ATTACHMENTS_FROM_POSTS'					=> 'From Post Ids',
-	'ATTACHMENTS_FROM_POSTS_EXPLAIN'			=> 'Id(s) of posts to retrieve attachments from, separated by <strong>commas</strong>(,). Leave blank to select from any post.',
+	'TOPIC_POST_IDS'							=> 'From Topic/Post Ids',
+	'TOPIC_POST_IDS_EXPLAIN'					=> 'Id(s) of topics/posts to retrieve attachments from, separated by <strong>commas</strong>(,). Specify if this list is for topic or post ids above.',
+	'TOPIC_POST_IDS_TYPE'						=> 'Type of IDs (below)',
 	'AUTO_LOGIN'								=> 'Allow auto login?',
 
 	// Blocks

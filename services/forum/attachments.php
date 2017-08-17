@@ -43,7 +43,7 @@ class attachments
 	public function get_attachments($forum_id = 0, array $attach_ids = array(), $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
 		$attachments = array();
-		if ($this->user_can_download_attachments($forum_id))
+		if (!$forum_id || $this->user_can_download_attachments($forum_id))
 		{
 			$sql = $this->get_attachment_sql($attach_ids, $allowed_extensions, $exclude_in_message, $order_by);
 			$result = $this->db->sql_query_limit($sql, $limit);

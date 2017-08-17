@@ -142,13 +142,11 @@ class data extends query_builder
 	 */
 	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
-		$attach_ids = array_filter($this->store['attachments']);
-
 		$data = array();
-		if (sizeof($attach_ids))
+		if (sizeof($this->store['attachments']))
 		{
 			$attachments = new attachments($this->auth, $this->db);
-			$data = $attachments->get_attachments($forum_id, $attach_ids, $allowed_extensions, $limit, $exclude_in_message, $order_by);
+			$data = $attachments->get_attachments($forum_id, $this->store['attachments'], $allowed_extensions, $limit, $exclude_in_message, $order_by);
 		}
 
 		return $data;

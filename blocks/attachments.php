@@ -71,13 +71,15 @@ class attachments extends block
 		$topic_type_options = $this->forum_options->get_topic_types();
 		$range_options = $this->get_range_options();
 		$attach_type_options = array('' => 'ALL_TYPES', 'IMAGES' => 'IMAGES', 'ARCHIVES' => 'ARCHIVES');
+		$id_type_options = array('topic' => 'TOPICS', 'post' => 'POSTS');
 
 		return array(
 			'legend1'			=> 'SETTINGS',
 			'forum_ids'			=> array('lang' => 'SELECT_FORUMS', 'validate' => 'string', 'type' => 'multi_select', 'options' => $forum_options, 'default' => array(), 'explain' => false),
 			'topic_type'		=> array('lang' => 'TOPIC_TYPE', 'validate' => 'string', 'type' => 'checkbox', 'options' => $topic_type_options, 'default' => array(), 'explain' => false),
 			'first_only'		=> array('lang' => 'FIRST_POST_ONLY', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-			'post_ids'			=> array('lang' => 'ATTACHMENTS_FROM_POSTS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'ids_type'			=> array('lang' => 'TOPIC_POST_IDS_TYPE', 'validate' => 'bool', 'type' => 'radio', 'options' => $id_type_options, 'explain' => false, 'default' => 'topic'),
+			'ids'				=> array('lang' => 'TOPIC_POST_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
 			'limit'				=> array('lang' => 'LIMIT', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'ext_type'			=> array('lang' => 'EXTENSION_GROUP', 'validate' => 'string', 'type' => 'radio', 'options' => $attach_type_options, 'default' => '', 'explain' => false),
@@ -149,24 +151,20 @@ class attachments extends block
 	 */
 	private function get_posts_data()
 	{
+		$topic_ids = $post_ids = array();
+		${$this->settings['ids_type'] . '_ids'} = array_filter(explode(',', $this->settings['ids']));
 		$range_info = $this->date_range->get($this->settings['date_range']);
-		$allowed_forums = $this->get_allowed_forums();
-		$post_ids = array_filter(explode(',', $this->settings['post_ids']));
 
 		$sql_array = $this->forum_data->query(false)
-			->fetch_forum($allowed_forums)
+			->fetch_forum($this->get_allowed_forums())
 			->fetch_topic_type($this->settings['topic_type'])
+			->fetch_topic($topic_ids)
 			->fetch_date_range($range_info['start'], $range_info['stop'])
 			->build(true, true, false)
 			->get_sql_array();
 
 		$sql_array['SELECT'] = '';
-		$sql_array['WHERE'] .= ' AND p.topic_id = t.topic_id AND p.post_attachment <> 0';
-
-		if ($this->settings['first_only'])
-		{
-			$sql_array['WHERE'] .= " AND p.post_id = t.topic_first_post_id";
-		}
+		$sql_array['WHERE'] .= ' AND p.topic_id = t.topic_id AND p.post_attachment <> 0' . (($this->settings['first_only']) ? ' AND p.post_id = t.topic_first_post_id' : '');
 
 		return $this->forum_data->get_post_data(false, $post_ids, $this->settings['limit'], 0, $sql_array);
 	}
@@ -193,7 +191,7 @@ class attachments extends block
 	 */
 	private function get_allowed_forums()
 	{
-		$allowed_forums = array_unique(array_keys($this->auth->acl_getf('f_download', true)));
+		$allowed_forums = array_keys($this->auth->acl_getf('f_download', true));
 		if (sizeof($this->settings['forum_ids']))
 		{
 			$allowed_forums = array_intersect($this->settings['forum_ids'], $allowed_forums);
