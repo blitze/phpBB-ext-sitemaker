@@ -146,22 +146,28 @@ class query_builder
 	/**
 	 * Fetch Topic Watch info
 	 *
+	 * @param $type
 	 * @return $this
 	 */
-	public function fetch_watch_status()
+	public function fetch_watch_status($type = 'topic')
 	{
 		if ($this->user->data['is_registered'])
 		{
-			$this->store['sql_array']['SELECT'][] = 'tw.notify_status';
-			$this->store['sql_array']['LEFT_JOIN'][] = array(
-				'FROM'	=> array(TOPICS_WATCH_TABLE => 'tw'),
-				'ON'	=> 'tw.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.topic_id = tw.topic_id'
+			$keys = array(
+				'forum'	=> array(
+					'table'	=> FORUMS_WATCH_TABLE,
+					'cond'	=> 'ws.forum_id = f.forum_id',
+				),
+				'topic'	=> array(
+					'table'	=> TOPICS_WATCH_TABLE,
+					'cond'	=> 'ws.topic_id = t.topic_id',
+				),
 			);
 
-			$this->store['sql_array']['SELECT'][] = 'fw.notify_status';
-			$this->store['sql_array']['LEFT JOIN'][] = array(
-				'FROM'	=> array(FORUMS_WATCH_TABLE => 'fw'),
-				'ON'	=> '(fw.forum_id = f.forum_id AND fw.user_id = ' . (int) $this->user->data['user_id'] . ')',
+			$this->store['sql_array']['SELECT'][] = 'ws.notify_status';
+			$this->store['sql_array']['LEFT_JOIN'][] = array(
+				'FROM'	=> array($keys[$type]['table'] => 'ws'),
+				'ON'	=> $keys[$type]['cond'] . ' AND ws.user_id = ' . (int) $this->user->data['user_id'],
 			);
 		}
 
