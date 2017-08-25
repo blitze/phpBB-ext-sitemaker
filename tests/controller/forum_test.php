@@ -13,6 +13,8 @@ use blitze\sitemaker\controller\forum;
 
 class forum_test extends \phpbb_database_test_case
 {
+	protected $template;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -36,9 +38,10 @@ class forum_test extends \phpbb_database_test_case
 	/**
 	 * Create the blocks admin controller
 	 *
+	 * @param array $auth_map
 	 * @return \blitze\sitemaker\controller\forum
 	 */
-	protected function get_controller()
+	protected function get_controller(array $auth_map = array())
 	{
 		global $phpbb_dispatcher, $phpbb_container, $auth, $db, $request, $template, $user, $phpbb_root_path, $phpEx;
 
@@ -46,6 +49,11 @@ class forum_test extends \phpbb_database_test_case
 		$db = $this->new_dbal();
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$config = new \phpbb\config\config(array());
+
+		$auth->expects($this->any())
+			->method('acl_get')
+			->with($this->stringContains('_'), $this->anything())
+			->will($this->returnValueMap($auth_map));
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
@@ -58,6 +66,7 @@ class forum_test extends \phpbb_database_test_case
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
+		$this->template = &$template;
 
 		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 		$phpbb_container->expects($this->any())
@@ -69,9 +78,6 @@ class forum_test extends \phpbb_database_test_case
 
 		$config = new \phpbb\config\config(array());
 
-		$template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
-
 		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
@@ -81,7 +87,7 @@ class forum_test extends \phpbb_database_test_case
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 			});
 
-		return  new forum($config, $controller_helper, $template, $translator, $phpbb_root_path, $phpEx);
+		return  new forum($auth, $config, $controller_helper, $template, $translator, $user, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -94,5 +100,43 @@ class forum_test extends \phpbb_database_test_case
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	/**
+	 * @return array
+	 */
+	public function sample_data()
+	{
+		return array(
+			array(
+				array(
+					array('m_', 0, false),
+				),
+				0
+			),
+			array(
+				array(
+					array('m_', 0, true),
+				),
+				1
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider sample_data
+	 *
+	 * @param array $auth_map
+	 * @param int $expected_call_count
+	 */
+	public function test_mcp_link_is_set(array $auth_map, $expected_call_count)
+	{
+		$controller = $this->get_controller($auth_map);
+
+		$this->template->expects($this->exactly($expected_call_count))
+			->method('assign_var')
+			->with('U_MCP', $this->anything());
+
+		$controller->handle();
 	}
 }

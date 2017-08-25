@@ -12,10 +12,12 @@ services:
     blitze.sitemaker.forum.controller:
         class: blitze\sitemaker\controller\forum
         arguments:
+            - '@auth'
             - '@config'
             - '@controller.helper'
             - '@template'
             - '@language'
+            - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
 
