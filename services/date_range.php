@@ -57,7 +57,7 @@ class date_range
 	 * @param array $now
 	 * @return array
 	 */
-	protected function get_today(array $now)
+	public function get_today(array $now)
 	{
 		$start = $this->user->create_datetime()
 			->setDate($now['year'], $now['mon'], $now['mday'])
@@ -75,7 +75,7 @@ class date_range
 	 * @param array $now
 	 * @return array
 	 */
-	protected function get_week(array $now)
+	public function get_week(array $now)
 	{
 		$info = getdate($now[0] - (86400 * $now['wday']));
 		$start = $this->user->create_datetime()
@@ -94,7 +94,7 @@ class date_range
 	 * @param array $now
 	 * @return array
 	 */
-	protected function get_month(array $now)
+	public function get_month(array $now)
 	{
 		$start = $this->user->create_datetime()
 			->setDate($now['year'], $now['mon'], 1)
@@ -113,7 +113,7 @@ class date_range
 	 * @param array $now
 	 * @return array
 	 */
-	protected function get_year(array $now)
+	public function get_year(array $now)
 	{
 		$start = $this->user->create_datetime()
 			->setDate($now['year'], 1, 1)
