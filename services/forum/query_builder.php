@@ -284,17 +284,7 @@ class query_builder
 	{
 		$this->_set_cache_time($enable_caching);
 		$this->_set_topic_visibility($check_visibility);
-
-		if ($exclude_hidden_forums)
-		{
-			$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
-			$this->store['sql_array']['WHERE'][] = 'f.hidden_forum = 0';
-		}
-
-		if (isset($this->store['sql_array']['FROM'][FORUMS_TABLE]))
-		{
-			$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
-		}
+		$this->_set_forum_table($exclude_hidden_forums);
 
 		// Topics table need to be the last in the chain
 		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
@@ -318,6 +308,7 @@ class query_builder
 
 	/**
 	 * @param bool $enable_caching
+	 * @return void
 	 */
 	protected function _set_cache_time($enable_caching)
 	{
@@ -330,6 +321,7 @@ class query_builder
 	/**
 	 * @param int $column_id
 	 * @param string $column
+	 * @return void
 	 */
 	private function _fetch($column_id, $column)
 	{
@@ -341,6 +333,7 @@ class query_builder
 
 	/**
 	 * @param bool $check_visibility
+	 * @return void
 	 */
 	private function _set_topic_visibility($check_visibility)
 	{
@@ -352,7 +345,26 @@ class query_builder
 	}
 
 	/**
+	 * @param bool $exclude_hidden_forums
+	 * @return void
+	 */
+	private function _set_forum_table($exclude_hidden_forums)
+	{
+		if ($exclude_hidden_forums)
+		{
+			$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
+			$this->store['sql_array']['WHERE'][] = 'f.hidden_forum = 0';
+		}
+
+		if (isset($this->store['sql_array']['FROM'][FORUMS_TABLE]))
+		{
+			$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
+		}
+	}
+
+	/**
 	 * Reset data
+	 * @return void
 	 */
 	private function _reset()
 	{
