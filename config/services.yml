@@ -119,6 +119,7 @@ services:
             - '@dbal.conn'
             - '@user'
             - '@blitze.sitemaker.users.data'
+            - '%sitemaker.cache_time%'
 
     blitze.sitemaker.forum.manager:
         class: blitze\sitemaker\services\forum\manager

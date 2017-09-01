@@ -4,3 +4,4 @@ parameters:
     tables.sitemaker.cblocks: '%core.table_prefix%sm_cblocks'
     tables.sitemaker.menus: '%core.table_prefix%sm_menus'
     tables.sitemaker.menu_items: '%core.table_prefix%sm_menu_items'
+    sitemaker.cache_time: 10800

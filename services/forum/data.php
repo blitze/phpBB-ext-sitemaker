@@ -40,7 +40,7 @@ class data extends query_builder
 	 * @param \blitze\sitemaker\services\users\data	$user_data				Sitemaker User data object
 	 * @param integer								$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\users\data $user_data, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\users\data $user_data, $cache_time)
 	{
 		parent::__construct($auth, $config, $content_visibility, $db, $user, $cache_time);
 
@@ -75,12 +75,15 @@ class data extends query_builder
 	/**
 	 * Get topic data
 	 *
-	 * @param mixed|false $limit
+	 * @param int|false $limit
 	 * @param int $start
 	 * @return array
 	 */
 	public function get_topic_data($limit = false, $start = 0)
 	{
+		// Topics table need to be the last in the chain
+		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
+
 		$sql = $this->db->sql_build_query('SELECT', $this->store['sql_array']);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
@@ -112,11 +115,16 @@ class data extends query_builder
 	 */
 	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
 	{
+		$post_data = array();
+		if ($topic_first_or_last_post && !sizeof($this->store['topic']))
+		{
+			return $post_data;
+		}
+
 		$sql_array = $this->_get_posts_sql_array($topic_first_or_last_post, $post_ids, $sql_array);
 		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
-		$post_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$post_data[$row['topic_id']][$row['post_id']] = $row;
