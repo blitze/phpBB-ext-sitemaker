@@ -124,7 +124,7 @@ class member_menu extends block
 			),
 		);
 
-		$this->forum_data->query(false)
+		$this->forum_data->query(false, false)
 			->fetch_custom($sql_array)
 			->build(true, false);
 

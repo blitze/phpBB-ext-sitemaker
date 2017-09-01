@@ -45,7 +45,7 @@ class query_builder
 	 * @param \phpbb\user						$user					User object
 	 * @param integer							$cache_time				Cache results for 3 hours by default
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $cache_time)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -63,22 +63,19 @@ class query_builder
 	 * @param bool $track_topics
 	 * @return $this
 	 */
-	public function query($track_topics = true)
+	public function query($track_topics = true, $add_forum_data = true)
 	{
 		$this->_reset();
 
-		$this->store['sql_array'] = array(
-			'SELECT'	=> array('t.*, f.*'),
+		$this->store['sql_array'] = array_fill_keys(array('SELECT', 'FROM', 'LEFT_JOIN', 'WHERE'), array());
 
-			'FROM'		=> array(FORUMS_TABLE => 'f'),
+		if ($add_forum_data)
+		{
+			$this->store['sql_array']['SELECT'][] = 'f.*';
+			$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
+		}
 
-			'LEFT_JOIN'	=> array(),
-
-			'WHERE'		=> array(),
-		);
-
-		// Topics table need to be the last in the chain
-		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
+		$this->store['sql_array']['SELECT'][] = 't.*';
 
 		if ($track_topics)
 		{
@@ -240,16 +237,23 @@ class query_builder
 	/**
 	 * Fetch by Custom Query
 	 *
-	 * @param array	$sql_array		Array of elements to merge into query
+	 * @param array	$sql_array			Array of elements to merge into query
 	 * 										array(
 	 * 											'SELECT'	=> array('p.*'),
 	 * 											'WHERE'		=> array('p.post_id = 2'),
 	 * 										)
+	 * @param array $overwrite_keys		Array of query keys to overwrite with yours instead of merging
+	 *									e.g array('SELECT') will overwrite the 'SELECT' key with whatever is provided in $sql_array
 	 * @return $this
 	 */
-	public function fetch_custom(array $sql_array)
+	public function fetch_custom(array $sql_array, $overwrite_keys = array())
 	{
 		$this->store['sql_array'] = array_merge_recursive($this->store['sql_array'], $sql_array);
+
+		foreach ($overwrite_keys as $key)
+		{
+			$this->store['sql_array'][$key] = $sql_array[$key];
+		}
 
 		return $this;
 	}
@@ -283,10 +287,17 @@ class query_builder
 
 		if ($exclude_hidden_forums)
 		{
+			$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
 			$this->store['sql_array']['WHERE'][] = 'f.hidden_forum = 0';
 		}
 
-		$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
+		if (isset($this->store['sql_array']['FROM'][FORUMS_TABLE]))
+		{
+			$this->store['sql_array']['WHERE'][] = 'f.forum_id = t.forum_id';
+		}
+
+		// Topics table need to be the last in the chain
+		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';
 		$this->store['sql_array']['WHERE'][] = 't.topic_moved_id = 0';
 
 		$this->store['sql_array']['SELECT'] = join(', ', array_filter($this->store['sql_array']['SELECT']));
