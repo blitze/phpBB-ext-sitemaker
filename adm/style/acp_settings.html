@@ -1,6 +1,6 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<h1>{L_SETTINGS}</h1>
+<h1>{{ lang('SETTINGS') }}</h1>
 
 <form id="acp_settings" method="post" action="{{ u_action }}">
     <fieldset>
@@ -91,4 +91,4 @@
 
 {{ icon_picker }}
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

@@ -1,47 +1,47 @@
-<!-- IF QTYPE_EXPLAIN --><div class="align-center">{QTYPE_EXPLAIN}</div><br /><!-- ENDIF -->
+{% if QTYPE_EXPLAIN %}<div class="align-center">{{ QTYPE_EXPLAIN }}</div><br />{% endif %}
 <div class="flex">
 	<dl>
 		<dt class="align-center">
 			<dl>
-				<dt class="<!-- IF RANK_TITLE or RANK_IMG -->has-profile-rank<!-- ELSE -->no-profile-rank<!-- ENDIF --> has-avatar">
+				<dt class="{% if RANK_TITLE or RANK_IMG %}has-profile-rank{% else %}no-profile-rank{% endif %} has-avatar">
 					<div class="avatar-container">
-						<a href="{U_VIEWPROFILE}" class="avatar img-ui">{AVATAR}</a>
+						<a href="{{ U_VIEWPROFILE }}" class="avatar img-ui">{{ AVATAR }}</a>
 					</div>
-					{USERNAME_FULL}
+					{{ USERNAME_FULL }}
 				</dt>
-				<!-- IF RANK_TITLE or RANK_IMG --><dd class="profile-rank">{RANK_TITLE}<!-- IF RANK_TITLE and RANK_IMG --><br /><!-- ENDIF -->{RANK_IMG}</dd><!-- ENDIF -->
+				{% if RANK_TITLE or RANK_IMG %}<dd class="profile-rank">{{ RANK_TITLE }}{% if RANK_TITLE and RANK_IMG %}<br />{% endif %}{{ RANK_IMG }}</dd>{% endif %}
 				<dd class="profile-contact align-center">
 					<div class="dropdown-contents contact-icons" style="margin: 1rem 0 0; display: inline-block">
-						<!-- BEGIN contact_field -->
+						{% for contact_field in loops.contact_field %}
 							{% set REMAINDER = contact_field.S_ROW_COUNT % 4 %}
-							<!-- DEFINE $S_LAST_CELL = ((REMAINDER eq 3) or (contact_field.S_LAST_ROW and contact_field.S_NUM_ROWS < 4)) -->
-							<!-- IF REMAINDER eq 0 -->
+							{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (contact_field.S_LAST_ROW and contact_field.S_NUM_ROWS < 4)) %}
+							{% if REMAINDER eq 0 %}
 								<div>
-							<!-- ENDIF -->
-								<a href="<!-- IF contact_field.U_CONTACT -->{contact_field.U_CONTACT}<!-- ELSE -->{U_VIEWPROFILE}<!-- ENDIF -->" title="{contact_field.NAME}"<!-- IF $S_LAST_CELL --> class="last-cell"<!-- ENDIF --><!-- IF contact_field.ID eq 'jabber' --> onclick="popup(this.href, 750, 320); return false;"<!-- ENDIF -->>
-									<span class="contact-icon {contact_field.ID}-icon">{contact_field.NAME}</span>
+							{% endif %}
+								<a href="{% if contact_field.U_CONTACT %}{{ contact_field.U_CONTACT }}{% else %}{{ U_VIEWPROFILE }}{% endif %}" title="{{ contact_field.NAME }}"{% if definition.S_LAST_CELL %} class="last-cell"{% endif %}{% if contact_field.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
+									<span class="contact-icon {{ contact_field.ID }}-icon">{{ contact_field.NAME }}</span>
 								</a>
-							<!-- IF REMAINDER eq 3 or contact_field.S_LAST_ROW -->
+							{% if REMAINDER eq 3 or contact_field.S_LAST_ROW %}
 								</div>
-							<!-- ENDIF -->
-						<!-- END contact_field -->
+							{% endif %}
+						{% endfor %}
 					</div>
 				</dd>
 			</dl>
 		</dt>
 		<dd>
 			<ul class="sm-list">
-				<li><strong>{L_JOINED}{L_COLON}</strong> {JOINED}</li>
-				<li><strong>{L_LAST_VISITED}{L_COLON}</strong> <!-- IF VISITED -->{VISITED}<!-- ELSE -->{JOINED}<!-- ENDIF --></li>
-				<!-- BEGIN profile_field -->
-				<li><strong>{profile_field.PROFILE_FIELD_NAME}{L_COLON}</strong> {profile_field.PROFILE_FIELD_VALUE}</li>
-				<!-- END profile_field -->
-				<li><strong>{L_TOTAL_POSTS}{L_COLON}</strong> {POSTS}<!-- IF POSTS -->  <a href="{U_SEARCH_POSTS}"><i class="fa fa-search"></i></a><!-- ELSE --><!-- ENDIF --><!-- IF POSTS_PCT neq 0 --><br />[{POSTS_PCT}]<!-- ENDIF --></li>
+				<li><strong>{{ lang('JOINED') }}{{ lang('COLON') }}</strong> {{ JOINED }}</li>
+				<li><strong>{{ lang('LAST_VISITED') }}{{ lang('COLON') }}</strong> {% if VISITED %}{{ VISITED }}{% else %}{{ JOINED }}{% endif %}</li>
+				{% for profile_field in loops.profile_field %}
+				<li><strong>{{ profile_field.PROFILE_FIELD_NAME }}{{ lang('COLON') }}</strong> {{ profile_field.PROFILE_FIELD_VALUE }}</li>
+				{% endfor %}
+				<li><strong>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</strong> {{ POSTS }}{% if POSTS %}  <a href="{{ U_SEARCH_POSTS }}"><i class="fa fa-search"></i></a>{% else %}{% endif %}{% if POSTS_PCT neq 0 %}<br />[{{ POSTS_PCT }}]{% endif %}</li>
 			</ul>
 		</dd>
 	</dl>
 </div>
-<!-- IF ROTATION -->
+{% if ROTATION %}
 <br /><hr class="divider">
-<span class="gensmall">{ROTATION}</span>
-<!-- ENDIF -->
+<span class="gensmall">{{ ROTATION }}</span>
+{% endif %}

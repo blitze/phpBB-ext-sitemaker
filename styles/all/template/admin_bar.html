@@ -2,17 +2,17 @@
 	<div id="admin-options" class="admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#">{L_BLOCKS}</a>
+				<a class="menu-item has-dropdown" href="#">{{ lang('BLOCKS') }}</a>
 				<div id="add-block-panel" class="dropdown">
-					<div class="ui-state-default align-center"><strong>{L_ADD_BLOCK_EXPLAIN}</strong></div>
+					<div class="ui-state-default align-center"><strong>{{ lang('ADD_BLOCK_EXPLAIN') }}</strong></div>
 
 					<div id="blocks-list" class="blocks-gallery">
 						<div class="grid">
-							<!-- BEGIN block -->
-							<div data-block="{block.SERVICE}" class="grid__col grid__col--1-of-3 sitemaker-block">
-								<div class="inner"><i class="fa fa-arrows-alt"></i>{block.NAME}</div>
+							{% for block in loops.block %}
+							<div data-block="{{ block.SERVICE }}" class="grid__col grid__col--1-of-3 sitemaker-block">
+								<div class="inner"><i class="fa fa-arrows-alt"></i>{{ block.NAME }}</div>
 							</div>
-							<!-- END block -->
+							{% endfor %}
 						</div>
 					</div>
 
@@ -20,60 +20,60 @@
 			    </div>
 			</li>
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#">{L_LAYOUT}</a>
+				<a class="menu-item has-dropdown" href="#">{{ lang('LAYOUT') }}</a>
 				<div class="dropdown">
-					<h3>{L_SETTINGS}</h3>
+					<h3>{{ lang('SETTINGS') }}</h3>
 					<div class="grid">
 						<div class="grid__col grid__col--1-of-2">
-							<!-- IF CONTROLLER_NAME -->
-							<p<!-- IF S_IS_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="set-startpage" data-controller="{CONTROLLER_NAME}" data-method="{CONTROLLER_METHOD}" data-params="{CONTROLLER_PARAMS}">{L_SET_STARTPAGE}</a></p>
-							<!-- ENDIF -->
-							<p<!-- IF not S_STARTPAGE --> style="display: none;"<!-- ENDIF -->><a href="#" class="sm-startpage" id="remove-startpage">{L_REMOVE_STARTPAGE}</a></p>
+							{% if CONTROLLER_NAME %}
+							<p{% if S_IS_STARTPAGE %} style="display: none;"{% endif %}><a href="#" class="sm-startpage" id="set-startpage" data-controller="{{ CONTROLLER_NAME }}" data-method="{{ CONTROLLER_METHOD }}" data-params="{{ CONTROLLER_PARAMS }}">{{ lang('SET_STARTPAGE') }}</a></p>
+							{% endif %}
+							<p{% if not S_STARTPAGE %} style="display: none;"{% endif %}><a href="#" class="sm-startpage" id="remove-startpage">{{ lang('REMOVE_STARTPAGE') }}</a></p>
 
-							<p<!-- IF S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="true" title="{L_DEFAULT_LAYOUT_EXPLAIN}">{L_MAKE_DEFAULT_LAYOUT}</a></p>
-							<p<!-- IF not U_VIEW_DEFAULT || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="{U_VIEW_DEFAULT}">{L_VIEW_DEFAULT_LAYOUT}</a></p>
-							<p<!-- IF not S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" class="default-layout" data-set="false">{L_REMOVE_DEFAULT_LAYOUT}</a></p>
+							<p{% if S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" class="default-layout" data-set="true" title="{{ lang('DEFAULT_LAYOUT_EXPLAIN') }}">{{ lang('MAKE_DEFAULT_LAYOUT') }}</a></p>
+							<p{% if not U_VIEW_DEFAULT || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="{{ U_VIEW_DEFAULT }}">{{ lang('VIEW_DEFAULT_LAYOUT') }}</a></p>
+							<p{% if not S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" class="default-layout" data-set="false">{{ lang('REMOVE_DEFAULT_LAYOUT') }}</a></p>
 							<p>&nbsp;</p>
 							<form id="copy-form">
 								<p>
-									<select name="from_route">{S_ROUTE_OPS}</select>
-									<select name="from_style">{S_STYLE_OPTIONS}</select>
+									<select name="from_route">{{ S_ROUTE_OPS }}</select>
+									<select name="from_style">{{ S_STYLE_OPTIONS }}</select>
 								</p>
 								<p>
-									<a href="#" class="layout-action" data-action="view"><i class="fa fa-eye"></i> {L_VISIT_PAGE}</a>
-									<a href="#" class="layout-action" data-action="copy"><i class="fa fa-copy"></i> {L_BLOCKS_COPY_FROM}</a>
+									<a href="#" class="layout-action" data-action="view"><i class="fa fa-eye"></i> {{ lang('VISIT_PAGE') }}</a>
+									<a href="#" class="layout-action" data-action="copy"><i class="fa fa-copy"></i> {{ lang('BLOCKS_COPY_FROM') }}</a>
 								</p>
 							</form>
 						</div>
 						<div class="grid__col grid__col--1-of-2">
-							<p<!-- IF not S_HAS_BLOCKS || S_IS_DEFAULT --> style="display: none;"<!-- ENDIF -->><a href="#" id="delete-blocks" data-set="false">{L_DELETE_ALL_BLOCKS}</a></p>
+							<p{% if not S_HAS_BLOCKS || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" id="delete-blocks" data-set="false">{{ lang('DELETE_ALL_BLOCKS') }}</a></p>
 							<form id="route-settings">
-								<input type="checkbox" id="hide_blocks" name="hide_blocks"<!-- IF S_HIDE_BLOCKS --> checked="checked"<!-- ENDIF --> /> {L_HIDE_ALL_BLOCKS}<br /><br />
+								<input type="checkbox" id="hide_blocks" name="hide_blocks"{% if S_HIDE_BLOCKS %} checked="checked"{% endif %} /> {{ lang('HIDE_ALL_BLOCKS') }}<br /><br />
 								<div class="grid">
-									<div class="grid__col grid__col--1-of-2">{L_HIDE_BLOCK_POSITIONS}</div>
+									<div class="grid__col grid__col--1-of-2">{{ lang('HIDE_BLOCK_POSITIONS') }}</div>
 									<div class="grid__col grid__col--1-of-2">
 										<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
-											{S_POSITION_OPS}
+											{{ S_POSITION_OPS }}
 										</select>
 									</div>
 								</div>
 								<div class="clear"></div>
 								<p class="align-center">
-									<input type="submit" class="button2" value="{L_SAVE_SETTINGS}" />
+									<input type="submit" class="button2" value="{{ lang('SAVE_SETTINGS') }}" />
 								</p>
 							</form>
 						</div>
 					</div>
 				</div>
 			</li>
-			<!-- EVENT admin_bar_append -->
+			{% EVENT admin_bar_append %}
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{U_EDIT_MODE}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {L_EXIT_EDIT_MODE}</span></a></li>
-			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {L_SAVE_CHANGES}</span></a></li>
+			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
+			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {{ lang('SAVE_CHANGES') }}</span></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
-				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{PAGE_URL}&amp;style='+this.options[this.selectedIndex].value;}">
-					{S_STYLE_OPTIONS}
+				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{{ PAGE_URL }}&amp;style='+this.options[this.selectedIndex].value;}">
+					{{ S_STYLE_OPTIONS }}
 				</select>
 			</li>
 		</ul>
@@ -85,21 +85,21 @@
 	</div>
 </div>
 
-<div id="dialog-edit" class="dialog" title="{L_EDIT_BLOCK}" style="display: none;"></div>
+<div id="dialog-edit" class="dialog" title="{{ lang('EDIT_BLOCK') }}" style="display: none;"></div>
 
-<div id="dialog-confirm" class="dialog" title="{L_DELETE_BLOCK}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_BLOCK_CONFIRM}</p>
+<div id="dialog-confirm" class="dialog" title="{{ lang('DELETE_BLOCK') }}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('DELETE_BLOCK_CONFIRM') }}</p>
 </div>
 
-<div id="dialog-copy" class="dialog" title="{L_COPY_BLOCKS}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_COPY_BLOCKS_CONFIRM}</p>
+<div id="dialog-copy" class="dialog" title="{{ lang('COPY_BLOCKS') }}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('COPY_BLOCKS_CONFIRM') }}</p>
 </div>
 
-<div id="dialog-delete-all" class="dialog" title="{L_DELETE_ALL_BLOCKS}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {L_DELETE_ALL_BLOCKS_CONFIRM}</p>
+<div id="dialog-delete-all" class="dialog" title="{{ lang('DELETE_ALL_BLOCKS') }}" style="display: none;">
+	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('DELETE_ALL_BLOCKS_CONFIRM') }}</p>
 </div>
 
-{ICON_PICKER}
+{{ ICON_PICKER }}
 
 <script id="block-template-container" type="text/x-jquery-tmpl">
 	{% verbatim %}{% if block.view == 'basic' %}{% endverbatim %}
@@ -110,38 +110,38 @@
 		{{ source('@blitze_sitemaker/views/simple_view.twig') }}
 	{% verbatim %}{% endif %}{% endverbatim %}
 	<div class="block-controls">
-		<a href="#" class="item-action delete-block" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
-		<a href="#" class="item-action edit-block" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
+		<a href="#" class="item-action delete-block" title="{{ lang('DELETE') }}"><span class="ui-icon ui-icon-closethick">{{ lang('DELETE') }}</span></a>
+		<a href="#" class="item-action edit-block" title="{{ lang('EDIT') }}"><span class="ui-icon ui-icon-gear">{{ lang('EDIT') }}</span></a>
 	</div>
 </script>
 
-<!-- EVENT admin_bar_templates -->
+{% EVENT admin_bar_templates %}
 
 <script type="text/javascript">
 // <![CDATA[
-	var editMode = {S_EDIT_MODE};
-	var SID = '{SESSION_ID}';
+	var editMode = {{ S_EDIT_MODE }};
+	var SID = '{{ SESSION_ID }}';
 	var config = {
-		ajaxUrl: '{UA_AJAX_URL}',
-		boardUrl: '{UA_BOARD_URL}',
-		ext: '{UA_EXTENSION}',
-		route: '{UA_ROUTE}',
-		style: '{UA_STYLE_ID}',
-		webRootPath: '{UA_WEB_ROOT_PATH}'
+		ajaxUrl: '{{ UA_AJAX_URL }}',
+		boardUrl: '{{ UA_BOARD_URL }}',
+		ext: '{{ UA_EXTENSION }}',
+		route: '{{ UA_ROUTE }}',
+		style: '{{ UA_STYLE_ID }}',
+		webRootPath: '{{ UA_WEB_ROOT_PATH }}'
 	};
 	var lang = {
-		edit:   '{LA_EDIT}',
-		copy: '{LA_COPY}',
-		remove: '{LA_DELETE}',
-		cancel: '{LA_CANCEL}',
-		deleteAll: '{LA_DELETE_ALL}',
-		hidingBlocks: '{LA_ROUTE_HIDDEN_BLOCKS}',
-		hidingPos: '{LA_ROUTE_HIDDEN_POSITIONS}',
-		ajaxError: '{LA_AJAX_ERROR}',
-		ajaxLoading: '{LA_AJAX_LOADING}',
-		leaveConfirm: '{LA_LEAVE_CONFIRM}',
-		updateSimilar: '{LA_UPDATE_SIMILAR}',
-		placeholder: '{LA_EDIT_ME}'
+		edit:   '{{ lang('EDIT')|escape('js') }}',
+		copy: '{{ lang('COPY')|escape('js') }}',
+		remove: '{{ lang('DELETE')|escape('js') }}',
+		cancel: '{{ lang('CANCEL')|escape('js') }}',
+		deleteAll: '{{ lang('DELETE_ALL')|escape('js') }}',
+		hidingBlocks: '{{ lang('ROUTE_HIDDEN_BLOCKS')|escape('js') }}',
+		hidingPos: '{{ lang('ROUTE_HIDDEN_POSITIONS')|escape('js') }}',
+		ajaxError: '{{ lang('AJAX_ERROR')|escape('js') }}',
+		ajaxLoading: '{{ lang('AJAX_LOADING')|escape('js') }}',
+		leaveConfirm: '{{ lang('LEAVE_CONFIRM')|escape('js') }}',
+		updateSimilar: '{{ lang('UPDATE_SIMILAR')|escape('js') }}',
+		placeholder: '{{ lang('EDIT_ME')|escape('js') }}'
 	};
 // ]]>
 </script>

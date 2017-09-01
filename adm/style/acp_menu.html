@@ -1,27 +1,27 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
 <a id="maincontent"></a>
 
-<h1>{L_ACP_MENU_MANAGE}</h1>
+<h1>{{ lang('ACP_MENU_MANAGE') }}</h1>
 
-<p>{L_ACP_MENU_MANAGE_EXPLAIN}</p>
+<p>{{ lang('ACP_MENU_MANAGE_EXPLAIN') }}</p>
 
 <p>&nbsp;</p>
 
 <div class="grid grid--no-gutter">
 	<div class="grid__col grid__col--1-of-5">
 		<div class="menus-container">
-			<button id="add-menu">{L_ADD_MENU}</button>
+			<button id="add-menu">{{ lang('ADD_MENU') }}</button>
 			<ul id="sm-menus" class="menus-list">
-				<!-- BEGIN menu -->
-				<li id="menu-{menu.ID}"<!-- IF menu.S_ACTIVE --> class="row3 current-menu"<!-- ENDIF -->>
-				<a href="#" class="menu-option"><span class="menu-editable">{menu.NAME}</span></a>
+				{% for menu in loops.menu %}
+				<li id="menu-{{ menu.ID }}"{% if menu.S_ACTIVE %} class="row3 current-menu"{% endif %}>
+				<a href="#" class="menu-option"><span class="menu-editable">{{ menu.NAME }}</span></a>
 				<div class="menu-actions">
-					<a href="#" class="menu-edit left" title="{L_EDIT}"><i class="fa fa-cog"></i></a>
-					<a href="#" class="menu-delete left" title="{L_DELETE}"><i class="fa fa-close"></i></a>
+					<a href="#" class="menu-edit left" title="{{ lang('EDIT') }}"><i class="fa fa-cog"></i></a>
+					<a href="#" class="menu-delete left" title="{{ lang('DELETE') }}"><i class="fa fa-close"></i></a>
 				</div>
 				</li>
-			<!-- END menu -->
+			{% endfor %}
 			</ul>
 	</div>
 </div>
@@ -29,52 +29,52 @@
 
 	<div id="nested-tree" style="display: none;">
 
-		<div id="loading" class="loader" style="display: none"><i class="fa fa-refresh fa-spin"></i> {L_AJAX_PROCESSING}</div>
+		<div id="loading" class="loader" style="display: none"><i class="fa fa-refresh fa-spin"></i> {{ lang('AJAX_PROCESSING') }}</div>
 		<div id="ajax-message" class="message"></div>
 
 		<div class="bulk-container">
 			<div style="display: none">
-				<button id="add-new">{L_ADD_MENU_ITEM}</button>
+				<button id="add-new">{{ lang('ADD_MENU_ITEM') }}</button>
 				<button id="add-bulk">&nbsp;</button>
 			</div>
 			<div class="bulk-dropdown">
 				<form id="bulk_form" name="bulk_form" action="" method="post">
 					<fieldset>
-						<p><strong>{L_ADD_BULK_MENU}</strong></p>
-						<a class="toggle-view" style="float: right" href="#help-addbulk">{L_HELP}</a><br clear="both" />
-						<p id="help-addbulk" class="small bg2" style="display: none">{L_ADD_BULK_EXPLAIN}</p><br />
+						<p><strong>{{ lang('ADD_BULK_MENU') }}</strong></p>
+						<a class="toggle-view" style="float: right" href="#help-addbulk">{{ lang('HELP') }}</a><br clear="both" />
+						<p id="help-addbulk" class="small bg2" style="display: none">{{ lang('ADD_BULK_EXPLAIN') }}</p><br />
 
-						<label>{L_MENU_ITEM_PARENT}</label>
+						<label>{{ lang('MENU_ITEM_PARENT') }}</label>
 						<select id="parent_id" name="parent_id">
-							<option value="0">{L_NO_PARENT}</option>
-							<!-- BEGIN option -->
-							<option value="{option.CAT_ID}">{option.S_PADDING}{option.CAT_NAME}</option>
-							<!-- END option -->
+							<option value="0">{{ lang('NO_PARENT') }}</option>
+							{% for option in loops.option %}
+							<option value="{{ option.CAT_ID }}">{{ option.S_PADDING }}{{ option.CAT_NAME }}</option>
+							{% endfor %}
 						</select><br /><br />
-						<label>{L_MENU_ITEMS}</label>
+						<label>{{ lang('MENU_ITEMS') }}</label>
 						<textarea id="add_list" rows="5" cols="50" name="add_list"></textarea>
 						<p class="submit-buttons">
-							<input class="button2" type="reset" id="cancel" name="cancel" value="{L_CANCEL}" />
-							<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+							<input class="button2" type="reset" id="cancel" name="cancel" value="{{ lang('CANCEL') }}" />
+							<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
 						</p>
 					</fieldset>
 				</form>
 			</div>
 		</div>
 
-		<div class="align-right"><span style="display: none"><input type="checkbox" id="select-all" /> {L_SELECT_ALL}</span>&nbsp;</div>
+		<div class="align-right"><span style="display: none"><input type="checkbox" id="select-all" /> {{ lang('SELECT_ALL') }}</span>&nbsp;</div>
 		<div class="row3 items-container">
-			<div id="no-items" class="center">{L_NO_MENU_ITEMS}</div>
+			<div id="no-items" class="center">{{ lang('NO_MENU_ITEMS') }}</div>
 			<div class="items-list">
 				<ol id="sortable" class="ui-helper-reset ui-helper-clearfix ui-corner-all" style="display: none;"></ol>
 			</div>
 		</div>
 
-		<button id="save" class="right" style="display: none">{L_SAVE_CHANGES}</button>
-		<button id="delete-selected" class="right" style="display: none">{L_DELETE_SELECTED}</button>
-		<button id="rebuild-tree" class="right" style="display: none">{L_REBUILD_TREE}</button>
+		<button id="save" class="right" style="display: none">{{ lang('SAVE_CHANGES') }}</button>
+		<button id="delete-selected" class="right" style="display: none">{{ lang('DELETE_SELECTED') }}</button>
+		<button id="rebuild-tree" class="right" style="display: none">{{ lang('REBUILD_TREE') }}</button>
 
-		{ICON_PICKER}
+		{{ ICON_PICKER }}
 
 		<script id="item-template" type="text/x-jquery-tmpl">
 			{% verbatim %}
@@ -85,39 +85,39 @@
 					</span>
 					<span class="editable" data-field="item_title">{{ item_title }}</span>
 					<input type="checkbox" class="select-item right" />
-					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="delete" title="{L_deleteNode}"><i class="fa fa-close"></i></a>
-					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="edit" title="{L_editNode}"><i class="fa fa-cog"></i></a>
-					{% if item_url is not empty %}<a href="{{ full_url }}" target="_blank" class="right item-spacing" title="{L_visitPage}"><i class="fa fa-external-link"></i></a>{% endif %}
+					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="delete" title="{{ lang('deleteNode') }}"><i class="fa fa-close"></i></a>
+					<a href="#" id="item-{{ item_id }}" class="right item-action item-spacing" data-action="edit" title="{{ lang('editNode') }}"><i class="fa fa-cog"></i></a>
+					{% if item_url is not empty %}<a href="{{ full_url }}" target="_blank" class="right item-spacing" title="{{ lang('visitPage') }}"><i class="fa fa-external-link"></i></a>{% endif %}
 				</div>
 			</li>
 			{% endverbatim %}
 		</script>
 
-		<div id="dialog-confirm-menu" class="dialog" title="{L_DELETE_MENU}" style="display: none;">
-			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{L_DELETE_MENU_CONFIRM}</p>
+		<div id="dialog-confirm-menu" class="dialog" title="{{ lang('DELETE_MENU') }}" style="display: none;">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang('DELETE_MENU_CONFIRM') }}</p>
 		</div>
 
-		<div id="dialog-confirm-menu-item" class="dialog" title="{L_DELETE_MENU_ITEM}" style="display: none;">
-			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{L_DELETE_MENU_ITEM_CONFIRM}</p>
+		<div id="dialog-confirm-menu-item" class="dialog" title="{{ lang('DELETE_MENU_ITEM') }}" style="display: none;">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang('DELETE_MENU_ITEM_CONFIRM') }}</p>
 		</div>
 
-		<div id="dialog-edit-menu-item" class="dialog" title="{L_EDIT_MENU_ITEM}" style="display: none;">
+		<div id="dialog-edit-menu-item" class="dialog" title="{{ lang('EDIT_MENU_ITEM') }}" style="display: none;">
 			<form id="edit-menu-item-form" name="edit_menu_item_form" style="width: 350px;">
 				<fieldset>
-					<p class="small">{L_REQUIRED_FIELDS}</p><br />
+					<p class="small">{{ lang('REQUIRED_FIELDS') }}</p><br />
 					<dl>
-						<dt><label>{L_ITEM_TITLE}*</label><br /><span class="small">{L_ITEM_TITLE_EXPLAIN}</span></dt>
+						<dt><label>{{ lang('ITEM_TITLE') }}*</label><br /><span class="small">{{ lang('ITEM_TITLE_EXPLAIN') }}</span></dt>
 						<dd><input id="item_title" class="required" type="text" name="item_title" value="" /></dd>
 					</dl>
 					<dl>
-						<dt><label>{L_ITEM_URL}</label><br /><span class="small">{L_ITEM_URL_EXPLAIN}</span></dt>
+						<dt><label>{{ lang('ITEM_URL') }}</label><br /><span class="small">{{ lang('ITEM_URL_EXPLAIN') }}</span></dt>
 						<dd><input id="item_url" type="text" name="item_url" value="" /></dd>
 					</dl>
 					<dl>
-						<dt><label>{L_ITEM_TARGET}*</label></dt>
+						<dt><label>{{ lang('ITEM_TARGET') }}*</label></dt>
 						<dd>
-							<input id="item_target" class="required" type="radio" name="item_target" value="0" checked="checked" /> {L_TARGET_PARENT}
-							<input class="required" type="radio" name="item_target" value="1" /> {L_TARGET_BLANK}
+							<input id="item_target" class="required" type="radio" name="item_target" value="0" checked="checked" /> {{ lang('TARGET_PARENT') }}
+							<input class="required" type="radio" name="item_target" value="1" /> {{ lang('TARGET_BLANK') }}
 						</dd>
 					</dl>
 				</fieldset>
@@ -129,26 +129,26 @@
 
 <script type="text/javascript">
 // <![CDATA[
-	var ajaxUrl	= '{UA_AJAX_URL}';
-	var menuId	= {UA_MENU_ID};
+	var ajaxUrl	= '{{ UA_AJAX_URL }}';
+	var menuId	= {{ UA_MENU_ID }};
 	var lang = {
-		none				: '{LA_NO_PARENT}',
-		addNode				: '{LA_ADD_ITEM}',
-		editNode			: '{LA_EDIT_ITEM}',
-		changeMe			: '{LA_CHANGE_ME}',
-		saveNode			: '{LA_SAVE}',
-		hideNode			: '{LA_HIDE}',
-		showNode			: '{LA_SHOW}',
-		cancel				: '{LA_CANCEL}',
-		remove				: '{LA_DELETE}',
-		deleteNode			: '{LA_DELETE_ITEM}',
-		deleteChildNodes	: '{LA_DELETE_KIDS}',
-		required			: '{LA_REQUIRED}',
-		unsavedChanges		: '{LA_UNSAVED_CHANGES}',
-		errorMessage		: '{LA_PROCESSING_ERROR}',
-		visitPage			: '{LA_VISIT_PAGE}'
+		none				: '{{ lang('NO_PARENT')|escape('js') }}',
+		addNode				: '{{ lang('ADD_ITEM')|escape('js') }}',
+		editNode			: '{{ lang('EDIT_ITEM')|escape('js') }}',
+		changeMe			: '{{ lang('CHANGE_ME')|escape('js') }}',
+		saveNode			: '{{ lang('SAVE')|escape('js') }}',
+		hideNode			: '{{ lang('HIDE')|escape('js') }}',
+		showNode			: '{{ lang('SHOW')|escape('js') }}',
+		cancel				: '{{ lang('CANCEL')|escape('js') }}',
+		remove				: '{{ lang('DELETE')|escape('js') }}',
+		deleteNode			: '{{ lang('DELETE_ITEM')|escape('js') }}',
+		deleteChildNodes	: '{{ lang('DELETE_KIDS')|escape('js') }}',
+		required			: '{{ lang('REQUIRED')|escape('js') }}',
+		unsavedChanges		: '{{ lang('UNSAVED_CHANGES')|escape('js') }}',
+		errorMessage		: '{{ lang('PROCESSING_ERROR')|escape('js') }}',
+		visitPage			: '{{ lang('VISIT_PAGE')|escape('js') }}'
 	};
 // ]]>
 </script>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

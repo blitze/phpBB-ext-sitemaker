@@ -1,47 +1,47 @@
-<form method="post" action="{S_POLL_ACTION}" data-ajax="vote_poll" class="topic_poll">
+<form method="post" action="{{ S_POLL_ACTION }}" data-ajax="vote_poll" class="topic_poll">
 
-	<p class="poll-title"><a href="{S_POLL_ACTION}">{POLL_QUESTION}</a></p>
-	<!-- IF S_CAN_VOTE or POLL_LENGTH --><p class="author">{POLL_LENGTH}<!-- IF S_CAN_VOTE and POLL_LENGTH --><br /><!-- ENDIF --><!-- IF S_CAN_VOTE --><span class="poll_max_votes">{MAX_VOTES}</span><!-- ENDIF --></p><!-- ENDIF -->
+	<p class="poll-title"><a href="{{ S_POLL_ACTION }}">{{ POLL_QUESTION }}</a></p>
+	{% if S_CAN_VOTE or POLL_LENGTH %}<p class="author">{{ POLL_LENGTH }}{% if S_CAN_VOTE and POLL_LENGTH %}<br />{% endif %}{% if S_CAN_VOTE %}<span class="poll_max_votes">{{ MAX_VOTES }}</span>{% endif %}</p>{% endif %}
 
 	<fieldset class="polls flex">
-	<!-- BEGIN poll_option -->
-		<!-- EVENT viewtopic_body_poll_option_before -->
-		<dl class="<!-- IF poll_option.POLL_OPTION_VOTED -->voted<!-- ENDIF --><!-- IF poll_option.POLL_OPTION_MOST_VOTES --> most-votes<!-- ENDIF -->"<!-- IF poll_option.POLL_OPTION_VOTED --> title="{L_POLL_VOTED_OPTION}"<!-- ENDIF --> data-alt-text="{L_POLL_VOTED_OPTION}" data-poll-option-id="{poll_option.POLL_OPTION_ID}">
+	{% for poll_option in loops.poll_option %}
+		{% EVENT viewtopic_body_poll_option_before %}
+		<dl class="{% if poll_option.POLL_OPTION_VOTED %}voted{% endif %}{% if poll_option.POLL_OPTION_MOST_VOTES %} most-votes{% endif %}"{% if poll_option.POLL_OPTION_VOTED %} title="{{ lang('POLL_VOTED_OPTION') }}"{% endif %} data-alt-text="{{ lang('POLL_VOTED_OPTION') }}" data-poll-option-id="{{ poll_option.POLL_OPTION_ID }}">
 			<dt>
-			<!-- IF S_CAN_VOTE -->
-				<!-- IF S_IS_MULTI_CHOICE --><input type="checkbox" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> /><!-- ELSE --><input type="radio" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> /><!-- ENDIF -->
-				<label for="vote_{poll_option.POLL_OPTION_ID}">{poll_option.POLL_OPTION_CAPTION}</label>
-			<!-- ELSE -->
-				{poll_option.POLL_OPTION_CAPTION}
-			<!-- ENDIF -->
+			{% if S_CAN_VOTE %}
+				{% if S_IS_MULTI_CHOICE %}<input type="checkbox" name="vote_id[]" id="vote_{{ poll_option.POLL_OPTION_ID }}" value="{{ poll_option.POLL_OPTION_ID }}"{% if poll_option.POLL_OPTION_VOTED %} checked="checked"{% endif %} />{% else %}<input type="radio" name="vote_id[]" id="vote_{{ poll_option.POLL_OPTION_ID }}" value="{{ poll_option.POLL_OPTION_ID }}"{% if poll_option.POLL_OPTION_VOTED %} checked="checked"{% endif %} />{% endif %}
+				<label for="vote_{{ poll_option.POLL_OPTION_ID }}">{{ poll_option.POLL_OPTION_CAPTION }}</label>
+			{% else %}
+				{{ poll_option.POLL_OPTION_CAPTION }}
+			{% endif %}
 			</dt>
-			<dd class="resultbar<!-- IF not S_DISPLAY_RESULTS --> hidden<!-- ENDIF -->"><div class="<!-- IF poll_option.POLL_OPTION_PCT < 20 -->pollbar1<!-- ELSEIF poll_option.POLL_OPTION_PCT < 40 -->pollbar2<!-- ELSEIF poll_option.POLL_OPTION_PCT < 60 -->pollbar3<!-- ELSEIF poll_option.POLL_OPTION_PCT < 80 -->pollbar4<!-- ELSE -->pollbar5<!-- ENDIF -->" style="width:{poll_option.POLL_OPTION_PERCENT_REL};">{poll_option.POLL_OPTION_RESULT}</div></dd>
-			<dd class="poll_option_percent<!-- IF not S_DISPLAY_RESULTS --> hidden<!-- ENDIF -->"><!-- IF poll_option.POLL_OPTION_RESULT == 0 -->{L_NO_VOTES}<!-- ELSE -->{poll_option.POLL_OPTION_PERCENT}<!-- ENDIF --></dd>
+			<dd class="resultbar{% if not S_DISPLAY_RESULTS %} hidden{% endif %}"><div class="{% if poll_option.POLL_OPTION_PCT < 20 %}pollbar1{% elseif poll_option.POLL_OPTION_PCT < 40 %}pollbar2{% elseif poll_option.POLL_OPTION_PCT < 60 %}pollbar3{% elseif poll_option.POLL_OPTION_PCT < 80 %}pollbar4{% else %}pollbar5{% endif %}" style="width:{{ poll_option.POLL_OPTION_PERCENT_REL }};">{{ poll_option.POLL_OPTION_RESULT }}</div></dd>
+			<dd class="poll_option_percent{% if not S_DISPLAY_RESULTS %} hidden{% endif %}">{% if poll_option.POLL_OPTION_RESULT == 0 %}{{ lang('NO_VOTES') }}{% else %}{{ poll_option.POLL_OPTION_PERCENT }}{% endif %}</dd>
 		</dl>
-		<!-- EVENT viewtopic_body_poll_option_after -->
-	<!-- END poll_option -->
+		{% EVENT viewtopic_body_poll_option_after %}
+	{% endfor %}
 
-		<dl class="poll_total_votes<!-- IF not S_DISPLAY_RESULTS --> hidden<!-- ENDIF -->">
+		<dl class="poll_total_votes{% if not S_DISPLAY_RESULTS %} hidden{% endif %}">
 			<dt>&nbsp;</dt>
-			<dd class="resultbar">{L_TOTAL_VOTES}{L_COLON} <span class="poll_total_vote_cnt">{TOTAL_VOTES}</span></dd>
+			<dd class="resultbar">{{ lang('TOTAL_VOTES') }}{{ lang('COLON') }} <span class="poll_total_vote_cnt">{{ TOTAL_VOTES }}</span></dd>
 		</dl>
 
-	<!-- IF S_CAN_VOTE -->
+	{% if S_CAN_VOTE %}
 		<dl style="border-top: none;" class="poll_vote">
 			<dt>&nbsp;</dt>
-			<dd class="resultbar"><input type="submit" name="update" value="{L_SUBMIT_VOTE}" class="button1" /></dd>
+			<dd class="resultbar"><input type="submit" name="update" value="{{ lang('SUBMIT_VOTE') }}" class="button1" /></dd>
 		</dl>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<!-- IF not S_DISPLAY_RESULTS -->
+	{% if not S_DISPLAY_RESULTS %}
 		<dl style="border-top: none;" class="poll_view_results">
 			<dt>&nbsp;</dt>
-			<dd class="resultbar"><a href="{U_VIEW_RESULTS}">{L_VIEW_RESULTS}</a></dd>
+			<dd class="resultbar"><a href="{{ U_VIEW_RESULTS }}">{{ lang('VIEW_RESULTS') }}</a></dd>
 		</dl>
-	<!-- ENDIF -->
+	{% endif %}
 	</fieldset>
-	<div class="vote-submitted hidden">{L_VOTE_SUBMITTED}</div>
+	<div class="vote-submitted hidden">{{ lang('VOTE_SUBMITTED') }}</div>
 
-	{S_FORM_TOKEN}
-	{S_HIDDEN_FIELDS}
+	{{ S_FORM_TOKEN }}
+	{{ S_HIDDEN_FIELDS }}
 </form>

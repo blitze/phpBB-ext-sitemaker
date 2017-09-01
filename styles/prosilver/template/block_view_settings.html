@@ -1,9 +1,9 @@
 <dl>
-	<dt><label for="view">{L_BLOCK_VIEW}</label></dt>
+	<dt><label for="view">{{ lang('BLOCK_VIEW') }}</label></dt>
 	<dd>
-		<input class="block-preview" type="radio" name="view" value=""<!-- IF not S_VIEW --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_DEFAULT') }}
-		<input class="block-preview" type="radio" name="view" value="basic"<!-- IF S_VIEW == 'basic' --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_BASIC') }}
-		<input class="block-preview" type="radio" name="view" value="boxed"<!-- IF S_VIEW == 'boxed' --> checked="checked"<!-- ENDIF --> /> {{ lang('BLOCK_VIEW_BOXED') }}<br />
-		<input class="block-preview" type="radio" name="view" value="simple"<!-- IF not S_VIEW or S_VIEW == 'simple' --> checked="checked"<!-- ENDIF --> id="view" /> {{ lang('BLOCK_VIEW_SIMPLE') }}<br />
+		<input class="block-preview" type="radio" name="view" value=""{% if not S_VIEW %} checked="checked"{% endif %} /> {{ lang('BLOCK_VIEW_DEFAULT') }}
+		<input class="block-preview" type="radio" name="view" value="basic"{% if S_VIEW == 'basic' %} checked="checked"{% endif %} /> {{ lang('BLOCK_VIEW_BASIC') }}
+		<input class="block-preview" type="radio" name="view" value="boxed"{% if S_VIEW == 'boxed' %} checked="checked"{% endif %} /> {{ lang('BLOCK_VIEW_BOXED') }}<br />
+		<input class="block-preview" type="radio" name="view" value="simple"{% if not S_VIEW or S_VIEW == 'simple' %} checked="checked"{% endif %} id="view" /> {{ lang('BLOCK_VIEW_SIMPLE') }}<br />
 	</dd>
 </dl>

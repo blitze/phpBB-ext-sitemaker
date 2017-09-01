@@ -1,30 +1,30 @@
-<!-- IF .tree -->
+{% if loops.tree|length %}
 <nav>
 	<ul class="sm-list fa-ul">
-	<!-- BEGIN tree -->
-		<!-- IF tree.THIS_DEPTH > tree.PREV_DEPTH -->
+	{% for tree in loops.tree %}
+		{% if tree.THIS_DEPTH > tree.PREV_DEPTH %}
 			<ul class="sm-list fa-ul">
-		<!-- ELSE -->
-		<!-- BEGIN close -->
+		{% else %}
+		{% for close in tree.close %}
 			</ul>
 		</li>
-		<!-- END close -->
-		<!-- ENDIF -->
-		<!-- IF tree.ITEM_URL -->
-		<li<!-- IF tree.IS_CURRENT --> class="active"<!-- ENDIF -->>
-			<a href="{tree.FULL_URL}"<!-- IF tree.ITEM_TARGET --> target="_blank" rel="noopener" rel="noreferrer"<!-- ENDIF -->><i class="{tree.ITEM_ICON}fa-fw" aria-hidden="true"></i>{tree.ITEM_TITLE}</a>
-		<!-- ELSE -->
+		{% endfor %}
+		{% endif %}
+		{% if tree.ITEM_URL %}
+		<li{% if tree.IS_CURRENT %} class="active"{% endif %}>
+			<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}</a>
+		{% else %}
 		<li class="nav-header">
-			<!-- IF tree.ITEM_TITLE !== '-' --><i class="{tree.ITEM_ICON}fa-fw" aria-hidden="true"></i>{tree.ITEM_TITLE}<!-- ELSE --><hr /><!-- ENDIF -->
-		<!-- ENDIF -->
-		<!-- IF tree.NUM_KIDS == 0 -->
+			{% if tree.ITEM_TITLE !== '-' %}<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}{% else %}<hr />{% endif %}
+		{% endif %}
+		{% if tree.NUM_KIDS == 0 %}
 		</li>
-		<!-- ENDIF -->
-	<!-- END tree -->
-	    <!-- BEGIN close_tree -->
+		{% endif %}
+	{% endfor %}
+	    {% for close_tree in loops.close_tree %}
 	    	</ul>
 	    </li>
-	    <!-- END close_tree -->
+	    {% endfor %}
 	</ul>
 </nav>
-<!-- ENDIF -->
+{% endif %}

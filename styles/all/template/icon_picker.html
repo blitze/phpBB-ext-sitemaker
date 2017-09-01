@@ -1,9 +1,9 @@
 <div id="icon-picker" class="icon-picker-container panel" style="display: none">
 	<div id="icons-tab" class="icons-bottom-tabs">
 		<ul>
-			<li><a href="#tab-icons-font">{L_ICON_FONT}</a></li>
-			<li><a href="#tab-icons-font-settings">{L_SETTINGS}</a></li>
-			<!-- IF .icon --><li><a href="#tab-icons-image">{L_ICON_IMAGE}</a></li><!-- ENDIF -->
+			<li><a href="#tab-icons-font">{{ lang('ICON_FONT') }}</a></li>
+			<li><a href="#tab-icons-font-settings">{{ lang('SETTINGS') }}</a></li>
+			{% if loops.icon|length %}<li><a href="#tab-icons-image">{{ lang('ICON_IMAGE') }}</a></li>{% endif %}
 		</ul>
 		<div id="tab-icons-font" class="tab-content">
 			<div class="icon-filter">
@@ -14,7 +14,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-web-application" class="filter-icon">{L_ICON_WEB_APPLICATION}</p>
+						<p id="cat-web-application" class="filter-icon">{{ lang('ICON_WEB_APPLICATION') }}</p>
 
 						<div class="filter-icon" data-filter="adjust|contrast">
 							<a href="#fa-adjust"><i class="fa fa-adjust"></i></a>
@@ -1416,7 +1416,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-accessibility" class="filter-icon">{L_ICON_ACCESSIBILITY}</p>
+						<p id="cat-accessibility" class="filter-icon">{{ lang('ICON_ACCESSIBILITY') }}</p>
 
 						<div class="filter-icon"><a href="#fa-american-sign-language-interpreting"><i class="fa fa-american-sign-language-interpreting"></i></a></div>
 
@@ -1452,7 +1452,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-hands" class="filter-icon">{L_ICON_HANDS}</p>
+						<p id="cat-hands" class="filter-icon">{{ lang('ICON_HANDS') }}</p>
 
 						<div class="filter-icon"><a href="#fa-hand-rock-o"><i class="fa fa-hand-rock-o"></i></a></div>
 
@@ -1492,7 +1492,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-transportation" class="filter-icon">{L_ICON_TRANSPORTATION}</p>
+						<p id="cat-transportation" class="filter-icon">{{ lang('ICON_TRANSPORTATION') }}</p>
 
 						<div class="filter-icon" data-filter="ambulance|support|help">
 							<a href="#fa-ambulance"><i class="fa fa-ambulance"></i></a>
@@ -1555,7 +1555,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-gender" class="filter-icon">{L_ICON_GENDER}</p>
+						<p id="cat-gender" class="filter-icon">{{ lang('ICON_GENDER') }}</p>
 
 						<div class="filter-icon" data-filter="genderless">
 							<a href="#fa-genderless"><i class="fa fa-genderless"></i></a>
@@ -1614,7 +1614,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-file-type" class="filter-icon">{L_ICON_FILE_TYPE}</p>
+						<p id="cat-file-type" class="filter-icon">{{ lang('ICON_FILE_TYPE') }}</p>
 
 						<div class="filter-icon" data-filter="file|new|page|pdf|document">
 							<a href="#fa-file"><i class="fa fa-file"></i></a>
@@ -1675,7 +1675,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-spinner" class="filter-icon">{L_ICON_SPINNER}</p>
+						<p id="cat-spinner" class="filter-icon">{{ lang('ICON_SPINNER') }}</p>
 
 						<div class="filter-icon" data-filter="circle-o-notch">
 							<a href="#fa-circle-o-notch"><i class="fa fa-circle-o-notch"></i></a>
@@ -1696,7 +1696,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-form-control" class="filter-icon">{L_ICON_FORM_CONTROL}</p>
+						<p id="cat-form-control" class="filter-icon">{{ lang('ICON_FORM_CONTROL') }}</p>
 
 						<div class="filter-icon" data-filter="check-square|checkmark|done|todo|agree|accept|confirm">
 							<a href="#fa-check-square"><i class="fa fa-check-square"></i></a>
@@ -1738,7 +1738,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-payment" class="filter-icon">{L_ICON_PAYMENT}</p>
+						<p id="cat-payment" class="filter-icon">{{ lang('ICON_PAYMENT') }}</p>
 
 						<div class="filter-icon"><a href="#fa-cc-amex"><i class="fa fa-cc-amex"></i></a></div>
 
@@ -1790,7 +1790,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-chart" class="filter-icon">{L_ICON_CHART}</p>
+						<p id="cat-chart" class="filter-icon">{{ lang('ICON_CHART') }}</p>
 
 						<div class="filter-icon" data-filter="area-chart">
 							<a href="#fa-area-chart"><i class="fa fa-area-chart"></i></a>
@@ -1810,7 +1810,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-currency" class="filter-icon">{L_ICON_CURRENCY}</p>
+						<p id="cat-currency" class="filter-icon">{{ lang('ICON_CURRENCY') }}</p>
 
 						<div class="filter-icon"><a href="#fa-btc"><i class="fa fa-bitcoin"></i></a></div>
 
@@ -1882,7 +1882,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-text-editor" class="filter-icon">{L_ICON_TEXT_EDITOR}</p>
+						<p id="cat-text-editor" class="filter-icon">{{ lang('ICON_TEXT_EDITOR') }}</p>
 
 						<div class="filter-icon" data-filter="align-center|middle|text">
 							<a href="#fa-align-center"><i class="fa fa-align-center"></i></a>
@@ -2056,7 +2056,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-directional" class="filter-icon">{L_ICON_DIRECTIONAL}</p>
+						<p id="cat-directional" class="filter-icon">{{ lang('ICON_DIRECTIONAL') }}</p>
 
 						<div class="filter-icon" data-filter="angle-double-down">
 							<a href="#fa-angle-double-down"><i class="fa fa-angle-double-down"></i></a>
@@ -2256,7 +2256,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-video-player" class="filter-icon">{L_ICON_VIDEO_PLAYER}</p>
+						<p id="cat-video-player" class="filter-icon">{{ lang('ICON_VIDEO_PLAYER') }}</p>
 
 						<div class="filter-icon"><a href="#fa-arrows-alt"><i class="fa fa-arrows-alt"></i></a></div>
 
@@ -2322,7 +2322,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-brand" class="filter-icon">{L_ICON_BRAND}</p>
+						<p id="cat-brand" class="filter-icon">{{ lang('ICON_BRAND') }}</p>
 
 						<div class="filter-icon" data-filter="500px">
 							<a href="#fa-500px"><i class="fa fa-500px"></i></a>
@@ -2938,7 +2938,7 @@
 
 					<div class="icon-list">
 
-						<p id="cat-medical" class="filter-icon">{L_ICON_MEDICAL}</p>
+						<p id="cat-medical" class="filter-icon">{{ lang('ICON_MEDICAL') }}</p>
 
 						<div class="filter-icon"><a href="#fa-ambulance"><i class="fa fa-ambulance"></i></a></div>
 
@@ -2981,22 +2981,22 @@
 			</div>
 			<div class="clear"></div>
 			<div id="icons-font-cat-list" class="cats-container">
-				<a href="#cat-web-application">{L_ICON_WEB_APPLICATION}</a>
-				<a href="#cat-accessibility">{L_ICON_ACCESSIBILITY}</a>
-				<a href="#cat-hands">{L_ICON_HANDS}</a>
-				<a href="#cat-transportation">{L_ICON_TRANSPORTATION}</a>
-				<a href="#cat-gender">{L_ICON_GENDER}</a>
-				<a href="#cat-file-type">{L_ICON_FILE_TYPE}</a>
-				<a href="#cat-spinner">{L_ICON_SPINNER}</a>
-				<a href="#cat-form-control">{L_ICON_FORM_CONTROL}</a>
-				<a href="#cat-payment">{L_ICON_PAYMENT}</a>
-				<a href="#cat-chart">{L_ICON_CHART}</a>
-				<a href="#cat-currency">{L_ICON_CURRENCY}</a>
-				<a href="#cat-text-editor">{L_ICON_TEXT_EDITOR}</a>
-				<a href="#cat-directional">{L_ICON_DIRECTIONAL}</a>
-				<a href="#cat-video-player">{L_ICON_VIDEO_PLAYER}</a>
-				<a href="#cat-brand">{L_ICON_BRAND}</a>
-				<a href="#cat-medical">{L_ICON_MEDICAL}</a>
+				<a href="#cat-web-application">{{ lang('ICON_WEB_APPLICATION') }}</a>
+				<a href="#cat-accessibility">{{ lang('ICON_ACCESSIBILITY') }}</a>
+				<a href="#cat-hands">{{ lang('ICON_HANDS') }}</a>
+				<a href="#cat-transportation">{{ lang('ICON_TRANSPORTATION') }}</a>
+				<a href="#cat-gender">{{ lang('ICON_GENDER') }}</a>
+				<a href="#cat-file-type">{{ lang('ICON_FILE_TYPE') }}</a>
+				<a href="#cat-spinner">{{ lang('ICON_SPINNER') }}</a>
+				<a href="#cat-form-control">{{ lang('ICON_FORM_CONTROL') }}</a>
+				<a href="#cat-payment">{{ lang('ICON_PAYMENT') }}</a>
+				<a href="#cat-chart">{{ lang('ICON_CHART') }}</a>
+				<a href="#cat-currency">{{ lang('ICON_CURRENCY') }}</a>
+				<a href="#cat-text-editor">{{ lang('ICON_TEXT_EDITOR') }}</a>
+				<a href="#cat-directional">{{ lang('ICON_DIRECTIONAL') }}</a>
+				<a href="#cat-video-player">{{ lang('ICON_VIDEO_PLAYER') }}</a>
+				<a href="#cat-brand">{{ lang('ICON_BRAND') }}</a>
+				<a href="#cat-medical">{{ lang('ICON_MEDICAL') }}</a>
 			</div>
 			<div class="clear"></div>
 			<div class="preview-container">
@@ -3005,8 +3005,8 @@
 				</div>
 			</div>
 			<div id="icon-picker-actions" class="actions-container">
-				<a href="#" id="icon-picker-insert" class="action-btn small">{L_ICON_INSERT_UPDATE}</a>
-				<a href="#" id="icon-picker-none" class="small">{L_NO_ICON}</a>
+				<a href="#" id="icon-picker-insert" class="action-btn small">{{ lang('ICON_INSERT_UPDATE') }}</a>
+				<a href="#" id="icon-picker-none" class="small">{{ lang('NO_ICON') }}</a>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -3014,11 +3014,11 @@
 			<form id="icon-customization">
 				<fieldset class="small">
 					<dl>
-						<dt>{L_ICON_SIZE}{L_COLON}</dt>
+						<dt>{{ lang('ICON_SIZE') }}{{ lang('COLON') }}</dt>
 						<dd>
 							<select id="icons-size" class="icons-customize" name="size">
-								<option value="" selected="selected">{L_ICON_SIZE_DEFAULT}</option>
-								<option value="fa-lg">{L_ICON_SIZE_LARGER}</option>
+								<option value="" selected="selected">{{ lang('ICON_SIZE_DEFAULT') }}</option>
+								<option value="fa-lg">{{ lang('ICON_SIZE_LARGER') }}</option>
 								<option value="fa-2x">2x</option>
 								<option value="fa-3x">3x</option>
 								<option value="fa-4x">4x</option>
@@ -3027,11 +3027,11 @@
 						</dd>
 					</dl>
 					<dl>
-						<dt>{L_ICON_COLOR}{L_COLON}</dt>
+						<dt>{{ lang('ICON_COLOR') }}{{ lang('COLON') }}</dt>
 						<dd>
 							<ul>
 								<li>
-									<span class="icons-color-container" title="{L_ICON_COLOR_DEFAULT}">
+									<span class="icons-color-container" title="{{ lang('ICON_COLOR_DEFAULT') }}">
 										<span class="color">&nbsp;</span>
 									</span>
 									<input type="radio" name="color" class="icons-customize" value="" />
@@ -3076,59 +3076,59 @@
 						</dd>
 					</dl>
 					<dl>
-						<dt>{L_ICON_FLOAT}{L_COLON}</dt>
+						<dt>{{ lang('ICON_FLOAT') }}{{ lang('COLON') }}</dt>
 						<dd>
-							<label><input type="radio" name="float" class="icons-customize" value="" checked="checked" /> {L_NONE}</label>
+							<label><input type="radio" name="float" class="icons-customize" value="" checked="checked" /> {{ lang('NONE') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="float" class="icons-customize" value="pull-left" /> {L_ICON_FLOAT_LEFT}</label>
+							<label><input type="radio" name="float" class="icons-customize" value="pull-left" /> {{ lang('ICON_FLOAT_LEFT') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="float" class="icons-customize" value="pull-right" /> {L_ICON_FLOAT_RIGHT}</label>
-						</dd>
-					</dl>
-					<dl>
-						<dt>{L_ICON_MISC}{L_COLON}</dt>
-						<dd>
-							<label><input type="checkbox" name="fw" class="icons-customize" value="fa-fw" /> {L_ICON_MISC_FIXED_WIDTH}</label>
-						</dd>
-						<dd>
-							<label><input type="checkbox" name="bordered" class="icons-customize" value="fa-border" /> {L_ICON_MISC_BORDERED}</label>
-						</dd>
-						<dd>
-							<label><input type="checkbox" name="spinning" class="icons-customize" value="fa-spin" title="{L_ICON_SPINNING_EXPLAIN}" /> {L_ICON_MISC_SPINNING}</label>
+							<label><input type="radio" name="float" class="icons-customize" value="pull-right" /> {{ lang('ICON_FLOAT_RIGHT') }}</label>
 						</dd>
 					</dl>
 					<dl>
-						<dt>{L_ICON_ROTATION}{L_COLON}</dt>
+						<dt>{{ lang('ICON_MISC') }}{{ lang('COLON') }}</dt>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="" checked="checked" /> {L_NONE}</label>
+							<label><input type="checkbox" name="fw" class="icons-customize" value="fa-fw" /> {{ lang('ICON_MISC_FIXED_WIDTH') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-90" /> {L_ICON_ROTATION_90_DEG}</label>
+							<label><input type="checkbox" name="bordered" class="icons-customize" value="fa-border" /> {{ lang('ICON_MISC_BORDERED') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-180" /> {L_ICON_ROTATION_180_DEG}</label>
+							<label><input type="checkbox" name="spinning" class="icons-customize" value="fa-spin" title="{{ lang('ICON_SPINNING_EXPLAIN') }}" /> {{ lang('ICON_MISC_SPINNING') }}</label>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{{ lang('ICON_ROTATION') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<label><input type="radio" name="rotation" class="icons-customize" value="" checked="checked" /> {{ lang('NONE') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-270" /> {L_ICON_ROTATION_270_DEG}</label>
+							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-90" /> {{ lang('ICON_ROTATION_90_DEG') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-horizontal" /> {L_ICON_FLIP_HORIZONTAL}</label>
+							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-180" /> {{ lang('ICON_ROTATION_180_DEG') }}</label>
 						</dd>
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-vertical" /> {L_ICON_FLIP_VERTICAL}</label>
+							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-270" /> {{ lang('ICON_ROTATION_270_DEG') }}</label>
+						</dd>
+						<dd>
+							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-horizontal" /> {{ lang('ICON_FLIP_HORIZONTAL') }}</label>
+						</dd>
+						<dd>
+							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-vertical" /> {{ lang('ICON_FLIP_VERTICAL') }}</label>
 						</dd>
 					</dl>
 				</fieldset>
 			</form>
 		</div>
-		<!-- IF .icon -->
+		{% if loops.icon|length %}
 		<div id="tab-icons-image" class="tab-content">
-			<!-- BEGIN icon -->
+			{% for icon in loops.icon %}
 			<a href="#"><img src="" alt="" /></a>
-			<!-- END icon -->
+			{% endfor %}
 		</div>
-		<!-- ENDIF -->
+		{% endif %}
 	</div>
 </div>

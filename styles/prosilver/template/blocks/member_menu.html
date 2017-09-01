@@ -4,22 +4,22 @@
 			<dl>
 				<dt class="has-avatar">
 					<div class="avatar-container">
-						<a href="{U_PROFILE}" class="avatar img-ui">{USER_AVATAR}</a>
+						<a href="{{ U_PROFILE }}" class="avatar img-ui">{{ USER_AVATAR }}</a>
 					</div>
-					{USERNAME}
+					{{ USERNAME }}
 				</dt>
 			</dl>
 		<dd>
 			<ul class="sm-list">
-				<li><a class="nav" href="{U_SEARCH_NEW}"><i class="fa fa-bolt fa-fw"></i>{L_SEARCH_NEW} [{NEW_POSTS}]</a></li>
-				<li><a class="nav" href="{U_SEARCH_SELF}"><i class="fa fa-user fa-fw"></i>{L_SEARCH_SELF} [{USER_POSTS}]</a></li>
-				<!-- IF U_MCP or U_ACP -->
-				<!-- IF U_MCP --><li><a class="nav" href="{U_MCP}"><i class="fa fa-gavel fa-fw"></i>{L_MCP}</a></li><!-- ENDIF -->
-				<!-- IF U_ACP --><li><a class="nav" href="{U_ACP}"><i class="fa fa-cogs fa-fw"></i>{L_ACP}</a></li><!-- ENDIF -->
-				<!-- ENDIF -->
+				<li><a class="nav" href="{{ U_SEARCH_NEW }}"><i class="fa fa-bolt fa-fw"></i>{{ lang('SEARCH_NEW') }} [{{ NEW_POSTS }}]</a></li>
+				<li><a class="nav" href="{{ U_SEARCH_SELF }}"><i class="fa fa-user fa-fw"></i>{{ lang('SEARCH_SELF') }} [{{ USER_POSTS }}]</a></li>
+				{% if U_MCP or U_ACP %}
+				{% if U_MCP %}<li><a class="nav" href="{{ U_MCP }}"><i class="fa fa-gavel fa-fw"></i>{{ lang('MCP') }}</a></li>{% endif %}
+				{% if U_ACP %}<li><a class="nav" href="{{ U_ACP }}"><i class="fa fa-cogs fa-fw"></i>{{ lang('ACP') }}</a></li>{% endif %}
+				{% endif %}
 			</ul>
 			<br />
-			<div class="align-center"><a href="{U_LOGOUT}" class="button2">{L_LOGOUT}</a></div>
+			<div class="align-center"><a href="{{ U_LOGOUT }}" class="button2">{{ lang('LOGOUT') }}</a></div>
 		</dd>
 	</dl>
 </div>

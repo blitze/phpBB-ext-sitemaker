@@ -1,106 +1,106 @@
 <div class="errorbox" style="display: none">
-	<h3>{L_WARNING}</h3>
-	<p>{ERROR_MSG}</p>
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERROR_MSG }}</p>
 </div>
 
 <form id="edit_form" method="post" style="width: 400px; height: 100%">
 <div id="block-settings" style="border: 0; padding: 0">
-	<!-- IF .options -->
+	{% if loops.options|length %}
 	<ul>
-		<li><a href="#tab-design">{L_BLOCK_DESIGN}</a></li>
-	<!-- BEGIN options -->
-		<!-- IF options.S_LEGEND --><li><a href="#tab-{options.S_LEGEND}">{options.LEGEND}</a></li><!-- ENDIF -->
-	<!-- END options -->
+		<li><a href="#tab-design">{{ lang('BLOCK_DESIGN') }}</a></li>
+	{% for options in loops.options %}
+		{% if options.S_LEGEND %}<li><a href="#tab-{{ options.S_LEGEND }}">{{ options.LEGEND }}</a></li>{% endif %}
+	{% endfor %}
 	</ul>
-	<!-- ENDIF -->
+	{% endif %}
 
 	<div id="tab-design">
 		<fieldset>
 			<dl>
-				<dt><label for="block_status">{L_BLOCK_STATUS}</label></dt>
+				<dt><label for="block_status">{{ lang('BLOCK_STATUS') }}</label></dt>
 				<dd>
-					<input type="radio" name="status" value="1"<!-- IF S_ACTIVE --> checked="checked"<!-- ENDIF --> id="block_status" /> {L_BLOCK_ACTIVE}&nbsp;
-					<input type="radio" name="status" value="0"<!-- IF not S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_INACTIVE}
+					<input type="radio" name="status" value="1"{% if S_ACTIVE %} checked="checked"{% endif %} id="block_status" /> {{ lang('BLOCK_ACTIVE') }}&nbsp;
+					<input type="radio" name="status" value="0"{% if not S_ACTIVE %} checked="checked"{% endif %} /> {{ lang('BLOCK_INACTIVE') }}
 				</dd>
 			</dl>
 			<dl>
 				<dt>
-					<label for="block_type">{L_BLOCK_DISPLAY_TYPE}</label>
+					<label for="block_type">{{ lang('BLOCK_DISPLAY_TYPE') }}</label>
 					<a data-action="toggle" class="block-class-actions" href="#examples"><i class="fa fa-question-circle-o fa-lg"></i></a>
 				</dt>
 				<dd>
-					<label><input type="radio" name="type" value="0"<!-- IF not S_TYPE --> checked="checked"<!-- ENDIF --> id="block_type" /> {L_BLOCK_SHOW_ALWAYS}</label>
-					<label><input type="radio" name="type" value="1"<!-- IF S_TYPE == 1 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTES_HIDE}</label>
-					<label><input type="radio" name="type" value="2"<!-- IF S_TYPE == 2 --> checked="checked"<!-- ENDIF --> /> {L_BLOCK_CHILD_ROUTES_ONLY}</label>
+					<label><input type="radio" name="type" value="0"{% if not S_TYPE %} checked="checked"{% endif %} id="block_type" /> {{ lang('BLOCK_SHOW_ALWAYS') }}</label>
+					<label><input type="radio" name="type" value="1"{% if S_TYPE == 1 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_HIDE') }}</label>
+					<label><input type="radio" name="type" value="2"{% if S_TYPE == 2 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_ONLY') }}</label>
 				</dd>
 			</dl>
 			<div id="examples" class="panel bg1 small" style="display: none">
 				<table>
 					<thead>
 						<tr>
-							<th width="45%"><strong>{L_PARENT_ROUTE}</strong></th>
-							<th><strong>{L_CHILD_ROUTE}</strong></th>
+							<th width="45%"><strong>{{ lang('PARENT_ROUTE') }}</strong></th>
+							<th><strong>{{ lang('CHILD_ROUTE') }}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>
-								{L_PARENT_ROUTE_EXPLAIN}
+								{{ lang('PARENT_ROUTE_EXPLAIN') }}
 							</td>
 							<td>
-								{L_CHILD_ROUTE_EXPLAIN}
+								{{ lang('CHILD_ROUTE_EXPLAIN') }}
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<dl>
-				<dt><label for="permission">{L_BLOCK_PERMISSION}</label></dt>
+				<dt><label for="permission">{{ lang('BLOCK_PERMISSION') }}</label></dt>
 				<dd>
 					<select id="permission" name="permission[]" multiple="multiple" size="3">
-						{S_GROUP_OPS}
+						{{ S_GROUP_OPS }}
 					</select>
 				</dd>
 			</dl>
 			<dl>
-				<dt><label for="block_class">{L_BLOCK_CLASS}</label></dt>
+				<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label></dt>
 				<dd>
-					<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{S_BLOCK_CLASS}</div>
+					<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{{ S_BLOCK_CLASS }}</div>
 					<div class="right-box small">
-						<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{L_UNDO}</a>
-						<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{L_REDO}</a>
-						<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{L_CLEAR}</a>
-						<a data-action="toggle" class="block-class-actions" href="#css-class-options"><i class="fa fa-sort"></i>{L_TOGGLE}</a>
+						<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{{ lang('UNDO') }}</a>
+						<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{{ lang('REDO') }}</a>
+						<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{{ lang('CLEAR') }}</a>
+						<a data-action="toggle" class="block-class-actions" href="#css-class-options"><i class="fa fa-sort"></i>{{ lang('TOGGLE') }}</a>
 					</div>
 				</dd>
 			</dl>
 			<div id="css-class-options" class="modifiers rules small">
-				<!-- INCLUDE block_css_presets.html -->
+				{% INCLUDE 'block_css_presets.html' %}
 			</div>
 			<dl>
-				<dt><label for="hide_title">{L_BLOCK_HIDE_TITLE}</label></dt>
+				<dt><label for="hide_title">{{ lang('BLOCK_HIDE_TITLE') }}</label></dt>
 				<dd>
-					<input class="block-preview" type="radio" name="hide_title" value="1"<!-- IF S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> id="hide_title" /> {L_YES}&nbsp;
-					<input class="block-preview" type="radio" name="hide_title" value="0"<!-- IF not S_HIDE_TITLE --> checked="checked"<!-- ENDIF --> /> {L_NO}
+					<input class="block-preview" type="radio" name="hide_title" value="1"{% if S_HIDE_TITLE %} checked="checked"{% endif %} id="hide_title" /> {{ lang('YES') }}&nbsp;
+					<input class="block-preview" type="radio" name="hide_title" value="0"{% if not S_HIDE_TITLE %} checked="checked"{% endif %} /> {{ lang('NO') }}
 				</dd>
 			</dl>
-			<!-- INCLUDE block_view_settings.html -->
+			{% INCLUDE 'block_view_settings.html' %}
 
-	<!-- BEGIN options -->
-		<!-- IF options.S_LEGEND -->
+	{% for options in loops.options %}
+		{% if options.S_LEGEND %}
 		</fieldset>
 	</div>
-	<div id="tab-{options.S_LEGEND}" class="block-settings">
+	<div id="tab-{{ options.S_LEGEND }}" class="block-settings">
 		<fieldset>
-		<!-- ELSEIF options.TITLE -->
+		{% elseif options.TITLE %}
 			<dl>
-				<dt><label for="{options.KEY}">{options.TITLE}</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
-				<dd>{options.CONTENT}</dd>
+				<dt><label for="{{ options.KEY }}">{{ options.TITLE }}</label>{% if options.S_EXPLAIN %}<br /><span>{{ options.TITLE_EXPLAIN }}</span>{% endif %}</dt>
+				<dd>{{ options.CONTENT }}</dd>
 			</dl>
-		<!-- ELSE -->
-			{options.CONTENT}
-		<!-- ENDIF -->
-	<!-- END options -->
+		{% else %}
+			{{ options.CONTENT }}
+		{% endif %}
+	{% endfor %}
 		</fieldset>
 	</div>
 </div>
