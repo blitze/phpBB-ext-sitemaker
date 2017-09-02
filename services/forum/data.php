@@ -72,13 +72,13 @@ class data extends query_builder
 		return $total_topics;
 	}
 
-    /**
-     * Get topic data
-     *
-     * @param bool|false|int $limit
-     * @param int $start
-     * @return array
-     */
+	/**
+	 * Get topic data
+	 *
+	 * @param bool|false|int $limit
+	 * @param int $start
+	 * @return array
+	 */
 	public function get_topic_data($limit = false, $start = 0)
 	{
 		// Topics table need to be the last in the chain

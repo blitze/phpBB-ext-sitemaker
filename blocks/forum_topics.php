@@ -211,10 +211,10 @@ class forum_topics extends forum_topics_config
 		return $truncateService->truncate($row['post_text'], $this->settings['preview_chars']);
 	}
 
-    /**
-     * @param array $row
-     * @return string
-     */
+	/**
+	 * @param array $row
+	 * @return string
+	 */
 	protected function get_tooltip_text(array $row)
 	{
 		strip_bbcode($row['post_text'], $row['bbcode_uid']);

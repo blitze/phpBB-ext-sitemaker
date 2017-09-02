@@ -24,14 +24,14 @@ abstract class cfg_fields
 		$this->translator = $translator;
 	}
 
-    /**
-     * Used to add a select drop down in blocks config
-     *
-     * @param array $option_ary
-     * @param string $selected_item
-     * @param string $key
-     * @return string
-     */
+	/**
+	 * Used to add a select drop down in blocks config
+	 *
+	 * @param array $option_ary
+	 * @param string $selected_item
+	 * @param string $key
+	 * @return string
+	 */
 	public function build_select($option_ary, $selected_item, $key)
 	{
 		$html = '<select id="' . $key . '" name="config[' . $key . ']">';
