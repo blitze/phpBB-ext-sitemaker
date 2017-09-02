@@ -236,7 +236,7 @@ class admin_bar
 		$routes_ary = array();
 		foreach ($collection as $entity)
 		{
-			/** @type \blitze\sitemaker\model\blocks\entity\route $entity */
+			/** @var \blitze\sitemaker\model\entity\route $entity */
 			$route_name = $entity->get_route();
 			$routes_ary[$route_name] = $route_name;
 		}

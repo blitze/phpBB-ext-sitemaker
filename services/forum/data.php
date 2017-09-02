@@ -38,7 +38,7 @@ class data extends query_builder
 	 * @param \phpbb\db\driver\driver_interface		$db     				Database connection
 	 * @param \phpbb\user							$user					User object
 	 * @param \blitze\sitemaker\services\users\data	$user_data				Sitemaker User data object
-	 * @param integer								$cache_time				Cache results for 3 hours by default
+	 * @param integer								$cache_time				Cache results for given time
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \blitze\sitemaker\services\users\data $user_data, $cache_time)
 	{
@@ -72,13 +72,13 @@ class data extends query_builder
 		return $total_topics;
 	}
 
-	/**
-	 * Get topic data
-	 *
-	 * @param int|false $limit
-	 * @param int $start
-	 * @return array
-	 */
+    /**
+     * Get topic data
+     *
+     * @param bool|false|int $limit
+     * @param int $start
+     * @return array
+     */
 	public function get_topic_data($limit = false, $start = 0)
 	{
 		// Topics table need to be the last in the chain
@@ -240,7 +240,8 @@ class data extends query_builder
 
 		if (sizeof($post_ids))
 		{
-			return $this->db->sql_in_set('p.post_id', array_map('intval', $post_ids));
+			$sql_where[] = $this->db->sql_in_set('p.post_id', array_map('intval', $post_ids));
+			return $sql_where;
 		}
 		else if (sizeof($this->store['topic']))
 		{

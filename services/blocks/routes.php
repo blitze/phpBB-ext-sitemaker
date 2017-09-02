@@ -189,7 +189,7 @@ class routes
 	/**
 	 * @param array $routes_data
 	 * @param string $current_route
-	 * @return string
+	 * @return array
 	 */
 	protected function get_virtual_parent(array $routes_data, $current_route)
 	{

@@ -30,14 +30,15 @@ class add_block extends base_action
 			'style'	=> $style_id,
 		);
 
-		$route_entity = $this->force_get_route($route_data, true);
+        /** @var \blitze\sitemaker\model\entity\route $entity */
+        $route_entity = $this->force_get_route($route_data, true);
 
 		$default_settings = $block_instance->get_config(array());
 		$block_settings = $this->blocks->sync_settings($default_settings);
 
 		$block_mapper = $this->mapper_factory->create('blocks');
 
-		$entity = $block_mapper->create_entity(array(
+        $entity = $block_mapper->create_entity(array(
 			'name'			=> $name,
 			'weight'		=> $this->request->variable('weight', 0),
 			'position'		=> $this->request->variable('position', ''),

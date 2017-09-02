@@ -28,7 +28,7 @@ class icon_picker
 	 *
 	 * @param \phpbb\language\language     			$translator     Language object
 	 * @param \blitze\sitemaker\services\util		$util			Sitemaker utility object
-	 * @param \blitze\sitemaker\services\ptemplate	$ptemplate		Sitemaker Template object
+	 * @param \blitze\sitemaker\services\template	$ptemplate		Sitemaker Template object
 	 */
 	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate)
 	{

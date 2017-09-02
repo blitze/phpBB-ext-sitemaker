@@ -39,8 +39,9 @@ class wordgraph extends block
 	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
 	 * @param string							$phpbb_root_path		phpBB root path
 	 * @param string							$php_ext				phpEx
+     * @param integer							$cache_time				Cache results for given time
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext, $cache_time = 10800)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext, $cache_time)
 	{
 		$this->auth = $auth;
 		$this->content_visibility = $content_visibility;

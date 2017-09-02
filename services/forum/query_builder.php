@@ -57,12 +57,13 @@ class query_builder
 		$this->ex_fid_ary = array_unique(array_keys($this->auth->acl_getf('!f_read', true)));
 	}
 
-	/**
-	 * Begin query
-	 *
-	 * @param bool $track_topics
-	 * @return $this
-	 */
+    /**
+     * Begin query
+     *
+     * @param bool $track_topics
+     * @param bool $add_forum_data
+     * @return $this
+     */
 	public function query($track_topics = true, $add_forum_data = true)
 	{
 		$this->_reset();

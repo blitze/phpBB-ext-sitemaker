@@ -81,6 +81,7 @@ class mybookmarks extends block
 
 	/**
 	 * @param array $settings
+     * @return string[]
 	 */
 	private function get_bookmarks(array $settings)
 	{

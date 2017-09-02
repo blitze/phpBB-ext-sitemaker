@@ -93,7 +93,7 @@ class forum
 	}
 
 	/**
-	 * @return string
+	 * @return void
 	 */
 	protected function set_mcp_url()
 	{

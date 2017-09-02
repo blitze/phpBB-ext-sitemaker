@@ -155,7 +155,7 @@ class data extends contacts
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function get_profile_fields()
 	{
@@ -169,7 +169,7 @@ class data extends contacts
 			ORDER BY f.field_order';
 		$result = $this->db->sql_query($sql);
 
-		$cpf_options = false;
+		$cpf_options = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$cpf_options[$row['field_ident']] = $row['lang_name'];

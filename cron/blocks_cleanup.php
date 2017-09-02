@@ -52,7 +52,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	/**
 	 * Runs this cron task.
 	 *
-	 * @return null
+	 * @return void
 	 */
 	public function run()
 	{
@@ -87,7 +87,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 	/**
 	 * Removes all block routes and blocks belonging to these routes for styles that no longer exist
-	 * @return array
+	 * @return array[]
 	 */
 	private function clean_styles()
 	{

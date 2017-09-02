@@ -104,6 +104,7 @@ class blocks extends routes
 	 * @param array $db_data
 	 * @param array $users_groups
 	 * @param int $index
+     * @return string[]
 	 */
 	public function render(array $display_modes, $edit_mode, array $db_data, array $users_groups, $index)
 	{
@@ -146,6 +147,7 @@ class blocks extends routes
 	 * @param array $users_groups
 	 * @param array $display_modes
 	 * @param bool $edit_mode
+     * @return array[]
 	 */
 	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
 	{

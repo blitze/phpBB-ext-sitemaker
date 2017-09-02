@@ -218,6 +218,7 @@ services:
             - '@dbal.conn'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '%sitemaker.cache_time%'
         calls:
             - [set_name, [blitze.sitemaker.block.wordgraph]]
         tags:

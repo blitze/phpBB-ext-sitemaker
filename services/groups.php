@@ -14,7 +14,7 @@ class groups
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var\phpbb\language\language */
+	/** @var \phpbb\language\language */
 	protected $translator;
 
 	/** @var \phpbb\user */
@@ -24,7 +24,7 @@ class groups
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db	 		Database connection
-	 * @param\phpbb\language\language				$translator	Language object
+	 * @param \phpbb\language\language				$translator	Language object
 	 * @param \phpbb\user							$user		User object
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user)
@@ -35,7 +35,7 @@ class groups
 	}
 
 	/**
-	 * @return array
+	 * @return int[]
 	 */
 	public function get_users_groups()
 	{

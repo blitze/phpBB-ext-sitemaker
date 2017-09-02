@@ -100,7 +100,7 @@ final class route extends base_entity
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	public function __clone()
 	{

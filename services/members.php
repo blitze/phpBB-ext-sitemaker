@@ -43,7 +43,7 @@ class members
 	 * Constructor
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db     			Database connection
-	 * @param\phpbb\language\language				$translator			Language Object
+	 * @param \phpbb\language\language				$translator			Language Object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\date_range	$date_range			Date range object
 	 * @param \blitze\sitemaker\services\template	$ptemplate			Sitemaker template object

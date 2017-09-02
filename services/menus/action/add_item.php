@@ -34,7 +34,8 @@ class add_item extends base_action
 			'item_target'	=> $this->request->variable('item_target', 0),
 		));
 
-		$entity = $items_mapper->save($entity);
+        /** @var \blitze\sitemaker\model\entity\item $entity */
+        $entity = $items_mapper->save($entity);
 
 		return $entity->to_array();
 	}
