@@ -7,6 +7,7 @@
 		<column>style</column>
 		<column>ex_positions</column>
 		<column>has_blocks</column>
+		<column>hide_blocks</column>
 		<row>
 			<value>1</value>
 			<value></value>
@@ -14,6 +15,7 @@
 			<value>1</value>
 			<value></value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -22,6 +24,7 @@
 			<value>1</value>
 			<value></value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -30,6 +33,7 @@
 			<value>2</value>
 			<value></value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -38,6 +42,7 @@
 			<value>1</value>
 			<value></value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>5</value>
@@ -46,6 +51,7 @@
 			<value>1</value>
 			<value></value>
 			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>6</value>
@@ -53,6 +59,25 @@
 			<value>viewforum.php</value>
 			<value>1</value>
 			<value></value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>7</value>
+			<value></value>
+			<value>test-dir/bar/index.php</value>
+			<value>1</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>8</value>
+			<value></value>
+			<value>baz.php</value>
+			<value>1</value>
+			<value></value>
+			<value>1</value>
 			<value>1</value>
 		</row>
 	</table>
@@ -164,6 +189,17 @@
 			<value></value>
 			<value></value>
 			<value>2</value>
+		</row>
+		<row>
+			<value>10</value>
+			<value>my.foo.block</value>
+			<value>8</value>
+			<value>1</value>
+			<value>bottom</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
 		</row>
 	</table>
 </dataset>

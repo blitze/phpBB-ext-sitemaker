@@ -424,7 +424,7 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(6, 7),
 			),
-			// sub-directory with no blocks should inherit from parent directory/index.php if it has own blocks
+			// sub-directory with no blocks should inherit from parent directory/index.php if it (parent) has own blocks
 			// in this case, parent directory is test-dir and has block # 6 showing always, #8 showing only on child directory (this directory), and #7 showing only on parent directory
 			array(
 				array(
@@ -531,6 +531,74 @@ class display_test extends \phpbb_database_test_case
 					'U_EDIT_MODE' => '',
 				),
 				array(9),
+			),
+			// sub-directory with no blocks should inherit from parent directory/index.php if it (parent) has own blocks
+			// in this case, parent directory is test-dir and has blocks, but this route is set to not display any blocks
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, false),
+				),
+				array(
+					'page_dir' => 'test-dir/bar',
+					'page_name' => 'index.php',
+					'query_string' => '',
+				),
+				'',
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => '',
+				),
+				array(),
+			),
+			// page has own blocks, we are not in edit mode, and it is set to hide all blocks
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, false),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, true),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'baz.php',
+					'query_string' => '',
+				),
+				'',
+				false,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => '',
+				),
+				array(),
+			),
+			// page has own blocks, we are in edit mode, and it is set to hide all blocks
+			array(
+				array(
+					array('a_sm_manage_blocks', 0, true),
+				),
+				array(
+					array('edit_mode', false, false, request_interface::REQUEST, true),
+					array('test_sm_edit_mode', false, false, request_interface::COOKIE, false),
+				),
+				array(
+					'page_dir' => '',
+					'page_name' => 'baz.php',
+					'query_string' => 'edit_mode=1',
+				),
+				'',
+				true,
+				array(
+					'S_SITEMAKER' => true,
+					'S_LAYOUT' => 'portal',
+					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+				),
+				array(10),
 			),
 		);
 	}

@@ -198,7 +198,11 @@ class display
 		$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);
 
 		$this->show_admin_bar($edit_mode, $route_info);
-		$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
+
+		if ($edit_mode || !$route_info['hide_blocks'])
+		{
+			$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
+		}
 
 		$this->template->assign_vars(array(
 			'S_SITEMAKER'		=> true,
