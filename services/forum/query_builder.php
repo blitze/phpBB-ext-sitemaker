@@ -94,6 +94,7 @@ class query_builder
 	 */
 	public function fetch_forum($forum_id)
 	{
+		$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
 		$this->_fetch($forum_id, 'f.forum_id');
 
 		return $this;
