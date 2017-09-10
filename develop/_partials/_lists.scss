@@ -87,6 +87,7 @@ ul {
 
 		.sm-list-hover & > li:hover,
 		.sm-list-striped & > li:nth-child(odd) {
+			padding: 5px;
 			background-color: $list-bgcolor;
 		}
 

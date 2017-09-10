@@ -1,7 +1,7 @@
 @import "globals";
 
 /* labels & badges */
-.label {
+.sm-label {
 	@mixin label-color($color) {
 		$text-color: set-text-color($color);
 		background-color: $color;
@@ -51,8 +51,8 @@
 	}
 }
 
-.badge {
-	@extend .label;
+.sm-badge {
+	@extend .sm-label;
 
 	.info {
 		padding: 0.2rem 0.4rem;

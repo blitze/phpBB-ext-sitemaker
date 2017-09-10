@@ -27,7 +27,7 @@
 /* Misc */
 .field-label {
 	font-weight: bold;
-	margin-top: 5px;
+	margin-top: 1rem;
 	margin-right: 4px;
 }
 
@@ -37,7 +37,17 @@
 }
 
 .label-inline {
-	display: inline-block;
+	display: inline;
+
+	.content & {
+		line-height: 1rem;
+
+		&:before {
+			content: ' ';
+			display: block;
+	    	white-space: pre;
+		}
+	}
 }
 
 .label-newline {
@@ -55,6 +65,10 @@
 
 .sm-fill-space {
 	overflow: hidden;
+}
+
+.sm-content-footer {
+	margin-top: 1em;
 }
 
 /* text alignment */
