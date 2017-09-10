@@ -91,6 +91,17 @@
 	var showAllPositions = function() {
 		blockPositions.addClass('show-position');
 		emptyPositionsObj.removeClass('empty-position').siblings('.grid__col').removeClass('lastUnit');
+
+		/**
+		 * Event to allow other extensions to do something when all block positions are shown
+		 *
+		 * @event blitze_sitemaker_showAllBlockPositions
+		 * @type {object}
+		 * @property {object} blockPositions jQuery object representing all block positions
+		 * @property {object} emptyPositionsObj jQuery object representing all block positions with no blocks
+		 */
+		console.log('trigger');
+		body.trigger('blitze_sitemaker_showAllBlockPositions', [blockPositions, emptyPositionsObj]);
 	};
 
 	var hideEmptyPositions = function() {
@@ -98,6 +109,16 @@
 		emptyPositionsObj = $('.block-position:not(:has(".block"))').addClass('empty-position').each(function() {
 			$(this).siblings('.grid__col').last().addClass('lastUnit');
 		});
+
+		/**
+		 * Event to allow other extensions to do something when empty positions are hidden
+		 *
+		 * @event blitze_sitemaker_hideEmptyBlockPositions
+		 * @type {object}
+		 * @property {object} blockPositions jQuery object representing all block positions
+		 * @property {object} emptyPositionsObj jQuery object representing all block positions with no blocks
+		 */
+		body.trigger('blitze_sitemaker_hideEmptyBlockPositions', [blockPositions, emptyPositionsObj]);
 	};
 
 	var makeEditable = function(element) {
@@ -129,9 +150,16 @@
 
 		blockData.block.content = fixPaths(blockData.block.content);
 
-		// Event to allow other extensions to manange how block is rendered
-		// setting $('body').data('renderBlock', false) will prevent a render here
-		if (body.trigger('renderBlock', [blockData.block, blockObj]).data('renderBlock') !== false) {
+		/**
+		 * Event to allow other extensions to manange how block is rendered
+		 * setting $(this).data('renderBlock', false) in the listener will prevent a render here
+		 *
+		 * @event blitze_sitemaker_renderBlock
+		 * @type {object}
+		 * @property {array} block Block data to display (id, name, icon, etc)
+		 * @property {object} blockObj Jquery object representing the block element being rendered
+		 */
+		if (body.trigger('blitze_sitemaker_renderBlock', [blockData.block, blockObj]).data('renderBlock') !== false) {
 			blockObj.html(template.render(blockData));
 		}
 
@@ -569,7 +597,14 @@
 				stop: function(event, ui) {
 					$(ui.item).removeClass('dragging sortable').removeAttr('style');
 					hideEmptyPositions();
-					$('body').trigger('layoutChanged');
+
+					/**
+					 * Event to allow other extensions to do something when layout changes
+					 *
+					 * @event blitze_sitemaker_layout_changed
+					 * @type {object}
+					 */
+					body.trigger('blitze_sitemaker_layout_changed');
 				}
 			};
 
