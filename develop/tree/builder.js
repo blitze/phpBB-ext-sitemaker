@@ -527,7 +527,7 @@
 						switch (mode) {
 							case 'add_item':
 								self._addToTree([resp], function() {
-									var element = $('#item-' + resp[self.options.primaryKey]);
+									var element = $('#item-' + resp[self.options.fields.itemId]);
 
 									self._showActions();
 									self._scrollTo(element, self.addBtnOffset.top, function() {
