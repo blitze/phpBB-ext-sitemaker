@@ -61,16 +61,16 @@ class query_builder
 	 * Begin query
 	 *
 	 * @param bool $track_topics
-	 * @param bool $add_forum_data
+	 * @param bool $get_forum_data
 	 * @return $this
 	 */
-	public function query($track_topics = true, $add_forum_data = true)
+	public function query($track_topics = true, $get_forum_data = true)
 	{
 		$this->_reset();
 
 		$this->store['sql_array'] = array_fill_keys(array('SELECT', 'FROM', 'LEFT_JOIN', 'WHERE'), array());
 
-		if ($add_forum_data)
+		if ($get_forum_data)
 		{
 			$this->store['sql_array']['SELECT'][] = 'f.*';
 			$this->store['sql_array']['FROM'][FORUMS_TABLE] = 'f';
@@ -89,7 +89,7 @@ class query_builder
 	/**
 	 * Fetch Forum by id(s)
 	 *
-	 * @param $forum_id
+	 * @param int|array $forum_id
 	 * @return $this
 	 */
 	public function fetch_forum($forum_id)
@@ -222,7 +222,7 @@ class query_builder
 	 *
 	 * @param int $unix_start_time
 	 * @param int $unix_stop_time
-	 * @param string $mode
+	 * @param string $mode topic|post
 	 * @return $this
 	 */
 	public function fetch_date_range($unix_start_time, $unix_stop_time, $mode = 'topic')
@@ -308,6 +308,14 @@ class query_builder
 	}
 
 	/**
+	 * @return int
+	 */
+	public function time()
+	{
+		return time();
+	}
+
+	/**
 	 * @param bool $enable_caching
 	 * @return void
 	 */
@@ -340,7 +348,7 @@ class query_builder
 	{
 		if ($check_visibility)
 		{
-			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . time();
+			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . $this->time();
 			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
 		}
 	}

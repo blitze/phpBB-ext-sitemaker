@@ -55,6 +55,9 @@ class options_test extends \phpbb_database_test_case
 		$this->forum_options = new options($phpbb_root_path, $phpEx);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_get_all()
 	{
 		$expected = array(
@@ -64,6 +67,23 @@ class options_test extends \phpbb_database_test_case
 		);
 
 		$result = $this->forum_options->get_all();
+
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_get_topic_types()
+	{
+		$expected = array(
+			POST_NORMAL     => 'POST_NORMAL',
+			POST_STICKY     => 'POST_STICKY',
+			POST_ANNOUNCE   => 'POST_ANNOUNCEMENT',
+			POST_GLOBAL     => 'POST_GLOBAL',
+		);
+
+		$result = $this->forum_options->get_topic_types();
 
 		$this->assertSame($expected, $result);
 	}
