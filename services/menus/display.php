@@ -130,17 +130,15 @@ class display extends \blitze\sitemaker\services\tree\display
 	protected function set_current_item(array $data)
 	{
 		$paths = (array) $data['paths'];
+		$this->min_depth = 0;
 
 		arsort($paths);
 
-		$this->min_depth = 0;
 		$curr_path = $this->get_current_path();
-
 		foreach ($paths as $item_id => $test_url)
 		{
 			if (strpos($curr_path, $test_url) !== false)
 			{
-				
 				$row = $data['items'][$item_id];
 				$this->adjust_depth($row);
 				$this->current_item = $row;
@@ -159,7 +157,6 @@ class display extends \blitze\sitemaker\services\tree\display
 	protected function get_current_path()
 	{
 		$curr_page = '/' . ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
-		//$curr_page = str_replace('/index.' . $this->php_ext, '/', $curr_page);
 		$curr_parts = explode('&', $this->user->page['query_string']);
 
 		sort($curr_parts);

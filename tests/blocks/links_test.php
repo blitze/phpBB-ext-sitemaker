@@ -100,6 +100,9 @@ class links_test extends blocks_base
 		return $block;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_block_config()
 	{
 		$block = $this->get_block();

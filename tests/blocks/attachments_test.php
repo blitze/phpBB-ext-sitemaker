@@ -11,6 +11,7 @@ namespace blitze\sitemaker\tests\blocks;
 
 use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\forum\data;
+use blitze\sitemaker\services\forum\options;
 use blitze\sitemaker\blocks\attachments;
 
 class attachments_test extends blocks_base
@@ -76,9 +77,7 @@ class attachments_test extends blocks_base
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$forum_options = $this->getMockBuilder('\blitze\sitemaker\services\forum\options')
-			->disableOriginalConstructor()
-			->getMock();
+		$forum_options = new options($this->phpbb_root_path, $this->php_ext);
 
 		$block = new attachments($this->auth, $cache, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
@@ -86,6 +85,9 @@ class attachments_test extends blocks_base
 		return $block;
 	}
 
+	/**
+	 * @retur void
+	 */
 	public function test_block_config()
 	{
 		$block = $this->get_block();

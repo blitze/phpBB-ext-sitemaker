@@ -42,10 +42,11 @@ class navigation
 	/**
 	 * @param \phpbb\template\twig\twig $template
 	 * @param int $menu_id
+	 * @param string $type
 	 * @param array $settings
 	 * @return bool
 	 */
-	public function build_menu($template, $menu_id, array $settings = array())
+	public function build_menu($template, $menu_id, $type = 'list', array $settings = array())
 	{
 		$data = $this->get_menu($menu_id);
 
@@ -54,8 +55,15 @@ class navigation
 			return false;
 		}
 
-		$this->tree->set_params($settings);
-		$this->tree->display_navlist($data, $template, 'tree');
+		if ($type === 'list')
+		{
+			$this->tree->display_list($data['items'], $template, 'tree');
+		}
+		else
+		{
+			$this->tree->set_params($settings);
+			$this->tree->display_navlist($data, $template, 'tree');
+		}
 
 		return true;
 	}
