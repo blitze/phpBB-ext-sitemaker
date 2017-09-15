@@ -3,6 +3,7 @@ $admin-bar-bgcolor: #c33 !default;
 
 $gutter-width: 10px !default;
 $border-color: #ccc !default;
+$panel_border_radius: 7px !default;
 
 // List settings
 $list-bgcolor: #ddd !default;
@@ -34,6 +35,23 @@ $icon-color-orange: #ffa500 !default;
 $icon-color-purple: #820182 !default;
 $icon-color-red: #ff0000 !default;
 
+// navbar settings
+$navbar_background_color: #0076b1 !default;
+$navbar_hover_background_color: #0e9adf !default;
+$navbar_text_color: #fff !default;
+$navbar_border_color: #333 !default;
+$navbar_sub_menu_background_color: #444 !default;
+$navbar_toggle_menu_background_color: #333 !default;
+
+// Grid settings
+$toast-col-groups: (1, 2, 3, 4, 5, 8);
+$toast-gutter-width: 10px;
+$toast-breakpoint-medium: 940px;
+$toast-breakpoint-small: 768px;
+$toast-pushes: false;
+$toast-pulls: false;
+
+// functions and mixins
 @function set-text-color($color) {
 	@if (lightness($color) > 60) {
 		@return #000;

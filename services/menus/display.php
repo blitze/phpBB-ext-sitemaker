@@ -21,10 +21,10 @@ class display extends \blitze\sitemaker\services\tree\display
 	protected $php_ext;
 
 	/** @var bool */
-	private $expanded = false;
+	private $expanded = true;
 
 	/** @var integer */
-	private $max_depth = 0;
+	private $max_depth = 100;
 
 	/** @var integer */
 	private $min_depth = 0;
@@ -60,8 +60,8 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	public function set_params(array $params)
 	{
-		$this->expanded = (bool) $params['expanded'];
-		$this->max_depth = (int) $params['max_depth'];
+		$this->expanded = (bool) ((isset($params['expanded'])) ? $params['expanded'] : true);
+		$this->max_depth = (int) ((isset($params['max_depth'])) ? $params['max_depth'] : 100);
 	}
 
 	/**
@@ -72,12 +72,13 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	public function display_navlist(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
 	{
-		$this->prepare_items($data);
+		$this->set_current_item($data);
+		$this->prepare_items($data['items']);
 
-		if (sizeof($data))
+		if (sizeof($data['items']))
 		{
 			$this_depth = 0;
-			foreach ($data as $row)
+			foreach ($data['items'] as $row)
 			{
 				$prev_depth = $row['prev_depth'];
 				$this_depth = $row['this_depth'];
@@ -92,9 +93,11 @@ class display extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
+	 * Comment this out for now. May revisit this later
+	 *
 	 * @param array $data
 	 * @return void
-	 */
+	 *
 	public function generate_breadcrumb(array $data)
 	{
 		$this->find_parents($data, $this->current_item['parent_id']);
@@ -102,59 +105,23 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	/**
 	 * @param array $data
+	 * @param int $parent_id
 	 * @return void
-	 */
-	protected function prepare_items(array &$data)
+	 *
+	protected function find_parents(array $data, $parent_id)
 	{
-		$this->set_current_item($data);
-
-		$leaf = array();
-		$prev_depth = $this->min_depth;
-		$this->parental_depth = array(0 => -1);
-
-		foreach ($data as $item_id => $row)
+		if (isset($data[$parent_id]) && $data[$parent_id]['item_url'] !== 'index.php')
 		{
-			// Skip branch
-			if ($this->should_skip_branch($row, $leaf))
-			{
-				$this->adjust_right_id($leaf['item_id'], $data, $leaf);
-				unset($data[$item_id]);
-				continue;
-			}
-
-			$is_current_item = $this->is_current_item($row);
-			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
-			$leaf = $this->get_leaf_node($row, $is_current_item);
-
-			$this->parental_depth[$row[$this->pk]] = $this_depth;
-
-			if ($row['depth'] < $this->min_depth)
-			{
-				unset($data[$item_id]);
-				continue;
-			}
-
-			$data[$item_id] = array_merge($data[$item_id], array(
-				'prev_depth'	=> $prev_depth,
-				'this_depth'	=> $this_depth,
-				'is_current'	=> $is_current_item,
-				'full_url'		=> $this->get_full_url($row),
+			$row = $data[$parent_id];
+			$this->template->alter_block_array('navlinks', array(
+				'FORUM_NAME'	=> $row['item_title'],
+				'U_VIEW_FORUM'	=> $row['full_url'],
 			));
 
-			$prev_depth = $this_depth;
+			$this->find_parents($data, $row['parent_id']);
 		}
-		unset($this->parental_depth, $data);
 	}
-
-	/**
-	 * @param array $row
-	 * @param array $leaf
-	 * @return bool
-	 */
-	protected function should_skip_branch(array $row, array $leaf)
-	{
-		return (sizeof($leaf) && $row['left_id'] < $leaf['right_id']);
-	}
+	*/
 
 	/**
 	 * @param array $data
@@ -162,24 +129,42 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function set_current_item(array $data)
 	{
-		$curr_page = '/' . ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
-		$curr_page = str_replace('/index.' . $this->php_ext, '/', $curr_page);
-		$curr_parts = explode('&', $this->user->page['query_string']);
+		$paths = (array) $data['paths'];
 
-		$data = array_values($data);
-		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
+		arsort($paths);
+
+		$this->min_depth = 0;
+		$curr_path = $this->get_current_path();
+
+		foreach ($paths as $item_id => $test_url)
 		{
-			$row = $data[$i];
-			if ($this->is_current_path($curr_page, $curr_parts, $row))
+			if (strpos($curr_path, $test_url) !== false)
 			{
+				
+				$row = $data['items'][$item_id];
 				$this->adjust_depth($row);
 				$this->current_item = $row;
+
 				return true;
 			}
 		}
 
 		$this->current_item = $this->default_current_item();
 		return false;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_current_path()
+	{
+		$curr_page = '/' . ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
+		//$curr_page = str_replace('/index.' . $this->php_ext, '/', $curr_page);
+		$curr_parts = explode('&', $this->user->page['query_string']);
+
+		sort($curr_parts);
+
+		return $curr_page . '?' . join('&', $curr_parts);
 	}
 
 	/**
@@ -200,14 +185,59 @@ class display extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
-	 * @param string $curr_page
-	 * @param array $curr_parts
+	 * @param array $data
+	 * @return void
+	 */
+	protected function prepare_items(array &$data)
+	{
+		$leaf = array();
+		$prev_depth = $this->min_depth;
+		$this->parental_depth = array(0 => -1);
+
+		foreach ($data as $item_id => $row)
+		{
+			// Skip branch
+			if ($this->should_skip_branch($row, $leaf))
+			{
+				$this->adjust_right_id($leaf['item_id'], $data, $leaf);
+				unset($data[$item_id]);
+				continue;
+			}
+
+			$is_current_item = $this->is_current_item($row);
+			$is_parent = $this->is_parent_of_current_item($row);
+			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
+			$leaf = $this->get_leaf_node($row, $is_current_item, $is_parent);
+
+			$this->parental_depth[$row[$this->pk]] = $this_depth;
+
+			if ($row['depth'] < $this->min_depth)
+			{
+				unset($data[$item_id]);
+				continue;
+			}
+
+			$data[$item_id] = array_merge($data[$item_id], array(
+				'prev_depth'	=> $prev_depth,
+				'this_depth'	=> $this_depth,
+				'is_current'	=> $is_current_item,
+				'is_parent'		=> $is_parent,
+				'full_url'		=> $this->get_full_url($row),
+			));
+
+			$prev_depth = $this_depth;
+		}
+		unset($this->parental_depth, $data);
+	}
+
+	/**
 	 * @param array $row
+	 * @param array $leaf
 	 * @return bool
 	 */
-	protected function is_current_path($curr_page, array $curr_parts, array $row)
+	protected function should_skip_branch(array $row, array $leaf)
 	{
-		return ($curr_page === $row['url_path'] && (!sizeof($row['url_query']) || sizeof(array_intersect($row['url_query'], $curr_parts)))) ? true : false;
+		return (sizeof($leaf) && $row['left_id'] < $leaf['right_id']);
 	}
 
 	/**
@@ -223,7 +253,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 * @param array $row
 	 * @return bool
 	 */
-	protected function is_child_of_current_item(array $row)
+	protected function is_parent_of_current_item(array $row)
 	{
 		return ($row['left_id'] < $this->current_item['left_id'] && $row['right_id'] > $this->current_item['right_id']) ? true : false;
 	}
@@ -233,20 +263,22 @@ class display extends \blitze\sitemaker\services\tree\display
 	 *
 	 * @param array $row
 	 * @param bool $is_current_item
+	 * @param bool $is_current_items_parent
 	 * @return array
 	 */
-	protected function get_leaf_node(array $row, $is_current_item)
+	protected function get_leaf_node(array $row, $is_current_item, $is_current_items_parent)
 	{
-		return ($this->must_not_expand($row) && !$is_current_item && $row['is_expandable']) ? $row : array();
+		return ($this->must_not_expand($row, $is_current_items_parent) && !$is_current_item && $row['is_expandable']) ? $row : array();
 	}
 
 	/**
 	 * @param array $row
+	 * @param bool $is_current_items_parent
 	 * @return bool
 	 */
-	protected function must_not_expand(array $row)
+	protected function must_not_expand(array $row, $is_current_items_parent)
 	{
-		return ($row['depth'] === $this->max_depth || !$this->is_child_of_current_item($row) && !$this->expanded) ? true : false;
+		return ($row['depth'] === $this->max_depth || !$is_current_items_parent && !$this->expanded) ? true : false;
 	}
 
 	/**
@@ -270,7 +302,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function needs_adjustment($items_depth)
 	{
-		return ($items_depth >= $this->max_depth) ? true : false;
+		return (!$this->expanded && $items_depth >= $this->max_depth) ? true : false;
 	}
 
 	/**
@@ -298,25 +330,6 @@ class display extends \blitze\sitemaker\services\tree\display
 		if (isset($data[$item_id]))
 		{
 			$data[$leaf['item_id']]['right_id'] -= 2;
-		}
-	}
-
-	/**
-	 * @param array $data
-	 * @param int $parent_id
-	 * @return void
-	 */
-	protected function find_parents(array $data, $parent_id)
-	{
-		if (isset($data[$parent_id]) && $data[$parent_id]['item_url'] !== 'index.php')
-		{
-			$row = $data[$parent_id];
-			$this->template->alter_block_array('navlinks', array(
-				'FORUM_NAME'	=> $row['item_title'],
-				'U_VIEW_FORUM'	=> $row['full_url'],
-			));
-
-			$this->find_parents($data, $row['parent_id']);
 		}
 	}
 

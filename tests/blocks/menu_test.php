@@ -12,6 +12,7 @@ namespace blitze\sitemaker\tests\blocks;
 use blitze\sitemaker\model\mapper_factory;
 use blitze\sitemaker\services\template;
 use blitze\sitemaker\services\menus\display;
+use blitze\sitemaker\services\menus\navigation;
 use blitze\sitemaker\blocks\menu;
 
 class menu_test extends blocks_base
@@ -91,7 +92,9 @@ class menu_test extends blocks_base
 
 		$ptemplate->set_custom_style('all', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
 
-		$block = new menu($this->cache, $this->config, $this->translator, $mapper_factory, $tree, $this->php_ext);
+		$navigation = new navigation($this->cache, $mapper_factory, $tree, $this->php_ext);
+
+		$block = new menu($this->translator, $navigation);
 		$block->set_template($ptemplate);
 
 		return $block;
@@ -494,6 +497,8 @@ class menu_test extends blocks_base
 		$result = $block->display($bdata, $editing);
 
 		$this->assertEquals($expected_list, str_replace(array("\n", "\t", "  "), '', $result['content']));
-		$this->assertEquals($expected_breadcrumb, $this->template->assign_display('navlinks'));
+
+		// we no longer build the breadcrumb from the menu block, for now...
+		// $this->assertEquals($expected_breadcrumb, $this->template->assign_display('navlinks'));
 	}
 }

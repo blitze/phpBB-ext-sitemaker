@@ -9,18 +9,10 @@
 
 namespace blitze\sitemaker\services\menus;
 
-use blitze\sitemaker\services\blocks\driver\block;
-
-abstract class menu_block extends block
+class navigation
 {
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\language\language */
-	protected $translator;
 
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
@@ -35,20 +27,53 @@ abstract class menu_block extends block
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
-	 * @param \phpbb\config\config						$config				Config object
-	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree, $php_ext)
 	{
 		$this->cache = $cache;
-		$this->config = $config;
-		$this->translator = $translator;
 		$this->mapper_factory = $mapper_factory;
 		$this->tree = $tree;
 		$this->php_ext = $php_ext;
+	}
+
+	/**
+	 * @param \phpbb\template\twig\twig $template
+	 * @param int $menu_id
+	 * @param array $settings
+	 * @return bool
+	 */
+	public function build_menu($template, $menu_id, array $settings = array())
+	{
+		$data = $this->get_menu($menu_id);
+
+		if (!sizeof($data))
+		{
+			return false;
+		}
+
+		$this->tree->set_params($settings);
+		$this->tree->display_navlist($data, $template, 'tree');
+
+		return true;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function get_menu_options()
+	{
+		$collection = $this->mapper_factory->create('menus')->find();
+
+		$options = array();
+		foreach ($collection as $entity)
+		{
+			$options[$entity->get_menu_id()] = $entity->get_menu_name();
+		}
+
+		return $options;
 	}
 
 	/**
@@ -83,26 +108,15 @@ abstract class menu_block extends block
 			$this->set_path_info($row);
 			$this->pre_parse($row);
 
-			$data[$row['menu_id']][$row['item_id']] = $row;
+			$data[$row['menu_id']]['items'][$row['item_id']] = $row;
+
+			if ($row['is_navigable'])
+			{
+				$data[$row['menu_id']]['paths'][$row['item_id']] = $this->get_matchable_url($row);
+			}
 		}
 
 		return $data;
-	}
-
-	/**
-	 * @param int $menu_id
-	 * @param bool $editing
-	 * @return string
-	 */
-	protected function get_message($menu_id, $editing)
-	{
-		$msg_key = '';
-		if ($editing)
-		{
-			$msg_key = ($menu_id) ? 'MENU_NO_ITEMS' : 'SELECT_MENU';
-		}
-
-		return $this->translator->lang($msg_key);
 	}
 
 	/**
@@ -156,18 +170,15 @@ abstract class menu_block extends block
 	}
 
 	/**
-	 * @return array
+	 * @param array
+	 * @return string
 	 */
-	protected function get_menu_options()
+	protected function get_matchable_url(array $row)
 	{
-		$collection = $this->mapper_factory->create('menus')->find();
+		sort($row['url_query']);
 
-		$options = array();
-		foreach ($collection as $entity)
-		{
-			$options[$entity->get_menu_id()] = $entity->get_menu_name();
-		}
+		$row['url_path'] = ($row['url_path'] === '/') ? '/index.' . $this->php_ext : $row['url_path'];
 
-		return $options;
+		return $row['url_path'] . ((sizeof($row['url_query'])) ? '?' . join('&', $row['url_query']) : '');
 	}
 }

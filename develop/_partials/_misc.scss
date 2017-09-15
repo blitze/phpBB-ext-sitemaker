@@ -32,8 +32,14 @@
 }
 
 .label-hidden {
-	visibility: hidden;
-	height: 0;
+	display: none;
+
+	.content &,
+	.sm-content-footer & {
+		display: block;
+		visibility: hidden;
+		height: 0;
+	}
 }
 
 .label-inline {

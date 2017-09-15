@@ -38,6 +38,9 @@ class settings_module
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
+	/** @var \blitze\sitemaker\model\mapper_factory */
+	protected $mapper_factory;
+
 	/** @var \blitze\sitemaker\services\util */
 	protected $util;
 
@@ -77,6 +80,7 @@ class settings_module
 		$this->finder = $phpbb_container->get('ext.manager')->get_finder();
 		$this->translator = $phpbb_container->get('language');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
+		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 		$this->trigger_errors = $trigger_errors;
 	}
@@ -106,6 +110,7 @@ class settings_module
 			'hide_birthday'		=> (bool) $this->config['sm_hide_birthday'],
 			'styles'			=> $this->get_styles_data($layouts),
 			'layouts'			=> $layouts,
+			'menu_options'		=> $this->get_menu_options(),
 		));
 
 		$this->util->add_assets(array(
@@ -134,6 +139,7 @@ class settings_module
 			$this->config->set('sm_hide_birthday', $this->request->variable('hide_birthday', 0));
 			$this->config->set('sm_show_forum_nav', $this->request->variable('show_forum_nav', 0));
 			$this->config->set('sm_forum_icon', $this->request->variable('forum_icon', ''));
+			$this->config->set('sm_navbar_menu', $this->request->variable('navbar_menu', 0));
 
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
@@ -230,5 +236,27 @@ class settings_module
 		ksort($layouts);
 
 		return $layouts;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_menu_options()
+	{
+		$menu_mapper = $this->mapper_factory->create('menus');
+
+		// Get all menus
+		$collection = $menu_mapper->find();
+
+		$options = '';
+		foreach ($collection as $entity)
+		{
+			$id = $entity->get_menu_id();
+			$name = $entity->get_menu_name();
+			$selected = ($id == $this->config['sm_navbar_menu']) ? ' selected="selected"' : '';
+			$options .= '<option value="' . $id . '"' . $selected . '>' . $name . '</option>';
+		}
+
+		return $options;
 	}
 }

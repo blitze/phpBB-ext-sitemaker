@@ -9,23 +9,44 @@
 
 namespace blitze\sitemaker\blocks;
 
-use blitze\sitemaker\services\menus\menu_block;
+use blitze\sitemaker\services\blocks\driver\block;
 
 /**
 * Links Block
 * @package phpBB Sitemaker
 */
-class links extends menu_block
+class links extends block
 {
-	/** @var \blitze\sitemaker\services\menus\display */
-	protected $tree;
+	/** @var \phpbb\language\language */
+	protected $language;
+
+	/** @var \blitze\sitemaker\services\menus\navigation */
+	protected $navigation;
+
+	/** @var string */
+	protected $title = 'LINKS';
+
+	/** @var string */
+	protected $tpl_name = 'links';
+
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\language\language						$language		Language object
+	 * @param \blitze\sitemaker\services\menus\navigation	$navigation		sitemaker navigation object
+	 */
+	public function __construct(\phpbb\language\language $language, \blitze\sitemaker\services\menus\navigation $navigation)
+	{
+		$this->language = $language;
+		$this->navigation = $navigation;
+	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function get_config(array $settings)
 	{
-		$menu_options = $this->get_menu_options();
+		$menu_options = $this->navigation->get_menu_options();
 
 		return array(
 			'legend1'       => 'SETTINGS',
@@ -38,25 +59,36 @@ class links extends menu_block
 	 */
 	public function display(array $db_data, $editing = false)
 	{
-		$title = 'LINKS';
 		$menu_id = $db_data['settings']['menu_id'];
 
-		$data = $this->get_menu($menu_id);
-
-		if (!sizeof($data))
+		if (!$this->navigation->build_menu($this->ptemplate, $menu_id, $db_data['settings']))
 		{
 			return array(
-				'title'		=> $title,
+				'title'		=> $this->title,
 				'content'	=> $this->get_message($menu_id, $editing),
 				'status'	=> (int) !$editing,
 			);
 		}
 
-		$this->tree->display_list($data, $this->ptemplate, 'tree');
-
 		return array(
-			'title'     => $title,
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/links.html', 'links_block'),
+			'title'     => $this->title,
+			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/' . $this->tpl_name . '.html', $this->tpl_name . '_block'),
 		);
+	}
+
+	/**
+	 * @param int $menu_id
+	 * @param bool $editing
+	 * @return string
+	 */
+	protected function get_message($menu_id, $editing)
+	{
+		$msg_key = '';
+		if ($editing)
+		{
+			$msg_key = ($menu_id) ? 'MENU_NO_ITEMS' : 'SELECT_MENU';
+		}
+
+		return $this->language->lang($msg_key);
 	}
 }

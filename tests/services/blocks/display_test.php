@@ -622,8 +622,8 @@ class display_test extends \phpbb_database_test_case
 
 		$result = $this->template->assign_display('page');
 
-		$this->assertSame($expected_vars, $this->get_tested_vars($result));
-		$this->assertSame($expected_block_ids, $this->get_block_ids($result));
+		$this->assertEquals($expected_vars, $this->get_tested_vars($result));
+		$this->assertEquals($expected_block_ids, $this->get_block_ids($result));
 	}
 
 	/**

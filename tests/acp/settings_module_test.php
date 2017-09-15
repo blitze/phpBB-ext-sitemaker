@@ -99,6 +99,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_hide_login'		=> false,
 			'sm_hide_online'	=> false,
 			'sm_show_forum_nav'	=> true,
+			'sm_navbar_menu'	=> 2,
 			'sm_forum_icon'		=> 'fa fa-comments',
 		));
 		$this->config = &$config;
@@ -169,11 +170,22 @@ class settings_module_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+
+		$table_prefix = 'phpbb_';
+		$tables = array(
+			'mapper_tables'	=> array(
+				'menus'	=> $table_prefix . 'sm_menus',
+			)
+		);
+
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
+
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $this->icon_picker);
 		$phpbb_container->set('blitze.sitemaker.util', $this->util);
+		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 
 		return new settings_module(false);
 	}
@@ -220,6 +232,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'portal_alt' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/',
 						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
 					),
+					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
 			),
 		);
@@ -269,6 +282,7 @@ class settings_module_test extends \phpbb_database_test_case
 			array('hide_login', 0, false, request_interface::REQUEST, 1),
 			array('hide_online', 0, false, request_interface::REQUEST, 1),
 			array('hide_birthday', 0, false, request_interface::REQUEST, 1),
+			array('navbar_menu', 0, false, request_interface::REQUEST, 3),
 			array('show_forum_nav', 0, false, request_interface::REQUEST, 1),
 			array('forum_icon', '', false, request_interface::REQUEST, 'fa fa-car'),
 			array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, $layouts),
@@ -280,6 +294,7 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$expected = array(
             'forum_icon'		=> 'fa fa-car',
+			'navbar_menu'		=> 3,
             'show_forum_nav'	=> 1,
 			'hide_login'		=> 1,
 			'hide_online'		=> 1,
@@ -289,6 +304,7 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$result = array(
             'forum_icon'		=> $this->config['sm_forum_icon'],
+            'navbar_menu'		=> $this->config['sm_navbar_menu'],
             'show_forum_nav'	=> $this->config['sm_show_forum_nav'],
 			'hide_login'		=> $this->config['sm_hide_login'],
 			'hide_online'		=> $this->config['sm_hide_online'],

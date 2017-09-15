@@ -90,6 +90,7 @@ $lang = array_merge($lang, array(
 	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
 	'NO_MENU'					=> 'No menus have been created',
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
+	'NO_NAVBAR'					=> 'None',
 	'NO_PARENT'					=> 'No Parent',
 
 	'PROCESSING_ERROR'			=> 'Processing error',
@@ -101,6 +102,7 @@ $lang = array_merge($lang, array(
 	'SAVE_CHANGES'				=> 'Save Changes',
 	'SAVE'						=> 'Save',
 	'SELECT_ALL'				=> 'Select All',
+	'SELECT_NAVBAR_MENU'		=> 'Select main navigation menu',
 	'SETTINGS_SAVED'			=> 'Your settings have been saved',
 	'SHOW'						=> 'Show',
 	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',

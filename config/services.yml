@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: blocks.yml }
     - { resource: controllers.yml }
+    - { resource: listeners.yml }
 
 services:
 
@@ -152,23 +153,6 @@ services:
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'
 
-    blitze.sitemaker.listener:
-        class: blitze\sitemaker\event\listener
-        arguments:
-            - '@cache.driver'
-            - '@config'
-            - '@request'
-            - '@service_container'
-            - '@template'
-            - '@language'
-            - '@user'
-            - '@blitze.sitemaker.util'
-            - '@blitze.sitemaker.blocks.display'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-        tags:
-            - { name: event.listener }
-
     blitze.sitemaker.mapper.factory:
         class: blitze\sitemaker\model\mapper_factory
         arguments:
@@ -201,12 +185,21 @@ services:
 
     blitze.sitemaker.menus.display:
         class: blitze\sitemaker\services\menus\display
+        shared: false
         arguments:
             - '@dbal.conn'
             - '@template'
             - '@user'
             - '%tables.sitemaker.menu_items%'
             - 'item_id'
+            - '%core.php_ext%'
+
+    blitze.sitemaker.menus.navigation:
+        class: blitze\sitemaker\services\menus\navigation
+        arguments:
+            - '@cache.driver'
+            - '@blitze.sitemaker.mapper.factory'
+            - '@blitze.sitemaker.menus.display'
             - '%core.php_ext%'
 
     blitze.sitemaker.poll:

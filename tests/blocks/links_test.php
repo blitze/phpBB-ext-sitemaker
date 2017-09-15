@@ -12,6 +12,7 @@ namespace blitze\sitemaker\tests\blocks;
 use blitze\sitemaker\model\mapper_factory;
 use blitze\sitemaker\services\template;
 use blitze\sitemaker\services\menus\display;
+use blitze\sitemaker\services\menus\navigation;
 use blitze\sitemaker\blocks\links;
 
 class links_test extends blocks_base
@@ -91,7 +92,9 @@ class links_test extends blocks_base
 
 		$ptemplate->set_custom_style('all', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
 
-		$block = new links($this->cache, $this->config, $this->translator, $mapper_factory, $tree, $this->php_ext);
+		$navigation = new navigation($this->cache, $mapper_factory, $tree, $this->php_ext);
+
+		$block = new links($this->translator, $navigation);
 		$block->set_template($ptemplate);
 
 		return $block;

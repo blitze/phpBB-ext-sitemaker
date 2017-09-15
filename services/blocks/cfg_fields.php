@@ -152,6 +152,7 @@ abstract class cfg_fields
 			$css_class = '';
 			$options = array($options);
 		}
+
 		return array_map('array_filter', $options);
 	}
 

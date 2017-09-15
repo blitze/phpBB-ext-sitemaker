@@ -94,7 +94,7 @@ class display_test extends \phpbb_database_test_case
 					'max_depth'		=> 0,
 				),
 				array(
-					array(
+					1 => array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
 						'item_url'		=> '/index.php',
@@ -105,7 +105,7 @@ class display_test extends \phpbb_database_test_case
 						'right_id'		=> 4,
 						'depth'			=> 0,
 					),
-					array(
+					2 => array(
 						'item_id'		=> 2,
 						'item_title'	=> 'Item 2',
 						'item_url'		=> '/viewtopic.php?f=1&t=2',
@@ -116,7 +116,7 @@ class display_test extends \phpbb_database_test_case
 						'right_id'		=> 3,
 						'depth'			=> 1,
 					),
-					array(
+					3 => array(
 						'item_id'		=> 3,
 						'item_title'	=> 'Item 3',
 						'item_url'		=> '/app.php/forum',
@@ -163,7 +163,7 @@ class display_test extends \phpbb_database_test_case
 					'max_depth'		=> 1,
 				),
 				array(
-					array(
+					1 => array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
 						'item_url'		=> '/index.php',
@@ -174,7 +174,7 @@ class display_test extends \phpbb_database_test_case
 						'right_id'		=> 6,
 						'depth'			=> 0,
 					),
-					array(
+					2 => array(
 						'item_id'		=> 2,
 						'item_title'	=> 'Item 2',
 						'item_url'		=> '/viewtopic.php?f=1&t=2',
@@ -185,7 +185,7 @@ class display_test extends \phpbb_database_test_case
 						'right_id'		=> 5,
 						'depth'			=> 1,
 					),
-					array(
+					3 => array(
 						'item_id'		=> 3,
 						'item_title'	=> 'Item 3',
 						'item_url'		=> '/app.php/forum',
@@ -229,6 +229,15 @@ class display_test extends \phpbb_database_test_case
 	public function test_display_navlist(array $current_page, array $params, array $data, array $expected)
 	{
 		$tree = $this->get_service($current_page);
+
+		$data = array(
+			'items'	=> $data,
+			'paths'	=> array(
+				1 => '/index.php',
+				2 => '/viewtopic.php',
+				3 => '/app.php/forum',
+			),
+		);
 
 		$tree->set_params($params);
 		$tree->display_navlist($data, $this->ptemplate);

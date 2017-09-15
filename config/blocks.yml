@@ -85,12 +85,8 @@ services:
     blitze.sitemaker.block.links:
         class: blitze\sitemaker\blocks\links
         arguments:
-            - '@cache.driver'
-            - '@config'
             - '@language'
-            - '@blitze.sitemaker.mapper.factory'
-            - '@blitze.sitemaker.menus.display'
-            - '%core.php_ext%'
+            - '@blitze.sitemaker.menus.navigation'
         calls:
             - [set_name, [blitze.sitemaker.block.links]]
         tags:
@@ -136,13 +132,7 @@ services:
 
     blitze.sitemaker.block.menu:
         class: blitze\sitemaker\blocks\menu
-        arguments:
-            - '@cache.driver'
-            - '@config'
-            - '@language'
-            - '@blitze.sitemaker.mapper.factory'
-            - '@blitze.sitemaker.menus.display'
-            - '%core.php_ext%'
+        parent: blitze.sitemaker.block.links
         calls:
             - [set_name, [blitze.sitemaker.block.menu]]
         tags:

@@ -1,0 +1,34 @@
+{% if loops.tree|length %}
+<nav class="sm-menu">
+	<label for="sm-tm" class="sm-toggle-menu">{{ lang('SM_NAVIGATION') }} <span class="drop-icon">▾</span></label>
+	<input type="checkbox" class="sm-tm" id="sm-tm">
+	<ul class="main-menu sm-clearfix">
+	{% for tree in loops.tree %}
+		{% if tree.THIS_DEPTH > tree.PREV_DEPTH %}
+			<label title="{{ lang('SM_TOGGLE_DROPDOWN') }}" class="drop-icon" for="{{ 'sm' ~ loop.index }}">&#9662;</label>
+			<input type="checkbox" id="{{ 'sm' ~ loop.index }}">
+			<ul class="sub-menu">
+		{% else %}
+		{% for close in tree.close %}
+			</ul>
+		</li>
+		{% endfor %}
+		{% endif %}
+		{% if tree.ITEM_URL %}
+		<li{% if tree.IS_CURRENT or tree.IS_PARENT %} class="active"{% endif %}>
+			<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}{% if tree.NUM_KIDS %}<span class="drop-icon">&#9656;</span>{% endif %}</a>
+		{% else %}
+		<li class="nav-header">
+			{% if tree.ITEM_TITLE !== '-' %}<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}{% else %}<hr />{% endif %}
+		{% endif %}
+		{% if tree.NUM_KIDS == 0 %}
+		</li>
+		{% endif %}
+	{% endfor %}
+	    {% for close_tree in loops.close_tree %}
+	    	</ul>
+	    </li>
+	    {% endfor %}
+	</ul>
+</nav>
+{% endif %}

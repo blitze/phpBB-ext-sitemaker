@@ -60,6 +60,17 @@ img {
 		width: 100%;
 	}
 
+	.card-img & {
+		margin: -4px -9px auto -9px;
+
+		img {
+			padding: 0;
+			width: 100%;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+		}
+	}
+
 	.img-align-left & img {
 		float: left;
 		margin: 0.7rem 1rem 0 0;

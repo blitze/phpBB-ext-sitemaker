@@ -1,0 +1,37 @@
+services:
+
+    blitze.sitemaker.event.listener:
+        class: blitze\sitemaker\event\listener
+        arguments:
+            - '@service_container'
+            - '@language'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    blitze.sitemaker.event.sitemaker:
+        class: blitze\sitemaker\event\sitemaker
+        arguments:
+            - '@cache.driver'
+            - '@config'
+            - '@template'
+            - '@language'
+            - '@user'
+            - '@blitze.sitemaker.util'
+            - '@blitze.sitemaker.blocks.display'
+            - '@blitze.sitemaker.menus.navigation'
+        tags:
+            - { name: event.listener }
+
+    blitze.sitemaker.event.startpage:
+        class: blitze\sitemaker\event\startpage
+        arguments:
+            - '@config'
+            - '@service_container'
+            - '@request'
+            - '@template'
+            - '@language'
+            - '@user'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }

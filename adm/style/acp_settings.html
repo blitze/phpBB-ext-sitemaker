@@ -19,6 +19,17 @@
                 <label><input type="radio" class="radio" name="show_forum_nav" value="0"{% if !show_forum_nav %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>
+        <dl>
+            <dt>
+                <label for="navbar_menu">{{ lang('SELECT_NAVBAR_MENU') }}</label>
+            </dt>
+            <dd>
+                <select id="navbar_menu" name="navbar_menu">
+					<option value="0">{{ lang('NO_NAVBAR') }}</option>
+					{{ menu_options }}
+				</select>
+            </dd>
+        </dl>
     </fieldset>
 
     <fieldset>
