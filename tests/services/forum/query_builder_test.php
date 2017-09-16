@@ -2,7 +2,7 @@
 /**
  *
  * @package sitemaker
- * @copyright (c) 2015 Daniel A. (blitze)
+ * @copyright (c) 2017 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
@@ -76,10 +76,6 @@ class query_builder_test extends \phpbb_database_test_case
 		$this->query_builder->expects($this->any())
 			->method('time')
 			->willReturn('000000');
-
-		$reflection = new \ReflectionClass($this->query_builder);
-		$reflection_property = $reflection->getProperty('store');
-		$reflection_property->setAccessible(true);
 	}
 
 	/**
