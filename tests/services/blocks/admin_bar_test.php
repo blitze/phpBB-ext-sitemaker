@@ -44,14 +44,14 @@ class admin_bar_test extends \phpbb_database_test_case
 	/**
 	 * Create the admin_bar service
 	 *
-	 * @param array $auth
+	 * @param array $auth_map
 	 * @param array $config
 	 * @param string $page
 	 * @param string $controller
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service($auth = array(), $config = array(), $page = 'index.php', $controller = '', $params = '')
+	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $controller = '', $params = '')
 	{
 		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
@@ -282,7 +282,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_FILEMANAGER' => 0,
+					'UA_FILEMANAGER' => false,
 					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => false,
 				),
@@ -308,7 +308,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_FILEMANAGER' => 1,
+					'UA_FILEMANAGER' => true,
 					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),

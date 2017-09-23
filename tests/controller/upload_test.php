@@ -9,8 +9,6 @@
 
 namespace blitze\sitemaker\tests\controller;
 
-use blitze\sitemaker\controller\upload;
-
 class upload_test extends \phpbb_test_case
 {
 	/**
@@ -82,7 +80,10 @@ class upload_test extends \phpbb_test_case
 
 		$language = new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx));
 
-		$controller = new upload($auth, $files_factory, $language, $phpbb_root_path);
+		$controller = $this->getMockBuilder('\blitze\sitemaker\controller\upload')
+			->setConstructorArgs(array($auth, $files_factory, $language, $phpbb_root_path))
+			->setMethods(array('set_file_permissions'))
+            ->getMock();
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;
