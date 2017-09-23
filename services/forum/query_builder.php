@@ -328,7 +328,7 @@ class query_builder
 	}
 
 	/**
-	 * @param int $column_id
+	 * @param int|array $column_id
 	 * @param string $column
 	 * @return void
 	 */

@@ -60,17 +60,7 @@ class upload
 			return new JsonResponse($json_data, 401);
 		}
 
-		$upload_dir = $this->phpbb_root_path . 'images/sitemaker_uploads/source/';
-
-		$file = $this->files_factory->get('files.upload')
-			->set_disallowed_content(array())
-			->set_allowed_extensions($this->allowed_extensions)
-			->handle_upload('files.types.form', 'file');
-
-		$this->set_filename($file);
-		$file->move_file(str_replace($this->phpbb_root_path, '', $upload_dir), true, true, 0644);
-
-		@chmod($upload_dir . $file->get('realname'), 0644);
+		$file = $this->get_file();
 
 		if (sizeof($file->error))
 		{
@@ -79,6 +69,7 @@ class upload
 		}
 		else
 		{
+			$this->set_file_permissions($upload_dir . $file->get('realname'));
 			$json_data['location'] = $file->get('realname');
 		}
 
@@ -110,5 +101,32 @@ class upload
 		}
 
 		$file->clean_filename($mode, $prefix);
+	}
+
+	/**
+	 * @return \phpbb\files\filespec
+	 */
+	protected function get_file()
+	{
+		$upload_dir = $this->phpbb_root_path . 'images/sitemaker_uploads/source/';
+
+		$file = $this->files_factory->get('files.upload')
+			->set_disallowed_content(array())
+			->set_allowed_extensions($this->allowed_extensions)
+			->handle_upload('files.types.form', 'file');
+
+		$this->set_filename($file);
+		$file->move_file(str_replace($this->phpbb_root_path, '', $upload_dir), true, true, 0644);
+
+		return $file;
+	}
+
+	/**
+	 * @param string $file
+	 * @return void
+	 */
+	protected function set_file_permissions($file)
+	{
+		chmod($file, 0644);
 	}
 }

@@ -48,7 +48,7 @@ class settings_module
 	protected $php_ext;
 
 	/** @var string */
-	protected $filemanger_config_file;
+	protected $filemanager_config_file;
 
 	/** @var string */
 	public $tpl_name;
