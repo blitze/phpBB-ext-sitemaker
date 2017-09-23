@@ -41,14 +41,14 @@ class settings_module
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
-	/** @var \blitze\sitemaker\services\util */
-	protected $util;
-
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
 	/** @var string phpEx */
 	protected $php_ext;
+
+	/** @var string */
+	protected $filemanger_config_file;
 
 	/** @var string */
 	public $tpl_name;
@@ -81,41 +81,41 @@ class settings_module
 		$this->translator = $phpbb_container->get('language');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
-		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 		$this->trigger_errors = $trigger_errors;
+
+		$this->filemanager_config_file = $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all/theme/vendor/ResponsiveFilemanager/filemanager/config/config.' . $this->php_ext;
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	public function main()
 	{
+		$this->translator->add_lang('acp/board');
 		$this->translator->add_lang('blocks_admin', 'blitze/sitemaker');
 
-		$form_key = 'blitze/sitemaker';
+		$form_key = 'blitze/sitemaker/settings';
+
+		if ($this->request->is_set_post('submit'))
+		{
+			$this->check_form_key($form_key);
+			$this->save_filemanager_settings();
+			$this->save_config_settings();
+
+			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
+		}
 
 		add_form_key($form_key);
 
-		$this->save_settings($form_key);
-
 		$layouts = $this->get_layouts();
-
 		$this->template->assign_vars(array(
 			'u_action'			=> $this->u_action,
 			'icon_picker'		=> $this->icon->picker(),
-			'forum_icon'		=> $this->config['sm_forum_icon'],
-			'show_forum_nav'	=> (bool) $this->config['sm_show_forum_nav'],
-			'hide_login'		=> (bool) $this->config['sm_hide_login'],
-			'hide_online'		=> (bool) $this->config['sm_hide_online'],
-			'hide_birthday'		=> (bool) $this->config['sm_hide_birthday'],
+			'config'			=> $this->config,
+			'filemanager'		=> $this->get_filemanager_settings(),
 			'styles'			=> $this->get_styles_data($layouts),
 			'layouts'			=> $layouts,
 			'menu_options'		=> $this->get_menu_options(),
-		));
-
-		$this->util->add_assets(array(
-			'js'	=> array('@blitze_sitemaker/assets/settings/admin.min.js'),
-			'css'	=> array('@blitze_sitemaker/assets/settings/admin.min.css'),
 		));
 
 		$this->tpl_name = 'acp_settings';
@@ -123,26 +123,12 @@ class settings_module
 	}
 
 	/**
-	 * @param string $form_key
+	 * @param string $path
+	 * @return void
 	 */
-	protected function save_settings($form_key)
+	public function set_filemanager_config_file($path)
 	{
-		if ($this->request->is_set_post('submit'))
-		{
-			$this->check_form_key($form_key);
-
-			$layout_prefs = $this->request->variable('layouts', array(0 => array('' => '')));
-			$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
-
-			$this->config->set('sm_hide_login', $this->request->variable('hide_login', 0));
-			$this->config->set('sm_hide_online', $this->request->variable('hide_online', 0));
-			$this->config->set('sm_hide_birthday', $this->request->variable('hide_birthday', 0));
-			$this->config->set('sm_show_forum_nav', $this->request->variable('show_forum_nav', 0));
-			$this->config->set('sm_forum_icon', $this->request->variable('forum_icon', ''));
-			$this->config->set('sm_navbar_menu', $this->request->variable('navbar_menu', 0));
-
-			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
-		}
+		$this->filemanager_config_file = $path;
 	}
 
 	/**
@@ -236,6 +222,73 @@ class settings_module
 		ksort($layouts);
 
 		return $layouts;
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function save_config_settings()
+	{
+		$settings = $this->request->variable('config', array('' => ''));
+		$layout_prefs = $this->request->variable('layouts', array(0 => array('' => '')));
+
+		$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
+
+		foreach ($settings as $key => $value)
+		{
+			$this->config->set($key, $value);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function save_filemanager_settings()
+	{
+		$settings = $this->request->variable('filemanager', array('' => ''));
+
+		$settings['aviary_active'] = ($settings['aviary_apiKey']) ? 'true' : 'false';
+		$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
+		unset($settings['image_watermark_coordinates']);
+
+		$curr_settings = (array) $this->get_filemanager_settings();
+		$file = file_get_contents($this->filemanager_config_file);
+
+		foreach ($settings as $prop => $value)
+		{
+			$this->type_cast_filemanager_config_value($curr_settings[$prop], $value);
+			$file = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $file);
+		}
+
+		file_put_contents($this->filemanager_config_file, $file);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function get_filemanager_settings()
+	{
+		$editing = true;
+		return include($this->filemanager_config_file);
+	}
+
+	/**
+	 * @param mixed $curr_val
+	 * @param mixed $value
+	 * @return void
+	 */
+	protected function type_cast_filemanager_config_value($curr_val, &$value)
+	{
+		$type = gettype($curr_val);
+		switch($type)
+		{
+			case 'string':
+				$value = "'$value'";
+			break;
+			case 'integer':
+				$value = (int) $value;
+			break;
+		}
 	}
 
 	/**

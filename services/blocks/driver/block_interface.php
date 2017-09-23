@@ -13,6 +13,8 @@ interface block_interface
 {
 	/**
 	 * Get service name
+	 *
+	 * @return string
 	 */
 	public function get_name();
 

@@ -119,15 +119,18 @@
 
 <script type="text/javascript">
 // <![CDATA[
-	var editMode = {{ S_EDIT_MODE }};
-	var SID = '{{ SESSION_ID }}';
+	var editMode = {{ S_EDIT_MODE|e('js') }};
+	var SID = '{{ SESSION_ID|e('js') }}';
 	var config = {
 		ajaxUrl: '{{ UA_AJAX_URL }}',
 		boardUrl: '{{ UA_BOARD_URL }}',
+		scriptPath: '{{ UA_SCRIPT_PATH }}',
 		ext: '{{ UA_EXTENSION }}',
 		route: '{{ UA_ROUTE }}',
 		style: '{{ UA_STYLE_ID }}',
-		webRootPath: '{{ UA_WEB_ROOT_PATH }}'
+		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
+		filemanager: {{ UA_FILEMANAGER }},
+		RFAccessKey: '{{ UA_RF_ACCESS_KEY }}'
 	};
 	var lang = {
 		edit:   '{{ lang('EDIT')|escape('js') }}',
@@ -141,6 +144,7 @@
 		ajaxLoading: '{{ lang('AJAX_LOADING')|escape('js') }}',
 		leaveConfirm: '{{ lang('LEAVE_CONFIRM')|escape('js') }}',
 		updateSimilar: '{{ lang('UPDATE_SIMILAR')|escape('js') }}',
+		fileManager: '{{ lang('FILE_MANAGER')|escape('js') }}',
 		placeholder: '{{ lang('EDIT_ME')|escape('js') }}'
 	};
 // ]]>

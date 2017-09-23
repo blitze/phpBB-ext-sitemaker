@@ -26,3 +26,8 @@ $lang = array_merge($lang, array(
 	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Can manage Sitemaker blocks',
 	'ACL_A_SM_MANAGE_MENUS'		=> 'Can manage Sitemaker menus',
 ));
+
+// User Permissions
+$lang = array_merge($lang, array(
+	'ACL_U_SM_FILEMANAGER'		=> 'Can use File Manager',
+));

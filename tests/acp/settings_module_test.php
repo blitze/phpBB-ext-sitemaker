@@ -37,6 +37,7 @@ class settings_module_test extends \phpbb_database_test_case
 	protected $util;
 
 	static private $helper;
+	protected $config_file;
 
 	static public function setUpBeforeClass()
 	{
@@ -47,6 +48,7 @@ class settings_module_test extends \phpbb_database_test_case
 		self::$helper = new \phpbb_test_case_helpers(self);
 
 		self::$helper->copy_dir($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
+		copy($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/test_config.php', $phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');
 	}
 
 	static public function tearDownAfterClass()
@@ -57,6 +59,7 @@ class settings_module_test extends \phpbb_database_test_case
 
 		self::$helper->empty_dir($phpbb_root_path . 'ext/foo');
 		rmdir($phpbb_root_path . 'ext/foo');
+		unlink($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');
 	}
 
 	/**
@@ -101,6 +104,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_show_forum_nav'	=> true,
 			'sm_navbar_menu'	=> 2,
 			'sm_forum_icon'		=> 'fa fa-comments',
+			'sm_filemanager'	=> false,
 		));
 		$this->config = &$config;
 
@@ -166,11 +170,6 @@ class settings_module_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMockBuilder('\blitze\sitemaker\services\util')
-			->disableOriginalConstructor()
-			->getMock();
-
-
 		$table_prefix = 'phpbb_';
 		$tables = array(
 			'mapper_tables'	=> array(
@@ -184,10 +183,14 @@ class settings_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $this->icon_picker);
-		$phpbb_container->set('blitze.sitemaker.util', $this->util);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 
-		return new settings_module(false);
+		$this->config_file = dirname(__FILE__) . '/fixtures/filemanager/config.php';
+
+		$settings_module = new \blitze\sitemaker\acp\settings_module(false);
+		$settings_module->set_filemanager_config_file($this->config_file);
+
+		return $settings_module;
 	}
 
 	/**
@@ -206,11 +209,6 @@ class settings_module_test extends \phpbb_database_test_case
 					),
 				),
 				array(
-					'forum_icon' => 'fa fa-comments',
-					'show_forum_nav' => true,
-					'hide_login' => false,
-					'hide_online' => false,
-					'hide_birthday' => false,
 					'styles' => array(
 						array(
 							'id' => '1',
@@ -232,6 +230,13 @@ class settings_module_test extends \phpbb_database_test_case
 						'portal_alt' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/',
 						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
 					),
+					'filemanager' => array(
+						'aviary_active'				=> false,
+						'aviary_apiKey'				=> '',
+						'image_watermark_position'	=> 'br',
+						'image_max_width'			=> 0,
+						'image_auto_resizing'		=> false,
+					),
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
 			),
@@ -249,9 +254,6 @@ class settings_module_test extends \phpbb_database_test_case
 	{
 		$module = $this->get_module(array(), $db_text);
 
-		$this->util->expects($this->once())
-			->method('add_assets');
-
 		$this->icon_picker->expects($this->once())
 			->method('picker');
 
@@ -259,6 +261,8 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$result = $this->template->assign_display('settings');
 		unset($result['S_FORM_TOKEN'], $result['u_action'], $result['icon_picker']);
+
+		$expected['config'] = $this->config;
 
 		$this->assertEquals($expected, $result);
 	}
@@ -268,6 +272,21 @@ class settings_module_test extends \phpbb_database_test_case
 	 */
 	public function test_save_settings()
 	{
+		$config = array(
+			'sm_hide_birthday'	=> 1,
+			'sm_hide_login'		=> 1,
+			'sm_hide_online'	=> 1,
+			'sm_show_forum_nav'	=> 1,
+			'sm_navbar_menu'	=> 3,
+			'sm_filemanager'	=> 1,
+			'sm_forum_icon'		=> 'fa fa-car',
+		);
+		$filemanager = array(
+			'aviary_apiKey' => 'some key',
+			'image_watermark_coordinates' => '40x50',
+			'image_max_width' => 800,
+			'image_auto_resizing' => 'true',
+		);
 		$layouts = array(
 			1 => array (
 				'layout' => './../ext/blitze/sitemaker/styles/all/template/layouts/blog/',
@@ -279,12 +298,8 @@ class settings_module_test extends \phpbb_database_test_case
 			),
 		);
 		$variable_map = array(
-			array('hide_login', 0, false, request_interface::REQUEST, 1),
-			array('hide_online', 0, false, request_interface::REQUEST, 1),
-			array('hide_birthday', 0, false, request_interface::REQUEST, 1),
-			array('navbar_menu', 0, false, request_interface::REQUEST, 3),
-			array('show_forum_nav', 0, false, request_interface::REQUEST, 1),
-			array('forum_icon', '', false, request_interface::REQUEST, 'fa fa-car'),
+			array('config', array('' => ''), false, request_interface::REQUEST, $config),
+			array('filemanager', array('' => ''), false, request_interface::REQUEST, $filemanager),
 			array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, $layouts),
 		);
 
@@ -293,23 +308,33 @@ class settings_module_test extends \phpbb_database_test_case
 		$module->main();
 
 		$expected = array(
-            'forum_icon'		=> 'fa fa-car',
-			'navbar_menu'		=> 3,
-            'show_forum_nav'	=> 1,
-			'hide_login'		=> 1,
-			'hide_online'		=> 1,
-			'hide_birthday'		=> 1,
-			'layout_prefs'		=> $layouts,
+            'forum_icon'			=> 'fa fa-car',
+			'navbar_menu'			=> 3,
+            'show_forum_nav'		=> 1,
+			'hide_login'			=> 1,
+			'hide_online'			=> 1,
+			'hide_birthday'			=> 1,
+			'layout_prefs'			=> $layouts,
+			'filemanager'			=> 1,
+			'filemanager_config'	=> array(
+				'aviary_active'				=> true,
+				'aviary_apiKey'				=> 'some key',
+				'image_watermark_position'	=> '40x50',
+				'image_max_width'			=> 800,
+				'image_auto_resizing'		=> true,
+			),
 		);
 
 		$result = array(
-            'forum_icon'		=> $this->config['sm_forum_icon'],
-            'navbar_menu'		=> $this->config['sm_navbar_menu'],
-            'show_forum_nav'	=> $this->config['sm_show_forum_nav'],
-			'hide_login'		=> $this->config['sm_hide_login'],
-			'hide_online'		=> $this->config['sm_hide_online'],
-			'hide_birthday'		=> $this->config['sm_hide_birthday'],
-			'layout_prefs'		=> json_decode($this->config_text->get('sm_layout_prefs'), true),
+            'forum_icon'			=> $this->config['sm_forum_icon'],
+            'navbar_menu'			=> $this->config['sm_navbar_menu'],
+            'show_forum_nav'		=> $this->config['sm_show_forum_nav'],
+			'hide_login'			=> $this->config['sm_hide_login'],
+			'hide_online'			=> $this->config['sm_hide_online'],
+			'hide_birthday'			=> $this->config['sm_hide_birthday'],
+			'layout_prefs'			=> json_decode($this->config_text->get('sm_layout_prefs'), true),
+			'filemanager'			=> $this->config['sm_filemanager'],
+			'filemanager_config'	=> include($this->config_file),
 		);
 
 		$this->assertEquals($expected, $result);

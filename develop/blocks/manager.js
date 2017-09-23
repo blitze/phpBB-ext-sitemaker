@@ -100,7 +100,6 @@
 		 * @property {object} blockPositions jQuery object representing all block positions
 		 * @property {object} emptyPositionsObj jQuery object representing all block positions with no blocks
 		 */
-		console.log('trigger');
 		body.trigger('blitze_sitemaker_showAllBlockPositions', [blockPositions, emptyPositionsObj]);
 	};
 
@@ -391,21 +390,25 @@
 	};
 
 	var initTinyMce = function() {
-		tinymce.init({
+		var options = {
 			'selector': 'div.editable-block',
 			'inline': true,
 			'image_advtab': true,
 			'hidden_input': false,
+			'noneditable_noneditable_class': 'fa',
 			'plugins': [
-				'advlist autolink lists link image charmap preview hr anchor pagebreak',
-				'visualblocks visualchars code',
-				'media nonbreaking save table contextmenu directionality',
-				'paste textcolor colorpicker textpattern'
+				'advlist autolink lists link image imagetools charmap preview hr anchor pagebreak',
+				'visualblocks visualchars code media nonbreaking save table contextmenu directionality',
+				'paste textcolor colorpicker textpattern fontawesome noneditable'
 			],
 			'toolbar': [
-				'undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
-				'bullist numlist outdent indent | hr pagebreak | image media | link | table | preview code'
+				'undo redo | styleselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
+				'responsivefilemanager image media | fontawesome | bullist numlist outdent indent | hr pagebreak | link | table | removeformat code'
 			],
+			'automatic_uploads': true,
+			'images_reuse_filename': true,
+			'images_upload_base_path': config.webRootPath + 'images/sitemaker_uploads/source/',
+			'images_upload_url': config.ajaxUrl + '/sitemaker/upload',
 			'valid_elements': '*[*]',
 			'end_container_on_empty_block': true,
 			'setup': function(editor) {
@@ -438,26 +441,40 @@
 				});
 
 				editor.on('blur', function() {
-					var rawEditorContent = editor.getContent({format: 'raw'}).replace('<p><br data-mce-bogus="1"></p>', '');
-					var editorContent = editor.getContent();
+					tinymce.activeEditor.uploadImages(function() {
+						var rawEditorContent = editor.getContent({format: 'raw'}).replace('<p><br data-mce-bogus="1"></p>', '');
+						var editorContent = editor.getContent();
 
-					if (rawEditorContent !== blockRawHTML && rawEditorContent !== lang.placeholder) {
-						if (!editorContent.length) {
-							rawEditorContent = '';
+						if (rawEditorContent !== blockRawHTML && rawEditorContent !== lang.placeholder) {
+							if (!editorContent.length) {
+								rawEditorContent = '';
+								editor.setContent(lang.placeholder);
+							}
+
+							var blockData = $('#' + editor.id).data('raw', rawEditorContent).data();
+							blockData.id = editor.id.substring(13);
+							blockData.content = rawEditorContent;
+
+							customBlockAction(blockData);
+						} else if (!editorContent) {
 							editor.setContent(lang.placeholder);
 						}
-
-						var blockData = $('#' + editor.id).data('raw', rawEditorContent).data();
-						blockData.id = editor.id.substring(13);
-						blockData.content = rawEditorContent;
-
-						customBlockAction(blockData);
-					} else if (!editorContent) {
-						editor.setContent(lang.placeholder);
-					}
+					});
 				});
 			}
-		});
+		};
+		if (config.filemanager) {
+			options.plugins.push('responsivefilemanager');
+			$.extend(true, options, {
+				'external_filemanager_path': config.scriptPath + 'ext/blitze/sitemaker/styles/all/theme/vendor/ResponsiveFilemanager/filemanager/',
+				'external_plugins': {
+					"filemanager" : "../ResponsiveFilemanager/filemanager/plugin.min.js"
+				},
+				'filemanager_access_key': config.RFAccessKey,
+				'filemanager_title': lang.fileManager
+			});
+		}
+		tinymce.init(options);
 	};
 
 	var showMessage = function(message) {
@@ -640,7 +657,7 @@
 				}
 			});
 
-			$('body').on('positionsChanged', function() {
+			$('body').on('blitze_sitemaker_layout_changed', function() {
 				blockPositions = $('.block-position').addClass('block-receiver').sortable(sortableOptions);
 			});
 

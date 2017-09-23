@@ -91,6 +91,7 @@
 		<column>hash</column>
 		<column>permission</column>
 		<column>type</column>
+		<column>weight</column>
 		<row>
 			<value>1</value>
 			<value>my.foo.block</value>
@@ -100,6 +101,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -111,6 +113,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -123,6 +126,7 @@
 			<value></value>
 			<value></value>
 			<value>1</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -133,6 +137,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>2</value>
 			<value>2</value>
 		</row>
 		<row>
@@ -145,6 +150,7 @@
 			<value></value>
 			<value></value>
 			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>6</value>
@@ -155,6 +161,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 		<row>
@@ -167,6 +174,7 @@
 			<value></value>
 			<value></value>
 			<value>1</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>8</value>
@@ -177,6 +185,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>2</value>
 			<value>2</value>
 		</row>
 		<row>
@@ -189,6 +198,7 @@
 			<value></value>
 			<value></value>
 			<value>2</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>10</value>
@@ -199,6 +209,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 	</table>

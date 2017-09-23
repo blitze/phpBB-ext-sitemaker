@@ -27,3 +27,11 @@ services:
             - '@request'
             - '@language'
             - '@blitze.sitemaker.menus.action_handler'
+
+    blitze.sitemaker.upload.controller:
+        class: blitze\sitemaker\controller\upload
+        arguments:
+            - '@auth'
+            - '@files.factory'
+            - '@language'
+            - '%core.root_path%'

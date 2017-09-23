@@ -44,13 +44,14 @@ class admin_bar_test extends \phpbb_database_test_case
 	/**
 	 * Create the admin_bar service
 	 *
+	 * @param array $auth
 	 * @param array $config
 	 * @param string $page
 	 * @param string $controller
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service($config = array(), $page = 'index.php', $controller = '', $params = '')
+	protected function get_service($auth = array(), $config = array(), $page = 'index.php', $controller = '', $params = '')
 	{
 		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
@@ -61,6 +62,12 @@ class admin_bar_test extends \phpbb_database_test_case
 				'routes'	=> $table_prefix . 'sm_block_routes'
 			)
 		);
+
+		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth->expects($this->any())
+			->method('acl_get')
+			->with($this->stringContains('_'), $this->anything())
+			->will($this->returnValueMap($auth_map));
 
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
@@ -159,7 +166,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
-		return new admin_bar($config, $phpbb_container, $template, $translator, $icons, $this->util, $phpEx);
+		return new admin_bar($auth, $config, $phpbb_container, $template, $translator, $user, $icons, $this->util, $phpEx);
 	}
 
 	/**
@@ -235,7 +242,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_show_admin_bar(array $route_info, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service($config);
+		$admin_bar = $this->get_service(array(), $config);
 
 		// assert set_assets() method is called
 		$this->util->expects($this->once())
@@ -258,9 +265,13 @@ class admin_bar_test extends \phpbb_database_test_case
 				'index.php',
 				1,
 				array(
+					array('u_sm_filemanager', 0, false),
+				),
+				array(
 					'default_lang'				=> 'en',
 					'enable_mod_rewrite'		=> false,
-					'sitemaker_default_layout'	=> ''
+					'sitemaker_default_layout'	=> '',
+					'sm_filemanager'			=> 1,
 				),
 				array(
 					'S_IS_DEFAULT' => false,
@@ -269,7 +280,10 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
+					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
+					'UA_FILEMANAGER' => 0,
+					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => false,
 				),
 			),
@@ -277,9 +291,13 @@ class admin_bar_test extends \phpbb_database_test_case
 				'index.php',
 				1,
 				array(
+					array('u_sm_filemanager', 0, true),
+				),
+				array(
 					'default_lang'				=> 'en',
 					'enable_mod_rewrite'		=> true,
-					'sitemaker_default_layout'	=> 'faq.php'
+					'sitemaker_default_layout'	=> 'faq.php',
+					'sm_filemanager'			=> 1,
 				),
 				array(
 					'S_IS_DEFAULT' => false,
@@ -288,7 +306,10 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
+					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
+					'UA_FILEMANAGER' => 1,
+					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
 			)
@@ -301,12 +322,13 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * @dataProvider set_javascript_data_test_data
 	 * @param string $route
 	 * @param int $style_id
+	 * @param array $auth
 	 * @param array $config
 	 * @param array $expected
 	 */
-	public function test_set_javascript_data($route, $style_id, array $config, array $expected)
+	public function test_set_javascript_data($route, $style_id, array $auth, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service($config, $route);
+		$admin_bar = $this->get_service($auth, $config, $route);
 		$admin_bar->set_javascript_data($route, $style_id);
 
 		$this->assertSame($expected, $this->tpl_data);
@@ -406,7 +428,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service($config, $page, $controller, $params);
+		$admin_bar = $this->get_service(array(), $config, $page, $controller, $params);
 
 		$admin_bar->get_startpage_options();
 

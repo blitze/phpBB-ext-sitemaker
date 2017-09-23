@@ -13,3 +13,7 @@ blitze_sitemaker_menus_admin:
 blitze_sitemaker_forum:
     path: /forum
     defaults: { _controller: blitze.sitemaker.forum.controller:handle }
+
+blitze_sitemaker_image_upload:
+    path: /sitemaker/upload
+    defaults: { _controller: blitze.sitemaker.upload.controller:handle }

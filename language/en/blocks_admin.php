@@ -25,10 +25,11 @@ $lang = array_merge($lang, array(
 	'ALL_FORUMS'								=> 'All Forums',
 	'ALL_GROUPS'								=> 'All Groups',
 	'ARCHIVES'									=> 'Archives',
+	'AUTO_LOGIN'								=> 'Allow auto login?',
+	'FILE_MANAGER'								=> 'File Manager',
 	'TOPIC_POST_IDS'							=> 'From Topic/Post Ids',
 	'TOPIC_POST_IDS_EXPLAIN'					=> 'Id(s) of topics/posts to retrieve attachments from, separated by <strong>commas</strong>(,). Specify if this list is for topic or post ids above.',
 	'TOPIC_POST_IDS_TYPE'						=> 'Type of IDs (below)',
-	'AUTO_LOGIN'								=> 'Allow auto login?',
 
 	// Blocks
 	'BLITZE_SITEMAKER_BLOCK_ATTACHMENTS'		=> 'Attachments',

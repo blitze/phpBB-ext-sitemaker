@@ -42,10 +42,12 @@ services:
     blitze.sitemaker.blocks.admin_bar:
         class: blitze\sitemaker\services\blocks\admin_bar
         arguments:
+            - '@auth'
             - '@config'
             - '@service_container'
             - '@template'
             - '@language'
+            - '@user'
             - '@blitze.sitemaker.icon_picker'
             - '@blitze.sitemaker.util'
             - '%core.php_ext%'

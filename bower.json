@@ -1,14 +1,16 @@
 {
   "name": "phpBB Sitemaker",
   "dependencies": {
+    "codemirror": "^5.27.4",
+    "iconPicker": "https://github.com/josh18/TinyMCE-FontAwesome-Plugin.git#v2.1.0",
     "jqueryui-touch-punch": "*",
     "jquery-ui": "^1.12.1",
     "jquery.populate": "https://github.com/dtuite/jquery.populate.git",
     "nestedSortable": "*",
-    "tinymce": "^4.6.4",
+    "ResponsiveFilemanager": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.11.3/responsive_filemanager.zip",
+    "tinymce": "#4.6.6",
     "toast-grid": "https://github.com/daneden/Toast.git#master",
-    "twig.js": "https://raw.githubusercontent.com/philsbury/twigjs-bower/master/twig/twig.min.js",
-    "codemirror": "^5.27.4"
+    "twig.js": "https://raw.githubusercontent.com/philsbury/twigjs-bower/master/twig/twig.min.js"
   },
   "overrides": {
     "codemirror": {
@@ -18,6 +20,12 @@
         "addon/display/autorefresh.js",
         "theme/monokai.css"
       ]
+    },
+    "iconPicker": {
+      "main": [
+        "fontawesome/**/*"
+      ],
+      "dependencies": null
     },
     "jquery-ui": {
       "main": [
@@ -36,12 +44,20 @@
     "nestedSortable": {
       "main": "jquery.ui.nestedSortable.js"
     },
+    "ResponsiveFilemanager": {
+      "main": [
+        "filemanager/**/*",
+        "filemanager/config/.htaccess",
+        "tinymce/**/*"
+      ],
+      "dependencies": null
+    },
     "tinymce": {
       "main": [
         "tinymce.min.js",
-        "./plugins/**/*",
-        "./skins/**/*",
-        "./themes/**/*"
+        "plugins/**/*",
+        "skins/**/*",
+        "themes/**/*"
       ]
     },
     "toast-grid": {

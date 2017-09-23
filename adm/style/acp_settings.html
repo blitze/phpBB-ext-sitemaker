@@ -1,5 +1,8 @@
 {% INCLUDE 'overall_header.html' %}
 
+{% INCLUDECSS '@blitze_sitemaker/assets/settings/admin.min.css' %}
+{% INCLUDEJS '@blitze_sitemaker/assets/settings/admin.min.js' %}
+
 <h1>{{ lang('SETTINGS') }}</h1>
 
 <form id="acp_settings" method="post" action="{{ u_action }}">
@@ -11,12 +14,12 @@
                 <span>{{ lang('SHOW_FORUM_NAV_EXPLAIN') }}</span>
             </dt>
             <dd>
-                <label><input type="radio" class="radio" id="show_forum_nav" name="show_forum_nav" value="1"{% if show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
-                <div class="icon-container">
-                    <input type="hidden" name="forum_icon" value="{{ forum_icon }}" />
-                    <a href="#" class="icon-select"><i class="{{ forum_icon }}"></i></a>
+                <label><input type="radio" class="radio" id="show_forum_nav" name="config[sm_show_forum_nav]" value="1"{% if config.sm_show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
+				<div class="icon-container">
+                    <input type="hidden" name="config[sm_forum_icon]" value="{{ config.sm_forum_icon }}" />
+                    <a href="#" class="icon-select"><i class="{{ config.sm_forum_icon }}"></i></a>
                 </div><br />
-                <label><input type="radio" class="radio" name="show_forum_nav" value="0"{% if !show_forum_nav %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+                <label><input type="radio" class="radio" name="config[sm_show_forum_nav]" value="0"{% if !config.sm_show_forum_nav %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>
         <dl>
@@ -24,7 +27,7 @@
                 <label for="navbar_menu">{{ lang('SELECT_NAVBAR_MENU') }}</label>
             </dt>
             <dd>
-                <select id="navbar_menu" name="navbar_menu">
+                <select id="navbar_menu" name="config[sm_navbar_menu]">
 					<option value="0">{{ lang('NO_NAVBAR') }}</option>
 					{{ menu_options }}
 				</select>
@@ -33,26 +36,105 @@
     </fieldset>
 
     <fieldset>
+        <legend>{{ lang('FILEMANAGER_SETTINGS') }}</legend>
+		<dl>
+			<dt><label for="filemanager_status">{{ lang('FILEMANAGER_STATUS') }}</label><br /></dt>
+			<dd>
+                <select id="filemanager_status" name="config[sm_filemanager]" data-togglable-settings="true">
+					<option value="1" data-toggle-setting="#filemanager-settings"{% if config.sm_filemanager %} selected="selected"{% endif %}>{{ lang('ENABLED') }}</option>
+					<option value="0"{% if !config.sm_filemanager %} selected="selected"{% endif %}>{{ lang('DISABLED') }}</option>
+				</select>
+            </dd>
+		</dl>
+		<div id="filemanager-settings">
+			{% set image_modes = ['exact', 'portrait', 'landscape', 'auto', 'crop'] %}
+			<dl>
+				<dt><label for="filemanager_max_image">{{ lang('FILEMANAGER_IMAGE_MAX_DIMENSIONS') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
+				<dd><input id="filemanager_max_image" type="number" min="0" name="filemanager[image_max_width]" value="{{ filemanager.image_max_width|default(0) }}" /> x <input type="number" min="0" name="filemanager[image_max_height]" value="{{ filemanager.image_max_height|default(0) }}" /> {{ lang('PIXEL') }}</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_max_mode">{{ lang('FILEMANAGER_IMAGE_MAX_MODE') }}</label><br /><span>{{ lang('FILEMANAGER_IMAGE_MODE_EXPLAIN') }}</span></dt>
+				<dd>
+					<select id="filemanager_max_mode" name="filemanager[image_max_mode]">
+						{% for mode in image_modes -%}
+						<option value="{{ mode }}"{% if filemanager.image_max_mode == mode %} selected="selected"{% endif %}>{{ lang('FILEMANAGER_IMAGE_MODE_' ~ mode|upper) }}</option>
+						{%- endfor %}
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_auto_resize_image">{{ lang('FILEMANAGER_IMAGE_AUTO_RESIZE') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
+				<dd>
+					<label><input type="radio" class="radio" id="filemanager_auto_resize_image" name="filemanager[image_resizing]" value="true"{% if filemanager.image_resizing === 'true' %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="filemanager[image_resizing]" value="false"{% if !filemanager.image_resizing %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_auto_resize_dimensions">{{ lang('FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
+				<dd>
+					<input id="filemanager_auto_resize_dimensions" type="number" min="0" name="filemanager[image_resizing_width]" value="{{ filemanager.image_resizing_width|default(0) }}" /> x <input type="number" min="0" name="filemanager[image_resizing_height]" value="{{ filemanager.image_resizing_height|default(0) }}" /> {{ lang('PIXEL') }}
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_resizing_mode">{{ lang('FILEMANAGER_IMAGE_AUTO_RESIZING_MODE') }}</label><br /><span>{{ lang('FILEMANAGER_IMAGE_MODE_EXPLAIN') }}</span></dt>
+				<dd>
+					<select id="filemanager_resizing_mode" name="filemanager[image_resizing_mode]">
+						{% for mode in image_modes -%}
+						<option value="{{ mode }}"{% if filemanager.image_resizing_mode == mode %} selected="selected"{% endif %}>{{ lang('FILEMANAGER_IMAGE_MODE_' ~ mode|upper) }}</option>
+						{%- endfor %}
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_watermark">{{ lang('FILEMANAGER_WATERMARK') }}</label><br /><span>{{ lang('FILEMANAGER_WATERMARK_EXPLAIN') }}</span></dt>
+				<dd><input id="filemanager_watermark" type="text" size="35" maxlength="255" name="filemanager[watermark]" value="{{ filemanager.watermark }}" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_watermark_position">{{ lang('FILEMANAGER_WATERMARK_POSITION') }}</label><br /><span>{{ lang('FILEMANAGER_WATERMARK_POSITION_EXPLAIN') }}</span></dt>
+				<dd>
+					<select id="filemanager_watermaker_position" name="filemanager[image_watermark_position]">
+						{%- set watermark_positions = ['tl', 't', 'tr', 'l', 'm', 'r', 'bl', 'b', 'br'] -%}
+						{% for position in watermark_positions -%}
+						<option value="{{ position }}"{% if filemanager.image_watermark_position == position %} selected="selected"{% endif %}>{{ lang('FILEMANAGER_WATERMARK_POSITION_' ~ position|upper) }}</option>
+						{%- endfor %}
+					</select>
+					{{ lang('FILEMANAGER_WATERMAKER_POSITION_SUFFIX') }}
+					{% set watermark_coordinates = filemanager.image_watermark_position|first matches '/d+/' ? filemanager.image_watermark_position : '' -%}
+					<input id="filemanager_watermaker_coordinates" type="text" size="10" maxlength="255" name="filemanager[image_watermark_coordinates]" value="{{ watermark_coordinates }}" />
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_watermark_padding">{{ lang('FILEMANAGER_WATERMARK_PADDING') }}</label><br /><span>{{ lang('FILEMANAGER_WATERMARK_PADDING_EXPLAIN') }}</span></dt>
+				<dd><input id="filemanager_watermark_padding" type="number" min="0" name="filemanager[image_watermark_padding]" value="{{ filemanager.image_watermark_padding }}" /> {{ lang('PIXEL') }}</dd>
+			</dl>
+			<dl>
+				<dt><label for="filemanager_aviary_apiKey">{{ lang('FILEMANAGER_AVIARY_API_KEY') }}</label><br /><span>{{ lang('FILEMANAGER_AVIARY_API_KEY_EXPLAIN') }}</span></dt>
+				<dd><input id="filemanager_aviary_apiKey" type="text" size="35" maxlength="255" name="filemanager[aviary_apiKey]" value="{{ filemanager.aviary_apiKey }}" /></dd>
+			</dl>
+		</div>
+    </fieldset>
+
+    <fieldset>
         <legend>{{ lang('FORUM_INDEX_SETTINGS') }}</legend>
         <dl>
             <dt><label for="hide_login">{{ lang('HIDE_LOGIN') }}</label></dt>
             <dd>
-                <label><input type="radio" class="radio" id="hide_login" name="hide_login" value="1"{% if hide_login %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-                <label><input type="radio" class="radio" name="hide_login" value="0"{% if !hide_login %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+                <label><input type="radio" class="radio" id="hide_login" name="config[sm_hide_login]" value="1"{% if config.sm_hide_login %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="config[sm_hide_login]" value="0"{% if !config.sm_hide_login %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>
         <dl>
             <dt><label for="hide_online">{{ lang('HIDE_ONLINE') }}*</label></dt>
             <dd>
-                <label><input type="radio" class="radio" id="hide_online" name="hide_online" value="1"{% if hide_online %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-                <label><input type="radio" class="radio" name="hide_online" value="0"{% if !hide_online %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+                <label><input type="radio" class="radio" id="hide_online" name="config[sm_hide_online]" value="1"{% if config.sm_hide_online %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="config[sm_hide_online]" value="0"{% if !config.sm_hide_online %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>
         <dl>
             <dt><label for="hide_birthday">{{ lang('HIDE_BIRTHDAY') }}*</label></dt>
             <dd>
-                <label><input type="radio" class="radio" id="hide_birthday" name="hide_birthday" value="1"{% if hide_birthday %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-                <label><input type="radio" class="radio" name="hide_birthday" value="0"{% if !hide_birthday %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+                <label><input type="radio" class="radio" id="hide_birthday" name="config[sm_hide_birthday]" value="1"{% if config.sm_hide_birthday %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+                <label><input type="radio" class="radio" name="config[sm_hide_birthday]" value="0"{% if !config.sm_hide_birthday %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
             </dd>
         </dl>
         <p>*{{ lang('FORUM_INDEX_SETTINGS_EXPLAIN') }}</p>
