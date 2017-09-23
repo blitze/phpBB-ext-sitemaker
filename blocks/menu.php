@@ -21,8 +21,8 @@ class menu extends links
 	/** @var string */
 	protected $tpl_name = 'menu';
 
-	/** @var string */
-	protected $type = 'navlist';
+	/** @var bool */
+	protected $is_navigation = true;
 
 	/**
 	 * {@inheritdoc}

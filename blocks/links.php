@@ -29,8 +29,8 @@ class links extends block
 	/** @var string */
 	protected $tpl_name = 'links';
 
-	/** @var string */
-	protected $type = 'list';
+	/** @var bool */
+	protected $is_navigation = false;
 
 	/**
 	 * Constructor
@@ -64,7 +64,7 @@ class links extends block
 	{
 		$menu_id = $db_data['settings']['menu_id'];
 
-		if (!$this->navigation->build_menu($this->ptemplate, $menu_id, $this->type, $db_data['settings']))
+		if (!$this->navigation->build_menu($this->ptemplate, $menu_id, $this->is_navigation, $db_data['settings']))
 		{
 			return array(
 				'title'		=> $this->title,
