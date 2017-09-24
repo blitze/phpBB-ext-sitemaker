@@ -465,10 +465,12 @@
 		};
 		if (config.filemanager) {
 			options.plugins.push('responsivefilemanager');
+
+			var rfmPath = config.scriptPath + 'ext/blitze/sitemaker/vendor/ResponsiveFilemanager/filemanager/';
 			$.extend(true, options, {
-				'external_filemanager_path': config.scriptPath + 'ext/blitze/sitemaker/styles/all/theme/vendor/ResponsiveFilemanager/filemanager/',
+				'external_filemanager_path': rfmPath,
 				'external_plugins': {
-					"filemanager" : "../ResponsiveFilemanager/filemanager/plugin.min.js"
+					"filemanager" : rfmPath + 'plugin.min.js'
 				},
 				'filemanager_access_key': config.RFAccessKey,
 				'filemanager_title': lang.fileManager

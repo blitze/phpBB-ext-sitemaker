@@ -94,7 +94,7 @@ gulp.task('set_vendors', function() {
 // Install tinyMCE plugins
 gulp.task('set_tinymce_plugins', ['set_vendors'], function() {
 	return gulp.src([
-		paths.prod.vendor + 'ResponsiveFilemanager/tinymce/plugins/**/*.*',
+		'vendor/ResponsiveFilemanager/tinymce/plugins/**/*.*',
 		paths.prod.vendor + 'iconPicker/**/*.*',
 	]).pipe(gulp.dest(paths.prod.vendor + 'tinymce/plugins'));
 });
@@ -102,7 +102,6 @@ gulp.task('set_tinymce_plugins', ['set_vendors'], function() {
 gulp.task('vendor', ['set_vendors', 'set_tinymce_plugins'], function() {
 	plugins.del([
 		paths.prod.vendor + 'iconPicker',
-		paths.prod.vendor + 'ResponsiveFilemanager/tinymce'
 	]);
 });
 

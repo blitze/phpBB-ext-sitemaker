@@ -4,21 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8fba290a46c049e8045af6acb215c06",
-    "content-hash": "823758ec423a1a2ef9887a9bf41962be",
+    "content-hash": "2bf4b1aedde7cf9cf0be08be11707b92",
     "packages": [
         {
+            "name": "ResponsiveFilemanager",
+            "version": "9.11.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.11.3/responsive_filemanager.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
             "name": "composer/installers",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045"
+                "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/79ad876c7498c0bbfe7eed065b8651c93bfd6045",
-                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045",
+                "url": "https://api.github.com/repos/composer/installers/zipball/9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
+                "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
                 "shasum": ""
             },
             "require": {
@@ -64,6 +74,7 @@
                 "Hurad",
                 "ImageCMS",
                 "Kanboard",
+                "Lan Management System",
                 "MODX Evo",
                 "Mautic",
                 "Maya",
@@ -87,6 +98,7 @@
                 "croogo",
                 "dokuwiki",
                 "drupal",
+                "eZ Platform",
                 "elgg",
                 "expressionengine",
                 "fuelphp",
@@ -103,6 +115,7 @@
                 "mediawiki",
                 "modulework",
                 "moodle",
+                "osclass",
                 "phpbb",
                 "piwik",
                 "ppi",
@@ -119,7 +132,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-04-24 06:37:16"
+            "time": "2017-08-09T07:53:48+00:00"
         },
         {
             "name": "urodoz/truncate-html",
@@ -169,7 +182,7 @@
                 "truncate",
                 "truncating"
             ],
-            "time": "2014-05-25 22:50:06"
+            "time": "2014-05-25T22:50:06+00:00"
         }
     ],
     "packages-dev": [],
