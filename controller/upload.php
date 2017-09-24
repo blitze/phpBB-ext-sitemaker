@@ -69,7 +69,6 @@ class upload
 		}
 		else
 		{
-			$this->set_file_permissions($upload_dir . $file->get('realname'));
 			$json_data['location'] = $file->get('realname');
 		}
 
@@ -116,17 +115,8 @@ class upload
 			->handle_upload('files.types.form', 'file');
 
 		$this->set_filename($file);
-		$file->move_file(str_replace($this->phpbb_root_path, '', $upload_dir), true, true, 0644);
+		$file->move_file(str_replace($this->phpbb_root_path, '', $upload_dir), true);
 
 		return $file;
-	}
-
-	/**
-	 * @param string $file
-	 * @return void
-	 */
-	protected function set_file_permissions($file)
-	{
-		chmod($file, 0644);
 	}
 }

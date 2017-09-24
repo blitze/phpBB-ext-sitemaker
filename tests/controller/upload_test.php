@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\tests\controller;
 
+use blitze\sitemaker\controller\upload;
+
 class upload_test extends \phpbb_test_case
 {
 	/**
@@ -53,7 +55,7 @@ class upload_test extends \phpbb_test_case
 			});
 		$filespec->expects($this->exactly($call_count))
 			->method('move_file')
-			->with('images/sitemaker_uploads/source/', true, true, 0644);
+			->with('images/sitemaker_uploads/source/', true);
 		$filespec->error = pathinfo($filename, PATHINFO_EXTENSION) !== 'jpg' ? array('ERROR_MESSAGE') : array();
 
 		$upload = $this->getMockBuilder('\phpbb\files\upload')
@@ -80,10 +82,7 @@ class upload_test extends \phpbb_test_case
 
 		$language = new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx));
 
-		$controller = $this->getMockBuilder('\blitze\sitemaker\controller\upload')
-			->setConstructorArgs(array($auth, $files_factory, $language, $phpbb_root_path))
-			->setMethods(array('set_file_permissions'))
-            ->getMock();
+		$controller = new upload($auth, $files_factory, $language, $phpbb_root_path);
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;
