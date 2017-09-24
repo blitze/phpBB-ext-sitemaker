@@ -38,6 +38,9 @@ class settings_module
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
+	/** @var \blitze\sitemaker\services\filemanager\settings */
+	protected $filemanager;
+
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
@@ -46,9 +49,6 @@ class settings_module
 
 	/** @var string phpEx */
 	protected $php_ext;
-
-	/** @var string */
-	protected $filemanager_config_file;
 
 	/** @var string */
 	public $tpl_name;
@@ -79,11 +79,10 @@ class settings_module
 		$this->config_text = $phpbb_container->get('config_text');
 		$this->finder = $phpbb_container->get('ext.manager')->get_finder();
 		$this->translator = $phpbb_container->get('language');
+		$this->filemanager = $phpbb_container->get('blitze.sitemaker.filemanager');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->trigger_errors = $trigger_errors;
-
-		$this->filemanager_config_file = $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all/theme/vendor/ResponsiveFilemanager/filemanager/config/config.' . $this->php_ext;
 	}
 
 	/**
@@ -96,14 +95,7 @@ class settings_module
 
 		$form_key = 'blitze/sitemaker/settings';
 
-		if ($this->request->is_set_post('submit'))
-		{
-			$this->check_form_key($form_key);
-			$this->save_filemanager_settings();
-			$this->save_config_settings();
-
-			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
-		}
+		$this->handle_submit($form_key);
 
 		add_form_key($form_key);
 
@@ -112,7 +104,7 @@ class settings_module
 			'u_action'			=> $this->u_action,
 			'icon_picker'		=> $this->icon->picker(),
 			'config'			=> $this->config,
-			'filemanager'		=> $this->get_filemanager_settings(),
+			'filemanager'		=> $this->filemanager->get_settings(),
 			'styles'			=> $this->get_styles_data($layouts),
 			'layouts'			=> $layouts,
 			'menu_options'		=> $this->get_menu_options(),
@@ -123,12 +115,30 @@ class settings_module
 	}
 
 	/**
-	 * @param string $path
+	 * @param string $form_key
 	 * @return void
 	 */
-	public function set_filemanager_config_file($path)
+	protected function handle_submit($form_key)
 	{
-		$this->filemanager_config_file = $path;
+		if ($this->request->is_set_post('submit'))
+		{
+			$this->check_form_key($form_key);
+			$this->save_filemanager_settings();
+			$this->save_config_settings();
+
+			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
+		}
+	}
+
+	/**
+	 * @param string $form_key
+	 */
+	protected function check_form_key($form_key)
+	{
+		if (!check_form_key($form_key))
+		{
+			$this->trigger_error('FORM_INVALID');
+		}
 	}
 
 	/**
@@ -179,17 +189,6 @@ class settings_module
 		}
 
 		return $pref;
-	}
-
-	/**
-	 * @param string $form_key
-	 */
-	protected function check_form_key($form_key)
-	{
-		if (!check_form_key($form_key))
-		{
-			$this->trigger_error('FORM_INVALID');
-		}
 	}
 
 	/**
@@ -251,44 +250,7 @@ class settings_module
 		$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
 		unset($settings['image_watermark_coordinates']);
 
-		$curr_settings = (array) $this->get_filemanager_settings();
-		$file = file_get_contents($this->filemanager_config_file);
-
-		foreach ($settings as $prop => $value)
-		{
-			$this->type_cast_filemanager_config_value($curr_settings[$prop], $value);
-			$file = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $file);
-		}
-
-		file_put_contents($this->filemanager_config_file, $file);
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function get_filemanager_settings()
-	{
-		$editing = true;
-		return include($this->filemanager_config_file);
-	}
-
-	/**
-	 * @param mixed $curr_val
-	 * @param mixed $value
-	 * @return void
-	 */
-	protected function type_cast_filemanager_config_value($curr_val, &$value)
-	{
-		$type = gettype($curr_val);
-		switch($type)
-		{
-			case 'string':
-				$value = "'$value'";
-			break;
-			case 'integer':
-				$value = (int) $value;
-			break;
-		}
+		$this->filemanager->save($settings);
 	}
 
 	/**

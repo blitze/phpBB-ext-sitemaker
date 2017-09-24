@@ -35,9 +35,10 @@ class settings_module_test extends \phpbb_database_test_case
 	protected $template;
 	protected $icon_picker;
 	protected $util;
+	protected $php_ext;
 
 	static private $helper;
-	protected $config_file;
+	protected $config_path;
 
 	static public function setUpBeforeClass()
 	{
@@ -107,6 +108,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_filemanager'	=> false,
 		));
 		$this->config = &$config;
+		$this->php_ext = $phpEx;
 
 		$this->config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
 		$this->config_text->set('sm_layout_prefs', json_encode($db_text));
@@ -179,16 +181,21 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
+		$filesystem = new \phpbb\filesystem\filesystem();
+		$filemanager = new \blitze\sitemaker\services\filemanager\settings($filesystem, $phpbb_root_path, $phpEx);
+
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $this->icon_picker);
+		$phpbb_container->set('blitze.sitemaker.filemanager', $filemanager);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 
-		$this->config_file = dirname(__FILE__) . '/fixtures/filemanager/config.php';
-
 		$settings_module = new \blitze\sitemaker\acp\settings_module(false);
-		$settings_module->set_filemanager_config_file($this->config_file);
+
+		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
+		$filemanager->set_config_path($this->config_path);
+		$filemanager->set_config_template($this->config_path . 'default.config');
 
 		return $settings_module;
 	}
@@ -236,6 +243,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_watermark_position'	=> 'br',
 						'image_max_width'			=> 0,
 						'image_auto_resizing'		=> false,
+						'set_from_default_config'	=> true,
 					),
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
@@ -304,8 +312,12 @@ class settings_module_test extends \phpbb_database_test_case
 		);
 
 		$module = $this->get_module($variable_map, array(), true);
+		$reflection = new \ReflectionClass($module);
+		$method = $reflection->getMethod('handle_submit');
+		$method->setAccessible(true);
 
-		$module->main();
+		$parameters = array('form_key');
+		$method->invokeArgs($module, $parameters);
 
 		$expected = array(
             'forum_icon'			=> 'fa fa-car',
@@ -322,6 +334,7 @@ class settings_module_test extends \phpbb_database_test_case
 				'image_watermark_position'	=> '40x50',
 				'image_max_width'			=> 800,
 				'image_auto_resizing'		=> true,
+				'set_from_default_config'	=> true,
 			),
 		);
 
@@ -334,7 +347,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'hide_birthday'			=> $this->config['sm_hide_birthday'],
 			'layout_prefs'			=> json_decode($this->config_text->get('sm_layout_prefs'), true),
 			'filemanager'			=> $this->config['sm_filemanager'],
-			'filemanager_config'	=> include($this->config_file),
+			'filemanager_config'	=> include($this->config_path . 'config.' . $this->php_ext),
 		);
 
 		$this->assertEquals($expected, $result);

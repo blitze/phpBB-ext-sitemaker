@@ -45,14 +45,13 @@ class m302_filemanager extends \phpbb\db\migration\container_aware_migration
 	public function create_upload_dir()
 	{
 		$fs = $this->container->get('filesystem');
+		$filemanager = $this->container->get('blitze.sitemaker.filemanager');
 
 		// create upload folders if they don't exist
 		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/source', 0766);
 		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/thumbs', 0744);
 
 		// set filemanager config
-		$filemanager_config_tpl = $this->phpbb_root_path . 'filemanager.config';
-		$filemanager_config_file = $this->phpbb_root_path . 'ResponsiveFilemanager/filemanager/config/config.' . $this->php_ext;
-		$fs->copy($filemanager_config_tpl, $filemanager_config_file, true);
+		$filemanager->init();
 	}
 }

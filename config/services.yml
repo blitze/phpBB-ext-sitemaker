@@ -113,6 +113,13 @@ services:
         arguments:
             - '@user'
 
+    blitze.sitemaker.filemanager:
+        class: blitze\sitemaker\services\filemanager\settings
+        arguments:
+            - '@filesystem'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data
         arguments:
