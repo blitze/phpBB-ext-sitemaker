@@ -201,7 +201,7 @@ abstract class display
 	 *
 	 * @return	mixed	Returns array of padded titles or html string of options depending on $return_mode
 	 */
-	public function display_options($db_data, $title_column, $selected_ids = array(), $return_mode = 'options', $pad_with = '&nbsp;&nbsp;&nbsp;&nbsp;')
+	public function display_options($db_data, $title_column, $selected_ids = array(), $return_mode = 'options', $pad_with = '&nbsp;&nbsp;&nbsp;')
 	{
 		$right = 0;
 		$padding = '';
@@ -214,24 +214,58 @@ abstract class display
 		{
 			$row = $db_data[$i];
 
-			if ($row['left_id'] < $right)
-			{
-				$padding .= $pad_with;
-				$padding_store[$row['parent_id']] = $padding;
-			}
-			else if ($row['left_id'] > $right + 1)
-			{
-				$padding = (isset($padding_store[$row['parent_id']])) ? $padding_store[$row['parent_id']] : '';
-			}
+			$this->set_padding($padding, $pad_with, $row, $padding_store, $right);
 
 			$right = $row['right_id'];
-			$title = $padding . '&#x251c;&#x2500; ' . $row[$title_column];
-			$selected = (in_array($row[$this->pk], $selected_ids)) ? ' selected="selected' : '';
+			$title = $this->get_padded_title($padding, $row[$title_column]);
 
-			$return_options .= '<option value="' . $row[$this->pk] . '"' . $selected . '>' . $title . '</option>';
+			$return_options .= $this->get_html_option($row, $selected_ids, $title);
 			$return_data[$row[$this->pk]] = $title;
 		}
 
 		return ($return_mode == 'options') ? $return_options : $return_data;
+	}
+
+	/**
+	 * @param string $padding
+	 * @param string $pad_with
+	 * @param array $row
+	 * @param array $padding_store
+	 * @param int $right
+	 * @retur void
+	 */
+	protected function set_padding(&$padding, $pad_with, array $row, array $padding_store, $right)
+	{
+		if ($row['left_id'] < $right)
+		{
+			$padding .= $pad_with;
+			$padding_store[$row['parent_id']] = $padding;
+		}
+		else if ($row['left_id'] > $right + 1)
+		{
+			$padding = (isset($padding_store[$row['parent_id']])) ? $padding_store[$row['parent_id']] : '';
+		}
+	}
+
+	/**
+	 * @param string $padding
+	 * @param string $title
+	 * @return string
+	 */
+	protected function get_padded_title($padding, $title)
+	{
+		return (($padding) ? $padding . '&#x2937; ' : '') . $title;
+	}
+
+	/**
+	 * @param array $row
+	 * @param array $selected_ids
+	 * @param string $title
+	 * @return string
+	 */
+	protected function get_html_option(array $row, array $selected_ids, $title)
+	{
+		$selected = (in_array($row[$this->pk], $selected_ids)) ? ' selected="selected' : '';
+		return '<option value="' . $row[$this->pk] . '"' . $selected . '>' . $title . '</option>';
 	}
 }

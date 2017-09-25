@@ -113,22 +113,22 @@ class display_test extends \phpbb_database_test_case
 			array(
 				0,
 				0,
-				'<option value="1" selected="selected>&#x251c;&#x2500; Item 1</option>' .
-				'<option value="2">&nbsp;&nbsp;&nbsp;&nbsp;&#x251c;&#x2500; Item 2</option>' .
-				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x251c;&#x2500; Item 3</option>' .
-				'<option value="4">&#x251c;&#x2500; Item 4</option>',
+				'<option value="1" selected="selected>Item 1</option>' .
+				'<option value="2">&nbsp;&nbsp;&nbsp;&#x2937; Item 2</option>' .
+				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2937; Item 3</option>' .
+				'<option value="4">Item 4</option>',
 			),
 			array(
 				1,
 				0,
-				'<option value="2">&#x251c;&#x2500; Item 2</option>' .
-				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&nbsp;&#x251c;&#x2500; Item 3</option>',
+				'<option value="2">Item 2</option>' .
+				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&#x2937; Item 3</option>',
 			),
 			array(
 				1,
 				1,
-				'<option value="2">&#x251c;&#x2500; Item 2</option>' .
-				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&nbsp;&#x251c;&#x2500; Item 3</option>',
+				'<option value="2">Item 2</option>' .
+				'<option value="3" selected="selected>&nbsp;&nbsp;&nbsp;&#x2937; Item 3</option>',
 			),
 		);
 	}
