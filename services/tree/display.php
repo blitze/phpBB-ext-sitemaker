@@ -174,17 +174,23 @@ abstract class display
 			);
 
 			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
-
-			for ($j = 0; $j < $repeat; $j++)
-			{
-				$template->assign_block_vars($handle . '.close', array());
-			}
+			$this->recursively_close_tags($repeat, $handle . '.close', $template);
 
 			$prev_depth = $this_depth;
 			$parental_depth[$row[$this->pk]] = $this_depth;
 		}
+		$this->recursively_close_tags($prev_depth, 'close_' . $handle, $template);
+	}
 
-		for ($i = 0; $i < $prev_depth; $i++)
+	/**
+	 * @param int $repeat
+	 * @param string $handle
+	 * @param \phpbb\template\twig\twig $template
+	 * @return void
+	 */
+	protected function recursively_close_tags($repeat, $handle, \phpbb\template\twig\twig &$template)
+	{
+		for ($i = 0; $i < $repeat; $i++)
 		{
 			$template->assign_block_vars('close_' . $handle, array());
 		}
@@ -218,7 +224,6 @@ abstract class display
 
 			$right = $row['right_id'];
 			$title = $this->get_padded_title($padding, $row[$title_column]);
-
 			$return_options .= $this->get_html_option($row, $selected_ids, $title);
 			$return_data[$row[$this->pk]] = $title;
 		}
