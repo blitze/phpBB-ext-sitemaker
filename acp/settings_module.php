@@ -79,7 +79,7 @@ class settings_module
 		$this->config_text = $phpbb_container->get('config_text');
 		$this->finder = $phpbb_container->get('ext.manager')->get_finder();
 		$this->translator = $phpbb_container->get('language');
-		$this->filemanager = $phpbb_container->get('blitze.sitemaker.filemanager');
+		$this->filemanager = $phpbb_container->get('blitze.sitemaker.filemanager.settings');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->trigger_errors = $trigger_errors;

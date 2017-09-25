@@ -13,9 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class admin_bar
 {
-	/** @var \phpbb\auth\auth */
-	protected $auth;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -31,6 +28,9 @@ class admin_bar
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \blitze\sitemaker\services\filemanager\setup */
+	protected $filemanager;
+
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icons;
 
@@ -43,24 +43,24 @@ class admin_bar
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth							$auth					Auth object
-	 * @param \phpbb\config\config						$config					Config object
-	 * @param ContainerInterface						$phpbb_container		Service container
-	 * @param \phpbb\template\template					$template				Template object
-	 * @param \phpbb\language\language					$translator				Language object
-	 * @param \phpbb\user								$user					User object
-	 * @param \blitze\sitemaker\services\icon_picker	$icons					Sitemaker icon picker object
-	 * @param \blitze\sitemaker\services\util			$util					Sitemaker util object
-	 * @param string									$php_ext				phpEx
+	 * @param \phpbb\config\config							$config					Config object
+	 * @param ContainerInterface							$phpbb_container		Service container
+	 * @param \phpbb\template\template						$template				Template object
+	 * @param \phpbb\language\language						$translator				Language object
+	 * @param \phpbb\user									$user					User object
+	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager			Filemanager object
+	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
+	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
+	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
+	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
 	{
-		$this->auth = $auth;
 		$this->config = $config;
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
 		$this->translator = $translator;
 		$this->user = $user;
+		$this->filemanager = $filemanager;
 		$this->icons = $icons;
 		$this->util = $util;
 		$this->php_ext = $php_ext;
@@ -116,6 +116,7 @@ class admin_bar
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
+		$this->filemanager->set_js_vars();
 		$this->template->assign_vars(array(
 			'S_IS_DEFAULT'		=> $is_default_route,
 
@@ -127,8 +128,8 @@ class admin_bar
 			'UA_STYLE_ID'		=> $style_id,
 			'UA_SCRIPT_PATH'	=> $this->user->page['root_script_path'],
 			'UA_WEB_ROOT_PATH'	=> $this->util->get_web_path(),
-			'UA_FILEMANAGER'	=> $this->can_use_filemanager(),
-			'UA_RF_ACCESS_KEY'	=> sha1($this->user->data['user_form_salt'] . 'filemanager'),
+			'UA_FILEMANAGER'	=> $this->filemanager->is_enabled(),
+			'UA_RF_ACCESS_KEY'	=> $this->filemanager->get_access_key(),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));
@@ -290,13 +291,5 @@ class admin_bar
 	protected function startpage_is_set()
 	{
 		return ($this->config['sitemaker_startpage_controller']) ? true : false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function can_use_filemanager()
-	{
-		return $this->config['sm_filemanager'] && $this->auth->acl_get('u_sm_filemanager');
 	}
 }

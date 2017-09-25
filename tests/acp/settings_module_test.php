@@ -188,7 +188,7 @@ class settings_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $this->icon_picker);
-		$phpbb_container->set('blitze.sitemaker.filemanager', $filemanager);
+		$phpbb_container->set('blitze.sitemaker.filemanager.settings', $filemanager);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 
 		$settings_module = new \blitze\sitemaker\acp\settings_module(false);

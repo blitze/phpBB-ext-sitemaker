@@ -42,12 +42,12 @@ services:
     blitze.sitemaker.blocks.admin_bar:
         class: blitze\sitemaker\services\blocks\admin_bar
         arguments:
-            - '@auth'
             - '@config'
             - '@service_container'
             - '@template'
             - '@language'
             - '@user'
+            - '@blitze.sitemaker.filemanager.setup'
             - '@blitze.sitemaker.icon_picker'
             - '@blitze.sitemaker.util'
             - '%core.php_ext%'
@@ -113,12 +113,19 @@ services:
         arguments:
             - '@user'
 
-    blitze.sitemaker.filemanager:
+    blitze.sitemaker.filemanager.settings:
         class: blitze\sitemaker\services\filemanager\settings
         arguments:
             - '@filesystem'
             - '%core.root_path%'
             - '%core.php_ext%'
+
+    blitze.sitemaker.filemanager.setup:
+        class: blitze\sitemaker\services\filemanager\setup
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@template'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data
