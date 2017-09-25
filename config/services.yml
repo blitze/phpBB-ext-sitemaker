@@ -286,5 +286,4 @@ services:
         arguments:
             - '@path_helper'
             - '@template'
-            - '@template_context'
             - '@user'

@@ -49,14 +49,6 @@ class util_test extends \phpbb_test_case
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style['style_path'] = 'prosilver';
 
-		$template_context = $this->getMockBuilder('phpbb\template\context')
-			->getMock();
-		$template_context->expects($this->any())
-			->method('get_root_ref')
-			->will($this->returnCallback(function() {
-				return array('S_FORM_TOKEN' => '12345');
-			}));
-
 		$temp_data = array();
 		$this->tpl_data = &$temp_data;
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -71,6 +63,11 @@ class util_test extends \phpbb_test_case
 			->will($this->returnCallback(function($data) use (&$temp_data) {
 				$temp_data['.'][] = $data;
 			}));
+		$template->expects($this->any())
+			->method('retrieve_var')
+			->will($this->returnCallback(function() {
+				return '12345';
+			}));
 
 		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
 			->disableOriginalConstructor()
@@ -81,7 +78,7 @@ class util_test extends \phpbb_test_case
 				return './';
 			}));
 
-		$this->util = new util($path_helper, $template, $template_context, $user);
+		$this->util = new util($path_helper, $template, $user);
 	}
 
 	/**

@@ -189,7 +189,6 @@ services:
         arguments:
             - '@auth'
             - '@config'
-            - '@template_context'
             - '@language'
             - '@template'
             - '@user'

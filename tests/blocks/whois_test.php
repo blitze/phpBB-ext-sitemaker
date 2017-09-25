@@ -45,28 +45,6 @@ class whois_test extends blocks_base
 		$this->config['record_online_users'] = 3;
 		$this->config['record_online_date'] = strtotime('7 December 2015');
 
-		$template_context = $this->getMockBuilder('\phpbb\template\context')
-			->disableOriginalConstructor()
-			->getMock();
-		$template_context->expects($this->any())
-			->method('get_data_ref')
-			->willReturnCallback(function () use ($current_page) {
-				$data = array();
-				if (strpos($current_page, 'f=') !== false)
-				{
-					$data = array(
-						'.' => array(
-							array(
-								'TOTAL_USERS_ONLINE' => 'In total there is 1 user online :: 2 registered, 0 hidden and 0 guests',
-								'LOGGED_IN_USER_LIST' => 'Users browsing this forum: demo and 0 guests',
-								'RECORD_USERS' => 'Most users ever online was 2 on Tue Nov 24, 2015 4:49 pm',
-							),
-						),
-					);
-				}
-				return $data;
-			});
-
 		$translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
@@ -78,13 +56,26 @@ class whois_test extends blocks_base
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
-
 		$template->expects($this->exactly($call_count))
 			->method('assign_var')
 			->with(
 				$this->equalTo('S_DISPLAY_ONLINE_LIST'),
 				$this->equalTo(false)
 			);
+		$template->expects($this->any())
+			->method('retrieve_vars')
+			->with(array('TOTAL_USERS_ONLINE', 'LOGGED_IN_USER_LIST', 'RECORD_USERS'))
+			->willReturnCallback(function () use ($current_page) {
+				if (strpos($current_page, 'f=') !== false)
+				{
+					return array(
+						'TOTAL_USERS_ONLINE' => 'In total there is 1 user online :: 2 registered, 0 hidden and 0 guests',
+						'LOGGED_IN_USER_LIST' => 'Users browsing this forum: demo and 0 guests',
+						'RECORD_USERS' => 'Most users ever online was 2 on Tue Nov 24, 2015 4:49 pm',
+					);
+				}
+				return null;
+			});
 
 		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
 		$user->timezone = new \DateTimeZone('UTC');
@@ -94,7 +85,7 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new whois($this->auth, $this->config, $template_context, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
+		$block = new whois($this->auth, $this->config, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;

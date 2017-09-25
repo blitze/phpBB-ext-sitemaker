@@ -17,9 +17,6 @@ class util
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\template\context */
-	protected $template_context;
-
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -34,14 +31,12 @@ class util
 	 *
 	 * @param \phpbb\path_helper					$path_helper		Path helper object
 	 * @param \phpbb\template\template				$template			Template object
-	 * @param \phpbb\template\context				$template_context	Template context object
 	 * @param \phpbb\user							$user				User object
 	 */
-	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\template\context $template_context, \phpbb\user $user)
+	public function __construct(\phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->path_helper = $path_helper;
 		$this->template = $template;
-		$this->template_context = $template_context;
 		$this->user = $user;
 
 		$this->scripts = array(
@@ -92,10 +87,7 @@ class util
 	{
 		add_form_key($form_name);
 
-		$rootref = $this->template_context->get_root_ref();
-		$s_form_token = $rootref['S_FORM_TOKEN'];
-
-		return $s_form_token;
+		return $this->template->retrieve_var('S_FORM_TOKEN');
 	}
 
 	/**

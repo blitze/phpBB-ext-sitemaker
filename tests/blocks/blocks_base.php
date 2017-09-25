@@ -153,9 +153,6 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$profile_fields = new \phpbb\profilefields\manager($this->auth, $this->db, $phpbb_dispatcher, $this->request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
 
-		$template_context = $this->getMockBuilder('phpbb\template\context')
-			->getMock();
-
 		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
 			->disableOriginalConstructor()
 			->getMock();
@@ -165,7 +162,7 @@ abstract class blocks_base extends \phpbb_database_test_case
 				return './';
 			}));
 
-		$this->util = new \blitze\sitemaker\services\util($path_helper, $template, $template_context, $user);
+		$this->util = new \blitze\sitemaker\services\util($path_helper, $template, $user);
 
 		$this->user_data = new \blitze\sitemaker\services\users\data($this->auth, $this->config, $this->db, $profile_fields, $this->translator, $user, $this->util, $phpbb_root_path, $phpEx);
 	}
