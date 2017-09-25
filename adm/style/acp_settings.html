@@ -155,8 +155,9 @@
 						{% endfor %}
 						</select>
                         <select class="view-option" name="layouts[{{ style.id }}][view]">
+						{%- set view = style.view ?: 'simple' -%}
 						{% for value in views %}
-							<option value="{{ value }}"{{ value === style.view ? ' selected="selected"' : '' }}>{{ lang('BLOCK_VIEW_' ~ value|upper) }}</option>
+							<option value="{{ value }}"{{ value === view ? ' selected="selected"' : '' }}>{{ lang('BLOCK_VIEW_' ~ value|upper) }}</option>
 						{% endfor %}
 						</select>
                     </label>
