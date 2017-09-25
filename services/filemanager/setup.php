@@ -23,18 +23,23 @@ class setup
 	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth				$auth				Auth object
 	 * @param \phpbb\config\config			$config				Config object
 	 * @param \phpbb\template\template		$template			Template object
+	 * @param \phpbb\user					$user				User object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->template = $template;
+		$this->user = $user;
 	}
 
 	/**

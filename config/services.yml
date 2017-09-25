@@ -126,6 +126,7 @@ services:
             - '@auth'
             - '@config'
             - '@template'
+            - '@user'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data

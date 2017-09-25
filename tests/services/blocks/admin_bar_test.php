@@ -166,7 +166,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $template);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $template, $user);
 
 		return new admin_bar($config, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}
