@@ -65,7 +65,7 @@
 			<dl>
 				<dt><label for="filemanager_auto_resize_image">{{ lang('FILEMANAGER_IMAGE_AUTO_RESIZE') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
 				<dd>
-					<label><input type="radio" class="radio" id="filemanager_auto_resize_image" name="filemanager[image_resizing]" value="true"{% if filemanager.image_resizing === 'true' %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" id="filemanager_auto_resize_image" name="filemanager[image_resizing]" value="true"{% if filemanager.image_resizing %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 					<label><input type="radio" class="radio" name="filemanager[image_resizing]" value="false"{% if !filemanager.image_resizing %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 				</dd>
 			</dl>
