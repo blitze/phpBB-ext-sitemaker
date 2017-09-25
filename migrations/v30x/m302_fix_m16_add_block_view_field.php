@@ -41,16 +41,19 @@ class m302_fix_m16_add_block_view_field extends \phpbb\db\migration\migration
 	 */
 	public function fix_migration_deps()
 	{
-		$migration_name = '\blitze\sitemaker\migrations\v30x\m16_add_block_view_field';
+		$migration_name = '\\blitze\\sitemaker\\migrations\\v30x\\m16_add_block_view_field';
 		$migration_deps = array(
-			'\blitze\sitemaker\migrations\v20x\m1_initial_schema',
-			'\blitze\sitemaker\migrations\converter\c4_convert_primetime_data',
+			'\\blitze\\sitemaker\\migrations\\v20x\\m1_initial_schema',
+			'\\blitze\\sitemaker\\migrations\\converter\\c4_convert_primetime_data',
 		);
 
 		$sql_data = array(
 			'migration_depends_on' => serialize($migration_deps),
 		);
 
-		$this->db->sql_query('UPDATE ' . $this->table_prefix . 'migrations SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . ' WHERE migration_name = "' . $this->db->sql_escape($migration_name) . '"');
+		$sql = 'UPDATE ' . $this->table_prefix . 'migrations
+				SET ' . $this->db->sql_build_array('UPDATE', $sql_data) . "
+				WHERE migration_name = '" . $this->db->sql_escape($migration_name) . "'";
+		$this->db->sql_query($sql);
 	}
 }
