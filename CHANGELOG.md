@@ -1,8 +1,20 @@
 # Changelog
 
+## 3.1.0 - 2017-9-26
+
+- Added horizontal navbar
+- Added Responsive Filemanager for uploading and editing images
+- Added permission to use Filemanager
+- Add event to display acp settings form (blitze_sitemaker.acp_display_settings_form)
+- Add event to save acp settings form (blitze_sitemaker.acp_save_settings)
+- Only rename board index to 'home' if a custom start page is set
+- Update to twig syntax
+- Make 'hide all blocks' feature work again
+- Fixed issue that made it impossible to select forum navbar icon in acp
+
 ## 3.0.1 - 2017-3-17
 
-- Added holy grail layout (fixed width sidebars with flexible middle column)
+- Added holy grail layout (fixed-width sidebars with flexible middle column)
 - Updated responsive design to more standard responsive design patterns (no more floating sidebars)
 - Added event to modify block positions (blitze_sitemaker.modify_block_positions)
 - Added event to modify a rendered block (blitze_sitemaker.modify_rendered_block)
