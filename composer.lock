@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bf4b1aedde7cf9cf0be08be11707b92",
+    "content-hash": "d642fd3cbe2046ff254bb5d0b2bb2bb9",
     "packages": [
         {
             "name": "ResponsiveFilemanager",

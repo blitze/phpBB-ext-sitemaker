@@ -12,7 +12,7 @@ namespace blitze\sitemaker\migrations\v30x;
 /**
  * Initial schema changes needed for Extension installation
  */
-class m302_filemanager extends \phpbb\db\migration\container_aware_migration
+class m310_filemanager extends \phpbb\db\migration\container_aware_migration
 {
 	/**
 	 * @inheritdoc

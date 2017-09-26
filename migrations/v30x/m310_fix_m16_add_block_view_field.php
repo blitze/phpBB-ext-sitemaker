@@ -14,7 +14,7 @@ namespace blitze\sitemaker\migrations\v30x;
  * For some reason, by depending on m1_initial_schema, m1_initial_schema is reverted (removing sm_blocks)
  * before m16_add_block_view_field is reverted when uninstalling the extension
  */
-class m302_fix_m16_add_block_view_field extends \phpbb\db\migration\migration
+class m310_fix_m16_add_block_view_field extends \phpbb\db\migration\migration
 {
 	/**
 	 * @inheritdoc
