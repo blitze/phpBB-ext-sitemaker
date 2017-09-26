@@ -67,10 +67,11 @@ class settings_module
 	 */
 	public function __construct($trigger_errors = true)
 	{
-		global $phpbb_container, $config, $db, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $phpbb_dispatcher, $config, $db, $request, $template, $phpbb_root_path, $phpEx;
 
 		$this->db = $db;
 		$this->config = $config;
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
 		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -100,6 +101,17 @@ class settings_module
 		add_form_key($form_key);
 
 		$layouts = $this->get_layouts();
+
+		/**
+		 * Event to display acp settings form
+		 *
+		 * @event blitze_sitemaker.acp_display_settings_form
+		 * @var	array	layouts		Array of layout settings
+		 * @since 3.1.0-RC1
+		 */
+		$vars = array('layouts');
+		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_display_settings_form', compact($vars)));
+
 		$this->template->assign_vars(array(
 			'u_action'			=> $this->u_action,
 			'icon_picker'		=> $this->icon->picker(),
@@ -125,6 +137,14 @@ class settings_module
 			$this->check_form_key($form_key);
 			$this->save_filemanager_settings();
 			$this->save_config_settings();
+
+			/**
+			 * Event to save acp settings
+			 *
+			 * @event blitze_sitemaker.acp_save_settings
+			 * @since 3.1.0-RC1
+			 */
+			extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_save_settings'));
 
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
