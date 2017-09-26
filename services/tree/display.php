@@ -211,9 +211,8 @@ abstract class display
 	{
 		$right = 0;
 		$padding = '';
-		$return_options = '';
-		$return_data = array();
 		$padding_store = array('0' => '');
+		$return = array('options' => '', 'data' => array());
 
 		$db_data = array_values($db_data);
 		for ($i = 0, $size = sizeof($db_data); $i < $size; $i++)
@@ -224,11 +223,11 @@ abstract class display
 
 			$right = $row['right_id'];
 			$title = $this->get_padded_title($padding, $row[$title_column]);
-			$return_options .= $this->get_html_option($row, $selected_ids, $title);
-			$return_data[$row[$this->pk]] = $title;
+			$return['options'] .= $this->get_html_option($row, $selected_ids, $title);
+			$return['data'][$row[$this->pk]] = $title;
 		}
 
-		return ($return_mode == 'options') ? $return_options : $return_data;
+		return $return[$return_mode];
 	}
 
 	/**
