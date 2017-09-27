@@ -26,6 +26,9 @@ class settings_module
 	/** @var \phpbb\finder */
 	protected $finder;
 
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $phpbb_dispatcher;
+
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -144,7 +147,7 @@ class settings_module
 			 * @event blitze_sitemaker.acp_save_settings
 			 * @since 3.1.0-RC1
 			 */
-			extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_save_settings'));
+			$this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_save_settings');
 
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
