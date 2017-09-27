@@ -9,7 +9,6 @@
 
 namespace blitze\sitemaker\acp;
 
-use Symfony\Component\Yaml\Yaml;
 use blitze\sitemaker\services\menus\nestedset;
 
 /**
