@@ -113,6 +113,10 @@ gulp.task('clean', function() {
 	]);
 });
 
+gulp.task('rebuild_vendors', ['bower'], function() {
+	gulp.start('vendor');
+});
+
 gulp.task('watch', function() {
 	// Watch js files
 	gulp.watch(paths.dev.scripts + '**/*.js', ['js']);
@@ -120,11 +124,8 @@ gulp.task('watch', function() {
 	// Watch sass files
 	gulp.watch(paths.dev.scripts + '**/*.scss', ['sass']);
 
-	// Watch Vendor files
-	gulp.watch(paths.dev.vendor + '**', ['vendor']);
-
 	// Watch bower.json
-	gulp.watch('./bower.json', ['bower']);
+	gulp.watch('./bower.json', ['rebuild_vendors']);
 });
 
 gulp.task('build', ['clean'], function() {
