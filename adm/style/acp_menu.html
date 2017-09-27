@@ -35,7 +35,7 @@
 		<div class="bulk-container">
 			<div style="display: none">
 				<button id="add-new">{{ lang('ADD_MENU_ITEM') }}</button>
-				<button id="add-bulk">&nbsp;</button>
+				<button id="add-bulk">{{ lang('ADD_BULK_MENU') }}</button>
 			</div>
 			<div class="bulk-dropdown">
 				<form id="bulk_form" name="bulk_form" action="" method="post">
@@ -53,6 +53,15 @@
 						</select><br /><br />
 						<label>{{ lang('MENU_ITEMS') }}</label>
 						<textarea id="add_list" rows="5" cols="50" name="add_list"></textarea>
+						{% for type, items in bulk_options %}
+							<div class="bulk-container">
+								<button class="bulk-type" data-items="{{ items }}">{{ lang(type) }}</button>
+								<button class="bulk-type-list">{{ lang('SELECT') }}</button>
+								<div class="bulk-dropdown bulk-type-items">
+									<div class="inner"></div>
+								</div>
+							</div>
+						{% endfor %}
 						<p class="submit-buttons">
 							<input class="button2" type="reset" id="cancel" name="cancel" value="{{ lang('CANCEL') }}" />
 							<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
@@ -130,7 +139,7 @@
 <script type="text/javascript">
 // <![CDATA[
 	var ajaxUrl	= '{{ UA_AJAX_URL }}';
-	var menuId	= {{ UA_MENU_ID }};
+	var menuId	= {{ MENU_ID|e('js') }};
 	var lang = {
 		none				: '{{ lang('NO_PARENT')|escape('js') }}',
 		addNode				: '{{ lang('ADD_ITEM')|escape('js') }}',

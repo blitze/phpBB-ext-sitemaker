@@ -14,9 +14,9 @@
   "overrides": {
     "codemirror": {
       "main": [
-        "lib/codemirror.js",
-        "lib/codemirror.css",
         "addon/display/autorefresh.js",
+        "lib/*",
+        "mode/twig/*",
         "theme/monokai.css"
       ]
     },

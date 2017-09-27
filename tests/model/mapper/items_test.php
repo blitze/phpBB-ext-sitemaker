@@ -118,7 +118,7 @@ class items_test extends base_mapper
 		return array(
 			array(
 				0,
-				"Sample\n    Test Item",
+				"Sample\n\tTest Item",
 				array(
 					array(
 						'item_id'		=> 1,
@@ -164,7 +164,7 @@ class items_test extends base_mapper
 			),
 			array(
 				2,
-				"Sample\n    Test Item",
+				"Sample\n\tTest Item",
 				array(
 					array(
 						'item_id'		=> 1,

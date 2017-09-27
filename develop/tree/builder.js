@@ -9,6 +9,7 @@
 
 	var lang = window.lang || {};
 	var Twig = window.Twig || {};
+	var codeMirror = {};
 
 	$.widget('sitemaker.treeBuilder', {
 		options: {
@@ -54,7 +55,6 @@
 			var eButtons = {};
 			var dButtons = {};
 			var sButtons = {};
-			var codeMirror = {};
 
 			// call nested sortable
 			this.nestedList = this.element.addClass('tree-builder').find(this.options.nestedList).nestedSortable({
@@ -251,20 +251,23 @@
 				icons: {
 					primary: 'ui-icon-triangle-1-s'
 				}
-			}).click(function(event) {
-				var pos = $(event.target).offset();
-				var height = $(event.target).height();
-				var form = $(event.currentTarget).toggleClass('dropped').blur().parent().next().slideToggle().offset({
-					top: pos.top + height + 5,
-					left: pos.left - 167
+			}).click(function(e) {
+				e.preventDefault();
+
+				var $button = $(e.currentTarget).toggleClass('dropped').blur();
+				var $dropdown = $button.parent().next();
+				var width = $dropdown.width();
+				var pos = $button.offset();
+
+				var form = $dropdown.slideToggle().offset({
+					top: pos.top + $button.height() + 10,
+					left: pos.left - (width / 2) + $button.width()
 				});
 
-				if ($(event.currentTarget).hasClass('dropped') === true) {
+				if ($button.hasClass('dropped') === true) {
 					var options = '<option value="0">' + lang.none + '</option>';
 					form.find('select').html(self._getOptions(self.nestedList, '', options)).next().val();
 				}
-
-				event.preventDefault();
 			});
 
 			this.addBulkBtn.parent().buttonset().show().next().hide().find('#cancel').click(function() {
@@ -336,15 +339,9 @@
 				autoRefresh: true,
 				styleActiveLine: true,
 				fixedGutter: true,
-				indentUnit: 4,
 				coverGutterNextToScrollbar: false,
-				tabMode: "shift",
-				extraKeys: {
-					'Tab': function(cm) {
-						var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-						cm.replaceSelection(spaces);
-					}
-				}
+				indentWithTabs: true,
+				indentUnit: 4
 			});
 
 			this.getItems();
@@ -370,6 +367,10 @@
 					self._addToTree(data.items);
 				}
 			});
+		},
+
+		getCodeMirrorInstance: function() {
+			return codeMirror;
 		},
 
 		showMessage: function(message) {

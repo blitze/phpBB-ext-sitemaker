@@ -11,6 +11,8 @@
 - Update to twig syntax
 - Make 'hide all blocks' feature work again
 - Fixed issue that made it impossible to select forum navbar icon in acp
+- Fixed issue with uinstalling/re-enabling the extension (phpbb_sm_blocks does not exist)
+- Added ability to generate menu from forum categories
 
 ## 3.0.1 - 2017-3-17
 

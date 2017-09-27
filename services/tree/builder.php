@@ -130,7 +130,7 @@ abstract class builder extends \phpbb\tree\nestedset
 	 * @param	string	$structure		The structure to build ex:
 	 *										Home|index.php
 	 *										News|index.php?p=news
-	 *										Texas|index.php?p=news&cat=Texas
+	 *											Texas|index.php?p=news&cat=Texas
 	 *										About Us|index.php?p=about
 	 * @param	array	$table_fields	The expected information to get for each line (order is important) ex: array('title' => '', 'url' => '')
 	 *									This will then assign 'Home' to 'title' and 'index.php' to 'url' in example above (line 1)
@@ -154,9 +154,7 @@ abstract class builder extends \phpbb\tree\nestedset
 		$adj_tree = $parent_ary = array();
 		foreach ($lines as $i => $string)
 		{
-			$indent = strspn($string, " ");
-			$depth = (int) ($indent / 4);
-
+			$depth = strspn($string, "\t");
 			$parent_id = (isset($parent_ary[$depth - 1])) ? $parent_ary[$depth - 1] : 0;
 
 			if ($depth && !$parent_id)

@@ -1,6 +1,23 @@
 ;(function($, window, document, undefined) {
 	'use strict';
 
+	var codeMirror = {};
+
+	function insertText(data) {
+		var doc = codeMirror.getDoc();
+		var cursor = doc.getCursor();
+		var line = doc.getLine(cursor.line);
+		var pos = {
+			line: cursor.line
+		};
+
+		if (!line.match(/\S/i)) {
+			doc.replaceRange(data, pos);
+		} else {
+			doc.replaceRange("\n" + data, pos);
+		}
+	}
+
 	$(document).ready(function() {
 		var ajaxUrl = window.ajaxUrl || '';
 		var menuId = window.menuId || 0;
@@ -152,5 +169,65 @@
 		if (menuId) {
 			menuAdmin.show();
 		}
+
+		codeMirror = $('#nested-tree').treeBuilder('getCodeMirrorInstance');
+
+		// set button events
+		$('.bulk-type').button().click(function(e) {
+			e.preventDefault();
+			var itemsStr = $(this).data('items').trim();
+			insertText(itemsStr);
+		}).each(function(i, element) {
+			var list = [];
+			var items = $(this).data('items').trim().split("\n");
+			$.each(items, function(j, item) {
+				var parts = item.split('|');
+				list.push('<a href="#" data-item="' + item + '">' + parts[0].replace("\t", '&nbsp; &nbsp;') + '</a>');
+			});
+			$(element).siblings('.bulk-dropdown').children('.inner').html(list.join('<br />'));
+		});
+
+		$('.bulk-type-list').button({
+			text: false,
+			icons: {
+				primary: 'ui-icon-triangle-1-n'
+			}
+		}).click(function(e) {
+			e.preventDefault();
+
+			var $button = $(e.currentTarget);
+			var $dropdown = $button.next();
+			var pos = $button.offset();
+			var height = $dropdown.height();
+			var width = $dropdown.width();
+
+			$dropdown.toggle().offset({
+				top: pos.top - height,
+				left: pos.left - (width / 2) - $button.width()
+			});
+		}).parent().buttonset();
+
+		$('.bulk-type-items').on('click', 'a', function(e) {
+			e.preventDefault();
+			insertText($(this).data('item').trim());
+		});
+
+		var cmTabs = 0;
+		codeMirror.on("keyup", function(cm) {
+			var doc = cm.getDoc();
+			var line = doc.getLine(cm.getCursor().line);
+			var matches = line.match(/\s/gim);
+			cmTabs = matches ? matches.length : 0;
+		});
+
+		codeMirror.on("change", function(cm, change) {
+		    var spaces = cmTabs * cm.options.tabSize;
+		    cm.operation(function() {
+		    	/* global CodeMirror */
+		        for (var line = change.from.line + 1, end = CodeMirror.changeEnd(change).line; line <= end; ++line) {
+		            cm.indentLine(line, spaces);
+		        }
+		    });
+		});
 	});
 })(jQuery, window, document);

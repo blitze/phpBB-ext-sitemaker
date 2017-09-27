@@ -51,6 +51,23 @@ $toast-gutter-width: 5px;
 	}
 }
 
+.tree-builder .bulk-type-items {
+	width: auto;
+	max-height: 150px;
+	overflow: hidden;
+	overflow-y: auto;
+    white-space: nowrap;
+
+	a {
+	    width: 100%;
+	    text-align: left;
+	}
+}
+
+.cm-tab {
+	border-left: 1px dashed #444;
+}
+
 @import "bower_components/toast-grid/scss/grid";
 
 .grid {

@@ -12,6 +12,8 @@ namespace blitze\sitemaker\tests\acp;
 use phpbb\request\request_interface;
 use blitze\sitemaker\acp\menu_module;
 
+require_once dirname(__FILE__) . '../../../../../../includes/functions_admin.php';
+
 class menu_module_test extends \phpbb_database_test_case
 {
 	protected $template;
@@ -44,7 +46,7 @@ class menu_module_test extends \phpbb_database_test_case
 	 */
 	public function get_module(array $variable_map)
 	{
-		global $phpbb_container, $phpbb_dispatcher, $request, $template;
+		global $phpbb_container, $phpbb_dispatcher, $db, $request, $template;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -82,14 +84,16 @@ class menu_module_test extends \phpbb_database_test_case
 			->will($this->returnCallback(function($data) use (&$tpl_data) {
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
-
-		// make sure we've set template file
+		$template->expects($this->any())
+			->method('assign_var')
+			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+				$tpl_data[$key] = $data;
+			}));
 		$template->expects($this->any())
 			->method('assign_block_vars')
 			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
 				$tpl_data[$key][] = $data;
 			}));
-
 		$template->expects($this->any())
 			->method('assign_display')
 			->will($this->returnCallback(function() use (&$tpl_data) {
@@ -148,8 +152,10 @@ class menu_module_test extends \phpbb_database_test_case
 					'MENU_ID' => 1,
 					'ICON_PICKER' => NULL,
 					'T_PATH' => 'phpBB/',
-					'UA_MENU_ID' => 1,
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
+					'bulk_options' => array(
+						'FORUMS' => "Forum 1|viewforum.php?f=1\n\tForum 2|viewforum.php?f=2",
+					),
 				),
 			),
 			array(
@@ -173,8 +179,10 @@ class menu_module_test extends \phpbb_database_test_case
 					'MENU_ID' => 2,
 					'ICON_PICKER' => NULL,
 					'T_PATH' => 'phpBB/',
-					'UA_MENU_ID' => 2,
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
+					'bulk_options' => array(
+						'FORUMS' => "Forum 1|viewforum.php?f=1\n\tForum 2|viewforum.php?f=2",
+					),
 				),
 			),
 		);

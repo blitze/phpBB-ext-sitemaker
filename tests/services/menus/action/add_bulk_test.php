@@ -24,7 +24,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 1),
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n	Test 2"),
 				),
 				array(
 					array(
@@ -47,7 +47,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 1),
 					array('parent_id', 0, false, request_interface::REQUEST, 2),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n	Test 2"),
 				),
 				array(
 					array(
@@ -70,7 +70,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2\nTest 3"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n	Test 2\nTest 3"),
 				),
 				array(
 					array(
@@ -126,7 +126,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 4),
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n	Test 2"),
 				),
 				'EXCEPTION_OUT_OF_BOUNDS-menu_id',
 			),
@@ -134,7 +134,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 					array('parent_id', 0, false, request_interface::REQUEST, 3),
-					array('add_list', '', true, request_interface::REQUEST, "Test 1\n    Test 2"),
+					array('add_list', '', true, request_interface::REQUEST, "Test 1\n	Test 2"),
 				),
 				'MENU_INVALID_PARENT',
 			),
@@ -142,7 +142,7 @@ class add_bulk_test extends base_action
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 					array('parent_id', 0, false, request_interface::REQUEST, 0),
-					array('add_list', '', true, request_interface::REQUEST, "    Test 1\nTest 2"),
+					array('add_list', '', true, request_interface::REQUEST, "	Test 1\nTest 2"),
 				),
 				'MENU_MALFORMED_TREE',
 			),

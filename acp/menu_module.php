@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\acp;
 
+use Symfony\Component\Yaml\Yaml;
 use blitze\sitemaker\services\menus\nestedset;
 
 /**
@@ -18,6 +19,9 @@ class menu_module
 {
 	/** @var \phpbb\controller\helper */
 	protected $controller_helper;
+
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $phpbb_dispatcher;
 
 	/** @var \phpbb\request\request_interface */
 	protected $request;
@@ -54,8 +58,9 @@ class menu_module
 	 */
 	public function __construct()
 	{
-		global $phpbb_container, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $phpbb_dispatcher, $request, $template, $phpbb_root_path, $phpEx;
 
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
 		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -68,12 +73,39 @@ class menu_module
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
 
+		nestedset::load_scripts($this->util);
+		$this->util->add_assets(array(
+			'js'	=> array('@blitze_sitemaker/assets/menu/admin.min.js'),
+			'css'	=> array('@blitze_sitemaker/assets/menu/admin.min.css')
+		));
+
+		$this->list_menus($menu_id);
+		$this->build_bulk_options();
+
+		$this->template->assign_vars(array(
+			'S_MENU'		=> true,
+			'MENU_ID'		=> $menu_id,
+			'ICON_PICKER'	=> $this->icon->picker(),
+			'T_PATH'		=> $this->phpbb_root_path,
+			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
+		));
+
+		$this->tpl_name = 'acp_menu';
+		$this->page_title = 'ACP_MENU';
+	}
+
+	/**
+	 * @param int $menu_id
+	 * @return void
+	 */
+	protected function list_menus(&$menu_id)
+	{
 		$menu_mapper = $this->mapper_factory->create('menus');
 
 		// Get all menus
@@ -94,28 +126,45 @@ class menu_module
 				));
 			}
 		}
+	}
 
-		nestedset::load_scripts($this->util);
+	/**
+	 * @return void
+	 */
+	protected function build_bulk_options()
+	{
+		$bulk_options = array();
+		$forumslist = make_forum_select(false, false, true, false, false, false, true);
 
-		$this->util->add_assets(array(
-			'js'	=> array(
-				'@blitze_sitemaker/assets/menu/admin.min.js',
-			),
-			'css'	=> array(
-				'@blitze_sitemaker/assets/menu/admin.min.css',
-			)
-		));
+		/**
+		 * Event to add bulk menu options
+		 *
+		 * @event blitze_sitemaker.acp_add_bulk_menu_options
+		 * @var	array	bulk_options	Array of bulk menu options
+		 * @since 3.1.0-RC1
+		 */
+		$vars = array('bulk_options', 'forumslist');
+		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_add_bulk_menu_options', compact($vars)));
 
-		$this->template->assign_vars(array(
-			'S_MENU'		=> true,
-			'MENU_ID'		=> $menu_id,
-			'ICON_PICKER'	=> $this->icon->picker(),
-			'T_PATH'		=> $this->phpbb_root_path,
-			'UA_MENU_ID'	=> $menu_id,
-			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
-		));
+		$bulk_options['FORUMS']	= $this->get_forums_string($forumslist);
 
-		$this->tpl_name = 'acp_menu';
-		$this->page_title = 'ACP_MENU';
+		$this->template->assign_var('bulk_options', $bulk_options);
+	}
+
+	/**
+	 * @param array $forumslist
+	 * @return string
+	 */
+	protected function get_forums_string(array $forumslist)
+	{
+		$text = '';
+		foreach ($forumslist as $forum_id => $row)
+		{
+			$text .= str_replace('&nbsp; &nbsp;', "\t", $row['padding']);
+			$text .= $row['forum_name'] . '|';
+			$text .= "viewforum.{$this->php_ext}?f=$forum_id\n";
+		}
+
+		return trim($text);
 	}
 }
