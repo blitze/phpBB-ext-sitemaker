@@ -16,13 +16,15 @@ root
 			- thumbs
 			- tinymce
 ```
-- Add event to display acp settings form (blitze_sitemaker.acp_display_settings_form)
-- Add event to save acp settings form (blitze_sitemaker.acp_save_settings)
+- Add event to display acp settings form (blitze.sitemaker.acp_display_settings_form)
+- Add event to save acp settings form (blitze.sitemaker.acp_save_settings)
 - Only rename board index to 'home' if a custom start page is set
 - Update to twig syntax
 - Make 'hide all blocks' feature work again
 - Fixed issue that made it impossible to select forum navbar icon in acp
 - Fixed issue with uinstalling/re-enabling the extension (phpbb_sm_blocks does not exist)
+- Renamed event blitze_sitemaker.modify_block_positions to blitze.sitemaker.modify_block_positions
+- Renamed event blitze_sitemaker.modify_rendered_block to blitze.sitemaker.modify_rendered_block
 
 ## 3.0.1 - 2017-3-17
 

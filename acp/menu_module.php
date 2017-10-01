@@ -138,12 +138,13 @@ class menu_module
 		/**
 		 * Event to add bulk menu options
 		 *
-		 * @event blitze_sitemaker.acp_add_bulk_menu_options
+		 * @event blitze.sitemaker.acp_add_bulk_menu_options
 		 * @var	array	bulk_options	Array of bulk menu options
-		 * @since 3.1.0-RC1
+		 * @var	array	forumslist		Array of phpBB forums
+		 * @since 3.1.0
 		 */
 		$vars = array('bulk_options', 'forumslist');
-		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_add_bulk_menu_options', compact($vars)));
+		extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_add_bulk_menu_options', compact($vars)));
 
 		$bulk_options['FORUMS']	= $this->get_forums_string($forumslist);
 

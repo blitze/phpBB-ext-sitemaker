@@ -108,12 +108,12 @@ class settings_module
 		/**
 		 * Event to display acp settings form
 		 *
-		 * @event blitze_sitemaker.acp_display_settings_form
+		 * @event blitze.sitemaker.acp_display_settings_form
 		 * @var	array	layouts		Array of layout settings
-		 * @since 3.1.0-RC1
+		 * @since 3.1.0
 		 */
 		$vars = array('layouts');
-		extract($this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_display_settings_form', compact($vars)));
+		extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_display_settings_form', compact($vars)));
 
 		$this->template->assign_vars(array(
 			'u_action'			=> $this->u_action,
@@ -144,10 +144,10 @@ class settings_module
 			/**
 			 * Event to save acp settings
 			 *
-			 * @event blitze_sitemaker.acp_save_settings
-			 * @since 3.1.0-RC1
+			 * @event blitze.sitemaker.acp_save_settings
+			 * @since 3.1.0
 			 */
-			$this->phpbb_dispatcher->trigger_event('blitze_sitemaker.acp_save_settings');
+			$this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_save_settings');
 
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
