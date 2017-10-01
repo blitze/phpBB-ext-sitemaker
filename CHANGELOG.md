@@ -3,8 +3,19 @@
 ## 3.1.0 - 2017-9-26
 
 - Added horizontal navbar
-- Added Responsive Filemanager for uploading and editing images
-- Added permission to use Filemanager
+- Added support for Responsive Filemanager for uploading and editing images. Simply download the [Responsive Filemanager](http://www.responsivefilemanager.com/) and upload it to your phpBB root like so it looks like so:
+```
+root
+	- phpBB
+		- ext
+			- blitze
+				- sitemaker
+		- ResponsiveFilemanager
+			- filemanager
+			- source
+			- thumbs
+			- tinymce
+```
 - Add event to display acp settings form (blitze_sitemaker.acp_display_settings_form)
 - Add event to save acp settings form (blitze_sitemaker.acp_save_settings)
 - Only rename board index to 'home' if a custom start page is set
@@ -12,7 +23,6 @@
 - Make 'hide all blocks' feature work again
 - Fixed issue that made it impossible to select forum navbar icon in acp
 - Fixed issue with uinstalling/re-enabling the extension (phpbb_sm_blocks does not exist)
-- Added ability to generate menu from forum categories
 
 ## 3.0.1 - 2017-3-17
 

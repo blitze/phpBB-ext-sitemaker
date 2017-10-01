@@ -103,6 +103,8 @@ gulp.task('vendor', ['set_vendors', 'set_tinymce_plugins'], function() {
 	plugins.del([
 		paths.prod.vendor + 'iconPicker',
 	]);
+	return gulp.src('vendor/ResponsiveFilemanager/**/*', { dot: true })
+		.pipe(gulp.dest('../../../ResponsiveFilemanager/'));
 });
 
 // Clean up
