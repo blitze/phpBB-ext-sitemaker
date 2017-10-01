@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d642fd3cbe2046ff254bb5d0b2bb2bb9",
+    "hash": "f3a02b4a3e79d096a4e007db8f49f8f8",
+    "content-hash": "3da6b3c81be924f3dc096dcfd4a83822",
     "packages": [
         {
             "name": "ResponsiveFilemanager",
@@ -132,7 +133,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-08-09T07:53:48+00:00"
+            "time": "2017-08-09 07:53:48"
         },
         {
             "name": "urodoz/truncate-html",
@@ -182,7 +183,7 @@
                 "truncate",
                 "truncating"
             ],
-            "time": "2014-05-25T22:50:06+00:00"
+            "time": "2014-05-25 22:50:06"
         }
     ],
     "packages-dev": [],

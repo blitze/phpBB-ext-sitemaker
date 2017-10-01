@@ -466,7 +466,7 @@
 		if (config.filemanager) {
 			options.plugins.push('responsivefilemanager');
 
-			var rfmPath = config.scriptPath + 'ext/blitze/sitemaker/vendor/ResponsiveFilemanager/filemanager/';
+			var rfmPath = config.scriptPath + 'ResponsiveFilemanager/filemanager/';
 			$.extend(true, options, {
 				'external_filemanager_path': rfmPath,
 				'external_plugins': {

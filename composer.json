@@ -12,21 +12,9 @@
 		"homepage": "https://github.com/blitze",
 		"role": "Lead Developer"
 	}],
-	"repositories": [{
-		"type": "package",
-        "package": {
-			"name": "ResponsiveFilemanager",
-			"version": "9.11.3",
-			"dist": {
-				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.11.3/responsive_filemanager.zip",
-				"type": "zip"
-			}
-		}
-	}],
 	"require": {
 		"php": ">=5.4",
 		"composer/installers": "^1.1",
-		"ResponsiveFilemanager": "9.11.*",
 		"urodoz/truncate-html": "@stable"
 	},
 	"extra": {

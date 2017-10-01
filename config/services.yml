@@ -117,7 +117,7 @@ services:
         class: blitze\sitemaker\services\filemanager\settings
         arguments:
             - '@filesystem'
-            - '%core.root_path%'
+            - '%filemanager.config_path%'
             - '%core.php_ext%'
 
     blitze.sitemaker.filemanager.setup:
@@ -127,6 +127,7 @@ services:
             - '@config'
             - '@template'
             - '@user'
+            - '%filemanager.config_path%'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data

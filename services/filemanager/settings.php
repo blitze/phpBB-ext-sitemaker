@@ -15,16 +15,13 @@ namespace blitze\sitemaker\services\filemanager;
 class settings
 {
 	/** @var \phpbb\filesystem\filesystem */
-	protected $file_system;
-
-	/** @var string phpBB root path */
-	protected $phpbb_root_path;
-
-	/** @var string phpEx */
-	protected $php_ext;
+	protected $filesystem;
 
 	/** @var string */
 	protected $config_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
 
 	/** @var string */
 	protected $config_template;
@@ -32,17 +29,16 @@ class settings
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\filesystem\filesystem	$file_system			File system
-	 * @param string						$phpbb_root_path		phpBB root path
-	 * @param string						$php_ext				phpEx
+	 * @param \phpbb\filesystem\filesystem	$filesystem			File system
+	 * @param string						$config_path		Filemanager config path
+	 * @param string						$php_ext			phpEx
 	 */
-	public function __construct(\phpbb\filesystem\filesystem $file_system, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\filesystem\filesystem $filesystem, $config_path, $php_ext)
 	{
-		$this->file_system = $file_system;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->filesystem = $filesystem;
+		$this->config_path = $config_path;
 		$this->php_ext = $php_ext;
 
-		$this->config_path = $this->phpbb_root_path . 'ext/blitze/sitemaker/vendor/ResponsiveFilemanager/filemanager/config/';
 		$this->config_template = __DIR__ . '/default.config';
 	}
 
@@ -55,30 +51,24 @@ class settings
 		$config_file = $this->get_config_file();
 
 		// credit: http://jafty.com/blog/quick-way-to-check-if-string-exists-in-a-file-with-php/
-		if (!$this->file_system->exists($config_file) || !exec('grep ' . escapeshellarg($searcString) . ' ' . $config_file))
+		if (!$this->filesystem->exists($config_file) || !exec('grep ' . escapeshellarg($searcString) . ' ' . $config_file))
 		{
-			$this->file_system->copy($this->config_template, $config_file, true);
+			$this->filesystem->copy($this->config_template, $config_file, true);
 		}
 	}
 
 	/**
-	 * @return array
+	 * @return array|void
 	 */
 	public function get_settings()
 	{
-		$this->init();
-
-		$editing = true;
-		return include($this->get_config_file());
-	}
-
-	/**
-	 * @param string $path
-	 * @return void
-	 */
-	public function set_config_path($path)
-	{
-		$this->config_path = $path;
+		if ($this->filesystem->exists($this->config_path))
+		{
+			$this->init();
+	
+			$editing = true;
+			return include($this->get_config_file());
+		}
 	}
 
 	/**
@@ -106,7 +96,7 @@ class settings
 			$config_str = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $config_str);
 		}
 
-		$this->file_system->dump_file($config_file, $config_str);
+		$this->filesystem->dump_file($config_file, $config_str);
 	}
 
 	/**

@@ -31,7 +31,7 @@ class m310_filemanager extends \phpbb\db\migration\container_aware_migration
 	{
 		return array(
 			array('config.add', array('sm_navbar_menu', 0)),
-			array('config.add', array('sm_filemanager', true)),
+			array('config.add', array('sm_filemanager', false)),
 
 			array('permission.add', array('u_sm_filemanager', true, 'u_attach')),
 
@@ -47,12 +47,7 @@ class m310_filemanager extends \phpbb\db\migration\container_aware_migration
 		$fs = $this->container->get('filesystem');
 
 		// create upload folders if they don't exist
-		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/source', 0766);
-		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/thumbs', 0744);
-
-		// set filemanager config
-		$config_template = $this->phpbb_root_path . 'ext/blitze/sitemaker/services/filemanager/default.config';
-		$config_file = $this->phpbb_root_path . 'ext/blitze/sitemaker/vendor/ResponsiveFilemanager/filemanager/config/config.' . $this->php_ext;
-		$fs->copy($config_template, $config_file, true);
+		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/source', 0755);
+		$fs->mkdir($this->phpbb_root_path . 'images/sitemaker_uploads/thumbs', 0755);
 	}
 }

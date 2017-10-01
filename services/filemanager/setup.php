@@ -26,6 +26,9 @@ class setup
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var string */
+	protected $config_path;
+
 	/**
 	 * Constructor
 	 *
@@ -34,12 +37,13 @@ class setup
 	 * @param \phpbb\template\template		$template			Template object
 	 * @param \phpbb\user					$user				User object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, $config_path)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
+		$this->config_path = $config_path;
 	}
 
 	/**
@@ -47,7 +51,7 @@ class setup
 	 */
 	public function is_enabled()
 	{
-		return $this->config['sm_filemanager'] && $this->auth->acl_get('u_sm_filemanager');
+		return is_dir($this->config_path) && $this->config['sm_filemanager'] && $this->auth->acl_get('u_sm_filemanager');
 	}
 
 	/**
@@ -56,16 +60,5 @@ class setup
 	public function get_access_key()
 	{
 		return sha1($this->user->data['user_form_salt'] . 'filemanager');
-	}
-
-	/**
-	 * @return array
-	 */
-	public function set_js_vars()
-	{
-		$this->template->assign_vars(array(
-			'UA_FILEMANAGER'	=> $this->is_enabled(),
-			'UA_RF_ACCESS_KEY'	=> $this->get_access_key(),
-		));
 	}
 }

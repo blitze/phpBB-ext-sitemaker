@@ -181,8 +181,10 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
+		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
 		$filesystem = new \phpbb\filesystem\filesystem();
-		$filemanager = new \blitze\sitemaker\services\filemanager\settings($filesystem, $phpbb_root_path, $phpEx);
+		$filemanager = new \blitze\sitemaker\services\filemanager\settings($filesystem, $this->config_path, $phpEx);
+		$filemanager->set_config_template($this->config_path . 'default.config');
 
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
@@ -191,13 +193,7 @@ class settings_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.filemanager.settings', $filemanager);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 
-		$settings_module = new \blitze\sitemaker\acp\settings_module(false);
-
-		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
-		$filemanager->set_config_path($this->config_path);
-		$filemanager->set_config_template($this->config_path . 'default.config');
-
-		return $settings_module;
+		return new \blitze\sitemaker\acp\settings_module(false);
 	}
 
 	/**

@@ -35,6 +35,7 @@
         </dl>
     </fieldset>
 
+	{% if filemanager %}
     <fieldset>
         <legend>{{ lang('FILEMANAGER_SETTINGS') }}</legend>
 		<dl>
@@ -113,6 +114,7 @@
 			</dl>
 		</div>
     </fieldset>
+    {% endif %}
 
     <fieldset>
         <legend>{{ lang('FORUM_INDEX_SETTINGS') }}</legend>

@@ -116,11 +116,11 @@ class admin_bar
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$this->filemanager->set_js_vars();
 		$this->template->assign_vars(array(
 			'S_IS_DEFAULT'		=> $is_default_route,
 
 			'PAGE_URL'			=> build_url(array('style')),
+			'FILEMANAGER'		=> $this->filemanager->is_enabled(),
 
 			'UA_AJAX_URL'		=> $ajax_url,
 			'UA_BOARD_URL'		=> $board_url,
@@ -128,7 +128,6 @@ class admin_bar
 			'UA_STYLE_ID'		=> $style_id,
 			'UA_SCRIPT_PATH'	=> $this->user->page['root_script_path'],
 			'UA_WEB_ROOT_PATH'	=> $this->util->get_web_path(),
-			'UA_FILEMANAGER'	=> $this->filemanager->is_enabled(),
 			'UA_RF_ACCESS_KEY'	=> $this->filemanager->get_access_key(),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,

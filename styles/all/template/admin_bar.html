@@ -128,9 +128,11 @@
 		ext: '{{ UA_EXTENSION }}',
 		route: '{{ UA_ROUTE }}',
 		style: '{{ UA_STYLE_ID }}',
-		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
-		filemanager: {{ UA_FILEMANAGER }},
-		RFAccessKey: '{{ UA_RF_ACCESS_KEY }}'
+{% if FILEMANAGER %}
+		filemanager: true,
+		RFAccessKey: '{{ UA_RF_ACCESS_KEY }}',
+{% endif %}
+		webRootPath: '{{ UA_WEB_ROOT_PATH }}'
 	};
 	var lang = {
 		edit:   '{{ lang('EDIT')|escape('js') }}',

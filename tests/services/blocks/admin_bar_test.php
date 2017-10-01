@@ -166,7 +166,8 @@ class admin_bar_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $template, $user);
+		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $template, $user, $filemanager_path);
 
 		return new admin_bar($config, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}
@@ -278,13 +279,13 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'S_IS_DEFAULT' => false,
 					'PAGE_URL' => 'phpBB/index.php?',
+					'FILEMANAGER' => false,
 					'UA_AJAX_URL' => 'http://my-site.com/phpBB/app.php',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_FILEMANAGER' => false,
 					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => false,
 				),
@@ -304,13 +305,13 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'S_IS_DEFAULT' => false,
 					'PAGE_URL' => 'phpBB/index.php?',
+					'FILEMANAGER' => true,
 					'UA_AJAX_URL' => 'http://my-site.com/phpBB',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_FILEMANAGER' => true,
 					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
