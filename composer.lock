@@ -8,17 +8,6 @@
     "content-hash": "3da6b3c81be924f3dc096dcfd4a83822",
     "packages": [
         {
-            "name": "ResponsiveFilemanager",
-            "version": "9.11.3",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.11.3/responsive_filemanager.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "type": "library"
-        },
-        {
             "name": "composer/installers",
             "version": "v1.4.0",
             "source": {
