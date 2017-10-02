@@ -161,7 +161,7 @@ class data extends contacts
 	{
 		$sql = 'SELECT l.lang_name, f.field_ident
 			FROM ' . PROFILE_LANG_TABLE . ' l, ' . PROFILE_FIELDS_TABLE . ' f
-			WHERE l.lang_id = ' . $this->user->get_iso_lang_id() . '
+			WHERE l.lang_id = ' . (int) $this->user->get_iso_lang_id() . '
 				AND f.field_active = 1
 				AND f.field_no_view = 0
 				AND f.field_hide = 0

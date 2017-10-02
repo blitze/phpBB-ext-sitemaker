@@ -348,8 +348,8 @@ class query_builder
 	{
 		if ($check_visibility)
 		{
-			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . $this->time();
-			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', $this->ex_fid_ary, 't.');
+			$this->store['sql_array']['WHERE'][] = 't.topic_time <= ' . (int) $this->time();
+			$this->store['sql_array']['WHERE'][] = $this->content_visibility->get_global_visibility_sql('topic', array_map('intval', $this->ex_fid_ary), 't.');
 		}
 	}
 

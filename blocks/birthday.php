@@ -112,10 +112,10 @@ class birthday extends block
 	 * Display birthdays of 29th february on 28th february in non-leap-years
 	 *
 	 * @param array $now
-	 * @param \phpbb\datetime $time
+	 * @param \DateTime $time
 	 * @return string
 	 */
-	private function adjust_leap_year(array $now, \phpbb\datetime $time)
+	private function adjust_leap_year(array $now, \DateTime $time)
 	{
 		$leap_year_birthdays = '';
 		if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))

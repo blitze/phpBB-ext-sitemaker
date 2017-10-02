@@ -108,8 +108,8 @@ abstract class display
 					$this->items_table => 'i'
 				),
 				'WHERE'		=> array(
-					'i.depth ' . (($max_depth) ? " BETWEEN $start AND " . ($start + $max_depth) : ' >= ' . $start),
-					(($this->sql_where) ? 'i.' . $this->sql_where : ''),
+					'i.depth ' . (($max_depth) ? ' BETWEEN ' . (int) $start . ' AND ' . (int) ($start + $max_depth) : ' >= ' . (int) $start),
+					$this->sql_where,
 				),
 				'ORDER_BY'	=> 'i.left_id ASC',
 			),
