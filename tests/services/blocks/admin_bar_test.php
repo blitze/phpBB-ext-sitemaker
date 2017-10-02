@@ -167,7 +167,7 @@ class admin_bar_test extends \phpbb_database_test_case
 			}));
 
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $template, $user, $filemanager_path);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $user, $filemanager_path);
 
 		return new admin_bar($config, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}

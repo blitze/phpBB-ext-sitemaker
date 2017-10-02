@@ -65,7 +65,7 @@ class settings
 		if ($this->filesystem->exists($this->config_path))
 		{
 			$this->init();
-	
+
 			$editing = true;
 			return include($this->get_config_file());
 		}

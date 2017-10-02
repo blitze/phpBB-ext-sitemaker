@@ -125,7 +125,6 @@ services:
         arguments:
             - '@auth'
             - '@config'
-            - '@template'
             - '@user'
             - '%filemanager.config_path%'
 
