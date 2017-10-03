@@ -137,18 +137,22 @@ class settings_module
 	{
 		if ($this->request->is_set_post('submit'))
 		{
+			$settings = $this->request->variable('config', array('' => ''));
+
 			$this->check_form_key($form_key);
-			$this->save_filemanager_settings();
-			$this->save_config_settings();
 
 			/**
 			 * Event to save acp settings
 			 *
 			 * @event blitze.sitemaker.acp_save_settings
+			 * @var	array	settings	Array of settings: [config_key] => [config_value]
 			 * @since 3.1.0
 			 */
-			$this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_save_settings');
+			$vars = array('settings');
+			extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_save_settings', compact($vars)));
 
+			$this->save_filemanager_settings();
+			$this->save_config_settings($settings);
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
 	}
@@ -247,11 +251,11 @@ class settings_module
 	}
 
 	/**
+	 * @param array $settings
 	 * @return void
 	 */
-	protected function save_config_settings()
+	protected function save_config_settings(array $settings)
 	{
-		$settings = $this->request->variable('config', array('' => ''));
 		$layout_prefs = $this->request->variable('layouts', array(0 => array('' => '')));
 
 		$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
@@ -269,11 +273,14 @@ class settings_module
 	{
 		$settings = $this->request->variable('filemanager', array('' => ''));
 
-		$settings['aviary_active'] = ($settings['aviary_apiKey']) ? 'true' : 'false';
-		$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
-		unset($settings['image_watermark_coordinates']);
+		if (sizeof($settings))
+		{
+			$settings['aviary_active'] = ($settings['aviary_apiKey']) ? 'true' : 'false';
+			$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
+			unset($settings['image_watermark_coordinates']);
 
-		$this->filemanager->save($settings);
+			$this->filemanager->save($settings);
+		}
 	}
 
 	/**
