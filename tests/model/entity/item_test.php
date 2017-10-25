@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\model\entity;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\model\entity\item;
 
 class item_test extends \phpbb_test_case
@@ -32,9 +33,11 @@ class item_test extends \phpbb_test_case
 	 */
 	public function setUp()
 	{
-		global $config, $request, $user;
+		global $config, $request, $symfony_request, $user;
 
 		parent::setUp();
+
+		$symfony_request = new Request();
 
 		$config = new \phpbb\config\config(array(
 			'force_server_vars' => false

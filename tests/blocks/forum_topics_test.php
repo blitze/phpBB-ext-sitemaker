@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\forum\data;
 use blitze\sitemaker\blocks\forum_topics;
@@ -46,7 +47,9 @@ class forum_topics_test extends blocks_base
 	 */
 	protected function get_block($registered_user = true)
 	{
-		global $cache;
+		global $cache, $symfony_request;
+
+		$symfony_request = new Request();
 
 		$cache = $this->getMockBuilder('\phpbb\cache\service')
 			->disableOriginalConstructor()

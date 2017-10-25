@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\blocks\member_menu;
 use blitze\sitemaker\services\forum\data;
 
@@ -32,7 +33,9 @@ class member_menu_test extends blocks_base
 	 */
 	protected function get_block($user_data = array())
 	{
-		global $phpbb_path_helper;
+		global $phpbb_path_helper, $symfony_request;
+
+		$symfony_request = new Request();
 
 		$this->config['load_db_lastread'] = true;
 

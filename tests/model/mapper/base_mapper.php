@@ -9,6 +9,8 @@
 
 namespace blitze\sitemaker\tests\model\mapper;
 
+use Symfony\Component\HttpFoundation\Request;
+
 abstract class base_mapper extends \phpbb_database_test_case
 {
 	protected $config;
@@ -26,9 +28,11 @@ abstract class base_mapper extends \phpbb_database_test_case
 
 	public function setUp()
 	{
-		global $db, $config, $request, $user;
+		global $db, $config, $request, $symfony_request, $user;
 
 		parent::setUp();
+
+		$symfony_request = new Request();
 
 		$config = $this->config = new \phpbb\config\config(array(
 			'force_server_vars' => false,

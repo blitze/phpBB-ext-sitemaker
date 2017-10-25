@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\blocks\featured_member;
 
 class featured_member_test extends blocks_base
@@ -30,7 +31,9 @@ class featured_member_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $cache;
+		global $cache, $symfony_request;
+
+		$symfony_request = new Request();
 
 		$cache = $this->getMockBuilder('\phpbb\cache\service')
 			->disableOriginalConstructor()

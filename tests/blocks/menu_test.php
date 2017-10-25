@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\blocks;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\model\mapper_factory;
 use blitze\sitemaker\services\template;
 use blitze\sitemaker\services\menus\display;
@@ -35,6 +36,10 @@ class menu_test extends blocks_base
 	 */
 	protected function get_block($page_data = array())
 	{
+		global $symfony_request;
+
+		$symfony_request = new Request();
+
 		$table_prefix = 'phpbb_';
 		$tables = array(
 			'mapper_tables'	=> array(
