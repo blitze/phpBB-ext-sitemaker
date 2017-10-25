@@ -31,6 +31,9 @@ class menu_module
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
@@ -57,7 +60,7 @@ class menu_module
 	 */
 	public function __construct()
 	{
-		global $phpbb_container, $phpbb_dispatcher, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
@@ -66,6 +69,7 @@ class menu_module
 		$this->php_ext = $phpEx;
 
 		$this->controller_helper = $phpbb_container->get('controller.helper');
+		$this->language = $phpbb_container->get('language');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
 		$this->util = $phpbb_container->get('blitze.sitemaker.util');
@@ -157,10 +161,10 @@ class menu_module
 	 */
 	protected function get_forums_string(array $forumslist)
 	{
-		$text = '';
+		$text = $this->language->lang('FORUM') . "|app.{$this->php_ext}/forum\n";
 		foreach ($forumslist as $forum_id => $row)
 		{
-			$text .= str_replace('&nbsp; &nbsp;', "\t", $row['padding']);
+			$text .= "\t" . str_replace('&nbsp; &nbsp;', "\t", $row['padding']);
 			$text .= $row['forum_name'] . '|';
 			$text .= "viewforum.{$this->php_ext}?f=$forum_id\n";
 		}

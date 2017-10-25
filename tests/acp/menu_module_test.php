@@ -68,6 +68,15 @@ class menu_module_test extends \phpbb_database_test_case
 			->with($this->equalTo('blitze_sitemaker_menus_admin'))
 			->willReturn('phpBB/app.php/menu/admin');
 
+		$language = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$language->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function () {
+				return implode('-', func_get_args());
+			});
+
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
 			->method('variable')
@@ -116,6 +125,7 @@ class menu_module_test extends \phpbb_database_test_case
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('controller.helper', $controller_helper);
+		$phpbb_container->set('language', $language);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
 		$phpbb_container->set('blitze.sitemaker.util', $util);
@@ -154,7 +164,7 @@ class menu_module_test extends \phpbb_database_test_case
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
-						'FORUMS' => "Forum 1|viewforum.php?f=1\n\tForum 2|viewforum.php?f=2",
+						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
 				),
 			),
@@ -181,7 +191,7 @@ class menu_module_test extends \phpbb_database_test_case
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
-						'FORUMS' => "Forum 1|viewforum.php?f=1\n\tForum 2|viewforum.php?f=2",
+						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
 				),
 			),
