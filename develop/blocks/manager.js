@@ -30,12 +30,21 @@
 	// These variables are defined in template file
 	var lang = {};
 	var config = {};
+	var actions = {};
 	var editMode = false;
 
 	// These objects are provided by third-party scripts
 	var phpbb = {};
 	var tinymce = {};
 	var Twig = {};
+
+	var getPOJO = function(arrayOfObjects) {
+		var data = {};
+		$.each(arrayOfObjects, function(i, obj) {
+		    data[obj.name] = obj.value;
+		});
+		return data;
+	};
 
 	var fixPaths = function(subject) {
 		return subject.replace(new RegExp('(?:href|src)=(?:"|\')((?:.\/)?(?:\.\.\/)+)(?:.*?)(?:"|\')', 'gmi'), function(match, g1) {
@@ -166,7 +175,7 @@
 		if (blockData.block.name === "blitze.sitemaker.block.custom") {
 			if (blockObj.find('#' + id).length) {
 				tinymce.EditorManager.execCommand('mceAddEditor', false, id);
-			} else if (blockData.data.content.indexOf('script') > -1) {
+			} else if (blockData.block.content.indexOf('script') > -1) {
 				eval(blockObj.find('.sm-block-content').html());
 			}
 		}
@@ -190,7 +199,7 @@
 			});
 		});
 
-		$.post(config.ajaxUrl + '/blocks/save_blocks', {route: config.route, blocks: blocks}, function() {
+		$.post(actions.save_blocks, {route: config.route, blocks: blocks}, function() {
 			saveBtn.button('disable');
 			updated = false;
 		});
@@ -209,7 +218,7 @@
 			position: posID
 		};
 
-		$.getJSON(config.ajaxUrl + '/blocks/add_block', data, function(result) {
+		$.getJSON(actions.add_block, data, function(result) {
 			updated = false;
 			if (result.id === '') {
 				$(droppedElement).remove();
@@ -230,7 +239,7 @@
 	};
 
 	var getEditForm = function(block) {
-		$.getJSON(config.ajaxUrl + '/blocks/edit_block', {id: block.attr('id').substring(6)}, function(resp) {
+		$.getJSON(actions.edit_block, {id: block.attr('id').substring(6)}, function(resp) {
 			blockData.block = resp;
 			if (resp.form) {
 				dialogEdit.html(resp.form);
@@ -253,14 +262,15 @@
 	};
 
 	var saveForm = function(block) {
-		var form = $('#edit_form');
+		var data = getPOJO($('#edit_form').serializeArray());
 		var updateSimilar = dialogEdit.dialog('widget').find('#update-similar:checked').length;
-		var data = {
+
+		$.extend(data, {
 			'id': block.attr('id').substring(6),
 			'route': config.route,
 			'similar': updateSimilar,
 			'class': getCustomClasses()
-		};
+		});
 
 		if (data['config[source]']) {
 			data['config[source]'] = encodeURI(data['config[source]']);
@@ -268,7 +278,7 @@
 
 		dialogEdit.dialog('close');
 
-		$.post(config.ajaxUrl + '/blocks/save_block?' + form.serialize(), data, function(resp) {
+		$.post(actions.save_block, data, function(resp) {
 			if (resp.list) {
 				$.each(resp.list, function(i, row) {
 					renderBlock($('#block-' + row.id), { block: row });
@@ -281,7 +291,9 @@
 		if (data.id === undefined) {
 			return false;
 		}
-		$.post(config.ajaxUrl + '/blocks/update_block' + '?route=' + config.route, data, function(resp) {
+
+		data.route = config.route;
+		$.post(actions.update_block, data, function(resp) {
 			if (editing === true) {
 				undoEditable(resp.title);
 			}
@@ -293,7 +305,7 @@
 			return;
 		}
 
-		$.post(config.ajaxUrl + '/blocks/handle_custom_action', data, function(resp) {
+		$.post(actions.handle_custom_action, data, function(resp) {
 			if (resp.id) {
 				var id = 'block-editor-' + resp.id;
 				var rawHTML = fixPaths(resp.content);
@@ -312,15 +324,19 @@
 	};
 
 	var setDefaultLayout = function(set) {
-		$.post(config.ajaxUrl + '/blocks/set_default_route' + '?route=' + ((set === true) ? config.route : ''));
+		$.post(actions.set_default_route, { route: (set === true) ? config.route : '' });
 	};
 
 	var setStartPage = function(info) {
-		$.post(config.ajaxUrl + '/blocks/set_startpage', $.param(info));
+		$.post(actions.set_startpage, $.param(info));
 	};
 
 	var setRoutePrefs = function(form, exPositions) {
-		$.post(config.ajaxUrl + '/blocks/set_route_prefs' + '?route=' + config.route + '&ext=' + config.ext, form.serialize(), function() {
+		var data = $.extend(getPOJO(form.serializeArray()), {
+			route: config.route,
+			ext: config.ext
+		});
+		$.post(actions.set_route_prefs, data, function() {
 			blockPositions.removeClass(inactiveBlockClass);
 			if (exPositions) {
 				hidePositions(exPositions);
@@ -330,8 +346,13 @@
 
 	var copyBlocks = function(copyFrom) {
 		var position = $('.block-position');
-		$.getJSON(config.ajaxUrl + '/blocks/copy_route?route=' + config.route + '&ext=' + config.ext + '&' + $.param(copyFrom), function(resp) {
-			if (resp.list.length === 0) {
+		var data = $.extend(getPOJO(copyFrom), {
+			route: config.route,
+			ext: config.ext
+		});
+
+		$.getJSON(actions.copy_route, data, function(resp) {
+			if (!resp.list || resp.list.length === 0) {
 				return;
 			}
 
@@ -408,7 +429,7 @@
 			'automatic_uploads': true,
 			'images_reuse_filename': true,
 			'images_upload_base_path': config.webRootPath + 'images/sitemaker_uploads/source/',
-			'images_upload_url': config.ajaxUrl + '/sitemaker/upload',
+			'images_upload_url': config.uploadUrl,
 			'valid_elements': '*[*]',
 			'end_container_on_empty_block': true,
 			'setup': function(editor) {
@@ -507,12 +528,13 @@
 		phpbb = window.phpbb || {};
 		tinymce = window.tinymce || {};
 		Twig = window.Twig || {};
+		actions = window.actions || {};
 		config = window.config || {
-			ajaxUrl: '',
 			boardUrl: '',
 			route: '',
 			ext: '',
-			style: ''
+			style: '',
+			uploadUrl: ''
 		};
 
 		var copyFrom = '';
@@ -699,7 +721,6 @@
 				'beforeSend': function(xhr, settings) {
 					loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 					settings.url += ((settings.url.indexOf('?') < 0) ? '?' : '&') + 'style=' + config.style;
-					settings.url += (window.SID) ? '&sid=' + window.SID : '';
 				},
 				'complete': function(data) {
 					loader.delay(2000).removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
@@ -795,7 +816,7 @@
 				var fromStyle = copyFrom[1].value;
 				var layoutAction = $(this).data('action');
 
-				if (fromRoute === '' || (fromRoute ===  config.route && fromStyle === config.style)) {
+				if (fromRoute === '' || (fromRoute === config.route && fromStyle === config.style)) {
 					return false;
 				}
 
@@ -803,10 +824,9 @@
 					blocksPanel.trigger('click');
 					dialogCopy.dialog({buttons: cButtons}).dialog('open');
 				} else {
-					var url = '';
-
-					url += ((fromRoute.substring(0, 1) === '/') ? config.ajaxUrl : config.boardUrl + '/') + fromRoute;
-					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle + '&edit_mode=1';
+					var url = config.boardUrl + '/';
+					url += (config.modReWrite) ? fromRoute.replace('app.php/', '') : fromRoute;
+					url += ((url.indexOf('?') >= 0) ? '&' : '?') + 'style=' + fromStyle;
 
 					window.location.href = url;
 				}

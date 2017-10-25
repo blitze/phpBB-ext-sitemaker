@@ -43,6 +43,7 @@ services:
         class: blitze\sitemaker\services\blocks\admin_bar
         arguments:
             - '@config'
+            - '@controller.helper'
             - '@service_container'
             - '@template'
             - '@language'

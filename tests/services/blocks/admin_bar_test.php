@@ -53,7 +53,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $controller = '', $params = '')
 	{
-		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
+		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -74,6 +74,15 @@ class admin_bar_test extends \phpbb_database_test_case
 		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$controller_helper->expects($this->any())
+			->method('route')
+			->willReturnCallback(function($route, $params) {
+				return $route . '-' . implode('/', $params);
+			});
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -169,7 +178,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
 		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $user, $filemanager_path);
 
-		return new admin_bar($config, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
+		return new admin_bar($config, $controller_helper, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}
 
 	/**
@@ -278,15 +287,28 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_IS_DEFAULT' => false,
-					'PAGE_URL' => 'phpBB/index.php?',
+					'BLOCK_ACTIONS' => array(
+						'add_block' => 'blitze_sitemaker_blocks_admin-add_block',
+						'copy_route' => 'blitze_sitemaker_blocks_admin-copy_route',
+						'edit_block' => 'blitze_sitemaker_blocks_admin-edit_block',
+						'handle_custom_action' => 'blitze_sitemaker_blocks_admin-handle_custom_action',
+						'save_block' => 'blitze_sitemaker_blocks_admin-save_block',
+						'save_blocks' => 'blitze_sitemaker_blocks_admin-save_blocks',
+						'set_default_route' => 'blitze_sitemaker_blocks_admin-set_default_route',
+						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
+						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
+						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+					),
 					'FILEMANAGER' => false,
-					'UA_AJAX_URL' => 'http://my-site.com/phpBB/app.php',
+					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
+					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
+					'UA_MODREWRITE' => false,
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
+					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => false,
 				),
 			),
@@ -304,15 +326,28 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_IS_DEFAULT' => false,
-					'PAGE_URL' => 'phpBB/index.php?',
+					'BLOCK_ACTIONS' => array(
+						'add_block' => 'blitze_sitemaker_blocks_admin-add_block',
+						'copy_route' => 'blitze_sitemaker_blocks_admin-copy_route',
+						'edit_block' => 'blitze_sitemaker_blocks_admin-edit_block',
+						'handle_custom_action' => 'blitze_sitemaker_blocks_admin-handle_custom_action',
+						'save_block' => 'blitze_sitemaker_blocks_admin-save_block',
+						'save_blocks' => 'blitze_sitemaker_blocks_admin-save_blocks',
+						'set_default_route' => 'blitze_sitemaker_blocks_admin-set_default_route',
+						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
+						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
+						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+					),
 					'FILEMANAGER' => true,
-					'UA_AJAX_URL' => 'http://my-site.com/phpBB',
+					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
+					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
 					'UA_STYLE_ID' => 1,
 					'UA_SCRIPT_PATH' => '/phpBB/',
+					'UA_MODREWRITE' => true,
 					'UA_WEB_ROOT_PATH' => null,
-					'UA_RF_ACCESS_KEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
+					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
 			)

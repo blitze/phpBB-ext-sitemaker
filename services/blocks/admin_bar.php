@@ -16,6 +16,9 @@ class admin_bar
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
+
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -44,6 +47,7 @@ class admin_bar
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config							$config					Config object
+	 * @param \phpbb\controller\helper						$controller_helper		Controller Helper object
 	 * @param ContainerInterface							$phpbb_container		Service container
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\language\language						$translator				Language object
@@ -53,9 +57,10 @@ class admin_bar
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
 	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
 	{
 		$this->config = $config;
+		$this->controller_helper = $controller_helper;
 		$this->phpbb_container = $phpbb_container;
 		$this->template = $template;
 		$this->translator = $translator;
@@ -106,8 +111,6 @@ class admin_bar
 	public function set_javascript_data($route, $style_id)
 	{
 		$board_url = generate_board_url();
-		$ajax_url = $board_url . ((!$this->config['enable_mod_rewrite']) ? '/app.' . $this->php_ext : '');
-
 		$is_default_route = $u_default_route = false;
 		if ($this->config['sitemaker_default_layout'])
 		{
@@ -119,19 +122,48 @@ class admin_bar
 		$this->template->assign_vars(array(
 			'S_IS_DEFAULT'		=> $is_default_route,
 
-			'PAGE_URL'			=> build_url(array('style')),
+			'BLOCK_ACTIONS'		=> $this->get_block_actions(),
 			'FILEMANAGER'		=> $this->filemanager->is_enabled(),
+			'FILEMANAGER_AKEY'	=> $this->filemanager->get_access_key(),
+			'PAGE_URL'			=> build_url(array('style')),
 
-			'UA_AJAX_URL'		=> $ajax_url,
 			'UA_BOARD_URL'		=> $board_url,
 			'UA_ROUTE'			=> $route,
 			'UA_STYLE_ID'		=> $style_id,
 			'UA_SCRIPT_PATH'	=> $this->user->page['root_script_path'],
+			'UA_MODREWRITE'		=> $this->config['enable_mod_rewrite'],
 			'UA_WEB_ROOT_PATH'	=> $this->util->get_web_path(),
-			'UA_RF_ACCESS_KEY'	=> $this->filemanager->get_access_key(),
+			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_image_upload'),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function get_block_actions()
+	{
+		$list = array(
+			'add_block',
+			'copy_route',
+			'edit_block',
+			'handle_custom_action',
+			'save_block',
+			'save_blocks',
+			'set_default_route',
+			'set_route_prefs',
+			'set_startpage',
+			'update_block',
+		);
+
+		$actions = array();
+		foreach ($list as $action)
+		{
+			$actions[$action] = $this->controller_helper->route('blitze_sitemaker_blocks_admin', array('action' => $action));
+		}
+
+		return $actions;
 	}
 
 	/**

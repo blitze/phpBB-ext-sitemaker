@@ -120,20 +120,21 @@
 <script type="text/javascript">
 // <![CDATA[
 	var editMode = {{ S_EDIT_MODE|e('js') }};
-	var SID = '{{ SESSION_ID|e('js') }}';
 	var config = {
-		ajaxUrl: '{{ UA_AJAX_URL }}',
 		boardUrl: '{{ UA_BOARD_URL }}',
+		modReWrite: {{ UA_MODREWRITE }},
 		scriptPath: '{{ UA_SCRIPT_PATH }}',
 		ext: '{{ UA_EXTENSION }}',
 		route: '{{ UA_ROUTE }}',
 		style: '{{ UA_STYLE_ID }}',
 {% if FILEMANAGER %}
 		filemanager: true,
-		RFAccessKey: '{{ UA_RF_ACCESS_KEY }}',
+		RFAccessKey: '{{ FILEMANAGER_AKEY|e('js') }}',
 {% endif %}
-		webRootPath: '{{ UA_WEB_ROOT_PATH }}'
+		uploadUrl: '{{ UA_UPLOAD_URL }}',
+		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
 	};
+	var actions = {{ BLOCK_ACTIONS|e('js')|json_encode(constant('JSON_PRETTY_PRINT')) }};
 	var lang = {
 		edit:   '{{ lang('EDIT')|escape('js') }}',
 		copy: '{{ lang('COPY')|escape('js') }}',
