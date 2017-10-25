@@ -164,7 +164,7 @@ class settings_module
 	{
 		if (!check_form_key($form_key))
 		{
-			$this->trigger_error('FORM_INVALID');
+			$this->trigger_error('FORM_INVALID', E_USER_WARNING);
 		}
 	}
 
@@ -220,10 +220,12 @@ class settings_module
 
 	/**
 	 * @param string $message
+	 * @param int $error_type
+	 * @return void
 	 */
-	protected function trigger_error($message)
+	protected function trigger_error($message, $error_type = E_USER_NOTICE)
 	{
-		$this->trigger_errors ? trigger_error($message) : null;
+		$this->trigger_errors ? trigger_error($message, $error_type) : null;
 	}
 
 	/**

@@ -93,15 +93,15 @@
 			<dl>
 				<dt><label for="filemanager_watermark_position">{{ lang('FILEMANAGER_WATERMARK_POSITION') }}</label><br /><span>{{ lang('FILEMANAGER_WATERMARK_POSITION_EXPLAIN') }}</span></dt>
 				<dd>
-					<select id="filemanager_watermaker_position" name="filemanager[image_watermark_position]">
+					<select id="filemanager_watermark_position" name="filemanager[image_watermark_position]">
 						{%- set watermark_positions = ['tl', 't', 'tr', 'l', 'm', 'r', 'bl', 'b', 'br'] -%}
 						{% for position in watermark_positions -%}
 						<option value="{{ position }}"{% if filemanager.image_watermark_position == position %} selected="selected"{% endif %}>{{ lang('FILEMANAGER_WATERMARK_POSITION_' ~ position|upper) }}</option>
 						{%- endfor %}
 					</select>
-					{{ lang('FILEMANAGER_WATERMAKER_POSITION_SUFFIX') }}
+					{{ lang('FILEMANAGER_WATERMARK_POSITION_SUFFIX') }}
 					{% set watermark_coordinates = filemanager.image_watermark_position|first matches '/d+/' ? filemanager.image_watermark_position : '' -%}
-					<input id="filemanager_watermaker_coordinates" type="text" size="10" maxlength="255" name="filemanager[image_watermark_coordinates]" value="{{ watermark_coordinates }}" />
+					<input id="filemanager_watermark_coordinates" type="text" size="10" maxlength="255" name="filemanager[image_watermark_coordinates]" value="{{ watermark_coordinates }}" />
 				</dd>
 			</dl>
 			<dl>

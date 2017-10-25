@@ -84,12 +84,12 @@ class settings_module_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Get the menu_module object
+	 * Get the settings_module object
 	 *
 	 * @param array $variable_map
 	 * @param array $db_text
 	 * @param bool $submitted
-	 * @return \blitze\sitemaker\acp\menu_module
+	 * @return \blitze\sitemaker\acp\settings_module
 	 */
 	public function get_module(array $variable_map, array $db_text = array(), $submitted = false)
 	{
@@ -239,7 +239,6 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_watermark_position'	=> 'br',
 						'image_max_width'			=> 0,
 						'image_auto_resizing'		=> false,
-						'set_from_default_config'	=> true,
 					),
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
@@ -330,7 +329,6 @@ class settings_module_test extends \phpbb_database_test_case
 				'image_watermark_position'	=> '40x50',
 				'image_max_width'			=> 800,
 				'image_auto_resizing'		=> true,
-				'set_from_default_config'	=> true,
 			),
 		);
 
