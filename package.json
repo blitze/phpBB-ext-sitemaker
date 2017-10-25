@@ -6,10 +6,10 @@
     "gulp-autoprefixer": "^4.0.0",
     "gulp-bower": "0.0.13",
     "gulp-changed": "^3.1.0",
-    "gulp-clean-css": "^3.7.0",
+    "gulp-clean-css": "^3.9.0",
     "gulp-csscomb": "^3.0.8",
     "gulp-csslint": "^1.0.0",
-    "gulp-filter": "^5.0.0",
+    "gulp-filter": "^5.0.1",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-load-plugins": "^1.5.0",
@@ -20,6 +20,6 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "main-bower-files": "^2.13.1",
-    "yargs": "^8.0.2"
+    "yargs": "^10.0.3"
   }
 }
