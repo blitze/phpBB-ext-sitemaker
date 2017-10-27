@@ -590,12 +590,14 @@
 		},
 
 		_removeNode: function(node) {
-			// if node has sibblings, remove node and leave parent
-			if (node.siblings().length) {
+			var parentNode = node.parent(this.options.listType).not(this.options.nestedList);
+
+			// if node has sibblings, or it's parent is the root ol/ul, remove node and leave parent
+			if (node.siblings().length || !parentNode.length) {
 				node.remove();
 			// if node does not have sibblings, remove parent ol/ul
 			} else {
-				node.parent(this.options.listType).remove();
+				parentNode.remove();
 			}
 		},
 
