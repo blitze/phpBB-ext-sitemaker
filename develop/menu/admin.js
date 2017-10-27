@@ -182,9 +182,15 @@
 			var items = $(this).data('items').trim().split("\n");
 			$.each(items, function(j, item) {
 				var parts = item.split('|');
-				list.push('<a href="#" data-item="' + item + '">' + parts[0].replace("\t", '&nbsp; &nbsp;') + '</a>');
+				list.push('<a href="#" data-item="' + item + '">' + parts[0].replace(/\t/g, '&nbsp; &nbsp;') + '</a>');
 			});
 			$(element).siblings('.bulk-dropdown').children('.inner').html(list.join('<br />'));
+		});
+
+		var bulkTypeItems = $('.bulk-type-items').on('click', 'a', function(e) {
+			e.preventDefault();
+			insertText($(this).data('item').trim());
+			$(this).parents('.bulk-type-items').toggle();
 		});
 
 		$('.bulk-type-list').button({
@@ -194,6 +200,7 @@
 			}
 		}).click(function(e) {
 			e.preventDefault();
+			bulkTypeItems.hide();
 
 			var $button = $(e.currentTarget);
 			var $dropdown = $button.next();
@@ -206,11 +213,6 @@
 				left: pos.left - (width / 2) - $button.width()
 			});
 		}).parent().buttonset();
-
-		$('.bulk-type-items').on('click', 'a', function(e) {
-			e.preventDefault();
-			insertText($(this).data('item').trim());
-		});
 
 		var cmTabs = 0;
 		codeMirror.on("keyup", function(cm) {
