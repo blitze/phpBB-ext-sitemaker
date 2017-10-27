@@ -43,32 +43,18 @@ class settings
 	}
 
 	/**
-	 * @return void
-	 */
-	public function init()
-	{
-		$searcString = 'phpbb';
-		$config_file = $this->get_config_file();
-
-		// credit: http://jafty.com/blog/quick-way-to-check-if-string-exists-in-a-file-with-php/
-		if (!$this->filesystem->exists($config_file) || !exec('grep ' . escapeshellarg($searcString) . ' ' . $config_file))
-		{
-			$this->filesystem->copy($this->config_template, $config_file, true);
-		}
-	}
-
-	/**
 	 * @return array|void
 	 */
 	public function get_settings()
 	{
-		if ($this->filesystem->exists($this->config_path))
-		{
-			$this->init();
+		$config_file = $this->get_config_file();
 
-			$editing = true;
-			return include($this->get_config_file());
+		if (!$this->filesystem->exists($config_file))
+		{
+			$this->filesystem->copy($this->config_template, $config_file, true);
 		}
+
+		return include($config_file);
 	}
 
 	/**
