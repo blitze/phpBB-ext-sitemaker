@@ -221,7 +221,7 @@ ul {
 			vertical-align: top;
 			box-sizing: border-box;
 
-			@media (max-width: 940px) {
+			@media (max-width: $toast-breakpoint-medium) {
 				& {
 					width: 100%;
 					margin: 0 0 10px 0;

@@ -25,11 +25,10 @@
 %extend_3 {
 	padding: 1em;
 	text-align: center;
-	background-color: $navbar_border_color;
+	background-color: $navbar_toggle_menu_color;
 	text-shadow: 0 0 0 transparent;
 	color: $navbar_text_color;
 }
-
 
 .sm-clearfix {
 	zoom: 1;
@@ -44,20 +43,21 @@
 	}
 }
 .sm-menu {
-	background-color: $navbar_background_color;
-	margin: 4px -5px -4px;
-	border-bottom-left-radius: $panel_border_radius;
-	border-bottom-right-radius: $panel_border_radius;
+	padding: 0;
+	margin: 4px -5px -5px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	ul {
 		margin: 0;
 		padding: 0;
+		z-index: 3000;
 		span.drop-icon {
 			display: none;
 		}
 	}
 	.main-menu {
 		display: none;
-		margin: 0 7px;
+		margin: 0;
 	}
 	input[type="checkbox"] {
 		display: none;
@@ -75,7 +75,10 @@
 		}
 
 		&.active {
-			background-color: $navbar_hover_background_color;
+			margin: -2px 0;
+			padding: 2px 0 0;
+			border-radius: 0;
+			clear: none;
 		}
 	}
 	.sub-menu {
@@ -107,10 +110,10 @@
 }
 .sm-toggle-menu {
 	border-style: solid;
-	border-color: $navbar_border_color;
+	border-color: $navbar_toggle_menu_color;
 	border-width: 0 0 1px;
 	@extend %extend_1;
-	background: $navbar_toggle_menu_background_color;
+	background: $navbar_toggle_menu_color;
 	padding: 1em 1.5em;
 	.drop-icon {
 		@extend %extend_2;
@@ -119,10 +122,12 @@
 		@extend %extend_3;
 	}
 }
-@media only screen and(min-width: 1024px) {
+@media only screen and(min-width: $toast-breakpoint-small) {
 	.sm-menu {
+		padding-top: 2px;
 		.main-menu {
 			display: block;
+			margin: 0 7px;
 		}
 		li {
 			float: left;
@@ -138,7 +143,6 @@
 			top: 100%;
 			left: 0;
 			width: 12em;
-			z-index: 3000;
 			display: none;
 			li {
 				float: none;
@@ -160,6 +164,7 @@
 		}
 		ul span.drop-icon {
 			display: inline-block;
+			margin-left: 5px;
 		}
 		input[type="checkbox"]:checked + .sub-menu {
 			display: none;
