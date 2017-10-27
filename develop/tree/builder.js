@@ -78,6 +78,15 @@
 				}
 			});
 
+			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {
+				self.nestedList.find(self.options.selectItemClass).prop('checked', this.checked);
+				if (this.checked) {
+					self.deleteSelBtn.button('enable');
+				} else {
+					self.deleteSelBtn.button('disable');
+				}
+			});
+
 			// register dialogs
 			dButtons[lang.deleteChildNodes] = function() {
 				var node = $('li#item-' + self.itemID);
@@ -117,10 +126,6 @@
 				});
 				self._saveTree();
 				$(this).dialog('close');
-
-				if (self.nestedList.find('li').length === 0) {
-					self._resetActions();
-				}
 			};
 
 			sButtons[lang.cancel] = function() {
@@ -168,15 +173,6 @@
 					return lang.unsavedChanges;
 				}
 			};
-
-			this.selectAllObj = this.element.find(this.options.selectAll).click(function() {
-				self.nestedList.find(self.options.selectItemClass).prop('checked', this.checked);
-				if (this.checked) {
-					self.deleteSelBtn.button('enable');
-				} else {
-					self.deleteSelBtn.button('disable');
-				}
-			});
 
 			var events = {};
 			events['click' + this.options.selectItemClass] = function() {
@@ -510,75 +506,68 @@
 			return false;
 		},
 
-		_resetActions: function() {
-			this.noItems.show();
-			this.nestedList.hide();
+		_resetActions: function(itemsCount) {
+			var display = 'initial';
+
+			if (!itemsCount) {
+				this.noItems.show();
+				display = 'none';
+			}
+
+			this.itemsChanged = false;
 			this.addBulkBtn.parent().next().slideUp();
-			this.selectAllObj.prop('checked', false).parent().hide();
-			this.deleteSelBtn.button('disable').hide();
-			this.rebuildBtn.button('disable').hide();
-			this.saveBtn.button('disable').hide();
+			this.selectAllObj.prop('checked', false).parent().css('display', display);
+			this.deleteSelBtn.button('disable').css('display', display);
+			this.saveBtn.button('disable').css('display', display);
+			this.rebuildBtn.css('display', display);
 		},
 
 		_saveItem: function(mode, data, id, field) {
 			var self = this;
-			$.post(this.options.ajaxUrl + mode + ((id) ? '?' + this.options.fields.itemId + '=' + id : ''), data,
-				function(resp) {
-					if (!resp.error) {
-						switch (mode) {
-							case 'add_item':
-								self._addToTree([resp], function() {
-									var element = $('#item-' + resp[self.options.fields.itemId]);
+			$.post(this.options.ajaxUrl + mode + ((id) ? '?' + this.options.fields.itemId + '=' + id : ''), data, function(resp) {
+				if (!resp.error) {
+					switch (mode) {
+						case 'add_item':
+							self._addToTree([resp], function() {
+								var element = $('#item-' + resp[self.options.fields.itemId]);
 
-									self._showActions();
-									self._scrollTo(element, self.addBtnOffset.top, function() {
-										if (!self.options.dialogEdit.length) {
-											element.find('.editable').trigger('click');
-										}
-									});
+								self._showActions();
+								self._scrollTo(element, self.addBtnOffset.top, function() {
+									if (!self.options.dialogEdit.length) {
+										element.find('.editable').trigger('click');
+									}
 								});
-							break;
-							case 'update_item':
-								if (self.editing) {
-									self._undoEditable(resp[field]);
-								} else {
-									self._refreshItem(resp);
-								}
-							break;
-							case 'save_item':
-								var element = self._refreshItem(resp);
-								self._trigger('updated', null, element);
-							break;
-						}
-					} else {
-						self.showMessage(resp.error);
-
-						if (self.editing) {
-							self._undoEditable(self.editorVal);
-						}
+							});
+						break;
+						case 'update_item':
+							if (self.editing) {
+								self._undoEditable(resp[field]);
+							} else {
+								self._refreshItem(resp);
+							}
+						break;
+						case 'save_item':
+							var element = self._refreshItem(resp);
+							self._trigger('updated', null, element);
+						break;
 					}
-				},
-				'json'
-			);
+				} else {
+					self.showMessage(resp.error);
+
+					if (self.editing) {
+						self._undoEditable(self.editorVal);
+					}
+				}
+			}, 'json');
 		},
 
 		_saveTree: function() {
-			var data = this.nestedList.nestedSortable('toArray');
-			var itemsCount = data.length;
+			var data = $(this.options.nestedList).find('li').length ? this.nestedList.nestedSortable('toArray') : [];
 
 			this._saveItem('save_tree', {
 				'tree': data
 			});
-
-			this.itemsChanged = false;
-			this.saveBtn.button('option', 'disabled', true);
-			this.deleteSelBtn.button('option', 'disabled', true);
-
-			if (itemsCount > 0) {
-				this.noItems.hide();
-			} else {
-				this.noItems.show();
-			}
+			this._resetActions(data.length);
 		},
 
 		_scrollTo: function(element, fromHeight, callback) {
