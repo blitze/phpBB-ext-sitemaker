@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "877c4ce8dc4a5346fd85ef27a6e77567",
-    "content-hash": "2743a20282e30e3b3dc5367a88874337",
+    "hash": "8b70565467093366d5cf63d679eac0ff",
+    "content-hash": "a0fef4b2de83faa016ccd6abca2c2839",
     "packages": [
         {
             "name": "composer/installers",
@@ -178,10 +178,10 @@
     "packages-dev": [
         {
             "name": "ResponsiveFilemanager",
-            "version": "9.11.3",
+            "version": "9.12.0",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.11.3/responsive_filemanager.zip",
+                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.12.0/responsive_filemanager.zip",
                 "reference": null,
                 "shasum": null
             },
