@@ -93,37 +93,6 @@ class display extends \blitze\sitemaker\services\tree\display
 	}
 
 	/**
-	 * Comment this out for now. May revisit this later
-	 *
-	 * @param array $data
-	 * @return void
-	 *
-	public function generate_breadcrumb(array $data)
-	{
-		$this->find_parents($data, $this->current_item['parent_id']);
-	}
-
-	/**
-	 * @param array $data
-	 * @param int $parent_id
-	 * @return void
-	 *
-	protected function find_parents(array $data, $parent_id)
-	{
-		if (isset($data[$parent_id]) && $data[$parent_id]['item_url'] !== 'index.php')
-		{
-			$row = $data[$parent_id];
-			$this->template->alter_block_array('navlinks', array(
-				'FORUM_NAME'	=> $row['item_title'],
-				'U_VIEW_FORUM'	=> $row['full_url'],
-			));
-
-			$this->find_parents($data, $row['parent_id']);
-		}
-	}
-	*/
-
-	/**
 	 * @param array $data
 	 * @return bool
 	 */
