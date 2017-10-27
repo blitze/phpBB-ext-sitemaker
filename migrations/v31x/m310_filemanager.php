@@ -2,12 +2,12 @@
 /**
  *
  * @package sitemaker
- * @copyright (c) 2016 Daniel A. (blitze)
+ * @copyright (c) 2017 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace blitze\sitemaker\migrations\v30x;
+namespace blitze\sitemaker\migrations\v31x;
 
 /**
  * Initial schema changes needed for Extension installation
@@ -20,6 +20,7 @@ class m310_filemanager extends \phpbb\db\migration\container_aware_migration
 	public static function depends_on()
 	{
 		return array(
+			'\phpbb\db\migration\data\v32x\v321',
 			'\blitze\sitemaker\migrations\v30x\m17_add_settings_module',
 		);
 	}
