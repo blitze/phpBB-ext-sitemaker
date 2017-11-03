@@ -16,9 +16,9 @@
 		"type": "package",
         "package": {
 			"name": "ResponsiveFilemanager",
-			"version": "9.12.0",
+			"version": "9.12.1",
 			"dist": {
-				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.12.0/responsive_filemanager.zip",
+				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.12.1/responsive_filemanager.zip",
 				"type": "zip"
 			}
 		}

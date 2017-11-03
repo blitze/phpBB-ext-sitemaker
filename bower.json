@@ -1,7 +1,7 @@
 {
   "name": "phpbb_sitemaker",
   "dependencies": {
-    "codemirror": "^5.30.0",
+    "codemirror": "^5.31.0",
     "iconPicker": "https://github.com/josh18/TinyMCE-FontAwesome-Plugin.git#v2.1.0",
     "jqueryui-touch-punch": "*",
     "jquery-ui": "^1.12.1",
