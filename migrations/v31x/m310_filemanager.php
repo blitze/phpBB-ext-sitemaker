@@ -35,6 +35,7 @@ class m310_filemanager extends \phpbb\db\migration\container_aware_migration
 			array('config.add', array('sm_filemanager', false)),
 
 			array('permission.add', array('u_sm_filemanager', true, 'u_attach')),
+			array('permission.add', array('a_sm_filemanager', true, 'a_board')),
 
 			array('custom', array(array($this, 'create_upload_dir'))),
 		);

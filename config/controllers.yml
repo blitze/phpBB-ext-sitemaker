@@ -33,5 +33,7 @@ services:
         arguments:
             - '@auth'
             - '@files.factory'
+            - '@filesystem'
             - '@language'
+            - '@user'
             - '%core.root_path%'

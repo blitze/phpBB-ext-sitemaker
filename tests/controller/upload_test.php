@@ -18,12 +18,14 @@ class upload_test extends \phpbb_test_case
 	 *
 	 * @param array $auth_map
 	 * @param string $filename
-	 * @param int $call_count
+	 * @param string $upload_dir
 	 * @return \blitze\sitemaker\controller\upload
 	 */
-	protected function get_controller(array $auth_map, $filename, $call_count)
+	protected function get_controller(array $auth_map, $filename, $upload_dir)
 	{
 		global $auth, $phpbb_root_path, $phpEx;
+
+		$call_count = $upload_dir ? 1 : 0;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$auth->expects($this->any())
@@ -55,8 +57,10 @@ class upload_test extends \phpbb_test_case
 			});
 		$filespec->expects($this->exactly($call_count))
 			->method('move_file')
-			->with('images/sitemaker_uploads/source/', true);
+			->with($upload_dir, true);
 		$filespec->error = pathinfo($filename, PATHINFO_EXTENSION) !== 'jpg' ? array('ERROR_MESSAGE') : array();
+
+		$filesystem = new \phpbb\filesystem\filesystem();
 
 		$upload = $this->getMockBuilder('\phpbb\files\upload')
 			->disableOriginalConstructor()
@@ -82,7 +86,10 @@ class upload_test extends \phpbb_test_case
 
 		$language = new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx));
 
-		$controller = new upload($auth, $files_factory, $language, $phpbb_root_path);
+		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->data['username'] = 'demo';
+
+		$controller = new upload($auth, $files_factory, $filesystem, $language, $user, $phpbb_root_path);
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;
@@ -97,46 +104,51 @@ class upload_test extends \phpbb_test_case
 			array(
 				array(
 					array('u_sm_filemanager', 0, false),
+					array('a_sm_filemanager', 0, false),
 				),
 				'',
+				'',
 				'{"location":"","message":"You are not authorised to access this area."}',
-				0,
 				401,
 			),
 			array(
 				array(
 					array('u_sm_filemanager', 0, true),
+					array('a_sm_filemanager', 0, false),
 				),
 				'test.jpg',
-				'{"location":"test.jpg","message":""}',
-				1,
+				'images/sitemaker_uploads/source/users/demo',
+				'{"location":"users\/demo\/test.jpg","message":""}',
 				200,
 			),
 			array(
 				array(
 					array('u_sm_filemanager', 0, true),
+					array('a_sm_filemanager', 0, true),
 				),
 				'blobid01.jpg',
+				'images/sitemaker_uploads/source',
 				'{"location":"sm_unique.jpg","message":""}',
-				1,
 				200,
 			),
 			array(
 				array(
 					array('u_sm_filemanager', 0, true),
+					array('a_sm_filemanager', 0, true),
 				),
 				'imagetools56.jpg',
+				'images/sitemaker_uploads/source',
 				'{"location":"sm_unique.jpg","message":""}',
-				1,
 				200,
 			),
 			array(
 				array(
 					array('u_sm_filemanager', 0, true),
+					array('a_sm_filemanager', 0, true),
 				),
 				'test.png',
+				'images/sitemaker_uploads/source',
 				'{"location":"","message":"ERROR_MESSAGE"}',
-				1,
 				200,
 			),
 		);
@@ -147,13 +159,13 @@ class upload_test extends \phpbb_test_case
 	 *
 	 * @param array $auth_map
 	 * @param string $filename
+	 * @param string $upload_dir
 	 * @param string $expected_json
-	 * @param int $call_count
 	 * @param int $response_code
 	 */
-	public function test_controller(array $auth, $filename, $expected_json, $call_count, $response_code)
+	public function test_controller(array $auth, $filename, $upload_dir, $expected_json, $response_code)
 	{
-		$controller = $this->get_controller($auth, $filename, $call_count);
+		$controller = $this->get_controller($auth, $filename, $upload_dir);
 		$response = $controller->handle();
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);

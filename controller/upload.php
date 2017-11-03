@@ -19,11 +19,20 @@ class upload
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
+	/** @var \phpbb\filesystem\filesystem */
+	protected $filesystem;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var string */
 	protected $phpbb_root_path;
+
+	/** @var string */
+	protected $upload_dir = 'images/sitemaker_uploads/source/';
 
 	/** @var array */
 	protected $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg');
@@ -33,14 +42,18 @@ class upload
 	 *
 	 * @param \phpbb\auth\auth					$auth				Auth object
 	 * @param \phpbb\files\factory				$files_factory		Files factory object
+	 * @param \phpbb\filesystem\filesystem		$filesystem			File system
 	 * @param \phpbb\language\language			$language			Language object
+	 * @param \phpbb\user						$user				User object
 	 * @param string							$phpbb_root_path	phpBB root path
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\files\factory $files_factory, \phpbb\language\language $language, $phpbb_root_path)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\files\factory $files_factory, \phpbb\filesystem\filesystem $filesystem, \phpbb\language\language $language, \phpbb\user $user, $phpbb_root_path)
 	{
 		$this->auth = $auth;
 		$this->files_factory = $files_factory;
+		$this->filesystem = $filesystem;
 		$this->language = $language;
+		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 	}
 
@@ -60,7 +73,27 @@ class upload
 			return new JsonResponse($json_data, 401);
 		}
 
-		$file = $this->get_file();
+		$this->handle_upload($json_data);
+
+		return new JsonResponse($json_data);
+	}
+
+	/**
+	 * @param array $json_data
+	 * @return void
+	 */
+	protected function handle_upload(array &$json_data)
+	{
+		$file = $this->files_factory->get('files.upload')
+			->set_disallowed_content(array())
+			->set_allowed_extensions($this->allowed_extensions)
+			->handle_upload('files.types.form', 'file');
+
+		$this->set_filename($file);
+
+		$user_dir = $this->get_user_dir();
+		$destination = rtrim($this->upload_dir . $user_dir, '/');
+		$file->move_file($destination, true);
 
 		if (sizeof($file->error))
 		{
@@ -69,19 +102,31 @@ class upload
 		}
 		else
 		{
-			$json_data['location'] = $file->get('realname');
+			$json_data['location'] = $user_dir . $file->get('realname');
 		}
-
-		return new JsonResponse($json_data);
 	}
 
 	/**
-	 * @param array $allowed_extensions
-	 * @return void
+	 * @return string
 	 */
-	public function set_allowed_extensions(array $allowed_extensions)
+	protected function get_user_dir()
 	{
-		$this->allowed_extensions = $allowed_extensions;
+		$user_dir = '';
+
+		// if user does not have root access, they must have a directory
+		if (!$this->auth->acl_get('a_sm_filemanager'))
+		{
+			$user_dir = 'users/' . $this->user->data['username'] . '/';
+
+			$destination = $this->phpbb_root_path . $this->upload_dir . $user_dir;
+
+			if (!is_dir($destination))
+			{
+				$this->filesystem->mkdir($destination, 0755);
+			}
+		}
+
+		return $user_dir;
 	}
 
 	/**
@@ -103,20 +148,11 @@ class upload
 	}
 
 	/**
-	 * @return \phpbb\files\filespec
+	 * @param array $allowed_extensions
+	 * @return void
 	 */
-	protected function get_file()
+	public function set_allowed_extensions(array $allowed_extensions)
 	{
-		$upload_dir = $this->phpbb_root_path . 'images/sitemaker_uploads/source/';
-
-		$file = $this->files_factory->get('files.upload')
-			->set_disallowed_content(array())
-			->set_allowed_extensions($this->allowed_extensions)
-			->handle_upload('files.types.form', 'file');
-
-		$this->set_filename($file);
-		$file->move_file(str_replace($this->phpbb_root_path, '', $upload_dir), true);
-
-		return $file;
+		$this->allowed_extensions = $allowed_extensions;
 	}
 }
