@@ -156,6 +156,8 @@ class listener_test extends \phpbb_test_case
 					'a_sm_settings' => array('lang' => 'ACL_A_SM_SETTINGS', 'cat' => 'misc'),
 					'a_sm_manage_blocks' => array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc'),
 					'a_sm_manage_menus' => array('lang' => 'ACL_A_SM_MANAGE_MENUS', 'cat' => 'misc'),
+					'a_sm_filemanager' => array('lang' => 'ACL_A_SM_FILEMANAGER', 'cat' => 'misc'),
+					'u_sm_filemanager' => array('lang' => 'ACL_U_SM_FILEMANAGER', 'cat' => 'misc'),
 				),
 			),
 			array(
@@ -167,6 +169,8 @@ class listener_test extends \phpbb_test_case
 					'a_sm_settings' => array('lang' => 'ACL_A_SM_SETTINGS', 'cat' => 'misc'),
 					'a_sm_manage_blocks' => array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc'),
 					'a_sm_manage_menus' => array('lang' => 'ACL_A_SM_MANAGE_MENUS', 'cat' => 'misc'),
+					'a_sm_filemanager' => array('lang' => 'ACL_A_SM_FILEMANAGER', 'cat' => 'misc'),
+					'u_sm_filemanager' => array('lang' => 'ACL_U_SM_FILEMANAGER', 'cat' => 'misc'),
 				),
 			),
 		);

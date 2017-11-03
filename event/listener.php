@@ -68,9 +68,11 @@ class listener implements EventSubscriberInterface
 	public function load_permission_language(\phpbb\event\data $event)
 	{
 		$permissions = $event['permissions'];
-		$permissions['a_sm_settings']	= array('lang' => 'ACL_A_SM_SETTINGS', 'cat' => 'misc');
+		$permissions['a_sm_settings']		= array('lang' => 'ACL_A_SM_SETTINGS', 'cat' => 'misc');
 		$permissions['a_sm_manage_blocks']	= array('lang' => 'ACL_A_SM_MANAGE_BLOCKS', 'cat' => 'misc');
 		$permissions['a_sm_manage_menus']	= array('lang' => 'ACL_A_SM_MANAGE_MENUS', 'cat' => 'misc');
+		$permissions['a_sm_filemanager']	= array('lang' => 'ACL_A_SM_FILEMANAGER', 'cat' => 'misc');
+		$permissions['u_sm_filemanager']	= array('lang' => 'ACL_U_SM_FILEMANAGER', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
 	}
 
