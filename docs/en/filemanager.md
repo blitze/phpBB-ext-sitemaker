@@ -10,17 +10,17 @@ As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http:
 * Download the responsive filemanager [here](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
 * Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
 ```
-	- root
-		- phpBB
-			- ...
-			- images
-			- includes
-			- ...
-			- ResponsiveFilemanager
-				- filemanager
-					- config
-						- .htaccess
-						- config.php
+- root
+  - phpBB
+    - ...
+    - images
+    - includes
+    - ...
+    - ResponsiveFilemanager
+      - filemanager
+        - config
+          - .htaccess
+          - config.php
 ```
 
 * Delete the responsive filemanager config file found here: `phpBB/ResponsiveFilemanager/filemanager/config/config.php`
@@ -30,5 +30,5 @@ As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http:
 * Go to ACP > Extensions > SiteMaker > Settings
 * Enable Filemanager feature
 * Save changes
-* Update user permissions (Misc tab) to determine who can use this featuer
-* Update admin permissions (Misc tab) to see who can manager user folders
+* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
+* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]

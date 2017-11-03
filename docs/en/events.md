@@ -1,5 +1,26 @@
+# phpBB SiteMaker Events
 
-# [php Events](#)
+You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+
+## Table of Contents
+
+- [PHP Events](#php-events)
+  * [blitze.sitemaker.acp_add_bulk_menu_options](#blitzesitemakeracp-add-bulk-menu-options)
+  * [blitze.sitemaker.acp_display_settings_form](#blitzesitemakeracp-display-settings-form)
+  * [blitze.sitemaker.acp_save_settings](#blitzesitemakeracp-save-settings)
+  * [blitze.sitemaker.modify_block_positions](#blitzesitemakermodify-block-positions)
+  * [blitze.sitemaker.modify_rendered_block](#blitzesitemakermodify-rendered-block)
+- [Template Events](#template-events)
+  * [blitze_sitemaker_acp_settings](#blitze-sitemaker-acp-settings)
+  * [blitze_sitemaker_admin_bar_append](#blitze-sitemaker-admin-bar-append)
+  * [blitze_sitemaker_admin_bar_templates](#blitze-sitemaker-admin-bar-templates)
+- [Javascript Events](#javascript-events)
+  * [blitze_sitemaker_showAllBlockPositions](#blitze-sitemaker-showallblockpositions)
+  * [blitze_sitemaker_hideEmptyBlockPositions](#blitze-sitemaker-hideemptyblockpositions)
+  * [blitze_sitemaker_renderBlock](#blitze-sitemaker-renderblock)
+  * [blitze_sitemaker_layout_changed](#blitze-sitemaker-layout-changed)
+
+## PHP Events
 
 blitze.sitemaker.acp_add_bulk_menu_options
 ===
@@ -31,7 +52,7 @@ blitze.sitemaker.modify_rendered_block
 * Since: 3.0.1-RC1
 * Purpose: Modify a rendered block
 
-# [Template Events](#)
+## Template Events
 
 blitze_sitemaker_acp_settings
 ===
@@ -51,7 +72,7 @@ blitze_sitemaker_admin_bar_templates
 * Since: 3.1.0
 * Purpose: Add template files to be used in JS for block views, etc
 
-# [Javascript Events](#)
+## Javascript Events
 
 blitze_sitemaker_showAllBlockPositions
 ===

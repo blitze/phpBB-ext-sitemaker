@@ -20,21 +20,20 @@ phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site
 * Create Menus with nested lists
 * Create blocks with your own content using html/bbcode
 
-## Installation
+## Documentation
 
-Clone into phpBB/ext/blitze/sitemaker:
+* [Changelog](docs/CHANGELOG.md)
+* [Userguide](docs/en/userguide.md)
+* Developing Guide
+    * [Extending phpBB SiteMaker](docs/en/extending.md)
+    * [Theming](docs/en/theming.md)
+    * [Contributing](docs/en/contributing.md)
 
-    git clone https://github.com/blitze/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
+## Download && Installation
 
-From command line go to sitemaker directory:
-
-    cd phpBB/ext/blitze/sitemaker
-
-Install vendors
-
-    php composer.phar install --dev
-
-Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
+* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
 
 ## Upgrade from phpBB Primetime
 
