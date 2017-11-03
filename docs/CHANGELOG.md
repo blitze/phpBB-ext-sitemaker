@@ -3,19 +3,7 @@
 ## 3.1.0 - 2017-9-26
 
 - Added horizontal navbar
-- Added support for Responsive Filemanager for uploading and editing images. Simply download the [Responsive Filemanager](http://www.responsivefilemanager.com/) and upload it to your phpBB root like so it looks like so:
-```
-root
-	- phpBB
-		- ext
-			- blitze
-				- sitemaker
-		- ResponsiveFilemanager
-			- filemanager
-			- source
-			- thumbs
-			- tinymce
-```
+- Added support for Responsive Filemanager for uploading, browsing, and editing images. See instructions in the docs
 - Add event to display acp settings form (blitze.sitemaker.acp_display_settings_form)
 - Add event to save acp settings form (blitze.sitemaker.acp_save_settings)
 - Only rename board index to 'home' if a custom start page is set
