@@ -64,6 +64,11 @@ class util_test extends \phpbb_test_case
 				$temp_data['.'][] = $data;
 			}));
 		$template->expects($this->any())
+			->method('assign_var')
+			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
+				$temp_data[$key] = $data;
+			}));
+		$template->expects($this->any())
 			->method('retrieve_var')
 			->will($this->returnCallback(function() {
 				return '12345';
@@ -95,22 +100,19 @@ class util_test extends \phpbb_test_case
 					'css'	=> array()
 				),
 				array(),
-				array(
-					'js'	=> array(),
-					'css'	=> array()
-				),
+				array(),
 			),
 			array(
 				array(
-					'js'	=> array('my/file1.js', 'my/file2.js'),
-					'css'	=> array('my/file1.css'),
+					'js'	=> array('my/file1.js' => 0, 'my/file2.js' => 1),
+					'css'	=> array('my/file1.css' => 0),
 				),
 				array(
-					'js'	=> array('my/new_file.js', 'my/file1.js'),
+					'js'	=> array('my/new_file.js', 100 => 'my/file1.js'),
 				),
 				array(
-					'js'	=> array('my/file1.js', 'my/file2.js', 'my/new_file.js', 'my/file1.js'),
-					'css'	=> array('my/file1.css')
+					'js'	=> array('my/file1.js' => 100, 'my/file2.js' => 1, 'my/new_file.js' => 0),
+					'css'	=> array('my/file1.css' => 0),
 				),
 			),
 		);
@@ -120,18 +122,18 @@ class util_test extends \phpbb_test_case
 	 * Test the add_assets method
 	 *
 	 * @dataProvider add_assets_test_data
-	 * @param array $current_scripts
-	 * @param array $add_scripts
+	 * @param array $current_assets
+	 * @param array $add_assets
 	 * @param array $expected
 	 */
-	public function test_add_assets(array $current_scripts, array $add_scripts, array $expected)
+	public function test_add_assets(array $current_assets, array $add_assets, array $expected)
 	{
 		$reflection = new \ReflectionClass($this->util);
-		$reflection_property = $reflection->getProperty('scripts');
+		$reflection_property = $reflection->getProperty('assets');
 		$reflection_property->setAccessible(true);
-		$reflection_property->setValue($this->util, $current_scripts);
+		$reflection_property->setValue($this->util, $current_assets);
 
-		$this->util->add_assets($add_scripts);
+		$this->util->add_assets($add_assets);
 
 		$this->assertSame($reflection_property->getValue($this->util), $expected);
 	}
@@ -146,27 +148,31 @@ class util_test extends \phpbb_test_case
 		return array(
 			array(
 				array(
+					'css'	=> array(),
 					'js'	=> array(),
-					'css'	=> array()
 				),
-				array(),
+				array(
+					'css'	=> array(),
+					'js'	=> array(),
+				),
 			),
 			array(
 				array(
-					'js' => array(
-						0	=> 'my/file1.js',
-						1	=> 'my/file2.js',
-						2	=> 'my/file1.js',
-						100	=> 'my/file4.js',
-						4	=> 'my/file3.js'),
 					'css' => array(),
+					'js' => array(
+						'my/file1.js' => 2,
+						'my/file2.js' => 1,
+						'my/file4.js' => 100,
+						'my/file3.js' => 4,
+					),
 				),
 				array(
+					'css'	=> array(),
 					'js'	=> array(
-						array('UA_FILE' => 'my/file1.js'),
-						array('UA_FILE' => 'my/file2.js'),
-						array('UA_FILE' => 'my/file3.js'),
-						array('UA_FILE' => 'my/file4.js'),
+						'my/file2.js',
+						'my/file1.js',
+						'my/file3.js',
+						'my/file4.js',
 					),
 				),
 			),
@@ -177,20 +183,20 @@ class util_test extends \phpbb_test_case
 	 * Test the set_assets method
 	 *
 	 * @dataProvider set_assets_test_data
-	 * @param array $scripts
+	 * @param array $assets
 	 * @param array $expected
 	 */
-	public function test_set_assets(array $scripts, array $expected)
+	public function test_set_assets(array $assets, array $expected)
 	{
 		$reflection = new \ReflectionClass($this->util);
-		$reflection_property = $reflection->getProperty('scripts');
+		$reflection_property = $reflection->getProperty('assets');
 		$reflection_property->setAccessible(true);
-		$reflection_property->setValue($this->util, $scripts);
+		$reflection_property->setValue($this->util, $assets);
 
 		$this->tpl_data = array();
 		$this->util->set_assets();
 
-		$this->assertSame($this->tpl_data, $expected);
+		$this->assertSame($this->tpl_data['assets'], $expected);
 	}
 
 	/**

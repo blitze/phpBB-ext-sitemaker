@@ -24,7 +24,7 @@ class util
 	protected $web_path;
 
 	/** array */
-	protected $scripts;
+	protected $assets;
 
 	/**
 	 * Constructor
@@ -39,25 +39,24 @@ class util
 		$this->template = $template;
 		$this->user = $user;
 
-		$this->scripts = array(
-			'js'	=> array(),
-			'css'   => array(),
-		);
+		$this->reset();
 	}
 
 	/**
 	 * include css/javascript
-	 * receives an array of form: array('js' => array('test.js', 'test2.js'), 'css' => array())
-	 * @param array $scripts
+	 * @param array $assets array of form array('js' => array('test.js', 'test2.js'), 'css' => array())
+	 * @return void
 	 */
-	public function add_assets(array $scripts)
+	public function add_assets(array $assets)
 	{
-		foreach ($scripts as $type => $paths)
+		foreach ($assets as $type => $scripts)
 		{
-			$count = (isset($this->scripts[$type])) ? sizeof($this->scripts[$type]) : 0;
-			foreach ($paths as $key => $script)
+			foreach ($scripts as $order => $script)
 			{
-				$this->scripts[$type][$count++] = $script;
+				if (!isset($this->assets[$type][$script]) || $this->assets[$type][$script] < $order)
+				{
+					$this->assets[$type][$script] = $order;
+				}
 			}
 		}
 	}
@@ -67,16 +66,15 @@ class util
 	 */
 	public function set_assets()
 	{
-		$this->_prep_scripts();
-		foreach ($this->scripts as $type => $scripts)
-		{
-			foreach ($scripts as $file)
-			{
-				$this->template->assign_block_vars($type, array('UA_FILE' => trim($file)));
-			}
-		}
+		uasort($this->assets['js'], array($this, 'sort_assets'));
+		uasort($this->assets['css'], array($this, 'sort_assets'));
 
-		$this->scripts = array();
+		$this->template->assign_var('assets', array(
+			'css'	=> array_keys($this->assets['css']),
+			'js'	=> array_keys($this->assets['js']),
+		));
+
+		$this->reset();
 	}
 
 	/**
@@ -122,22 +120,28 @@ class util
 	}
 
 	/**
-	 *
+	 * @param int $a
+	 * @param int $b
+	 * @return int
 	 */
-	protected function _prep_scripts()
+	protected function sort_assets($a, $b)
 	{
-		if (isset($this->scripts['js']))
+		if ($a == $b)
 		{
-			ksort($this->scripts['js']);
-			$this->scripts['js'] = array_filter(array_unique($this->scripts['js']));
+			return 0;
 		}
 
-		if (isset($this->scripts['css']))
-		{
-			ksort($this->scripts['css']);
-			$this->scripts['css'] = array_filter(array_unique($this->scripts['css']));
-		}
+		return ($a < $b) ? -1 : 1;
+	}
 
-		$this->scripts = array_filter($this->scripts);
+	/**
+	 * @return void
+	 */
+	protected function reset()
+	{
+		$this->assets = array(
+			'js'	=> array(),
+			'css'   => array(),
+		);
 	}
 }
