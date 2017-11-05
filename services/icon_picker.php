@@ -49,11 +49,11 @@ class icon_picker
 				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
 				'@blitze_sitemaker/assets/icons/picker.min.js',
 			),
-			'css'	=> array(
+			'css'	=> array_filter(array(
 				defined('IN_ADMIN') ? $this->util->get_web_path() . 'assets/css/font-awesome.min.css' : '',
 				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/icons/picker.min.css',
-			)
+			))
 		));
 
 		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
