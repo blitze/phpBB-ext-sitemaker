@@ -19,20 +19,11 @@ class upload
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
-	/** @var \phpbb\filesystem\filesystem */
-	protected $filesystem;
-
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\user */
-	protected $user;
-
-	/** @var string */
-	protected $phpbb_root_path;
-
-	/** @var string */
-	protected $upload_dir = 'images/sitemaker_uploads/source/';
+	/** @var \blitze\sitemaker\services\filemanager\setup */
+	protected $filemanager;
 
 	/** @var array */
 	protected $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg');
@@ -40,21 +31,17 @@ class upload
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth					$auth				Auth object
-	 * @param \phpbb\files\factory				$files_factory		Files factory object
-	 * @param \phpbb\filesystem\filesystem		$filesystem			File system
-	 * @param \phpbb\language\language			$language			Language object
-	 * @param \phpbb\user						$user				User object
-	 * @param string							$phpbb_root_path	phpBB root path
+	 * @param \phpbb\auth\auth								$auth				Auth object
+	 * @param \phpbb\files\factory							$files_factory		Files factory object
+	 * @param \phpbb\language\language						$language			Language object
+	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager		Filemanager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\files\factory $files_factory, \phpbb\filesystem\filesystem $filesystem, \phpbb\language\language $language, \phpbb\user $user, $phpbb_root_path)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\files\factory $files_factory, \phpbb\language\language $language, \blitze\sitemaker\services\filemanager\setup $filemanager)
 	{
 		$this->auth = $auth;
 		$this->files_factory = $files_factory;
-		$this->filesystem = $filesystem;
 		$this->language = $language;
-		$this->user = $user;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->filemanager = $filemanager;
 	}
 
 	/**
@@ -89,11 +76,11 @@ class upload
 			->set_allowed_extensions($this->allowed_extensions)
 			->handle_upload('files.types.form', 'file');
 
-		$this->set_filename($file);
+		$destination = $this->filemanager->get_upload_destination();
+		$user_dir = $this->filemanager->get_user_dir();
 
-		$user_dir = $this->get_user_dir();
-		$destination = rtrim($this->upload_dir . $user_dir, '/');
-		$file->move_file($destination, true);
+		$this->set_filename($file);
+		$file->move_file(rtrim($destination, '/'), true);
 
 		if (sizeof($file->error))
 		{
@@ -104,29 +91,6 @@ class upload
 		{
 			$json_data['location'] = $user_dir . $file->get('realname');
 		}
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function get_user_dir()
-	{
-		$user_dir = '';
-
-		// if user does not have root access, they must have a directory
-		if (!$this->auth->acl_get('a_sm_filemanager'))
-		{
-			$user_dir = 'users/' . $this->user->data['username'] . '/';
-
-			$destination = $this->phpbb_root_path . $this->upload_dir . $user_dir;
-
-			if (!is_dir($destination))
-			{
-				$this->filesystem->mkdir($destination, 0755);
-			}
-		}
-
-		return $user_dir;
 	}
 
 	/**

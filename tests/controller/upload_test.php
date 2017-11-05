@@ -33,6 +33,8 @@ class upload_test extends \phpbb_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
 
+		$config = new \phpbb\config\config(array());
+
 		$clean_filename_mode = 'real';
 		$clean_filename_prefix = '';
 		if (preg_match('/^(blobid|imagetools)\d?/i', $filename))
@@ -89,7 +91,9 @@ class upload_test extends \phpbb_test_case
 		$user = new \phpbb\user($language, '\phpbb\datetime');
 		$user->data['username'] = 'demo';
 
-		$controller = new upload($auth, $files_factory, $filesystem, $language, $user, $phpbb_root_path);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, '', $phpbb_root_path);
+
+		$controller = new upload($auth, $files_factory, $language, $filemanager);
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;

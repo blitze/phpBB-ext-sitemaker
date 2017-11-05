@@ -119,6 +119,8 @@ class admin_bar_test extends \phpbb_database_test_case
 				'blitze.sitemaker.block.members'	=> 'BLITZE_SITEMAKER_BLOCK_MEMBERS',
 			)));
 
+		$filesystem = new \phpbb\filesystem\filesystem();
+
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
@@ -176,7 +178,7 @@ class admin_bar_test extends \phpbb_database_test_case
 			}));
 
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $user, $filemanager_path);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path);
 
 		return new admin_bar($config, $controller_helper, $phpbb_container, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}

@@ -126,8 +126,10 @@ services:
         arguments:
             - '@auth'
             - '@config'
+            - '@filesystem'
             - '@user'
             - '%filemanager.config_path%'
+            - '%core.php_ext%'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data
