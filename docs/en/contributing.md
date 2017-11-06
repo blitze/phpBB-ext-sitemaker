@@ -5,7 +5,7 @@
 * Create a github account
 * Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
 
-Clone your fork of phpBB’s repository to your computer:
+Clone your fork of the repository:
 
 	git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
 

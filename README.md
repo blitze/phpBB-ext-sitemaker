@@ -29,7 +29,7 @@ phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site
     * [Theming](docs/en/theming.md)
     * [Contributing](docs/en/contributing.md)
 
-## Download && Installation
+## Download & Installation
 
 * Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 * Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker

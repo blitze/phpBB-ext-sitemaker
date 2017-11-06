@@ -46,4 +46,4 @@ Alternatively you may use [yarn](https://yarnpkg.com):
 
 **Deploy**
 
-	You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
+You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
