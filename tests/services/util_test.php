@@ -100,7 +100,10 @@ class util_test extends \phpbb_test_case
 					'css'	=> array()
 				),
 				array(),
-				array(),
+				array(
+					'js'	=> array(),
+					'css'	=> array()
+				),
 			),
 			array(
 				array(
