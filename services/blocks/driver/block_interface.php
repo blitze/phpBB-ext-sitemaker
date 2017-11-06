@@ -22,7 +22,7 @@ interface block_interface
 	 * Get block default settings
 	 *
 	 * @param array $settings
-	 * @return array
+	 * @return array[]
 	 */
 	public function get_config(array $settings);
 
