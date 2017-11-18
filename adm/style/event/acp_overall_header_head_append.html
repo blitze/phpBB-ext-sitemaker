@@ -1,3 +1,3 @@
-{% for css in loops.css %}
-{% INCLUDECSS ''~ css.UA_FILE ~'' %}
+{% for file in assets.css %}
+{% INCLUDECSS ''~ file ~'' %}
 {% endfor %}
