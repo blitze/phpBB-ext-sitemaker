@@ -40,7 +40,7 @@ class member_menu extends block
 	 * @param \phpbb\auth\auth							$auth				Permission object
 	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
-	 * @param \blitze\sitemaker\services\util	$util	$util				utility Object
+	 * @param \blitze\sitemaker\services\util			$util				utility Object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
