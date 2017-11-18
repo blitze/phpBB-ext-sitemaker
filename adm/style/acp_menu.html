@@ -71,11 +71,7 @@
 			</div>
 		</div>
 
-		<div class="align-right">
-			<label style="display: none">
-				<input type="checkbox" id="select-all" /> {{ lang('SELECT_ALL') }}
-			</label>
-		</div>
+		<div class="align-right"><span style="display: none"><input type="checkbox" id="select-all" /> {{ lang('SELECT_ALL') }}</span>&nbsp;</div>
 		<div class="row3 items-container">
 			<div id="no-items" class="center">{{ lang('NO_MENU_ITEMS') }}</div>
 			<div class="items-list">
@@ -145,21 +141,21 @@
 	var ajaxUrl	= '{{ UA_AJAX_URL }}';
 	var menuId	= {{ MENU_ID|e('js') }};
 	var lang = {
-		none				: '{{ lang('NO_PARENT')|escape('js') }}',
-		addNode				: '{{ lang('ADD_ITEM')|escape('js') }}',
-		editNode			: '{{ lang('EDIT_ITEM')|escape('js') }}',
-		changeMe			: '{{ lang('CHANGE_ME')|escape('js') }}',
-		saveNode			: '{{ lang('SAVE')|escape('js') }}',
-		hideNode			: '{{ lang('HIDE')|escape('js') }}',
-		showNode			: '{{ lang('SHOW')|escape('js') }}',
-		cancel				: '{{ lang('CANCEL')|escape('js') }}',
-		remove				: '{{ lang('DELETE')|escape('js') }}',
-		deleteNode			: '{{ lang('DELETE_ITEM')|escape('js') }}',
-		deleteChildNodes	: '{{ lang('DELETE_KIDS')|escape('js') }}',
-		required			: '{{ lang('REQUIRED')|escape('js') }}',
-		unsavedChanges		: '{{ lang('UNSAVED_CHANGES')|escape('js') }}',
-		errorMessage		: '{{ lang('PROCESSING_ERROR')|escape('js') }}',
-		visitPage			: '{{ lang('VISIT_PAGE')|escape('js') }}'
+		none				: '{{ lang('NO_PARENT')|e('js') }}',
+		addNode				: '{{ lang('ADD_ITEM')|e('js') }}',
+		editNode			: '{{ lang('EDIT_ITEM')|e('js') }}',
+		changeMe			: '{{ lang('CHANGE_ME')|e('js') }}',
+		saveNode			: '{{ lang('SAVE')|e('js') }}',
+		hideNode			: '{{ lang('HIDE')|e('js') }}',
+		showNode			: '{{ lang('SHOW')|e('js') }}',
+		cancel				: '{{ lang('CANCEL')|e('js') }}',
+		remove				: '{{ lang('DELETE')|e('js') }}',
+		deleteNode			: '{{ lang('DELETE_ITEM')|e('js') }}',
+		deleteChildNodes	: '{{ lang('DELETE_KIDS')|e('js') }}',
+		required			: '{{ lang('REQUIRED')|e('js') }}',
+		unsavedChanges		: '{{ lang('UNSAVED_CHANGES')|e('js') }}',
+		errorMessage		: '{{ lang('PROCESSING_ERROR')|e('js') }}',
+		visitPage			: '{{ lang('VISIT_PAGE')|e('js') }}'
 	};
 // ]]>
 </script>
