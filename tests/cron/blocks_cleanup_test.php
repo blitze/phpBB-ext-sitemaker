@@ -128,7 +128,8 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 		$url->expects($this->any())
 			->method('exists')
 			->will($this->returnCallback(function($url) {
-				return (strpos($url, 'index.php') !== false) ? true : false;
+				$url = str_replace('http://', '', $url);
+				return in_array($url, array('index.php', 'app.php/foo/test')) ? true : false;
 			}));
 
 		$task = new blocks_cleanup($config, $db, $blocks_manager, $url, $blocks_table, $custom_blocks_table);
@@ -160,19 +161,22 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 		// the task should be ready to run initially
 		$this->assertTrue($task->should_run());
 
-		// We start out with 4 blocks (see fixtures)
-		// 3 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
+		// We start out with 5 blocks (see fixtures)
+		// 4 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
 		$blocks = $this->block_mapper->find();
-		$this->assertEquals(4, count($blocks));
+		$this->assertEquals(5, count($blocks));
 
 		$this->assertTrue($task->is_runnable());
 
 		// run the task
 		$task->run();
 
-		// After run cron trask, we should end up with just 1 block
+		// After run cron trask, we should end up with just 2 blocks
 		$blocks = $this->block_mapper->find();
-		$this->assertEquals(1, count($blocks));
+		$this->assertEquals(2, count($blocks));
+
+		// confirm we have the expected blocks ids
+		$this->assertEquals(array(1, 2), array_keys($blocks->get_entities()));
 
 		// after successful run, the task should not be ready to run again until enough time has elapsed
 		$this->assertFalse($task->should_run());

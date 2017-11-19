@@ -24,7 +24,7 @@
 		<row>
 			<value>2</value>
 			<value>foo/bar</value>
-			<value>app.php/foo/test/</value>
+			<value>app.php/foo/test</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -32,6 +32,12 @@
 			<value></value>
 			<value>faq.php</value>
 			<value>2</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value></value>
+			<value>noexist.php</value>
+			<value>1</value>
 		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
@@ -65,6 +71,13 @@
 			<value>4</value>
 			<value>foo.bar.blocks.noexist</value>
 			<value>1</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>blitze.sitemaker.blocks.stats</value>
+			<value>4</value>
 			<value>1</value>
 			<value></value>
 		</row>

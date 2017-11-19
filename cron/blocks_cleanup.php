@@ -122,7 +122,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 
 		foreach ($routes as $route => $row)
 		{
-			$url = $board_url . '/' . (($row['ext_name']) ? 'app.php' : '') . $row['route'];
+			$url = $board_url . '/' . $row['route'];
 
 			// Route no longer exists => remove all blocks for route
 			if ($this->url_checker->exists($url) !== true)
