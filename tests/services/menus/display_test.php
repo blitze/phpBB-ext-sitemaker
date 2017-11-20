@@ -65,15 +65,12 @@ class display_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
-		$template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
-
 		$db = $this->new_dbal();
 
 		$menu_items_table = 'phpbb_sm_menu_items';
 		$primary_key = 'item_id';
 
-		return new display($db, $template, $user, $menu_items_table, $primary_key, $phpEx);
+		return new display($db, $user, $menu_items_table, $primary_key);
 	}
 
 	/**

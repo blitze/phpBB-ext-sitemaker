@@ -208,11 +208,9 @@ services:
         shared: false
         arguments:
             - '@dbal.conn'
-            - '@template'
             - '@user'
             - '%tables.sitemaker.menu_items%'
             - 'item_id'
-            - '%core.php_ext%'
 
     blitze.sitemaker.menus.navigation:
         class: blitze\sitemaker\services\menus\navigation

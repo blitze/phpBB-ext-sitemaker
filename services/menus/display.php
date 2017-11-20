@@ -11,14 +11,8 @@ namespace blitze\sitemaker\services\menus;
 
 class display extends \blitze\sitemaker\services\tree\display
 {
-	/** @var \phpbb\template\template */
-	protected $template;
-
 	/** @var \phpbb\user */
 	protected $user;
-
-	/** @var string */
-	protected $php_ext;
 
 	/** @var bool */
 	private $expanded = true;
@@ -39,19 +33,15 @@ class display extends \blitze\sitemaker\services\tree\display
 	 * Construct
 	 *
 	 * @param \phpbb\db\driver\driver_interface		$db             	Database connection
-	 * @param \phpbb\template\template				$template			Template object
 	 * @param \phpbb\user							$user				User Object
 	 * @param string								$menu_items_table	Menu Items table
 	 * @param string								$pk					Primary key
-	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $menu_items_table, $pk, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $menu_items_table, $pk)
 	{
 		parent::__construct($db, $menu_items_table, $pk);
 
-		$this->template = $template;
 		$this->user = $user;
-		$this->php_ext = $php_ext;
 	}
 
 	/**
