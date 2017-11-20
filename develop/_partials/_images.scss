@@ -69,6 +69,14 @@ img {
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;
 		}
+
+		.content & {
+			margin: 0;
+
+			img {
+				border-radius: 0;
+			}
+		}
 	}
 
 	.img-align-left & img {
