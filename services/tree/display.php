@@ -26,6 +26,16 @@ abstract class display
 	/** @var string */
 	protected $sql_where;
 
+	/**
+	 * Column names in the table
+	 * @var string
+	 */
+	protected $column_item_id = 'item_id';
+	protected $column_left_id = 'left_id';
+	protected $column_right_id = 'right_id';
+	protected $column_parent_id = 'parent_id';
+	protected $column_depth = 'depth';
+
 	/** @var array */
 	protected $errors = array();
 
@@ -57,7 +67,7 @@ abstract class display
 	 */
 	public function is_ancestor(array $object, array $subject)
 	{
-		return ($subject['left_id'] < $object['left_id'] && $subject['right_id'] > $object['right_id']) ? true : false;
+		return ($subject[$this->column_left_id] < $object[$this->column_left_id] && $subject[$this->column_right_id] > $object[$this->column_right_id]) ? true : false;
 	}
 
 	/**
@@ -67,7 +77,7 @@ abstract class display
 	 */
 	public function count_descendants(array $row)
 	{
-		return (int) (($row['right_id'] - $row['left_id'] - 1) / 2);
+		return (int) (($row[$this->column_right_id] - $row[$this->column_left_id] - 1) / 2);
 	}
 
 	/**
@@ -164,7 +174,7 @@ abstract class display
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
 			$row 		= $data[$i];
-			$this_depth	= $parental_depth[$row['parent_id']] + 1;
+			$this_depth	= $parental_depth[$row[$this->column_parent_id]] + 1;
 			$repeat		= abs($prev_depth - $this_depth);
 
 			$tpl_data	= array(
@@ -221,7 +231,7 @@ abstract class display
 
 			$this->set_padding($padding, $pad_with, $row, $padding_store, $right);
 
-			$right = $row['right_id'];
+			$right = $row[$this->column_right_id];
 			$title = $this->get_padded_title($padding, $row[$title_column]);
 			$return['options'] .= $this->get_html_option($row, $selected_ids, $title);
 			$return['data'][$row[$this->pk]] = $title;
@@ -240,14 +250,14 @@ abstract class display
 	 */
 	protected function set_padding(&$padding, $pad_with, array $row, array $padding_store, $right)
 	{
-		if ($row['left_id'] < $right)
+		if ($row[$this->column_left_id] < $right)
 		{
 			$padding .= $pad_with;
-			$padding_store[$row['parent_id']] = $padding;
+			$padding_store[$row[$this->column_parent_id]] = $padding;
 		}
-		else if ($row['left_id'] > $right + 1)
+		else if ($row[$this->column_left_id] > $right + 1)
 		{
-			$padding = (isset($padding_store[$row['parent_id']])) ? $padding_store[$row['parent_id']] : '';
+			$padding = (isset($padding_store[$row[$this->column_parent_id]])) ? $padding_store[$row[$this->column_parent_id]] : '';
 		}
 	}
 

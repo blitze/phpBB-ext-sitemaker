@@ -132,11 +132,11 @@ class display extends \blitze\sitemaker\services\tree\display
 		$this->min_depth = 0;
 
 		return array(
-			'item_id'	=> 0,
-			'parent_id'	=> 0,
-			'left_id'	=> 0,
-			'right_id'	=> 0,
-			'depth'		=> 0,
+			$this->column_item_id	=> 0,
+			$this->column_parent_id	=> 0,
+			$this->column_left_id	=> 0,
+			$this->column_right_id	=> 0,
+			$this->column_depth		=> 0,
 		);
 	}
 
@@ -155,19 +155,19 @@ class display extends \blitze\sitemaker\services\tree\display
 			// Skip branch
 			if ($this->should_skip_branch($row, $leaf))
 			{
-				$this->adjust_right_id($leaf['item_id'], $data, $leaf);
+				$this->adjust_right_id($leaf[$this->column_item_id], $data, $leaf);
 				unset($data[$item_id]);
 				continue;
 			}
 
 			$is_current_item = $this->is_current_item($row);
 			$is_parent = $this->is_parent_of_current_item($row);
-			$this_depth	= $this->parental_depth[$row['parent_id']] + 1;
+			$this_depth	= $this->parental_depth[$row[$this->column_parent_id]] + 1;
 			$leaf = $this->get_leaf_node($row, $is_current_item, $is_parent);
 
 			$this->parental_depth[$row[$this->pk]] = $this_depth;
 
-			if ($row['depth'] < $this->min_depth)
+			if ($row[$this->column_depth] < $this->min_depth)
 			{
 				unset($data[$item_id]);
 				continue;
@@ -193,7 +193,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function should_skip_branch(array $row, array $leaf)
 	{
-		return (sizeof($leaf) && $row['left_id'] < $leaf['right_id']);
+		return (sizeof($leaf) && $row[$this->column_left_id] < $leaf[$this->column_right_id]);
 	}
 
 	/**
@@ -202,7 +202,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function is_current_item(array $row)
 	{
-		return ($row['item_id'] === $this->current_item['item_id']) ? true : false;
+		return ($row[$this->column_item_id] === $this->current_item[$this->column_item_id]) ? true : false;
 	}
 
 	/**
@@ -211,7 +211,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function is_parent_of_current_item(array $row)
 	{
-		return ($row['left_id'] < $this->current_item['left_id'] && $row['right_id'] > $this->current_item['right_id']) ? true : false;
+		return ($row[$this->column_left_id] < $this->current_item[$this->column_left_id] && $row[$this->column_right_id] > $this->current_item[$this->column_right_id]) ? true : false;
 	}
 
 	/**
@@ -234,7 +234,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function must_not_expand(array $row, $is_current_items_parent)
 	{
-		return ($row['depth'] === $this->max_depth || !$is_current_items_parent && !$this->expanded) ? true : false;
+		return ($row[$this->column_depth] === $this->max_depth || !$is_current_items_parent && !$this->expanded) ? true : false;
 	}
 
 	/**
@@ -267,7 +267,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function adjust_depth(array $row)
 	{
-		$depth = (int) $row['depth'];
+		$depth = (int) $row[$this->column_depth];
 		if ($this->needs_adjustment($depth))
 		{
 			$adjustment = ($this->count_descendants($row)) ? 1 : 0;
@@ -285,7 +285,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	{
 		if (isset($data[$item_id]))
 		{
-			$data[$leaf['item_id']]['right_id'] -= 2;
+			$data[$leaf[$this->column_item_id]][$this->column_right_id] -= 2;
 		}
 	}
 
