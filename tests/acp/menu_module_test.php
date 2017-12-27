@@ -63,10 +63,18 @@ class menu_module_test extends \phpbb_database_test_case
 		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
 			->getMock();
-		$controller_helper->expects($this->once())
+		$controller_helper->expects($this->exactly(2))
 			->method('route')
-			->with($this->equalTo('blitze_sitemaker_menus_admin'))
-			->willReturn('phpBB/app.php/menu/admin');
+			->willReturnCallback(function($route) {
+				if ($route === 'blitze_sitemaker_menus_admin')
+				{
+					return 'phpBB/app.php/menu/admin';
+				}
+				else if ($route === 'blitze_sitemaker_forum')
+				{
+					return 'app.php/forum';
+				}
+			});
 
 		$language = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\acp;
 
 use blitze\sitemaker\services\menus\nestedset;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
 * @package acp
@@ -161,7 +162,8 @@ class menu_module
 	 */
 	protected function get_forums_string(array $forumslist)
 	{
-		$text = $this->language->lang('FORUM') . "|app.{$this->php_ext}/forum\n";
+		$forum_url = $this->controller_helper->route('blitze_sitemaker_forum', array(), true, '', UrlGeneratorInterface::RELATIVE_PATH);
+		$text = $this->language->lang('FORUM') . '|' . $forum_url . "\n";
 		foreach ($forumslist as $forum_id => $row)
 		{
 			$text .= "\t" . str_replace('&nbsp; &nbsp;', "\t", $row['padding']);
