@@ -49,6 +49,9 @@ branches:
     - /^develop-.*$/
     - /^release-.*$/
 
+before_install:
+  - composer self-update 1.5.2 --rollback
+
 install:
   - travis_retry composer install --no-interaction --prefer-source
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
