@@ -43,15 +43,21 @@ class settings
 	}
 
 	/**
-	 * @return array|void
+	 * @param bool $retry
+	 * @return array
 	 */
-	public function get_settings()
+	public function get_settings($retry = true)
 	{
 		$config_file = $this->get_config_file();
 
 		if (!$this->filesystem->exists($config_file))
 		{
 			$this->filesystem->copy($this->config_template, $config_file, true);
+		}
+		else if ($retry && file($config_file)[1] !== '// Auto-generated configuration file for phpBB sitemaker')
+		{
+			$this->filesystem->remove($config_file);
+			return $this->get_settings(false);
 		}
 
 		return include($config_file);
