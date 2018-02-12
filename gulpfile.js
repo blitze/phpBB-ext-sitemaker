@@ -85,7 +85,7 @@ gulp.task('set_vendors', function() {
 		.pipe(jsFilter.restore)
 
 		.pipe(cssFilter)
-		.pipe(plugins.cleanCss())
+		.pipe(plugins.cleanCss({rebase: false}))
 		.pipe(gulp.dest(paths.prod.vendor))
 		.pipe(cssFilter.restore)
 		.pipe(gulp.dest(paths.prod.vendor));
