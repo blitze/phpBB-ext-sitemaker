@@ -3,15 +3,15 @@
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.0.0",
-    "gulp-bower": "0.0.13",
-    "gulp-changed": "^3.1.1",
-    "gulp-clean-css": "^3.9.0",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-bower": "0.0.14",
+    "gulp-changed": "^3.2.0",
+    "gulp-clean-css": "^3.9.2",
     "gulp-csscomb": "^3.0.8",
-    "gulp-csslint": "^1.0.0",
-    "gulp-filter": "^5.0.1",
-    "gulp-jscs": "^4.0.0",
-    "gulp-jshint": "^2.0.4",
+    "gulp-csslint": "^1.0.1",
+    "gulp-filter": "^5.1.0",
+    "gulp-jscs": "^4.1.0",
+    "gulp-jshint": "^2.1.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "*",
@@ -20,6 +20,6 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "main-bower-files": "^2.13.1",
-    "yargs": "^10.0.3"
+    "yargs": "^11.0.0"
   }
 }
