@@ -151,7 +151,7 @@ class settings_module
 			$vars = array('settings');
 			extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.acp_save_settings', compact($vars)));
 
-			$this->save_filemanager_settings();
+			$this->save_filemanager_settings($settings);
 			$this->save_config_settings($settings);
 			$this->trigger_error($this->translator->lang('SETTINGS_SAVED') . adm_back_link($this->u_action));
 		}
@@ -269,9 +269,10 @@ class settings_module
 	}
 
 	/**
+	 * @param array $config
 	 * @return void
 	 */
-	protected function save_filemanager_settings()
+	protected function save_filemanager_settings(array &$config)
 	{
 		$settings = $this->request->variable('filemanager', array('' => ''));
 
@@ -282,6 +283,10 @@ class settings_module
 			unset($settings['image_watermark_coordinates']);
 
 			$this->filemanager->save($settings);
+		}
+		else
+		{
+			$config['sm_filemanager'] = 0;
 		}
 	}
 

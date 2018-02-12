@@ -35,7 +35,6 @@
         </dl>
     </fieldset>
 
-	{% if filemanager %}
     <fieldset>
         <legend>{{ lang('FILEMANAGER_SETTINGS') }}</legend>
 		<dl>
@@ -48,6 +47,7 @@
             </dd>
 		</dl>
 		<div id="filemanager-settings">
+		{% if filemanager|length %}
 			{% set image_modes = ['exact', 'portrait', 'landscape', 'auto', 'crop'] %}
 			<dl>
 				<dt><label for="filemanager_max_image">{{ lang('FILEMANAGER_IMAGE_MAX_DIMENSIONS') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
@@ -112,9 +112,11 @@
 				<dt><label for="filemanager_aviary_apiKey">{{ lang('FILEMANAGER_AVIARY_API_KEY') }}</label><br /><span>{{ lang('FILEMANAGER_AVIARY_API_KEY_EXPLAIN') }}</span></dt>
 				<dd><input id="filemanager_aviary_apiKey" type="text" size="35" maxlength="255" name="filemanager[aviary_apiKey]" value="{{ filemanager.aviary_apiKey }}" /></dd>
 			</dl>
+		{% else %}
+			<p>{{ lang('FILEMANAGER_NO_EXIST') }}</p>
+		{% endif %}
 		</div>
     </fieldset>
-    {% endif %}
 
     <fieldset>
         <legend>{{ lang('FORUM_INDEX_SETTINGS') }}</legend>

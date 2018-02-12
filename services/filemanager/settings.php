@@ -48,13 +48,15 @@ class settings
 	 */
 	public function get_settings($retry = true)
 	{
+		// return empty array if filemanager is not installed
+		if (!is_dir($this->config_path))
+		{
+			return array();
+		}
+
 		$config_file = $this->get_config_file();
 
-		if (!$this->filesystem->exists($config_file))
-		{
-			$this->filesystem->copy($this->config_template, $config_file, true);
-		}
-		else if ($retry && file($config_file)[1] !== '// Auto-generated configuration file for phpBB sitemaker')
+		if ($retry && file($config_file)[1] !== '// Auto-generated configuration file for phpBB sitemaker')
 		{
 			$this->filesystem->remove($config_file);
 			return $this->get_settings(false);
@@ -115,6 +117,13 @@ class settings
 	 */
 	protected function get_config_file()
 	{
-		return $this->config_path . 'config.' . $this->php_ext;
+		$config_file = $this->config_path . 'config.' . $this->php_ext;
+
+		if (!$this->filesystem->exists($config_file))
+		{
+			$this->filesystem->copy($this->config_template, $config_file, true);
+		}
+
+		return $config_file;
 	}
 }

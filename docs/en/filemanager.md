@@ -23,8 +23,6 @@ As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http:
           - config.php
 ```
 
-* Delete the responsive filemanager config file found here: `phpBB/ResponsiveFilemanager/filemanager/config/config.php`
-
 ## Activation
 
 * Go to ACP > Extensions > SiteMaker > Settings

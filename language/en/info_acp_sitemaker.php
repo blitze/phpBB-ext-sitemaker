@@ -63,6 +63,7 @@ $lang = array_merge($lang, array(
 
 	'FILEMANAGER_SETTINGS'						=> 'File Manager Settings',
 	'FILEMANAGER_STATUS'						=> 'Status',
+	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/docs/en/filemanager.md" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Automatically resize uploaded images?',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Resize to specified dimensions',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Auto resizing mode',
