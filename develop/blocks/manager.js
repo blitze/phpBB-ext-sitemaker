@@ -252,7 +252,7 @@
 					});
 					phpbb.toggleSelectSettings($this);
 				});
-				dialogEdit.dialog({buttons: eButtons}).dialog('option', 'title', lang.edit + ' - ' + resp.title).dialog('open');
+				dialogEdit.dialog({buttons: eButtons}).dialog('option', 'title', lang.edit + ' - ' + resp.title.replace(/(<([^>]+)>)/ig,"")).dialog('open');
 			}
 		});
 	};
@@ -685,9 +685,8 @@
 				blockPositions = $('.block-position').addClass('block-receiver').sortable(sortableOptions);
 			});
 
-			saveBtn = $('#toggle-edit').button().click(function() {
-				// exit edit mode
-			}).parent().next().children('a').button({disabled: true}).click(function(e) {
+			$('#toggle-edit').button();
+			saveBtn = $('#save-changes').button({disabled: true}).click(function(e) {
 				// save changes
 				e.preventDefault();
 				saveLayout();
