@@ -202,9 +202,8 @@ services:
     blitze.sitemaker.block.wordgraph:
         class: blitze\sitemaker\blocks\wordgraph
         arguments:
-            - '@auth'
-            - '@content.visibility'
             - '@dbal.conn'
+            - '@blitze.sitemaker.forum.data'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%sitemaker.cache_time%'

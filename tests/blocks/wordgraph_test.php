@@ -10,6 +10,7 @@
 namespace blitze\sitemaker\tests\blocks;
 
 use blitze\sitemaker\blocks\wordgraph;
+use blitze\sitemaker\services\forum\data;
 
 class wordgraph_test extends blocks_base
 {
@@ -45,8 +46,9 @@ class wordgraph_test extends blocks_base
 			}));
 
 		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new wordgraph($this->auth, $content_visibility, $this->db, $this->phpbb_root_path, $this->php_ext, 0);
+		$block = new wordgraph($this->db, $forum_data, $this->phpbb_root_path, $this->php_ext, 0);
 		$block->set_template($this->ptemplate);
 
 		return $block;

@@ -13,14 +13,11 @@ use blitze\sitemaker\services\blocks\driver\block;
 
 class wordgraph extends block
 {
-	/** @var \phpbb\auth\auth */
-	protected $auth;
-
-	/** @var \phpbb\content_visibility */
-	protected $content_visibility;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var \blitze\sitemaker\services\forum\data */
+	protected $forum;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -34,18 +31,16 @@ class wordgraph extends block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth					$auth					Auth object
-	 * @param \phpbb\content_visibility			$content_visibility		Content visibility
-	 * @param \phpbb\db\driver\driver_interface	$db     				Database connection
-	 * @param string							$phpbb_root_path		phpBB root path
-	 * @param string							$php_ext				phpEx
-	 * @param integer							$cache_time				Cache results for given time
+	 * @param \phpbb\db\driver\driver_interface			$db     			Database connection
+	 * @param \blitze\sitemaker\services\forum\data		$forum				Forum Data object
+	 * @param string									$phpbb_root_path	phpBB root path
+	 * @param string									$php_ext			phpEx
+	 * @param integer									$cache_time			Cache results for given time
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext, $cache_time)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\forum\data $forum, $phpbb_root_path, $php_ext, $cache_time)
 	{
-		$this->auth = $auth;
-		$this->content_visibility = $content_visibility;
 		$this->db = $db;
+		$this->forum = $forum;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->cache_time = $cache_time;
@@ -92,7 +87,7 @@ class wordgraph extends block
 	 * @param array $words_array
 	 * @param array $settings
 	 */
-	private function show_graph(array $words_array, array $settings)
+	protected function show_graph(array $words_array, array $settings)
 	{
 		$params = $this->get_graph_params($words_array, $settings);
 
@@ -111,7 +106,7 @@ class wordgraph extends block
 				'WORD'			=> $this->show_word($word, $words_array[$word], $settings['show_word_count']),
 				'WORD_SIZE'		=> $settings['min_word_size'] + (($words_array[$word] - $params['min_count']) * $params['size_step']),
 				'WORD_COLOR'	=> $r . $g . $b,
-				'WORD_URL'		=> append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word)),
+				'WORD_URL'		=> $this->get_url($word),
 			));
 		}
 	}
@@ -121,7 +116,7 @@ class wordgraph extends block
 	 * @param array $settings
 	 * @return array
 	 */
-	private function get_graph_params(array $words_array, array $settings)
+	protected function get_graph_params(array $words_array, array $settings)
 	{
 		$max_sat = hexdec('f');
 		$min_sat = hexdec(0);
@@ -151,9 +146,12 @@ class wordgraph extends block
 	 * @param array $settings
 	 * @return array
 	 */
-	private function get_words(array $settings)
+	protected function get_words(array $settings)
 	{
-		$sql_array = $this->get_words_sql($settings['exclude_words']);
+		$sql_array = $this->forum->query(false, false)
+			->fetch_custom($this->get_custom_sql_array($settings), array('SELECT'))
+			->build(true, true, false)
+			->get_sql_array();
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $settings['max_num_words'], 0, $this->cache_time);
 
@@ -169,14 +167,13 @@ class wordgraph extends block
 	}
 
 	/**
-	 * @param string $exclude_words
+	 * @param array $settings
 	 * @return array
 	 */
-	private function get_words_sql($exclude_words)
+	protected function get_custom_sql_array(array $settings)
 	{
-		$sql_where = $this->exclude_words_sql($exclude_words);
 		return array(
-			'SELECT'	=> 'l.word_text, l.word_count',
+			'SELECT'	=> array('l.word_text', 'l.word_count'),
 			'FROM'		=> array(
 				SEARCH_WORDLIST_TABLE	=> 'l',
 				SEARCH_WORDMATCH_TABLE	=> 'm',
@@ -187,10 +184,7 @@ class wordgraph extends block
 				AND l.word_count > 0
 				AND m.word_id = l.word_id
 				AND m.post_id = p.post_id
-				AND t.topic_id = p.topic_id
-				AND t.topic_time <= ' . time() . '
-				AND ' . $this->content_visibility->get_global_visibility_sql('topic', array_map('intval', array_keys($this->auth->acl_getf('!f_read', true))), 't.') .
-				$sql_where,
+				AND t.topic_id = p.topic_id' . $this->exclude_words_sql($settings['exclude_words']),
 			'GROUP_BY'	=> 'l.word_text, l.word_count',
 			'ORDER_BY'	=> 'l.word_count DESC'
 		);
@@ -200,7 +194,7 @@ class wordgraph extends block
 	 * @param string $exclude_words Comma separated string of words
 	 * @return string
 	 */
-	private function exclude_words_sql($exclude_words)
+	protected function exclude_words_sql($exclude_words)
 	{
 		$sql_where = '';
 		if ($exclude_words)
@@ -218,8 +212,17 @@ class wordgraph extends block
 	 * @param bool $show_count
 	 * @return string
 	 */
-	private function show_word($word, $count, $show_count)
+	protected function show_word($word, $count, $show_count)
 	{
 		return censor_text(($show_count) ? $word . '(' . $count . ')' : $word);
+	}
+
+	/**
+	 * @param string $word
+	 * @return string
+	 */
+	protected function get_url($word)
+	{
+		return append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word));
 	}
 }
