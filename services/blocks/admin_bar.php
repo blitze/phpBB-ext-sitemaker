@@ -49,6 +49,7 @@ class admin_bar
 	 * @param \phpbb\config\config							$config					Config object
 	 * @param \phpbb\controller\helper						$controller_helper		Controller Helper object
 	 * @param ContainerInterface							$phpbb_container		Service container
+	 * @param \phpbb\event\dispatcher_interface				$phpbb_dispatcher		Event dispatcher object
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \phpbb\user									$user					User object
@@ -57,11 +58,12 @@ class admin_bar
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
 	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
 		$this->phpbb_container = $phpbb_container;
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->template = $template;
 		$this->translator = $translator;
 		$this->user = $user;
@@ -218,19 +220,31 @@ class admin_bar
 	 */
 	public function set_assets()
 	{
-		$this->util->add_assets(array(
+		$assets = array(
 			'js'	=> array(
 				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
 				'@blitze_sitemaker/vendor/tinymce/tinymce.min.js',
 				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
 				'@blitze_sitemaker/vendor/twig.js/index.js',
-				100 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
+				1000 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
 				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			)
-		));
+		);
+
+		/**
+		 * Event to set assets for available blocks
+		 * Use array_merge_recursive to add new assets
+		 *
+		 * @event blitze.sitemaker.admin_bar.set_assets
+		 * @var	array	assets		Array of assets to include of form array([js] => array(), [css] => array())
+		 */
+		$vars = array('assets');
+		extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.admin_bar.set_assets', compact($vars)));
+
+		$this->util->add_assets($assets);
 	}
 
 	/**

@@ -45,6 +45,7 @@ services:
             - '@config'
             - '@controller.helper'
             - '@service_container'
+            - '@dispatcher'
             - '@template'
             - '@language'
             - '@user'
