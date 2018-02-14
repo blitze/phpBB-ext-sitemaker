@@ -22,6 +22,9 @@ class admin_bar
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $phpbb_dispatcher;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -240,6 +243,7 @@ class admin_bar
 		 *
 		 * @event blitze.sitemaker.admin_bar.set_assets
 		 * @var	array	assets		Array of assets to include of form array([js] => array(), [css] => array())
+		 * @since 3.0.1-RC1
 		 */
 		$vars = array('assets');
 		extract($this->phpbb_dispatcher->trigger_event('blitze.sitemaker.admin_bar.set_assets', compact($vars)));
