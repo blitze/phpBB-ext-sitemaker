@@ -17,7 +17,8 @@ You can modify the behavior of phpBB SiteMaker using phpBB's event system.
 - [Javascript Events](#javascript-events)
   * [blitze_sitemaker_showAllBlockPositions](#blitze-sitemaker-showallblockpositions)
   * [blitze_sitemaker_hideEmptyBlockPositions](#blitze-sitemaker-hideemptyblockpositions)
-  * [blitze_sitemaker_renderBlock](#blitze-sitemaker-renderblock)
+  * [blitze_sitemaker_renderBlock_before](#blitze-sitemaker-renderblock_before)
+  * [blitze_sitemaker_renderBlock_after](#blitze-sitemaker-renderblock_after)
   * [blitze_sitemaker_layout_changed](#blitze-sitemaker-layout-changed)
 
 ## PHP Events
@@ -86,7 +87,13 @@ blitze_sitemaker_hideEmptyBlockPositions
 * Since: 3.0.1
 * Purpose: Modify blocks positions and/or empty positions when drag and drop has stopped
 
-blitze_sitemaker_renderBlock
+blitze_sitemaker_renderBlock_after
+===
+* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
+* Since: 3.0.1
+* Purpose: Do something after block is rendered when adding/editing/previewing block
+
+blitze_sitemaker_renderBlock_before
 ===
 * Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
 * Since: 3.0.1

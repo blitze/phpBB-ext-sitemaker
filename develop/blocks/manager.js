@@ -162,12 +162,12 @@
 		 * Event to allow other extensions to manange how block is rendered
 		 * setting $(this).data('renderBlock', false) in the listener will prevent a render here
 		 *
-		 * @event blitze_sitemaker_renderBlock
+		 * @event blitze_sitemaker_renderBlock_before
 		 * @type {object}
 		 * @property {array} block Block data to display (id, name, icon, etc)
 		 * @property {object} blockObj Jquery object representing the block element being rendered
 		 */
-		if (body.trigger('blitze_sitemaker_renderBlock', [blockData.block, blockObj]).data('renderBlock') !== false) {
+		if (body.trigger('blitze_sitemaker_renderBlock_before', [blockData.block, blockObj]).data('renderBlock') !== false) {
 			blockObj.html(template.render(blockData));
 		}
 
@@ -179,6 +179,16 @@
 				eval(blockObj.find('.sm-block-content').html());
 			}
 		}
+
+		/**
+		 * Event to allow other extensions to do something after block is rendered
+		 *
+		 * @event blitze_sitemaker_renderBlock_after
+		 * @type {object}
+		 * @property {array} block Block data to display (id, name, icon, etc)
+		 * @property {object} blockObj Jquery object representing the block element being rendered
+		 */
+		body.trigger('blitze_sitemaker_renderBlock_after', [blockData.block, blockObj]);
 	};
 
 	var saveLayout = function() {
