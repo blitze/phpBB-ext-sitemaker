@@ -341,6 +341,9 @@ class cfg_handler extends cfg_fields
 	{
 		$vars['method'] = 'build_select';
 		$vars['params'][] = $field;
+		$vars['params'][] = $type[1] ?: 1;				// size
+		$vars['params'][] = (bool) $type[2] ?: false;	// multi select
+		$vars['params'][] = $type[3] ?: '';				// togggle key
 		$type[0] = 'custom';
 	}
 

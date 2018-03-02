@@ -30,19 +30,19 @@ abstract class cfg_fields
 	 * @param array $option_ary
 	 * @param string $selected_item
 	 * @param string $key
+	 * @param int $size
+	 * @param bool $multi_select
+	 * @param string $data_toggle_key
 	 * @return string
 	 */
-	public function build_select($option_ary, $selected_item, $key)
+	public function build_select(array $option_ary, $selected_item, $key, $size = 1, $multi_select = false, $data_toggle_key = '')
 	{
-		$html = '<select id="' . $key . '" name="config[' . $key . ']">';
-		foreach ($option_ary as $value => $title)
-		{
-			$selected = ($value == $selected_item) ? ' selected="selected"' : '';
-			$html .= '<option value="' . $value . '"' . $selected . '>' . $this->translator->lang($title) . '</option>';
-		}
-		$html .= '</select>';
+		$selected_item = $this->ensure_array($selected_item);
 
-		return $html;
+		$options = $this->get_select_options($option_ary, $selected_item, $key, $data_toggle_key);
+		$data_toggle = ($data_toggle_key) ? ' data-togglable-settings="true"' : '';
+
+		return '<select id="' . $key . '" name="config[' . $key . ']' . (($multi_select) ? '[]" multiple="multiple"' : '"') . (($size > 1) ? ' size="' . $size . '"' : '') . $data_toggle . '>' . $options . '</select>';
 	}
 
 	/**
@@ -189,5 +189,24 @@ abstract class cfg_fields
 		$column .= '</div>';
 
 		return $column;
+	}
+
+	/**
+	 * @param array $option_ary
+	 * @param array $selected_items
+	 * @param string $key
+	 * @param string $togglable_key
+	 * @return string
+	 */
+	protected function get_select_options(array $option_ary, array $selected_items, $key, $togglable_key)
+	{
+		$options = '';
+		foreach ($option_ary as $value => $title)
+		{
+			$selected = $this->get_selected_option($value, $selected_items);
+			$togglable_option = ($togglable_key) ? ' data-toggle-setting="#' . $togglable_key . '-' . $value . '"' : '';
+			$options .= '<option value="' . $value . '"' . $selected . $togglable_option . '>' . $this->translator->lang($title) . '</option>';
+		}
+		return $options;
 	}
 }

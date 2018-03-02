@@ -152,6 +152,51 @@ class cfg_handler_test extends \phpbb_test_case
 				),
 			),
 			array(
+				'option2',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:1', 'options' => $options, 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
+						'<option value="option1">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
+						'</select>',
+				),
+			),
+			array(
+				'option2',
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:5:0:test', 'options' => $options, 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var]" size="5" data-togglable-settings="true">' .
+						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
+						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
+						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
+						'</select>',
+				),
+			),
+			array(
+				array('option1', 'option2'),
+				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:1:foo', 'options' => $options, 'explain' => false, 'default' => ''),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> 'MY_SETTING',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple" data-togglable-settings="true">' .
+						'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
+						'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
+						'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
+						'</select>',
+				),
+			),
+			array(
 				1,
 				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'hidden', 'default' => 0),
 				array(

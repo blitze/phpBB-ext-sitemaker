@@ -68,6 +68,7 @@ Let's modify our blocks/my_block.php file and add a "get_config" method that ret
 			'legend2'	=> 'TAB2',
 			'number'	=> array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'textarea'	=> array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+			'togglable'	=> array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1'>Only show when option 1 is selected</div>'),
 		);
 	}
 ```
