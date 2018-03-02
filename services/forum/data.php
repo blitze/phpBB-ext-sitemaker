@@ -108,12 +108,12 @@ class data extends query_builder
 	 *
 	 * @param mixed|false $topic_first_or_last_post (first|last)
 	 * @param array $post_ids
-	 * @param bool|false $limit
+	 * @param int $limit
 	 * @param int $start
 	 * @param array $sql_array
 	 * @return array
 	 */
-	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = false, $start = 0, $sql_array = array())
+	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = 0, $start = 0, $sql_array = array())
 	{
 		$post_data = array();
 		if ($topic_first_or_last_post && !sizeof($this->store['topic']))

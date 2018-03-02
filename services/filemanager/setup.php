@@ -70,7 +70,7 @@ class setup
 	}
 
 	/**
-	 * @return void
+	 * @return string
 	 */
 	public function get_access_key()
 	{
