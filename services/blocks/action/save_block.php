@@ -69,10 +69,29 @@ class save_block extends base_action
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
 		$submitted_settings = $cfg_handler->get_submitted_settings($default_settings);
 
+		$this->set_hidden_fields($submitted_settings, $default_settings, $db_settings);
+
+		return $submitted_settings;
+	}
+
+	/**
+	 * @param array $submitted_settings
+	 * @param array $default_settings
+	 * @param array $db_settings
+	 * @return void
+	 */
+	private function set_hidden_fields(array &$submitted_settings, array $default_settings, array $db_settings)
+	{
 		$not_submitted = array_diff_key($default_settings, $submitted_settings);
 		$hidden_settings = array_intersect_key($db_settings, $not_submitted);
 
-		return array_merge($submitted_settings, $hidden_settings);
+		foreach ($hidden_settings as $field => $value)
+		{
+			if ($default_settings[$field]['type'] === 'hidden')
+			{
+				$submitted_settings[$field] = $value;
+			}
+		}
 	}
 
 	/**
