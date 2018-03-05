@@ -30,7 +30,7 @@ class add_block extends base_action
 			'style'	=> $style_id,
 		);
 
-		/** @var \blitze\sitemaker\model\entity\route $entity */
+		/** @var \blitze\sitemaker\model\entity\route $route_entity */
 		$route_entity = $this->force_get_route($route_data, true);
 
 		$default_settings = $block_instance->get_config(array());

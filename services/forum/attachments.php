@@ -35,12 +35,12 @@ class attachments
 	 * @param int $forum_id
 	 * @param array $attach_ids
 	 * @param array $allowed_extensions
-	 * @param int|bool $limit
+	 * @param int $limit
 	 * @param bool $exclude_in_message
 	 * @param string $order_by
 	 * @return array
 	 */
-	public function get_attachments($forum_id = 0, array $attach_ids = array(), $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
+	public function get_attachments($forum_id = 0, array $attach_ids = array(), $allowed_extensions = array(), $limit = 0, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
 		$attachments = array();
 		if ($this->user_can_download_attachments($forum_id))

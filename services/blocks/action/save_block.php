@@ -40,6 +40,8 @@ class save_block extends base_action
 			->set_type($this->request->variable('type', 0))
 			->set_view($this->request->variable('view', ''))
 			->set_settings($this->get_updated_settings($entity->get_name(), $entity->get_settings()));
+
+		/** @var \blitze\sitemaker\model\entity\block $entity */
 		$entity = $this->block_mapper->save($entity);
 
 		$new_hash = $entity->get_hash();

@@ -20,7 +20,7 @@ class manager
 	/** @var \blitze\sitemaker\model\mapper\blocks */
 	protected $block_mapper;
 
-	/** @var \blitze\sitemaker\model\mapper\blocks */
+	/** @var \blitze\sitemaker\model\mapper\routes */
 	protected $route_mapper;
 
 	/**

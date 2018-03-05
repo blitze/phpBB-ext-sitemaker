@@ -48,7 +48,7 @@ class stats extends block
 		$content .= $this->translator->lang('TOTAL_POSTS_COUNT', (int) $this->config['num_posts']) . '<br />';
 		$content .= $this->translator->lang('TOTAL_TOPICS', (int) $this->config['num_topics']) . '<br />';
 		$content .= $this->translator->lang('TOTAL_USERS', (int) $this->config['num_users']) . '<br />';
-		$content .= $this->translator->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour']));
+		$content .= $this->translator->lang('NEWEST_USER', get_username_string('full', (int) $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour']));
 
 		$this->template->assign_var('NEWEST_USER', false);
 

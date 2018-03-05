@@ -48,8 +48,11 @@ class routes_test extends \phpbb_test_case
 
 		$route = $collection->offsetGet(1);
 		$this->assertEquals(2, $route->get_route_id());
-		$this->assertTrue($collection->offsetUnset($route));
-		$this->assertTrue($collection->offsetUnset(0));
+
+		$collection->offsetUnset($route);
+		$this->assertNull($collection->offsetGet(1));
+
+		$collection->offsetUnset(0);
 		$this->assertNull($collection->offsetGet(0));
 
 		$routes = $collection->get_entities();

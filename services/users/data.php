@@ -93,10 +93,10 @@ class data extends contacts
 	/**
 	 * @param string $sql_where
 	 * @param string $order_by
-	 * @param int|bool $limit
+	 * @param int $limit
 	 * @return array|bool
 	 */
-	public function query($sql_where = '', $order_by = '', $limit = false)
+	public function query($sql_where = '', $order_by = '', $limit = 0)
 	{
 		$sql = $this->get_sql_statement($sql_where, $order_by);
 		$result = $this->db->sql_query_limit($sql, $limit);
@@ -142,7 +142,7 @@ class data extends contacts
 			'joined'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
 			'visited'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
 			'posts'				=> $row['user_posts'],
-			'posts_pct'			=> $this->translator->lang_array('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
+			'posts_pct'			=> $this->translator->lang('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
 
 			'contact_user' 		=> $this->translator->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
 

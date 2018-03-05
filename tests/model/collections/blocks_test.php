@@ -48,8 +48,11 @@ class blocks_test extends \phpbb_test_case
 
 		$block = $collection->offsetGet(1);
 		$this->assertEquals(2, $block->get_bid());
-		$this->assertTrue($collection->offsetUnset($block));
-		$this->assertTrue($collection->offsetUnset(0));
+
+		$collection->offsetUnset($block);
+		$this->assertNull($collection->offsetGet(1));
+
+		$collection->offsetUnset(0);
 		$this->assertNull($collection->offsetGet(0));
 
 		$blocks = $collection->get_entities();

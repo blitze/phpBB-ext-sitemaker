@@ -117,6 +117,7 @@ class menu_module
 
 		if ($collection->valid())
 		{
+			/** @var \blitze\sitemaker\model\entity\menu $menu */
 			$menu = (isset($collection[$menu_id])) ? $collection[$menu_id] : $collection->current();
 			$menu_id = $menu->get_menu_id();
 
@@ -138,7 +139,7 @@ class menu_module
 	protected function build_bulk_options()
 	{
 		$bulk_options = array();
-		$forumslist = make_forum_select(false, false, true, false, false, false, true);
+		$forumslist = (array) make_forum_select(false, false, true, false, false, false, true);
 
 		/**
 		 * Event to add bulk menu options

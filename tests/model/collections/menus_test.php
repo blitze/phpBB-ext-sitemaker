@@ -69,8 +69,11 @@ class menus_test extends \phpbb_test_case
 
 		$menu = $collection->offsetGet(1);
 		$this->assertEquals(2, $menu->get_menu_id());
-		$this->assertTrue($collection->offsetUnset($menu));
-		$this->assertTrue($collection->offsetUnset(0));
+
+		$collection->offsetUnset($menu);
+		$this->assertNull($collection->offsetGet(1));
+
+		$collection->offsetUnset(0);
 		$this->assertNull($collection->offsetGet(0));
 
 		$menus = $collection->get_entities();

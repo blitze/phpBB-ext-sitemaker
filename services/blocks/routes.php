@@ -51,7 +51,7 @@ class routes
 	 * @param string $current_route
 	 * @param string $page_dir
 	 * @param int $style_id
-	 * @param bool|false $edit_mode
+	 * @param bool $edit_mode
 	 * @return array
 	 */
 	public function get_route_info($current_route, $page_dir, $style_id, $edit_mode = false)
@@ -211,7 +211,7 @@ class routes
 	/**
 	 * @param array $routes
 	 * @param string $route
-	 * @return int
+	 * @return array
 	 */
 	protected function get_parent_route_info(array $routes, $route)
 	{

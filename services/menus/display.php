@@ -75,7 +75,7 @@ class display extends \blitze\sitemaker\services\tree\display
 				$row['num_kids'] = $this->count_descendants($row);
 
 				$template->assign_block_vars($handle, array_change_key_case($row, CASE_UPPER));
-				$this->close_open_tags($template, $handle . '.close', abs($prev_depth - $this_depth));
+				$this->close_open_tags($template, $handle . '.close', (int) abs($prev_depth - $this_depth));
 			}
 
 			$this->close_open_tags($template, 'close_' . $handle, ($this_depth - $this->min_depth));

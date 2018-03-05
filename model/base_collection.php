@@ -94,32 +94,31 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 	 *
 	 * @param mixed $key
 	 * @param mixed $entity
-	 * @return bool
+	 * @return void
 	 * @throws \blitze\sitemaker\exception\invalid_argument
 	 */
 	public function offsetSet($key, $entity)
 	{
-		if ($entity instanceof $this->entity_class)
+		if (!$entity instanceof $this->entity_class)
 		{
-			if (!isset($key))
-			{
-				$this->entities[] = $entity;
-			}
-			else
-			{
-				$this->entities[$key] = $entity;
-			}
-			return true;
+			throw new \blitze\sitemaker\exception\invalid_argument(array('entity', 'INVALID_ENTITY'));
 		}
 
-		throw new \blitze\sitemaker\exception\invalid_argument(array('entity', 'INVALID_ENTITY'));
+		if (!isset($key))
+		{
+			$this->entities[] = $entity;
+		}
+		else
+		{
+			$this->entities[$key] = $entity;
+		}
 	}
 
 	/**
 	 * Remove an entity from the collection (implementation required by ArrayAccess interface)
 	 *
 	 * @param mixed $key
-	 * @return bool
+	 * @return void
 	 */
 	public function offsetUnset($key)
 	{
@@ -132,16 +131,11 @@ abstract class base_collection implements \Iterator, \Countable, \ArrayAccess
 					return $v !== $key;
 				}
 			);
-			return true;
 		}
-
-		$result = false;
-		if (isset($this->entities[$key]))
+		else if (isset($this->entities[$key]))
 		{
 			unset($this->entities[$key]);
-			$result = true;
 		}
-		return $result;
 	}
 
 	/**

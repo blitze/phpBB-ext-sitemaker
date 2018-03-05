@@ -151,7 +151,7 @@ class cfg_handler extends cfg_fields
 			'block_settings' => 'block_settings.html',
 		));
 
-		return (string) $this->template->assign_display('block_settings');
+		return $this->template->assign_display('block_settings');
 	}
 
 	/**

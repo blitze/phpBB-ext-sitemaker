@@ -89,9 +89,9 @@ class auto_lang
 			->find();
 
 		$lang_files = array_unique(array_merge($user_lang_files, $english_lang_files, $default_lang_files));
-		foreach ($lang_files as $lang_file => $ext_name)
+		foreach ($lang_files as $file => $ext_name)
 		{
-			$this->translator->add_lang($lang_file, $ext_name);
+			$this->translator->add_lang($file, $ext_name);
 		}
 	}
 }

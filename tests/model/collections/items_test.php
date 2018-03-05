@@ -73,8 +73,11 @@ class items_test extends \phpbb_test_case
 
 		$item = $collection->offsetGet(1);
 		$this->assertEquals(2, $item->get_item_id());
-		$this->assertTrue($collection->offsetUnset($item));
-		$this->assertTrue($collection->offsetUnset(0));
+
+		$collection->offsetUnset($item);
+		$this->assertNull($collection->offsetGet(1));
+
+		$collection->offsetUnset(0);
 		$this->assertNull($collection->offsetGet(0));
 
 		$items = $collection->get_entities();

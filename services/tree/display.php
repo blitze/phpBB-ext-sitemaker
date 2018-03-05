@@ -126,8 +126,8 @@ abstract class display
 			$sql_array
 		);
 
-		$sql_array['SELECT'] = join(', ', array_filter($sql_array['SELECT']));
-		$sql_array['WHERE'] = join(' AND ', array_filter($sql_array['WHERE']));
+		$sql_array['SELECT'] = join(', ', array_filter((array) $sql_array['SELECT']));
+		$sql_array['WHERE'] = join(' AND ', array_filter((array) $sql_array['WHERE']));
 
 		return $sql_array;
 	}
@@ -175,7 +175,7 @@ abstract class display
 		{
 			$row 		= $data[$i];
 			$this_depth	= $parental_depth[$row[$this->column_parent_id]] + 1;
-			$repeat		= abs($prev_depth - $this_depth);
+			$repeat		= (int) abs($prev_depth - $this_depth);
 
 			$tpl_data	= array(
 				'PREV_DEPTH'	=> $prev_depth,

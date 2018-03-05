@@ -102,7 +102,7 @@ class upload
 		$mode = 'real';
 		$prefix = '';
 
-		if (preg_match('/^(blobid|imagetools)\d?/i', $file->get('realname')))
+		if (preg_match('/^(blobid|imagetools)\d?/i', (string) $file->get('realname')))
 		{
 			$mode = 'unique';
 			$prefix = 'sm_';

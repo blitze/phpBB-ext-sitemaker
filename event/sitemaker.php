@@ -86,7 +86,7 @@ class sitemaker implements EventSubscriberInterface
 
 		if ($this->config['sm_navbar_menu'])
 		{
-			$this->navigation->build_menu($this->template, $this->config['sm_navbar_menu'], true);
+			$this->navigation->build_menu($this->template, (int) $this->config['sm_navbar_menu'], true);
 		}
 
 		$this->set_assets();

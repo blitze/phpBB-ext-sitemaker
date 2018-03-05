@@ -56,7 +56,7 @@ class forum_topics extends forum_topics_config
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth							$auth				Permission object
-	 * @param \phpbb\content_visibility					content_visibility	Content visibility object
+	 * @param \phpbb\content_visibility					$content_visibility	Content visibility object
 	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
