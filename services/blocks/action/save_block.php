@@ -25,7 +25,7 @@ class save_block extends base_action
 
 		$this->block_mapper = $this->mapper_factory->create('blocks');
 
-		/** @type \blitze\sitemaker\model\entity\block $entity */
+		/** @var \blitze\sitemaker\model\entity\block $entity */
 		if (($entity = $this->block_mapper->load(array('bid', '=', $block_id))) === null)
 		{
 			throw new \blitze\sitemaker\exception\out_of_bounds('bid');

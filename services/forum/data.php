@@ -75,11 +75,11 @@ class data extends query_builder
 	/**
 	 * Get topic data
 	 *
-	 * @param bool|false|int $limit
+	 * @param int $limit
 	 * @param int $start
 	 * @return array
 	 */
-	public function get_topic_data($limit = false, $start = 0)
+	public function get_topic_data($limit = 0, $start = 0)
 	{
 		// Topics table need to be the last in the chain
 		$this->store['sql_array']['FROM'][TOPICS_TABLE] = 't';

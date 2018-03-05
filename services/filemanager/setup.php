@@ -106,7 +106,7 @@ class setup
 	 */
 	public function get_user_dir()
 	{
-		if ($this->user_dir === false)
+		if (!$this->user_dir)
 		{
 			$this->set_user_dir();
 		}

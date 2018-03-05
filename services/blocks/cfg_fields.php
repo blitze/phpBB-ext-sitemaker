@@ -39,7 +39,7 @@ abstract class cfg_fields
 	{
 		$selected_item = $this->ensure_array($selected_item);
 
-		$options = $this->get_select_options($option_ary, $selected_item, $key, $data_toggle_key);
+		$options = $this->get_select_options($option_ary, $selected_item, $data_toggle_key);
 		$data_toggle = ($data_toggle_key) ? ' data-togglable-settings="true"' : '';
 
 		return '<select id="' . $key . '" name="config[' . $key . ']' . (($multi_select) ? '[]" multiple="multiple"' : '"') . (($size > 1) ? ' size="' . $size . '"' : '') . $data_toggle . '>' . $options . '</select>';
@@ -194,11 +194,10 @@ abstract class cfg_fields
 	/**
 	 * @param array $option_ary
 	 * @param array $selected_items
-	 * @param string $key
 	 * @param string $togglable_key
 	 * @return string
 	 */
-	protected function get_select_options(array $option_ary, array $selected_items, $key, $togglable_key)
+	protected function get_select_options(array $option_ary, array $selected_items, $togglable_key)
 	{
 		$options = '';
 		foreach ($option_ary as $value => $title)
