@@ -143,12 +143,12 @@ class data extends query_builder
 	 *
 	 * @param int $forum_id
 	 * @param array $allowed_extensions
-	 * @param mixed|bool $limit
+	 * @param int $limit
 	 * @param bool $exclude_in_message
 	 * @param string $order_by
 	 * @return array
 	 */
-	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $limit = false, $exclude_in_message = true, $order_by = 'filetime DESC')
+	public function get_attachments($forum_id = 0, $allowed_extensions = array(), $limit = 0, $exclude_in_message = true, $order_by = 'filetime DESC')
 	{
 		$data = array();
 		if (sizeof($this->store['attachments']))

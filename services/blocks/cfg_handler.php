@@ -132,7 +132,7 @@ class cfg_handler extends cfg_fields
 	 * Get the html form
 	 *
 	 * @param array $block_data
-	 * @return string
+	 * @return mixed
 	 */
 	private function get_form(array $block_data)
 	{

@@ -87,7 +87,7 @@ class display
 		}
 		else
 		{
-			return (int) (!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style'];
+			return (int) ((!$this->config['override_user_style']) ? $this->user->data['user_style'] : $this->config['default_style']);
 		}
 	}
 
