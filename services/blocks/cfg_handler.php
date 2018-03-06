@@ -54,7 +54,7 @@ class cfg_handler extends cfg_fields
 	/**
 	 * @param array $block_data
 	 * @param array $default_settings
-	 * @return string
+	 * @return mixed
 	 */
 	public function get_edit_form(array $block_data, array $default_settings)
 	{
