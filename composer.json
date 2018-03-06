@@ -37,9 +37,9 @@
 			"phpbb/phpbb": ">=3.2.1,<3.3.0@dev"
 		},
 		"version-check": {
-			"host": "blitze.github.io",
-			"directory": "/versions",
-			"filename": "sitemaker.json"
+			"host": "www.phpbb.com",
+			"directory": "/customise/db/extension/phpbb_sitemaker_2",
+			"filename": "version_check"
 		}
 	}
 }
