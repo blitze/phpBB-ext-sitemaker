@@ -6,7 +6,13 @@ phpBB SiteMaker is an Extension for [phpBB 3.2](https://www.phpbb.com/)
 
 phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site.
 
-[![Travis branch](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop)
+[![Travis branch](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a9a8d4b2441ad10c9aad/maintainability)](https://codeclimate.com/github/blitze/phpBB-ext-sitemaker_content/maintainability)  
+[![Latest Stable Version](https://poser.pugx.org/blitze/sitemaker/v/stable?format=flat)](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+[![Latest Unstable Version](https://poser.pugx.org/blitze/sitemaker/v/unstable?format=flat)](https://packagist.org/packages/blitze/sitemaker)
+[![License](https://poser.pugx.org/blitze/sitemaker/license?format=flat)](https://packagist.org/packages/blitze/sitemaker)
 
 ## Features
 
