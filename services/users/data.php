@@ -141,10 +141,10 @@ class data extends contacts
 
 			'joined'			=> $this->user->format_date($row['user_regdate'], "|$date_format|"),
 			'visited'			=> $this->get_last_visit_date($row['user_lastvisit'], $date_format),
-			'posts'				=> $row['user_posts'],
 			'posts_pct'			=> $this->translator->lang('POST_PCT', $this->calculate_percent_posts($row['user_posts'])),
-
 			'contact_user' 		=> $this->translator->lang('CONTACT_USER', get_username_string('username', $user_id, $row['username'], $row['user_colour'], $row['username'])),
+			'posts'				=> $row['user_posts'],
+			'warnings'			=> $row['user_warnings'],
 
 			'u_search_posts'	=> $this->get_search_url($user_id),
 			'u_viewprofile'		=> get_username_string('profile', $user_id, $row['username'], $row['user_colour']),
@@ -303,8 +303,7 @@ class data extends contacts
 	 */
 	protected function get_sql_statement($sql_where = '', $order_by = '')
 	{
-		return 'SELECT user_id, username, user_type, user_colour, user_avatar, user_avatar_type, user_avatar_height, user_avatar_width, user_regdate, user_lastvisit, user_birthday, user_posts, user_rank, user_email, user_allow_viewemail, user_allow_pm, user_jabber, user_inactive_reason
-			FROM ' . USERS_TABLE .
+		return 'SELECT * FROM ' . USERS_TABLE .
 			(($sql_where) ? ' WHERE ' . $sql_where : '') .
 			(($order_by) ? ' ORDER BY ' . $order_by : '');
 	}

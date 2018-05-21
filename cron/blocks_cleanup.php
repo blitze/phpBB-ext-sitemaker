@@ -82,7 +82,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	 */
 	public function should_run()
 	{
-		return $this->config['sitemaker_blocks_cleanup_last_gc'] < time() - $this->config['sitemaker_blocks_cleanup_gc'];
+		return (int) $this->config['sitemaker_blocks_cleanup_last_gc'] < time() - (int) $this->config['sitemaker_blocks_cleanup_gc'];
 	}
 
 	/**

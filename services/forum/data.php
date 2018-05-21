@@ -224,7 +224,7 @@ class data extends query_builder
 
 		$sql_array['SELECT'] = (is_array($sql_array['SELECT'])) ? join(', ', array_filter($sql_array['SELECT'])) : $sql_array['SELECT'];
 		$sql_array['WHERE'] = (is_array($sql_array['WHERE'])) ? join(' AND ', array_filter($sql_array['WHERE'])) : $sql_array['WHERE'];
-		$sql_array['ORDER_BY'] = ($sql_array['ORDER_BY']) ?: 'p.post_time DESC';
+		$sql_array['ORDER_BY'] = (!empty($sql_array['ORDER_BY'])) ? $sql_array['ORDER_BY'] : 'p.post_time DESC';
 
 		return $sql_array;
 	}
