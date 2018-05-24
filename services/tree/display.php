@@ -198,11 +198,11 @@ abstract class display
 	 * @param \phpbb\template\twig\twig $template
 	 * @return void
 	 */
-	protected function recursively_close_tags($repeat, $handle, \phpbb\template\twig\twig &$template)
+	protected function recursively_close_tags($repeat, $handle, \phpbb\template\twig\twig $template)
 	{
 		for ($i = 0; $i < $repeat; $i++)
 		{
-			$template->assign_block_vars('close_' . $handle, array());
+			$template->assign_block_vars($handle, array());
 		}
 	}
 
