@@ -156,6 +156,7 @@ In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) dire
 * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
 
 Here are some examples of parent/child routes:
+
 |Parent	                  |Child                           |
 |-------------------------|--------------------------------|
 |/index.php               |/viewforum.php, /dir/index.php  |
