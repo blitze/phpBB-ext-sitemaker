@@ -46,7 +46,7 @@ class settings_module_test extends \phpbb_database_test_case
 
 		parent::setUpBeforeClass();
 
-		self::$helper = new \phpbb_test_case_helpers(self);
+		self::$helper = new \phpbb_test_case_helpers(__CLASS__);
 
 		self::$helper->copy_dir($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 		copy($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/test_config.php', $phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');

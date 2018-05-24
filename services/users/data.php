@@ -236,9 +236,9 @@ class data extends contacts
 		$user_rank_data = phpbb_get_user_rank($row, $row['user_posts']);
 
 		return array(
-			'RANK_TITLE'		=> $user_rank_data['title'],
-			'RANK_IMAGE'		=> $user_rank_data['img'],
-			'RANK_IMAGE_SRC'	=> $user_rank_data['img_src'],
+			'RANK_TITLE'		=> (string) $user_rank_data['title'],
+			'RANK_IMAGE'		=> (string) $user_rank_data['img'],
+			'RANK_IMAGE_SRC'	=> (string) $user_rank_data['img_src'],
 		);
 	}
 

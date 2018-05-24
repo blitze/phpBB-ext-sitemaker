@@ -24,7 +24,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		parent::setUpBeforeClass();
 
-		self::$helper = new \phpbb_test_case_helpers(self);
+		self::$helper = new \phpbb_test_case_helpers(__CLASS__);
 
 		self::$helper->copy_dir($phpbb_root_path . '../tests/functional/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}

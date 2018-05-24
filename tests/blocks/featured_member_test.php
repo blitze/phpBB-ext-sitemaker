@@ -50,6 +50,9 @@ class featured_member_test extends blocks_base
 					),
 				),
 			));
+		$cache->expects($this->any())
+			->method('obtain_word_list')
+			->willReturn(array());
 
 		$this->auth->expects($this->any())
 			->method('acl_get_list')
@@ -128,6 +131,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => '',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				0,
 			),
@@ -195,6 +199,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				0,
 			),
@@ -244,6 +249,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				null, // no update to db
 			),
@@ -293,6 +299,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				2,
 			),
@@ -332,6 +339,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => '',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				48,
 			),
@@ -381,6 +389,7 @@ class featured_member_test extends blocks_base
 					'RANK_TITLE' => 'Site Admin',
 					'RANK_IMAGE' => '',
 					'RANK_IMAGE_SRC' => '',
+					'WARNINGS' => '0',
 				),
 				2,
 			),
