@@ -202,7 +202,7 @@ class cfg_handler_test extends \phpbb_test_case
 				array(
 					'KEY'			=> 'my_var',
 					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> null,
+					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '',
 				),

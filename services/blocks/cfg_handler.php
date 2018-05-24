@@ -169,6 +169,13 @@ class cfg_handler extends cfg_fields
 				continue;
 			}
 
+			// set some defaults for optional props
+			$vars += array(
+				'explain'		=> false,
+				'lang_explain'	=> '',
+				'lang'			=> '', // optional for hidden field type
+			);
+
 			$db_settings[$field] = $this->get_field_value($field, $vars['default'], $db_settings);
 			$content = $this->get_field_template($field, $db_settings, $vars);
 
@@ -280,7 +287,7 @@ class cfg_handler extends cfg_fields
 		$l_explain = '';
 		if (!empty($vars['explain']))
 		{
-			$l_explain = (isset($vars['lang_explain'])) ? $this->translator->lang($vars['lang_explain']) : $this->translator->lang($vars['lang'] . '_EXPLAIN');
+			$l_explain = (!empty($vars['lang_explain'])) ? $this->translator->lang($vars['lang_explain']) : $this->translator->lang($vars['lang'] . '_EXPLAIN');
 		}
 
 		return $l_explain;
@@ -339,11 +346,14 @@ class cfg_handler extends cfg_fields
 	 */
 	private function prep_select_field_for_display(array &$vars, array &$type, $field)
 	{
+		// set defaults for types: field type, size, multi select, toggle key
+		$type += array('', 1, false, '');
+
 		$vars['method'] = 'build_select';
 		$vars['params'][] = $field;
-		$vars['params'][] = $type[1] ?: 1;				// size
-		$vars['params'][] = (bool) $type[2] ?: false;	// multi select
-		$vars['params'][] = $type[3] ?: '';				// togggle key
+		$vars['params'][] = (int) $type[1];		// size
+		$vars['params'][] = (bool) $type[2];	// multi select
+		$vars['params'][] = (string) $type[3];	// togggle key
 		$type[0] = 'custom';
 	}
 
