@@ -24,6 +24,7 @@ services:
     blitze.sitemaker.menus.admin.controller:
         class: blitze\sitemaker\controller\menus_admin
         arguments:
+            - '@auth'
             - '@request'
             - '@language'
             - '@blitze.sitemaker.menus.action_handler'

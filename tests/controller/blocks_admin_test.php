@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use phpbb\request\request_interface;
 use blitze\sitemaker\controller\blocks_admin;
 
@@ -42,18 +43,22 @@ class blocks_admin_test extends \phpbb_database_test_case
 	 * @param string $action
 	 * @param int $action_call_count
 	 * @param bool $ajax_request
-	 * @param bool $return_url
 	 * @return \blitze\sitemaker\controller\blocks_admin
 	 */
-	protected function get_controller(array $auth_map, array $variable_map, $action, $action_call_count, $ajax_request = true, $return_url = false)
+	protected function get_controller(array $auth_map, array $variable_map, $action, $action_call_count, $ajax_request = true)
 	{
-		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
+		global $config, $phpbb_dispatcher, $symfony_request, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
-		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
+		$symfony_request = new Request();
+
+		$config = new \phpbb\config\config(array(
+			'force_server_vars' => false
+		));
 
 		$auth->expects($this->any())
 			->method('acl_get')
@@ -81,6 +86,8 @@ class blocks_admin_test extends \phpbb_database_test_case
 			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -119,7 +126,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 
 		$action_handler = new \blitze\sitemaker\services\blocks\action_handler($config, $phpbb_container, $request, $translator, $blocks, $block_factory, $mapper);
 
-		return new blocks_admin($auth, $request, $translator, $auto_lang, $action_handler, $return_url);
+		return new blocks_admin($auth, $request, $translator, $auto_lang, $action_handler, true);
 	}
 
 	/**
@@ -210,6 +217,6 @@ class blocks_admin_test extends \phpbb_database_test_case
 
 		$response = $controller->handle($action);
 
-		$this->assertEquals(401, $response->getStatusCode());
+		$this->assertEquals('http://www.example.com/phpBB', $response);
 	}
 }

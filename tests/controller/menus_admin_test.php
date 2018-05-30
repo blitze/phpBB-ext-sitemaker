@@ -9,6 +9,7 @@
 
 namespace blitze\sitemaker\tests\controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\controller\menus_admin;
 
 class menus_admin_test extends \phpbb_database_test_case
@@ -40,17 +41,30 @@ class menus_admin_test extends \phpbb_database_test_case
 	 * @param int $action_call_count
 	 * @param int $cache_call_count
 	 * @param bool $ajax_request
-	 * @param bool $return_url
+	 * @param bool $authorized
 	 * @return \blitze\sitemaker\controller\menus_admin
 	 */
-	protected function get_controller($action, $action_call_count, $cache_call_count, $ajax_request = true, $return_url = false)
+	protected function get_controller($action, $action_call_count, $cache_call_count, $ajax_request = true, $authorized = true)
 	{
-		global $phpbb_dispatcher, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
+		global $config, $phpbb_dispatcher, $request, $symfony_request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$symfony_request = new Request();
 
+		$config = new \phpbb\config\config(array(
+			'force_server_vars' => false
+		));
+
+		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth->expects($this->any())
+			->method('acl_get')
+			->with($this->stringContains('_'), $this->anything())
+			->will($this->returnValueMap(array(
+				array('a_sm_manage_menus', 0, $authorized),
+			)));
+
+		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->once())
 			->method('is_ajax')
 			->will($this->returnValue($ajax_request));
@@ -65,6 +79,8 @@ class menus_admin_test extends \phpbb_database_test_case
 			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -111,7 +127,7 @@ class menus_admin_test extends \phpbb_database_test_case
 		$action_handler->expects($this->exactly($cache_call_count))
 			->method('clear_cache');
 
-		return new menus_admin($request, $translator, $action_handler, $return_url);
+		return new menus_admin($auth, $request, $translator, $action_handler, true);
 	}
 
 	/**
@@ -176,10 +192,25 @@ class menus_admin_test extends \phpbb_database_test_case
 	public function test_request_is_not_ajax()
 	{
 		$action = 'edit_menu';
+
 		$controller = $this->get_controller($action, 0, 0, false, true);
 
 		$response = $controller->handle($action);
 
-		$this->assertEquals(401, $response->getStatusCode());
+		$this->assertEquals('http://www.example.com/phpBB', $response);
+	}
+
+	/**
+	 * Test Request must be ajax request
+	 */
+	public function test_user_is_not_authorized()
+	{
+		$action = 'edit_menu';
+
+		$controller = $this->get_controller($action, 0, 0, true, false);
+
+		$response = $controller->handle($action);
+
+		$this->assertEquals('http://www.example.com/phpBB', $response);
 	}
 }

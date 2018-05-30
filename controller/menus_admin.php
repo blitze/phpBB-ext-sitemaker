@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class menus_admin
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -28,13 +31,15 @@ class menus_admin
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\auth\auth									$auth				Auth object
 	 * @param \phpbb\request\request_interface					$request			Request object
 	 * @param \phpbb\language\language							$translator			Languag object
 	 * @param \blitze\sitemaker\services\menus\action_handler	$action_handler		Handles menu actions
 	 * @param bool												$return_url
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\menus\action_handler $action_handler, $return_url = false)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\language\language $translator, \blitze\sitemaker\services\menus\action_handler $action_handler, $return_url = false)
 	{
+		$this->auth = $auth;
 		$this->request = $request;
 		$this->translator = $translator;
 		$this->action_handler = $action_handler;
@@ -43,18 +48,14 @@ class menus_admin
 
 	/**
 	 * @param string $action
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return \Symfony\Component\HttpFoundation\Response|string
 	 */
 	public function handle($action)
 	{
 		$return_data = array();
-
-		if ($this->request->is_ajax() === false)
+		if (!$this->request->is_ajax() || !$this->auth->acl_get('a_sm_manage_menus'))
 		{
-			redirect(generate_board_url(), $this->return_url);
-
-			$return_data['message'] = $this->translator->lang('NOT_AUTHORISED');
-			return new JsonResponse($return_data, 401);
+			return redirect(generate_board_url(), $this->return_url);
 		}
 
 		try

@@ -53,47 +53,58 @@ class blocks_admin
 
 	/**
 	 * @param string $action
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return \Symfony\Component\HttpFoundation\Response|string
 	 */
 	public function handle($action)
 	{
 		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
 
-		$return_data = array();
-		$json_data = array(
+		$return_data = array(
 			'id'		=> '',
 			'title'		=> '',
 			'content'   => '',
 			'message'   => '',
 		);
 
-		if (!$this->auth->acl_get('a_sm_manage_blocks') || $this->request->is_ajax() === false)
+		if (!$this->request->is_ajax())
 		{
-			if ($this->request->is_ajax() === false)
-			{
-				redirect(generate_board_url(), $this->return_url);
-			}
-
-			$json_data['message'] = $this->translator->lang('NOT_AUTHORISED');
-			return new JsonResponse($json_data, 401);
+			return redirect(generate_board_url(), $this->return_url);
 		}
 
-		$style_id = $this->request->variable('style', 0);
+		if (!$this->auth->acl_get('a_sm_manage_blocks'))
+		{
+			$return_data['message'] = $this->translator->lang('NOT_AUTHORISED');
+			return new JsonResponse($return_data, 401);
+		}
 
+		$this->execute_action($action, $return_data);
+
+		return new JsonResponse($return_data);
+	}
+
+	/**
+	 * @param string $action
+	 * @param array $return_data
+	 * @return void
+	 */
+	protected function execute_action($action, array &$return_data)
+	{
 		try
 		{
 			$this->auto_lang->add('blocks_admin');
 
+			$style_id = $this->request->variable('style', 0);
 			$command = $this->action_handler->create($action);
-			$return_data = $command->execute($style_id);
+
+			$return_data = array_merge($return_data,
+				$command->execute($style_id)
+			);
 
 			$this->action_handler->clear_cache();
 		}
 		catch (\blitze\sitemaker\exception\base $e)
 		{
-			$json_data['message'] = $e->get_message($this->translator);
+			$return_data['message'] = $e->get_message($this->translator);
 		}
-
-		return new JsonResponse(array_merge($json_data, $return_data));
 	}
 }
