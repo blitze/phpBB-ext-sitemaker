@@ -130,6 +130,7 @@ services:
             - '@filesystem'
             - '@user'
             - '%filemanager.config_path%'
+            - '%core.root_path%'
             - '%core.php_ext%'
 
     blitze.sitemaker.forum.data:

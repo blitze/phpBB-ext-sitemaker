@@ -124,12 +124,10 @@ class admin_bar
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars(array_merge(array(
 			'S_IS_DEFAULT'		=> $is_default_route,
 
 			'BLOCK_ACTIONS'		=> $this->get_block_actions(),
-			'FILEMANAGER'		=> $this->filemanager->is_enabled(),
-			'FILEMANAGER_AKEY'	=> $this->filemanager->get_access_key(),
 			'PAGE_URL'			=> build_url(array('style')),
 
 			'UA_BOARD_URL'		=> $board_url,
@@ -141,7 +139,7 @@ class admin_bar
 			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_image_upload'),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
-		));
+		), $this->get_filemanager_settings()));
 	}
 
 	/**
@@ -340,5 +338,23 @@ class admin_bar
 	protected function startpage_is_set()
 	{
 		return ($this->config['sitemaker_startpage_controller']) ? true : false;
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function get_filemanager_settings()
+	{
+		$enabled = $this->filemanager->is_enabled();
+
+		if ($enabled)
+		{
+			$this->filemanager->ensure_config_is_ready();
+		}
+
+		return array(
+			'FILEMANAGER'		=> $enabled,
+			'FILEMANAGER_AKEY'	=> $this->filemanager->get_access_key(),
+		);
 	}
 }

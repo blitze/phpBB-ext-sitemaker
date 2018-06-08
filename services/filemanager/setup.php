@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\filemanager;
 /**
 * @package sitemaker
 */
-class setup
+class setup extends settings
 {
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -50,9 +50,12 @@ class setup
 	 * @param \phpbb\user					$user				User object
 	 * @param string						$config_path		path to filemanager config file
 	 * @param string						$phpbb_root_path	phpBB root path
+	 * @param string						$php_ext			phpEx
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\filesystem\filesystem $filesystem, \phpbb\user $user, $config_path, $phpbb_root_path)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\filesystem\filesystem $filesystem, \phpbb\user $user, $config_path, $phpbb_root_path, $php_ext)
 	{
+		parent::__construct($filesystem, $config_path, $php_ext);
+
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->filesystem = $filesystem;

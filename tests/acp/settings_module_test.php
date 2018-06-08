@@ -236,9 +236,10 @@ class settings_module_test extends \phpbb_database_test_case
 					'filemanager' => array(
 						'aviary_active'				=> false,
 						'aviary_apiKey'				=> '',
+						'image_watermark'			=> '',
 						'image_watermark_position'	=> 'br',
 						'image_max_width'			=> 0,
-						'image_auto_resizing'		=> false,
+						'image_resizing'			=> false,
 					),
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
@@ -288,7 +289,8 @@ class settings_module_test extends \phpbb_database_test_case
 			'aviary_apiKey' => 'some key',
 			'image_watermark_coordinates' => '40x50',
 			'image_max_width' => 800,
-			'image_auto_resizing' => 'true',
+			'image_resizing' => 'true',
+			'image_watermark' => './test.png',
 		);
 		$layouts = array(
 			1 => array (
@@ -326,9 +328,10 @@ class settings_module_test extends \phpbb_database_test_case
 			'filemanager_config'	=> array(
 				'aviary_active'				=> true,
 				'aviary_apiKey'				=> 'some key',
+				'image_watermark'			=> './test.png',
 				'image_watermark_position'	=> '40x50',
 				'image_max_width'			=> 800,
-				'image_auto_resizing'		=> true,
+				'image_resizing'			=> true,
 			),
 		);
 

@@ -91,7 +91,7 @@ class upload_test extends \phpbb_test_case
 		$user = new \phpbb\user($language, '\phpbb\datetime');
 		$user->data['username'] = 'demo';
 
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, '', $phpbb_root_path);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, '', $phpbb_root_path, $phpEx);
 
 		$controller = new upload($auth, $files_factory, $language, $filemanager);
 		$controller->set_allowed_extensions(array('jpg'));

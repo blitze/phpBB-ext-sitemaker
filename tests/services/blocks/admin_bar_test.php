@@ -178,7 +178,7 @@ class admin_bar_test extends \phpbb_database_test_case
 			}));
 
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path);
+		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path, $phpEx);
 
 		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
 	}
@@ -301,8 +301,6 @@ class admin_bar_test extends \phpbb_database_test_case
 						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
 						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
 					),
-					'FILEMANAGER' => false,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
@@ -312,6 +310,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => false,
+					'FILEMANAGER' => false,
+					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			),
 			array(
@@ -340,8 +340,6 @@ class admin_bar_test extends \phpbb_database_test_case
 						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
 						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
 					),
-					'FILEMANAGER' => true,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
 					'UA_ROUTE' => 'index.php',
@@ -351,6 +349,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
+					'FILEMANAGER' => true,
+					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			)
 		);
