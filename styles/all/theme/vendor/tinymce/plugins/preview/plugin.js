@@ -2,9 +2,9 @@
 var preview = (function () {
   'use strict';
 
-  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
+  var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-  var Env = tinymce.util.Tools.resolve('tinymce.Env');
+  var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
 
   var getPreviewDialogWidth = function (editor) {
     return parseInt(editor.getParam('plugin_preview_width', '650'), 10);
@@ -15,24 +15,24 @@ var preview = (function () {
   var getContentStyle = function (editor) {
     return editor.getParam('content_style', '');
   };
-  var $_cm5d0ehwjd08mdlh = {
+  var $_4fvu7misjh8lpvhu = {
     getPreviewDialogWidth: getPreviewDialogWidth,
     getPreviewDialogHeight: getPreviewDialogHeight,
     getContentStyle: getContentStyle
   };
 
-  var Tools = tinymce.util.Tools.resolve('tinymce.util.Tools');
+  var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
   var getPreviewHtml = function (editor) {
     var previewHtml;
     var headHtml = '';
     var encode = editor.dom.encode;
-    var contentStyle = $_cm5d0ehwjd08mdlh.getContentStyle(editor);
+    var contentStyle = $_4fvu7misjh8lpvhu.getContentStyle(editor);
     headHtml += '<base href="' + encode(editor.documentBaseURI.getURI()) + '">';
     if (contentStyle) {
       headHtml += '<style type="text/css">' + contentStyle + '</style>';
     }
-    Tools.each(editor.contentCSS, function (url) {
+    global$2.each(editor.contentCSS, function (url) {
       headHtml += '<link type="text/css" rel="stylesheet" href="' + encode(editor.documentBaseURI.toAbsolute(url)) + '">';
     });
     var bodyId = editor.settings.body_id || 'tinymce';
@@ -61,16 +61,16 @@ var preview = (function () {
       iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(previewHtml);
     }
   };
-  var $_7wp00mhxjd08mdli = {
+  var $_hfcauitjh8lpvhv = {
     getPreviewHtml: getPreviewHtml,
     injectIframeContent: injectIframeContent
   };
 
   var open = function (editor) {
-    var sandbox = !Env.ie;
-    var dialogHtml = '<iframe src="javascript:\'\'" frameborder="0"' + (sandbox ? ' sandbox="allow-scripts"' : '') + '></iframe>';
-    var dialogWidth = $_cm5d0ehwjd08mdlh.getPreviewDialogWidth(editor);
-    var dialogHeight = $_cm5d0ehwjd08mdlh.getPreviewDialogHeight(editor);
+    var sandbox = !global$1.ie;
+    var dialogHtml = '<iframe src="" frameborder="0"' + (sandbox ? ' sandbox="allow-scripts"' : '') + '></iframe>';
+    var dialogWidth = $_4fvu7misjh8lpvhu.getPreviewDialogWidth(editor);
+    var dialogHeight = $_4fvu7misjh8lpvhu.getPreviewDialogHeight(editor);
     editor.windowManager.open({
       title: 'Preview',
       width: dialogWidth,
@@ -84,18 +84,18 @@ var preview = (function () {
       },
       onPostRender: function (e) {
         var iframeElm = e.control.getEl('body').firstChild;
-        $_7wp00mhxjd08mdli.injectIframeContent(editor, iframeElm, sandbox);
+        $_hfcauitjh8lpvhv.injectIframeContent(editor, iframeElm, sandbox);
       }
     });
   };
-  var $_6sp20hujd08mdlf = { open: open };
+  var $_4vyqdxiqjh8lpvht = { open: open };
 
   var register = function (editor) {
     editor.addCommand('mcePreview', function () {
-      $_6sp20hujd08mdlf.open(editor);
+      $_4vyqdxiqjh8lpvht.open(editor);
     });
   };
-  var $_5ed84fhtjd08mdle = { register: register };
+  var $_6l7cdipjh8lpvhs = { register: register };
 
   var register$1 = function (editor) {
     editor.addButton('preview', {
@@ -108,11 +108,11 @@ var preview = (function () {
       context: 'view'
     });
   };
-  var $_4l8owhzjd08mdln = { register: register$1 };
+  var $_gcmg8hivjh8lpvhx = { register: register$1 };
 
-  PluginManager.add('preview', function (editor) {
-    $_5ed84fhtjd08mdle.register(editor);
-    $_4l8owhzjd08mdln.register(editor);
+  global.add('preview', function (editor) {
+    $_6l7cdipjh8lpvhs.register(editor);
+    $_gcmg8hivjh8lpvhx.register(editor);
   });
   function Plugin () {
   }
@@ -120,4 +120,4 @@ var preview = (function () {
   return Plugin;
 
 }());
-})()
+})();

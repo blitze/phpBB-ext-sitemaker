@@ -16,9 +16,9 @@
 		"type": "package",
         "package": {
 			"name": "ResponsiveFilemanager",
-			"version": "9.12.2",
+			"version": "9.13.0",
 			"dist": {
-				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.12.2/responsive_filemanager.zip",
+				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.13.0/responsive_filemanager.zip",
 				"type": "zip"
 			}
 		}
@@ -29,7 +29,7 @@
 		"urodoz/truncate-html": "@stable"
 	},
 	"require-dev": {
-		"ResponsiveFilemanager": "9.12.*"
+		"ResponsiveFilemanager": "9.13.*"
 	},
 	"extra": {
 		"display-name": "phpBB SiteMaker",

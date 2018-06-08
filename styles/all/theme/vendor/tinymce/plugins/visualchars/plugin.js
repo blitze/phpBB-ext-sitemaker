@@ -20,7 +20,7 @@ var visualchars = (function () {
     };
   };
 
-  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
+  var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
   var get = function (toggleState) {
     var isEnabled = function () {
@@ -28,12 +28,12 @@ var visualchars = (function () {
     };
     return { isEnabled: isEnabled };
   };
-  var $_1dqk52r3jd08mfhw = { get: get };
+  var $_3bnoans2jh8lpxo7 = { get: get };
 
   var fireVisualChars = function (editor, state) {
     return editor.fire('VisualChars', { state: state });
   };
-  var $_9xabisr6jd08mfhz = { fireVisualChars: fireVisualChars };
+  var $_3erw9bs5jh8lpxob = { fireVisualChars: fireVisualChars };
 
   var charMap = {
     '\xA0': 'nbsp',
@@ -56,7 +56,7 @@ var visualchars = (function () {
     }
     return selector;
   };
-  var $_g9kbq1r8jd08mfi6 = {
+  var $_8dimiks7jh8lpxol = {
     charMap: charMap,
     regExp: charMapToRegExp(charMap),
     regExpGlobal: charMapToRegExp(charMap, true),
@@ -66,14 +66,26 @@ var visualchars = (function () {
   };
 
   var noop = function () {
+    var x = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      x[_i] = arguments[_i];
+    }
   };
   var noarg = function (f) {
     return function () {
+      var x = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        x[_i] = arguments[_i];
+      }
       return f();
     };
   };
   var compose = function (fa, fb) {
     return function () {
+      var x = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        x[_i] = arguments[_i];
+      }
       return fa(fb.apply(null, arguments));
     };
   };
@@ -89,10 +101,18 @@ var visualchars = (function () {
     return a === b;
   };
   var curry = function (f) {
+    var x = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+      x[_i - 1] = arguments[_i];
+    }
     var args = new Array(arguments.length - 1);
     for (var i = 1; i < arguments.length; i++)
       args[i - 1] = arguments[i];
     return function () {
+      var x = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        x[_i] = arguments[_i];
+      }
       var newArgs = new Array(arguments.length);
       for (var j = 0; j < newArgs.length; j++)
         newArgs[j] = arguments[j];
@@ -102,6 +122,10 @@ var visualchars = (function () {
   };
   var not = function (f) {
     return function () {
+      var x = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        x[_i] = arguments[_i];
+      }
       return !f.apply(null, arguments);
     };
   };
@@ -118,7 +142,7 @@ var visualchars = (function () {
   };
   var never = constant(false);
   var always = constant(true);
-  var $_3lyr4trcjd08mfil = {
+  var $_d0dzcusbjh8lpxp5 = {
     noop: noop,
     noarg: noarg,
     compose: compose,
@@ -134,8 +158,8 @@ var visualchars = (function () {
     always: always
   };
 
-  var never$1 = $_3lyr4trcjd08mfil.never;
-  var always$1 = $_3lyr4trcjd08mfil.always;
+  var never$1 = $_d0dzcusbjh8lpxp5.never;
+  var always$1 = $_d0dzcusbjh8lpxp5.always;
   var none = function () {
     return NONE;
   };
@@ -178,7 +202,7 @@ var visualchars = (function () {
       toArray: function () {
         return [];
       },
-      toString: $_3lyr4trcjd08mfil.constant('none()')
+      toString: $_d0dzcusbjh8lpxp5.constant('none()')
     };
     if (Object.freeze)
       Object.freeze(me);
@@ -247,10 +271,36 @@ var visualchars = (function () {
   var from = function (value) {
     return value === null || value === undefined ? NONE : some(value);
   };
-  var $_c9p9o3rbjd08mfij = {
+  var Option = {
     some: some,
     none: none,
     from: from
+  };
+
+  var typeOf = function (x) {
+    if (x === null)
+      return 'null';
+    var t = typeof x;
+    if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      return 'array';
+    if (t === 'object' && String.prototype.isPrototypeOf(x))
+      return 'string';
+    return t;
+  };
+  var isType = function (type) {
+    return function (value) {
+      return typeOf(value) === type;
+    };
+  };
+  var $_boslmwscjh8lpxp7 = {
+    isString: isType('string'),
+    isObject: isType('object'),
+    isArray: isType('array'),
+    isNull: isType('null'),
+    isBoolean: isType('boolean'),
+    isUndefined: isType('undefined'),
+    isFunction: isType('function'),
+    isNumber: isType('number')
   };
 
   var rawIndexOf = function () {
@@ -265,7 +315,7 @@ var visualchars = (function () {
   }();
   var indexOf = function (xs, x) {
     var r = rawIndexOf(xs, x);
-    return r === -1 ? $_c9p9o3rbjd08mfij.none() : $_c9p9o3rbjd08mfij.some(r);
+    return r === -1 ? Option.none() : Option.some(r);
   };
   var contains = function (xs, x) {
     return rawIndexOf(xs, x) > -1;
@@ -371,19 +421,19 @@ var visualchars = (function () {
     for (var i = 0, len = xs.length; i < len; i++) {
       var x = xs[i];
       if (pred(x, i, xs)) {
-        return $_c9p9o3rbjd08mfij.some(x);
+        return Option.some(x);
       }
     }
-    return $_c9p9o3rbjd08mfij.none();
+    return Option.none();
   };
   var findIndex = function (xs, pred) {
     for (var i = 0, len = xs.length; i < len; i++) {
       var x = xs[i];
       if (pred(x, i, xs)) {
-        return $_c9p9o3rbjd08mfij.some(i);
+        return Option.some(i);
       }
     }
-    return $_c9p9o3rbjd08mfij.none();
+    return Option.none();
   };
   var slowIndexOf = function (xs, x) {
     for (var i = 0, len = xs.length; i < len; ++i) {
@@ -449,12 +499,15 @@ var visualchars = (function () {
     return copy;
   };
   var head = function (xs) {
-    return xs.length === 0 ? $_c9p9o3rbjd08mfij.none() : $_c9p9o3rbjd08mfij.some(xs[0]);
+    return xs.length === 0 ? Option.none() : Option.some(xs[0]);
   };
   var last = function (xs) {
-    return xs.length === 0 ? $_c9p9o3rbjd08mfij.none() : $_c9p9o3rbjd08mfij.some(xs[xs.length - 1]);
+    return xs.length === 0 ? Option.none() : Option.some(xs[xs.length - 1]);
   };
-  var $_1w55ekrajd08mfie = {
+  var from$1 = $_boslmwscjh8lpxp7.isFunction(Array.from) ? Array.from : function (x) {
+    return slice.call(x);
+  };
+  var $_fptmrqs9jh8lpxow = {
     map: map,
     each: each,
     eachr: eachr,
@@ -480,7 +533,8 @@ var visualchars = (function () {
     sort: sort,
     range: range,
     head: head,
-    last: last
+    last: last,
+    from: from$1
   };
 
   var fromHtml = function (html, scope) {
@@ -506,12 +560,12 @@ var visualchars = (function () {
   var fromDom = function (node) {
     if (node === null || node === undefined)
       throw new Error('Node cannot be null or undefined');
-    return { dom: $_3lyr4trcjd08mfil.constant(node) };
+    return { dom: $_d0dzcusbjh8lpxp5.constant(node) };
   };
   var fromPoint = function (doc, x, y) {
-    return $_c9p9o3rbjd08mfij.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
   };
-  var $_cj6geerdjd08mfin = {
+  var $_ga26zpsdjh8lpxp8 = {
     fromHtml: fromHtml,
     fromTag: fromTag,
     fromText: fromText,
@@ -519,7 +573,7 @@ var visualchars = (function () {
     fromPoint: fromPoint
   };
 
-  var $_h1iv5rfjd08mfiv = {
+  var $_9y3yv6sfjh8lpxpg = {
     ATTRIBUTE: 2,
     CDATA_SECTION: 4,
     COMMENT: 8,
@@ -544,18 +598,18 @@ var visualchars = (function () {
   var value = function (element) {
     return element.dom().nodeValue;
   };
-  var isType = function (t) {
+  var isType$1 = function (t) {
     return function (element) {
       return type(element) === t;
     };
   };
   var isComment = function (element) {
-    return type(element) === $_h1iv5rfjd08mfiv.COMMENT || name(element) === '#comment';
+    return type(element) === $_9y3yv6sfjh8lpxpg.COMMENT || name(element) === '#comment';
   };
-  var isElement = isType($_h1iv5rfjd08mfiv.ELEMENT);
-  var isText = isType($_h1iv5rfjd08mfiv.TEXT);
-  var isDocument = isType($_h1iv5rfjd08mfiv.DOCUMENT);
-  var $_7qd0zorejd08mfiu = {
+  var isElement = isType$1($_9y3yv6sfjh8lpxpg.ELEMENT);
+  var isText = isType$1($_9y3yv6sfjh8lpxpg.TEXT);
+  var isDocument = isType$1($_9y3yv6sfjh8lpxpg.DOCUMENT);
+  var $_g9krfcsejh8lpxpe = {
     name: name,
     type: type,
     value: value,
@@ -566,18 +620,18 @@ var visualchars = (function () {
   };
 
   var wrapCharWithSpan = function (value) {
-    return '<span data-mce-bogus="1" class="mce-' + $_g9kbq1r8jd08mfi6.charMap[value] + '">' + value + '</span>';
+    return '<span data-mce-bogus="1" class="mce-' + $_8dimiks7jh8lpxol.charMap[value] + '">' + value + '</span>';
   };
-  var $_by2t1mrgjd08mfiw = { wrapCharWithSpan: wrapCharWithSpan };
+  var $_tc81msgjh8lpxpg = { wrapCharWithSpan: wrapCharWithSpan };
 
   var isMatch = function (n) {
-    return $_7qd0zorejd08mfiu.isText(n) && $_7qd0zorejd08mfiu.value(n) !== undefined && $_g9kbq1r8jd08mfi6.regExp.test($_7qd0zorejd08mfiu.value(n));
+    return $_g9krfcsejh8lpxpe.isText(n) && $_g9krfcsejh8lpxpe.value(n) !== undefined && $_8dimiks7jh8lpxol.regExp.test($_g9krfcsejh8lpxpe.value(n));
   };
   var filterDescendants = function (scope, predicate) {
     var result = [];
     var dom = scope.dom();
-    var children = $_1w55ekrajd08mfie.map(dom.childNodes, $_cj6geerdjd08mfin.fromDom);
-    $_1w55ekrajd08mfie.each(children, function (x) {
+    var children = $_fptmrqs9jh8lpxow.map(dom.childNodes, $_ga26zpsdjh8lpxp8.fromDom);
+    $_fptmrqs9jh8lpxow.each(children, function (x) {
       if (predicate(x)) {
         result = result.concat([x]);
       }
@@ -594,9 +648,9 @@ var visualchars = (function () {
     }
   };
   var replaceWithSpans = function (html) {
-    return html.replace($_g9kbq1r8jd08mfi6.regExpGlobal, $_by2t1mrgjd08mfiw.wrapCharWithSpan);
+    return html.replace($_8dimiks7jh8lpxol.regExpGlobal, $_tc81msgjh8lpxpg.wrapCharWithSpan);
   };
-  var $_f5pgt5r9jd08mfi7 = {
+  var $_4677p2s8jh8lpxom = {
     isMatch: isMatch,
     filterDescendants: filterDescendants,
     findParentElm: findParentElm,
@@ -605,9 +659,9 @@ var visualchars = (function () {
 
   var show = function (editor, rootElm) {
     var node, div;
-    var nodeList = $_f5pgt5r9jd08mfi7.filterDescendants($_cj6geerdjd08mfin.fromDom(rootElm), $_f5pgt5r9jd08mfi7.isMatch);
-    $_1w55ekrajd08mfie.each(nodeList, function (n) {
-      var withSpans = $_f5pgt5r9jd08mfi7.replaceWithSpans($_7qd0zorejd08mfiu.value(n));
+    var nodeList = $_4677p2s8jh8lpxom.filterDescendants($_ga26zpsdjh8lpxp8.fromDom(rootElm), $_4677p2s8jh8lpxom.isMatch);
+    $_fptmrqs9jh8lpxow.each(nodeList, function (n) {
+      var withSpans = $_4677p2s8jh8lpxom.replaceWithSpans($_g9krfcsejh8lpxpe.value(n));
       div = editor.dom.create('div', null, withSpans);
       while (node = div.lastChild) {
         editor.dom.insertAfter(node, n.dom());
@@ -616,21 +670,21 @@ var visualchars = (function () {
     });
   };
   var hide = function (editor, body) {
-    var nodeList = editor.dom.select($_g9kbq1r8jd08mfi6.selector, body);
-    $_1w55ekrajd08mfie.each(nodeList, function (node) {
+    var nodeList = editor.dom.select($_8dimiks7jh8lpxol.selector, body);
+    $_fptmrqs9jh8lpxow.each(nodeList, function (node) {
       editor.dom.remove(node, 1);
     });
   };
   var toggle = function (editor) {
     var body = editor.getBody();
     var bookmark = editor.selection.getBookmark();
-    var parentNode = $_f5pgt5r9jd08mfi7.findParentElm(editor.selection.getNode(), body);
+    var parentNode = $_4677p2s8jh8lpxom.findParentElm(editor.selection.getNode(), body);
     parentNode = parentNode !== undefined ? parentNode : body;
     hide(editor, parentNode);
     show(editor, parentNode);
     editor.selection.moveToBookmark(bookmark);
   };
-  var $_eu2uw8r7jd08mfi0 = {
+  var $_etju1qs6jh8lpxoc = {
     show: show,
     hide: hide,
     toggle: toggle
@@ -641,39 +695,39 @@ var visualchars = (function () {
     var selection = editor.selection;
     var bookmark;
     toggleState.set(!toggleState.get());
-    $_9xabisr6jd08mfhz.fireVisualChars(editor, toggleState.get());
+    $_3erw9bs5jh8lpxob.fireVisualChars(editor, toggleState.get());
     bookmark = selection.getBookmark();
     if (toggleState.get() === true) {
-      $_eu2uw8r7jd08mfi0.show(editor, body);
+      $_etju1qs6jh8lpxoc.show(editor, body);
     } else {
-      $_eu2uw8r7jd08mfi0.hide(editor, body);
+      $_etju1qs6jh8lpxoc.hide(editor, body);
     }
     selection.moveToBookmark(bookmark);
   };
-  var $_3ofltlr5jd08mfhy = { toggleVisualChars: toggleVisualChars };
+  var $_58vohss4jh8lpxoa = { toggleVisualChars: toggleVisualChars };
 
   var register = function (editor, toggleState) {
     editor.addCommand('mceVisualChars', function () {
-      $_3ofltlr5jd08mfhy.toggleVisualChars(editor, toggleState);
+      $_58vohss4jh8lpxoa.toggleVisualChars(editor, toggleState);
     });
   };
-  var $_cb30r7r4jd08mfhx = { register: register };
+  var $_1gtogbs3jh8lpxo9 = { register: register };
 
-  var Delay = tinymce.util.Tools.resolve('tinymce.util.Delay');
+  var global$1 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
   var setup = function (editor, toggleState) {
-    var debouncedToggle = Delay.debounce(function () {
-      $_eu2uw8r7jd08mfi0.toggle(editor);
+    var debouncedToggle = global$1.debounce(function () {
+      $_etju1qs6jh8lpxoc.toggle(editor);
     }, 300);
     if (editor.settings.forced_root_block !== false) {
       editor.on('keydown', function (e) {
         if (toggleState.get() === true) {
-          e.keyCode === 13 ? $_eu2uw8r7jd08mfi0.toggle(editor) : debouncedToggle();
+          e.keyCode === 13 ? $_etju1qs6jh8lpxoc.toggle(editor) : debouncedToggle();
         }
       });
     }
   };
-  var $_djcjn4rhjd08mfix = { setup: setup };
+  var $_58jgrpshjh8lpxph = { setup: setup };
 
   var toggleActiveState = function (editor) {
     return function (e) {
@@ -700,12 +754,12 @@ var visualchars = (function () {
     });
   };
 
-  PluginManager.add('visualchars', function (editor) {
+  global.add('visualchars', function (editor) {
     var toggleState = Cell(false);
-    $_cb30r7r4jd08mfhx.register(editor, toggleState);
+    $_1gtogbs3jh8lpxo9.register(editor, toggleState);
     register$1(editor);
-    $_djcjn4rhjd08mfix.setup(editor, toggleState);
-    return $_1dqk52r3jd08mfhw.get(toggleState);
+    $_58jgrpshjh8lpxph.setup(editor, toggleState);
+    return $_3bnoans2jh8lpxo7.get(toggleState);
   });
   function Plugin () {
   }
@@ -713,4 +767,4 @@ var visualchars = (function () {
   return Plugin;
 
 }());
-})()
+})();

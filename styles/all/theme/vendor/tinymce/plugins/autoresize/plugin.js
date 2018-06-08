@@ -20,11 +20,11 @@ var autoresize = (function () {
     };
   };
 
-  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
+  var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-  var Env = tinymce.util.Tools.resolve('tinymce.Env');
+  var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
 
-  var Delay = tinymce.util.Tools.resolve('tinymce.util.Delay');
+  var global$2 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
   var getAutoResizeMinHeight = function (editor) {
     return parseInt(editor.getParam('autoresize_min_height', editor.getElement().offsetHeight), 10);
@@ -41,7 +41,7 @@ var autoresize = (function () {
   var shouldAutoResizeOnInit = function (editor) {
     return editor.getParam('autoresize_on_init', true);
   };
-  var $_6pn9ql83jd08mc9s = {
+  var $_azyemt8qjh8lpue0 = {
     getAutoResizeMinHeight: getAutoResizeMinHeight,
     getAutoResizeMaxHeight: getAutoResizeMaxHeight,
     getAutoResizeOverflowPadding: getAutoResizeOverflowPadding,
@@ -53,7 +53,7 @@ var autoresize = (function () {
     return editor.plugins.fullscreen && editor.plugins.fullscreen.isFullscreen();
   };
   var wait = function (editor, oldSize, times, interval, callback) {
-    Delay.setEditorTimeout(editor, function () {
+    global$2.setEditorTimeout(editor, function () {
       resize(editor, oldSize);
       if (times--) {
         wait(editor, oldSize, times, interval, callback);
@@ -84,7 +84,7 @@ var autoresize = (function () {
       return;
     }
     body = doc.body;
-    resizeHeight = $_6pn9ql83jd08mc9s.getAutoResizeMinHeight(editor);
+    resizeHeight = $_azyemt8qjh8lpue0.getAutoResizeMinHeight(editor);
     marginTop = dom.getStyle(body, 'margin-top', true);
     marginBottom = dom.getStyle(body, 'margin-bottom', true);
     paddingTop = dom.getStyle(body, 'padding-top', true);
@@ -93,12 +93,12 @@ var autoresize = (function () {
     borderBottom = dom.getStyle(body, 'border-bottom-width', true);
     myHeight = body.offsetHeight + parseInt(marginTop, 10) + parseInt(marginBottom, 10) + parseInt(paddingTop, 10) + parseInt(paddingBottom, 10) + parseInt(borderTop, 10) + parseInt(borderBottom, 10);
     if (isNaN(myHeight) || myHeight <= 0) {
-      myHeight = Env.ie ? body.scrollHeight : Env.webkit && body.clientHeight === 0 ? 0 : body.offsetHeight;
+      myHeight = global$1.ie ? body.scrollHeight : global$1.webkit && body.clientHeight === 0 ? 0 : body.offsetHeight;
     }
-    if (myHeight > $_6pn9ql83jd08mc9s.getAutoResizeMinHeight(editor)) {
+    if (myHeight > $_azyemt8qjh8lpue0.getAutoResizeMinHeight(editor)) {
       resizeHeight = myHeight;
     }
-    var maxHeight = $_6pn9ql83jd08mc9s.getAutoResizeMaxHeight(editor);
+    var maxHeight = $_azyemt8qjh8lpue0.getAutoResizeMaxHeight(editor);
     if (maxHeight && myHeight > maxHeight) {
       resizeHeight = maxHeight;
       toggleScrolling(editor, true);
@@ -109,7 +109,7 @@ var autoresize = (function () {
       deltaSize = resizeHeight - oldSize.get();
       dom.setStyle(editor.iframeElement, 'height', resizeHeight + 'px');
       oldSize.set(resizeHeight);
-      if (Env.webkit && deltaSize < 0) {
+      if (global$1.webkit && deltaSize < 0) {
         resize(editor, oldSize);
       }
     }
@@ -118,8 +118,8 @@ var autoresize = (function () {
     editor.on('init', function () {
       var overflowPadding, bottomMargin;
       var dom = editor.dom;
-      overflowPadding = $_6pn9ql83jd08mc9s.getAutoResizeOverflowPadding(editor);
-      bottomMargin = $_6pn9ql83jd08mc9s.getAutoResizeBottomMargin(editor);
+      overflowPadding = $_azyemt8qjh8lpue0.getAutoResizeOverflowPadding(editor);
+      bottomMargin = $_azyemt8qjh8lpue0.getAutoResizeBottomMargin(editor);
       if (overflowPadding !== false) {
         dom.setStyles(editor.getBody(), {
           paddingLeft: overflowPadding,
@@ -133,7 +133,7 @@ var autoresize = (function () {
     editor.on('nodechange setcontent keyup FullscreenStateChanged', function (e) {
       resize(editor, oldSize);
     });
-    if ($_6pn9ql83jd08mc9s.shouldAutoResizeOnInit(editor)) {
+    if ($_azyemt8qjh8lpue0.shouldAutoResizeOnInit(editor)) {
       editor.on('init', function () {
         wait(editor, oldSize, 20, 100, function () {
           wait(editor, oldSize, 5, 1000);
@@ -141,23 +141,23 @@ var autoresize = (function () {
       });
     }
   };
-  var $_avofmy80jd08mc9p = {
+  var $_rs2t18njh8lpudw = {
     setup: setup,
     resize: resize
   };
 
   var register = function (editor, oldSize) {
     editor.addCommand('mceAutoResize', function () {
-      $_avofmy80jd08mc9p.resize(editor, oldSize);
+      $_rs2t18njh8lpudw.resize(editor, oldSize);
     });
   };
-  var $_26vppr7zjd08mc9n = { register: register };
+  var $_b0t1u48mjh8lpudv = { register: register };
 
-  PluginManager.add('autoresize', function (editor) {
+  global.add('autoresize', function (editor) {
     if (!editor.inline) {
       var oldSize = Cell(0);
-      $_26vppr7zjd08mc9n.register(editor, oldSize);
-      $_avofmy80jd08mc9p.setup(editor, oldSize);
+      $_b0t1u48mjh8lpudv.register(editor, oldSize);
+      $_rs2t18njh8lpudw.setup(editor, oldSize);
     }
   });
   function Plugin () {
@@ -166,4 +166,4 @@ var autoresize = (function () {
   return Plugin;
 
 }());
-})()
+})();
