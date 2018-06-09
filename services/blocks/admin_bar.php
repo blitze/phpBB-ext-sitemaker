@@ -341,7 +341,7 @@ class admin_bar
 	}
 
 	/**
-	 * @return void
+	 * @return array
 	 */
 	protected function get_filemanager_settings()
 	{
