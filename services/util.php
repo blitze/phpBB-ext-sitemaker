@@ -78,14 +78,16 @@ class util
 	}
 
 	/**
-	 * Add a secret token to the form (requires the S_FORM_TOKEN template variable)
+	 * Add a secret token to the form
 	 * @param string  $form_name The name of the form; has to match the name used in check_form_key, otherwise no restrictions apply
+	 * @param string  $template_variable_suffix A string that is appended to the name of the template variable to which the form elements are assigned
+	 * @return string
 	 */
-	public function get_form_key($form_name)
+	public function get_form_key($form_name, $template_variable_suffix = '_BLITZE_SITEMAKER')
 	{
-		add_form_key($form_name);
+		add_form_key($form_name, $template_variable_suffix);
 
-		return $this->template->retrieve_var('S_FORM_TOKEN');
+		return $this->template->retrieve_var('S_FORM_TOKEN' . $template_variable_suffix);
 	}
 
 	/**
