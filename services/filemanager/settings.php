@@ -153,7 +153,6 @@ class settings
 		return $config_file;
 	}
 
-	
 	/**
 	 * @param string $prop
 	 * @param mixed $value
