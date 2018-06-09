@@ -55,7 +55,7 @@ class mybookmarks extends block
 	public function get_config(array $settings)
 	{
 		return array(
-			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
+			'max_topics'	=> array('lang' => 'MAX_TOPICS', 'validate' => 'int:0', 'type' => 'number:0', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 		);
 	}
 

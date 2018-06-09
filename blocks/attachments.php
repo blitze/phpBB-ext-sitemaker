@@ -81,7 +81,7 @@ class attachments extends block
 			'ids_type'			=> array('lang' => 'TOPIC_POST_IDS_TYPE', 'validate' => 'bool', 'type' => 'radio', 'options' => $id_type_options, 'explain' => false, 'default' => 'topic'),
 			'ids'				=> array('lang' => 'TOPIC_POST_IDS', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
 			'date_range'		=> array('lang' => 'LIMIT_POST_TIME', 'validate' => 'string', 'type' => 'select', 'options' => $range_options, 'default' => '', 'explain' => false),
-			'limit'				=> array('lang' => 'LIMIT', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
+			'limit'				=> array('lang' => 'LIMIT', 'validate' => 'int:0', 'type' => 'number:0', 'maxlength' => 2, 'explain' => false, 'default' => 5),
 			'ext_type'			=> array('lang' => 'EXTENSION_GROUP', 'validate' => 'string', 'type' => 'radio', 'options' => $attach_type_options, 'default' => '', 'explain' => false),
 		);
 	}
