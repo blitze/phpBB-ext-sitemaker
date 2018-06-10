@@ -40,9 +40,18 @@
 
 	var getPOJO = function(arrayOfObjects) {
 		var data = {};
-		$.each(arrayOfObjects, function(i, obj) {
-		    data[obj.name] = obj.value;
+
+		$.each(arrayOfObjects, function() {
+			if (data[this.name]) {
+				if (!data[this.name].push) {
+					data[this.name] = [data[this.name]];
+				}
+				data[this.name].push(this.value || '');
+			} else {
+				data[this.name] = this.value || '';
+			}
 		});
+
 		return data;
 	};
 
