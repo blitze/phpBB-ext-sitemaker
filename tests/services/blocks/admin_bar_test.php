@@ -41,6 +41,15 @@ class admin_bar_test extends \phpbb_database_test_case
 		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/blocks.xml');
 	}
 
+	static public function tearDownAfterClass()
+	{
+		global $phpbb_root_path;
+
+		parent::tearDownAfterClass();
+
+		unlink(dirname(__FILE__) . '/../fixtures/filemanager/config.php');
+	}
+
 	/**
 	 * Create the admin_bar service
 	 *
