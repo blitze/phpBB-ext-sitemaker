@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.1.1 - 2018-6-9
+
+- Fixed several bugs that caused the extension to fail in php 7.2
+- Upgraded to Tinymce 4.7.13
+- Upgraded to support Responsive Filemanager 9.13.1
+- Use user lang and timezone preferences to display filemanager in correct language and timezone
+- Fix issues with saving filemanager settings
+- Provide means to automatically update filemanager config while retaining existing settings
+- Remove max limit of 20 for blocks. So now you can have blocks that display more than 20 items
+- Prevent form token conflicts - thanks kasimi
+- Fixed bug that made it impossible to select multiple items in a multi-select dropdown in block settings
+- Fixed several other minor bugs
+
 ## 3.1.0 - 2017-9-26
 
 - Added horizontal navbar

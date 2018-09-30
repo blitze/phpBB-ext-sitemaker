@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
 	"description": "A portal/CMS for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.1.0",
+	"version": "3.1.1",
 	"keywords": ["phpbb", "extension", "portal", "cms"],
 	"license": "GPL-2.0-only",
 	"authors": [{
@@ -16,9 +16,9 @@
 		"type": "package",
         "package": {
 			"name": "ResponsiveFilemanager",
-			"version": "9.13.0",
+			"version": "9.13.1",
 			"dist": {
-				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.13.0/responsive_filemanager.zip",
+				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.13.1/responsive_filemanager.zip",
 				"type": "zip"
 			}
 		}
