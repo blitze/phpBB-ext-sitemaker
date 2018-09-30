@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
 	"description": "A portal/CMS for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.1.1-RC1",
+	"version": "3.1.1",
 	"keywords": ["phpbb", "extension", "portal", "cms"],
 	"license": "GPL-2.0-only",
 	"authors": [{
