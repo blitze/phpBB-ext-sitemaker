@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "33dcb1d1416ee310699a6ff821873a91",
+    "content-hash": "ded9b92a33c003646ef74c03387f8825",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "049797d727261bf27f2690430d935067710049c2"
+                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
-                "reference": "049797d727261bf27f2690430d935067710049c2",
+                "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-12-29T09:13:20+00:00"
+            "time": "2018-08-27T06:10:37+00:00"
         },
         {
             "name": "urodoz/truncate-html",
@@ -180,10 +180,10 @@
     "packages-dev": [
         {
             "name": "ResponsiveFilemanager",
-            "version": "9.13.1",
+            "version": "9.13.4",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.13.1/responsive_filemanager.zip",
+                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.13.4/responsive_filemanager.zip",
                 "reference": null,
                 "shasum": null
             },
