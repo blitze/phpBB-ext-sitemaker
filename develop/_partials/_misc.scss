@@ -1,8 +1,4 @@
-@import "globals";
-
-.fa {
-	margin-right: 3px;
-}
+@import 'globals';
 
 .edit-mode-btn {
 	position: fixed;
@@ -19,7 +15,7 @@
 		transform: rotate(15deg);
 	}
 
-	@media screen and (max-width : 940px) {
+	@media screen and (max-width: 940px) {
 		padding: 7px 10px;
 	}
 }
@@ -50,7 +46,7 @@
 		&:before {
 			content: ' ';
 			display: block;
-	    	white-space: pre;
+			white-space: pre;
 		}
 	}
 }
@@ -89,7 +85,7 @@
 	text-align: left;
 }
 
-@media screen and (max-width : $toast-breakpoint-medium) {
+@media screen and (max-width: $toast-breakpoint-medium) {
 	.sm-responsive-show {
 		display: block;
 	}

@@ -223,14 +223,11 @@ class admin_bar
 	{
 		$assets = array(
 			'js'	=> array(
-				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
-				'@blitze_sitemaker/vendor/tinymce/tinymce.min.js',
-				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				'@blitze_sitemaker/vendor/twig.js/index.js',
+				'@blitze_sitemaker/assets/runtime.min.js',
+				'@blitze_sitemaker/assets/tinymce/tinymce.min.js',
 				1000 =>  '@blitze_sitemaker/assets/blocks/manager.min.js',
 			),
 			'css'   => array(
-				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			)
 		);

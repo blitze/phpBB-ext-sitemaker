@@ -8,4 +8,9 @@
 	{% endset %}
 {% endif %}
 
+{% set sidebar_size = block('sidebar_size')|default(3) %}
+{% set sidebar_placement = block('sidebar_placement')|default('') %}
+{% set subcontent_size = block('subcontent_size')|default(3) %}
+{% set subcontent_placement = block('subcontent_placement')|default('') %}
+
 {% block layout %}{% endblock %}

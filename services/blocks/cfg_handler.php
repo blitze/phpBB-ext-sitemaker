@@ -139,6 +139,7 @@ class cfg_handler extends cfg_fields
 		$selected_groups = $this->ensure_array($block_data['permission']);
 
 		$this->template->assign_vars(array(
+			'S_BLOCK_ID'	=> $block_data['bid'],
 			'S_ACTIVE'		=> $block_data['status'],
 			'S_TYPE'		=> $block_data['type'],
 			'S_VIEW'		=> $block_data['view'],

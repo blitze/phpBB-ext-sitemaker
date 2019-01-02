@@ -38,9 +38,6 @@ class menu_module
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
-	/** @var \blitze\sitemaker\services\util */
-	protected $util;
-
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
@@ -73,7 +70,6 @@ class menu_module
 		$this->language = $phpbb_container->get('language');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
-		$this->util = $phpbb_container->get('blitze.sitemaker.util');
 	}
 
 	/**
@@ -82,12 +78,6 @@ class menu_module
 	public function main()
 	{
 		$menu_id = $this->request->variable('menu_id', 0);
-
-		nestedset::load_scripts($this->util);
-		$this->util->add_assets(array(
-			'js'	=> array('@blitze_sitemaker/assets/menu/admin.min.js'),
-			'css'	=> array('@blitze_sitemaker/assets/menu/admin.min.css')
-		));
 
 		$this->list_menus($menu_id);
 		$this->build_bulk_options();

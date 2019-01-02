@@ -1,6 +1,6 @@
 // credit: http://w3bits.com/css-responsive-nav-menu/
 
-@import "globals";
+@import 'globals';
 
 //@extend-elements
 //original selectors
@@ -59,7 +59,7 @@
 		display: none;
 		margin: 0;
 	}
-	input[type="checkbox"] {
+	input[type='checkbox'] {
 		display: none;
 		&:checked + .sub-menu {
 			display: block;
@@ -98,7 +98,7 @@
 	a {
 		@extend %extend_1;
 		padding: 1em 1.5em;
-		transition: all .125s ease-in-out;
+		transition: all 0.125s ease-in-out;
 		&:hover {
 			background-color: $navbar_text_color;
 			color: $navbar_hover_background_color;
@@ -132,7 +132,7 @@
 		li {
 			float: left;
 			border-width: 0 1px 0 0;
-			&:hover > input[type="checkbox"] + .sub-menu {
+			&:hover > input[type='checkbox'] + .sub-menu {
 				display: block;
 			}
 		}
@@ -166,7 +166,7 @@
 			display: inline-block;
 			margin-left: 5px;
 		}
-		input[type="checkbox"]:checked + .sub-menu {
+		input[type='checkbox']:checked + .sub-menu {
 			display: none;
 		}
 	}

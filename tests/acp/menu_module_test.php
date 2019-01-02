@@ -124,19 +124,11 @@ class menu_module_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$util->expects($this->exactly(2))
-			->method('add_assets');
-
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('controller.helper', $controller_helper);
 		$phpbb_container->set('language', $language);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
-		$phpbb_container->set('blitze.sitemaker.util', $util);
 
 		return new menu_module();
 	}

@@ -1,0 +1,48 @@
+{
+  "entrypoints": {
+    "blocks/manager": {
+      "js": [
+        "../runtime.min.js",
+        "../blocks/manager.min.js"
+      ],
+      "css": [
+        "../blocks/manager.min.css"
+      ]
+    },
+    "menu/admin": {
+      "js": [
+        "../runtime.min.js",
+        "../menu/admin.min.js"
+      ],
+      "css": [
+        "../menu/admin.min.css"
+      ]
+    },
+    "tree/builder": {
+      "js": [
+        "../runtime.min.js",
+        "../tree/builder.min.js"
+      ],
+      "css": [
+        "../tree/builder.min.css"
+      ]
+    },
+    "settings/admin": {
+      "js": [
+        "../runtime.min.js",
+        "../settings/admin.min.js"
+      ],
+      "css": [
+        "../settings/admin.min.css"
+      ]
+    },
+    "sitemaker": {
+      "js": [
+        "../runtime.min.js"
+      ],
+      "css": [
+        "../sitemaker.min.css"
+      ]
+    }
+  }
+}

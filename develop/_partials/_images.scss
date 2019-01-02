@@ -1,4 +1,4 @@
-@import "globals";
+@import 'globals';
 
 /* Avatar sizes */
 img {
@@ -40,7 +40,8 @@ img {
 }
 
 /* Block images */
-.img-ui, .attach-image {
+.img-ui,
+.attach-image {
 	display: block;
 	margin: 0 0 0.25rem 0;
 

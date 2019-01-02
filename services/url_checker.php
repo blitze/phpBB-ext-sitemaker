@@ -44,7 +44,7 @@ class url_checker
 		}
 		else
 		{
-			$headers = get_headers($url);
+			$headers = @get_headers($url);
 			$headers = $headers[0];
 		}
 

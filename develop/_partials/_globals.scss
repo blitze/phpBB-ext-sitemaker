@@ -1,6 +1,8 @@
 $admin-bar-height: 38px !default;
 $admin-bar-bgcolor: #c33 !default;
 
+$gl-gutter: 10px !default;
+$gl-gutter-vertical: 20px !default;
 $gutter-width: 10px !default;
 $border-color: #ccc !default;
 $panel_border_radius: 7px !default;
@@ -55,13 +57,12 @@ $toast-pulls: false;
 @function set-text-color($color) {
 	@if (lightness($color) > 60) {
 		@return #000;
-	}
-	@else {
+	} @else {
 		@return #fff;
 	}
 }
 
 @mixin rgba-background($hexcolor, $opacity) {
 	background-color: $hexcolor;
-	background-color: rgba($hexcolor, $opacity); 
+	background-color: rgba($hexcolor, $opacity);
 }

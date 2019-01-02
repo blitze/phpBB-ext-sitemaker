@@ -4,7 +4,8 @@
 </div>
 
 <form id="edit_form" method="post" style="width: 400px; height: 100%">
-<div id="block-settings" style="border: 0; padding: 0">
+	<input type="hidden" name="id" value="{{ S_BLOCK_ID }}" />
+	<div id="block-settings" style="border: 0; padding: 0">
 	{% if loops.options|length %}
 	<ul>
 		<li><a href="#tab-design">{{ lang('BLOCK_DESIGN') }}</a></li>

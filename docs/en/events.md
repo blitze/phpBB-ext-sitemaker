@@ -16,11 +16,13 @@ You can modify the behavior of phpBB SiteMaker using phpBB's event system.
   * [blitze_sitemaker_admin_bar_append](#blitze_sitemaker_admin_bar_append)
   * [blitze_sitemaker_admin_bar_templates](#blitze_sitemaker_admin_bar_templates)
 - [Javascript Events](#javascript-events)
-  * [blitze_sitemaker_showAllBlockPositions](#blitze_sitemaker_showallblockpositions)
-  * [blitze_sitemaker_hideEmptyBlockPositions](#blitze_sitemaker_hideemptyblockpositions)
-  * [blitze_sitemaker_renderBlock_before](#blitze_sitemaker_renderblock_before)
-  * [blitze_sitemaker_renderBlock_after](#blitze_sitemaker_renderblock_after)
-  * [blitze_sitemaker_layout_changed](#blitze_sitemaker_layout_changed)
+  * [blitze_sitemaker_layout_saved](#blitze_sitemaker_layout_saved)
+  * [blitze_sitemaker_render_block_after](#blitze_sitemaker_render_block_after)
+  * [blitze_sitemaker_save_block_before](#blitze_sitemaker_save_block_before)
+  * [blitze_sitemaker_show_all_block_positions](#blitze_sitemaker_show_all_block_positions)
+  * [blitze_sitemaker_hide_empty_block_positions](#blitze_sitemaker_hide_empty_block_positions)
+  * [blitze_sitemaker_layout_cleared](#blitze_sitemaker_layout_cleared)
+  * [blitze_sitemaker_layout_updated](#blitze_sitemaker_layout_updated)
 
 ## PHP Events
 
@@ -82,32 +84,44 @@ blitze_sitemaker_admin_bar_templates
 
 ## Javascript Events
 
-blitze_sitemaker_showAllBlockPositions
+blitze_sitemaker_layout_saved
 ===
-* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
-* Since: 3.0.1
-* Purpose: Modify blocks positions and/or empty positions when drag and drop is started
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout changes are saved
 
-blitze_sitemaker_hideEmptyBlockPositions
+blitze_sitemaker_render_block_after
 ===
-* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
-* Since: 3.0.1
-* Purpose: Modify blocks positions and/or empty positions when drag and drop has stopped
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something after block is rendered
 
-blitze_sitemaker_renderBlock_after
+blitze_sitemaker_save_block_before
 ===
-* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
-* Since: 3.0.1
-* Purpose: Do something after block is rendered when adding/editing/previewing block
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to modify block data before it is saved
 
-blitze_sitemaker_renderBlock_before
+blitze_sitemaker_show_all_block_positions
 ===
-* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
-* Since: 3.0.1
-* Purpose: Modify block data when adding/editing/previewing block
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when all block positions are shown
 
-blitze_sitemaker_layout_changed
+blitze_sitemaker_hide_empty_block_positions
 ===
-* Location: /phpBB/ext/blitze/sitemaker/develop/blocks/manager.js
-* Since: 3.0.1
-* Purpose: Triggered when layout has changed either because a block was added/deleted/moved
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when empty positions are hidden
+
+blitze_sitemaker_layout_cleared
+===
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout is cleared
+
+blitze_sitemaker_layout_updated
+===
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout is updated

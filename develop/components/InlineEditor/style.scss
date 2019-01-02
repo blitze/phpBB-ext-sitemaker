@@ -1,0 +1,15 @@
+.inline-editable {
+	display: inline-block;
+	font-size: 0.7rem;
+}
+
+.editable {
+	overflow: hidden;
+
+	&:hover {
+		outline: 1px dashed;
+		outline-color: invert;
+		cursor: pointer;
+		cursor: hand;
+	}
+}

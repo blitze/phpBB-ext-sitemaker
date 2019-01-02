@@ -1,4 +1,4 @@
-@import "globals";
+@import 'globals';
 
 .flex {
 	> dl {
@@ -101,11 +101,8 @@
 
 /* Footer */
 .footer {
-	margin-left: $gutter-width;
-	clear: both;
-
-	> .panel {
-		padding: 15px;
+	&.panel {
+		padding: 1rem;
 	}
 
 	.block {
@@ -114,77 +111,12 @@
 		}
 	}
 
-	.sm-block-spacing {
-		border-right: 1px solid #ccc;
-
-		&:nth-child(3),
-		&:last-child {
-			border: 0;
-		}
-	}
-
 	@media (max-width: $toast-breakpoint-small) {
 		margin-left: 0;
 	}
 }
 
-.holygrail {
-	display: flex;
-
-	.middle {
-		flex: 1;
-	}
-
-	.sidebar {
-		flex: 0 0 200px;
-	}
-
-	.left {
-		order: -1;
-		padding-right: $gutter-width;
-		padding-left: 0;
-	}
-
-	.right {
-		padding-left: $gutter-width;
-		padding-right: 0;
-		margin-right: 0;
-	}
-
-	@media all and (max-width: $toast-breakpoint-medium) {
-		display: block;
-
-		.left, .right {
-			padding: 0;
-		}
-	}
-}
-
 .grid {
-	.grid__col {
-		margin-right: -0.25rem;
-
-		&.lastUnit {
-			width: 100%;
-		}
-	}
-
-	.sidebar {
-		&.left {
-			margin-right: 0;
-
-			@media screen and (max-width: $toast-breakpoint-medium) {
-				float: none;
-			}
-		}
-
-		&.right {
-			@media screen and (max-width: $toast-breakpoint-medium) {
-				margin-right: 0.25em;
-			}
-		}
-	}
-
 	@media (max-width: $toast-breakpoint-small) {
 		.sitemaker {
 			margin-left: -5px;
@@ -195,19 +127,5 @@
 				margin-right: 0;
 			}
 		}
-
-		.grid__col {
-			margin-right: 0;
-		}
-	}
-}
-
-.main-content .block-position.horizontal {
-	@media (max-width: $toast-breakpoint-medium) {
-		margin-right: 0.25em;
-	}
-
-	@media (max-width: $toast-breakpoint-small) {
-		margin-right: 0;
 	}
 }

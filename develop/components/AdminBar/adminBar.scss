@@ -1,0 +1,316 @@
+@import '../../_partials/globals';
+
+body {
+	transition: padding 400ms;
+}
+
+.push-down {
+	padding-top: $admin-bar-height;
+}
+
+.admin-bar-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	z-index: 1000;
+
+	.admin-bar-control {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0 8px;
+		height: $admin-bar-height;
+		line-height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		color: invert($admin-bar-bgcolor);
+		font-size: 18px;
+		text-align: center;
+
+		&:hover {
+			text-decoration: none;
+			font-weight: bolder;
+			color: #ddd;
+		}
+	}
+
+	.admin-bar-toggler {
+		opacity: 0.5;
+		border-bottom-left-radius: 1rem;
+	}
+
+	.admin-bar-inner {
+		display: block;
+		width: 100%;
+		height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		position: relative;
+	}
+
+	.hmenu {
+		margin: 0;
+		padding: 1px 10px;
+		width: auto;
+		list-style: none;
+
+		li {
+			float: left;
+			display: block;
+			margin-left: 4px;
+			text-align: center;
+			position: relative;
+			line-height: $admin-bar-height - 2;
+
+			.dropdown {
+				margin-right: -500px;
+				line-height: normal;
+
+				p {
+					display: block;
+					margin-top: 1em;
+				}
+			}
+
+			.menu-item {
+				padding: 10px;
+				color: #ccc;
+				text-transform: uppercase;
+				text-decoration: none;
+				text-shadow: 0 1px 0 #000;
+			}
+
+			.btn,
+			.menu-item {
+				font: bold 1.2em Arial, Helvetica;
+			}
+
+			.btn {
+				margin: 5px 0 5px 5px;
+			}
+
+			.dropped,
+			&:hover > .menu-item {
+				color: #333;
+				background-color: #fff;
+				border-radius: 5px;
+			}
+
+			.dropped,
+			&:hover > .dropped {
+				padding-bottom: 14px;
+				border-radius: 5px 5px 0 0;
+				z-index: 1;
+			}
+
+			.dropdown {
+				display: none;
+				margin-top: 36px;
+				margin-left: -6px;
+				padding: 10px;
+				background-color: #fff;
+				border: 1px solid #c33;
+				border-top: 0;
+				position: absolute;
+				top: 0;
+				text-align: left;
+				border-radius: 5px;
+			}
+
+			.spacing {
+				width: 25px;
+			}
+		}
+
+		.right {
+			float: right;
+			position: relative;
+		}
+	}
+}
+
+.block-controls {
+	display: none;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: auto;
+	z-index: 2000;
+
+	.forabg + & {
+		top: 7px;
+		right: 4px;
+	}
+}
+
+.block-receiver {
+	min-height: 55px;
+	overflow: visible;
+
+	.block-controls {
+		.item-action {
+			float: right;
+		}
+	}
+
+	.block {
+		position: relative;
+
+		&:hover {
+			> .block-controls {
+				display: block;
+
+				a {
+					&:hover {
+						border: 1px solid #ccc;
+					}
+				}
+			}
+		}
+	}
+
+	.block-title {
+		height: 20px;
+		width: auto;
+		max-width: 90%;
+		cursor: pointer;
+		overflow: visible;
+	}
+
+	.block-icon {
+		display: inline-block;
+		min-width: 15px;
+		min-height: 10px;
+		padding: 1px;
+		margin-left: 0.1rem;
+		text-align: center;
+		cursor: pointer;
+		outline: 1px solid #ddd;
+
+		&:hover {
+			outline: 1px solid #968787;
+		}
+	}
+
+	.placeholder {
+		display: block;
+		position: relative;
+		height: 100px;
+		width: 100%;
+	}
+
+	&.horizontal {
+		.sortable {
+			float: left;
+			height: 70px;
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		.placeholder {
+			@extend .sortable;
+			margin-left: 10px;
+			width: 15px;
+		}
+
+		&:after {
+			content: ' ';
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+
+	&.show-position {
+		outline: 1px dashed #ccc;
+
+		&.sidebar {
+			min-height: 450px;
+		}
+	}
+
+	&.empty-position {
+		display: none;
+	}
+}
+
+.dragging {
+	white-space: nowrap;
+	width: 150px;
+}
+
+.modifiers {
+	overflow: auto;
+	margin-top: 0;
+	display: none;
+
+	dl {
+		display: block;
+		height: auto;
+	}
+
+	.scroll-list {
+		position: relative;
+		height: 100px;
+		overflow: auto;
+		padding-right: 3px;
+	}
+}
+
+.block-admin-button-active {
+	background: #ffffff none;
+	border-bottom: 0;
+	z-index: 1000;
+}
+
+.dialog-check-button {
+	float: left;
+	display: block;
+	margin-right: 5px;
+	margin-top: 1em;
+}
+
+.block-class-actions {
+	margin-left: 5px;
+}
+
+.message-container {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: both;
+	font-size: 1.2em;
+	text-align: left;
+
+	.flash-message {
+		display: none;
+		background-color: #d5f8a0;
+		padding: 5px 10px;
+		position: relative;
+		left: -50%;
+		text-align: left;
+	}
+}
+
+.block-settings {
+	padding-left: 0;
+	padding-right: 0;
+
+	fieldset textarea {
+		width: 97%;
+	}
+}
+
+.sm-inactive,
+.sm-inactive > .block,
+.sm-responsive-show,
+.sm-responsive-hide {
+	opacity: 0.5;
+}
+
+.block-class-editor {
+	width: 99%;
+	outline: 1px solid #666;
+	height: 40px;
+	overflow: auto;
+}

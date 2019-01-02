@@ -53,7 +53,7 @@ $lang = array_merge($lang, array(
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
 
-	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
+	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right.',
 	'DELETE'									=> 'Delete',
 	'DELETE_ALL_BLOCKS'							=> 'Delete All Blocks',
 	'DELETE_ALL_BLOCKS_CONFIRM'					=> 'Are you sure that you’d like to delete all blocks for this page?',

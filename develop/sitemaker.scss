@@ -1,9 +1,15 @@
-@import "./_partials/globals";
-@import "./_partials/lists";
-@import "./_partials/images";
-@import "./_partials/blocks";
-@import "./_partials/labels";
-@import "./_partials/icons";
-@import "./_partials/navbar";
-@import "./_partials/misc";
-@import "bower_components/toast-grid/scss/grid";
+@charset "utf-8";
+@import './_partials/globals';
+@import './_partials/lists';
+@import './_partials/images';
+@import './_partials/blocks';
+@import './_partials/labels';
+@import './_partials/icons';
+@import './_partials/navbar';
+@import './_partials/misc';
+
+@import '~gridlex/src/gridlex.scss';
+
+@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma/sass/components/menu.sass';
+@import '~bulma/sass/components/tabs.sass';

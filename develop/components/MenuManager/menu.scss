@@ -1,0 +1,42 @@
+.menus-list {
+	padding: 0;
+	list-style: none;
+	margin: 40px -2px 0 0;
+
+	.menu-actions {
+		display: none;
+
+		i {
+			margin-right: 4px;
+		}
+	}
+
+	li {
+		padding: 4px;
+		position: relative;
+
+		&.current-menu {
+			.menu-actions {
+				position: absolute;
+				right: 10px;
+				top: 2px;
+				display: none;
+			}
+
+			&:hover .menu-actions {
+				display: block;
+			}
+		}
+
+		a {
+			height: 30px;
+			position: relative;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+@import '~gridlex/src/gridlex.scss';
