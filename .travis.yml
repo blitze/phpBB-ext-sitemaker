@@ -1,7 +1,4 @@
-# Opt into fully virtualized infrastructure
 sudo: required
-dist: precise
-
 language: php
 
 matrix:
