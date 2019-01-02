@@ -9,7 +9,6 @@
 
 namespace blitze\sitemaker\acp;
 
-use blitze\sitemaker\services\menus\nestedset;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
