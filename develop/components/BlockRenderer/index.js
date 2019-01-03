@@ -11,13 +11,14 @@ function BlockRenderer() {
 	return {
 		render($block, data) {
 			/**
-			 * Event to allow other extensions to manange how block is rendered
-			 * setting $(this).data('renderBlock', false) in the listener will prevent a render here
+			 * Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+			 * Setting $(this).data('renderBlock', false) in the listener will prevent a render here
 			 *
 			 * @event blitze_sitemaker_render_block_before
 			 * @type {object}
 			 * @property {object} data - Block data to display (id, name, icon, etc)
 			 * @property {object} $block - Jquery object representing the block element being rendered
+			 * @since 3.1.2
 			 */
 			if (
 				$document

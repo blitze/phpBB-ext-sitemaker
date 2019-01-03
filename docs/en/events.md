@@ -17,6 +17,7 @@ You can modify the behavior of phpBB SiteMaker using phpBB's event system.
   * [blitze_sitemaker_admin_bar_templates](#blitze_sitemaker_admin_bar_templates)
 - [Javascript Events](#javascript-events)
   * [blitze_sitemaker_layout_saved](#blitze_sitemaker_layout_saved)
+  * [blitze_sitemaker_render_block_before](#blitze_sitemaker_render_block_before)
   * [blitze_sitemaker_render_block_after](#blitze_sitemaker_render_block_after)
   * [blitze_sitemaker_save_block_before](#blitze_sitemaker_save_block_before)
   * [blitze_sitemaker_show_all_block_positions](#blitze_sitemaker_show_all_block_positions)
@@ -89,6 +90,12 @@ blitze_sitemaker_layout_saved
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
 * Since: 3.1.2
 * Purpose: Event to allow other extensions to do something when layout changes are saved
+
+blitze_sitemaker_render_block_before
+===
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
 
 blitze_sitemaker_render_block_after
 ===
