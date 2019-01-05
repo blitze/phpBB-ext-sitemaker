@@ -69,6 +69,9 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	public function test_set_default_startpage()
 	{
+		$client = new \GuzzleHttp\Client();
+		$url = self::$root_url . 'app.php/blocks/set_startpage';
+
 		$this->phpbb_extension_manager->enable('foo/bar');
 		$this->login();
 
@@ -80,24 +83,35 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/foo/template');
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
-		// Switch to edit mode
+		// switch to edit mode and confirm we have option to set start page
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
+		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
 
-		// Go to extension page and set as start page
-		$link = $crawler->selectLink('Set As Start Page')->link();
-		self::$client->click($link);
+		$options = array(
+			'json' => array(
+				'style'			=> 1,
+				'controller'	=> 'foo.bar.controller.controller',
+				'method'		=> 'template',
+				'params'		=> '',
+			)
+		);
+		$client->post($url, $options);
 		$this->assert_response_status_code('200');
 
-		// Go to index.php
-		$link = $crawler->selectLink('Board index')->link();
-		self::$client->click($link);
-
-		// Confirm it now displays the contents of foo/bar controller
+		// Go to index.php and Confirm it now displays the contents of foo/bar controller
+		$crawler = self::request('GET', 'index.php?edit_mode=1');
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
+		// Confirm Remove Start Page is now available to us
+		$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
+
 		// Remove as startpage
-		$link = $crawler->selectLink('Remove Start Page')->link();
-		self::$client->click($link);
+		$options = array(
+			'json' => array(
+				'style'			=> 1,
+			)
+		);
+		$client->post($url, $options);
 		$this->assert_response_status_code('200');
 
 		$crawler = self::request('GET', 'index.php');
