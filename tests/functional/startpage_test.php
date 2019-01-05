@@ -90,7 +90,7 @@ class startpage_test extends \phpbb_functional_test_case
 		$options = array(
 			'json' => array(
 				'style'			=> 1,
-				'controller'	=> 'foo.bar.controller.controller',
+				'controller'	=> 'foo_bar.controller',
 				'method'		=> 'template',
 				'params'		=> '',
 			)
