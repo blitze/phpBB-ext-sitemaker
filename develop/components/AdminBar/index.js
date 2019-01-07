@@ -1,6 +1,7 @@
 // @flow
 /* global $ */
 import AjaxSetup from '../Ajax/setup';
+import OutsideClick from '../OutsideClick';
 import BlocksGallery from './BlocksGallery';
 import LayoutSettings from './Settings';
 import StyleSelector from './StyleSelector';
@@ -17,9 +18,13 @@ export default class AdminBar {
 	constructor(positions) {
 		this.$body = $('body');
 		this.$root = $('#admin-bar');
-		this.$control = this.$root.find('#admin-control');
-		this.$dropdownItems = this.$root.find('.has-dropdown');
 		this.$msgBox = $('#ajax-message');
+		this.$control = this.$root.find('#admin-control');
+		this.$dropdownItems = this.$root
+			.find('.has-dropdown')
+			.each((i, element) => {
+				OutsideClick($(element).next(), this.hideDropdown);
+			});
 
 		this.positions = positions;
 
@@ -46,7 +51,7 @@ export default class AdminBar {
 
 	bindEvents() {
 		this.$control.click(this.toggleAdminBar);
-		this.$dropdownItems.click(this.toggleDropdown);
+		this.$body.on('click', '.has-dropdown', this.showDropdown);
 	}
 
 	toggleAdminBar = e => {
@@ -58,22 +63,22 @@ export default class AdminBar {
 		this.$body.toggleClass('push-down');
 	};
 
-	toggleDropdown = e => {
+	showDropdown = e => {
 		e.preventDefault();
-		const $dropdown = $(e.currentTarget);
-		$dropdown
-			.closest('ul')
-			.find('.dropped')
-			.not($dropdown)
+		e.stopPropagation();
+		this.$dropdownItems
 			.removeClass('dropped')
 			.next()
 			.hide();
-		this.$currentDropdown = $dropdown.toggleClass('dropped');
-		this.$currentDropdown.next().toggle();
+		this.$currentDropdown = $(e.target).addClass('dropped');
+		this.$currentDropdown.next().show();
 	};
 
 	hideDropdown = () => {
-		this.$currentDropdown.trigger('click');
+		this.$currentDropdown
+			.removeClass('dropped')
+			.next()
+			.hide();
 	};
 
 	showMessage = message => {
