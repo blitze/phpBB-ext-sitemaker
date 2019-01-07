@@ -12,16 +12,14 @@ export default function Ajaxer($loader, showMessage, append = '') {
 				settings.url += `${delim}${append}`;
 			}
 		},
-		complete: data => {
+		complete: ({ responseJSON }) => {
 			$loader
 				.delay(2000)
 				.removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
-			if (data.responseJSON) {
-				// Display any returned message
-				if (data.responseJSON.message) {
-					showMessage(data.responseJSON.message);
-				}
+			// Display any returned message
+			if (responseJSON.message || responseJSON.MESSAGE_TEXT) {
+				showMessage(responseJSON.message || responseJSON.MESSAGE_TEXT);
 			}
 		},
 		error: event => {
