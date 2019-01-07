@@ -26,6 +26,7 @@ export default class SortableBlocks extends Positions {
 
 		this.$blockPositions.sortable({
 			revert: true,
+			dropOnEmpty: true,
 			placeholder:
 				'ui-state-highlight sm-block-spacing block sortable placeholder',
 			connectWith: '.block-position',
@@ -109,4 +110,11 @@ export default class SortableBlocks extends Positions {
 			this.addBlock($block, $position, blockName);
 		}
 	};
+
+	/**
+	 * @memberof SortableBlocks
+	 */
+	refresh(): void {
+		this.$blockPositions.sortable('refresh');
+	}
 }

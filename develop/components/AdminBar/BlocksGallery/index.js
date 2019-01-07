@@ -20,6 +20,7 @@ export default function BlocksGallery(positions, hideDropdown) {
 			start: (e, ui) => {
 				$(ui.helper).addClass('dragging');
 				positions.showAllPositions();
+				positions.refresh();
 				hideDropdown();
 			},
 			stop: () => {
