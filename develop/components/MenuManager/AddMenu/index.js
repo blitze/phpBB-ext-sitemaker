@@ -5,11 +5,12 @@ const { ajaxUrl, lang } = window;
 
 export default function AddMenuHandler($menus) {
 	Button('#add-menu', {}, () => {
-		$.post(`${ajaxUrl}add_menu`).done(menu => {
-			const $item = $(
-				`<li id="menu-${menu.id}" class="menu-item">
+		$.post(`${ajaxUrl}add_menu`).done(({ id, title }) => {
+			if (id > 0) {
+				const $item = $(
+					`<li id="menu-${id}" class="menu-item">
 					<a href="#" class="menu-option">
-					    <span class="menu-title">${menu.title}</span>
+					    <span class="menu-title">${title}</span>
 					</a>
 					<div class="menu-actions">
 						<a href="#" class="menu-edit left" title="${lang.edit}">
@@ -20,10 +21,11 @@ export default function AddMenuHandler($menus) {
 						</a>
 					</div>
 				</li>`,
-			);
+				);
 
-			$menus.append($item);
-			$item.trigger('click');
+				$menus.append($item);
+				$item.trigger('click');
+			}
 		});
 	}).show();
 }

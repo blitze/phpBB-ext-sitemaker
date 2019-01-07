@@ -3,7 +3,7 @@ import Dialog from '../../Dialog';
 
 const { ajaxUrl, lang } = window;
 
-export default function DeleteMenuHandler($menus) {
+export default function DeleteMenuHandler($menus, initTree) {
 	let $currentMenu;
 
 	const removeMenu = () => {
@@ -13,7 +13,10 @@ export default function DeleteMenuHandler($menus) {
 					? $currentMenu.prev()
 					: $currentMenu.next();
 				$selected.trigger('click');
+			} else {
+				initTree(0);
 			}
+
 			$currentMenu.remove();
 		});
 	};

@@ -32,18 +32,24 @@ export default function MenuManager() {
 
 	const init = menuId => {
 		AjaxSetup($loader, showMessage, `menu_id=${menuId}`);
-		$tree.show().treeBuilder('getItems');
+
+		if (menuId > 0) {
+			$tree.show().treeBuilder('getItems');
+		} else {
+			$tree.hide();
+		}
 	};
 
-	let menuId = $menus
-		.children('.menu-item:first')
-		.attr('id')
-		.substring(5);
+	const $firstMenuItem = $menus.children('.menu-item:first');
+	if ($firstMenuItem.length) {
+		const menuId = $firstMenuItem.attr('id').substring(5);
 
-	init(menuId);
+		init(menuId);
+	}
+
 	AddMenuHandler($menus);
 	EditMenuHandler();
-	DeleteMenuHandler($menus);
+	DeleteMenuHandler($menus, init);
 
 	$('body').on('click', '.menu-item', e => {
 		e.preventDefault();
@@ -51,7 +57,7 @@ export default function MenuManager() {
 
 		// eslint-disable-next-line no-alert
 		if (!isUnsaved || window.confirm(lang.unsavedChanges)) {
-			menuId = $(e.currentTarget)
+			const menuId = $(e.currentTarget)
 				.addClass('row3 current-menu')
 				.siblings()
 				.removeClass('row3 current-menu')
