@@ -16,12 +16,18 @@ export default class Positions {
 	 * @memberof Positions
 	 */
 	constructor() {
-		this.$document = $(document).on(
-			'blitze_sitemaker_layout_saved',
-			(e, { blocks }) => {
+		this.$document = $(document)
+			.on('blitze_sitemaker_layout_saved', (e, { blocks }) => {
 				this.cachedBlocks = JSON.stringify(blocks);
-			},
-		);
+			})
+			.on(
+				'blitze_sitemaker_force_position_update',
+				(e, { $block, $position, isNewBlock = false }) => {
+					if ($block && $position) {
+						this.triggerChange($block, $position, isNewBlock);
+					}
+				},
+			);
 
 		this.$blockPositions = $('.block-position').addClass('block-receiver');
 
