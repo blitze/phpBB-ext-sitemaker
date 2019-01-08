@@ -66,11 +66,12 @@ export default class AdminBar {
 	showDropdown = e => {
 		e.preventDefault();
 		e.stopPropagation();
+
 		this.$dropdownItems
 			.removeClass('dropped')
 			.next()
 			.hide();
-		this.$currentDropdown = $(e.target).addClass('dropped');
+		this.$currentDropdown = $(e.currentTarget).addClass('dropped');
 		this.$currentDropdown.next().show();
 	};
 
