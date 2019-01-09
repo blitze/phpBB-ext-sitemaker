@@ -66,7 +66,7 @@ export default function HidePositionsManager(positions, showMessage) {
 	showCurrentState(isHidingBlocks, exPositions);
 
 	const posOptions = positions.ids.reduce((options, id) => {
-		if (!exPositions.includes(id)) {
+		if (exPositions.indexOf(id) < 0) {
 			options.push(`<option value="${id}">${id}</option>`);
 		}
 		return options;
