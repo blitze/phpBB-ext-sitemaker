@@ -7,9 +7,9 @@
 					<div class="ui-state-default align-center"><strong>{{ lang('ADD_BLOCK_EXPLAIN') }}</strong></div>
 
 					<div id="blocks-list" class="blocks-gallery">
-						<div class="grid-3-noBottom" style="margin-right: 3px">
+						<div class="grid-3_sm-2-noBottom" style="margin-right: 3px">
 							{% for block in loops.block %}
-							<div data-block="{{ block.SERVICE }}" class="col sitemaker-block">
+							<div data-block="{{ block.SERVICE }}" class="col_lg sitemaker-block">
 								<div class="inner"><i class="fa fa-arrows-alt"></i>{{ block.NAME }}</div>
 							</div>
 							{% endfor %}
@@ -22,8 +22,8 @@
 			<li class="hmenu-item">
 				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cog"></i>{{ lang('SETTINGS') }}</a>
 				<div class="dropdown">
-					<div class="grid-2-noBottom">
-						<div class="col">
+					<div class="grid-2_sm-1-noBottom">
+						<div class="col_lg">
 							<p><a href="#" class="sm-startpage" id="startpage-toggler" data-is-start-page="{{ S_IS_STARTPAGE }}" data-start-page-exists="{{ S_STARTPAGE }}" data-controller="{{ CONTROLLER_NAME }}" data-method="{{ CONTROLLER_METHOD }}" data-params="{{ CONTROLLER_PARAMS }}">{{ lang(S_STARTPAGE ? 'REMOVE_STARTPAGE' : 'SET_STARTPAGE') }}</a></p>
 							<p><a href="#" class="default-layout" id="default-layout-toggler" data-is-default-layout="{{ S_IS_DEFAULT }}" title="{{ lang('DEFAULT_LAYOUT_EXPLAIN') }}">{{ lang(S_IS_DEFAULT ? 'REMOVE_DEFAULT_LAYOUT' : 'MAKE_DEFAULT_LAYOUT') }}</a></p>
 							<p{% if not U_VIEW_DEFAULT || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="{{ U_VIEW_DEFAULT }}">{{ lang('VIEW_DEFAULT_LAYOUT') }}</a></p>
@@ -39,7 +39,7 @@
 								</p>
 							</form>
 						</div>
-						<div class="col">
+						<div class="col_lg">
 							<p><a href="#" id="delete-blocks">{{ lang('DELETE_ALL_BLOCKS') }}</a></p>
 							<form id="ex-positions">
 								<input type="checkbox" name="hide_blocks"{% if S_HIDE_BLOCKS %} checked="checked"{% endif %} /> {{ lang('HIDE_ALL_BLOCKS') }}<br /><br />

@@ -63,8 +63,23 @@ body {
 			line-height: $admin-bar-height - 2;
 
 			.dropdown {
-				margin-right: -500px;
+				display: none;
+				position: absolute;
+				top: 0;
+				width: 500px;
+				margin-top: 36px;
+				margin-left: -6px;
+				padding: 10px;
 				line-height: normal;
+				background-color: #fff;
+				border: 1px solid #c33;
+				border-top: 0;
+				border-radius: 5px;
+				text-align: left;
+				
+				@media (max-width: $toast-breakpoint-small) {
+					width: 325px;
+				}
 
 				p {
 					display: block;
@@ -101,20 +116,6 @@ body {
 				padding-bottom: 14px;
 				border-radius: 5px 5px 0 0;
 				z-index: 1;
-			}
-
-			.dropdown {
-				display: none;
-				margin-top: 36px;
-				margin-left: -6px;
-				padding: 10px;
-				background-color: #fff;
-				border: 1px solid #c33;
-				border-top: 0;
-				position: absolute;
-				top: 0;
-				text-align: left;
-				border-radius: 5px;
 			}
 
 			.spacing {
