@@ -37,7 +37,6 @@
 		"sass-loader": "^7.1.0"
 	},
 	"dependencies": {
-		"bulma": "^0.7.2",
 		"codemirror": "^5.42.0",
 		"gridlex": "^2.7.1",
 		"jquery-deserialize": "^2.0.0-rc1",
