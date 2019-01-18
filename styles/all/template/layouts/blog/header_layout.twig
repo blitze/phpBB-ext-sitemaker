@@ -16,7 +16,7 @@
 		{% endif %}
 
 		<div class="grid-noBottom">
-			<div class="col">
+			<div class="{{ 'col-' ~ (positions.sidebar ? 12 - sidebar_size : 12) ~ '_sm-12' }}">
 				{% if positions.top_hor or S_EDIT_MODE %}
 				<div id="pos-top_hor" class="block-position horizontal grid-equalHeight">
 					{% for block in positions.top_hor %}
@@ -29,7 +29,7 @@
 				{% endif %}
 
 				<div class="grid-noBottom">
-					<div class="col">
+					<div class="{{ 'col-' ~ (positions.subcontent ? 12 - subcontent_size : 12) ~ '_sm-12' }}">
 						{% if positions.top or S_EDIT_MODE %}
 						<div class="grid-column">
 							<div id="pos-top" class="block-position col">
