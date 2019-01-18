@@ -9,33 +9,6 @@ const { actions, config } = window;
  * @class Positions
  */
 export default class Positions {
-	cachedBlocks: string;
-
-	/**
-	 *Creates an instance of Positions.
-	 * @memberof Positions
-	 */
-	constructor() {
-		this.$document = $(document)
-			.on('blitze_sitemaker_layout_saved', (e, { blocks }) => {
-				this.cachedBlocks = JSON.stringify(blocks);
-			})
-			.on(
-				'blitze_sitemaker_force_position_update',
-				(e, { $block, $position, isNewBlock = false }) => {
-					if ($block && $position) {
-						this.triggerChange($block, $position, isNewBlock);
-					}
-				},
-			);
-
-		this.$blockPositions = $('.block-position').addClass('block-receiver');
-
-		this.cachedBlocks = JSON.stringify(this.blocks);
-
-		this.hideEmptyPositions();
-	}
-
 	/**
 	 * @readonly
 	 * @type {jQuery}
@@ -156,12 +129,11 @@ export default class Positions {
 		 * @property {Object} $emptyPositions - jQuery object representing all block positions with no blocks
 		 * @since 3.1.2
 		 */
-		this.$document.trigger('blitze_sitemaker_show_all_block_positions', [
-			{
-				$blockPositions: this.$blockPositions,
-				$emptyPositions: this.$emptyPositions,
-			},
-		]);
+		this.$document.trigger({
+			type: 'blitze_sitemaker_show_all_block_positions',
+			$blockPositions: this.$blockPositions,
+			$emptyPositions: this.$emptyPositions,
+		});
 	}
 
 	/**
@@ -182,12 +154,11 @@ export default class Positions {
 		 * @property {Object} $emptyPositions - jQuery object representing all block positions with no blocks
 		 * @since 3.1.2
 		 */
-		this.$document.trigger('blitze_sitemaker_hide_empty_block_positions', [
-			{
-				$blockPositions: this.$blockPositions,
-				$emptyPositions: this.$emptyPositions,
-			},
-		]);
+		this.$document.trigger({
+			type: 'blitze_sitemaker_hide_empty_block_positions',
+			$blockPositions: this.$blockPositions,
+			$emptyPositions: this.$emptyPositions,
+		});
 	}
 
 	/**
@@ -205,9 +176,10 @@ export default class Positions {
 		 * @properties {boolean} unsaved - Indicates whether or not this results in unsaved changes
 		 * @since 3.1.2
 		 */
-		this.$document.trigger('blitze_sitemaker_layout_cleared', [
-			{ unsaved },
-		]);
+		this.$document.trigger({
+			type: 'blitze_sitemaker_layout_cleared',
+			unsaved,
+		});
 	}
 
 	/**
@@ -267,15 +239,14 @@ export default class Positions {
 		 * @property {string} position - Name of block position that received the dropped block
 		 * @since 3.1.2
 		 */
-		this.$document.trigger('blitze_sitemaker_layout_updated', [
-			{
-				isChanged,
-				isNewBlock,
-				blocks,
-				$block,
-				position: Positions.getPositionName($position),
-			},
-		]);
+		this.$document.trigger({
+			type: 'blitze_sitemaker_layout_updated',
+			isChanged,
+			isNewBlock,
+			blocks,
+			$block,
+			position: Positions.getPositionName($position),
+		});
 
 		this.sortHorizontal($position);
 	}

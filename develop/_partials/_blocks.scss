@@ -48,17 +48,16 @@
 /* blocks layout */
 .sm-block-spacing {
 	margin-bottom: $gutter-width;
-
-	.post & {
-		margin: 0.6em auto;
-	}
 }
 
 .sm-block-content {
 	display: block;
 	clear: both;
-	overflow: hidden;
 	word-wrap: break-word;
+	
+	.forabg & {
+		margin: 0;
+	}
 
 	.info {
 		float: right;
@@ -123,7 +122,7 @@
 			margin-right: -5px;
 
 			.forabg {
-				margin-left: 0;
+				margin: 0;
 				margin-right: 0;
 			}
 		}

@@ -69,7 +69,7 @@ export default function EditBlock() {
 		 * @property {object} data Block data to be saved to db
 		 * @since 3.1.2
 		 */
-		$document.trigger('blitze_sitemaker_save_block_before', [data]);
+		$document.trigger({ type: 'blitze_sitemaker_save_block_before', data });
 
 		$dialogEdit.dialog('close');
 
@@ -96,6 +96,16 @@ export default function EditBlock() {
 
 				$dialogEdit.html(row.form);
 				$dialogEdit.find('#block-settings').tabs();
+				$dialogEdit
+					.find('select[data-togglable-settings]')
+					.each(function iterator() {
+						const $this = $(this);
+
+						$this.change(() =>
+							window.phpbb.toggleSelectSettings($this),
+						);
+						window.phpbb.toggleSelectSettings($this);
+					});
 				$dialogEdit.dialog('open');
 			}
 		});

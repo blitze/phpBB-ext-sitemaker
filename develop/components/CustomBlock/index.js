@@ -151,11 +151,11 @@ export default function CustomBlock() {
 	initTinyMCE();
 
 	$(document)
-		.on('blitze_sitemaker_render_block_after', (e, { data, $block }) => {
+		.on('blitze_sitemaker_render_block_after', ({ block, $block }) => {
 			// if custom block, add editor
-			if (data.block.name === 'blitze.sitemaker.block.custom') {
+			if (block.name === 'blitze.sitemaker.block.custom') {
 				// if tinymce editor instance already exists, remove it
-				const id = `block-editor-${data.block.id}`;
+				const id = `block-editor-${block.id}`;
 				const editor = tinymce.get(id);
 				if (editor) {
 					tinymce.EditorManager.remove(editor);
@@ -167,7 +167,7 @@ export default function CustomBlock() {
 						false,
 						id,
 					);
-				} else if (data.block.content.indexOf('script') > -1) {
+				} else if (block.content.indexOf('script') > -1) {
 					eval($block.find('.sm-block-content').html()); // eslint-disable-line no-eval
 				}
 			}

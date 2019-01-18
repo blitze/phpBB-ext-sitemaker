@@ -29,9 +29,11 @@ export default function SaveLayout() {
 			 * @property {string} route - URL of the current page
 			 * @since 3.1.2
 			 */
-			$document.trigger('blitze_sitemaker_layout_saved', [
-				{ blocks, route },
-			]);
+			$document.trigger({
+				type: 'blitze_sitemaker_layout_saved',
+				blocks,
+				route,
+			});
 
 			blocks = {};
 		});
@@ -48,7 +50,7 @@ export default function SaveLayout() {
 		})
 		.on(
 			'blitze_sitemaker_layout_updated',
-			(e, { isChanged, isNewBlock, blocks: blockPos }) => {
+			({ isChanged, isNewBlock, blocks: blockPos }) => {
 				layoutChanged = isChanged && !isNewBlock;
 				blocks = blockPos;
 

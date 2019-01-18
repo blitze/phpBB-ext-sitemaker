@@ -21,16 +21,46 @@ export default class SortableBlocks extends Positions {
 
 	$overPosHorizontal: jQuery;
 
+	cachedBlocks: string;
+
+	/**
+	 *Creates an instance of SortableBlocks.
+	 * @memberof SortableBlocks
+	 */
 	constructor() {
 		super();
+		this.$document = $(document)
+			.on('blitze_sitemaker_layout_saved', ({ blocks }) => {
+				this.cachedBlocks = JSON.stringify(blocks);
+			})
+			.on('blitze_sitemaker_force_position_update', () =>
+				this.initPositions(),
+			);
 
+		this.initPositions();
+	}
+
+	/**
+	 * @memberof SortableBlocks
+	 */
+	initPositions(): void {
+		this.$blockPositions = $('.block-position').addClass('block-receiver');
+		this.cachedBlocks = JSON.stringify(this.blocks);
+
+		this.initSortable();
+		this.hideEmptyPositions();
+	}
+
+	/**
+	 * @memberof SortableBlocks
+	 */
+	initSortable(): void {
 		this.$blockPositions.sortable({
-			revert: true,
 			dropOnEmpty: true,
 			placeholder:
 				'ui-state-highlight sm-block-spacing block sortable placeholder',
 			connectWith: '.block-position',
-			cancel: '.editable-block, .inline-edit',
+			cancel: '.editable-block, .inline-edit, .not-sortable',
 			items: '.block',
 			tolerance: 'pointer',
 			cursor: 'move',

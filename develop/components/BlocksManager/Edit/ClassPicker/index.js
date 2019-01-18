@@ -3,6 +3,7 @@ export default function ClassPicker($dialogEdit) {
 	$dialogEdit
 		.on('click', '.block-class-actions', function classActions(e) {
 			e.preventDefault();
+			e.stopImmediatePropagation();
 
 			const editor = $dialogEdit.find('#block_class');
 			const action = $(this).data('action');
