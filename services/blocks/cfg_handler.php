@@ -82,7 +82,7 @@ class cfg_handler extends cfg_fields
 
 		if (sizeof($errors))
 		{
-			return array('errors' => join("\n", $errors));
+			throw new \Exception(join("\n", $errors));
 		}
 
 		$this->get_multi_select($cfg_array, $default_settings);
