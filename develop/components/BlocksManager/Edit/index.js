@@ -71,10 +71,9 @@ export default function EditBlock() {
 		 */
 		$document.trigger({ type: 'blitze_sitemaker_save_block_before', data });
 
-		$dialogEdit.dialog('close');
-
 		$.post(actions.save_block, data).done(resp => {
 			if (resp.list) {
+				$dialogEdit.dialog('close');
 				$.each(resp.list, (i, block) =>
 					BlockRenderer.render($(`#block-${block.id}`), { block }),
 				);
@@ -140,7 +139,6 @@ export default function EditBlock() {
 			beforeClose: () => undoPreviewBlock(),
 			buttons: {
 				[lang.edit]: function editBtn() {
-					$(this).dialog('close');
 					saveForm();
 				},
 

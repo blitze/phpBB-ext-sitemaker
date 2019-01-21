@@ -44,8 +44,27 @@ class cfg_handler_test extends \phpbb_test_case
 			->with($this->anything())
 			->will($this->returnValueMap($variable_map));
 
+		$container = new \phpbb_mock_container_builder();
+		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
+			$phpbb_root_path,
+			array(
+				'blitze/sitemaker' => array(
+					'ext_name'		=> 'blitze/sitemaker',
+					'ext_active'	=> '1',
+					'ext_path'		=> 'ext/blitze/sitemaker/',
+				),
+			),
+			$container);
+
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang_loader->set_extension_manager($phpbb_extension_manager);
+
 		$translator = new \phpbb\language\language($lang_loader);
+		$translator->set_user_language('en');
+
+		// We do this here so we can ensure that language variables are provided
+		$translator->add_lang('acp/common');
+		$translator->add_lang('blocks_admin', 'blitze/sitemaker');
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
@@ -313,8 +332,8 @@ class cfg_handler_test extends \phpbb_test_case
 						'foo_var' => 200,
 					)),
 				),
-				array('foo_var' => array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10)),
-				array('errors' => ''),
+				array('foo_var' => array('lang' => 'MAX_TOPICS', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'explain' => false, 'default' => 10)),
+				'The provided value for the setting “Maximum number of topics” is too high. The maximum acceptable value is 20.',
 			),
 			// special case for custom block
 			array(
@@ -336,15 +355,28 @@ class cfg_handler_test extends \phpbb_test_case
 	 * @dataProvider get_submitted_settings_test_data
 	 * @param array $variable_map
 	 * @param array $default_settings
-	 * @param array $expected
+	 * @param mixed $expected
 	 */
-	public function test_get_submitted_settings(array $variable_map, array $default_settings, array $expected)
+	public function test_get_submitted_settings(array $variable_map, array $default_settings, $expected)
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
-		$data = $cfg_fields->get_submitted_settings($default_settings);
-
-		$this->assertSame($expected, $data);
+		try
+		{
+			$data = $cfg_fields->get_submitted_settings($default_settings);
+			if (is_array($expected))
+			{
+				$this->assertSame($expected, $data);
+			}
+			else
+			{
+				$this->fail('no exception thrown');
+			}
+		}
+		catch (\Exception $e)
+		{
+			$this->assertEquals($expected,$e->getMessage());
+		}
 	}
 
 	/**
