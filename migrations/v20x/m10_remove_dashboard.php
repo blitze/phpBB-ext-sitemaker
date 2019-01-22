@@ -32,14 +32,8 @@ class m10_remove_dashboard extends \phpbb\db\migration\migration
 		return array(
 			// Remove all ACP modules, if one exists
 			array('if', array(
-				array('module.exists', array('acp', false, array(
-					'module_basename'	=> '\blitze\sitemaker\acp\menu_module',
-					'modes'				=> array('menu'),
-				))),
-				array('module.remove', array('acp', false, array(
-					'module_basename'	=> '\blitze\sitemaker\acp\menu_module',
-					'modes'				=> array('menu'),
-				))),
+				array('module.exists', array('acp', false, 'ACP_MENU')),
+				array('module.remove', array('acp', false, 'ACP_MENU')),
 			)),
 			array('if', array(
 				array('module.exists', array('acp', false, 'SITEMAKER_DASHBOARD')),
