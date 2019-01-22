@@ -69,11 +69,7 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	public function test_set_default_startpage()
 	{
-        $client = new \GuzzleHttp\Client(self::$root_url, array(
-            'request.options' => array(
-                'exceptions' => false,
-            )
-        ));
+		global $config;
 
 		$this->phpbb_extension_manager->enable('foo/bar');
 		$this->login();
@@ -90,16 +86,8 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
 		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
 
-		$data = array(
-			'style'			=> 1,
-			'controller'	=> 'foo_bar.controller',
-			'method'		=> 'template',
-			'params'		=> '',
-		);
-
-		$request = $client->post('app.php/blocks/set_startpage', null, json_encode($data));
-        $response = $request->send();
-		$this->assert_response_status_code('200');
+		$config->set('sitemaker_startpage_controller', 'foo_bar.controller');
+		$config->set('sitemaker_startpage_method', 'template');
 
 		// Go to index.php and Confirm it now displays the contents of foo/bar controller
 		$crawler = self::request('GET', 'index.php?edit_mode=1');
@@ -109,16 +97,8 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
 
 		// Remove as startpage
-		$data = array(
-			'style'			=> 1,
-			'controller'	=> '',
-			'method'		=> '',
-			'params'		=> '',
-		);
-
-		$request = $client->post('app.php/blocks/set_startpage', null, json_encode($data));
-        $response = $request->send();
-		$this->assert_response_status_code('200');
+		$config->set('sitemaker_startpage_controller', '');
+		$config->set('sitemaker_startpage_method', '');
 
 		$crawler = self::request('GET', 'index.php');
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
