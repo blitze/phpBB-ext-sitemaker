@@ -53,8 +53,6 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	public function test_set_default_startpage()
 	{
-		global $config;
-
 		$this->add_lang_ext('blitze/sitemaker', 'common');
 
 		$phpbb_extension_manager = $this->get_extension_manager();
@@ -74,8 +72,8 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
 		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
 
-		$config->set('sitemaker_startpage_controller', 'foo_bar.controller');
-		$config->set('sitemaker_startpage_method', 'template');
+		self::$config->set('sitemaker_startpage_controller', 'foo_bar.controller');
+		self::$config->set('sitemaker_startpage_method', 'template');
 
 		// Go to index.php and Confirm it now displays the contents of foo/bar controller
 		$crawler = self::request('GET', 'index.php?edit_mode=1');
@@ -85,8 +83,8 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
 
 		// Remove as startpage
-		$config->set('sitemaker_startpage_controller', '');
-		$config->set('sitemaker_startpage_method', '');
+		self::$config->set('sitemaker_startpage_controller', '');
+		self::$config->set('sitemaker_startpage_method', '');
 
 		$crawler = self::request('GET', 'index.php');
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
