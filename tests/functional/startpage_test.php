@@ -14,8 +14,6 @@ namespace blitze\sitemaker\tests\functional;
  */
 class startpage_test extends \phpbb_functional_test_case
 {
-	protected $phpbb_extension_manager;
-
 	static private $helper;
 
 	static public function setUpBeforeClass()
@@ -50,20 +48,6 @@ class startpage_test extends \phpbb_functional_test_case
 		return array('blitze/sitemaker');
 	}
 
-	public function setUp()
-	{
-		parent::setUp();
-
-		// Load all of Pages language files
-		$this->add_lang_ext('blitze/sitemaker', array(
-			'common',
-		));
-
-		$this->phpbb_extension_manager = $this->get_extension_manager();
-
-		$this->purge_cache();
-	}
-
 	/**
 	 * Check set default start page.
 	 */
@@ -71,7 +55,11 @@ class startpage_test extends \phpbb_functional_test_case
 	{
 		global $config;
 
-		$this->phpbb_extension_manager->enable('foo/bar');
+		$this->add_lang_ext('blitze/sitemaker', 'common');
+
+		$phpbb_extension_manager = $this->get_extension_manager();
+		$phpbb_extension_manager->enable('foo/bar');
+
 		$this->login();
 
 		// Confirm forum index is initial start page
@@ -103,6 +91,6 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'index.php');
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
-		$this->phpbb_extension_manager->purge('foo/bar');
+		$phpbb_extension_manager->purge('foo/bar');
 	}
 }
