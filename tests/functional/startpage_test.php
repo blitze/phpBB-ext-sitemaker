@@ -79,8 +79,8 @@ class startpage_test extends \phpbb_functional_test_case
 			'method'		=> 'template',
 	    ]);
 
-		$response->then(function () {
-			$this->assert_response_status_code('200');
+		$response->then(function($response) {
+			$this->assertEquals(200, $response->getStatusCode());
 
 			// Go to index.php and Confirm it now displays the contents of foo/bar controller
 			$crawler = self::request('GET', 'index.php?edit_mode=1');
@@ -96,7 +96,9 @@ class startpage_test extends \phpbb_functional_test_case
 			'method'		=> '',
 	    ]);
 
-		$response->then(function ($response) {
+		$response->then(function($response) {
+			$this->assertEquals(200, $response->getStatusCode());
+
 			$crawler = self::request('GET', 'index.php');
 			$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 		});
