@@ -79,31 +79,32 @@ class startpage_test extends \phpbb_functional_test_case
 			'method'		=> 'template',
 	    ]);
 
-		$response->then(function($response) {
+		$self = __class__;
+		$response->then(function($response) use ($self) {
 			$this->assertEquals(200, $response->getStatusCode());
 
 			// Go to index.php and Confirm it now displays the contents of foo/bar controller
-			$crawler = self::request('GET', 'index.php?edit_mode=1');
+			$crawler = $self::request('GET', 'index.php?edit_mode=1');
 			$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 	
 			// Confirm Remove Start Page is now available to us
 			$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
+
+			// Remove as startpage
+			$response = $this->get_response([
+				'controller'	=> '',
+				'method'		=> '',
+		    ]);
+
+			$response->then(function($response) use ($self) {
+				$this->assertEquals(200, $response->getStatusCode());
+
+				$crawler = $self::request('GET', 'index.php');
+				$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
+
+				$phpbb_extension_manager->purge('foo/bar');
+			});
 		});
-
-		// Remove as startpage
-		$response = $this->get_response([
-			'controller'	=> '',
-			'method'		=> '',
-	    ]);
-
-		$response->then(function($response) {
-			$this->assertEquals(200, $response->getStatusCode());
-
-			$crawler = self::request('GET', 'index.php');
-			$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
-		});
-
-		$phpbb_extension_manager->purge('foo/bar');
 	}
 
 	/**
