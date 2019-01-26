@@ -15,7 +15,6 @@ namespace blitze\sitemaker\tests\functional;
 class startpage_test extends \phpbb_functional_test_case
 {
 	static private $helper;
-	static private $sm_client;
 
 	static public function setUpBeforeClass()
 	{
@@ -57,9 +56,8 @@ class startpage_test extends \phpbb_functional_test_case
 		$this->add_lang_ext('blitze/sitemaker', array('common', 'blocks_manager'));
 
 		$phpbb_extension_manager = $this->get_extension_manager();
-        self::$sm_client = new \GuzzleHttp\Client(['base_url' => self::$root_url]);
-
 		$phpbb_extension_manager->enable('foo/bar');
+
 		$this->login();
 
 		// Confirm forum index is initial start page
@@ -74,31 +72,31 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
 		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
 
-		$response = $this->get_response([
+		$promise = $this->make_async_request([
 			'controller'	=> 'foo_bar.controller',
 			'method'		=> 'template',
-	    ]);
+		]);
 
-		$response->then(function($response) {
+		$promise->then(function($response) {
 			$this->assertEquals(200, $response->getStatusCode());
 
 			// Go to index.php and Confirm it now displays the contents of foo/bar controller
-			$crawler = self::$sm_client->request('GET', 'index.php?edit_mode=1');
+			$crawler = self::request('GET', 'index.php?edit_mode=1');
 			$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 	
 			// Confirm Remove Start Page is now available to us
 			$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
 
 			// Remove as startpage
-			$response = $this->get_response([
+			$promise = $this->make_async_request([
 				'controller'	=> '',
 				'method'		=> '',
-		    ]);
+			]);
 
-			$response->then(function($response) {
+			$promise->then(function($response) {
 				$this->assertEquals(200, $response->getStatusCode());
 
-				$crawler = self::$sm_client->request('GET', 'index.php');
+				$crawler = self::request('GET', 'index.php');
 				$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
 				$phpbb_extension_manager->purge('foo/bar');
@@ -110,9 +108,10 @@ class startpage_test extends \phpbb_functional_test_case
 	 * @param array $data
 	 * @return \GuzzleHttp\Message\ResponseInterface
 	 */
-	private function get_response(array $data)
+	private function make_async_request(array $data)
 	{
-		return self::$sm_client->post('app.php/blocks/set_startpage?style=1', [
+        $client = new \GuzzleHttp\Client(['base_url' => self::$root_url]);
+		return $client->post('app.php/blocks/set_startpage?style=1', [
 			'cookies'	=> true,
 			'future'	=> true,
 		    'json'		=> $data,
