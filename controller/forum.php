@@ -79,7 +79,9 @@ class forum
 		// @codeCoverageIgnoreEnd
 
 		display_forums('', $this->config['load_moderators']);
+
 		$this->set_mcp_url();
+		$this->set_mark_forums_url();
 
 		// restore phpbb_root_path
 		$phpbb_root_path = $this->phpbb_root_path;
@@ -100,6 +102,21 @@ class forum
 		if ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_'))
 		{
 			$this->template->assign_var('U_MCP', append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id));
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function set_mark_forums_url()
+	{
+		if ($this->user->data['is_registered'] || $this->config['load_anon_lastread'])
+		{
+			$this->template->assign_var('U_MARK_FORUMS', $this->helper->route('blitze_sitemaker_forum', array(
+				'hash'		=> generate_link_hash('global'),
+				'mark'		=> 'forums',
+				'mark_time'	=> time(),
+			)));
 		}
 	}
 }
