@@ -48,17 +48,6 @@
 		}
 	}
 
-	.message {
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		background-color: #d5f8a0;
-		padding: 5px 8px;
-		color: #e11414;
-		font-weight: bold;
-	    max-width: 60%;
-	    margin: auto;
-	}
-
 	.placeholder {
 		background-color: #cfcfcf;
 	}
@@ -150,6 +139,16 @@
 		width: 100%;
 		overflow: auto;
 	}
+}
+
+.message {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #d5f8a0;
+	padding: 5px 8px;
+	color: #e11414;
+	font-weight: bold;
+	margin: 5px 0;
 }
 
 .cm-tab {

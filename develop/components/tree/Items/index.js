@@ -22,6 +22,7 @@ export default function TreeItems(tree) {
 			errorClass: ajaxMessage,
 			update: () => {
 				tree.itemsChanged = true;
+				this._trigger('updated'); // eslint-disable-line no-underscore-dangle
 				if (tree.$saveBtn.button('option', 'disabled')) {
 					tree.$saveBtn.button('option', 'disabled', false);
 				}

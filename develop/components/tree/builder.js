@@ -69,6 +69,7 @@ $.widget('sitemaker.treeBuilder', {
 		dialogEdit: '',
 		dialogConfirm: '#dialog-confirm',
 
+		init: () => {},
 		loaded: () => {},
 		updated: () => {},
 	},
@@ -101,6 +102,8 @@ $.widget('sitemaker.treeBuilder', {
 				this.updateItem({ item_icon: iconClass }, itemID);
 			},
 		});
+
+		this._trigger('init');
 	},
 
 	addItem() {
@@ -119,6 +122,8 @@ $.widget('sitemaker.treeBuilder', {
 				this._showActions();
 				this._addToTree(data.items);
 			}
+
+			this._trigger('loaded', null, {items: data.items});
 		});
 	},
 

@@ -19,7 +19,7 @@
 	<div class="col-3">
 		<div class="menus-container">
 			<button id="add-menu" style="display: none">{{ lang('ADD_MENU') }}</button>
-			<ul id="sm-menus" class="menus-list">
+			<ul id="sm-menus" class="menus-list" style="display: none">
 				{% for menu in loops.menu %}
 				<li id="menu-{{ menu.ID }}" class="menu-item{% if menu.S_ACTIVE %} row3 current-menu{% endif %}">
 					<a href="#" class="menu-option"><span class="menu-title">{{ menu.NAME }}</span></a>
@@ -33,9 +33,9 @@
 		</div>
 	</div>
 	<div class="col-9">
+		<div id="loader" class="pull-right"><i class="fa"></i></div>
+		<div id="ajax-message" class="message" style="display: none"></div>
 		<div id="nested-tree" class="tree-builder">
-			<div id="loader" class="pull-right"><i class="fa"></i></div>
-			<div id="ajax-message" class="message" style="display: none"></div>
 		
 			<div class="bulk-container">
 				<div style="display: none">

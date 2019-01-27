@@ -12,7 +12,7 @@ const { lang } = window;
 export default function MenuManager() {
 	const $loader = $('#loader i');
 	const $msgBox = $('#ajax-message');
-	const $menus = $('#sm-menus');
+	const $menus = $('#sm-menus').show();
 	const $tree = $('#nested-tree').treeBuilder({
 		ajaxUrl: window.ajaxUrl,
 		editForm: '#edit-menu-item-form',
@@ -24,9 +24,7 @@ export default function MenuManager() {
 		if (message) {
 			$msgBox
 				.html(message)
-				.fadeIn()
-				.delay(5000)
-				.fadeOut();
+				.fadeIn();
 		}
 	};
 
@@ -40,13 +38,13 @@ export default function MenuManager() {
 		}
 	};
 
+	let menuId = 0;
 	const $firstMenuItem = $menus.children('.menu-item:first');
 	if ($firstMenuItem.length) {
-		const menuId = $firstMenuItem.attr('id').substring(5);
-
-		init(menuId);
+		menuId = $firstMenuItem.attr('id').substring(5);
 	}
 
+	init(menuId);
 	AddMenuHandler($menus);
 	EditMenuHandler();
 	DeleteMenuHandler($menus, init);
@@ -57,7 +55,7 @@ export default function MenuManager() {
 
 		// eslint-disable-next-line no-alert
 		if (!isUnsaved || window.confirm(lang.unsavedChanges)) {
-			const menuId = $(e.currentTarget)
+			menuId = $(e.currentTarget)
 				.addClass('row3 current-menu')
 				.siblings()
 				.removeClass('row3 current-menu')
