@@ -5,7 +5,7 @@ import InlineEditor from '../InlineEditor';
 import CustomBlock from '../CustomBlock';
 import '../Icons/picker';
 
-const { actions, config } = window;
+const { actions, config, lang } = window;
 
 function updateBlockField(data) {
 	data.route = config.route;
@@ -25,6 +25,8 @@ export default function BlocksManager(positions) {
 				.find('.block-title')
 				.text(result.title);
 		});
+
+		return lang.processing;
 	};
 
 	Edit();

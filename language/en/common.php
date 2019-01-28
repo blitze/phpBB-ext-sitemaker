@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 
 	'POLL'							=> 'Poll',
 	'POSTS_MEMBER'					=> 'Top Poster',
+	'PROCESSING'					=> 'processing...',
 
 	'QTYPE_POSTS'					=> 'Congratulations to:',
 	'QTYPE_RECENT'					=> 'Please welcome our newest member:',
