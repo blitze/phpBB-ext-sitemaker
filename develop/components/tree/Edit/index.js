@@ -32,11 +32,10 @@ export default function EditItem(tree) {
 	}
 
 	function handleTitleUpdate(e) {
-		const id = tree._getItemId($(this).closest('li'));
+		const $element = $(e.currentTarget);
+		const id = tree._getItemId($element.closest('li'));
 		const title = e.currentTarget.value;
-		const field = $(this)
-			.closest('span')
-			.data('field');
+		const field = $element.closest('span').data('field');
 
 		if (id && field && title) {
 			const data = {
