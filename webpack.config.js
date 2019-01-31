@@ -20,7 +20,7 @@ Encore.setOutputPath(paths.output)
 
 	.addEntry('blocks/manager', paths.entry + '/entries/blocks/')
 	.addEntry('menu/admin', paths.entry + '/entries/menu/')
-	.addEntry('tree/builder', paths.entry + '/components/tree/builder.js')
+	.addEntry('tree/builder', paths.entry + '/components/Tree/builder.js')
 	.addEntry('settings/admin', paths.entry + '/entries/settings/')
 
 	.cleanupOutputBeforeBuild()
