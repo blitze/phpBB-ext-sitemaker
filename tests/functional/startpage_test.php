@@ -110,7 +110,7 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	private function make_async_request(array $data)
 	{
-        $client = new \GuzzleHttp\Client(['base_url' => self::$root_url]);
+		$client = new \GuzzleHttp\Client(['base_url' => self::$root_url]);
 		return $client->post('app.php/sitemaker/blocks/set_startpage?style=1', [
 			'cookies'	=> true,
 			'future'	=> true,

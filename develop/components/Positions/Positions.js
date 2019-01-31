@@ -114,19 +114,34 @@ export default class Positions {
 	}
 
 	/**
+	 * @param {jQuery} $emptySidebars
 	 * @memberof Positions
 	 */
-	showAllPositions(): void {
-		this.$blockPositions
-			.filter('.sidebar', '.empty-position')
-			.each(function iterator() {
-				const $sidebar = $(this);
-				const $sibbling = $sidebar.siblings();
-				const found = $sidebar.attr('class').match(/col-([0-9]+)/i);
+	// eslint-disable-next-line class-methods-use-this
+	adjustMiddleColumns($emptySidebars: jQuery): void {
+		$emptySidebars.each((i, element) => {
+			const $sidebar = $(element);
+			const $sibbling = $sidebar.siblings();
+			const found = $sidebar.attr('class').match(/col-([0-9]+)/i);
+
+			if (found[1]) {
 				const newSize = 12 - found[1];
 				const newClass = $sibbling.attr('class').replace(12, newSize);
 				$sibbling.attr('class', newClass);
-			});
+			}
+		});
+	}
+
+	/**
+	 * @memberof Positions
+	 */
+	showAllPositions(): void {
+		const $emptySidebars = this.$blockPositions.filter(
+			'.sidebar',
+			'.empty-position',
+		);
+		this.adjustMiddleColumns($emptySidebars);
+
 		this.$blockPositions.addClass('show-position');
 		this.$emptyPositions.removeClass('empty-position');
 
@@ -155,11 +170,8 @@ export default class Positions {
 			.filter(':not(:has(".block"))')
 			.addClass('empty-position');
 
-		this.$emptyPositions.filter('.sidebar').each(function iterator() {
-			$(this)
-				.siblings()
-				.attr('class', 'col-12_sm-12');
-		});
+		const $emptySidebars = this.$emptyPositions.filter('.sidebar');
+		this.adjustMiddleColumns($emptySidebars);
 
 		/**
 		 * Event to allow other extensions to do something when empty positions are hidden

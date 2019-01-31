@@ -111,6 +111,7 @@ $lang = array_merge($lang, array(
 	'ITEM_URL_EXPLAIN'			=> '- Leave empty for headings<br />- External sites must begin with http(s)://, ftp://, //, etc',
 
 	'LAYOUT_BLOG'				=> 'Blog',
+	'LAYOUT_CUSTOM'				=> 'Custom',
 	'LAYOUT_HOLYGRAIL'			=> 'Holy Grail',
 	'LAYOUT_PORTAL'				=> 'Portal',
 	'LAYOUT_PORTAL_ALT'			=> 'Portal (alt)',

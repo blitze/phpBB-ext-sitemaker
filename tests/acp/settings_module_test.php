@@ -232,6 +232,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'portal' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
 						'portal_alt' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/',
 						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
+						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 					),
 					'filemanager' => array(
 						'aviary_active'				=> false,

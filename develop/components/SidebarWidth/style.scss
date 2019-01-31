@@ -1,0 +1,59 @@
+.sidebar {
+    position: relative;
+
+    &:hover .column-sizer {
+        visibility: visible;
+    }
+
+    .column-sizer {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        visibility: hidden;
+        top: -24px;
+        width: auto;
+        height: 24px;
+        padding: 0 4px;
+        border-radius: 4px;
+        filter: drop-shadow(5px 5px 10px black);
+        whitespace: nowrap;
+        cursor: pointer;
+        z-index: 200;
+
+        .fa {
+            margin: 0 3px;
+        }
+
+        &:hover .column-sizer-inner {
+            display: inline;
+        }
+    }
+
+    .column-sizer-inner {
+        display: none;
+        margin-top: 2px;
+        align-self: bottom;
+
+        form, input {
+            display: inline;
+        }
+
+        .input {
+            width: 50px;
+        }
+    }
+
+    & .left {
+        left: 12px;
+    }
+
+    & .right {
+        right: 12px;
+    }
+}
+
+.show-position {
+    &:hover .column-sizer {
+        visibility: hidden;
+    }
+}

@@ -28,13 +28,21 @@
 						{% endif %}
 					</div>
 					{% if positions.subcontent or S_EDIT_MODE %}
-					<div id="pos-subcontent" class="{{ "block-position col-" ~ subcontent_size ~ "_sm-12" ~ subcontent_placement ~ " sidebar" }}">
+						{%- set col_size = subcontent_size -%}
+						{%- if subcontent_width -%}
+							{%- set col_size = 0 -%}
+							{%- set col_style = ' style="width: ' ~ subcontent_width ~ '"' -%}
+						{%- endif -%}
+					<div id="pos-subcontent" class="{{ 'block-position col-' ~ col_size ~ '_sm-12' ~ subcontent_placement ~ ' sidebar' }}"{{ col_style }}>
 						{% for block in positions.subcontent %}
 						<div id="block-{{ block.bid }}" class="block">
 							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 							{{ block_controls }}
 						</div>
 						{% endfor %}
+						{% if S_EDIT_MODE %}
+						{% block subcontent_sizer %}{% endblock %}
+						{% endif %}
 					</div>
 					{% endif %}
 				</div>
@@ -52,13 +60,21 @@
 				</div>
 			</div>
 			{% if positions.sidebar or S_EDIT_MODE %}
-			<div id="pos-sidebar" class="{{ "block-position col-" ~ sidebar_size ~ "_sm-12" ~ sidebar_placement ~ " sidebar" }}">
+				{%- set col_size = sidebar_size -%}
+				{%- if sidebar_width -%}
+					{%- set col_size = 0 -%}
+					{%- set col_style = ' style="width: ' ~ sidebar_width ~ '"' -%}
+				{%- endif -%}
+			<div id="pos-sidebar" class="{{ 'block-position col-' ~ col_size ~ '_sm-12' ~ sidebar_placement ~ ' sidebar' }}"{{ col_style }}>
 				{% for block in positions.sidebar %}
 				<div id="block-{{ block.bid }}" class="block">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 					{{ block_controls }}
 				</div>
 				{% endfor %}
+				{% if S_EDIT_MODE %}
+				{% block sidebar_sizer %}{% endblock %}
+				{% endif %}
 			</div>
 			{% endif %}
 		</div>

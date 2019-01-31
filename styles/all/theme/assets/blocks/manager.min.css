@@ -50,7 +50,7 @@
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
- */.ui-sortable-handle{touch-action:none}
+ */.ui-sortable-handle{touch-action:none}.sidebar{position:relative}.sidebar:hover .column-sizer{visibility:visible}.sidebar .column-sizer{display:flex;align-items:center;position:absolute;visibility:hidden;top:-24px;width:auto;height:24px;padding:0 4px;border-radius:4px;-webkit-filter:drop-shadow(5px 5px 10px #000);filter:drop-shadow(5px 5px 10px black);whitespace:nowrap;cursor:pointer;z-index:200}.sidebar .column-sizer .fa{margin:0 3px}.sidebar .column-sizer:hover .column-sizer-inner{display:inline}.sidebar .column-sizer-inner{display:none;margin-top:2px;align-self:bottom}.sidebar .column-sizer-inner form,.sidebar .column-sizer-inner input{display:inline}.sidebar .column-sizer-inner .input{width:50px}.sidebar .left{left:12px}.sidebar .right{right:12px}.show-position:hover .column-sizer{visibility:hidden}
 /*!
  * jQuery UI Tabs 1.12.1
  * http://jqueryui.com

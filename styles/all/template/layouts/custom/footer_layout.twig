@@ -1,0 +1,29 @@
+{% extends 'layouts/blog/footer_layout.twig' %}
+
+{% block sidebar_placement %}-first{% endblock %}
+{% block sidebar_width %}{{ S_COLUMN_WIDTHS['sidebar']|default('200px') }}{% endblock %}
+{% block subcontent_width %}{{ S_COLUMN_WIDTHS['subcontent']|default('200px') }}{% endblock %}
+
+{% block sidebar_sizer %}
+    <div class="column-sizer left bg3">
+        <i class="fa fa-angle-left fa-lg"></i>
+        <i class="fa fa-angle-right fa-lg"></i>
+        <div class="column-sizer-inner">
+            <form class="column-size-input">
+                <input type="text" class="input" name="width" value="{{ S_COLUMN_WIDTHS['sidebar'] }}" title="{{ lang('COLUMN_WIDTH_EXPLAIN') }}" autocomplete="off" />
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block subcontent_sizer %}
+    <div class="column-sizer right bg3">
+        <i class="fa fa-angle-left fa-lg"></i>
+        <i class="fa fa-angle-right fa-lg"></i>
+        <div class="column-sizer-inner">
+            <form class="column-size-input">
+                <input type="text" class="input" name="width" value="{{ S_COLUMN_WIDTHS['subcontent'] }}" title="{{ lang('COLUMN_WIDTH_EXPLAIN') }}" autocomplete="off" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

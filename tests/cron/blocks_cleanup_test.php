@@ -15,6 +15,7 @@ use blitze\sitemaker\services\blocks\manager;
 class blocks_cleanup_test extends \phpbb_database_test_case
 {
 	protected $block_mapper;
+	protected $config;
 
 	protected $task_name = 'blitze.sitemaker.cron.blocks_cleanup';
 
@@ -91,7 +92,17 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 
-		$config = new \phpbb\config\config(array(
+		$this->config = new \phpbb\config\config(array(
+			'sitemaker_column_widths'	=> json_encode(array(
+				1	=> array(
+					'sidebar'		=> '200px',
+					'subcontent'	=> '20%',
+				),
+				2	=> array(
+					'sidebar'		=> '300px',
+				),
+			)),
+
 			// these config vars are set in migrations upon install
 			'sitemaker_blocks_cleanup_last_gc'	=> 0,
 			'sitemaker_blocks_cleanup_gc'		=> 604800
@@ -116,7 +127,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 			)
 		);
 
-		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 
 		$this->block_mapper = $mapper_factory->create('blocks');
 
@@ -132,7 +143,7 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 				return in_array($url, array('index.php', 'app.php/foo/test')) ? true : false;
 			}));
 
-		$task = new blocks_cleanup($config, $db, $blocks_manager, $url, $blocks_table, $custom_blocks_table);
+		$task = new blocks_cleanup($this->config, $db, $blocks_manager, $url, $blocks_table, $custom_blocks_table);
 
 		// this is normally called automatically in the yaml service config
 		// but we have to do it manually here
@@ -177,6 +188,15 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		// confirm we have the expected blocks ids
 		$this->assertEquals(array(1, 2), array_keys($blocks->get_entities()));
+
+		// column widths for non-existing style should be gone
+		$this->assertEquals(array(
+			1 => array(
+				'sidebar'		=> '200px',
+				'subcontent'	=> '20%',
+			)),
+			json_decode($this->config['sitemaker_column_widths'], true)
+		);
 
 		// after successful run, the task should not be ready to run again until enough time has elapsed
 		$this->assertFalse($task->should_run());

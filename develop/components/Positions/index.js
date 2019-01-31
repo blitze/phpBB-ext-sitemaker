@@ -8,6 +8,7 @@ import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/sortable.css';
 
 import Positions from './Positions';
+import SidebarWidth from '../SidebarWidth';
 
 const { lang } = window;
 
@@ -38,6 +39,7 @@ export default class SortableBlocks extends Positions {
 			);
 
 		this.initPositions();
+		SidebarWidth(Positions.getPositionName);
 	}
 
 	/**

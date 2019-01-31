@@ -207,6 +207,7 @@ class display
 		$this->template->assign_vars(array(
 			'S_SITEMAKER'		=> true,
 			'S_LAYOUT'			=> $this->get_layout($style_id),
+			'S_COLUMN_WIDTHS'	=> (array) json_decode($this->config['sitemaker_column_widths'], true)[$style_id],
 			'U_EDIT_MODE'		=> $u_edit_mode,
 		));
 	}

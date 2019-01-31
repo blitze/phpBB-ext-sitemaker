@@ -158,6 +158,7 @@ class admin_bar
 			'set_route_prefs',
 			'set_startpage',
 			'update_block',
+			'update_column_width',
 		);
 
 		$actions = array();

@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'CHILD_ROUTE'								=> 'Child',
 	'CHILD_ROUTE_EXPLAIN'						=> '/viewforum.php, /dir/index.php<br />/viewtopic.php?f=2&t=1<br />/articles/my-article',
 	'CLEAR'										=> 'Clear',
+	'COLUMN_WIDTH_EXPLAIN'						=> "Hit enter/return to save",
 	'COPY'										=> 'Copy',
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',

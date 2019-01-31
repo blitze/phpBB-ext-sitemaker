@@ -93,6 +93,7 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	{
 		$routes_ary	= $this->manager->get_routes_per_style();
 		$style_ids	= $this->get_style_ids();
+		$col_widths	= (array) json_decode($this->config['sitemaker_column_widths'], true);
 
 		$routes = array();
 		foreach ($routes_ary as $style_id => $style_routes)
@@ -101,12 +102,15 @@ class blocks_cleanup extends \phpbb\cron\task\base
 			if (!isset($style_ids[$style_id]))
 			{
 				$this->manager->delete_blocks_by_style($style_id);
+				unset($col_widths[$style_id]);
 
 				continue;
 			}
 
 			$routes += $style_routes;
 		}
+
+		$this->config->set('sitemaker_column_widths', json_encode(array_filter($col_widths)));
 
 		return $routes;
 	}
