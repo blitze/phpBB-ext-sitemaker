@@ -136,14 +136,15 @@ export default class Positions {
 	 * @memberof Positions
 	 */
 	showAllPositions(): void {
-		const $emptySidebars = this.$blockPositions.filter(
-			'.sidebar',
-			'.empty-position',
-		);
+		const $emptySidebars = this.$emptyPositions.filter('.sidebar');
 		this.adjustMiddleColumns($emptySidebars);
 
 		this.$blockPositions.addClass('show-position');
-		this.$emptyPositions.removeClass('empty-position');
+		this.$emptyPositions
+			.removeClass('empty-position')
+			.filter('#pos-footer')
+			.parent()
+			.show();
 
 		/**
 		 * Event to allow other extensions to do something when all block positions are shown
@@ -169,6 +170,10 @@ export default class Positions {
 		this.$emptyPositions = this.$blockPositions
 			.filter(':not(:has(".block"))')
 			.addClass('empty-position');
+		this.$emptyPositions
+			.filter('#pos-footer')
+			.parent()
+			.hide();
 
 		const $emptySidebars = this.$emptyPositions.filter('.sidebar');
 		this.adjustMiddleColumns($emptySidebars);
