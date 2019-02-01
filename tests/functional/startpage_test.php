@@ -77,11 +77,12 @@ class startpage_test extends \phpbb_functional_test_case
 			'method'		=> 'template',
 		]);
 
-		$promise->then(function($response) {
+		$self = __class__;
+		$promise->then(function($response) use($self) {
 			$this->assertEquals(200, $response->getStatusCode());
 
 			// Go to index.php and Confirm it now displays the contents of foo/bar controller
-			$crawler = self::request('GET', 'index.php?edit_mode=1');
+			$crawler = $self::request('GET', 'index.php?edit_mode=1');
 			$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 	
 			// Confirm Remove Start Page is now available to us
@@ -93,10 +94,10 @@ class startpage_test extends \phpbb_functional_test_case
 				'method'		=> '',
 			]);
 
-			$promise->then(function($response) {
+			$promise->then(function($response) use($self) {
 				$this->assertEquals(200, $response->getStatusCode());
 
-				$crawler = self::request('GET', 'index.php');
+				$crawler = $self::request('GET', 'index.php');
 				$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
 				$phpbb_extension_manager->purge('foo/bar');
