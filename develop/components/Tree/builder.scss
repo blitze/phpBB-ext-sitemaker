@@ -91,6 +91,7 @@
 		height: auto;
 		display: none;
 		position: absolute;
+		filter: drop-shadow(5px 5px 10px black);
 		z-index: 1000;
 
 		fieldset {
