@@ -15,15 +15,13 @@
 						{% endif %}
 
 						{% if positions.bottom or S_EDIT_MODE %}
-						<div class="grid-column">
-							<div id="pos-bottom" class="block-position col">
-								{% for block in positions.bottom %}
-								<div id="block-{{ block.bid }}" class="block">
-									{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-									{{ block_controls }}
-								</div>
-								{% endfor %}
+						<div id="pos-bottom" class="block-position">
+							{% for block in positions.bottom %}
+							<div id="block-{{ block.bid }}" class="block">
+								{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+								{{ block_controls }}
 							</div>
+							{% endfor %}
 						</div>
 						{% endif %}
 					</div>
@@ -46,18 +44,16 @@
 					</div>
 					{% endif %}
 				</div>
-				<div class="grid">
 				{% if positions.bottom_hor or S_EDIT_MODE %}
-					<div id="pos-bottom_hor" class="block-position horizontal grid-equalHeight">
-						{% for block in positions.bottom %}
-						<div id="block-{{ block.bid }}" class="block col">
-							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-							{{ block_controls }}
-						</div>
-						{% endfor %}
+				<div id="pos-bottom_hor" class="block-position horizontal grid-equalHeight">
+					{% for block in positions.bottom_hor %}
+					<div id="block-{{ block.bid }}" class="block col">
+						{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+						{{ block_controls }}
 					</div>
-				{% endif %}
+					{% endfor %}
 				</div>
+				{% endif %}
 			</div>
 			{% if positions.sidebar or S_EDIT_MODE %}
 				{%- set col_size = sidebar_size -%}
@@ -80,16 +76,14 @@
 		</div>
 
 		{% if positions.footer or S_EDIT_MODE %}
-		<div id="pos-footer" class="block-position horizontal">
-			<div class="footer panel bg3">
-				<div class="grid-center">
+		<div class="footer panel bg3">
+			<div id="pos-footer" class="block-position horizontal grid-center-equalHeight">
 				{% for block in positions.footer %}
-					<div id="block-{{ block.bid }}" class="block col">
-						{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-						{{ block_controls }}
-					</div>
-				{% endfor %}
+				<div id="block-{{ block.bid }}" class="block col">
+					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+					{{ block_controls }}
 				</div>
+				{% endfor %}
 			</div>
 		</div>
 		{% endif %}

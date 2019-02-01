@@ -3,7 +3,7 @@
 {% block layout %}
 	<div class="sitemaker">
 		{% if positions.panel or S_EDIT_MODE %}
-		<div class="grid-column-noBottom">
+		<div class="grid-1-noBottom">
 			<div id="pos-panel" class="col block-position">
 			{% for block in positions.panel %}
 				<div id="block-{{ block.bid }}" class="block">
@@ -31,17 +31,15 @@
 				<div class="grid-noBottom">
 					<div class="{{ 'col' ~ (subcontent_size ? '-' ~ (positions.subcontent ? 12 - subcontent_size : 12) : '') ~ '_sm-12' }}">
 						{% if positions.top or S_EDIT_MODE %}
-						<div class="grid-column">
-							<div id="pos-top" class="block-position col">
-								{% for block in positions.top %}
-								<div id="block-{{ block.bid }}" class="block">
-									{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-									{{ block_controls }}
-								</div>
-								{% endfor %}
+						<div id="pos-top" class="block-position">
+							{% for block in positions.top %}
+							<div id="block-{{ block.bid }}" class="block">
+								{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+								{{ block_controls }}
 							</div>
+							{% endfor %}
 						</div>
 						{% endif %}
 
-						<div class="sm-module">
+						<div class="sm-module sm-block-spacing">
 {% endblock layout %}
