@@ -72,50 +72,39 @@ class startpage_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
 		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
 
-		$promise = $this->make_async_request([
+		$this->make_ajax_request([
 			'controller'	=> 'foo_bar.controller',
 			'method'		=> 'template',
 		]);
 
-		$request = ['self', 'request'];
-		$promise->then(function($response) use($request) {
-			$this->assertEquals(200, $response->getStatusCode());
+		// Go to index.php and Confirm it now displays the contents of foo/bar controller
+		$crawler = self::request('GET', 'index.php?edit_mode=1');
+		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
-			// Go to index.php and Confirm it now displays the contents of foo/bar controller
-			$crawler = call_user_func($request, 'GET', 'index.php?edit_mode=1');
-			$this->assertContains("I am a variable", $crawler->filter('#content')->text());
-	
-			// Confirm Remove Start Page is now available to us
-			$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
+		// Confirm Remove Start Page is now available to us
+		$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
 
-			// Remove as startpage
-			$promise = $this->make_async_request([
-				'controller'	=> '',
-				'method'		=> '',
-			]);
+		// Remove as startpage
+		$this->make_ajax_request([
+			'controller'	=> '',
+			'method'		=> '',
+		]);
 
-			$promise->then(function($response) use($request) {
-				$this->assertEquals(200, $response->getStatusCode());
+		$crawler = self::request('GET', 'index.php');
+		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
-				$crawler = call_user_func($request, 'GET', 'index.php');
-				$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
-
-				$phpbb_extension_manager->purge('foo/bar');
-			});
-		});
+		$phpbb_extension_manager->purge('foo/bar');
 	}
 
 	/**
 	 * @param array $data
-	 * @return \GuzzleHttp\Message\ResponseInterface
+	 * @return void
 	 */
-	private function make_async_request(array $data)
+	private function make_ajax_request(array $data)
 	{
-		$client = new \GuzzleHttp\Client(['base_url' => self::$root_url]);
-		return $client->post('app.php/sitemaker/blocks/set_startpage?style=1', [
-			'cookies'	=> true,
-			'future'	=> true,
-		    'json'		=> $data,
-		]);
+		self::$client->setHeader('X-Requested-With', 'XMLHttpRequest');
+		self::request('POST', 'app.php/sitemaker/blocks/set_startpage?style=1', $data, false);
+		self::$client->removeHeader('X-Requested-With');
+		$this->assert_response_status_code('200');
 	}
 }
