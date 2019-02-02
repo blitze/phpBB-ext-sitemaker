@@ -46,7 +46,6 @@ export default class SortableBlocks extends Positions {
 	 * @memberof SortableBlocks
 	 */
 	initPositions(): void {
-		this.$blockPositions = $('.block-position').addClass('block-receiver');
 		this.cachedBlocks = JSON.stringify(this.blocks);
 
 		this.initSortable();

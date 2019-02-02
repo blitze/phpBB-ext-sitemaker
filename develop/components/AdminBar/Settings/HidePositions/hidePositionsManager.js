@@ -1,6 +1,8 @@
 /* global $ */
 import { getPOJO, inactiveBlockClass } from '../../../../utils';
 
+import HighlightPositions from '../HighlightPositions';
+
 const { actions, config, lang } = window;
 
 export default function HidePositionsManager(positions, showMessage) {
@@ -56,22 +58,27 @@ export default function HidePositionsManager(positions, showMessage) {
 	};
 
 	const $exPositionsForm = $('#ex-positions');
+	const $exPositionsBox = $exPositionsForm.find('.ex-positions-box');
 	const $hideAllCheckbox = $exPositionsForm.find('[name*="hide_blocks"]');
-	const $positionSelector = $exPositionsForm.find('[name*="ex_positions"]');
 
-	const exPositions = $positionSelector.val() || [];
+	const exPositions = $exPositionsBox
+		.data('positions')
+		.split(', ')
+		.filter(Boolean);
 	const isHidingBlocks = $hideAllCheckbox.is(':checked');
 
 	hidePositions(isHidingBlocks, exPositions);
 	showCurrentState(isHidingBlocks, exPositions);
 
 	const posOptions = positions.ids.reduce((options, id) => {
-		if (exPositions.indexOf(id) < 0) {
-			options.push(`<option value="${id}">${id}</option>`);
-		}
+		const isChecked =
+			exPositions.indexOf(id) > -1 ? ' checked="checked"' : '';
+		options.push(
+			`<label><input type="checkbox" name="ex_positions[]" value="${id}"${isChecked}> ${id}</label>`,
+		);
 		return options;
 	}, []);
-	$positionSelector.append(posOptions);
+	$exPositionsBox.append(posOptions.join(''));
 
 	$exPositionsForm.submit(e => {
 		e.preventDefault();
@@ -79,4 +86,6 @@ export default function HidePositionsManager(positions, showMessage) {
 		const data = getPOJO($exPositionsForm.serializeArray());
 		saveSettings(data);
 	});
+
+	HighlightPositions($exPositionsBox, positions);
 }

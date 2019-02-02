@@ -9,6 +9,21 @@ const { actions, config } = window;
  * @class Positions
  */
 export default class Positions {
+	$blockPositions: jQuery;
+
+	$emptyPositions: jQuery;
+
+	/**
+	 *Creates an instance of Positions
+	 * @memberof Positions
+	 */
+	constructor() {
+		this.$blockPositions = $('.block-position').addClass('block-receiver');
+		this.$emptyPositions = this.$blockPositions.filter(
+			':not(:has(".block"))',
+		);
+	}
+
 	/**
 	 * @readonly
 	 * @type {jQuery}
@@ -167,10 +182,8 @@ export default class Positions {
 	 */
 	hideEmptyPositions(): void {
 		this.$blockPositions.removeClass('show-position');
-		this.$emptyPositions = this.$blockPositions
-			.filter(':not(:has(".block"))')
-			.addClass('empty-position');
 		this.$emptyPositions
+			.addClass('empty-position')
 			.filter('#pos-footer')
 			.parent()
 			.hide();

@@ -1,15 +1,14 @@
 {
-  "../runtime.js": "../runtime.min.js",
   "../blocks/manager.css": "../blocks/manager.min.css",
   "../blocks/manager.js": "../blocks/manager.min.js",
   "../menu/admin.css": "../menu/admin.min.css",
   "../menu/admin.js": "../menu/admin.min.js",
+  "../runtime.js": "../runtime.min.js",
   "../settings/admin.css": "../settings/admin.min.css",
   "../settings/admin.js": "../settings/admin.min.js",
   "../sitemaker.css": "../sitemaker.min.css",
   "../tree/builder.css": "../tree/builder.min.css",
   "../tree/builder.js": "../tree/builder.min.js",
-  "../blocks/manager.min.css.map": "../blocks/manager.min.css.map",
   "../images/ui-bg_glass_55_fbf9ee_1x400.png": "../images/ui-bg_glass_55_fbf9ee_1x400.fbdfcee5.png",
   "../images/ui-bg_glass_65_ffffff_1x400.png": "../images/ui-bg_glass_65_ffffff_1x400.0fd68a14.png",
   "../images/ui-bg_glass_75_dadada_1x400.png": "../images/ui-bg_glass_75_dadada_1x400.7dab316f.png",
@@ -21,9 +20,6 @@
   "../images/ui-icons_454545_256x240.png": "../images/ui-icons_454545_256x240.2bfa2caa.png",
   "../images/ui-icons_888888_256x240.png": "../images/ui-icons_888888_256x240.7dd19da0.png",
   "../images/ui-icons_cd0a0a_256x240.png": "../images/ui-icons_cd0a0a_256x240.4e8573ae.png",
-  "../menu/admin.min.css.map": "../menu/admin.min.css.map",
-  "../settings/admin.min.css.map": "../settings/admin.min.css.map",
-  "../sitemaker.min.css.map": "../sitemaker.min.css.map",
   "../tinymce/bower.json": "../tinymce/bower.json",
   "../tinymce/changelog.txt": "../tinymce/changelog.txt",
   "../tinymce/composer.json": "../tinymce/composer.json",
@@ -229,6 +225,5 @@
   "../tinymce/themes/modern/theme.js": "../tinymce/themes/modern/theme.js",
   "../tinymce/themes/modern/theme.min.js": "../tinymce/themes/modern/theme.min.js",
   "../tinymce/tinymce.js": "../tinymce/tinymce.js",
-  "../tinymce/tinymce.min.js": "../tinymce/tinymce.min.js",
-  "../tree/builder.min.css.map": "../tree/builder.min.css.map"
+  "../tinymce/tinymce.min.js": "../tinymce/tinymce.min.js"
 }

@@ -43,15 +43,12 @@
 							<p><a href="#" id="delete-blocks">{{ lang('DELETE_ALL_BLOCKS') }}</a></p>
 							<form id="ex-positions">
 								<input type="checkbox" name="hide_blocks"{% if S_HIDE_BLOCKS %} checked="checked"{% endif %} /> {{ lang('HIDE_ALL_BLOCKS') }}<br /><br />
-								<div class="grid-2">
+								<div class="grid-2_sm-1">
 									<div class="col">{{ lang('HIDE_BLOCK_POSITIONS') }}</div>
 									<div class="col">
-										<select name="ex_positions[]" multiple="multiple" size="5">
-											{{ S_POSITION_OPS }}
-										</select>
+										<div class="ex-positions-box" data-positions="{{ S_EX_POSITIONS }}"></div>
 									</div>
 								</div>
-								<div class="clear"></div>
 								<p class="align-center">
 									<input type="submit" class="button2" value="{{ lang('SAVE_SETTINGS') }}" />
 								</p>

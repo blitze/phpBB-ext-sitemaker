@@ -99,7 +99,6 @@ class admin_bar
 			'S_EDIT_MODE'		=> true,
 			'S_ROUTE_OPS'		=> $this->get_route_options($route),
 			'S_HIDE_BLOCKS'		=> $route_info['hide_blocks'],
-			'S_POSITION_OPS'	=> $this->get_excluded_position_options($route_info['ex_positions']),
 			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
 			'S_STARTPAGE'		=> $this->startpage_is_set(),
@@ -262,23 +261,6 @@ class admin_bar
 		{
 			$selected = ($route == $current_route) ? ' selected="selected"' : '';
 			$options .= '<option value="' . $route . '"' . $selected . '>' . $route . '</option>';
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Get excluded position options
-	 *
-	 * @param array $ex_positions
-	 * @return string
-	 */
-	public function get_excluded_position_options(array $ex_positions)
-	{
-		$options = '';
-		foreach ($ex_positions as $position)
-		{
-			$options .= '<option value="' . $position . '" selected="selected">' . $position . '</option>';
 		}
 
 		return $options;

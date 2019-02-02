@@ -5,6 +5,8 @@ import InlineEditor from '../InlineEditor';
 import CustomBlock from '../CustomBlock';
 import '../Icons/picker';
 
+import './style.scss';
+
 const { actions, config, lang } = window;
 
 function updateBlockField(data) {

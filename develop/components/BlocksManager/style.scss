@@ -1,0 +1,161 @@
+.block-controls {
+	display: none;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: auto;
+	z-index: 2000;
+
+	.forabg + & {
+		top: 7px;
+		right: 4px;
+	}
+}
+
+.block-receiver {
+	min-height: 55px;
+	overflow: visible;
+
+	.block-controls {
+		.item-action {
+			float: right;
+		}
+	}
+
+	.block {
+		position: relative;
+
+		&:hover {
+			> .block-controls {
+				display: block;
+
+				a {
+					&:hover {
+						border: 1px solid #ccc;
+					}
+				}
+			}
+		}
+	}
+
+	.block-title {
+		height: 20px;
+		width: auto;
+		max-width: 90%;
+		cursor: pointer;
+		overflow: visible;
+	}
+
+	.block-icon {
+		display: inline-block;
+		min-width: 15px;
+		min-height: 10px;
+		padding: 1px;
+		margin-left: 0.1rem;
+		text-align: center;
+		cursor: pointer;
+		outline: 1px solid #ddd;
+
+		&:hover {
+			outline: 1px solid #968787;
+		}
+	}
+
+	.placeholder {
+		display: block;
+		position: relative;
+		height: 100px;
+		width: 100%;
+	}
+
+	&.horizontal {
+		.sortable {
+			float: left;
+			height: 70px;
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		.placeholder {
+			@extend .sortable;
+			margin-left: 10px;
+			width: 15px;
+		}
+
+		&:after {
+			content: ' ';
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+
+	&.show-position {
+		outline: 1px dashed #ccc;
+
+		&.sidebar {
+			min-height: 450px;
+		}
+	}
+
+	&.empty-position {
+		display: none;
+	}
+}
+
+.dragging {
+	white-space: nowrap;
+	width: 150px;
+}
+
+.modifiers {
+	overflow: auto;
+	margin-top: 0;
+	display: none;
+
+	dl {
+		display: block;
+		height: auto;
+	}
+
+	.scroll-list {
+		position: relative;
+		height: 100px;
+		overflow: auto;
+		padding-right: 3px;
+	}
+}
+
+.dialog-check-button {
+	float: left;
+	display: block;
+	margin-right: 5px;
+	margin-top: 1em;
+}
+
+.block-class-actions {
+	margin-left: 5px;
+}
+
+.block-settings {
+	padding-left: 0;
+	padding-right: 0;
+
+	fieldset textarea {
+		width: 97%;
+	}
+}
+
+.sm-inactive,
+.sm-inactive > .block,
+.sm-responsive-show,
+.sm-responsive-hide {
+	opacity: 0.5;
+}
+
+.block-class-editor {
+	width: 99%;
+	outline: 1px solid #666;
+	height: 40px;
+	overflow: auto;
+}
