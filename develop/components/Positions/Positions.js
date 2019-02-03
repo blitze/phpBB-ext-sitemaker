@@ -11,22 +11,18 @@ const { actions, config } = window;
 export default class Positions {
 	$blockPositions: jQuery;
 
-	$emptyPositions: jQuery;
-
 	/**
 	 *Creates an instance of Positions
 	 * @memberof Positions
 	 */
 	constructor() {
 		this.$blockPositions = $('.block-position').addClass('block-receiver');
-		this.$emptyPositions = this.$blockPositions.filter(
-			':not(:has(".block"))',
-		);
 	}
 
 	/**
 	 * @readonly
 	 * @type {jQuery}
+	 * @returns {jQuery}
 	 * @memberof Positions
 	 */
 	get items(): jQuery {
@@ -84,6 +80,15 @@ export default class Positions {
 	}
 
 	/**
+	 * @readonly
+	 * @type {Object}
+	 * @memberof Positions
+	 */
+	get emptyPositions(): Object {
+		return this.$blockPositions.filter(':not(:has(".block"))');
+	}
+
+	/**
 	 * @param {jQuery} $block
 	 * @param {jQuery} $position
 	 * @param {string} blockName
@@ -129,20 +134,35 @@ export default class Positions {
 	}
 
 	/**
-	 * @param {jQuery} $emptySidebars
+	 * @static
+	 * @param {jQuery} $column
+	 * @returns {number}
+	 * @memberof Positions
+	 */
+	static getColumnSize($column: jQuery): number {
+		const [, size = 0] = $column.attr('class').match(/col-([0-9]+)/i) || [];
+		return size;
+	}
+
+	/**
 	 * @memberof Positions
 	 */
 	// eslint-disable-next-line class-methods-use-this
-	adjustMiddleColumns($emptySidebars: jQuery): void {
-		$emptySidebars.each((i, element) => {
+	adjustMiddleColumns(hiding: boolean): void {
+		this.emptyPositions.filter('.sidebar').each((i, element) => {
 			const $sidebar = $(element);
-			const $sibbling = $sidebar.siblings();
-			const found = $sidebar.attr('class').match(/col-([0-9]+)/i);
 
-			if (found[1]) {
-				const newSize = 12 - found[1];
-				const newClass = $sibbling.attr('class').replace(12, newSize);
-				$sibbling.attr('class', newClass);
+			// We begin by assuming the middle column has a max size of 12
+			const $sibling = $sidebar.siblings();
+			const siblingSize = Positions.getColumnSize($sibling) || 12;
+			const sidebarSize = Positions.getColumnSize($sidebar);
+
+			if (siblingSize && sidebarSize) {
+				const newSize = hiding ? 12 : 12 - sidebarSize;
+				const newClass = $sibling
+					.attr('class')
+					.replace(siblingSize, newSize);
+				$sibling.attr('class', newClass);
 			}
 		});
 	}
@@ -151,15 +171,14 @@ export default class Positions {
 	 * @memberof Positions
 	 */
 	showAllPositions(): void {
-		const $emptySidebars = this.$emptyPositions.filter('.sidebar');
-		this.adjustMiddleColumns($emptySidebars);
-
-		this.$blockPositions.addClass('show-position');
-		this.$emptyPositions
-			.removeClass('empty-position')
+		const $emptyPositions = this.emptyPositions
+			.addClass('show-position')
+			.removeClass('empty-position');
+		$emptyPositions
 			.filter('#pos-footer')
 			.parent()
 			.show();
+		this.adjustMiddleColumns(false);
 
 		/**
 		 * Event to allow other extensions to do something when all block positions are shown
@@ -173,7 +192,7 @@ export default class Positions {
 		this.$document.trigger({
 			type: 'blitze_sitemaker_show_all_block_positions',
 			$blockPositions: this.$blockPositions,
-			$emptyPositions: this.$emptyPositions,
+			$emptyPositions,
 		});
 	}
 
@@ -181,15 +200,14 @@ export default class Positions {
 	 * @memberof Positions
 	 */
 	hideEmptyPositions(): void {
-		this.$blockPositions.removeClass('show-position');
-		this.$emptyPositions
+		const $emptyPositions = this.emptyPositions
 			.addClass('empty-position')
+			.removeClass('show-position');
+		$emptyPositions
 			.filter('#pos-footer')
 			.parent()
 			.hide();
-
-		const $emptySidebars = this.$emptyPositions.filter('.sidebar');
-		this.adjustMiddleColumns($emptySidebars);
+		this.adjustMiddleColumns(true);
 
 		/**
 		 * Event to allow other extensions to do something when empty positions are hidden
@@ -203,7 +221,7 @@ export default class Positions {
 		this.$document.trigger({
 			type: 'blitze_sitemaker_hide_empty_block_positions',
 			$blockPositions: this.$blockPositions,
-			$emptyPositions: this.$emptyPositions,
+			$emptyPositions,
 		});
 	}
 
@@ -211,7 +229,7 @@ export default class Positions {
 	 * @param {boolean} [unsaved=true]
 	 * @memberof Positions
 	 */
-	clearAll(unsaved: boolean = true) {
+	clearAll(unsaved: boolean = true): void {
 		this.$blockPositions.empty();
 
 		/**

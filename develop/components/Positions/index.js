@@ -120,11 +120,7 @@ export default class SortableBlocks extends Positions {
 		const $position: jQuery = $block.parent('.block-position');
 
 		if ($block.attr('id')) {
-			$block
-				.removeClass('dragging')
-				.removeAttr('style')
-				.parent()
-				.removeClass('empty-position');
+			$block.removeClass('dragging').removeAttr('style');
 
 			this.triggerChange($block, $position);
 		} else {
