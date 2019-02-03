@@ -66,6 +66,17 @@
 	li {
 		list-style-type: inherit;
 	}
+	
+	p:last-of-type {
+		margin-bottom: 0;
+	}
+}
+
+.forabg {
+	.inner {
+		height: 100%;
+		overflow: hidden;
+	}
 }
 
 .sm-block-container {
@@ -92,6 +103,7 @@
 
 .inner-spacing {
 	padding: 1em;
+	height: 100%;
 }
 
 .no-padding {

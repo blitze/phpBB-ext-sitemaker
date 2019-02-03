@@ -19,6 +19,10 @@ ul {
 				margin-bottom: 14px;
 				width: 100%;
 			}
+
+			&:last-of-type > .sm-inner {
+				margin-bottom: 0;
+			}
 		}
 
 		& > li > & {

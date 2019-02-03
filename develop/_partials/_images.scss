@@ -43,7 +43,6 @@ img {
 .img-ui,
 .attach-image {
 	display: block;
-	margin: 0 0 0.25rem 0;
 
 	.small-img & img {
 		width: $small-image-size;
@@ -57,7 +56,10 @@ img {
 		width: $large-image-size;
 	}
 
+	.card-img & img,
 	.fullwidth-img & img {
+		float: none !important;
+		margin: 0 !important;
 		width: 100%;
 	}
 
@@ -66,7 +68,6 @@ img {
 
 		img {
 			padding: 0;
-			width: 100%;
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;
 		}
@@ -82,12 +83,12 @@ img {
 
 	.img-align-left & img {
 		float: left;
-		margin: 0.7rem 1rem 0 0;
+		margin-right: 1rem;
 	}
 
 	.img-align-right & img {
 		float: right;
-		margin: 0.7rem 0 0 1rem;
+		margin-left: 1rem;
 	}
 
 	.img-border & img,
