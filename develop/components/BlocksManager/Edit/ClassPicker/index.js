@@ -3,9 +3,9 @@ export default function ClassPicker($dialogEdit) {
 	$dialogEdit
 		.on('click', '.block-class-actions', function classActions(e) {
 			e.preventDefault();
-			e.stopImmediatePropagation();
+			e.stopPropagation();
 
-			const editor = $dialogEdit.find('#block_class');
+			const $editor = $dialogEdit.find('#block_class');
 			const action = $(this).data('action');
 
 			const run = {
@@ -14,15 +14,15 @@ export default function ClassPicker($dialogEdit) {
 					$dialogEdit.find(target).slideToggle();
 				},
 				redo: function redo() {
-					editor.focus();
+					$editor.focus();
 					document.execCommand(action, false, null);
-					editor.change();
+					$editor.change();
 				},
 				undo: function unto() {
 					run.redo();
 				},
 				clear: function clear() {
-					editor.text('').change();
+					$editor.text('').change();
 				},
 			};
 			run[action]();
@@ -40,11 +40,12 @@ export default function ClassPicker($dialogEdit) {
 		})
 		.on('click', '.transform', function insertClass(e) {
 			e.preventDefault();
+			e.stopPropagation();
 
-			const editor = $dialogEdit.find('#block_class');
+			const $editor = $dialogEdit.find('#block_class');
 
-			editor.focus();
+			$editor.focus();
 			document.execCommand('insertText', false, $(this).text() + ' '); // eslint-disable-line prefer-template
-			editor.change();
+			$editor.change();
 		});
 }
