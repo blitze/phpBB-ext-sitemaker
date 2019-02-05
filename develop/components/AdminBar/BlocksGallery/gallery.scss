@@ -6,7 +6,7 @@
 	padding: 0;
 	height: 160px;
 	overflow-y: auto;
-}
+	overflow-x: hidden;
 
 	.sitemaker-block {
 		text-align: center;
@@ -36,3 +36,4 @@
 			color: #000;
 		}
 	}
+}

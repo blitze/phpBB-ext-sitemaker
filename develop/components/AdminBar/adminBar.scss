@@ -62,25 +62,33 @@ body {
 			text-align: center;
 			position: relative;
 			line-height: $admin-bar-height - 2;
+				
+			@media (max-width: $toast-breakpoint-small) {
+				position: initial;
+				
+				.sm-dropdown {
+					left: -4px;
+					right: -4px;
+					margin-left: 0 !important;
+					min-width: 0 !important;
+				}
+			}
 
-			.dropdown {
+			.sm-dropdown {
 				display: none;
 				position: absolute;
 				top: 0;
-				width: 500px;
 				margin-top: 36px;
 				margin-left: -6px;
 				padding: 10px;
+				min-width: 500px;
 				line-height: normal;
 				background-color: #fff;
 				border: 1px solid #c33;
 				border-top: 0;
 				border-radius: 5px;
 				text-align: left;
-				
-				@media (max-width: $toast-breakpoint-small) {
-					width: 325px;
-				}
+				z-index: 5000;
 
 				p {
 					display: block;
@@ -133,7 +141,7 @@ body {
 	.ex-positions-box {
 		border: 1px solid #ccc;
 		border-radius: 4px;
-		height: 60px;
+		max-height: 85px;
 		padding: 4px 0;
 		overflow: auto;
 		
