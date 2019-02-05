@@ -4,7 +4,7 @@
 	<li>
 		<div class="sm-inner">
 		{% if attachment.EXTENSION_GROUP == 'IMAGES' %}
-			<a href="{{ attachment.U_VIEWTOPIC }}" class="small">{{ attachment.DISPLAY_ATTACHMENT }}</a>
+			<a href="{{ attachment.U_VIEWTOPIC }}" class="sm-full-width small">{{ attachment.DISPLAY_ATTACHMENT }}</a>
 		{% else %}
 			{{ attachment.DISPLAY_ATTACHMENT }}
 		{% endif %}
