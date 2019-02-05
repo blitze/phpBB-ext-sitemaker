@@ -122,7 +122,7 @@
 		@extend %extend_3;
 	}
 }
-@media only screen and(min-width: $toast-breakpoint-small) {
+@media only screen and(min-width: $breakpoint-small) {
 	.sm-menu {
 		padding-top: 2px;
 		.main-menu {

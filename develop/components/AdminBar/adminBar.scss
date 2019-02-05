@@ -63,7 +63,7 @@ body {
 			position: relative;
 			line-height: $admin-bar-height - 2;
 				
-			@media (max-width: $toast-breakpoint-small) {
+			@media (max-width: $breakpoint-small) {
 				position: initial;
 				
 				.sm-dropdown {

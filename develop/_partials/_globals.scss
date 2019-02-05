@@ -1,6 +1,7 @@
 $admin-bar-height: 38px !default;
 $admin-bar-bgcolor: #c33 !default;
 
+// Grid settings
 $gl-gutter: 10px !default;
 $gl-gutter-vertical: 20px !default;
 $gutter-width: 10px !default;
@@ -45,13 +46,9 @@ $navbar_border_color: #368ad2 !default;
 $navbar_sub_menu_background_color: #444 !default;
 $navbar_toggle_menu_color: #333 !default;
 
-// Grid settings
-$toast-col-groups: (1, 2, 3, 4, 5, 8);
-$toast-gutter-width: 10px;
-$toast-breakpoint-medium: 940px;
-$toast-breakpoint-small: 768px;
-$toast-pushes: false;
-$toast-pulls: false;
+// responsive breakpoints
+$breakpoint-medium: 940px;
+$breakpoint-small: 768px;
 
 // functions and mixins
 @function set-text-color($color) {

@@ -60,7 +60,7 @@
 	display: inline;
 }
 
-.sm-postbody {
+.sm-full-width {
 	width: 100%;
 }
 
@@ -85,7 +85,7 @@
 	text-align: left;
 }
 
-@media screen and (max-width: $toast-breakpoint-medium) {
+@media screen and (max-width: $breakpoint-medium) {
 	.sm-responsive-show {
 		display: block;
 	}
