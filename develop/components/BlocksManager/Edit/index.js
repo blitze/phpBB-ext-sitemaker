@@ -164,6 +164,7 @@ export default function EditBlock() {
 
 		getEditForm(id);
 		createContextualSelect();
-		ClassPicker($dialogEdit);
 	});
+
+	ClassPicker($dialogEdit);
 }
