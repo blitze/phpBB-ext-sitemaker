@@ -16,7 +16,6 @@ ul {
 
 			> .sm-inner {
 				display: inline-block;
-				margin-bottom: 14px;
 				width: 100%;
 			}
 
@@ -101,16 +100,18 @@ ul {
 		}
 
 		/* Dividers */
+		.sm-x-divider-dotted & > li,
+		.sm-x-divider-line & > li {
+			padding-top: $gutter-width;
+			margin: 0;
+		}
+
 		.sm-x-divider-dotted & > li {
 			border-top: 1px dotted $border-color;
-			padding-top: 5px;
-			margin: 5px 0;
 		}
 
 		.sm-x-divider-line & > li {
 			border-top: 1px solid $border-color;
-			padding-top: 5px;
-			margin: 5px 0;
 		}
 
 		.sm-y-divider-dotted & > li {
@@ -129,6 +130,7 @@ ul {
 		.sm-y-divider-line & > li:first-child,
 		.sm-y-divider-dotted & > li:first-child {
 			border-left: 0;
+			padding-left: 0;
 		}
 
 		/* Nav lists */
@@ -221,14 +223,14 @@ ul {
 		.list-block-4cols & > li,
 		.list-block-5cols & > li {
 			display: inline-block;
-			padding: 0 10px;
+			padding: 0 $gutter-width;
 			vertical-align: top;
 			box-sizing: border-box;
 
 			@media (max-width: $breakpoint-medium) {
 				& {
 					width: 100%;
-					margin: 0 0 10px 0;
+					margin: 0 0 $gutter-width 0;
 				}
 			}
 		}
