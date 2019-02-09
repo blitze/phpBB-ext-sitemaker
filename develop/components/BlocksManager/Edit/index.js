@@ -23,15 +23,7 @@ export default function EditBlock() {
 		return getPOJO($dialogEdit.find('#edit_form').serializeArray());
 	}
 
-	function getCustomClasses() {
-		return $dialogEdit
-			.find('#block_class')
-			.text()
-			.trim();
-	}
-
 	function previewBlock() {
-		const cssClass = getCustomClasses();
 		const formData = getFormData();
 
 		const data = {
@@ -39,7 +31,6 @@ export default function EditBlock() {
 			block: {
 				...blockData.block,
 				...formData,
-				class: cssClass ? ` ${cssClass}` : '',
 			},
 		};
 
@@ -58,7 +49,6 @@ export default function EditBlock() {
 			...getFormData(),
 			route: config.route,
 			similar: updateSimilar,
-			class: getCustomClasses(),
 		};
 
 		/**

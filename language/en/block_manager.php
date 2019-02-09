@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'BLOCK_CHILD_ROUTES_ONLY'					=> 'Show on child routes only',
 	'BLOCK_CHILD_ROUTES_HIDE'					=> 'Hide on child routes',
 	'BLOCK_CLASS'								=> 'CSS Class',
+	'BLOCK_CLASS_EXPLAIN'						=> 'Modify block appearance with CSS classes',
 	'BLOCK_DESIGN'								=> 'Appearance',
 	'BLOCK_DISPLAY_TYPE'						=> 'Display',
 	'BLOCK_HIDE_TITLE'							=> 'Hide block title?',
@@ -87,8 +88,8 @@ $lang = array_merge($lang, array(
 
 	'PARENT_ROUTE'								=> 'Parent',
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
+	'PREDEFINED_CLASSES'						=> 'Predefined classes',
 
-	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
 	'REMOVE_STARTPAGE'							=> 'Remove Start Page',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Blocks are being hidden for this page',
@@ -106,9 +107,7 @@ $lang = array_merge($lang, array(
 	'SET_STARTPAGE'								=> 'Set As Start Page',
 
 	'TITLES'									=> 'Titles',
-	'TOGGLE'									=> 'Toggle',
 
-	'UNDO'										=> 'Undo',
 	'UPDATE_SIMILAR'							=> 'Update blocks with similar settings',
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',

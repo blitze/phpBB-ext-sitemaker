@@ -155,17 +155,26 @@ export default function CustomBlock() {
 			// if custom block, add editor
 			if (block.name === 'blitze.sitemaker.block.custom') {
 				// if tinymce editor instance already exists, remove it
-				const id = `block-editor-${block.id}`;
-				const editor = tinymce.get(id);
-				if (editor) {
-					tinymce.EditorManager.remove(editor);
+				const editorId = `block-editor-${block.id}`;
+
+				if (tinymce.get(editorId)) {
+					tinymce.EditorManager.execCommand(
+						'mceFocus',
+						false,
+						editorId,
+					);
+					tinymce.EditorManager.execCommand(
+						'mceRemoveEditor',
+						true,
+						editorId,
+					);
 				}
 
-				if ($block.find(`#${id}`).length) {
+				if ($block.find(`#${editorId}`).length) {
 					tinymce.EditorManager.execCommand(
 						'mceAddEditor',
 						false,
-						id,
+						editorId,
 					);
 				} else if (block.content.indexOf('script') > -1) {
 					eval($block.find('.sm-block-content').html()); // eslint-disable-line no-eval

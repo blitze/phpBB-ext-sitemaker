@@ -64,14 +64,12 @@
 				</dd>
 			</dl>
 			<dl>
-				<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label></dt>
+				<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label><br /><span>{{ lang('BLOCK_CLASS_EXPLAIN') }}</span></span></dt>
 				<dd>
-					<div id="block_class" class="block-preview block-class-editor" contenteditable="true">{{ S_BLOCK_CLASS }}</div>
+					<div id="class_editor" class="block-class-editor">{{ S_BLOCK_CLASS }}</div>
+					<input type="hidden" id="sm-classes" class="block-preview" name="class" value="{{ S_BLOCK_CLASS }}" />
 					<div class="align-right">
-						<a data-action="undo" class="block-class-actions" href="#"><i class="fa fa-undo"></i>{{ lang('UNDO') }}</a>
-						<a data-action="redo" class="block-class-actions" href="#"><i class="fa fa-repeat"></i>{{ lang('REDO') }}</a>
-						<a data-action="clear" class="block-class-actions" href="#"><i class="fa fa-times"></i>{{ lang('CLEAR') }}</a>
-						<a data-action="toggle" class="block-class-actions" href="#css-class-options"><i class="fa fa-sort"></i>{{ lang('TOGGLE') }}</a>
+						<a class="classes-toggler" href="#"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</a>
 					</div>
 				</dd>
 			</dl>
