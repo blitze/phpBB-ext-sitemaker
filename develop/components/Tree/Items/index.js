@@ -1,4 +1,3 @@
-/* global $ */
 import 'nestedSortable/jquery.ui.nestedSortable';
 
 export default function TreeItems(tree) {

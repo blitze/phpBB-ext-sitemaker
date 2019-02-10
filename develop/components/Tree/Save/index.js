@@ -1,4 +1,3 @@
-/* global $ */
 /* eslint-disable no-underscore-dangle */
 import Button from '../../Button/button';
 
