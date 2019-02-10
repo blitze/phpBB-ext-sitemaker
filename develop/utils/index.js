@@ -23,7 +23,7 @@ export function getPOJO(arrayOfObjects) {
 export function fixPaths(subject) {
 	return subject.replace(
 		new RegExp(
-			'(?:href|src)=(?:"|\')((?:./)?(?:../)+)(?:.*?)(?:"|\')',
+			'(?:href|src|action)=(?:"|\')((?:./)?(?:../)+)(?:.*?)(?:"|\')',
 			'gmi',
 		),
 		(match, g1) => match.replace(g1, config.webRootPath),
