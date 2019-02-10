@@ -9,6 +9,12 @@ export default function ClassPicker($dialogEdit) {
 			.trim();
 	}
 
+	function updateHiddenInput(txt) {
+		$('#sm-classes')
+			.val(` ${txt}`)
+			.change();
+	}
+
 	const selector = '#class_editor';
 	let classEditor;
 
@@ -26,17 +32,13 @@ export default function ClassPicker($dialogEdit) {
 				toolbar_items_size: 'small',
 				width: '99%',
 				setup: editor => {
-					const $hiddenInput = $('#sm-classes');
-					const updateHiddenInput = txt =>
-						$hiddenInput.val(` ${txt}`).change();
-
 					classEditor = editor;
 					editor.addButton('clear', {
 						text: lang.clear,
 						icon: false,
 						onclick: () => {
 							editor.setContent('');
-							updateHiddenInput('');
+							editor.fire('blur');
 						},
 					});
 
