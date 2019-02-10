@@ -199,11 +199,11 @@ You can add more block positions in your own style templates by copying and modi
 
 #### Site Layout
 You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings):
-* Blog: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent
-* Holy Grail: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent
-* Portal: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent
-* Portal Alt: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar
-
+* **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent
+* **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent
+* **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent
+* **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar
+* **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
 
 ## Menus
 
