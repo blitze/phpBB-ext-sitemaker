@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blitze.github.io/phpBB-ext-sitemaker/blog</id>
+    <title>phpBB SiteMaker Docs Blog</title>
+    <updated>2019-02-13T06:00:00Z</updated>
+    <generator>Feed for Node.js</generator>
+    <link rel="alternate" href="https://blitze.github.io/phpBB-ext-sitemaker/blog"/>
+    <subtitle>The best place to stay up-to-date with the latest phpBB SiteMaker Docs news and events.</subtitle>
+    <logo>https://blitze.github.io/phpBB-ext-sitemaker/false</logo>
+    <rights>Copyright © 2019 phpBB SiteMaker</rights>
+    <entry>
+        <title type="html"><![CDATA[Truncation Example]]></title>
+        <id>https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/13/test-blog.html</id>
+        <link href="https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/13/test-blog.html">
+        </link>
+        <updated>2019-02-13T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>All this will be part of the blog post summary.</p>
+<p>Even this.</p>
+]]></summary>
+        <author>
+        </author>
+    </entry>
+</feed>
