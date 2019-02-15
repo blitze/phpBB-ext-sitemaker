@@ -2,21 +2,21 @@
 <rss version="2.0">
     <channel>
         <title>phpBB SiteMaker Docs Blog</title>
-        <link>https://blitze.github.io/phpBB-ext-sitemaker/blog</link>
+        <link>https://blitze.github.io/blog</link>
         <description>The best place to stay up-to-date with the latest phpBB SiteMaker Docs news and events.</description>
         <lastBuildDate>Wed, 13 Feb 2019 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
             <title>phpBB SiteMaker Docs Blog</title>
-            <url>https://blitze.github.io/phpBB-ext-sitemaker/false</url>
-            <link>https://blitze.github.io/phpBB-ext-sitemaker/blog</link>
+            <url>https://blitze.github.io/false</url>
+            <link>https://blitze.github.io/blog</link>
         </image>
         <copyright>Copyright © 2019 phpBB SiteMaker</copyright>
         <item>
             <title><![CDATA[Truncation Example]]></title>
-            <link>https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/13/test-blog.html</link>
-            <guid>https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/13/test-blog.html</guid>
+            <link>https://blitze.github.io/blog/2019/02/13/test-blog.html</link>
+            <guid>https://blitze.github.io/blog/2019/02/13/test-blog.html</guid>
             <pubDate>Wed, 13 Feb 2019 06:00:00 GMT</pubDate>
             <description><![CDATA[<p>All this will be part of the blog post summary.</p>
 <p>Even this.</p>
