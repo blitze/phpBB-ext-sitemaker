@@ -1,8 +1,14 @@
 {% INCLUDE 'overall_header.html' %}
 
+{% INCLUDECSS '@blitze_sitemaker/assets/sitemaker.min.css' %}
 {% INCLUDECSS '@blitze_sitemaker/assets/settings/admin.min.css' %}
 {% INCLUDEJS '@blitze_sitemaker/assets/runtime.min.js' %}
 {% INCLUDEJS '@blitze_sitemaker/assets/settings/admin.min.js' %}
+
+<!-- INCLUDECSS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css -->
+<!-- INCLUDEJS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js -->
+
+<a data-fancybox data-type="iframe" class="pull-right" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ S_USER_LANG === 'en-gb' ? 'en' : S_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a>
 
 <h1>{{ lang('SETTINGS') }}</h1>
 

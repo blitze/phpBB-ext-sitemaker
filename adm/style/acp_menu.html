@@ -7,13 +7,16 @@
 {% INCLUDEJS '@blitze_sitemaker/assets/tree/builder.min.js' %}
 {% INCLUDEJS '@blitze_sitemaker/assets/menu/admin.min.js' %}
 
+<!-- INCLUDECSS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css -->
+<!-- INCLUDEJS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js -->
+
 <a id="maincontent"></a>
+
+<a data-fancybox data-type="iframe" class="pull-right" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ S_USER_LANG === 'en-gb' ? 'en' : S_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a>
 
 <h1>{{ lang('ACP_MENU_MANAGE') }}</h1>
 
 <p>{{ lang('ACP_MENU_MANAGE_EXPLAIN') }}</p>
-
-<p>&nbsp;</p>
 
 <div class="grid-noGutter">
 	<div class="col-3">

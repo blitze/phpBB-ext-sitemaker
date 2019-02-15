@@ -1,8 +1,11 @@
+<!-- INCLUDECSS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css -->
+<!-- INCLUDEJS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js -->
+
 <div id="admin-bar" class="admin-bar-container">
 	<div id="admin-options" class="admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cubes"></i>{{ lang('BLOCKS') }}</a>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cubes"></i><span class="responsive-hide">{{ lang('BLOCKS') }}</span></a>
 				<div id="add-block-panel" class="sm-dropdown">
 					<div class="ui-state-default align-center"><strong>{{ lang('ADD_BLOCK_EXPLAIN') }}</strong></div>
 
@@ -20,7 +23,7 @@
 			    </div>
 			</li>
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cog"></i>{{ lang('SETTINGS') }}</a>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cog"></i><span class="responsive-hide">{{ lang('SETTINGS') }}</span></a>
 				<div class="sm-dropdown">
 					<div class="grid-2_sm-1-noBottom">
 						<div class="col grid-1-noBottom">
@@ -63,7 +66,8 @@
 			{% EVENT blitze_sitemaker_admin_bar_append %}
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
-			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {{ lang('SAVE_CHANGES') }}</span></a></li>
+			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide">{{ lang('SAVE_CHANGES') }}</span></a></li>
+			<li class="hmenu-item right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ S_USER_LANG === 'en-gb' ? 'en' : S_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
 				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{{ PAGE_URL }}&amp;style='+this.options[this.selectedIndex].value;}">
