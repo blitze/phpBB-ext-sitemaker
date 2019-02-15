@@ -1,8 +1,9 @@
-# Extending phpBB SiteMaker
+---
+id: developer-extensions
+title: Extending phpBB SiteMaker
+---
 
-## Events
-
-You can extend/modify phpBB SiteMaker using phpBB's event system. You can find a list of supported events [here](./events.md).
+You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
 
 ## Creating a SiteMaker block
 
@@ -50,6 +51,7 @@ services:
 ```
 At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has not settings and does not translate the block name. Let's make it more interesting.
 
+### Block Settings
 Let's modify our blocks/my_block.php file and add a "get_config" method that returns an array with the keys being the block settings and the values being an array describing the settings like so:
 ```php
 	/**
@@ -78,7 +80,13 @@ If you want a custom field type, you can see an example [here](https://github.co
 
 Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+### Naming Blocks
+The convention for block names is that the service name (e.g my.example.block.my_block above) will be used as the language key by replacing the dots (.) with underscore (_) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+
+### Translation
+Also notice that we have several language keys that need to be translated.
+To do this, create a file named "blocks_admin.php" in your language folder.
+This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
 ```
 $lang = array_merge($lang, array(
 	'SOME_LANG_VAR'		=> 'Option 1',
@@ -88,11 +96,12 @@ $lang = array_merge($lang, array(
 	'MY_EXAMPLE_BLOCK_MY_BLOCK'	=> 'My Block',
 );
 ```
-The convention for block names is that the service name (e.g my.example.block.my_block above) will be used as the language key by replacing the dots (.) with underscore (_) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
 
-If our block has a dependency on other classes, we can add a contructor method to set those dependencies and update the service definition with the classes it depends on.
-
-To render our block using templates, the block class inherits a 'ptemplate' property. So our display method might look something like this:
+### Rendering the block
+The new block will only be displayed if it is rendering something.
+Your block can return any string as content but in most cases, you need a template to render your content.
+To render your block using templates, the block class inherits a 'ptemplate' property. So the display method might look something like this:
 ```php
 	/**
 	 * {@inheritdoc}
@@ -101,7 +110,7 @@ To render our block using templates, the block class inherits a 'ptemplate' prop
 	{
 		if ($edit_mode)
 		{
-			// do something
+			// do something only in edit mode
 		}
 
 		$this->ptemplate->assign_vars(array(
@@ -114,8 +123,8 @@ To render our block using templates, the block class inherits a 'ptemplate' prop
 		);
 	}
 ```
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
 
+### Block Assets
 If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that.
 Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
 ```php
@@ -129,6 +138,6 @@ Since there can be more than one instance of the same block on the page, or othe
 			)
 		));
 ```
-The util class will, of course, need to be added to your service definition like so `- '@blitze.sitemaker.icon_picker'` and defined in your constructor `\blitze\sitemaker\services\util $util`.
+The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
 
 And that's it. We're done!

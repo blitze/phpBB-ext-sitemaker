@@ -1,4 +1,16 @@
-# Contributing to phpBB SiteMaker
+---
+id: contrib-overview
+title: Getting Involved
+---
+
+phpBB SiteMaker is an open source project and welcomes your ideas and contributions.
+Please feel free to report bugs and/or submit pull requests.
+
+## Collaborate
+
+* Create a issue in the [tracker](https://github.com/blitze/phpBB-ext-sitemaker/issues)
+* Note the restrictions for [branch names](https://wiki.phpbb.com/Git#Branch_Names) and [commit messages](https://wiki.phpbb.com/Git#Commit_Messages) are similar to phpBB3
+* Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
 
 ## Forking/Cloning
 
@@ -29,23 +41,15 @@ Add the upstream remote (you can change ‘upstream’ to whatever you like):
 
 **Install vendors**
 
-    php composer.phar install
+    composer install
 
-**Install packages**
+**Install NPM packages**
 
-	npm install -g gulp bower
 	npm install
 
 Alternatively you may use [yarn](https://yarnpkg.com):
 
-	yarn global add gulp bower
 	yarn install
-
-## Collaborate
-
-* Create a issue in the [tracker](https://github.com/blitze/phpBB-ext-sitemaker/issues)
-* Note the restrictions for [branch names](https://wiki.phpbb.com/Git#Branch_Names) and [commit messages](https://wiki.phpbb.com/Git#Commit_Messages) are similar to phpBB3
-* Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
 
 ## Pull Requests
 

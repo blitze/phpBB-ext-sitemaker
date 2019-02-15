@@ -1,29 +1,9 @@
-# phpBB SiteMaker Events
+---
+id: developer-events
+title: phpBB SiteMaker Events
+---
 
 You can modify the behavior of phpBB SiteMaker using phpBB's event system.
-
-## Table of Contents
-
-- [PHP Events](#php-events)
-  * [blitze.sitemaker.acp_add_bulk_menu_options](#blitzesitemakeracp_add_bulk_menu_options)
-  * [blitze.sitemaker.acp_display_settings_form](#blitzesitemakeracp_display_settings_form)
-  * [blitze.sitemaker.acp_save_settings](#blitzesitemakeracp_save_settings)
-  * [blitze.sitemaker.admin_bar.set_assets](#blitzesitemakeradmin_barset_assets)
-  * [blitze.sitemaker.modify_block_positions](#blitzesitemakermodify_block_positions)
-  * [blitze.sitemaker.modify_rendered_block](#blitzesitemakermodify_rendered_block)
-- [Template Events](#template-events)
-  * [blitze_sitemaker_acp_settings](#blitze_sitemaker_acp_settings)
-  * [blitze_sitemaker_admin_bar_append](#blitze_sitemaker_admin_bar_append)
-  * [blitze_sitemaker_admin_bar_templates](#blitze_sitemaker_admin_bar_templates)
-- [Javascript Events](#javascript-events)
-  * [blitze_sitemaker_layout_saved](#blitze_sitemaker_layout_saved)
-  * [blitze_sitemaker_render_block_before](#blitze_sitemaker_render_block_before)
-  * [blitze_sitemaker_render_block_after](#blitze_sitemaker_render_block_after)
-  * [blitze_sitemaker_save_block_before](#blitze_sitemaker_save_block_before)
-  * [blitze_sitemaker_show_all_block_positions](#blitze_sitemaker_show_all_block_positions)
-  * [blitze_sitemaker_hide_empty_block_positions](#blitze_sitemaker_hide_empty_block_positions)
-  * [blitze_sitemaker_layout_cleared](#blitze_sitemaker_layout_cleared)
-  * [blitze_sitemaker_layout_updated](#blitze_sitemaker_layout_updated)
 
 ## PHP Events
 

@@ -1,0 +1,25 @@
+.siteNavItemActive > a {
+	border-radius: 4px;
+	background: $secondaryColor !important;
+}
+
+.navigationSlider .slidingNav ul a[href*="github"] {
+	font-size: 0;
+}
+
+.navigationSlider .slidingNav ul a[href*="github"]::before {
+	content: "";
+	width: 32px;
+	height: 32px;
+	background: url("/img/github-brands.svg");
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {}
+
+@media only screen and (min-width: 1024px) {}
+
+@media only screen and (max-width: 1023px) {}
+
+@media only screen and (min-width: 1400px) {}
+
+@media only screen and (min-width: 1500px) {}

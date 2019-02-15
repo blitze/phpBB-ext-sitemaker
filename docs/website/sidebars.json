@@ -1,0 +1,55 @@
+{
+	"docs": {
+		"Userguide": [
+			{
+				"type": "subcategory",
+				"label": "Getting Started",
+				"ids": [
+					"introduction",
+					"installation"
+				]
+			},
+			{
+				"type": "subcategory",
+				"label": "Building Blocks",
+				"ids": [
+					"blocks-overview",
+					"blocks-views",
+					"blocks-managing",
+					"blocks-custom",
+					"filemanager"
+				]
+			},
+			{
+				"type": "subcategory",
+				"label": "Menus",
+				"ids": [
+					"menus-managing",
+					"menus-managing-items",
+					"menus-display"
+				]
+			},
+			{
+				"type": "subcategory",
+				"label": "Building your site",
+				"ids": [
+					"site-layouts",
+					"site-navbar",
+					"site-block-modifiers",
+					"site-startpage",
+					"site-default-layout",
+					"blocks-inheritance"
+				]
+			}
+		],
+		"Developer Guide": [
+			"developer-extensions",
+			"developer-events",
+			"developer-theming"
+		],
+		"Contributing": [
+			"contrib-overview",
+			"contrib-translators"
+		]
+	}
+}

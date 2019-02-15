@@ -1,4 +1,7 @@
-# Responsive Filemanager
+---
+id: filemanager
+title: Responsive Filemanager
+---
 
 As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
