@@ -1,0 +1,61 @@
+project_identifier_env: CROWDIN_SITEMAKER_PROJECT_ID
+api_key_env: CROWDIN_SITEMAKER_API_KEY
+base_path: "./"
+preserve_hierarchy: true
+# commit_message: 'New translation for %original_file_name% in %language%'
+# append_commit_message: false
+
+files:
+  -
+    source: '/docs/docs/*.md'
+    translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
+    languages_mapping: &anchor
+      locale:
+        'af': 'af'
+        'ar': 'ar'
+        'bs-BA': 'bs_ba'
+        'ca': 'ca'
+        'cs': 'cs'
+        'da': 'da'
+        'de': 'de'
+        'el': 'el'
+        'es-ES': 'es'
+        'fa': 'fa'
+        'fi': 'fi'
+        'fr': 'fr'
+        'he': 'he'
+        'hu': 'hu'
+        'id': 'id'
+        'it': 'it'
+        'ja': 'ja'
+        'ko': 'ko'
+        'mr': 'mr'
+        'nb': 'nb'
+        'nl': 'nl'
+        'no': 'no'
+        'pl': 'pl'
+        'pt-BR': 'pt_preAO'
+        'pt-PT': 'pt'
+        'ro': 'ro'
+        'ru': 'ru'
+        'sk': 'sk'
+        'sl': 'sl'
+        'sr': 'sr'
+        'sv-SE': 'sv'
+        'tr': 'tr'
+        'uk': 'uk'
+        'vi': 'vi'
+        'zh-CN': 'zh_cmn_hans'
+        'zh-TW': 'zh_cmn_hant'
+  -
+    source: '/docs/website/i18n/en.json'
+    translation: '/docs/website/i18n/%locale%.json'
+    languages_mapping: *anchor
+  -
+    source: '/docs/website/versioned_docs/**/*.md'
+    translation: '/docs/website/translated_docs/%locale%/**/%original_file_name%'
+    languages_mapping: *anchor
+  -
+    source: '/language/**/*.php'
+    translation: '/language/%locale%/**/%original_file_name%'
+    languages_mapping: *anchor
