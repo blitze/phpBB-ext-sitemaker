@@ -67,7 +67,7 @@
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
 			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide">{{ lang('SAVE_CHANGES') }}</span></a></li>
-			<li class="hmenu-item right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ S_USER_LANG === 'en-gb' ? 'en' : S_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a></li>
+			<li class="hmenu-item right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ S_USER_LANG === 'en-gb' ? 'en' : S_USER_LANG|lower|replace({'-': '_'}) }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
 				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{{ PAGE_URL }}&amp;style='+this.options[this.selectedIndex].value;}">
