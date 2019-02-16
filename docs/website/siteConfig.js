@@ -9,14 +9,10 @@
 // site configuration options.
 
 const siteConfig = {
-	title: 'phpBB SiteMaker Docs', // Title for your website.
+	title: 'phpBB SiteMaker Docs',
 	tagline: 'A portal/CMS for phpBB 3.2x',
-	url: 'https://blitze.github.io', // Your website URL
-	baseUrl: '/phpBB-ext-sitemaker/', // Base URL for your project */
-	// For github.io type URLs, you would set the url and baseUrl like:
-	//   url: 'https://facebook.github.io',
-	//   baseUrl: '/test-site/',
-
+	url: 'https://blitze.github.io',
+	baseUrl: '/phpBB-ext-sitemaker/',
 	projectName: 'phpBB-ext-sitemaker',
 	organizationName: 'blitze',
 	headerLinks: [
