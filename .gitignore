@@ -1,2 +1,11 @@
 /vendor/
 /node_modules/
+
+# dotenv environment variables file
+.env
+
+# Doc Website
+docs/website/translated_docs
+docs/website/build/
+docs/website/i18n/*
+!docs/website/i18n/en.json

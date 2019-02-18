@@ -8,11 +8,13 @@
 // See https://docusaurus.io/docs/site-config for all the possible
 // site configuration options.
 
+const baseUrl = '/phpBB-ext-sitemaker/';
+
 const siteConfig = {
 	title: 'phpBB SiteMaker Docs',
 	tagline: 'A portal/CMS for phpBB 3.2x',
 	url: 'https://blitze.github.io',
-	baseUrl: '/phpBB-ext-sitemaker/',
+	baseUrl,
 	projectName: 'phpBB-ext-sitemaker',
 	organizationName: 'blitze',
 	headerLinks: [
@@ -43,18 +45,16 @@ const siteConfig = {
 	},
 
 	scripts: [
-		'https://buttons.github.io/buttons.js',
+		`${baseUrl}js/copy-code-button.js`,
 		'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
-		'/js/copy-code-button.js',
+		'https://buttons.github.io/buttons.js',
 	],
-	stylesheets: ['/css/copy-code-button.css'],
+	stylesheets: [`${baseUrl}css/copy-code-button.css`],
 
 	onPageNav: 'separate',
 	cleanUrl: true,
 	enableUpdateBy: true,
 	enableUpdateTime: true,
-	translationRecruitingLink:
-		'https://crowdin.com/project/phpBB-ext-sitemaker',
 	docsSideNavCollapsible: true,
 	scrollToTop: true,
 	scrollToTopOptions: {
@@ -62,6 +62,11 @@ const siteConfig = {
 		backgroundColor: '#777',
 	},
 	repoUrl: 'https://github.com/blitze/phpBB-ext-sitemaker',
+	editUrl:
+		'https://github.com/blitze/phpBB-ext-sitemaker/edit/develop/docs/docs',
+	translationRecruitingLink:
+		'https://crowdin.com/project/phpBB-ext-sitemaker-docs',
+	gaTrackingId: 'UA-134749797-1',
 };
 
 module.exports = siteConfig;
