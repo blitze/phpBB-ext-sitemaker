@@ -1,10 +1,7 @@
 project_identifier_env: CROWDIN_SITEMAKER_PROJECT_ID
 api_key_env: CROWDIN_SITEMAKER_API_KEY
-base_path: "./"
+base_path: ./
 preserve_hierarchy: true
-# commit_message: 'New translation for %original_file_name% in %language%'
-# append_commit_message: false
-
 files:
   -
     source: '/language/**/*.php'
