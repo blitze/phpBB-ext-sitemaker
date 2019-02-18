@@ -11,7 +11,7 @@
 	content: "";
 	width: 32px;
 	height: 32px;
-	background: url("/img/github-brands.svg");
+	background: url("../img/github-brands.svg");
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {}
