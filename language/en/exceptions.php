@@ -46,7 +46,7 @@ if (empty($lang) || !is_array($lang))
 *
 * Translators: Feel free to not translate these language strings
 */
-$lang = array_merge($lang, array(
+$strings = array(
 	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
 	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
@@ -56,4 +56,7 @@ $lang = array_merge($lang, array(
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
 	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
 	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
-));
+);
+
+$lang = array_merge($lang, $strings);
+

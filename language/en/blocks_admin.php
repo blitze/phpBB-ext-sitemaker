@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(
+$strings = array(
 	'ALL_TYPES'									=> 'All Types',
 	'ALL_FORUMS'								=> 'All Forums',
 	'ALL_GROUPS'								=> 'All Groups',
@@ -147,4 +147,6 @@ $lang = array_merge($lang, array(
 
 	'WORD_MAX_SIZE'								=> 'Maximum font size',
 	'WORD_MIN_SIZE'								=> 'Minimum font size',
-));
+);
+
+$lang = array_merge($lang, $strings);

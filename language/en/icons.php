@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(
+$strings = array(
 	'ICON_ACCESSIBILITY'	=> 'Accessibility',
 	'ICON_BRAND'			=> 'Brand',
 	'ICON_CHART'			=> 'Chart',
@@ -60,4 +60,6 @@ $lang = array_merge($lang, array(
 	'ICON_WEB_APPLICATION'	=> 'Web Application',
 
 	'NO_ICON'				=> 'No Icon',
-));
+);
+
+$lang = array_merge($lang, $strings);

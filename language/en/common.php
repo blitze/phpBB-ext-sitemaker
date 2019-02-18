@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(
+$strings = array(
 	'ALL_TIME'						=> 'All Time',
 
 	'BLOCK_TITLE'					=> 'Block Title',
@@ -90,4 +90,6 @@ $lang = array_merge($lang, array(
 	'WELCOME'						=> 'Welcome',
 	'WHATS_NEW'						=> 'What’s New?',
 	'WORDGRAPH'						=> 'Wordgraph',
-));
+);
+
+$lang = array_merge($lang, $strings);

@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$strings = array(
 	'ACP_SITEMAKER'				=> 'SiteMaker',
 	'ACP_SM_SETTINGS'			=> 'Settings',
 	'ACP_MENU'					=> 'Menu',
@@ -149,4 +149,6 @@ $lang = array_merge($lang, array(
 	'UNSAVED_CHANGES'			=> 'You have unsaved changes',
 
 	'VISIT_PAGE'				=> 'Visit Page',
-));
+);
+
+$lang = array_merge($lang, $strings);

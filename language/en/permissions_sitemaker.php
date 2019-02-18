@@ -36,15 +36,15 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-// Admin Permissions
-$lang = array_merge($lang, array(
+$strings = array(
+	// Admin Permissions
 	'ACL_A_SM_SETTINGS'			=> 'Can manage Sitemaker settings',
 	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Can manage Sitemaker blocks',
 	'ACL_A_SM_MANAGE_MENUS'		=> 'Can manage Sitemaker menus',
 	'ACL_A_SM_FILEMANAGER'		=> 'Can see/manage other users’ folders in File Manager',
-));
 
-// User Permissions
-$lang = array_merge($lang, array(
+	// User Permissions
 	'ACL_U_SM_FILEMANAGER'		=> 'Can use File Manager',
-));
+);
+
+$lang = array_merge($lang, $strings);
