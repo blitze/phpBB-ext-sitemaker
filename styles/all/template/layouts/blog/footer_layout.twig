@@ -4,7 +4,7 @@
 							<div class="clear"></div>
 						</div>
 						{% if positions.boxes or S_EDIT_MODE %}
-						<div id="pos-boxes" class="block-position horizontal grid-equalHeight">
+						<div id="pos-boxes" class="block-position grid_sm-1-equalHeight horizontal">
 							{% for block in positions.boxes %}
 							<div id="block-{{ block.bid }}" class="block col">
 								{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
@@ -45,7 +45,7 @@
 					{% endif %}
 				</div>
 				{% if positions.bottom_hor or S_EDIT_MODE %}
-				<div id="pos-bottom_hor" class="block-position horizontal grid-equalHeight">
+				<div id="pos-bottom_hor" class="block-position grid_sm-1-equalHeight horizontal">
 					{% for block in positions.bottom_hor %}
 					<div id="block-{{ block.bid }}" class="block col">
 						{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
@@ -77,7 +77,7 @@
 
 		{% if positions.footer or S_EDIT_MODE %}
 		<div class="footer panel bg3">
-			<div id="pos-footer" class="block-position horizontal grid-center-equalHeight">
+			<div id="pos-footer" class="block-position grid_sm-1-center-equalHeight horizontal">
 				{% for block in positions.footer %}
 				<div id="block-{{ block.bid }}" class="block col">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}

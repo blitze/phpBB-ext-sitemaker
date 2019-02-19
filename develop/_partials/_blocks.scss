@@ -127,16 +127,8 @@
 	}
 }
 
-.grid {
-	@media (max-width: $breakpoint-small) {
-		.sitemaker {
-			margin-left: -5px;
-			margin-right: -5px;
-
-			.forabg {
-				margin: 0;
-				margin-right: 0;
-			}
-		}
+.sitemaker {
+	.horizontal .col {
+		padding-bottom: 0;
 	}
 }
