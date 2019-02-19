@@ -46,7 +46,7 @@ class Footer extends React.Component {
 								this.props.language,
 							)}
 						>
-							Userguide
+							User guide
 						</a>
 						<a
 							href={this.docUrl(
@@ -69,6 +69,13 @@ class Footer extends React.Component {
 						<h5>Community</h5>
 						<a href="https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support">
 							Project support page
+						</a>
+						<a
+							title="Crowdin"
+							target="_blank"
+							href="https://crowdin.com/project/phpbb-ext-sitemaker"
+						>
+							<img src="https://d322cqt584bo4o.cloudfront.net/phpbb-ext-sitemaker/localized.svg" />
 						</a>
 					</div>
 					<div>
