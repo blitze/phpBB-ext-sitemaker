@@ -9,6 +9,7 @@ phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site
 [![Travis branch](https://img.shields.io/travis/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://travis-ci.org/blitze/phpBB-ext-sitemaker)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/blitze/phpBB-ext-sitemaker/develop.svg?style=flat)](https://scrutinizer-ci.com/g/blitze/phpBB-ext-sitemaker/?branch=develop)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/phpbb-ext-sitemaker/localized.svg)](https://crowdin.com/project/phpbb-ext-sitemaker)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a9a8d4b2441ad10c9aad/maintainability)](https://codeclimate.com/github/blitze/phpBB-ext-sitemaker_content/maintainability)
 [![Latest Stable Version](https://poser.pugx.org/blitze/sitemaker/v/stable?format=flat)](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 [![License](https://poser.pugx.org/blitze/sitemaker/license?format=flat)](https://packagist.org/packages/blitze/sitemaker)
@@ -27,12 +28,10 @@ phpBB SiteMaker allows you to transform your phpBB3 board into a full-blown site
 
 ## Documentation
 
-* [Changelog](docs/CHANGELOG.md)
-* [Userguide](docs/en/userguide.md)
-* Developing Guide
-    * [Extending phpBB SiteMaker](docs/en/extending.md)
-    * [Theming](docs/en/theming.md)
-    * [Contributing](docs/en/contributing.md)
+* [Changelog](CHANGELOG.md)
+* [User guide](https://blitze.github.io/phpBB-ext-sitemaker/docs/en/introduction)
+* [Developing Guide](https://blitze.github.io/phpBB-ext-sitemaker/docs/en/developer-extensions)
+* [Contributing](https://blitze.github.io/phpBB-ext-sitemaker/docs/en/contrib-overview)
 
 ## Download & Installation
 
