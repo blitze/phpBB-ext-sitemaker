@@ -7,8 +7,8 @@
 		"write-translations": "docusaurus-write-translations",
 		"version": "docusaurus-version",
 		"rename-version": "docusaurus-rename-version",
-		"crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b better-docs",
-		"crowdin-download": "crowdin --config ../crowdin.yaml download -b better-docs"
+		"crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b develop",
+		"crowdin-download": "crowdin --config ../crowdin.yaml download -b develop"
 	},
 	"devDependencies": {
 		"docusaurus": "^1.7.2"
