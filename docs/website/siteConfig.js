@@ -67,6 +67,10 @@ const siteConfig = {
 	translationRecruitingLink:
 		'https://crowdin.com/project/phpBB-ext-sitemaker-docs',
 	gaTrackingId: 'UA-134749797-1',
+	algolia: {
+		apiKey: 'fecaa594ae467c72b7b00d16529b0028',
+		indexName: 'phpbb',
+	},
 };
 
 module.exports = siteConfig;
