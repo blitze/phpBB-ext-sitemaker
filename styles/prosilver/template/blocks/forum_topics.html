@@ -23,8 +23,10 @@
 						{{ lang('POST_BY_AUTHOR') }} {{ topicrow.USERNAME }} {{ lang('POSTED_ON_DATE') }} {{ topicrow.TOPIC_POST_TIME }} {{ lang('IN') }} <a href="{{ topicrow.U_VIEWFORUM }}">{{ topicrow.FORUM_TITLE }}</a>
 					</div>
 				</div>
+				{%- if topicrow.TOPIC_PREVIEW -%}
 				<br />
 				<p class="gensmall">{{ topicrow.TOPIC_PREVIEW }}</p>
+				{%- endif -%}
 			</div>
 		</li>
 		{% endfor %}

@@ -47,9 +47,10 @@
 			"developer-events",
 			"developer-theming"
 		],
-		"Contributing": [
+		"Get Involved": [
 			"contrib-overview",
-			"contrib-translators"
+			"contrib-translators",
+			"contrib-pull-requests"
 		]
 	}
 }
