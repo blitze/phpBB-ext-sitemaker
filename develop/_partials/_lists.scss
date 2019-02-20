@@ -102,7 +102,7 @@ ul {
 		/* Dividers */
 		.sm-x-divider-dotted & > li,
 		.sm-x-divider-line & > li {
-			padding-top: $gutter-width;
+			padding: $gutter-width 0;
 			margin: 0;
 		}
 
@@ -125,6 +125,12 @@ ul {
 		.sm-x-divider-line &:first-child > li:first-child,
 		.sm-x-divider-dotted &:first-child > li:first-child {
 			border-top: 0;
+			padding-top: 0;
+		}
+
+		.sm-x-divider-line &:last-child > li:last-child,
+		.sm-x-divider-dotted &:last-child > li:last-child {
+			padding-bottom: 0;
 		}
 
 		.sm-y-divider-line & > li:first-child,
