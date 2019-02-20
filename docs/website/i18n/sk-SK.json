@@ -23,6 +23,10 @@
       "contrib-overview": {
         "title": "Getting Involved"
       },
+      "contrib-pull-request": {
+        "title": "Submitting a Pull Request",
+        "sidebar_label": "Pull Requests"
+      },
       "contrib-translators": {
         "title": "Translators"
       },
@@ -78,7 +82,7 @@
     "categories": {
       "Userguide": "Userguide",
       "Developer Guide": "Developer Guide",
-      "Contributing": "Contributing"
+      "Get Involved": "Get Involved"
     }
   },
   "pages-strings": {
