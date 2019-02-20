@@ -59,4 +59,3 @@ $strings = array(
 );
 
 $lang = array_merge($lang, $strings);
-
