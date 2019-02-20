@@ -4,8 +4,8 @@ base_path: ./
 preserve_hierarchy: true
 files:
   -
-    source: '/language/**/*.php'
-    translation: '/language/%locale%/%original_file_name%'
+    source: '/docs/docs/*.md'
+    translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
     languages_mapping: &anchor
       locale:
         'af': 'af'
@@ -48,14 +48,14 @@ files:
         'zh-CN': 'zh_cmn_hans'
         'zh-TW': 'zh_cmn_hant'
   -
-    source: '/docs/docs/*.md'
-    translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
-    languages_mapping: *anchor
-  -
     source: '/docs/website/i18n/en.json'
     translation: '/docs/website/i18n/%locale%.json'
     languages_mapping: *anchor
   -
     source: '/docs/website/versioned_docs/**/*.md'
     translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
+    languages_mapping: *anchor
+  -
+    source: '/language/**/*.php'
+    translation: '/language/%locale%/%original_file_name%'
     languages_mapping: *anchor
