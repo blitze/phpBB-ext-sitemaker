@@ -94,6 +94,11 @@
 	.content {
 		overflow-x: hidden;
 		min-height: 1px;
+		padding-bottom: 1rem;
+	}
+
+	.sm-list li:last-child .content {
+		padding-bottom: 1px;
 	}
 
 	.header {

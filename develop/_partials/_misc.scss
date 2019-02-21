@@ -23,7 +23,6 @@
 /* Misc */
 .field-label {
 	font-weight: bold;
-	margin-top: 1rem;
 }
 
 .label-hidden {
@@ -31,7 +30,6 @@
 
 	.content &,
 	.sm-content-footer & {
-		display: block;
 		visibility: hidden;
 		height: 0;
 	}
@@ -40,14 +38,11 @@
 .label-inline {
 	display: inline;
 
-	.content & {
-		line-height: 1rem;
-
-		&:before {
-			content: ' ';
-			display: block;
-			white-space: pre;
-		}
+	.content &:before {
+		content: ' ';
+		display: block;
+		height: 0.4rem;
+		white-space: pre;
 	}
 }
 
