@@ -156,9 +156,16 @@ class admin_bar
 		$user_lang = $this->user->data['user_lang'];
 		$mapping = include($this->phpbb_root_path . 'ext/blitze/sitemaker/services/blocks/lang_mapping.' . $this->php_ext);
 
-		return $mapping[$user_lang] ?: preg_replace_callback('/_([a-z0-9]+)/i', function($parts) {
-			return strtoupper($parts[0]);
-		}, $user_lang);
+		if (isset($mapping[$user_lang]))
+		{
+			return $mapping[$user_lang];
+		}
+		else
+		{
+			return preg_replace_callback('/_([a-z0-9]+)/i', function($parts) {
+				return strtoupper($parts[0]);
+			}, $user_lang);
+		}
 	}
 
 	/**
