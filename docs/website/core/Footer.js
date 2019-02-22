@@ -46,7 +46,7 @@ class Footer extends React.Component {
 								this.props.language,
 							)}
 						>
-							User guide
+							User Guide
 						</a>
 						<a
 							href={this.docUrl(
