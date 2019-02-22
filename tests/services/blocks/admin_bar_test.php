@@ -56,11 +56,12 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * @param array $auth_map
 	 * @param array $config
 	 * @param string $page
+	 * @param string $user_lang
 	 * @param string $controller
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $controller = '', $params = '')
+	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
 	{
 		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
@@ -111,6 +112,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$user->host = 'my-site.com';
 		$user->page['page'] = $page;
 		$user->page['root_script_path'] = '/phpBB/';
+		$user->data['user_lang'] = $user_lang;
 
 		$auto_lang = $this->getMockBuilder('\blitze\sitemaker\services\auto_lang')
 			->disableOriginalConstructor()
@@ -189,7 +191,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
 		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path, $phpEx);
 
-		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
+		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -201,6 +203,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	{
 		return array(
 			array(
+				'fr',
 				array(
 					'route_id' => 1,
 					'ext_name' => '',
@@ -223,9 +226,11 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
+					'TINYMCE_LANG' => 'fr_FR',
 				),
 			),
 			array(
+				'pt_br',
 				array(
 					'route_id' => 2,
 					'ext_name' => '',
@@ -248,6 +253,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
+					'TINYMCE_LANG' => 'pt_BR',
 				),
 			),
 		);
@@ -257,13 +263,14 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider show_admin_bar_test_data
+	 * @param string $user_lang
 	 * @param array $route_info
 	 * @param array $config
 	 * @param array $expected
 	 */
-	public function test_show_admin_bar(array $route_info, array $config, array $expected)
+	public function test_show_admin_bar($user_lang, array $route_info, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config);
+		$admin_bar = $this->get_service(array(), $config, 'index.php', $user_lang);
 
 		// assert set_assets() method is called
 		$this->util->expects($this->once())
@@ -477,7 +484,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config, $page, $controller, $params);
+		$admin_bar = $this->get_service(array(), $config, $page, 'en', $controller, $params);
 
 		$admin_bar->get_startpage_options();
 

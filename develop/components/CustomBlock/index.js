@@ -30,11 +30,11 @@ export default function CustomBlock() {
 
 	function initTinyMCE() {
 		const { scriptPath, webRootPath } = config;
+
 		let options = {
 			selector: 'div.editable-block',
 			menubar: false,
 			inline: true,
-			// theme: 'inlite',
 			image_advtab: true,
 			hidden_input: false,
 			noneditable_noneditable_class: 'fa',
@@ -47,10 +47,6 @@ export default function CustomBlock() {
 				'undo redo | styleselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
 				'responsivefilemanager image media | fontawesome | bullist numlist outdent indent | hr pagebreak | link | table | removeformat code',
 			],
-			// toolbar: [
-			// 	'undo redo | bold italic underline | fontselect fontsizeselect',
-			// 	'forecolor backcolor | alignleft aligncenter alignright alignfull | link unlink | numlist bullist outdent indent',
-			// ],
 			insert_toolbar:
 				'quicktable image responsivefilemanager media fontawesome',
 			selection_toolbar: 'bold italic | h2 h3 | blockquote quicklink',
@@ -129,6 +125,13 @@ export default function CustomBlock() {
 				});
 			},
 		};
+
+		if (config.tinymceLang && config.tinymceLang !== 'en') {
+			const { tinymceLang, directionality } = config;
+			options.language = tinymceLang;
+			options.directionality = directionality;
+			options.language_url = `https://olli-suutari.github.io/tinyMCE-4-translations/${tinymceLang}.js`;
+		}
 
 		if (config.filemanager) {
 			options.plugins.push('responsivefilemanager');

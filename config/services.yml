@@ -52,6 +52,7 @@ services:
             - '@blitze.sitemaker.filemanager.setup'
             - '@blitze.sitemaker.icon_picker'
             - '@blitze.sitemaker.util'
+            - '%core.root_path%'
             - '%core.php_ext%'
 
     blitze.sitemaker.blocks.cfg_handler:

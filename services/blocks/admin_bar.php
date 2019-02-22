@@ -43,6 +43,9 @@ class admin_bar
 	/** @var \blitze\sitemaker\services\util */
 	protected $util;
 
+	/** @var string */
+	protected $phpbb_root_path;
+
 	/** @var string phpEx */
 	protected $php_ext;
 
@@ -59,9 +62,10 @@ class admin_bar
 	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager			Filemanager object
 	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
+	 * @param string										$phpbb_root_path		Path to the phpbb includes directory.
 	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $phpbb_root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
@@ -73,6 +77,7 @@ class admin_bar
 		$this->filemanager = $filemanager;
 		$this->icons = $icons;
 		$this->util = $util;
+		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
 
@@ -104,6 +109,7 @@ class admin_bar
 			'S_STARTPAGE'		=> $this->startpage_is_set(),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
+			'TINYMCE_LANG'		=> $this->get_tinymce_lang(),
 		));
 	}
 
@@ -139,6 +145,19 @@ class admin_bar
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		), $this->get_filemanager_settings()));
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_tinymce_lang()
+	{
+		$user_lang = $this->user->data['user_lang'];
+		$mapping = include($this->phpbb_root_path . 'ext/blitze/sitemaker/services/blocks/lang_mapping.' . $this->php_ext);
+
+		return $mapping[$user_lang] ?: preg_replace_callback('/_([a-z0-9]+)/i', function($parts) {
+			return strtoupper($parts[0]);
+		}, $user_lang);
 	}
 
 	/**
