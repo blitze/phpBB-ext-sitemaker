@@ -93,7 +93,7 @@ class settings_module_test extends \phpbb_database_test_case
 	 */
 	public function get_module(array $variable_map, array $db_text = array(), $submitted = false)
 	{
-		global $phpbb_container, $config, $db, $phpbb_dispatcher, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
 		$db = $this->new_dbal();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
@@ -130,6 +130,9 @@ class settings_module_test extends \phpbb_database_test_case
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
 			});
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->data['user_lang'] = 'en';
 
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -242,6 +245,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_max_width'			=> 0,
 						'image_resizing'			=> false,
 					),
+					'sm_user_lang' => 'en',
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
 			),

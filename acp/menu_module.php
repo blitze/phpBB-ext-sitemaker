@@ -34,6 +34,9 @@ class menu_module
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
@@ -62,6 +65,7 @@ class menu_module
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
 		$this->template = $template;
+		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
@@ -85,6 +89,7 @@ class menu_module
 			'S_MENU'		=> true,
 			'MENU_ID'		=> $menu_id,
 			'ICON_PICKER'	=> $this->icon->picker(),
+			'SM_USER_LANG'	=> $this->user->data['user_lang'],
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
 		));

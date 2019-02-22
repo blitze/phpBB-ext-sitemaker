@@ -109,6 +109,7 @@ class admin_bar
 			'S_STARTPAGE'		=> $this->startpage_is_set(),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
+			'SM_USER_LANG'		=> $this->user->data['user_lang'],
 			'TINYMCE_LANG'		=> $this->get_tinymce_lang(),
 		));
 	}

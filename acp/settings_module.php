@@ -38,6 +38,9 @@ class settings_module
 	/** @var \phpbb\language\language */
 	protected $translator;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \blitze\sitemaker\services\icon_picker */
 	protected $icon;
 
@@ -70,13 +73,14 @@ class settings_module
 	 */
 	public function __construct($trigger_errors = true)
 	{
-		global $phpbb_container, $phpbb_dispatcher, $config, $db, $request, $template, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $phpbb_dispatcher, $config, $db, $request, $template, $user, $phpbb_root_path, $phpEx;
 
 		$this->db = $db;
 		$this->config = $config;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->request = $request;
 		$this->template = $template;
+		$this->user = $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 
@@ -123,6 +127,7 @@ class settings_module
 			'styles'			=> $this->get_styles_data($layouts),
 			'layouts'			=> $layouts,
 			'menu_options'		=> $this->get_menu_options(),
+			'sm_user_lang'		=> $this->user->data['user_lang'],
 		));
 
 		$this->tpl_name = 'acp_settings';

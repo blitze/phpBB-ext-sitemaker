@@ -41,12 +41,13 @@ class menu_module_test extends \phpbb_database_test_case
 	/**
 	 * Get the menu_module object
 	 *
+	 * @param string $user_lang
 	 * @param array $variable_map
 	 * @return \blitze\sitemaker\acp\menu_module
 	 */
-	public function get_module(array $variable_map)
+	public function get_module($user_lang, array $variable_map)
 	{
-		global $phpbb_container, $phpbb_dispatcher, $db, $request, $template;
+		global $phpbb_container, $phpbb_dispatcher, $db, $request, $template, $user;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -84,6 +85,9 @@ class menu_module_test extends \phpbb_database_test_case
 			->willReturnCallback(function () {
 				return implode('-', func_get_args());
 			});
+
+		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->data['user_lang'] = $user_lang;
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
@@ -142,6 +146,7 @@ class menu_module_test extends \phpbb_database_test_case
 	{
 		return array(
 			array(
+				'en',
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 0),
 				),
@@ -166,9 +171,11 @@ class menu_module_test extends \phpbb_database_test_case
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
+					'SM_USER_LANG' => 'en',
 				),
 			),
 			array(
+				'fr',
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 				),
@@ -193,6 +200,7 @@ class menu_module_test extends \phpbb_database_test_case
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
+					'SM_USER_LANG' => 'fr',
 				),
 			),
 		);
@@ -202,12 +210,13 @@ class menu_module_test extends \phpbb_database_test_case
 	 * Test the main method
 	 *
 	 * @dataProvider module_test_data
+	 * @param string $user_lang
 	 * @param array $variable_map
 	 * @param array $expected
 	 */
-	public function test_module(array $variable_map, array $expected)
+	public function test_module($user_lang, array $variable_map, array $expected)
 	{
-		$module = $this->get_module($variable_map);
+		$module = $this->get_module($user_lang, $variable_map);
 		$module->main();
 
 		$result = $this->template->assign_display('menu');
