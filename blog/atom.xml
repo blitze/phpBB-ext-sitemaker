@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blitze.github.io/phpBB-ext-sitemaker/blog</id>
-    <title>phpBB SiteMaker Docs Blog</title>
+    <title>phpBB SiteMaker Blog</title>
     <updated>2019-02-13T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://blitze.github.io/phpBB-ext-sitemaker/blog"/>
-    <subtitle>The best place to stay up-to-date with the latest phpBB SiteMaker Docs news and events.</subtitle>
+    <subtitle>The best place to stay up-to-date with the latest phpBB SiteMaker news and events.</subtitle>
     <logo>https://blitze.github.io/phpBB-ext-sitemaker/false</logo>
     <rights>Copyright © 2019 phpBB SiteMaker</rights>
     <entry>
