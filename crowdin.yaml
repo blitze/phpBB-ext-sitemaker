@@ -22,5 +22,6 @@ files:
     source: '/language/**/*.php'
     translation: '/language/%locale%/%original_file_name%'
     languages_mapping:
+      osx_locale:
         'zh-Hans': 'zh_cmn_hans'
         'zh-Hant': 'zh_cmn_hant'
