@@ -1,5 +1,5 @@
 ---
-id: contrib-pull-request
+id: contrib-pull-requests
 title: Submitting a Pull Request
 sidebar_label: Pull Requests
 ---

@@ -11,7 +11,7 @@
 const baseUrl = '/phpBB-ext-sitemaker/';
 
 const siteConfig = {
-	title: 'phpBB SiteMaker Docs',
+	title: 'phpBB SiteMaker',
 	tagline: 'A portal/CMS for phpBB 3.2x',
 	url: 'https://blitze.github.io',
 	baseUrl,
@@ -65,7 +65,7 @@ const siteConfig = {
 	editUrl:
 		'https://github.com/blitze/phpBB-ext-sitemaker/edit/develop/docs/docs',
 	translationRecruitingLink:
-		'https://crowdin.com/project/phpBB-ext-sitemaker-docs',
+		'https://crowdin.com/project/phpbb-ext-sitemaker',
 	gaTrackingId: 'UA-134749797-1',
 	algolia: {
 		apiKey: 'fecaa594ae467c72b7b00d16529b0028',

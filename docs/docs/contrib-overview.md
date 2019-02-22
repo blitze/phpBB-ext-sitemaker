@@ -1,6 +1,6 @@
 ---
 id: contrib-overview
-title: Getting Involved
+title: Get Involved
 ---
 
 phpBB SiteMaker is an open source project and welcomes your ideas and contributions.
