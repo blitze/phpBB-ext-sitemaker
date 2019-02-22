@@ -21,9 +21,9 @@
         "title": "Block Views"
       },
       "contrib-overview": {
-        "title": "Getting Involved"
+        "title": "Get Involved"
       },
-      "contrib-pull-request": {
+      "contrib-pull-requests": {
         "title": "Submitting a Pull Request",
         "sidebar_label": "Pull Requests"
       },
@@ -80,7 +80,7 @@
       "Github": "Github"
     },
     "categories": {
-      "Userguide": "Userguide",
+      "User Guide": "User Guide",
       "Developer Guide": "Developer Guide",
       "Contribute": "Contribute"
     }
@@ -96,7 +96,7 @@
     "This project is maintained by a dedicated group of people.|statement made to reader": "This project is maintained by a dedicated group of people.",
     "Try It Out|no description given": "Try It Out",
     "Download It|no description given": "Download It",
-    "Doc|no description given": "Doc",
+    "Docs|no description given": "Docs",
     "Help Translate|recruit community translators for your project": "Help Translate",
     "Edit this Doc|recruitment message asking to edit the doc source": "Edit",
     "Translate this Doc|recruitment message asking to translate the docs": "Translate"
