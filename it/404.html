@@ -32,7 +32,7 @@
 					eventAction: window.location.href,
 					eventLabel: document.referrer
 				});
-				var language = window.location.href.match(//([^docs][a-z0-9_]+)//i, '/en/')[1] || 'en';
+				var language = window.location.href.match(/\/([^docs][a-z0-9_]+)\//i, '/en/')[1] || 'en';
 				if (language !== 'en' && document.referrer) {
 					window.location.href = document.referrer.replace(language, 'en');
 				}
