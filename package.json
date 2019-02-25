@@ -10,7 +10,9 @@
 		"start": "npm run filemanager && encore dev --watch",
 		"dev-server": "encore dev-server --host 0.0.0.0  --port 8081 --disable-host-check",
 		"dev": "npm run filemanager && encore dev",
-		"build": "encore production"
+		"build": "encore production",
+		"crowdin-upload": "crowdin --config ./crowdin.yaml upload sources --auto-update -b develop",
+		"crowdin-download": "crowdin --config ./crowdin.yaml download -b develop"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.2",
