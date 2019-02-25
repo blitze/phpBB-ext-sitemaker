@@ -29,14 +29,15 @@ At a block level, you can control when a block can be inherited by child routes.
 We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
 
 Consider the following real directory structure:
-
-	- phpBB/
-	    - Movies/
-	        - Comedy/
-	            - index.php
-	        - index.php
-	        - page.php
-	    - index.php
+```text
+phpBB
+├── index.php
+└── Movies/
+    ├── index.php
+    ├── page.php
+    └── Comedy/
+        └── index.php
+```
 
 For the purposes of inheriting blocks, we say: 
 * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php
