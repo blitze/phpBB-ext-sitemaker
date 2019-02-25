@@ -3,6 +3,17 @@
 	background: $secondaryColor !important;
 }
 
+.error-message-container {
+	text-align: center;
+	margin: 15% auto;
+}
+
+.error-message-container span {
+	font-size: 72pt;
+	font-weight: bold;
+	color: $secondaryColor;
+}
+
 .navigationSlider .slidingNav ul a[href*="github"] {
 	font-size: 0;
 }

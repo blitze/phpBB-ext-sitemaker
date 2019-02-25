@@ -17,6 +17,7 @@ const siteConfig = {
 	baseUrl,
 	projectName: 'phpBB-ext-sitemaker',
 	organizationName: 'blitze',
+	fallbackLanguage: 'en',
 	headerLinks: [
 		{ doc: 'introduction', label: 'Docs' },
 		{ page: 'help', label: 'Help' },
@@ -49,7 +50,6 @@ const siteConfig = {
 		'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
 		'https://buttons.github.io/buttons.js',
 	],
-	stylesheets: [`${baseUrl}css/copy-code-button.css`],
 
 	onPageNav: 'separate',
 	cleanUrl: true,
@@ -63,7 +63,7 @@ const siteConfig = {
 	},
 	repoUrl: 'https://github.com/blitze/phpBB-ext-sitemaker',
 	editUrl:
-		'https://github.com/blitze/phpBB-ext-sitemaker/edit/develop/docs/docs',
+		'https://github.com/blitze/phpBB-ext-sitemaker/edit/develop/docs/docs/',
 	translationRecruitingLink:
 		'https://crowdin.com/project/phpbb-ext-sitemaker',
 	gaTrackingId: 'UA-134749797-1',
