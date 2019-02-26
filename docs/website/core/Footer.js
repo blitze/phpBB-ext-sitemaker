@@ -100,6 +100,16 @@ class Footer extends React.Component {
 				<section className="copyright">
 					{this.props.config.copyright}
 				</section>
+				<div
+					id="crowdjet-container"
+					data-project-id="345963"
+					data-language-code={this.props.language}
+					style={{ bottom: '90px', right: '20px' }}
+				/>
+				<div
+					id="crowdjet-expand-container"
+					style={{ bottom: '10px', right: '20px' }}
+				/>
 			</footer>
 		);
 	}
