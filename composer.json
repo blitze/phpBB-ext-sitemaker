@@ -29,6 +29,7 @@
 		"urodoz/truncate-html": "@stable"
 	},
 	"require-dev": {
+        "phing/phing": "2.4.*",
 		"ResponsiveFilemanager": "9.14.*"
 	},
 	"extra": {
