@@ -12,18 +12,16 @@ As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http:
 
 * Download the responsive filemanager [here](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
 * Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
-```
-- root
-  - phpBB
-    - ...
-    - images
-    - includes
-    - ...
-    - ResponsiveFilemanager
-      - filemanager
-        - config
-          - .htaccess
-          - config.php
+```text
+phpBB
+├── images/
+├── includes/
+├── ...
+└── ResponsiveFilemanager/
+    └── filemanager/
+        └── config/
+            ├── .htaccess
+            └── config.php
 ```
 
 ## Activation

@@ -23,16 +23,6 @@ const languages = [
 	},
 	{
 		enabled: false,
-		name: 'Bosanski',
-		tag: 'bs-BA',
-	},
-	{
-		enabled: false,
-		name: 'Català',
-		tag: 'ca',
-	},
-	{
-		enabled: false,
 		name: 'Čeština',
 		tag: 'cs',
 	},
@@ -54,12 +44,7 @@ const languages = [
 	{
 		enabled: true,
 		name: 'Español',
-		tag: 'es-ES',
-	},
-	{
-		enabled: false,
-		name: 'فارسی',
-		tag: 'fa-IR',
+		tag: 'es',
 	},
 	{
 		enabled: false,
@@ -77,34 +62,9 @@ const languages = [
 		tag: 'he',
 	},
 	{
-		enabled: false,
-		name: 'Magyar',
-		tag: 'hu',
-	},
-	{
-		enabled: false,
-		name: 'Bahasa Indonesia',
-		tag: 'id-ID',
-	},
-	{
 		enabled: true,
 		name: 'Italiano',
 		tag: 'it',
-	},
-	{
-		enabled: false,
-		name: 'Afrikaans',
-		tag: 'af',
-	},
-	{
-		enabled: false,
-		name: '한국어',
-		tag: 'ko',
-	},
-	{
-		enabled: false,
-		name: 'मराठी',
-		tag: 'mr-IN',
 	},
 	{
 		enabled: false,
@@ -114,7 +74,7 @@ const languages = [
 	{
 		enabled: false,
 		name: 'Norsk',
-		tag: 'no-NO',
+		tag: 'no',
 	},
 	{
 		enabled: false,
@@ -124,12 +84,12 @@ const languages = [
 	{
 		enabled: true,
 		name: 'Português',
-		tag: 'pt-PT',
+		tag: 'pt',
 	},
 	{
 		enabled: false,
 		name: 'Português (Brasil)',
-		tag: 'pt-BR',
+		tag: 'pt-br',
 	},
 	{
 		enabled: false,
@@ -144,7 +104,7 @@ const languages = [
 	{
 		enabled: false,
 		name: 'Slovenský',
-		tag: 'sk-SK',
+		tag: 'sk',
 	},
 	{
 		enabled: false,
@@ -154,7 +114,7 @@ const languages = [
 	{
 		enabled: false,
 		name: 'Svenska',
-		tag: 'sv-SE',
+		tag: 'sv',
 	},
 	{
 		enabled: false,
@@ -174,8 +134,12 @@ const languages = [
 	{
 		enabled: true,
 		name: '中文',
-		tag: 'zh-CN',
+		tag: 'zh_cmn_hans',
 	},
-	{ enabled: false, name: '繁體中文', tag: 'zh-TW' },
+	{
+		enabled: false,
+		name: '繁體中文',
+		tag: 'zh_cmn_hant',
+	},
 ];
 module.exports = languages;

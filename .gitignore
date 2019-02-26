@@ -1,8 +1,7 @@
 /vendor/
 /node_modules/
-
-# dotenv environment variables file
-.env
+/build/
+/styles/all/theme/assets/manifest.json
 
 # Doc Website
 docs/website/translated_docs
