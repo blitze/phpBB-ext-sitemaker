@@ -5,7 +5,7 @@ preserve_hierarchy: true
 files:
   -
     source: '/docs/docs/*.md'
-    translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
+    translation: '/docs/website/translated_docs/%two_letters_codel_file_name%'
     languages_mapping: &anchor
       locale:
         'af': 'af'
@@ -49,13 +49,13 @@ files:
         'zh-TW': 'zh_cmn_hant'
   -
     source: '/docs/website/i18n/en.json'
-    translation: '/docs/website/i18n/%locale%.json'
+    translation: '/docs/website/i18n/%two_letters_code
     languages_mapping: *anchor
   -
     source: '/docs/website/versioned_docs/**/*.md'
-    translation: '/docs/website/translated_docs/%locale%/%original_file_name%'
+    translation: '/docs/website/translated_docs/%two_letters_codel_file_name%'
     languages_mapping: *anchor
   -
     source: '/language/**/*.php'
-    translation: '/language/%locale%/%original_file_name%'
+    translation: '/language/%osx_localeriginal_file_name%'
     languages_mapping: *anchor
