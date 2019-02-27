@@ -7,33 +7,33 @@
 	height: 160px;
 	overflow-y: auto;
 	overflow-x: hidden;
+}
 
-	.sitemaker-block {
-		text-align: center;
-		font-weight: bolder;
-		cursor: move;
+.sitemaker-block {
+	text-align: center;
+	font-weight: bolder;
+	cursor: move;
 
-		.inner {
-			margin: 5px 0;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			background-color: #f0faf4;
+	.inner {
+		margin: 5px 0;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: #f0faf4;
 
-			&:hover {
-				background-color: #1d9c73;
-				color: #fff;
-				opacity: 0.8;
-			}
+		&:hover {
+			background-color: #1d9c73;
+			color: #fff;
+			opacity: 0.8;
 		}
+	}
 
-		i {
-			float: left;
-			color: #1d9c73;
-		}
+	i {
+		float: left;
+		color: #1d9c73;
+	}
 
-		&:hover i {
-			color: #000;
-		}
+	&:hover i {
+		color: #000;
 	}
 }
