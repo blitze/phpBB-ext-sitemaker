@@ -51,7 +51,21 @@ export default class AdminBar {
 
 	bindEvents() {
 		this.$control.click(this.toggleAdminBar);
-		this.$body.on('click', '.has-dropdown', this.showDropdown);
+		this.$body.on('click', '.has-dropdown', e => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			const $element = $(e.currentTarget);
+
+			if (
+				!this.$currentDropdown ||
+				this.$currentDropdown.context !== $element.context
+			) {
+				this.showDropdown($element);
+			} else {
+				this.hideDropdown();
+			}
+		});
 	}
 
 	toggleAdminBar = e => {
@@ -63,23 +77,23 @@ export default class AdminBar {
 		this.$body.toggleClass('push-down');
 	};
 
-	showDropdown = e => {
-		e.preventDefault();
-		e.stopPropagation();
-
+	showDropdown = $element => {
 		this.$dropdownItems
 			.removeClass('dropped')
 			.next()
 			.hide();
-		this.$currentDropdown = $(e.currentTarget).addClass('dropped');
+		this.$currentDropdown = $element.addClass('dropped');
 		this.$currentDropdown.next().show();
 	};
 
 	hideDropdown = () => {
-		this.$currentDropdown
-			.removeClass('dropped')
-			.next()
-			.hide();
+		if (this.$currentDropdown) {
+			this.$currentDropdown
+				.removeClass('dropped')
+				.next()
+				.hide();
+			this.$currentDropdown = undefined;
+		}
 	};
 
 	showMessage = message => {
