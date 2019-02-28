@@ -72,7 +72,7 @@ $strings = array(
 	'FIELD_TOO_SHORT'							=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
 
 	'HIDE_ALL_BLOCKS'							=> 'Do not show blocks on this page',
-	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions.<br />Use <strong>CTRL + click</strong> to deselect or select multiple positions',
+	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions:',
 
 	'IMAGES'									=> 'Images',
 
