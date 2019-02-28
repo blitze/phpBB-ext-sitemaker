@@ -7289,10 +7289,6 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-"tinymce-fontawesome-plugin@https://github.com/josh18/TinyMCE-FontAwesome-Plugin.git":
-  version "2.1.1"
-  resolved "https://github.com/josh18/TinyMCE-FontAwesome-Plugin.git#6a3167fed0cb4748addf5fd94eeac546da3cd8ed"
-
 tinymce@^4.8.5:
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-4.9.3.tgz#c866681484282fe9ce4694124990d94eb457c344"

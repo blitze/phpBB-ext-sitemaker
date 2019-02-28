@@ -50,10 +50,6 @@ Encore.setOutputPath(paths.output)
 				to: 'tinymce/',
 			},
 			{
-				from: './node_modules/tinymce-fontawesome-plugin/',
-				to: 'tinymce/plugins/[path][name].[ext]',
-			},
-			{
 				from: 'vendor/ResponsiveFilemanager/tinymce/plugins/',
 				to: 'tinymce/plugins/[path][name].[ext]',
 			},

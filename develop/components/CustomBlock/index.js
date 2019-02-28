@@ -41,14 +41,13 @@ export default function CustomBlock() {
 			plugins: [
 				'advlist autolink lists link image imagetools charmap preview hr anchor pagebreak',
 				'visualblocks visualchars code media nonbreaking save table contextmenu directionality',
-				'paste textcolor colorpicker textpattern fontawesome noneditable',
+				'paste textcolor colorpicker textpattern noneditable',
 			],
 			toolbar: [
 				'undo redo | styleselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
-				'responsivefilemanager image media | fontawesome | bullist numlist outdent indent | hr pagebreak | link | table | removeformat code',
+				'responsivefilemanager image media | bullist numlist outdent indent | hr pagebreak | link | table | removeformat code',
 			],
-			insert_toolbar:
-				'quicktable image responsivefilemanager media fontawesome',
+			insert_toolbar: 'quicktable image responsivefilemanager media',
 			selection_toolbar: 'bold italic | h2 h3 | blockquote quicklink',
 			contextmenu: 'inserttable | cell row column deletetable',
 			powerpaste_word_import: 'clean',

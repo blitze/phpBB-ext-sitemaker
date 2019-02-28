@@ -48,7 +48,6 @@
 		"jquery.populate": "https://github.com/dtuite/jquery.populate.git",
 		"nestedSortable": "https://github.com/ilikenwf/nestedSortable#1.3.4",
 		"tinymce": "^4.8.5",
-		"tinymce-fontawesome-plugin": "https://github.com/josh18/TinyMCE-FontAwesome-Plugin.git",
 		"twig": "^1.12.0"
 	}
 }
