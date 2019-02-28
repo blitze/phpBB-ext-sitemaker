@@ -103,7 +103,9 @@ class Footer extends React.Component {
 				<div
 					id="crowdjet-container"
 					data-project-id="345963"
-					data-language-code={this.props.language}
+					data-language-code={
+						this.props.language !== 'en' ? this.props.language : ''
+					}
 					style={{ bottom: '90px', right: '20px' }}
 				/>
 				<div
