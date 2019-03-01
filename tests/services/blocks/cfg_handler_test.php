@@ -558,11 +558,11 @@ class cfg_handler_test extends \phpbb_test_case
 				),
 				'',
 				'content_type',
-				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-news">' .
+				'<div class="col content_type-checkbox" id="content_type-col-news">' .
 				'<label><input type="checkbox" name="config[content_type][0]" value="news_field1" class="checkbox" /> News Label 1</label><br />' .
 				'<label><input type="checkbox" name="config[content_type][1]" value="news_field2" class="checkbox" /> News Label 2</label><br />' .
 				'</div>' .
-				'<div class="grid__col grid__col--1-of-2 content_type-checkbox" id="content_type-col-articles">' .
+				'<div class="col content_type-checkbox" id="content_type-col-articles">' .
 				'<label><input type="checkbox" name="config[content_type][2]" value="article_field1" class="checkbox" /> Article Label 1</label><br />' .
 				'<label><input type="checkbox" name="config[content_type][3]" value="article_field2" class="checkbox" /> Article Label 2</label><br />' .
 				'</div>'

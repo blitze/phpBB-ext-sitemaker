@@ -89,8 +89,8 @@ abstract class cfg_fields
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $field)
 	{
-		$column_class = 'grid__col grid__col--1-of-2 ';
 		$index = 0;
+		$column_class = 'col ';
 		$html = '';
 
 		$selected_items = $this->ensure_array($selected_items);
