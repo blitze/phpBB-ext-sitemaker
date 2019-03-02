@@ -59,6 +59,7 @@ $strings = array(
 	'BLOCK_VIEW_SIMPLE'							=> 'Simple',
 
 	'CONTEXT'									=> 'Context',
+	'CSS_SCRIPTS'								=> 'CSS Scripts',
 	'CUSTOM_PROFILE_FIELDS'						=> 'Custom Profile Fields',
 
 	'DATE_RANGE'								=> 'Date Range',
@@ -84,6 +85,11 @@ $strings = array(
 	'FULL'										=> 'Full',
 
 	'GET_TYPE'									=> 'Display Topic/Post?',
+
+	'HTML'										=> 'HTML',
+	'HTML_EXPLAIN'								=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
+
+	'JS_SCRIPTS'								=> 'JS Scripts',
 
 	'LAST_POST_TIME'							=> 'Last Post Time',
 	'LAST_READ_TIME'							=> 'Last Read Time',
@@ -125,6 +131,7 @@ $strings = array(
 	'ROTATE_PAGELOAD'							=> 'Page load',
 	'ROTATE_WEEKLY'								=> 'Weekly',
 
+	'SCRIPTS'									=> 'Scripts',
 	'SELECT_FORUMS'								=> 'Select forums',
 	'SELECT_FORUMS_EXPLAIN'						=> 'Select the forums from which to display topics/posts. Leave blank to select from all forums',
 	'SELECT_MENU'								=> 'Select Menu',
@@ -136,8 +143,6 @@ $strings = array(
 	'SHOW_MEMBER_MENU'							=> 'Show user menu?',
 	'SHOW_MEMBER_MENU_EXPLAIN'					=> 'Replace login box with user menu if user is logged in',
 	'SHOW_WORD_COUNT'							=> 'Show word count?',
-	'SOURCE'									=> 'Source',
-	'SOURCE_EXPLAIN'							=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
 
 	'TEMPLATE'									=> 'Template',
 	'TOPICS_ONLY'								=> 'Topics only?',

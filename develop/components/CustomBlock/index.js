@@ -1,6 +1,7 @@
 /* global $ */
 // @flow
 import { fixPaths, inactiveBlockClass } from '../../utils';
+import ScriptsUI from './ScriptsUI';
 
 const { actions, config, lang, tinymce } = window;
 
@@ -151,6 +152,7 @@ export default function CustomBlock() {
 	}
 
 	initTinyMCE();
+	ScriptsUI();
 
 	$(document)
 		.on('blitze_sitemaker_render_block_after', ({ block, $block }) => {

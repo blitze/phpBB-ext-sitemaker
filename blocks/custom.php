@@ -25,6 +25,9 @@ class custom extends block
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
+	/** @var \blitze\sitemaker\services\util */
+	protected $util;
+
 	/** @var string */
 	protected $cblocks_table;
 
@@ -34,13 +37,15 @@ class custom extends block
 	 * @param \phpbb\cache\driver\driver_interface	$cache					Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface		$db						Database object
 	 * @param \phpbb\request\request_interface		$request				Request object
+	 * @param \blitze\sitemaker\services\util		$util					Sitemaker util object
 	 * @param string								$cblocks_table			Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, $cblocks_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request, \blitze\sitemaker\services\util $util, $cblocks_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
 		$this->request = $request;
+		$this->util = $util;
 		$this->cblocks_table = $cblocks_table;
 	}
 
@@ -50,8 +55,11 @@ class custom extends block
 	public function get_config(array $settings)
 	{
 		return array(
-			'legend1'		=> 'SOURCE',
-			'source'	=> array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'SOURCE_EXPLAIN'),
+			'legend1'		=> 'HTML',
+			'source'	=> array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'HTML_EXPLAIN'),
+			'legend2'		=> 'SCRIPTS',
+			'js_scripts'	=> array('type' => 'custom', 'default' => '', 'object' => $this, 'method' => 'get_scripts_ui'),
+			'css_scripts'	=> array('type' => 'custom', 'default' => '', 'object' => $this, 'method' => 'get_scripts_ui'),
 		);
 	}
 
@@ -63,6 +71,9 @@ class custom extends block
 		$status = $bdata['status'];
 		$cblock = $this->get_block_data($bdata['bid']);
 		$content = $this->get_content_for_display($cblock, $bdata['settings']['source']);
+
+		$this->add_scripts((array) $bdata['settings']['js_scripts'], 'js');
+		$this->add_scripts((array) $bdata['settings']['css_scripts'], 'css');
 
 		if (!$bdata['settings']['source'])
 		{
@@ -114,6 +125,31 @@ class custom extends block
 
 			$this->save($sql_data, isset($cblocks[$to_bid]));
 		}
+	}
+
+	/**
+	 * @param mixed $scripts
+	 * @param string $key
+	 * @return string
+	 */
+	public function get_scripts_ui($scripts, $key)
+	{
+		$this->ptemplate->assign_vars(array(
+			'field'		=> $key,
+			'scripts'	=> array_filter((array) $scripts),
+		));
+
+		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/custom_block_scripts.html', 'custom_block_scripts');
+	}
+
+	/**
+	 * @param array $scripts
+	 * @param string $type
+	 * @return void
+	 */
+	private function add_scripts($scripts, $type)
+	{
+		$this->util->add_assets(array_filter(array($type => array_filter($scripts))));
 	}
 
 	/**

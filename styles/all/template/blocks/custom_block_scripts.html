@@ -1,0 +1,25 @@
+{% macro input(field, script) %}
+    <div class="sm-cb-script">
+        <div class="drag"><i class="fa fa-bars" aria-hidden="true"></i></div>
+        <input type="text" name="config[{{ field }}][]" value="{{ script|e }}" />
+        <button class="sm-cb-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+{% endmacro %}
+
+{% macro ui(field, list) %}
+    {% import _self as script %}
+
+    <h5>{{ lang(field|upper) }}</h5>
+    <div class="sm-cb-scripts-container">
+        {% for value in list %}
+            {{ script.input(field, value) }}
+        {% endfor %}
+        {{ script.input(field) }}
+    </div>
+    <button class="sm-cb-add-script pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    {% if field !== 'css_scripts' %}<br />{% endif %}
+{% endmacro %}
+
+{% import _self as type %}
+
+{{ type.ui(field, scripts) }}

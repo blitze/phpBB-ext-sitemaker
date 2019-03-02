@@ -132,7 +132,22 @@ class base_action extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, 'phpbb_sm_cblocks');
+		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$path_helper->expects($this->any())
+			->method('get_web_root_path')
+			->will($this->returnCallback(function() {
+				return './';
+			}));
+
+		$user = $this->getMockBuilder('\phpbb\user')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$util = new \blitze\sitemaker\services\util($path_helper, $template, $user);
+
+		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, $util, 'phpbb_sm_cblocks');
 
 		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $this->translator, $groups, $phpbb_root_path, $phpEx);
 
