@@ -6,6 +6,8 @@ import ScriptsUI from './ScriptsUI';
 const { actions, config, lang, tinymce } = window;
 
 export default function CustomBlock() {
+	const placeholder = `<p>${lang.placeholder}</p>`;
+
 	function customBlockAction(data) {
 		if (data.id) {
 			$.post(actions.handle_custom_action, data).done(resp => {
@@ -17,7 +19,7 @@ export default function CustomBlock() {
 					);
 					const editor = $(`#${id}`).attr('data-raw', rawHTML);
 
-					tinymce.get(id).setContent(rawHTML || lang.placeholder);
+					tinymce.get(id).setContent(rawHTML || placeholder);
 
 					if (!resp.content || !editor.data('active')) {
 						$blockContainer.addClass(inactiveBlockClass);
@@ -66,7 +68,7 @@ export default function CustomBlock() {
 
 				editor.on('init', () => {
 					if (editor.getContent().length === 0) {
-						editor.setContent(lang.placeholder);
+						editor.setContent(placeholder);
 					}
 				});
 
@@ -104,11 +106,11 @@ export default function CustomBlock() {
 
 						if (
 							rawEditorContent !== blockRawHTML &&
-							rawEditorContent !== lang.placeholder
+							rawEditorContent !== placeholder
 						) {
 							if (!editorContent.length) {
 								rawEditorContent = '';
-								editor.setContent(lang.placeholder);
+								editor.setContent(placeholder);
 							}
 
 							const blockData = $(`#${editor.id}`)
@@ -119,7 +121,7 @@ export default function CustomBlock() {
 
 							customBlockAction(blockData);
 						} else if (!editorContent) {
-							editor.setContent(lang.placeholder);
+							editor.setContent(placeholder);
 						}
 					});
 				});
