@@ -37,7 +37,7 @@ export default function ScriptsUI() {
 		}
 	}
 
-	function open() {
+	function initSortable() {
 		$('.sm-cb-scripts-container').sortable({
 			axis: 'y',
 			containment: 'parent',
@@ -47,5 +47,5 @@ export default function ScriptsUI() {
 	$('#dialog-edit')
 		.on('click', '.sm-cb-add-script', addRow)
 		.on('click', '.sm-cb-delete', deleteRow)
-		.dialog({ open });
+		.on('dialogopen', initSortable);
 }
