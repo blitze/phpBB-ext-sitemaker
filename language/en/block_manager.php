@@ -83,6 +83,17 @@ $strings = array(
 	'LISTS'										=> 'Lists',
 
 	'MAKE_DEFAULT_LAYOUT'						=> 'Set As Default Layout',
+	'MAP_COORDINATES'							=> 'Coordinates',
+	'MAP_COORDINATES_EXPLAIN'					=> 'Enter coordinates in the form latitude,longitude',
+	'MAP_HEIGHT'								=> 'Height',
+	'MAP_LOCATION'								=> 'Location',
+	'MAP_TITLE'									=> 'Title',
+	'MAP_VIEW'									=> 'View',
+	'MAP_VIEW_HYBRID'							=> 'Hybrid',
+	'MAP_VIEW_MAP'								=> 'Map',
+	'MAP_VIEW_SATELITE'							=> 'Satelite',
+	'MAP_VIEW_TERRAIN'							=> 'Terrain',
+	'MAP_ZOOM_LEVEL'							=> 'Zoom Level',
 
 	'OR'										=> '<strong>OR</strong>',
 

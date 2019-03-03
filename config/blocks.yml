@@ -83,6 +83,15 @@ services:
         tags:
             - { name: sitemaker.block }
 
+    blitze.sitemaker.block.google_maps:
+        class: blitze\sitemaker\blocks\google_maps
+        arguments:
+            - '@template'
+        calls:
+            - [set_name, [blitze.sitemaker.block.google_maps]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.links:
         class: blitze\sitemaker\blocks\links
         arguments:

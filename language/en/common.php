@@ -40,6 +40,8 @@ $strings = array(
 	'HELP'							=> 'Help',
 	'HOURLY_MEMBER'					=> 'Member of the hour',
 
+	'GOOGLE_MAP'					=> 'Google Map',
+
 	'JOIN_DATE'						=> 'Join Date',
 
 	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
