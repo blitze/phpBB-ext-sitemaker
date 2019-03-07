@@ -58,8 +58,8 @@ class custom extends block
 			'legend1'		=> 'HTML',
 			'source'	=> array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'HTML_EXPLAIN'),
 			'legend2'		=> 'SCRIPTS',
-			'js_scripts'	=> array('type' => 'custom', 'default' => '', 'object' => $this, 'method' => 'get_scripts_ui'),
-			'css_scripts'	=> array('type' => 'custom', 'default' => '', 'object' => $this, 'method' => 'get_scripts_ui'),
+			'js_scripts'	=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
+			'css_scripts'	=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
 		);
 	}
 
