@@ -2,7 +2,7 @@
 
 import './style.scss';
 
-export default function ScriptsUI() {
+export default function MultiInputUI() {
 	function scrollTo($element, $container) {
 		const scrollTop = $element.offset().top;
 		$container.stop().animate({ scrollTop }, 300);
@@ -28,7 +28,7 @@ export default function ScriptsUI() {
 		e.preventDefault();
 		const $row = $(this)
 			.blur()
-			.closest('.sm-cb-script');
+			.closest('.sm-multi-input-item');
 		const numSiblings = $row.siblings().length;
 		if (numSiblings) {
 			$row.remove();
@@ -37,15 +37,17 @@ export default function ScriptsUI() {
 		}
 	}
 
-	function initSortable() {
-		$('.sm-cb-scripts-container').sortable({
+	function init() {
+		const $multiInput = $('.sm-multi-input');
+
+		$multiInput.sortable({
 			axis: 'y',
 			containment: 'parent',
 		});
 	}
 
 	$('#dialog-edit')
-		.on('click', '.sm-cb-add-script', addRow)
-		.on('click', '.sm-cb-delete', deleteRow)
-		.on('dialogopen', initSortable);
+		.on('click', '.sm-multi-input-add', addRow)
+		.on('click', '.sm-multi-input-delete', deleteRow)
+		.on('dialogopen', init);
 }
