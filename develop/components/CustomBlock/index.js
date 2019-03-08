@@ -2,6 +2,7 @@
 // @flow
 import { fixPaths, inactiveBlockClass } from '../../utils';
 import MultiInputUI from '../MultiInputUI';
+import { initCodeMirror } from '../CodeMirror';
 
 const { actions, config, lang, tinymce } = window;
 
@@ -201,4 +202,10 @@ export default function CustomBlock() {
 				}, 300);
 			}
 		});
+
+	$('#dialog-edit').on('dialogopen', function enableCodeMirror() {
+		if ($(this).find('#source').length) {
+			initCodeMirror('#source');
+		}
+	});
 }
