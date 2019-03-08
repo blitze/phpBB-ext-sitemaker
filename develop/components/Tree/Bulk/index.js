@@ -1,65 +1,11 @@
 /* global $ */
 /* eslint-disable no-underscore-dangle */
-import CodeMirror from 'codemirror';
-import 'codemirror/addon/display/autorefresh';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/monokai.css';
 
 import Button from '../../Button/button';
 import BtnGrpDrop from '../../BtnGrpDrop';
+import { initCodeMirror, insertText } from '../../CodeMirror';
 
 const { lang } = window;
-let codeMirror = {};
-
-function insertText(data) {
-	const doc = codeMirror.getDoc();
-	const cursor = doc.getCursor();
-	const line = doc.getLine(cursor.line);
-	const pos = {
-		line: cursor.line,
-	};
-
-	if (!line.match(/\S/i)) {
-		doc.replaceRange(data, pos);
-	} else {
-		doc.replaceRange(`\n${data}`, pos);
-	}
-}
-
-function initCodeMirror(textarea) {
-	codeMirror = CodeMirror.fromTextArea($(textarea).get(0), {
-		theme: 'monokai',
-		lineWrapping: false,
-		autoRefresh: true,
-		coverGutterNextToScrollbar: false,
-		indentWithTabs: true,
-		lineNumbers: true,
-		indentUnit: 4,
-	});
-
-	let cmTabs = 0;
-	codeMirror.on('keyup', cm => {
-		const doc = cm.getDoc();
-		const line = doc.getLine(cm.getCursor().line);
-		const matches = line.match(/\s/gim);
-		cmTabs = matches ? matches.length : 0;
-	});
-
-	codeMirror.on('change', (cm, change) => {
-		const spaces = cmTabs * cm.options.tabSize;
-		cm.operation(() => {
-			for (
-				let line = change.from.line + 1,
-					end = CodeMirror.changeEnd(change).line;
-				line <= end;
-				line += 1
-			) {
-				cm.indentLine(line, spaces);
-			}
-		});
-	});
-}
 
 export default function AddBulkBtn(tree) {
 	function getOptions($list, padding, options) {
@@ -81,7 +27,7 @@ export default function AddBulkBtn(tree) {
 		return options;
 	}
 
-	initCodeMirror(tree.options.addBulkList);
+	const codeMirror = initCodeMirror(tree.options.addBulkList);
 
 	const $addBulkBtn = BtnGrpDrop(tree.options.addBulkBtn, 'down', () => {
 		const options = `<option value="0">${lang.none}</option>`;
