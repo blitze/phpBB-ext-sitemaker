@@ -9,11 +9,22 @@ import 'codemirror/addon/display/fullscreen.css';
 
 import './style.scss';
 
-let codeMirror = {};
+function runAction(cm, action) {
+	if (action === 'undo') {
+		cm.undo();
+	} else if (action === 'redo') {
+		cm.redo();
+	} else if (action === 'clear') {
+		cm.setValue('');
+	} else if (action === 'fullscreen') {
+		cm.setOption('fullScreen', !cm.getOption('fullScreen'));
+		cm.focus();
+	}
+}
 
-export function insertText(text, newLine = false) {
-	if (!codeMirror.getSelection().length) {
-		const doc = codeMirror.getDoc();
+export function insertText(cm, text, newLine = false) {
+	if (!cm.getSelection().length) {
+		const doc = cm.getDoc();
 		const cursor = doc.getCursor();
 		const line = doc.getLine(cursor.line);
 		let { ch } = cursor;
@@ -30,13 +41,12 @@ export function insertText(text, newLine = false) {
 
 		doc.replaceRange(text, pos);
 	} else {
-		codeMirror.replaceSelection(text.trim());
+		cm.replaceSelection(text.trim());
 	}
 }
 
 export function initCodeMirror(textarea, overwrites = {}) {
 	const $textarea = $(textarea);
-	const $buttons = $('.CodeMirror-button');
 	const settings = {
 		theme: 'monokai',
 		mode: 'htmlmixed',
@@ -46,6 +56,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		indentWithTabs: true,
 		lineNumbers: true,
 		indentUnit: 4,
+		actionBtnsSelector: false,
 
 		// overwrites
 		...overwrites,
@@ -65,7 +76,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		};
 	}
 
-	codeMirror = CodeMirror.fromTextArea($textarea.get(0), settings);
+	const codeMirror = CodeMirror.fromTextArea($textarea.get(0), settings);
 
 	let cmTabs = 0;
 	let $undoRedo = {};
@@ -96,7 +107,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 			}
 		});
 
-		$textarea.text(cm.getValue()).trigger('change');
+		$textarea.text(` ${cm.getValue().trim()} `).trigger('change');
 
 		if ($undoRedo.length) {
 			const historySize = codeMirror.getDoc().historySize();
@@ -107,31 +118,14 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		}
 	});
 
-	// codeMirror.on('blur', cm => {
-	// 	cursorPos = cm.getCursor();
-	// });
-
-	if ($buttons.length) {
-		const doAction = {
-			undo: () => codeMirror.undo(),
-			redo: () => codeMirror.redo(),
-			clear: () => codeMirror.setValue(''),
-			fullscreen: () => {
-				codeMirror.setOption(
-					'fullScreen',
-					!codeMirror.getOption('fullScreen'),
-				);
-				codeMirror.focus();
-			},
-		};
-
-		$buttons.click(e => {
-			e.preventDefault();
-			const action = $(e.currentTarget).data('action');
-			if (doAction[action]) {
-				doAction[action]();
-			}
-		});
+	if (settings.actionBtnsSelector) {
+		const $buttons = $(settings.actionBtnsSelector)
+			.addClass('CodeMirror-button')
+			.click(e => {
+				e.preventDefault();
+				const action = $(e.currentTarget).data('action');
+				runAction(codeMirror, action);
+			});
 
 		$undoRedo = $buttons
 			.filter((i, el) => {

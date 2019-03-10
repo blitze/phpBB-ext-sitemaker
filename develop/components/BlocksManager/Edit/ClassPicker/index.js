@@ -2,14 +2,16 @@
 import { initCodeMirror, insertText } from '../../../CodeMirror';
 
 export default function ClassPicker($dialogEdit) {
+	let codeMirror;
 	$dialogEdit.dialog({
 		open: () => {
-			initCodeMirror('#class_editor', {
+			codeMirror = initCodeMirror('#class_editor', {
 				theme: 'default',
 				lineWrapping: true,
 				indentWithTabs: false,
 				lineNumbers: false,
 				allowFullScreen: false,
+				actionBtnsSelector: '.sm-class-editor-button',
 			});
 		},
 	});
@@ -29,6 +31,6 @@ export default function ClassPicker($dialogEdit) {
 		})
 		.on('click', '.transform', function insertClass(e) {
 			e.preventDefault();
-			insertText(`${$(this).text()} `);
+			insertText(codeMirror, `${$(this).text()} `);
 		});
 }

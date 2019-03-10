@@ -50,7 +50,7 @@ export default function AddBulkBtn(tree) {
 		const itemsStr = $(e.currentTarget)
 			.data('items')
 			.trim();
-		insertText(itemsStr, true);
+		insertText(codeMirror, itemsStr, true);
 	}).each((i, element) => {
 		const list = [];
 		const $type = $(element);
@@ -77,7 +77,7 @@ export default function AddBulkBtn(tree) {
 
 		const $item = $(e.currentTarget);
 
-		insertText($item.data('item').trim(), true);
+		insertText(codeMirror, $item.data('item').trim(), true);
 		$item.parents('.bulk-type-items').toggle();
 	});
 
