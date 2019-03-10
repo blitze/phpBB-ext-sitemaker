@@ -2,7 +2,7 @@
 
 import './style.scss';
 
-export default function MultiInputUI() {
+export default function MultiInputUI(sortable = true) {
 	function scrollTo($element, $container) {
 		const scrollTop = $element.offset().top;
 		$container.stop().animate({ scrollTop }, 300);
@@ -38,12 +38,12 @@ export default function MultiInputUI() {
 	}
 
 	function init() {
-		const $multiInput = $('.sm-multi-input');
-
-		$multiInput.sortable({
-			axis: 'y',
-			containment: 'parent',
-		});
+		if (sortable) {
+			$('.sm-multi-input').sortable({
+				axis: 'y',
+				containment: 'parent',
+			});
+		}
 	}
 
 	$('#dialog-edit')
