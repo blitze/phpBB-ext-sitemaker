@@ -22,9 +22,7 @@ export default function MenuManager() {
 
 	const showMessage = message => {
 		if (message) {
-			$msgBox
-				.html(message)
-				.fadeIn();
+			$msgBox.html(message).fadeIn();
 		}
 	};
 
@@ -49,6 +47,7 @@ export default function MenuManager() {
 	EditMenuHandler();
 	DeleteMenuHandler($menus, init);
 
+	$('#menus-loader').hide();
 	$('body').on('click', '.menu-item', e => {
 		e.preventDefault();
 		const isUnsaved = $tree.treeBuilder('isUnsaved');
