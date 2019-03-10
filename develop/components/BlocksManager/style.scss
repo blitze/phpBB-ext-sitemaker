@@ -150,8 +150,9 @@
 }
 
 .block-class-editor {
-	width: 99%;
-	outline: 1px solid #666;
-	height: 40px;
-	overflow: auto;
+	.CodeMirror {
+		width: 217px;
+		height: 50px;
+		outline: 1px solid #333;
+	}
 }

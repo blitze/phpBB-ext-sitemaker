@@ -66,10 +66,14 @@
 			<dl>
 				<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label><br /><span>{{ lang('BLOCK_CLASS_EXPLAIN') }}</span></span></dt>
 				<dd>
-					<div id="class_editor" class="block-class-editor">{{ S_BLOCK_CLASS }}</div>
-					<input type="hidden" id="sm-classes" class="block-preview" name="class" value="{{ S_BLOCK_CLASS }}" />
+					<div class="block-class-editor">
+						<textarea id="class_editor" class="block-preview" name="class">{{ S_BLOCK_CLASS }}</textarea>
+					</div>
 					<div class="align-right">
-						<a class="classes-toggler" href="#"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</a>
+				        <button class="CodeMirror-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+				        <button class="CodeMirror-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+				        <button class="CodeMirror-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
+						<button class="classes-toggler"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
 					</div>
 				</dd>
 			</dl>

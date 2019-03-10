@@ -11,18 +11,26 @@ import './style.scss';
 
 let codeMirror = {};
 
-export function insertText(data) {
-	const doc = codeMirror.getDoc();
-	const cursor = doc.getCursor();
-	const line = doc.getLine(cursor.line);
-	const pos = {
-		line: cursor.line,
-	};
+export function insertText(text, newLine = false) {
+	if (!codeMirror.getSelection().length) {
+		const doc = codeMirror.getDoc();
+		const cursor = doc.getCursor();
+		const line = doc.getLine(cursor.line);
+		let { ch } = cursor;
 
-	if (!line.match(/\S/i)) {
-		doc.replaceRange(data, pos);
+		if (newLine && line.length) {
+			ch = line.length - 1;
+			text = `\n${text.trim()}`;
+		}
+
+		const pos = {
+			line: cursor.line,
+			ch,
+		};
+
+		doc.replaceRange(text, pos);
 	} else {
-		doc.replaceRange(`\n${data}`, pos);
+		codeMirror.replaceSelection(text.trim());
 	}
 }
 
@@ -32,12 +40,19 @@ export function initCodeMirror(textarea, overwrites = {}) {
 	const settings = {
 		theme: 'monokai',
 		mode: 'htmlmixed',
+		allowFullScreen: true,
 		lineWrapping: false,
 		autoRefresh: true,
 		indentWithTabs: true,
 		lineNumbers: true,
 		indentUnit: 4,
-		extraKeys: {
+
+		// overwrites
+		...overwrites,
+	};
+
+	if (settings.allowFullScreen) {
+		settings.extraKeys = {
 			F11: cm => {
 				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
 				cm.focus();
@@ -47,11 +62,8 @@ export function initCodeMirror(textarea, overwrites = {}) {
 					cm.setOption('fullScreen', false);
 				}
 			},
-		},
-
-		// overwrites
-		...overwrites,
-	};
+		};
+	}
 
 	codeMirror = CodeMirror.fromTextArea($textarea.get(0), settings);
 
@@ -84,6 +96,8 @@ export function initCodeMirror(textarea, overwrites = {}) {
 			}
 		});
 
+		$textarea.text(cm.getValue()).trigger('change');
+
 		if ($undoRedo.length) {
 			const historySize = codeMirror.getDoc().historySize();
 			$undoRedo.each((i, el) => {
@@ -93,9 +107,9 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		}
 	});
 
-	codeMirror.on('blur', () => {
-		$textarea.val(codeMirror.getValue());
-	});
+	// codeMirror.on('blur', cm => {
+	// 	cursorPos = cm.getCursor();
+	// });
 
 	if ($buttons.length) {
 		const doAction = {
