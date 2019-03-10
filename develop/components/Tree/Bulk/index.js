@@ -38,6 +38,11 @@ export default function AddBulkBtn(tree) {
 			.html(getOptions(tree.nestedList, '', options))
 			.next()
 			.val();
+
+		if (codeMirror.getValue().length) {
+			codeMirror.setValue('');
+			codeMirror.clearHistory();
+		}
 	});
 
 	Button('.bulk-type', {}, e => {
@@ -45,7 +50,7 @@ export default function AddBulkBtn(tree) {
 		const itemsStr = $(e.currentTarget)
 			.data('items')
 			.trim();
-		insertText(itemsStr);
+		insertText(itemsStr, true);
 	}).each((i, element) => {
 		const list = [];
 		const $type = $(element);
@@ -72,7 +77,7 @@ export default function AddBulkBtn(tree) {
 
 		const $item = $(e.currentTarget);
 
-		insertText($item.data('item').trim());
+		insertText($item.data('item').trim(), true);
 		$item.parents('.bulk-type-items').toggle();
 	});
 
