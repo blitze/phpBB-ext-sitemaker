@@ -9,6 +9,8 @@ import 'codemirror/addon/display/fullscreen.css';
 
 import './style.scss';
 
+const { config } = window;
+
 function runAction(cm, action) {
 	if (action === 'undo') {
 		cm.undo();
@@ -50,6 +52,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 	const settings = {
 		theme: 'monokai',
 		mode: 'htmlmixed',
+		direction: config.directionality,
 		allowFullScreen: true,
 		lineWrapping: false,
 		autoRefresh: true,
