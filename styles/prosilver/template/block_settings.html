@@ -27,7 +27,7 @@
 			<dl>
 				<dt>
 					<label for="block_type">{{ lang('BLOCK_DISPLAY_TYPE') }}</label>
-					<a data-action="toggle" class="block-class-actions" href="#examples"><i class="fa fa-question-circle-o fa-lg"></i></a>
+					<button class="sm-toggler" data-target="#route-examples"><i class="fa fa-question-circle-o fa-lg"></i></button>
 				</dt>
 				<dd>
 					<label><input type="radio" name="type" value="0"{% if not S_TYPE %} checked="checked"{% endif %} id="block_type" /> {{ lang('BLOCK_SHOW_ALWAYS') }}</label>
@@ -35,7 +35,7 @@
 					<label><input type="radio" name="type" value="2"{% if S_TYPE == 2 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_ONLY') }}</label>
 				</dd>
 			</dl>
-			<div id="examples" class="panel bg1 small" style="display: none">
+			<div id="route-examples" class="panel bg1 small" style="display: none">
 				<table>
 					<thead>
 						<tr>
@@ -73,7 +73,7 @@
 				        <button class="CodeMirror-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
 				        <button class="CodeMirror-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
 				        <button class="CodeMirror-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
-						<button class="classes-toggler"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
+						<button class="sm-toggler" data-target="#css-class-options"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
 					</div>
 				</dd>
 			</dl>

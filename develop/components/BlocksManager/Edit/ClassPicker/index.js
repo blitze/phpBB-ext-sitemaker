@@ -15,10 +15,6 @@ export default function ClassPicker($dialogEdit) {
 	});
 
 	$dialogEdit
-		.on('click', '.classes-toggler', e => {
-			e.preventDefault();
-			$('#css-class-options').slideToggle();
-		})
 		.on('click', '.class-cat', function category(e) {
 			e.preventDefault();
 

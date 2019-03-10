@@ -86,6 +86,16 @@ export default function EditBlock() {
 				$dialogEdit.html(row.form);
 				$dialogEdit.find('#block-settings').tabs();
 				$dialogEdit
+					.find('.sm-toggler')
+					.click(e => {
+						e.preventDefault();
+						const target = $(e.currentTarget).data('target');
+						$(target).slideToggle();
+					})
+					.each(function iterator() {
+						$($(this).data('target')).hide();
+					});
+				$dialogEdit
 					.find('select[data-togglable-settings]')
 					.each(function iterator() {
 						const $this = $(this);
