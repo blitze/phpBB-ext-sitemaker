@@ -32,20 +32,21 @@ class save_block extends base_action
 		}
 
 		$old_hash = $entity->get_hash();
+		$updated_blocks = array();
 
-		$entity->set_permission($this->request->variable('permission', array(0)))
-			->set_class($this->request->variable('class', ''))
-			->set_hide_title($this->request->variable('hide_title', 0))
-			->set_status($this->request->variable('status', 0))
-			->set_type($this->request->variable('type', 0))
-			->set_view($this->request->variable('view', ''))
-			->set_settings($this->get_updated_settings($entity->get_name(), $entity->get_settings()));
+		try
+		{
+			/** @var \blitze\sitemaker\model\entity\block $entity */
+			$entity = $this->get_updated_settings($entity);
+		}
+		catch (Exception $e)
+		{
+			throw new $e->getMessage();
+		}
 
-		/** @var \blitze\sitemaker\model\entity\block $entity */
 		$entity = $this->block_mapper->save($entity);
 
 		$new_hash = $entity->get_hash();
-		$updated_blocks = array();
 		$updated_blocks[$entity->get_bid()] = $this->render_block($entity);
 
 		if ($update_similar && $new_hash !== $old_hash)
@@ -59,21 +60,26 @@ class save_block extends base_action
 	}
 
 	/**
-	 * @param string $block_service
-	 * @param array $db_settings
+	 * @param \blitze\sitemaker\model\entity\block $entity
 	 * @return array
 	 */
-	private function get_updated_settings($block_service, array $db_settings)
+	private function get_updated_settings(\blitze\sitemaker\model\entity\block $entity)
 	{
-		$block_instance = $this->block_factory->get_block($block_service);
-		$default_settings = $block_instance->get_config(array());
+		$block_instance = $this->block_factory->get_block($entity->get_name());
+		$default_config = $block_instance->get_config(array());
 
 		$cfg_handler = $this->phpbb_container->get('blitze.sitemaker.blocks.cfg_handler');
-		$submitted_settings = $cfg_handler->get_submitted_settings($default_settings);
+		$submitted_settings = $cfg_handler->get_submitted_settings($default_config);
 
-		$this->set_hidden_fields($submitted_settings, $default_settings, $db_settings);
+		$this->set_hidden_fields($submitted_settings, $default_config, $entity->get_settings());
 
-		return $submitted_settings;
+		return $entity->set_permission($this->request->variable('permission', array(0)))
+			->set_class($this->request->variable('class', ''))
+			->set_hide_title($this->request->variable('hide_title', 0))
+			->set_status($this->request->variable('status', 0))
+			->set_type($this->request->variable('type', 0))
+			->set_view($this->request->variable('view', ''))
+			->set_settings($submitted_settings);
 	}
 
 	/**

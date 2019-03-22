@@ -48,7 +48,7 @@ class edit_block_test extends base_action
 						'TITLE'			=> 'OTHER_SETTING',
 						'S_EXPLAIN'		=> true,
 						'TITLE_EXPLAIN'	=> 'OTHER_SETTING_EXPLAIN',
-						'CONTENT'		=> '<label><input type="radio" id="other_setting" name="config[other_setting]" value="1" class="radio" /> </label><label><input type="radio" name="config[other_setting]" value="0" checked="checked" class="radio" /> </label>',
+						'CONTENT'		=> '<input id="other_setting" type="number" max="10" name="config[other_setting]" value="0" />',
 					),
 				),
 			),

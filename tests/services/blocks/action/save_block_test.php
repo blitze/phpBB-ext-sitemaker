@@ -153,4 +153,39 @@ class save_block_test extends base_action
 			$this->assertEquals('EXCEPTION_OUT_OF_BOUNDS-bid', $e->get_message($this->translator));
 		}
 	}
+
+	function test_invalid_config_is_not_saved()
+	{
+		$command = $this->get_command('save_block', array(
+			array('similar', false, false, request_interface::REQUEST, false),
+			array('id', 0, false, request_interface::REQUEST, 1),
+			array('status', 0, false, request_interface::REQUEST, 1),
+			array('class', '', false, request_interface::REQUEST, 'bg3'),
+			array('hide_title', 0, false, request_interface::REQUEST, 1),
+			array('permission', array(0), false, request_interface::REQUEST, array(1, 4)),
+			array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
+			array('config', array('' => ''), true, request_interface::REQUEST, array(
+				'my_setting'	=> 0,
+				'other_setting'	=> 100,
+			)),
+		));
+
+		$mapper = $this->mapper_factory->create('blocks');
+
+		$entity = $mapper->load(array('bid', '=', 1));
+		$settings = $entity->get_settings();
+		$this->assertEquals(0, $settings['other_setting']);
+
+		try
+		{
+			$this->assertNull($command->execute(1));
+			$this->fail('no exception thrown');
+		}
+		catch (\Exception $e)
+		{
+			$entity = $mapper->load(array('bid', '=', 1));
+			$settings = $entity->get_settings();
+			$this->assertEquals(0, $settings['other_setting']);
+		}
+	}
 }
