@@ -21,6 +21,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $strings = array(
+	'ADD'										=> 'Add',
 	'ALL_TYPES'									=> 'All Types',
 	'ALL_FORUMS'								=> 'All Forums',
 	'ALL_GROUPS'								=> 'All Groups',
@@ -36,8 +37,10 @@ $strings = array(
 	'BLITZE_SITEMAKER_BLOCK_BIRTHDAY'			=> 'Birthday',
 	'BLITZE_SITEMAKER_BLOCK_CUSTOM'				=> 'Custom Block',
 	'BLITZE_SITEMAKER_BLOCK_FEATURED_MEMBER'	=> 'Featured Member',
+	'BLITZE_SITEMAKER_BLOCK_FEEDS'				=> 'RSS/Atom Feeds',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_POLL'			=> 'Forum Poll',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_TOPICS'		=> 'Forum Topics',
+	'BLITZE_SITEMAKER_BLOCK_GOOGLE_MAPS'		=> 'Google Maps',
 	'BLITZE_SITEMAKER_BLOCK_LINKS'				=> 'Links',
 	'BLITZE_SITEMAKER_BLOCK_LOGIN'				=> 'Login Box',
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Members',
@@ -58,7 +61,9 @@ $strings = array(
 	'BLOCK_VIEW_DEFAULT'						=> 'Default',
 	'BLOCK_VIEW_SIMPLE'							=> 'Simple',
 
+	'CACHE_DURATION'							=> 'Cache duration',
 	'CONTEXT'									=> 'Context',
+	'CSS_SCRIPTS'								=> 'CSS Scripts',
 	'CUSTOM_PROFILE_FIELDS'						=> 'Custom Profile Fields',
 
 	'DATE_RANGE'								=> 'Date Range',
@@ -75,6 +80,10 @@ $strings = array(
 
 	'FEATURED_MEMBER_IDS'						=> 'User IDs',
 	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
+	'FEED_ITEM_TEMPLATE'						=> 'Item Template',
+	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />- Access feed data in <strong>item</strong> variable e.g. item.title<br />- Click <strong>Samples</strong> above for sample templates<br />- Template must be in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntax</a>',
+	'FEED_URL_PLACEHOLDER'						=> 'http://example.com/rss',
+	'FEED_URLS'									=> 'Feed URLs',
 	'FIRST_POST_ONLY'							=> 'First Post Only',
 	'FIRST_POST_TIME'							=> 'First Post Time',
 	'FORUMS_GET_TYPE'							=> 'Get type',
@@ -82,8 +91,15 @@ $strings = array(
 	'FORUMS_TITLE_MAX_CHARS'					=> 'Maximum characters per title',
 	'FREQUENCY'									=> 'Frequency',
 	'FULL'										=> 'Full',
+	'FULLSCREEN'								=> 'Fullscreen',
 
 	'GET_TYPE'									=> 'Display Topic/Post?',
+
+	'HTML'										=> 'HTML',
+	'HTML_EXPLAIN'								=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
+	'HOURS_SHORT'								=> 'hrs',
+
+	'JS_SCRIPTS'								=> 'JS Scripts',
 
 	'LAST_POST_TIME'							=> 'Last Post Time',
 	'LAST_READ_TIME'							=> 'Last Read Time',
@@ -94,10 +110,22 @@ $strings = array(
 	'LIMIT_POST_TIME_EXPLAIN'					=> 'If set, only topics posted within the specified period will be retrieved',
 
 	'MAX_DEPTH'									=> 'Maximum depth',
+	'MAX_ITEMS'									=> 'Maximum number of items',
 	'MAX_MEMBERS'								=> 'Max. Members',
 	'MAX_POSTS'									=> 'Maximum number of posts',
 	'MAX_TOPICS'								=> 'Maximum number of topics',
 	'MAX_WORDS'									=> 'Maximum number of words',
+	'MAP_COORDINATES'							=> 'Coordinates',
+	'MAP_COORDINATES_EXPLAIN'					=> 'Enter coordinates in the form latitude,longitude',
+	'MAP_HEIGHT'								=> 'Height',
+	'MAP_LOCATION'								=> 'Location',
+	'MAP_TITLE'									=> 'Title',
+	'MAP_VIEW'									=> 'View',
+	'MAP_VIEW_HYBRID'							=> 'Hybrid',
+	'MAP_VIEW_MAP'								=> 'Map',
+	'MAP_VIEW_SATELITE'							=> 'Satelite',
+	'MAP_VIEW_TERRAIN'							=> 'Terrain',
+	'MAP_ZOOM_LEVEL'							=> 'Zoom Level',
 	'MEMBERS_DATE'								=> 'Date',
 	'MENU_NO_ITEMS'								=> 'No active items to display',
 	'MINI'										=> 'Mini',
@@ -125,6 +153,8 @@ $strings = array(
 	'ROTATE_PAGELOAD'							=> 'Page load',
 	'ROTATE_WEEKLY'								=> 'Weekly',
 
+	'SAMPLES'									=> 'Samples',
+	'SCRIPTS'									=> 'Scripts',
 	'SELECT_FORUMS'								=> 'Select forums',
 	'SELECT_FORUMS_EXPLAIN'						=> 'Select the forums from which to display topics/posts. Leave blank to select from all forums',
 	'SELECT_MENU'								=> 'Select Menu',
@@ -136,10 +166,7 @@ $strings = array(
 	'SHOW_MEMBER_MENU'							=> 'Show user menu?',
 	'SHOW_MEMBER_MENU_EXPLAIN'					=> 'Replace login box with user menu if user is logged in',
 	'SHOW_WORD_COUNT'							=> 'Show word count?',
-	'SOURCE'									=> 'Source',
-	'SOURCE_EXPLAIN'							=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
 
-	'TEMPLATE'									=> 'Template',
 	'TOPICS_ONLY'								=> 'Topics only?',
 	'TOPIC_TITLE_LIMIT'							=> 'Maximum # of characters for topic title',
 	'TOPIC_TYPE'								=> 'Topic Type',
