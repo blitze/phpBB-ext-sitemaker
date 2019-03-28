@@ -153,8 +153,11 @@
 
 <script type="text/javascript">
 // <![CDATA[
-	var ajaxUrl	= '{{ UA_AJAX_URL }}';
-	var menuId	= {{ MENU_ID|e('js') }};
+	var config = {
+		ajaxUrl: '{{ UA_AJAX_URL }}',
+		menuId: {{ MENU_ID|e('js') }},
+		directionality: '{{ S_CONTENT_DIRECTION|e('js') }}',
+	};
 	var lang = {
 		none				: '{{ lang('NO_PARENT')|e('js') }}',
 		addNode				: '{{ lang('ADD_ITEM')|e('js') }}',

@@ -1,11 +1,11 @@
 /* global $ */
 import Button from '../../Button/button';
 
-const { ajaxUrl, lang } = window;
+const { config, lang } = window;
 
 export default function AddMenuHandler($menus) {
 	Button('#add-menu', {}, () => {
-		$.post(`${ajaxUrl}add_menu`).done(({ id, title }) => {
+		$.post(`${config.ajaxUrl}add_menu`).done(({ id, title }) => {
 			if (id > 0) {
 				const $item = $(
 					`<li id="menu-${id}" class="menu-item">

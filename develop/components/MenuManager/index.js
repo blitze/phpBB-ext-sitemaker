@@ -7,14 +7,14 @@ import DeleteMenuHandler from './DeleteMenu';
 
 import './menu.scss';
 
-const { lang } = window;
+const { config, lang } = window;
 
 export default function MenuManager() {
 	const $loader = $('#loader i');
 	const $msgBox = $('#ajax-message');
 	const $menus = $('#sm-menus').show();
 	const $tree = $('#nested-tree').treeBuilder({
-		ajaxUrl: window.ajaxUrl,
+		ajaxUrl: config.ajaxUrl,
 		editForm: '#edit-menu-item-form',
 		dialogEdit: '#dialog-edit-menu-item',
 		dialogConfirm: '#dialog-confirm-menu-item',

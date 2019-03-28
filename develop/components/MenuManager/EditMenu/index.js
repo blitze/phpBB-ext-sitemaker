@@ -1,7 +1,7 @@
 /* global $ */
 import InlineEditor from '../../InlineEditor';
 
-const { ajaxUrl, lang } = window;
+const { config, lang } = window;
 
 export default function EditMenuHandler() {
 	const handleTitleUpdate = e => {
@@ -11,7 +11,7 @@ export default function EditMenuHandler() {
 		const id = idAttr.substring(5);
 		const title = e.currentTarget.value;
 
-		$.post(`${ajaxUrl}edit_menu`, { id, title }).done(result => {
+		$.post(`${config.ajaxUrl}edit_menu`, { id, title }).done(result => {
 			$(`#${idAttr}`)
 				.find('.menu-title')
 				.text(result.name);

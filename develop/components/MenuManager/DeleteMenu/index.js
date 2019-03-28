@@ -1,13 +1,13 @@
 /* global $ */
 import Dialog from '../../Dialog';
 
-const { ajaxUrl, lang } = window;
+const { config, lang } = window;
 
 export default function DeleteMenuHandler($menus, initTree) {
 	let $currentMenu;
 
 	const removeMenu = () => {
-		$.post(`${ajaxUrl}delete_menu`).done(() => {
+		$.post(`${config.ajaxUrl}delete_menu`).done(() => {
 			if ($currentMenu.siblings('.menu-item').length) {
 				const $selected = $currentMenu.prev('.menu-item')
 					? $currentMenu.prev()
