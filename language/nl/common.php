@@ -31,6 +31,7 @@ $strings = array(
 
 	'FEATURED_MEMBER'				=> 'Featured Member',
 	'FEATURED_MEMBERLIST'			=> 'Featured members list',
+	'FEEDS'							=> 'Feeds',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
 	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
 	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
@@ -39,6 +40,8 @@ $strings = array(
 
 	'HELP'							=> 'Help',
 	'HOURLY_MEMBER'					=> 'Member of the hour',
+
+	'GOOGLE_MAP'					=> 'Google Map',
 
 	'JOIN_DATE'						=> 'Join Date',
 
