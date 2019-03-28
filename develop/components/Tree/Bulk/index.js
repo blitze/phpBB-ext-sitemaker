@@ -1,5 +1,6 @@
 /* global $ */
 /* eslint-disable no-underscore-dangle */
+import CodeMirror from 'codemirror';
 
 import Button from '../../Button/button';
 import BtnGrpDrop from '../../BtnGrpDrop';
@@ -28,6 +29,28 @@ export default function AddBulkBtn(tree) {
 	}
 
 	const codeMirror = initCodeMirror(tree.options.addBulkList);
+
+	let cmTabs = 0;
+	codeMirror.on('keyup', cm => {
+		const doc = cm.getDoc();
+		const line = doc.getLine(cm.getCursor().line);
+		const matches = line.match(/\s/gim);
+		cmTabs = matches ? matches.length : 0;
+	});
+
+	codeMirror.on('change', (cm, change) => {
+		const spaces = cmTabs * cm.options.tabSize;
+		cm.operation(() => {
+			for (
+				let line = change.from.line + 1,
+					end = CodeMirror.changeEnd(change).line;
+				line <= end;
+				line += 1
+			) {
+				cm.indentLine(line, spaces);
+			}
+		});
+	});
 
 	const $addBulkBtn = BtnGrpDrop(tree.options.addBulkBtn, 'down', () => {
 		const options = `<option value="0">${lang.none}</option>`;

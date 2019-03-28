@@ -58,8 +58,9 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		autoRefresh: true,
 		indentWithTabs: true,
 		lineNumbers: true,
-		indentUnit: 4,
+		smartIndent: true,
 		actionBtnsSelector: false,
+		extraKeys: {},
 
 		// overwrites
 		...overwrites,
@@ -67,6 +68,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 
 	if (settings.allowFullScreen) {
 		settings.extraKeys = {
+			...settings.extraKeys,
 			F11: cm => {
 				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
 				cm.focus();
@@ -81,15 +83,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 
 	const codeMirror = CodeMirror.fromTextArea($textarea.get(0), settings);
 
-	let cmTabs = 0;
 	let $undoRedo = {};
-
-	codeMirror.on('keyup', cm => {
-		const doc = cm.getDoc();
-		const line = doc.getLine(cm.getCursor().line);
-		const matches = line.match(/\s/gim);
-		cmTabs = matches ? matches.length : 0;
-	});
 
 	codeMirror.on('keyHandled', (cm, name, e) => {
 		if (name === 'Esc') {
@@ -97,19 +91,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		}
 	});
 
-	codeMirror.on('change', (cm, change) => {
-		const spaces = cmTabs * cm.options.tabSize;
-		cm.operation(() => {
-			for (
-				let line = change.from.line + 1,
-					end = CodeMirror.changeEnd(change).line;
-				line <= end;
-				line += 1
-			) {
-				cm.indentLine(line, spaces);
-			}
-		});
-
+	codeMirror.on('change', cm => {
 		$textarea.text(` ${cm.getValue().trim()} `).trigger('change');
 
 		if ($undoRedo.length) {
