@@ -83,17 +83,6 @@ $strings = array(
 	'LISTS'										=> 'Lists',
 
 	'MAKE_DEFAULT_LAYOUT'						=> 'Set As Default Layout',
-	'MAP_COORDINATES'							=> 'Coordinates',
-	'MAP_COORDINATES_EXPLAIN'					=> 'Enter coordinates in the form latitude,longitude',
-	'MAP_HEIGHT'								=> 'Height',
-	'MAP_LOCATION'								=> 'Location',
-	'MAP_TITLE'									=> 'Title',
-	'MAP_VIEW'									=> 'View',
-	'MAP_VIEW_HYBRID'							=> 'Hybrid',
-	'MAP_VIEW_MAP'								=> 'Map',
-	'MAP_VIEW_SATELITE'							=> 'Satelite',
-	'MAP_VIEW_TERRAIN'							=> 'Terrain',
-	'MAP_ZOOM_LEVEL'							=> 'Zoom Level',
 
 	'OR'										=> '<strong>OR</strong>',
 
@@ -101,6 +90,7 @@ $strings = array(
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
 	'PREDEFINED_CLASSES'						=> 'Predefined classes',
 
+	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
 	'REMOVE_STARTPAGE'							=> 'Remove Start Page',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Blocks are being hidden for this page',
@@ -120,6 +110,7 @@ $strings = array(
 	'TITLES'									=> 'Titles',
 
 	'UPDATE_SIMILAR'							=> 'Update blocks with similar settings',
+	'UNDO'										=> 'Undo',
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
 	'VISIT_PAGE'								=> 'Visit Page',

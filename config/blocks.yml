@@ -53,6 +53,18 @@ services:
         tags:
             - { name: sitemaker.block }
 
+    blitze.sitemaker.block.feeds:
+        class: blitze\sitemaker\blocks\feeds
+        arguments:
+            - '@language'
+            - '@request'
+            - '@template.twig.environment'
+            - '%core.cache_dir%'
+        calls:
+            - [set_name, [blitze.sitemaker.block.feeds]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.forum_poll:
         class: blitze\sitemaker\blocks\forum_poll
         arguments:

@@ -8,6 +8,7 @@ import Dialog from '../../Dialog';
 import ClassPicker from './ClassPicker';
 import { getPOJO } from '../../../utils';
 import BlockRenderer from '../../BlockRenderer';
+import Feeds from '../../Feeds';
 
 const { actions, config, lang } = window;
 
@@ -167,4 +168,5 @@ export default function EditBlock() {
 	});
 
 	ClassPicker($dialogEdit);
+	Feeds($dialogEdit);
 }

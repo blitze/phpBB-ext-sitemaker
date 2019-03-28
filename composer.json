@@ -26,7 +26,8 @@
 	"require": {
 		"php": ">=5.4",
 		"composer/installers": "^1.1",
-		"urodoz/truncate-html": "@stable"
+		"urodoz/truncate-html": "@stable",
+		"simplepie/simplepie": "^1.5"
 	},
 	"require-dev": {
         "phing/phing": "2.4.*",

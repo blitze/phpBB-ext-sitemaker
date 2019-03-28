@@ -1,0 +1,54 @@
+{% macro input(url) %}
+    <div class="sm-multi-input-item">
+        <input class="sm-feed-input" type="text" name="config[feeds][]" placeholder="{{ lang('FEED_URL_PLACEHOLDER') }}" value="{{ url|e }}" />
+        <button class="sm-multi-input-delete" title="{{ lang('DELETE') }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+{% endmacro %}
+
+{% import _self as feed %}
+
+<h5>{{ lang('FEED_URLS') }}</h5>
+<div class="sm-multi-input">
+    {% for url in feeds %}
+        {{ feed.input(url) }}
+    {% endfor %}
+    {{ feed.input() }}
+</div>
+<button class="sm-multi-input-add pull-right" title="{{ lang('ADD') }}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+<div class="sm-feed-editor">
+    <h5>
+        {{ lang('FEED_ITEM_TEMPLATE') }}
+        <button id="sm-template-samples" class="pull-right">{{ lang('SAMPLES') }}</button>
+    </h5>
+    <textarea id="sm-feed-template" name="config[template]">{{ template }}</textarea>
+    <button class="sm-toggler" data-target="#sm-feeds-preview-viewer"><i class="fa fa-eye fa-blue" aria-hidden="true"></i></button>
+    <button class="sm-toggler" data-target="#sm-feeds-data-viewer"><i class="fa fa-database fa-red" aria-hidden="true"></i></button>
+    <button class="sm-toggler" data-target="#sm-feeds-explain"><i class="fa fa-question-circle-o fa-green" aria-hidden="true"></i></button>
+    <div class="pull-right">
+        <button class="sm-feed-template-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+        <button class="sm-feed-template-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+        <button class="sm-feed-template-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
+        <button class="sm-feed-template-button" data-action="fullscreen" title="{{ lang('FULLSCREEN') }}"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+    </div>
+    <br />
+    <div id="sm-feeds-explain" class="panel">
+        {{ lang('FEED_ITEM_TEMPLATE_EXPLAIN') }}
+    </div>
+    <div id="sm-feeds-data-viewer" class="panel">
+        <textarea id="sm-feeds-data" rows="6" wrap="off" readonly></textarea>
+    </div>
+    <div id="sm-feeds-preview-viewer">
+        <div class="block">
+            <div class="panel post sm-block-container">
+                <div class="inner">
+                    <div class="sm-block-content">
+                        <div id="sm-feeds-preview"></div>
+                    </div>
+                </div>
+            </div>
+            <textarea id="sm-feeds-preview-source" wrap="off" readonly></textarea>
+        </div>
+        <button class="sm-toggler pull-right" data-target="#sm-feeds-preview-source"><i class="fa fa-code" aria-hidden="true"></i></button>
+    </div>
+</div>
