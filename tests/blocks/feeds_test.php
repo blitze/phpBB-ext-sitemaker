@@ -131,7 +131,7 @@ class feeds_test extends blocks_base
 					'max'		=> 3,
 					'template'	=> '',
 				),
-				'FEED_URL_MISSING',
+				'FEED_MISSING',
 			),
 			array(
 				false,
@@ -191,16 +191,7 @@ class feeds_test extends blocks_base
 
 		$result = $block->display(array('settings' => $config), $edit_mode);
 
-		if (version_compare(PHP_VERSION, '5.6.0') < 0 && $edit_mode)
-		{
-			$this->feeds->expects($this->exactly(0))
-				->method('set_feed_url');
-			$this->assertEquals('PHP_VERSION_NOT_MET_FOR_BLOCK-5.6.0-' . PHP_VERSION, $result['content']);
-		}
-		else
-		{
-			$this->assertEquals($expected, str_replace(array("\n", "\t", "  "), '', $result['content']));
-		}
+		$this->assertEquals($expected, str_replace(array("\n", "\t", "  "), '', $result['content']));
 	}
 
 	/**
@@ -555,21 +546,8 @@ class feeds_test extends blocks_base
 	public function test_get_fields(array $variable_map, array $expected)
 	{
 		$block = $this->get_block($variable_map);
+		$result = $block->get_fields();
 
-		try
-		{
-			$result = $block->get_fields();
-			$this->assertSame($expected['fields'], $result['fields']);
-		}
-		catch (\Exception $e)
-		{
-			$this->feeds->expects($this->exactly(0))
-				->method('set_feed_url');
-
-			if (version_compare(PHP_VERSION, '5.6.0') < 0)
-			{
-				$this->assertEquals('PHP_VERSION_NOT_MET_FOR_BLOCK-5.6.0-' . PHP_VERSION, $e->getMessage());
-			}
-		}
+		$this->assertSame($expected['fields'], $result['fields']);
 	}
 }
