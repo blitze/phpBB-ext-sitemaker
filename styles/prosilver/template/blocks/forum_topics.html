@@ -1,12 +1,12 @@
 {% if loops.topicrow|length %}
 	<ul class="sm-list">
-	{% if S_CONTEXT %}
+	{% if TEMPLATE === 'context' %}
 		{% for topicrow in loops.topicrow %}
 		<li>
 			<div class="sm-inner img-align-left small-avatar">
 				<a href="{{ topicrow.U_VIEWPROFILE }}" class="img-ui">{{ topicrow.AVATAR }}</a>
 				<div class="sm-fill-space">
-					<p class="topic-title"><a href="{{ topicrow.U_VIEWTOPIC }}">{{ topicrow.TOPIC_TITLE }}</a></p>
+					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p>
 					<div class="author">
 					{% if not S_IS_BOT %}
 						{% if topicrow.S_UNREAD_TOPIC %}
@@ -30,13 +30,13 @@
 			</div>
 		</li>
 		{% endfor %}
-	{% elseif S_MINI %}
+	{% elseif TEMPLATE === 'mini' %}
 		{% for topicrow in loops.topicrow %}
 		<li title="{{ topicrow.TOPIC_PREVIEW }}">
 			<div class="sm-inner img-align-left small-avatar">
 				<a href="{{ topicrow.U_VIEWPROFILE }}" class="img-ui">{{ topicrow.AVATAR }}</a>
 				<div class="sm-fill-space">
-					<p class="topic-title"><a href="{{ topicrow.U_VIEWTOPIC }}">{{ topicrow.TOPIC_TITLE }}</a></p><br /><br />
+					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p><br /><br />
 					<p class="small"><i class="fa fa-clock-o"></i>{{ topicrow.TOPIC_POST_TIME|date("M d, Y") }}</p>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 			</a>
 			{% endif %}
 		{% endif %}
-			<a href="{{ topicrow.U_VIEWTOPIC }}" title="{{ topicrow.TOPIC_PREVIEW }}">{{ topicrow.TOPIC_TITLE }}</a>
+			<a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}" title="{{ topicrow.TOPIC_PREVIEW }}">{{ topicrow.TOPIC_TITLE }}</a>
 		</li>
 		{% endfor %}
 	{% endif %}

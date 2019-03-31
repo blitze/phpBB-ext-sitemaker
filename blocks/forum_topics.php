@@ -116,7 +116,8 @@ class forum_topics extends forum_topics_config
 		unset($topic_data, $post_data);
 
 		$this->ptemplate->assign_vars(array(
-			$view				=> true,
+			'CONTEXT'			=> $this->settings['context'],
+			'TEMPLATE'			=> $this->settings['template'],
 			'S_IS_BOT'			=> $this->user->data['is_bot'],
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
 			'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
