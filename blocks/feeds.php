@@ -78,17 +78,18 @@ class feeds extends block
 		{
 			try
 			{
-				$template = $this->twig->createTemplate($this->get_template($settings['template']));
-				
-				if ($items = $this->get_feed_items(array_filter((array) $settings['feeds']), $settings['max'], $settings['cache']))
+				if ($items = $this->get_feed_items((array) $settings['feeds'], $settings['max'], $settings['cache']))
 				{
+					$template = $this->twig->createTemplate($this->get_template($settings['template']));
+
 					return array(
 						'title'		=> $title,
 						'content'	=> $template->render([
 							'items'	=> $items,
-					]));
+						])
+					);
 				}
-				
+
 				$content = $this->translator->lang('FEED_PROBLEMS');
 			}
 			catch (\Exception $e)
@@ -98,7 +99,7 @@ class feeds extends block
 		}
 		else
 		{
-			$content = $this->translator->lang('FEED_MISSING');
+			$content = $this->translator->lang('FEED_URL_MISSING');
 		}
 
 		return array(
@@ -115,25 +116,27 @@ class feeds extends block
 	 */
 	protected function get_feed_items(array $feed_urls, $max, $cache = 0, $items_per_feed = 0)
 	{
-		$items = [];
-		if (sizeof($feed_urls))
+		$min_php_version = '5.6.0';
+		$feed_urls = array_filter(array_map('trim', $feed_urls));
+
+		if (version_compare(PHP_VERSION, $min_php_version) < 0)
 		{
-			$feed = new Feed;
-			$feed->set_feed_url($feed_urls);
-			$feed->set_cache_location($this->cache_dir);
-			$feed->set_cache_duration($cache * 3600);
-
-			if ($items_per_feed) {
-				$feed->set_item_limit($items_per_feed);
-			}
-
-			$feed->init();
-			$feed->handle_content_type();
-
-			$items = $feed->get_items(0, $max);
+			throw new \Exception($this->translator->lang('PHP_VERSION_NOT_MET_FOR_BLOCK', $min_php_version, PHP_VERSION));
 		}
 
-		return $items;
+		$feed = new Feed;
+		$feed->set_feed_url($feed_urls);
+		$feed->set_cache_location($this->cache_dir);
+		$feed->set_cache_duration($cache * 3600);
+
+		if ($items_per_feed) {
+			$feed->set_item_limit($items_per_feed);
+		}
+
+		$feed->init();
+		$feed->handle_content_type();
+
+		return $feed->get_items(0, $max);
 	}
 
 	/**
