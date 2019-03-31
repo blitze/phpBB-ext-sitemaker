@@ -120,6 +120,7 @@ class feeds extends block
 		{
 			$feed = new Feed;
 			$feed->set_feed_url($feed_urls);
+			$feed->enable_cache((bool) $cache);
 			$feed->set_cache_location($this->cache_dir);
 			$feed->set_cache_duration($cache * 3600);
 

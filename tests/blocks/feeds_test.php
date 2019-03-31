@@ -85,7 +85,7 @@ class feeds_test extends blocks_base
 			)
 		);
 
-		$block = new feeds($this->translator, $this->request, $twig, $this->phpbb_root_path . 'cache/production/');
+		$block = new feeds($this->translator, $this->request, $twig, $this->phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
 		$block->set_template($this->ptemplate);
 
 		return $block;
