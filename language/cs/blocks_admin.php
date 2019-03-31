@@ -54,7 +54,6 @@ $strings = array(
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraph',
 
 	// block views
-	'BASED_ON'									=> 'Based on',
 	'BLOCK_VIEW'								=> 'Block View',
 	'BLOCK_VIEW_BASIC'							=> 'Basic',
 	'BLOCK_VIEW_BOXED'							=> 'Boxed',
@@ -167,6 +166,7 @@ $strings = array(
 	'SHOW_MEMBER_MENU_EXPLAIN'					=> 'Replace login box with user menu if user is logged in',
 	'SHOW_WORD_COUNT'							=> 'Show word count?',
 
+	'TEMPLATE'									=> 'Template',
 	'TOPICS_ONLY'								=> 'Topics only?',
 	'TOPIC_TITLE_LIMIT'							=> 'Maximum # of characters for topic title',
 	'TOPIC_TYPE'								=> 'Topic Type',
