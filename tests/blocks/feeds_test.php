@@ -131,7 +131,16 @@ class feeds_test extends blocks_base
 					'max'		=> 3,
 					'template'	=> '',
 				),
-				'FEED_MISSING',
+				'FEED_URL_MISSING',
+			),
+			array(
+				true,
+				array(
+					'feeds'		=> ['http://some-site.com'],
+					'max'		=> 3,
+					'template'	=> '',
+				),
+				'FEED_PROBLEMS',
 			),
 			array(
 				false,
