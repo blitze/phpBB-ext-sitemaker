@@ -66,7 +66,8 @@ $strings = array(
 	'EDIT_BLOCK'								=> 'Edit Block',
 	'EXIT_EDIT_MODE'							=> 'Exit Edit Mode',
 
-	'FEED_URL_MISSING'							=> 'Please provide atleast one rss/atom feed to begin',
+	'FEED_PROBLEMS'								=> 'There was a problem processing the provided rss/atom feed(s)',
+	'FEED_URL_MISSING'							=> 'Please provide at least one rss/atom feed to begin',
 	'FIELD_INVALID'								=> 'The provided value for the field “%s” has an invalid format',
 	'FIELD_REQUIRED'							=> '“%s” is a required field',
 	'FIELD_TOO_LONG'							=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
@@ -90,7 +91,6 @@ $strings = array(
 	'PARENT_ROUTE'								=> 'Parent',
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
 	'PREDEFINED_CLASSES'						=> 'Predefined classes',
-	'PHP_VERSION_NOT_MET_FOR_BLOCK'				=> 'This block requires at least php %1$s. You are running php %2$s',
 
 	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
