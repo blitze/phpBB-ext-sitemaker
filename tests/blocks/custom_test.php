@@ -78,7 +78,7 @@ class custom_test extends blocks_base
 	 *
 	 * @return array
 	 */
-	public function test_block_display_data()
+	public function block_display_test_data()
 	{
 		return array(
 			array(
@@ -165,7 +165,7 @@ class custom_test extends blocks_base
 	/**
 	 * Test block display
 	 *
-	 * @dataProvider test_block_display_data
+	 * @dataProvider block_display_test_data
 	 * @param array $bdata
 	 * @param bool $edit_mode
 	 * @param array $expected_assets
@@ -181,11 +181,11 @@ class custom_test extends blocks_base
 	}
 
 	/**
-	 * Data set for test_block_display
+	 * Data set for test_save_custom_content
 	 *
 	 * @return array
 	 */
-	public function block_test_save_data()
+	public function save_custom_content_test_data()
 	{
 		return array(
 			array(
@@ -224,7 +224,7 @@ class custom_test extends blocks_base
 	/**
 	 * Test saving custom content
 	 *
-	 * @dataProvider block_test_save_data
+	 * @dataProvider save_custom_content_test_data
 	 * @param int $block_id
 	 * @param array $variable_map
 	 * @param array $expected
