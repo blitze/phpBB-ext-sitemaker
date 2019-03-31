@@ -7,19 +7,12 @@
  *
  */
 
-namespace blitze\sitemaker\services\feeds;
+namespace blitze\sitemaker\services\simplepie;
 
-use SimplePie;
+use SimplePie_Item;
 
-class Feed extends SimplePie
+class item extends SimplePie_Item
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-		$this->set_item_class('blitze\sitemaker\services\feeds\Item');
-    }
-
 	/**
 	 * Magic method handler
 	 *
@@ -39,6 +32,6 @@ class Feed extends SimplePie
 	 */
 	public function __isset($name)
 	{
-		 return method_exists($this, 'get_' . $name) ? true : false;
+		return method_exists($this, 'get_' . $name) ? true : false;
 	}
 }

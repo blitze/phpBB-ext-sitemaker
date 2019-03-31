@@ -7,12 +7,17 @@
  *
  */
 
-namespace blitze\sitemaker\services\feeds;
+namespace blitze\sitemaker\services\simplepie;
 
-use SimplePie_Item;
-
-class Item extends SimplePie_Item
+class feed extends \SimplePie
 {
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->set_item_class('blitze\sitemaker\services\simplepie\item');
+	}
+
 	/**
 	 * Magic method handler
 	 *

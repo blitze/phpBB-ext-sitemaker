@@ -10,7 +10,6 @@
 namespace blitze\sitemaker\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
-use blitze\sitemaker\services\feeds\Feed;
 
 /**
  * Feeds Block
@@ -70,23 +69,25 @@ class feeds extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$settings = $bdata['settings'];
 		$title = 'FEEDS';
 		$content = '';
+		$settings = $bdata['settings'];
+		$feed_urls = array_filter((array) $settings['feeds']);
 
-		if ($settings['feeds'])
+		if (sizeof($feed_urls))
 		{
 			try
 			{
 				$template = $this->twig->createTemplate($this->get_template($settings['template']));
 				
-				if ($items = $this->get_feed_items(array_filter((array) $settings['feeds']), $settings['max'], $settings['cache']))
+				if ($items = $this->get_feed_items($feed_urls, $settings['max'], $settings['cache']))
 				{
 					return array(
 						'title'		=> $title,
 						'content'	=> $template->render([
 							'items'	=> $items,
-					]));
+						])
+					);
 				}
 				
 				$content = $this->translator->lang('FEED_PROBLEMS');
@@ -98,7 +99,7 @@ class feeds extends block
 		}
 		else
 		{
-			$content = $this->translator->lang('FEED_MISSING');
+			$content = $this->translator->lang('FEED_URL_MISSING');
 		}
 
 		return array(
@@ -116,15 +117,18 @@ class feeds extends block
 	protected function get_feed_items(array $feed_urls, $max, $cache = 0, $items_per_feed = 0)
 	{
 		$items = [];
+		$feed_urls = array_filter(array_map('trim', $feed_urls));
+
 		if (sizeof($feed_urls))
 		{
-			$feed = new Feed;
+			$feed = new \blitze\sitemaker\services\simplepie\feed;
 			$feed->set_feed_url($feed_urls);
 			$feed->enable_cache((bool) $cache);
 			$feed->set_cache_location($this->cache_dir);
 			$feed->set_cache_duration($cache * 3600);
 
-			if ($items_per_feed) {
+			if ($items_per_feed)
+			{
 				$feed->set_item_limit($items_per_feed);
 			}
 
@@ -158,11 +162,9 @@ class feeds extends block
 	 */
 	public function get_fields()
 	{
-		$feeds = $this->request->variable('feeds', array(0 => ''));
-
 		$this->translator->add_lang('feed_fields', 'blitze/sitemaker');
 
-		$feeds = array_filter(array_map('trim', $feeds));
+		$feeds = $this->request->variable('feeds', array(0 => ''));
 		$feed_items = $this->get_feed_items($feeds, 0, 0, 1);
 
 		$data['items'] = [];
@@ -191,16 +193,16 @@ class feeds extends block
 	}
 
 	/**
-	 * @param \blitze\sitemaker\services\feeds\Item $feed
+	 * @param \blitze\sitemaker\services\simplepie\item $feed
 	 * @return array
 	 */
-	protected function get_feed_fields(\blitze\sitemaker\services\feeds\Item $feed, array &$data)
+	protected function get_feed_fields(\blitze\sitemaker\services\simplepie\item $item, array &$data)
 	{
 		$feed_props = [];
 		foreach ($this->feed_fields as $field)
 		{
-			$feed_props[$field] = $this->buildTags($field, $feed->feed->{$field});
-			$data['feed'][$field] = $feed->feed->{$field};
+			$feed_props[$field] = $this->buildTags($field, $item->feed->{$field});
+			$data['feed'][$field] = $item->feed->{$field};
 		}
 
 		$feed_props = array_filter($feed_props);
