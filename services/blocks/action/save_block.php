@@ -39,7 +39,7 @@ class save_block extends base_action
 			/** @var \blitze\sitemaker\model\entity\block $entity */
 			$entity = $this->get_updated_settings($entity);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			throw new $e->getMessage();
 		}

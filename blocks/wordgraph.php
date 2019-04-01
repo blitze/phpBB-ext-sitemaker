@@ -98,7 +98,7 @@ class wordgraph extends block
 		foreach ($words as $word)
 		{
 			$color = $params['min_sat'] + (($words_array[$word] - $params['min_count']) * $params['color_step']);
-			$r = dechex($color);
+			$r = dechex((int) $color);
 			$b = dechex($params['max_sat'] - $color);
 			$g = 'c';
 

@@ -140,7 +140,7 @@ abstract class builder extends \phpbb\tree\nestedset
 			$key = $i + $max_id + 1;
 			$field_values = array_map('trim', explode('|', trim($string))) + $values;
 
-			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
+			$adj_tree[$key] = array_merge($data, $this->get_item_props($fields, $field_values));
 			$adj_tree[$key][$this->column_item_id] = $key;
 			$adj_tree[$key]['parent_id'] = $parent_id;
 
@@ -148,6 +148,20 @@ abstract class builder extends \phpbb\tree\nestedset
 		}
 
 		return $adj_tree;
+	}
+
+	/**
+	 * @param array $fields
+	 * @param array $values
+	 * @return array
+	 */
+	protected function get_item_props(array $fields, array $values)
+	{
+		if (($props = array_combine($fields, $values)) !== false)
+		{
+			return $props;
+		}
+		return array();
 	}
 
 	/**

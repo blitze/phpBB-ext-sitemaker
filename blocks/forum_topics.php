@@ -108,7 +108,6 @@ class forum_topics extends forum_topics_config
 	{
 		$this->set_display_fields();
 
-		$view = 'S_' . strtoupper($this->settings['template']);
 		$post_data = $this->get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 

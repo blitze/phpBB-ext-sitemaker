@@ -26,7 +26,7 @@ class feeds extends block
 	protected $twig;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $cache_dir;
 
 	/** @var array */
 	protected $feed_fields = ['title', 'description', 'category', 'categories', 'author', 'authors', 'contributor', 'contributors', 'copyright', 'image_url', 'image_title', 'image_link', 'image_width', 'image_height', 'permalink', 'link', 'links'];
@@ -40,14 +40,14 @@ class feeds extends block
 	 * @param \phpbb\language\language				$translator			Language object
 	 * @param \phpbb\request\request_interface		$request			Request object
 	 * @param \phpbb\template\twig\environment		$twig				Twig environment
-	 * @param string 								$phpbb_root_path	Relative path to phpBB root
+	 * @param string 								$cache_dir			Path to cache directory
 	 */
-	public function __construct(\phpbb\language\language $translator, \phpbb\request\request_interface $request, \phpbb\template\twig\environment $twig, $phpbb_root_path)
+	public function __construct(\phpbb\language\language $translator, \phpbb\request\request_interface $request, \phpbb\template\twig\environment $twig, $cache_dir)
 	{
 		$this->translator = $translator;
 		$this->request = $request;
 		$this->twig = $twig;
-		$this->cache_dir = $phpbb_root_path;
+		$this->cache_dir = $cache_dir;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class feeds extends block
 			try
 			{
 				$template = $this->twig->createTemplate($this->get_template($settings['template']));
-
+				
 				if ($items = $this->get_feed_items($feed_urls, $settings['max'], $settings['cache']))
 				{
 					return array(
@@ -89,7 +89,7 @@ class feeds extends block
 						])
 					);
 				}
-
+				
 				$content = $this->translator->lang('FEED_PROBLEMS');
 			}
 			catch (\Exception $e)
@@ -167,8 +167,8 @@ class feeds extends block
 		$feeds = $this->request->variable('feeds', array(0 => ''));
 		$feed_items = $this->get_feed_items($feeds, 0, 0, 1);
 
-		$data['items'] = [];
-		$fields['items'] = $this->get_field_defaults('items');
+		$data = array('items' => []);
+		$fields = array('items' => $this->get_field_defaults('items'));
 
 		foreach ($feed_items as $feed)
 		{
@@ -221,7 +221,7 @@ class feeds extends block
 	/**
 	 * @param string $field
 	 * @param mixed $value
-	 * @return array
+	 * @return array|string
 	 */
 	protected function buildTags($field, $value)
 	{
