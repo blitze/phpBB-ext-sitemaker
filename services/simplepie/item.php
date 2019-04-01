@@ -9,9 +9,7 @@
 
 namespace blitze\sitemaker\services\simplepie;
 
-use SimplePie_Item;
-
-class item extends SimplePie_Item
+class item extends \SimplePie_Item
 {
 	/**
 	 * Magic method handler
