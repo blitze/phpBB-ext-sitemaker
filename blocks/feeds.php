@@ -79,7 +79,7 @@ class feeds extends block
 			try
 			{
 				$template = $this->twig->createTemplate($this->get_template($settings['template']));
-				
+
 				if ($items = $this->get_feed_items($feed_urls, $settings['max'], $settings['cache']))
 				{
 					return array(
@@ -89,7 +89,7 @@ class feeds extends block
 						])
 					);
 				}
-				
+
 				$content = $this->translator->lang('FEED_PROBLEMS');
 			}
 			catch (\Exception $e)

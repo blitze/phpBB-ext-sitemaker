@@ -41,7 +41,7 @@ class save_block extends base_action
 		}
 		catch (\Exception $e)
 		{
-			throw new $e->getMessage();
+			throw $e;
 		}
 
 		$entity = $this->block_mapper->save($entity);
