@@ -3,36 +3,50 @@
     "blocks/manager": {
       "js": [
         "../runtime.min.js",
+        "../jquery-ui/custom.min.js",
+        "../codemirror/codemirror.min.js",
+        "../twig/twig.min.js",
         "../blocks/manager.min.js"
       ],
       "css": [
+        "../jquery-ui/custom.min.css",
+        "../codemirror/codemirror.min.css",
         "../blocks/manager.min.css"
       ]
     },
     "menu/admin": {
       "js": [
         "../runtime.min.js",
+        "../jquery-ui/custom.min.js",
         "../menu/admin.min.js"
       ],
       "css": [
+        "../jquery-ui/custom.min.css",
         "../menu/admin.min.css"
       ]
     },
     "tree/builder": {
       "js": [
         "../runtime.min.js",
+        "../jquery-ui/custom.min.js",
+        "../codemirror/codemirror.min.js",
+        "../twig/twig.min.js",
         "../tree/builder.min.js"
       ],
       "css": [
+        "../jquery-ui/custom.min.css",
+        "../codemirror/codemirror.min.css",
         "../tree/builder.min.css"
       ]
     },
     "settings/admin": {
       "js": [
         "../runtime.min.js",
+        "../jquery-ui/custom.min.js",
         "../settings/admin.min.js"
       ],
       "css": [
+        "../jquery-ui/custom.min.css",
         "../settings/admin.min.css"
       ]
     },

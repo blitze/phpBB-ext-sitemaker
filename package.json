@@ -40,7 +40,6 @@
 	"dependencies": {
 		"codemirror": "^5.42.0",
 		"gridlex": "^2.7.1",
-		"jquery-deserialize": "^2.0.0-rc1",
 		"jquery-ui": "^1.12.1",
 		"jquery-ui-themes": "^1.12.0",
 		"jquery-ui-touch-punch": "^0.2.3",
@@ -48,5 +47,9 @@
 		"nestedSortable": "https://github.com/ilikenwf/nestedSortable#1.3.4",
 		"tinymce": "^4.8.5",
 		"twig": "^1.12.0"
-	}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions"
+	]
 }

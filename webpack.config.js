@@ -29,6 +29,29 @@ Encore.setOutputPath(paths.output)
 
 	.enableSingleRuntimeChunk()
 
+	.splitEntryChunks()
+	.configureSplitChunks(function(splitChunks) {
+		splitChunks.minSize = 0;
+		splitChunks.cacheGroups = {
+			codemirror: {
+				name: 'codemirror/codemirror',
+				test: /[\\/]codemirror[\\/]/,
+				enforce: true,
+			},
+			'jquery-ui': {
+				name: 'jquery-ui/custom',
+				test: /jquery-ui/,
+				reuseExistingChunk: true,
+				enforce: true,
+			},
+			twig: {
+				name: 'twig/twig',
+				test: /[\\/]twig[\\/]/,
+				enforce: true,
+			},
+		};
+	})
+
 	.enablePostCssLoader()
 	.enableSassLoader()
 	.enableEslintLoader()
