@@ -1,10 +1,11 @@
 <dl>
 	<dt>
-		<br />
-		<a class="class-cat" href="#classes-lists"><i class="fa fa-caret-right"></i> {{ lang('LISTS') }}</a><br />
-		<a class="class-cat" href="#classes-background"><i class="fa fa-caret-right"></i> {{ lang('BACKGROUND') }}</a><br />
-		<a class="class-cat" href="#classes-images"><i class="fa fa-caret-right"></i> {{ lang('IMAGES') }}</a><br />
-		<a class="class-cat" href="#classes-display"><i class="fa fa-caret-right"></i> {{ lang('DISPLAY') }}</a>
+		<ul class="sm-list">
+			<li><a class="class-cat" href="#classes-lists"><i class="fa fa-caret-right"></i> {{ lang('LISTS') }}</a></li>
+			<li><a class="class-cat" href="#classes-background"><i class="fa fa-caret-right"></i> {{ lang('BACKGROUND') }}</a></li>
+			<li><a class="class-cat" href="#classes-images"><i class="fa fa-caret-right"></i> {{ lang('IMAGES') }}</a></li>
+			<li><a class="class-cat" href="#classes-display"><i class="fa fa-caret-right"></i> {{ lang('DISPLAY') }}</a></li>
+		</ul>
 	</dt>
 	<dd id="classes-scroller" class="scroll-list small">
         <h3 id="classes-lists">{{ lang('LISTS') }}</h3>
@@ -22,6 +23,7 @@
 		<a class="transform" href="#" title="{{ lang('LIST_STRIPED') }}">sm-list-striped</a>,
 		<a class="transform" href="#" title="{{ lang('LIST_STACKED') }}">sm-list-stacked</a><br /><br />
 
+		<a class="transform" href="#" title="{{ lang('LIST_FIT_CONTENT') }}">list-block-fit</a><br />
 		<a class="transform" href="#" title="{{ lang('LIST_AUTOWIDTH') }}">list-block-auto</a><br />
 		<a class="transform" href="#" title="{{ lang('LIST_2COLS') }}">list-block-2cols</a><br />
 		<a class="transform" href="#" title="{{ lang('LIST_3COLS') }}">list-block-3cols</a><br />
@@ -44,10 +46,15 @@
 		<a class="transform" href="#" title="{{ lang('IMAGE_LARGE') }}">large-img</a>,
 		<a class="transform" href="#" title="{{ lang('IMAGE_FULL_WIDTH') }}">fullwidth-img</a><br /><br />
 
+		<a class="transform" href="#" title="{{ lang('IMAGE_RATIO_SQUARE') }}">img-ratio-1x1</a>,
+		<a class="transform" href="#" title="{{ lang('IMAGE_RATIO_4_BY_3') }}">img-ratio-4x3</a>,
+		<a class="transform" href="#" title="{{ lang('IMAGE_RATIO_16_BY_9') }}">img-ratio-16x9</a><br /><br />
+
 		<a class="transform" href="#" title="{{ lang('IMAGE_ALIGN_LEFT') }}">img-align-left</a>,
 		<a class="transform" href="#" title="{{ lang('IMAGE_ALIGN_RIGHT') }}">img-align-right</a><br /><br />
 
-		<a class="transform" href="#" title="{{ lang('IMAGE_CIRCLE') }}">img-circle</a>,
+		<a class="transform" href="#" title="{{ lang('IMAGE_ROUNDED') }}">img-rounded</a>,
+		<a class="transform" href="#" title="{{ lang('IMAGE_CIRCLE') }}">img-circle</a><br /><br />
 		<a class="transform" href="#" title="{{ lang('IMAGE_BORDER') }}">img-border</a>,
 		<a class="transform" href="#" title="{{ lang('IMAGE_BORDER_PADDING') }}">img-border-padding</a><br />
 

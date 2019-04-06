@@ -43,21 +43,23 @@ img {
 .img-ui,
 .attach-image {
 	display: block;
+	position: relative;
 
-	.small-img & img {
+	// image sizes
+	.small-img & {
 		width: $small-image-size;
 	}
 
-	.medium-img & img {
+	.medium-img & {
 		width: $medium-image-size;
 	}
 
-	.large-img & img {
+	.large-img & {
 		width: $large-image-size;
 	}
 
-	.card-img & img,
-	.fullwidth-img & img {
+	.card-img &,
+	.fullwidth-img & {
 		float: none !important;
 		margin: 0 !important;
 		width: 100%;
@@ -81,27 +83,68 @@ img {
 		}
 	}
 
-	.img-align-left & img {
+	// image alignment
+	.img-align-left & {
 		float: left;
 		margin-right: 1rem;
 	}
 
-	.img-align-right & img {
+	.img-align-right & {
 		float: right;
 		margin-left: 1rem;
 	}
 
-	.img-border & img,
-	.img-border-padding & img {
+	// image borders
+	.img-border &,
+	.img-border-padding & {
 		border: 1px solid $border-color;
 	}
 
-	.img-border-padding & img {
+	// image padding
+	.img-border-padding & {
 		padding: 4px;
 	}
 
-	.img-circle & img {
+	// image shape
+	.img-circle & {
 		border-radius: 50%;
 		overflow: hidden;
+	}
+
+	.img-rounded & {
+		border-radius: $panel_border_radius;
+	}
+
+	// image ratios
+	[class*=img-ratio-] & {
+		position: relative;
+		display: block;
+		background: black;
+		overflow: hidden;
+		height: 0;
+
+		img {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+
+	.img-ratio-1x1 & {
+		padding-top: 100%;
+	}
+
+	.img-ratio-4x3 & {
+		padding-top: 75%;
+	}
+
+	.img-ratio-16x9 & {
+		padding-top: 56.25%;
 	}
 }
