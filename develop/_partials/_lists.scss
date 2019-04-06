@@ -100,43 +100,45 @@ ul {
 		}
 
 		/* Dividers */
-		.sm-x-divider-dotted & > li,
-		.sm-x-divider-line & > li {
-			padding: $gutter-width 0;
-			margin: 0;
-		}
+		@media (min-width: $breakpoint-medium) {
+			.sm-x-divider-dotted & > li,
+			.sm-x-divider-line & > li {
+				padding: $gutter-width 0;
+				margin: 0;
+			}
 
-		.sm-x-divider-dotted & > li {
-			border-top: 1px dotted $border-color;
-		}
+			.sm-x-divider-dotted & > li {
+				border-top: 1px dotted $border-color;
+			}
 
-		.sm-x-divider-line & > li {
-			border-top: 1px solid $border-color;
-		}
+			.sm-x-divider-line & > li {
+				border-top: 1px solid $border-color;
+			}
 
-		.sm-y-divider-dotted & > li {
-			border-left: 1px dotted $border-color;
-		}
+			.sm-y-divider-dotted & > li {
+				border-left: 1px dotted $border-color;
+			}
 
-		.sm-y-divider-line & > li {
-			border-left: 1px solid $border-color;
-		}
+			.sm-y-divider-line & > li {
+				border-left: 1px solid $border-color;
+			}
 
-		.sm-x-divider-line &:first-child > li:first-child,
-		.sm-x-divider-dotted &:first-child > li:first-child {
-			border-top: 0;
-			padding-top: 0;
-		}
+			.sm-x-divider-line &:first-child > li:first-child,
+			.sm-x-divider-dotted &:first-child > li:first-child {
+				border-top: 0;
+				padding-top: 0;
+			}
 
-		.sm-x-divider-line &:last-child > li:last-child,
-		.sm-x-divider-dotted &:last-child > li:last-child {
-			padding-bottom: 0;
-		}
+			.sm-x-divider-line &:last-child > li:last-child,
+			.sm-x-divider-dotted &:last-child > li:last-child {
+				padding-bottom: 0;
+			}
 
-		.sm-y-divider-line & > li:first-child,
-		.sm-y-divider-dotted & > li:first-child {
-			border-left: 0;
-			padding-left: 0;
+			.sm-y-divider-line & > li:first-child,
+			.sm-y-divider-dotted & > li:first-child {
+				border-left: 0;
+				padding-left: 0;
+			}
 		}
 
 		/* Nav lists */
@@ -193,17 +195,34 @@ ul {
 
 		/*
 		 * Transform vertical list to horizontal blocks
-		 * Based on technique by Ali Jafarian
 		 */
-		.list-block-auto &,
-		.list-block-2cols &,
-		.list-block-3cols &,
-		.list-block-4cols &,
-		.list-block-5cols & {
-			font-size: 0;
+		[class*=list-block-] & {
+			box-sizing: border-box;
+			display: flex;
+			flex-flow: row wrap;
+			margin: 0;
+
+			> li {
+				flex: none;
+				padding: 0 $gutter-width;
+				max-width: 100%;
+				box-sizing: border-box;
+				
+				@media (max-width: $breakpoint-medium) {
+					& {
+						flex: none !important;
+						width: 100% !important;
+						padding: 0;
+					}
+				}
+			}
 		}
 
 		.list-block-auto & > li {
+			flex: 1 1 0%;
+		}
+
+		.list-block-fit & > li {
 			width: auto;
 		}
 
@@ -221,24 +240,6 @@ ul {
 
 		.list-block-5cols & > li {
 			width: 20%;
-		}
-
-		.list-block-auto & > li,
-		.list-block-2cols & > li,
-		.list-block-3cols & > li,
-		.list-block-4cols & > li,
-		.list-block-5cols & > li {
-			display: inline-block;
-			padding: 0 $gutter-width;
-			vertical-align: top;
-			box-sizing: border-box;
-
-			@media (max-width: $breakpoint-medium) {
-				& {
-					width: 100%;
-					margin: 0 0 $gutter-width 0;
-				}
-			}
 		}
 	}
 }
