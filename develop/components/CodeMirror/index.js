@@ -28,20 +28,31 @@ export function insertText(cm, text, newLine = false) {
 	if (!cm.getSelection().length) {
 		const doc = cm.getDoc();
 		const cursor = doc.getCursor();
-		const line = doc.getLine(cursor.line);
-		let { ch } = cursor;
+		const { line } = cursor;
+		const lineStr = doc.getLine(line);
 
-		if (newLine && line.length) {
-			ch = line.length - 1;
-			text = `\n${text.trim()}`;
+		let { ch } = cursor;
+		let preCh = '';
+		let postCh = '';
+
+		if (newLine && lineStr.length) {
+			ch = lineStr.length - 1;
+			preCh = '\n';
+		} else {
+			const chPre = cm.getRange({ line, ch: ch - 1 }, cursor);
+			const chPost = cm.getRange(cursor, { line, ch: ch + 1 });
+
+			if (chPre && chPre !== ' ') {
+				preCh = ' ';
+			}
+
+			if (chPost && chPost !== ' ') {
+				postCh = ' ';
+			}
 		}
 
-		const pos = {
-			line: cursor.line,
-			ch,
-		};
-
-		doc.replaceRange(text, pos);
+		const pos = { ch, line };
+		doc.replaceRange(`${preCh}${text.trim()}${postCh}`, pos);
 	} else {
 		cm.replaceSelection(text.trim());
 	}

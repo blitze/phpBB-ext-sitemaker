@@ -31,6 +31,6 @@ export default function ClassPicker($dialogEdit) {
 		})
 		.on('click', '.transform', function insertClass(e) {
 			e.preventDefault();
-			insertText(codeMirror, `${$(this).text()} `);
+			insertText(codeMirror, $(this).text());
 		});
 }
