@@ -31,8 +31,10 @@ Encore.setOutputPath(paths.output)
 
 	.splitEntryChunks()
 	.configureSplitChunks(function(splitChunks) {
-		splitChunks.minSize = 0;
+		splitChunks.chunks = 'all';
 		splitChunks.cacheGroups = {
+			defaults: false,
+			vendors: false,
 			codemirror: {
 				name: 'codemirror/codemirror',
 				test: /[\\/]codemirror[\\/]/,
@@ -41,7 +43,6 @@ Encore.setOutputPath(paths.output)
 			'jquery-ui': {
 				name: 'jquery-ui/custom',
 				test: /jquery-ui/,
-				reuseExistingChunk: true,
 				enforce: true,
 			},
 			twig: {
