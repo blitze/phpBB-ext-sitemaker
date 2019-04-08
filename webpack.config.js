@@ -1,8 +1,7 @@
 const path = require('path');
-const Encore = require('@symfony/webpack-encore');
 const webpack = require('webpack');
+const Encore = require('@symfony/webpack-encore');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 const style = process.env.style || 'all';
 const jqueryUITheme = process.env.jq_ui_theme || 'smoothness';
@@ -29,12 +28,9 @@ Encore.setOutputPath(paths.output)
 
 	.enableSingleRuntimeChunk()
 
-	.splitEntryChunks()
-	.configureSplitChunks(function(splitChunks) {
+	.configureSplitChunks(splitChunks => {
 		splitChunks.chunks = 'all';
 		splitChunks.cacheGroups = {
-			defaults: false,
-			vendors: false,
 			codemirror: {
 				name: 'codemirror/codemirror',
 				test: /[\\/]codemirror[\\/]/,
@@ -83,7 +79,7 @@ Encore.setOutputPath(paths.output)
 	.addPlugin(
 		new webpack.NormalModuleReplacementPlugin(
 			/jquery-ui\/themes\/base\/(core|theme).css/,
-			function(resource) {
+			resource => {
 				const filename = path.basename(resource.request, '.css');
 				const type = filename === 'core' ? 'jquery-ui' : 'theme';
 				resource.request = `jquery-ui-themes/themes/${jqueryUITheme}/${type}.css`;
@@ -91,14 +87,12 @@ Encore.setOutputPath(paths.output)
 		),
 	)
 
-	.addPlugin(new DuplicatePackageCheckerPlugin())
-
 	.configureFilenames({
 		js: '[name].min.js',
 		css: '[name].min.css',
 	})
 
-	.configureBabel(function(babelConfig) {
+	.configureBabel(babelConfig => {
 		// add additional presets
 		babelConfig.presets.push('@babel/preset-flow');
 
