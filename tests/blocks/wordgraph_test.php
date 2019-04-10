@@ -99,14 +99,14 @@ class wordgraph_test extends blocks_base
 						),
 						array(
 							'WORD' => 'Rocks(12)',
-							'WORD_SIZE' => 25,
-							'WORD_COLOR' => 'ec0',
+							'WORD_SIZE' => 25.0,
+							'WORD_COLOR' => 'ec1',
 							'WORD_URL' => 'phpBB/search.php?keywords=Rocks',
 						),
 						array(
 							'WORD' => 'Sitemaker(5)',
 							'WORD_SIZE' => 14.818181818181818,
-							'WORD_COLOR' => '5c9',
+							'WORD_COLOR' => '5ca',
 							'WORD_URL' => 'phpBB/search.php?keywords=Sitemaker',
 						),
 					),
