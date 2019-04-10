@@ -10,6 +10,8 @@ import 'jquery-ui/themes/base/sortable.css';
 import Positions from './Positions';
 import SidebarWidth from '../SidebarWidth';
 
+import './style.scss';
+
 const { lang } = window;
 
 /**

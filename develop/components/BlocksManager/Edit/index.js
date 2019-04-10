@@ -8,12 +8,12 @@ import Dialog from '../../Dialog';
 import ClassPicker from './ClassPicker';
 import { getPOJO } from '../../../utils';
 import BlockRenderer from '../../BlockRenderer';
-import Feeds from '../../Feeds';
+
+import './style.scss';
 
 const { actions, config, lang } = window;
 
-export default function EditBlock() {
-	let $block;
+export default function EditBlock($block) {
 	let $dialogEdit;
 	let $document;
 	const blockData = {
@@ -151,22 +151,21 @@ export default function EditBlock() {
 	}
 
 	$document = $(document);
-
 	$dialogEdit = getEditDialog();
 
 	$dialogEdit.on('change', '.block-preview', () => previewBlock());
 
-	$document.on('click', '.edit-block', e => {
-		e.preventDefault();
-
-		$block = $(e.currentTarget).closest('.block');
-
-		const id = $block.attr('id').substring(6);
-
-		getEditForm(id);
-		createContextualSelect();
+	$dialogEdit.on('dialogopen', function isFeedBlock() {
+		if ($(this).find('#sm-feed-template').length) {
+			import(/* webpackChunkName: "blocks/feeds/feeds" */ '../../Feeds').then(
+				({ default: Feeds }) => Feeds($(this)),
+			);
+		}
 	});
 
+	const id = $block.attr('id').substring(6);
+
+	getEditForm(id);
+	createContextualSelect();
 	ClassPicker($dialogEdit);
-	Feeds($dialogEdit);
 }

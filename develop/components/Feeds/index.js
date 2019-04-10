@@ -45,7 +45,7 @@ const samples = [
 	`,
 ];
 
-export default function Feeds($dialog) {
+export default function Feeds($dialogDiv) {
 	let fields = {};
 	let codeMirror = {};
 	let tplData = {};
@@ -182,42 +182,44 @@ export default function Feeds($dialog) {
 		return CodeMirror.Pass;
 	}
 
-	function init() {
-		if ($(this).find('#sm-feed-template').length) {
-			$previewBox = $(this).find('#sm-feeds-preview');
-			$sourceBox = $(this).find('#sm-feeds-preview-source');
-			$dataBox = $(this).find('#sm-feeds-data');
-			$template = $(this).find('#sm-feed-template');
-
-			codeMirror = initCodeMirror('#sm-feed-template', {
-				mode: { name: 'twig', htmlMode: true },
-				actionBtnsSelector: '.sm-feed-template-button',
-				extraKeys: {
-					"'.'": completeAfterDot,
-					'Ctrl-Space': 'autocomplete',
-				},
-			});
-
-			codeMirror.on('blur', cm => {
-				const data = cm.getValue().trim();
-				previewFeed(data);
-			});
-
-			let sampleKey = 0;
-			$(this).on('click', '#sm-template-samples', e => {
-				e.preventDefault();
-				const sample = samples[sampleKey].trim();
-				sampleKey = sampleKey < samples.length - 1 ? sampleKey + 1 : 0;
-				codeMirror.setValue(sample);
-				previewFeed(sample);
-			});
-
-			$(this).on('input', '.sm-multi-input-item input', getFields);
-			$(this).on('click', '.sm-multi-input-delete', getFields);
-
-			getFields();
-		}
+	function codeMirrorIsInitialized() {
+		return $('#sm-feed-template')
+			.next()
+			.hasClass('CodeMirror');
 	}
 
-	$dialog.on('dialogopen', init);
+	$previewBox = $dialogDiv.find('#sm-feeds-preview');
+	$sourceBox = $dialogDiv.find('#sm-feeds-preview-source');
+	$dataBox = $dialogDiv.find('#sm-feeds-data');
+	$template = $dialogDiv.find('#sm-feed-template');
+
+	if (!codeMirrorIsInitialized()) {
+		codeMirror = initCodeMirror('#sm-feed-template', {
+			mode: { name: 'twig', htmlMode: true },
+			actionBtnsSelector: '.sm-feed-template-button',
+			extraKeys: {
+				"'.'": completeAfterDot,
+				'Ctrl-Space': 'autocomplete',
+			},
+		});
+
+		codeMirror.on('blur', cm => {
+			const data = cm.getValue().trim();
+			previewFeed(data);
+		});
+	}
+
+	let sampleKey = 0;
+	$dialogDiv.on('click', '#sm-template-samples', e => {
+		e.preventDefault();
+		const sample = samples[sampleKey].trim();
+		sampleKey = sampleKey < samples.length - 1 ? sampleKey + 1 : 0;
+		codeMirror.setValue(sample);
+		previewFeed(sample);
+	});
+
+	$dialogDiv.on('input', '.sm-multi-input-item input', getFields);
+	$dialogDiv.on('click', '.sm-multi-input-delete', getFields);
+
+	getFields();
 }

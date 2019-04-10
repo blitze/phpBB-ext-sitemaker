@@ -3,9 +3,7 @@ import Dialog from '../../Dialog';
 
 const { lang } = window;
 
-export default function deleteBlock(positions) {
-	let $block;
-
+export default function deleteBlock(positions, $block) {
 	const confirm = new Dialog('#dialog-confirm', {
 		buttons: {
 			[lang.remove]: function deleteBtn() {
@@ -20,10 +18,5 @@ export default function deleteBlock(positions) {
 		},
 	});
 
-	$(document).on('click', '.delete-block', e => {
-		e.preventDefault();
-		confirm.dialog('open');
-
-		$block = $(e.currentTarget).closest('.block');
-	});
+	confirm.dialog('open');
 }

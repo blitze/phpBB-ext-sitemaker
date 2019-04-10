@@ -1,11 +1,7 @@
 /* global $ */
-import Delete from './Delete';
-import Edit from './Edit';
-import InlineEditor from '../InlineEditor';
 import CustomBlock from '../CustomBlock';
+import InlineEditor from '../InlineEditor';
 import '../Icons/picker';
-
-import './style.scss';
 
 const { actions, config, lang } = window;
 
@@ -31,8 +27,6 @@ export default function BlocksManager(positions) {
 		return lang.processing;
 	};
 
-	Edit();
-	Delete(positions);
 	CustomBlock();
 	InlineEditor('.block-title', handleTitleUpdate);
 
@@ -48,4 +42,23 @@ export default function BlocksManager(positions) {
 			updateBlockField({ id, icon });
 		},
 	});
+
+	$(document)
+		.on('click', '.edit-block', e => {
+			e.preventDefault();
+			const $block = $(e.currentTarget).closest('.block');
+
+			import(/* webpackChunkName: "blocks/edit" */ './Edit').then(
+				({ default: EditHandler }) => EditHandler($block),
+			);
+		})
+		.on('click', '.delete-block', e => {
+			e.preventDefault();
+			const $block = $(e.currentTarget).closest('.block');
+
+			import(/* webpackChunkName: "blocks/edit" */ './Delete').then(
+				({ default: DeleteHandler }) =>
+					DeleteHandler(positions, $block),
+			);
+		});
 }

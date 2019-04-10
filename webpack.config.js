@@ -31,19 +31,18 @@ Encore.setOutputPath(paths.output)
 	.configureSplitChunks(splitChunks => {
 		splitChunks.chunks = 'all';
 		splitChunks.cacheGroups = {
+			default: false,
+			vendors: false,
 			codemirror: {
 				name: 'codemirror/codemirror',
 				test: /[\\/]codemirror[\\/]/,
-				enforce: true,
-			},
-			'jquery-ui': {
-				name: 'jquery-ui/custom',
-				test: /jquery-ui/,
+				chunks: 'all',
 				enforce: true,
 			},
 			twig: {
 				name: 'twig/twig',
 				test: /[\\/]twig[\\/]/,
+				chunks: 'all',
 				enforce: true,
 			},
 		};
