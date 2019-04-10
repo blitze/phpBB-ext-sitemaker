@@ -25,7 +25,7 @@ const samples = [
 	<p class="topic-title"><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></p>
 	<div class="author">{{ item.date|date("m/d/Y") }}</div>
 	<p>{{ item.description }}</p>
-	<p class="img-ui">
+	<p>
 		<a href="{{ item.feed.link }}" target="_blank">
 		{% if item.feed.image_url %}
 			<img src="{{ item.feed.image_url }}" alt="{{ item.feed.image_title }}" />
@@ -38,10 +38,10 @@ const samples = [
 	`,
 	`
 {% set images = attribute(item, 'get_item_tags', ['', 'image']) %}
-<a href="{{ item.link }}" target="_blank">
-	<img src="{{ images[0].data }}" />
-	{{ item.title }}
+<a class="img-ui" href="{{ item.link }}" target="_blank">
+	<img src="{{ images[0].data }}" alt="" />
 </a>
+{{ item.title }}
 	`,
 ];
 
