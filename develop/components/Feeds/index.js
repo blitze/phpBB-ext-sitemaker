@@ -38,10 +38,12 @@ const samples = [
 	`,
 	`
 {% set images = attribute(item, 'get_item_tags', ['', 'image']) %}
-<a class="img-ui" href="{{ item.link }}" target="_blank">
-	<img src="{{ images[0].data }}" alt="" />
+<a href="{{ item.link }}" target="_blank">
+	<div class="img-ui">
+		<img src="{{ images[0].data }}" alt="" />
+	</div>
+	{{ item.title }}
 </a>
-{{ item.title }}
 	`,
 ];
 
