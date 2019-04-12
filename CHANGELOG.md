@@ -14,6 +14,7 @@
 - Switched to flexbox grid (gridlex) for layout
 - Fix issue that returned ajax error when marking forums read: https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support/topic/198911
 - Add new Custom Layout that allows you to set sidebar widths
+- Recent Forum topics block now uses the 'Context' setting to point to first or last post
 - Created new localized documentation site
 - Provide links to documentation site directly from the extension with english fallback if translation is not available
 - Several other minor bug and display fixes
