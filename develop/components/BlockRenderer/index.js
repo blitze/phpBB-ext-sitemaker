@@ -1,11 +1,14 @@
 /* global $ */
-import { twig } from 'twig';
 import { fixPaths } from '../../utils';
 
 function BlockRenderer() {
 	const $document = $(document);
-	const template = twig({
-		data: $.trim($('#block-template-container').html()),
+
+	let template;
+	import(/* webpackChunkName: "twig/twig" */ 'twig').then(({ twig }) => {
+		template = twig({
+			data: $.trim($('#block-template-container').html()),
+		});
 	});
 
 	return {

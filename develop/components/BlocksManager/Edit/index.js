@@ -13,7 +13,7 @@ import './style.scss';
 
 const { actions, config, lang } = window;
 
-export default function EditBlock($block) {
+export default function EditBlock($block, codemirror) {
 	let $dialogEdit;
 	let $document;
 	const blockData = {
@@ -156,9 +156,18 @@ export default function EditBlock($block) {
 	$dialogEdit.on('change', '.block-preview', () => previewBlock());
 
 	$dialogEdit.on('dialogopen', function isFeedBlock() {
+		if ($(this).find('.sm-multi-input').length) {
+			import(/* webpackChunkName: "blocks/multiInput/input" */ '../../MultiInputUI').then(
+				({ default: MultiInput }) => MultiInput(),
+			);
+		}
+
 		if ($(this).find('#sm-feed-template').length) {
-			import(/* webpackChunkName: "blocks/feeds/feeds" */ '../../Feeds').then(
-				({ default: Feeds }) => Feeds($(this)),
+			Promise.all([
+				import(/* webpackChunkName: "twig/twig" */ 'twig'),
+				import(/* webpackChunkName: "blocks/feeds/feeds" */ '../../Feeds'),
+			]).then(([{ default: Twig }, { default: Feeds }]) =>
+				Feeds($(this), Twig, codemirror),
 			);
 		}
 	});
@@ -167,5 +176,5 @@ export default function EditBlock($block) {
 
 	getEditForm(id);
 	createContextualSelect();
-	ClassPicker($dialogEdit);
+	ClassPicker($dialogEdit, codemirror);
 }

@@ -250,14 +250,11 @@ class admin_bar
 	{
 		$assets = array(
 			'css'	=> array(
-				'@blitze_sitemaker/assets/codemirror/codemirror.min.css',
 				'@blitze_sitemaker/assets/blocks/manager.min.css',
 			),
 			'js'	=> array(
 				'@blitze_sitemaker/assets/runtime.min.js',
 				'@blitze_sitemaker/assets/tinymce/tinymce.min.js',
-				'@blitze_sitemaker/assets/codemirror/codemirror.min.js',
-				'@blitze_sitemaker/assets/twig/twig.min.js',
 				'@blitze_sitemaker/assets/blocks/manager.min.js',
 			)
 		);

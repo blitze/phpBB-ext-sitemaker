@@ -1,17 +1,11 @@
 /* global $ */
-import CodeMirror from 'codemirror';
 import 'codemirror/mode/twig/twig';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
 
-import Twig, { twig } from 'twig';
-import { initCodeMirror } from '../CodeMirror';
-
 import './style.scss';
 
 const { actions } = window;
-
-Twig.extendFunction('lang', value => value);
 
 const samples = [
 	`<a href="{{ item.link }}" target="_blank">{{ item.title }}</a>	`,
@@ -47,14 +41,19 @@ const samples = [
 	`,
 ];
 
-export default function Feeds($dialogDiv) {
+export default function Feeds(
+	$dialogDiv,
+	Twig,
+	{ default: CodeMirror, initCodeMirror },
+) {
 	let fields = {};
-	let codeMirror = {};
 	let tplData = {};
 	let $previewBox;
 	let $sourceBox;
 	let $dataBox;
 	let $template;
+
+	Twig.extendFunction('lang', value => value);
 
 	function getFeeds() {
 		return $('.sm-multi-input-item input')
@@ -70,7 +69,7 @@ export default function Feeds($dialogDiv) {
 	</li>
 {% endfor %}
 </ul>`;
-		const template = twig({ data: tplString });
+		const template = Twig.twig({ data: tplString });
 		const output = template.render(tplData);
 
 		$previewBox.html(output);
@@ -196,7 +195,7 @@ export default function Feeds($dialogDiv) {
 	$template = $dialogDiv.find('#sm-feed-template');
 
 	if (!codeMirrorIsInitialized()) {
-		codeMirror = initCodeMirror('#sm-feed-template', {
+		const codeMirror = initCodeMirror('#sm-feed-template', {
 			mode: { name: 'twig', htmlMode: true },
 			actionBtnsSelector: '.sm-feed-template-button',
 			extraKeys: {
@@ -209,16 +208,16 @@ export default function Feeds($dialogDiv) {
 			const data = cm.getValue().trim();
 			previewFeed(data);
 		});
-	}
 
-	let sampleKey = 0;
-	$dialogDiv.on('click', '#sm-template-samples', e => {
-		e.preventDefault();
-		const sample = samples[sampleKey].trim();
-		sampleKey = sampleKey < samples.length - 1 ? sampleKey + 1 : 0;
-		codeMirror.setValue(sample);
-		previewFeed(sample);
-	});
+		let sampleKey = 0;
+		$dialogDiv.on('click', '#sm-template-samples', e => {
+			e.preventDefault();
+			const sample = samples[sampleKey].trim();
+			sampleKey = sampleKey < samples.length - 1 ? sampleKey + 1 : 0;
+			codeMirror.setValue(sample);
+			previewFeed(sample);
+		});
+	}
 
 	$dialogDiv.on('input', '.sm-multi-input-item input', getFields);
 	$dialogDiv.on('click', '.sm-multi-input-delete', getFields);

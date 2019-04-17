@@ -1,11 +1,13 @@
 /* global $ */
-import { initCodeMirror, insertText } from '../../../CodeMirror';
 
-export default function ClassPicker($dialogEdit) {
-	let codeMirror;
+export default function ClassPicker(
+	$dialogEdit,
+	{ initCodeMirror, insertText },
+) {
+	let cm;
 	$dialogEdit.dialog({
 		open: () => {
-			codeMirror = initCodeMirror('#class_editor', {
+			cm = initCodeMirror('#class_editor', {
 				theme: 'default',
 				lineWrapping: true,
 				indentWithTabs: false,
@@ -31,6 +33,6 @@ export default function ClassPicker($dialogEdit) {
 		})
 		.on('click', '.transform', function insertClass(e) {
 			e.preventDefault();
-			insertText(codeMirror, $(this).text());
+			insertText(cm, $(this).text());
 		});
 }

@@ -1,8 +1,6 @@
 /* global $ */
 // @flow
 import { fixPaths, inactiveBlockClass } from '../../utils';
-import MultiInputUI from '../MultiInputUI';
-import { initCodeMirror } from '../CodeMirror';
 
 const { actions, config, lang, tinymce } = window;
 
@@ -155,7 +153,6 @@ export default function CustomBlock() {
 	}
 
 	initTinyMCE();
-	MultiInputUI();
 
 	$(document)
 		.on('blitze_sitemaker_render_block_after', ({ block, $block }) => {
@@ -205,7 +202,9 @@ export default function CustomBlock() {
 
 	$('#dialog-edit').on('dialogopen', function enableCodeMirror() {
 		if ($(this).find('#source').length) {
-			initCodeMirror('#source');
+			import(/* webpackChunkName: "codemirror/codemirror" */ '../CodeMirror').then(
+				({ initCodeMirror }) => initCodeMirror('#source'),
+			);
 		}
 	});
 }

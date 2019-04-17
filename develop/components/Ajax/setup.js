@@ -23,7 +23,10 @@ export default function Ajaxer($loader, showMessage, append = '') {
 					.removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
 
 				// Display any returned message
-				if (responseJSON.message || responseJSON.MESSAGE_TEXT) {
+				if (
+					responseJSON &&
+					(responseJSON.message || responseJSON.MESSAGE_TEXT)
+				) {
 					showMessage(
 						responseJSON.message || responseJSON.MESSAGE_TEXT,
 					);

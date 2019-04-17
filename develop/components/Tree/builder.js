@@ -12,8 +12,6 @@ import 'jquery-ui/ui/widgets/sortable';
 import 'jquery-ui/ui/effects/effect-slide';
 import 'jquery.populate/jquery.populate';
 
-import Twig, { twig } from 'twig';
-
 import AddBtn from './Add';
 import AddBulkBtn from './Bulk';
 import EditItem from './Edit';
@@ -27,11 +25,6 @@ import '../Icons/picker';
 import './builder.scss';
 
 const { lang } = window;
-
-Twig.extendFunction(
-	'lang',
-	value => (typeof lang[value] !== 'undefined' ? lang[value] : value),
-);
 
 $.widget('sitemaker.treeBuilder', {
 	options: {
@@ -80,30 +73,38 @@ $.widget('sitemaker.treeBuilder', {
 		this.msgObj = this.element.find(this.options.ajaxMessage);
 		this.editForm = $(this.options.editForm);
 
-		twig({
-			id: 'item_template',
-			data: this.element.find(this.options.itemTemplate).html(),
+		Promise.all([
+			import(/* webpackChunkName: "twig/twig" */ 'twig'),
+			import(/* webpackChunkName: "icon/picker" */ '../Icons/picker'),
+		]).then(([{ default: Twig }]) => {
+			Twig.extendFunction('lang', value =>
+				typeof lang[value] !== 'undefined' ? lang[value] : value,
+			);
+
+			this.template = Twig.twig({
+				data: $(this.options.itemTemplate).html(),
+			});
+
+			this.nestedList.iconPicker({
+				selector: this.options.iconSelectClass,
+				onSelect: ($item, iconClass) => {
+					const itemID = this._getItemId($item.closest('li'));
+					this.updateItem({ item_icon: iconClass }, itemID);
+				},
+			});
+
+			const $editDialog = EditItem(this);
+
+			AddBtn(this, $editDialog);
+			AddBulkBtn(this);
+			DeleteItem(this);
+
+			this.$deleteSelBtn = DeleteSelected(this);
+			this.$rebuildBtn = RebuildBtn(this);
+			this.$saveBtn = SaveBtn(this);
+
+			this._trigger('init');
 		});
-
-		const $editDialog = EditItem(this);
-
-		AddBtn(this, $editDialog);
-		AddBulkBtn(this);
-		DeleteItem(this);
-
-		this.$deleteSelBtn = DeleteSelected(this);
-		this.$rebuildBtn = RebuildBtn(this);
-		this.$saveBtn = SaveBtn(this);
-
-		this.nestedList.iconPicker({
-			selector: this.options.iconSelectClass,
-			onSelect: ($item, iconClass) => {
-				const itemID = this._getItemId($item.closest('li'));
-				this.updateItem({ item_icon: iconClass }, itemID);
-			},
-		});
-
-		this._trigger('init');
 	},
 
 	addItem() {
@@ -115,7 +116,7 @@ $.widget('sitemaker.treeBuilder', {
 	},
 
 	getItems() {
-		$.get(`${this.options.ajaxUrl}load_items`).done(data => {
+		$.getJSON(`${this.options.ajaxUrl}load_items`).done(data => {
 			this.nestedList.empty();
 			this._resetActions();
 			if (data.items && data.items.length > 0) {
@@ -123,7 +124,7 @@ $.widget('sitemaker.treeBuilder', {
 				this._addToTree(data.items);
 			}
 
-			this._trigger('loaded', null, {items: data.items});
+			this._trigger('loaded', null, { items: data.items });
 		});
 	},
 
@@ -312,7 +313,7 @@ $.widget('sitemaker.treeBuilder', {
 	},
 
 	_renderItem(data) {
-		return twig({ ref: 'item_template' }).render(data);
+		return this.template.render(data);
 	},
 
 	_refreshItem(data) {

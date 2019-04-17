@@ -1,7 +1,6 @@
 /* global $ */
 import CustomBlock from '../CustomBlock';
 import InlineEditor from '../InlineEditor';
-import '../Icons/picker';
 
 const { actions, config, lang } = window;
 
@@ -31,25 +30,30 @@ export default function BlocksManager(positions) {
 	InlineEditor('.block-title', handleTitleUpdate);
 
 	// Init Icon Picker
-	$('.sitemaker').iconPicker({
-		selector: '.block-icon',
-		width: '230px',
-		onSelect: (item, icon) => {
-			const id = item
-				.closest('.block')
-				.attr('id')
-				.substring(6);
-			updateBlockField({ id, icon });
-		},
-	});
+	import(/* webpackChunkName: "icon/picker" */ '../Icons/picker').then(() =>
+		$('.sitemaker').iconPicker({
+			selector: '.block-icon',
+			width: '230px',
+			onSelect: (item, icon) => {
+				const id = item
+					.closest('.block')
+					.attr('id')
+					.substring(6);
+				updateBlockField({ id, icon });
+			},
+		}),
+	);
 
 	$(document)
 		.on('click', '.edit-block', e => {
 			e.preventDefault();
 			const $block = $(e.currentTarget).closest('.block');
 
-			import(/* webpackChunkName: "blocks/edit" */ './Edit').then(
-				({ default: EditHandler }) => EditHandler($block),
+			Promise.all([
+				import(/* webpackChunkName: "codemirror/codemirror" */ '../CodeMirror'),
+				import(/* webpackChunkName: "blocks/edit" */ './Edit'),
+			]).then(([codemirror, { default: EditHandler }]) =>
+				EditHandler($block, codemirror),
 			);
 		})
 		.on('click', '.delete-block', e => {

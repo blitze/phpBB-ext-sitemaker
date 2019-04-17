@@ -133,3 +133,5 @@ export function initCodeMirror(textarea, overwrites = {}) {
 
 	return codeMirror;
 }
+
+export default CodeMirror;
