@@ -3,12 +3,9 @@
     "blocks/manager": {
       "js": [
         "../runtime.min.js",
-        "../codemirror/codemirror.min.js",
-        "../twig/twig.min.js",
         "../blocks/manager.min.js"
       ],
       "css": [
-        "../codemirror/codemirror.min.css",
         "../blocks/manager.min.css"
       ]
     },
@@ -16,21 +13,15 @@
       "js": [
         "../runtime.min.js",
         "../menu/admin.min.js"
-      ],
-      "css": [
-        "../menu/admin.min.css"
       ]
     },
-    "tree/builder": {
+    "tree/group": {
       "js": [
         "../runtime.min.js",
-        "../codemirror/codemirror.min.js",
-        "../twig/twig.min.js",
-        "../tree/builder.min.js"
+        "../tree/group.min.js"
       ],
       "css": [
-        "../codemirror/codemirror.min.css",
-        "../tree/builder.min.css"
+        "../tree/group.min.css"
       ]
     },
     "settings/admin": {

@@ -87,9 +87,10 @@ class menu_module
 
 		$this->template->assign_vars(array(
 			'S_MENU'		=> true,
-			'MENU_ID'		=> $menu_id,
+			'GROUP_ID'		=> $menu_id,
 			'ICON_PICKER'	=> $this->icon->picker(),
 			'SM_USER_LANG'	=> $this->user->data['user_lang'],
+			'SCRIPT_PATH'	=> $this->user->page['root_script_path'],
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
 		));
@@ -118,7 +119,7 @@ class menu_module
 			foreach ($collection as $entity)
 			{
 				$id = $entity->get_menu_id();
-				$this->template->assign_block_vars('menu', array(
+				$this->template->assign_block_vars('groups', array(
 					'ID'		=> $id,
 					'NAME'		=> $entity->get_menu_name(),
 					'S_ACTIVE'	=> ($id == $menu_id) ? true : false,
