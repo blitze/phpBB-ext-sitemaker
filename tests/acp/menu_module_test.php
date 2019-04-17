@@ -88,6 +88,7 @@ class menu_module_test extends \phpbb_database_test_case
 
 		$user = new \phpbb\user($language, '\phpbb\datetime');
 		$user->data['user_lang'] = $user_lang;
+		$user->page['root_script_path'] = '/phpBB/';
 
 		$request = $this->getMock('\phpbb\request\request_interface');
 		$request->expects($this->any())
@@ -151,7 +152,7 @@ class menu_module_test extends \phpbb_database_test_case
 					array('menu_id', 0, false, request_interface::REQUEST, 0),
 				),
 				array(
-					'menu' => array(
+					'groups' => array(
 						array(
 							'ID' => 1,
 							'NAME' => 'Menu 1',
@@ -164,14 +165,15 @@ class menu_module_test extends \phpbb_database_test_case
 						),
 					),
 					'S_MENU' => true,
-					'MENU_ID' => 1,
+					'GROUP_ID' => 1,
 					'ICON_PICKER' => NULL,
+					'SM_USER_LANG' => 'en',
+					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
-					'SM_USER_LANG' => 'en',
 				),
 			),
 			array(
@@ -180,7 +182,7 @@ class menu_module_test extends \phpbb_database_test_case
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 				),
 				array(
-					'menu' => array(
+					'groups' => array(
 						array(
 							'ID' => 1,
 							'NAME' => 'Menu 1',
@@ -193,14 +195,15 @@ class menu_module_test extends \phpbb_database_test_case
 						),
 					),
 					'S_MENU' => true,
-					'MENU_ID' => 2,
+					'GROUP_ID' => 2,
 					'ICON_PICKER' => NULL,
+					'SM_USER_LANG' => 'fr',
+					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
 					),
-					'SM_USER_LANG' => 'fr',
 				),
 			),
 		);
