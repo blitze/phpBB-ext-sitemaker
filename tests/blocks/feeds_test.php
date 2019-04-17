@@ -136,7 +136,7 @@ class feeds_test extends blocks_base
 			array(
 				true,
 				array(
-					'feeds'		=> ['http://some-site.com'],
+					'feeds'		=> ['http://some-non-existing-site.com'],
 					'max'		=> 3,
 					'template'	=> '',
 				),
