@@ -170,6 +170,25 @@ export default function EditBlock($block, codemirror) {
 				Feeds($(this), Twig, codemirror),
 			);
 		}
+
+		$(this)
+			.find('.code-editor')
+			.each((i, element) => {
+				const $textarea = $(element);
+				const id = $textarea.attr('id');
+				if (!$textarea.next().hasClass('CodeMirror')) {
+					const {
+						width = '100%',
+						height = 100,
+						...options
+					} = $textarea.data();
+					const cm = codemirror.initCodeMirror(`#${id}`, {
+						actionBtnsSelector: `.${id}-button`,
+						...options,
+					});
+					cm.setSize(width, height);
+				}
+			});
 	});
 
 	const id = $block.attr('id').substring(6);

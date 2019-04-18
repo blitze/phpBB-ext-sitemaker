@@ -136,9 +136,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> true,
 					'TITLE_EXPLAIN'	=> 'MY_SETTING_EXPLAIN',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-						'<option value="option1" selected="selected">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
+							'<option value="option1" selected="selected">Option 1</option>' .
+							'<option value="option2" selected="selected">Option 2</option>' .
+							'<option value="option3">Option 3</option>' .
 						'</select>YEARS',
 				),
 			),
@@ -164,9 +164,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var]">' .
-						'<option value="option1">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
+							'<option value="option1">Option 1</option>' .
+							'<option value="option2" selected="selected">Option 2</option>' .
+							'<option value="option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -179,9 +179,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-						'<option value="option1">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
+							'<option value="option1">Option 1</option>' .
+							'<option value="option2" selected="selected">Option 2</option>' .
+							'<option value="option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -194,9 +194,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var]" size="5" data-togglable-settings="true">' .
-						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
-						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
-						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
+							'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
+							'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
+							'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -209,9 +209,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple" data-togglable-settings="true">' .
-						'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
-						'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
-						'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
+							'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
+							'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
+							'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -250,6 +250,25 @@ class cfg_handler_test extends \phpbb_test_case
 						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
 						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
 						'</select>',
+				),
+			),
+			array(
+				'option2',
+				array('lang' => '', 'validate' => 'string', 'type' => 'code', 'params' => [['height' => 200, 'allow-full-screen' => true], 'MY_TITLE'], 'default' => '', 'explain' => true, 'lang_explain' => 'CODE_EDITOR'),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> '',
+					'S_EXPLAIN'		=> true,
+					'TITLE_EXPLAIN'	=> 'CODE_EDITOR',
+					'CONTENT'		=> '<label for="my_var"><strong>MY_TITLE</strong></label>' .
+						'<span>CODE_EDITOR</span>' .
+						'<textarea id="my_var-editor" class="code-editor" name="config[my_var]" data-height="200" data-allow-full-screen="1">option2</textarea>' .
+						'<div class="align-right">' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
+						'</div>',
 				),
 			),
 		);
@@ -343,7 +362,7 @@ class cfg_handler_test extends \phpbb_test_case
 						'source' => '%3Cscript%3Ealert(\'yes\');%3C/script%3E',
 					)),
 				),
-				array('source' => array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'SOURCE_EXPLAIN')),
+				array('source' => array('lang' => '', 'type' => 'code', 'default' => '', 'explain' => true, 'lang_explain' => 'SOURCE_EXPLAIN')),
 				array('source' => '<script>alert(\'yes\');</script>'),
 			),
 		);
@@ -402,9 +421,9 @@ class cfg_handler_test extends \phpbb_test_case
 				'option2',
 				'topic_ids',
 				'<select id="topic_ids" name="config[topic_ids]">' .
-				'<option value="option1">Option #1</option>' .
-				'<option value="option2" selected="selected">Option #2</option>' .
-				'<option value="option3">Option #3</option>' .
+					'<option value="option1">Option #1</option>' .
+					'<option value="option2" selected="selected">Option #2</option>' .
+					'<option value="option3">Option #3</option>' .
 				'</select>'
 			),
 		);
@@ -446,9 +465,9 @@ class cfg_handler_test extends \phpbb_test_case
 				array('option1', 'option2'),
 				'topic_ids',
 				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple">' .
-				'<option value="option1" selected="selected">Option #1</option>' .
-				'<option value="option2" selected="selected">Option #2</option>' .
-				'<option value="option3">Option #3</option>' .
+					'<option value="option1" selected="selected">Option #1</option>' .
+					'<option value="option2" selected="selected">Option #2</option>' .
+					'<option value="option3">Option #3</option>' .
 				'</select>'
 			),
 		);
@@ -540,9 +559,9 @@ class cfg_handler_test extends \phpbb_test_case
 				'',
 				'topic_ids',
 				'<div class="topic_ids-checkbox" id="topic_ids-col-0">' .
-				'<label><input type="checkbox" name="config[topic_ids][0]" value="option1" class="checkbox" /> Option #1</label><br />' .
-				'<label><input type="checkbox" name="config[topic_ids][1]" value="option2" class="checkbox" /> Option #2</label><br />' .
-				'<label><input type="checkbox" name="config[topic_ids][2]" value="option3" class="checkbox" /> Option #3</label><br />' .
+					'<label><input type="checkbox" name="config[topic_ids][0]" value="option1" class="checkbox" /> Option #1</label><br />' .
+					'<label><input type="checkbox" name="config[topic_ids][1]" value="option2" class="checkbox" /> Option #2</label><br />' .
+					'<label><input type="checkbox" name="config[topic_ids][2]" value="option3" class="checkbox" /> Option #3</label><br />' .
 				'</div>'
 			),
 			array(
@@ -558,13 +577,15 @@ class cfg_handler_test extends \phpbb_test_case
 				),
 				'',
 				'content_type',
-				'<div class="col content_type-checkbox" id="content_type-col-news">' .
-				'<label><input type="checkbox" name="config[content_type][0]" value="news_field1" class="checkbox" /> News Label 1</label><br />' .
-				'<label><input type="checkbox" name="config[content_type][1]" value="news_field2" class="checkbox" /> News Label 2</label><br />' .
-				'</div>' .
-				'<div class="col content_type-checkbox" id="content_type-col-articles">' .
-				'<label><input type="checkbox" name="config[content_type][2]" value="article_field1" class="checkbox" /> Article Label 1</label><br />' .
-				'<label><input type="checkbox" name="config[content_type][3]" value="article_field2" class="checkbox" /> Article Label 2</label><br />' .
+				'<div class="grid-noBottom">' .
+					'<div class="col content_type-checkbox" id="content_type-col-news">' .
+						'<label><input type="checkbox" name="config[content_type][0]" value="news_field1" class="checkbox" /> News Label 1</label><br />' .
+						'<label><input type="checkbox" name="config[content_type][1]" value="news_field2" class="checkbox" /> News Label 2</label><br />' .
+					'</div>' .
+					'<div class="col content_type-checkbox" id="content_type-col-articles">' .
+						'<label><input type="checkbox" name="config[content_type][2]" value="article_field1" class="checkbox" /> Article Label 1</label><br />' .
+						'<label><input type="checkbox" name="config[content_type][3]" value="article_field2" class="checkbox" /> Article Label 2</label><br />' .
+					'</div>' .
 				'</div>'
 			),
 		);
@@ -583,6 +604,62 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key);
+
+		$this->assertEquals($expected, $html);
+	}
+
+	/**
+	 * Data set for test_build_radio
+	 *
+	 * @return array
+	 */
+	public function build_code_editor_test_data()
+	{
+		return array(
+			array(
+				'',
+				'',
+				array(),
+				'',
+				'<textarea id="foo-editor" class="code-editor" name="config[foo]"></textarea>' .
+				'<div class="align-right">' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
+				'</div>'
+			),
+			array(
+				'my awesome code',
+				'FOO_EXPLAIN',
+				array('allow-full-screen' => false, 'line-wrapping' => true),
+				'FOO',
+				'<label for="foo"><strong>FOO</strong></label>' .
+				'<span>FOO_EXPLAIN</span>' .
+				'<textarea id="foo-editor" class="code-editor" name="config[foo]" data-allow-full-screen="0" data-line-wrapping="1">my awesome code</textarea>' .
+				'<div class="align-right">' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
+				'</div>'
+			),
+		);
+	}
+
+	/**
+	 * Test the build_code_editor
+	 *
+	 * @dataProvider build_code_editor_test_data
+	 * @param string $value
+	 * @param string $explain
+	 * @param array $data_props
+	 * @param string $label
+	 * @param string $expected
+	 */
+	public function test_build_code_editor($value, $explain, array $data_props, $label, $expected)
+	{
+		$cfg_fields = $this->get_service();
+		$html = $cfg_fields->build_code_editor('foo', $value, $explain, $data_props, $label);
 
 		$this->assertEquals($expected, $html);
 	}

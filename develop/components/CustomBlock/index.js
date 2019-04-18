@@ -199,12 +199,4 @@ export default function CustomBlock() {
 				}, 300);
 			}
 		});
-
-	$('#dialog-edit').on('dialogopen', function enableCodeMirror() {
-		if ($(this).find('#source').length) {
-			import(/* webpackChunkName: "codemirror/codemirror" */ '../CodeMirror').then(
-				({ initCodeMirror }) => initCodeMirror('#source'),
-			);
-		}
-	});
 }

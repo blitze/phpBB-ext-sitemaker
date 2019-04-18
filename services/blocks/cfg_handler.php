@@ -389,6 +389,27 @@ class cfg_handler extends cfg_fields
 	 * @param array $vars
 	 * @param array $type
 	 * @param string $field
+	 * @param array $db_settings
+	 */
+	private function prep_code_field_for_display(array &$vars, array &$type, $field, array $db_settings)
+	{
+		if (!isset($type[1]))
+		{
+			$vars['method'] = 'build_code_editor';
+			$vars['params'] = array_reverse(array_filter((array)$vars['params']));
+			$vars['params'][] = $vars['lang_explain'];
+			$vars['params'][] = $db_settings[$field];
+			$vars['params'][] = $field;
+			$vars['params'] = array_reverse($vars['params']);
+			
+			$type[0] = 'custom';
+		}
+	}
+
+	/**
+	 * @param array $vars
+	 * @param array $type
+	 * @param string $field
 	 */
 	private function prep_multi_select_field_for_display(array &$vars, array &$type, $field)
 	{

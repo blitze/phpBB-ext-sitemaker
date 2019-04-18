@@ -3,18 +3,20 @@
 ## 3.2.0 - 2019-4-10
 
 - Switched from Bower/Gulp workflow to npm/yarn/babel/webpack
-- Started work to use code splitting to reduce js bundle size (webpack)
-- Added Google maps block
-- Added RSS/Atom feeds block with ability to set display template (uses simplepie)
-- Added block modifiers to enforce image aspect ratio (1x1, 4x3, 16x9)
+- [feature] Use code splitting and dynamic imports to reduce js/css bundle sizes (webpack)
+- [feature] Added Google maps block
+- [feature] Added RSS/Atom feeds block with ability to set display template (uses simplepie)
+- [feature] Added block modifiers to enforce image aspect ratio (1x1, 4x3, 16x9)
 - Upgraded to Tinymce 4.9.4
 - Display Tinymce in users language if translation is available
 - Upgraded to support Responsive Filemanager 9.14.0
 - Ensure Admin Bar and menu items are fully responsive
 - Switched to flexbox grid (gridlex) for layout
-- Fix issue that returned ajax error when marking forums read: https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support/topic/198911
-- Add new Custom Layout that allows you to set sidebar widths
-- Recent Forum topics block now uses the 'Context' setting to point to first or last post
+- [feature] Added ability to add js/css files to page using Custom block
+- [feature] Added code editor block config type using codemirror 
+- [bug] Fix issue that returned ajax error when marking forums read: https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support/topic/198911
+- [feature] Add new Custom Layout that allows you to set sidebar widths
+- [feature] Recent Forum topics block now uses the 'Context' setting to point to first or last post
 - Created new localized documentation site
 - Provide links to documentation site directly from the extension with english fallback if translation is not available
 - Several other minor bug and display fixes

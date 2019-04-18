@@ -56,10 +56,11 @@ class custom extends block
 	{
 		return array(
 			'legend1'		=> 'HTML',
-			'source'	=> array('lang' => '', 'type' => 'textarea:20:40', 'default' => '', 'explain' => false, 'append' => 'HTML_EXPLAIN'),
+			'source'			=> array('lang' => '', 'validate' => 'string', 'type' => 'code', 'params' => [['height' => 200]], 'default' => '', 'explain' => true, 'lang_explain' => 'HTML_EXPLAIN'),
+
 			'legend2'		=> 'SCRIPTS',
-			'js_scripts'	=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
-			'css_scripts'	=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
+			'js_scripts'		=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
+			'css_scripts'		=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
 		);
 	}
 
