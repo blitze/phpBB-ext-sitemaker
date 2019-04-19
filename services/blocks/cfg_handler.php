@@ -396,12 +396,12 @@ class cfg_handler extends cfg_fields
 		if (!isset($type[1]))
 		{
 			$vars['method'] = 'build_code_editor';
-			$vars['params'] = array_reverse(array_filter((array)$vars['params']));
+			$vars['params'] = array_reverse((array) $vars['params']);
 			$vars['params'][] = $vars['lang_explain'];
 			$vars['params'][] = $db_settings[$field];
 			$vars['params'][] = $field;
 			$vars['params'] = array_reverse($vars['params']);
-			
+
 			$type[0] = 'custom';
 		}
 	}
