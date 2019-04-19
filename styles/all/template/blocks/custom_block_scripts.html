@@ -1,25 +1,3 @@
-{% macro input(field, script) %}
-    <div class="sm-multi-input-item">
-        <span><i class="fa fa-bars" aria-hidden="true"></i></span>
-        <input type="text" name="config[{{ field }}][]" value="{{ script|e }}" />
-        <button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
-    </div>
-{% endmacro %}
+{% from 'blocks/multi_input_macros.html' import create_multi_input_ui %}
 
-{% macro ui(field, list) %}
-    {% import _self as script %}
-
-    <h5>{{ lang(field|upper) }}</h5>
-    <div class="sm-multi-input">
-        {% for value in list %}
-            {{ script.input(field, value) }}
-        {% endfor %}
-        {{ script.input(field) }}
-    </div>
-    <button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
-    {% if field !== 'css_scripts' %}<br />{% endif %}
-{% endmacro %}
-
-{% import _self as type %}
-
-{{ type.ui(field, scripts) }}
+{{ create_multi_input_ui(field, scripts, field, true) }}

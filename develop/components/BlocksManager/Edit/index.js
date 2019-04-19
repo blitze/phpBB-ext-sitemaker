@@ -156,9 +156,9 @@ export default function EditBlock($block, codemirror) {
 	$dialogEdit.on('change', '.block-preview', () => previewBlock());
 
 	$dialogEdit.on('dialogopen', function isFeedBlock() {
-		if ($(this).find('.sm-multi-input').length) {
+		if ($(this).find('.sm-multi-input-ui').length) {
 			import(/* webpackChunkName: "blocks/multiInput/input" */ '../../MultiInputUI').then(
-				({ default: MultiInput }) => MultiInput(),
+				() => $('.sm-multi-input-ui').multiInputUI(),
 			);
 		}
 

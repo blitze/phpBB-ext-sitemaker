@@ -1,20 +1,6 @@
-{% macro input(url) %}
-    <div class="sm-multi-input-item">
-        <input class="sm-feed-input" type="text" name="config[feeds][]" placeholder="{{ lang('FEED_URL_PLACEHOLDER') }}" value="{{ url|e }}" />
-        <button class="sm-multi-input-delete" title="{{ lang('DELETE') }}"><i class="fa fa-times" aria-hidden="true"></i></button>
-    </div>
-{% endmacro %}
+{% from 'blocks/multi_input_macros.html' import create_multi_input_ui %}
 
-{% import _self as feed %}
-
-<h5>{{ lang('FEED_URLS') }}</h5>
-<div class="sm-multi-input">
-    {% for url in feeds %}
-        {{ feed.input(url) }}
-    {% endfor %}
-    {{ feed.input() }}
-</div>
-<button class="sm-multi-input-add pull-right" title="{{ lang('ADD') }}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+{{ create_multi_input_ui('feeds', feeds, 'FEED_URLS', false) }}
 
 <div class="sm-feed-editor">
     <h5>

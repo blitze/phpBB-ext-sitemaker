@@ -1,0 +1,22 @@
+{% macro input(sortable, field, value) %}
+    <div class="sm-multi-input-item">
+        {% if sortable %}<span><i class="fa fa-bars" aria-hidden="true"></i></span>{% endif %}
+        <input type="text" name="config[{{ field }}][]" value="{{ value }}" />
+        <button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+{% endmacro %}
+
+{% macro create_multi_input_ui(field, list, label, sortable) %}
+    {% import _self as ui %}
+
+    <div class="sm-multi-input-ui{{ sortable ? ' sortable' : '' }}">
+        <h5>{{ lang(label|upper) }}</h5>
+        <div class="sm-multi-input-list">
+            {% for value in list %}
+                {{ ui.input(sortable, field, value) }}
+            {% endfor %}
+            {{ ui.input(sortable, field) }}
+        </div>
+        <button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </div>
+{% endmacro %}
