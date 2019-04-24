@@ -9,22 +9,20 @@
 
 namespace blitze\sitemaker\services\blocks\config\fields;
 
-use blitze\sitemaker\services\blocks\config\cfg_utils;
-
 /**
  * @package sitemaker
  */
 class multi_input implements cfg_field_interface
 {
-	/** @var \phpbb\template\template */
-	protected $template;
+	/** @var \blitze\sitemaker\services\template */
+	protected $ptemplate;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\template\template		$template		Template object
+	 * @param \blitze\sitemaker\services\template	$ptemplate		Template object
 	 */
-	public function __construct($ptemplate)
+	public function __construct(\blitze\sitemaker\services\template $ptemplate)
 	{
 		$this->ptemplate = $ptemplate;
 	}
