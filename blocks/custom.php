@@ -56,11 +56,11 @@ class custom extends block
 	{
 		return array(
 			'legend1'		=> 'HTML',
-			'source'			=> array('lang' => '', 'validate' => 'string', 'type' => 'code', 'params' => [['height' => 200]], 'default' => '', 'explain' => true, 'lang_explain' => 'HTML_EXPLAIN'),
+			'source'			=> array('type' => 'code_editor', 'params' => [['height' => 200]], 'default' => '', 'explain' => true, 'lang_explain' => 'HTML_EXPLAIN'),
 
 			'legend2'		=> 'SCRIPTS',
-			'js_scripts'		=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
-			'css_scripts'		=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_scripts_ui'),
+			'js_scripts'		=> array('lang' => 'JS_SCRIPTS', 'type' => 'multi_input:1', 'default' => []),
+			'css_scripts'		=> array('lang' => 'CSS_SCRIPTS', 'type' => 'multi_input:1', 'default' => []),
 		);
 	}
 
@@ -126,21 +126,6 @@ class custom extends block
 
 			$this->save($sql_data, isset($cblocks[$to_bid]));
 		}
-	}
-
-	/**
-	 * @param mixed $scripts
-	 * @param string $key
-	 * @return string
-	 */
-	public function get_scripts_ui($scripts, $key)
-	{
-		$this->ptemplate->assign_vars(array(
-			'field'		=> $key,
-			'scripts'	=> array_filter((array) $scripts),
-		));
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/custom_block_scripts.html', 'custom_block_scripts');
 	}
 
 	/**

@@ -10,7 +10,7 @@
     {% import _self as ui %}
 
     <div class="sm-multi-input-ui{{ sortable ? ' sortable' : '' }}">
-        <h5>{{ lang(label|upper) }}</h5>
+        {% if label %}<label><strong>{{ lang(label) }}</strong></label>{% endif %}
         <div class="sm-multi-input-list">
             {% for value in list %}
                 {{ ui.input(sortable, field, value) }}
@@ -20,3 +20,7 @@
         <button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
     </div>
 {% endmacro %}
+
+{% from _self import create_multi_input_ui %}
+
+{{ create_multi_input_ui(field, values, label, sortable) }}

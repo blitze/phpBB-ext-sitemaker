@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: blocks.yml }
+    - { resource: cfg_fields.yml }
     - { resource: controllers.yml }
     - { resource: listeners.yml }
 
@@ -56,14 +57,20 @@ services:
             - '%core.php_ext%'
 
     blitze.sitemaker.blocks.cfg_handler:
-        class: blitze\sitemaker\services\blocks\cfg_handler
+        class: blitze\sitemaker\services\blocks\config\cfg_handler
         arguments:
             - '@request'
             - '@template'
             - '@language'
+            - '@blitze.sitemaker.blocks.cfg_factory'
             - '@blitze.sitemaker.groups'
             - '%core.root_path%'
             - '%core.php_ext%'
+
+    blitze.sitemaker.blocks.cfg_factory:
+        class: blitze\sitemaker\services\blocks\config\cfg_factory
+        arguments:
+            - '@blitze.sitemaker.cfg_field_collection'
 
     blitze.sitemaker.blocks.display:
         class: blitze\sitemaker\services\blocks\display

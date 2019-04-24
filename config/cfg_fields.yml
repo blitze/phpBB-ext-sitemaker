@@ -1,0 +1,60 @@
+services:
+
+    blitze.sitemaker.cfg_field_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: service_collection, tag: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.checkbox:
+        class: blitze\sitemaker\services\blocks\config\fields\checkbox
+        arguments:
+            - '@language'
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.code_editor:
+        class: blitze\sitemaker\services\blocks\config\fields\code_editor
+        arguments:
+            - '@language'
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.custom:
+        class: blitze\sitemaker\services\blocks\config\fields\custom
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.hidden:
+        class: blitze\sitemaker\services\blocks\config\fields\hidden
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.multi_input:
+        class: blitze\sitemaker\services\blocks\config\fields\multi_input
+        arguments:
+            - '@blitze.sitemaker.template'
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.multi_select:
+        class: blitze\sitemaker\services\blocks\config\fields\multi_select
+        arguments:
+            - '@language'
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.radio:
+        class: blitze\sitemaker\services\blocks\config\fields\radio
+        arguments:
+            - '@language'
+        tags:
+            - { name: sitemaker.cfg_field }
+
+    blitze.sitemaker.cfg_field.select:
+        class: blitze\sitemaker\services\blocks\config\fields\select
+        arguments:
+            - '@language'
+        tags:
+            - { name: sitemaker.cfg_field }

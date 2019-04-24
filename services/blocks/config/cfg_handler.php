@@ -7,9 +7,9 @@
  *
  */
 
-namespace blitze\sitemaker\services\blocks;
+namespace blitze\sitemaker\services\blocks\config;
 
-class cfg_handler extends cfg_fields
+class cfg_handler
 {
 	/** @var \phpbb\request\request_interface */
 	protected $request;
@@ -19,6 +19,9 @@ class cfg_handler extends cfg_fields
 
 	/** @var \phpbb\language\language */
 	protected $translator;
+
+	/** @var \blitze\sitemaker\services\blocks\config\cfg_factory */
+	protected $cfg_fields_factory;
 
 	/** @var \blitze\sitemaker\services\groups */
 	protected $groups;
@@ -32,20 +35,20 @@ class cfg_handler extends cfg_fields
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\request\request_interface		$request				Request object
-	 * @param \phpbb\template\template				$template				Template object
-	 * @param \phpbb\language\language				$translator				Language object
-	 * @param \blitze\sitemaker\services\groups		$groups					Groups object
-	 * @param string								$phpbb_root_path		phpBB root path
-	 * @param string								$php_ext				phpEx
+	 * @param \phpbb\request\request_interface						$request				Request object
+	 * @param \phpbb\template\template								$template				Template object
+	 * @param \phpbb\language\language								$translator				Language object
+	 * @param \blitze\sitemaker\services\blocks\config\cfg_factory	$cfg_fields_factory		Block config fields factory
+	 * @param \blitze\sitemaker\services\groups						$groups					Groups object
+	 * @param string												$phpbb_root_path		phpBB root path
+	 * @param string												$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\groups $groups, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\config\cfg_factory $cfg_fields_factory, \blitze\sitemaker\services\groups $groups, $phpbb_root_path, $php_ext)
 	{
-		parent::__construct($translator);
-
 		$this->request = $request;
 		$this->template = $template;
 		$this->translator = $translator;
+		$this->cfg_fields_factory = $cfg_fields_factory;
 		$this->groups = $groups;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -136,7 +139,7 @@ class cfg_handler extends cfg_fields
 	 */
 	private function get_form(array $block_data)
 	{
-		$selected_groups = $this->ensure_array($block_data['permission']);
+		$selected_groups = cfg_utils::ensure_array($block_data['permission']);
 
 		$this->template->assign_vars(array(
 			'S_BLOCK_ID'	=> $block_data['bid'],
@@ -225,13 +228,10 @@ class cfg_handler extends cfg_fields
 	{
 		if (empty($vars['object']))
 		{
-			$object = $this;
-			$method = 'prep_' . $type[0] . '_field_for_display';
-
-			if (is_callable(array($this, $method)))
+			if (($object = $this->cfg_fields_factory->get($type[0])) !== false)
 			{
 				$this->set_params($field, $vars, $db_settings);
-				$this->$method($vars, $type, $field, $db_settings);
+				$object->prep_field($vars, $type, $field, $db_settings);
 			}
 		}
 		else
@@ -338,102 +338,6 @@ class cfg_handler extends cfg_fields
 	private function get_field_value($field, $default, array $db_settings)
 	{
 		return (isset($db_settings[$field])) ? $db_settings[$field] : $default;
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 * @param string $field
-	 */
-	private function prep_select_field_for_display(array &$vars, array &$type, $field)
-	{
-		// set defaults for types: field type, size, multi select, toggle key
-		$type += array('', 1, false, '');
-
-		$vars['method'] = 'build_select';
-		$vars['params'][] = $field;
-		$vars['params'][] = (int) $type[1];		// size
-		$vars['params'][] = (bool) $type[2];	// multi select
-		$vars['params'][] = (string) $type[3];	// togggle key
-		$type[0] = 'custom';
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 * @param string $field
-	 */
-	private function prep_checkbox_field_for_display(array &$vars, array &$type, $field)
-	{
-		$vars['method'] = 'build_checkbox';
-		$vars['params'][] = $field;
-		$type[0] = 'custom';
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 * @param string $field
-	 */
-	private function prep_radio_field_for_display(array &$vars, array &$type, $field)
-	{
-		if (!isset($type[1]))
-		{
-			$vars['method'] = 'build_radio';
-			$vars['params'][] = $field;
-			$type[0] = 'custom';
-		}
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 * @param string $field
-	 * @param array $db_settings
-	 */
-	private function prep_code_field_for_display(array &$vars, array &$type, $field, array $db_settings)
-	{
-		if (!isset($type[1]))
-		{
-			$vars['method'] = 'build_code_editor';
-			$vars['params'] = array_reverse((array) $vars['params']);
-			$vars['params'][] = $vars['lang_explain'];
-			$vars['params'][] = $db_settings[$field];
-			$vars['params'][] = $field;
-			$vars['params'] = array_reverse($vars['params']);
-
-			$type[0] = 'custom';
-		}
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 * @param string $field
-	 */
-	private function prep_multi_select_field_for_display(array &$vars, array &$type, $field)
-	{
-		$this->prep_checkbox_field_for_display($vars, $type, $field);
-
-		$vars['method'] ='build_multi_select';
-	}
-
-	/**
-	 * @param array $vars
-	 */
-	private function prep_hidden_field_for_display(array &$vars)
-	{
-		unset($vars);
-	}
-
-	/**
-	 * @param array $vars
-	 * @param array $type
-	 */
-	private function prep_custom_field_for_display(array &$vars, array &$type)
-	{
-		$vars['function'] = (!empty($vars['function'])) ? $vars['function'] : '';
-		$type[0] = 'custom';
 	}
 
 	/**

@@ -99,9 +99,9 @@ class feeds_test extends blocks_base
 		$expected_keys = array(
 			'legend1',
 			'feeds',
+			'template',
 			'max',
 			'cache',
-			'template',
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
@@ -204,23 +204,20 @@ class feeds_test extends blocks_base
 	}
 
 	/**
-	 * Data set for test_get_fields
+	 * Data set for test_get_cfg_feeds_template
 	 *
 	 * @return array
 	 */
-	public function get_feeds_ui_data()
+	public function get_cfg_feeds_template_test_data()
 	{
 		return array(
 			array(
 				'',
 				array(),
-				array(),
 			),
 			array(
 				'<p>{{ item.title }}</p>',
-				array('foo.xml', 'bar.rss'),
 				array(
-					'feeds'		=> array('foo.xml', 'bar.rss'),
 					'template'	=> '<p>{{ item.title }}</p>',
 				),
 			),
@@ -230,15 +227,14 @@ class feeds_test extends blocks_base
 	/**
 	 * Test saving custom content
 	 *
-	 * @dataProvider get_feeds_ui_data
+	 * @dataProvider get_cfg_feeds_template_test_data
 	 * @param string $template
-	 * @param array $feeds
 	 * @param arrau $expected
 	 */
-	public function test_get_feeds_ui($template, array $feeds, array $expected)
+	public function test_get_cfg_feeds_template($template, array $expected)
 	{
 		$block = $this->get_block();
-		$result = $block->get_feeds_ui($feeds, $template);
+		$result = $block->get_cfg_feeds_template($template);
 
 		$this->assertEquals($expected, array_filter($result));
 	}

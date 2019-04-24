@@ -7,12 +7,13 @@
  *
  */
 
-namespace blitze\sitemaker\tests\services\blocks;
+namespace blitze\sitemaker\tests\services\blocks\config;
 
 use phpbb\request\request_interface;
-use blitze\sitemaker\services\blocks\cfg_handler;
+use blitze\sitemaker\services\blocks\config\cfg_handler;
+use blitze\sitemaker\services\template;
 
-require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/foo.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/foo.php';
 
 class cfg_handler_test extends \phpbb_test_case
 {
@@ -30,43 +31,11 @@ class cfg_handler_test extends \phpbb_test_case
 
 	/**
 	 * @param array $variable_map
-	 * @return \blitze\sitemaker\services\blocks\cfg_handler
+	 * @return \blitze\sitemaker\services\blocks\config\cfg_handler
 	 */
 	protected function get_service($variable_map = array())
 	{
-		global $request, $template, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
-
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$request = $this->getMock('\phpbb\request\request_interface');
-		$request->expects($this->any())
-			->method('variable')
-			->with($this->anything())
-			->will($this->returnValueMap($variable_map));
-
-		$container = new \phpbb_mock_container_builder();
-		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
-			$phpbb_root_path,
-			array(
-				'blitze/sitemaker' => array(
-					'ext_name'		=> 'blitze/sitemaker',
-					'ext_active'	=> '1',
-					'ext_path'		=> 'ext/blitze/sitemaker/',
-				),
-			),
-			$container);
-
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$lang_loader->set_extension_manager($phpbb_extension_manager);
-
-		$translator = new \phpbb\language\language($lang_loader);
-		$translator->set_user_language('en');
-
-		// We do this here so we can ensure that language variables are provided
-		$translator->add_lang('acp/common');
-		$translator->add_lang('blocks_admin', 'blitze/sitemaker');
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		global $request, $template, $phpbb_container, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -91,11 +60,103 @@ class cfg_handler_test extends \phpbb_test_case
 				return $tpl_data;
 			}));
 
+		$request = $this->getMock('\phpbb\request\request_interface');
+		$request->expects($this->any())
+			->method('variable')
+			->with($this->anything())
+			->will($this->returnValueMap($variable_map));
+
+		$phpbb_container = new \phpbb_mock_container_builder();
+
+		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
+			$phpbb_root_path,
+			array(
+				'blitze/sitemaker' => array(
+					'ext_name'		=> 'blitze/sitemaker',
+					'ext_active'	=> '1',
+					'ext_path'		=> 'ext/blitze/sitemaker/',
+				),
+			),
+			$phpbb_container);
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang_loader->set_extension_manager($phpbb_extension_manager);
+
+		$translator = new \phpbb\language\language($lang_loader);
+		$translator->set_user_language('en');
+
+		// We do this here so we can ensure that language variables are provided
+		$translator->add_lang('acp/common');
+		$translator->add_lang('blocks_admin', 'blitze/sitemaker');
+
+		$user = new \phpbb\user($translator, '\phpbb\datetime');
+
+		$config = new \phpbb\config\config(array());
+
+		$filesystem = new \phpbb\filesystem\filesystem();
+
+		$path_helper = new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
+			),
+			$filesystem,
+			$request,
+			$phpbb_root_path,
+			$php_ext
+		);
+
+		$cache_path = $phpbb_root_path . 'cache/twig';
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+		$template_context = new \phpbb\template\context();
+		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
+		$twig = new \phpbb\template\twig\environment(
+			$config,
+			$filesystem,
+			$path_helper,
+			$cache_path,
+			null,
+			$template_loader,
+			$phpbb_dispatcher,
+			array(
+				'cache'			=> false,
+				'debug'			=> false,
+				'auto_reload'	=> true,
+				'autoescape'	=> false,
+			)
+		);
+
+		$ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $user)));
+		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
+
+		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
+
+		$cfg_fields_collection = new \phpbb\di\service_collection($phpbb_container);
+
+		$cfg_fields_collection->add('cfg.checkbox.field');
+		$cfg_fields_collection->add('cfg.code_editor.field');
+		$cfg_fields_collection->add('cfg.custom.field');
+		$cfg_fields_collection->add('cfg.hidden.field');
+		$cfg_fields_collection->add('cfg.multi_input.field');
+		$cfg_fields_collection->add('cfg.multi_select.field');
+		$cfg_fields_collection->add('cfg.radio.field');
+		$cfg_fields_collection->add('cfg.select.field');
+
+		$phpbb_container->set('cfg.checkbox.field', new \blitze\sitemaker\services\blocks\config\fields\checkbox($translator));
+		$phpbb_container->set('cfg.code_editor.field', new \blitze\sitemaker\services\blocks\config\fields\code_editor($translator));
+		$phpbb_container->set('cfg.custom.field', new \blitze\sitemaker\services\blocks\config\fields\custom());
+		$phpbb_container->set('cfg.hidden.field', new \blitze\sitemaker\services\blocks\config\fields\hidden());
+		$phpbb_container->set('cfg.multi_input.field', new \blitze\sitemaker\services\blocks\config\fields\multi_input($ptemplate));
+		$phpbb_container->set('cfg.multi_select.field', new \blitze\sitemaker\services\blocks\config\fields\multi_select($translator));
+		$phpbb_container->set('cfg.radio.field', new \blitze\sitemaker\services\blocks\config\fields\radio($translator));
+		$phpbb_container->set('cfg.select.field', new \blitze\sitemaker\services\blocks\config\fields\select($translator));
+
+		$cfg_factory = new \blitze\sitemaker\services\blocks\config\cfg_factory($cfg_fields_collection);
+
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new cfg_handler($request, $template, $translator, $groups, $phpbb_root_path, $phpEx);
+		return new cfg_handler($request, $template, $translator, $cfg_factory, $groups, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -254,7 +315,7 @@ class cfg_handler_test extends \phpbb_test_case
 			),
 			array(
 				'option2',
-				array('lang' => '', 'validate' => 'string', 'type' => 'code', 'params' => [['height' => 200, 'allow-full-screen' => true], 'MY_TITLE'], 'default' => '', 'explain' => true, 'lang_explain' => 'CODE_EDITOR'),
+				array('lang' => '', 'validate' => 'string', 'type' => 'code_editor', 'params' => [['height' => 200, 'allow-full-screen' => true], 'MY_TITLE'], 'default' => '', 'explain' => true, 'lang_explain' => 'CODE_EDITOR'),
 				array(
 					'KEY'			=> 'my_var',
 					'TITLE'			=> '',
@@ -271,6 +332,32 @@ class cfg_handler_test extends \phpbb_test_case
 						'</div>',
 				),
 			),
+			array(
+				'option2',
+				array('lang' => 'MY_SETTING', 'type' => 'multi_input:1:1', 'default' => []),
+				array(
+					'KEY'			=> 'my_var',
+					'TITLE'			=> '',
+					'S_EXPLAIN'		=> false,
+					'TITLE_EXPLAIN'	=> '',
+					'CONTENT'		=> '<div class="sm-multi-input-ui sortable">' .
+						'<label><strong>MY_SETTING</strong></label>' .
+						'<div class="sm-multi-input-list">' .
+							'<div class="sm-multi-input-item">' .
+								'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+								'<input type="text" name="config[my_var][]" value="option2" />' .
+								'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+    						'</div>' .
+                            '<div class="sm-multi-input-item">' .
+                            	'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+                            	'<input type="text" name="config[my_var][]" value="" />' .
+                            	'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+                            '</div>' .
+                        '</div>' .
+                        '<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
+                    '</div>',
+				),
+			),
 		);
 	}
 
@@ -278,7 +365,7 @@ class cfg_handler_test extends \phpbb_test_case
 	 * Test the build_multi_select method
 	 *
 	 * @dataProvider get_edit_form_test_data
-	 * @param string $db_value
+	 * @param mixed $db_value
 	 * @param array $default_settings
 	 * @param array $expected
 	 */
@@ -305,6 +392,14 @@ class cfg_handler_test extends \phpbb_test_case
 
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->get_edit_form($block_data, $default_settings);
+
+		foreach ($html['options'] as &$option)
+		{
+			if (isset($option['CONTENT']))
+			{
+				$option['CONTENT'] = preg_replace('/\s{2,}/', '', $option['CONTENT']);
+			}
+		}
 
 		$this->assertSame($expected, $html['options']);
 	}
@@ -396,272 +491,6 @@ class cfg_handler_test extends \phpbb_test_case
 		{
 			$this->assertEquals($expected,$e->getMessage());
 		}
-	}
-
-	/**
-	 * Data set for test_build_select
-	 *
-	 * @return array
-	 */
-	public function build_select_test_data()
-	{
-		return array(
-			array(
-				array(),
-				'',
-				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids]"></select>'
-			),
-			array(
-				array(
-					'option1'	=> 'Option #1',
-					'option2'	=> 'Option #2',
-					'option3'	=> 'Option #3',
-				),
-				'option2',
-				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids]">' .
-					'<option value="option1">Option #1</option>' .
-					'<option value="option2" selected="selected">Option #2</option>' .
-					'<option value="option3">Option #3</option>' .
-				'</select>'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_select method
-	 *
-	 * @dataProvider build_select_test_data
-	 */
-	public function test_build_select($option_ary, $selected_item, $key, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_select($option_ary, $selected_item, $key);
-
-		$this->assertEquals($expected, $html);
-	}
-
-	/**
-	 * Data set for test_build_multi_select
-	 *
-	 * @return array
-	 */
-	public function build_multi_select_test_data()
-	{
-		return array(
-			array(
-				array(),
-				'',
-				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple"></select>'
-			),
-			array(
-				array(
-					'option1'	=> 'Option #1',
-					'option2'	=> 'Option #2',
-					'option3'	=> 'Option #3',
-				),
-				array('option1', 'option2'),
-				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple">' .
-					'<option value="option1" selected="selected">Option #1</option>' .
-					'<option value="option2" selected="selected">Option #2</option>' .
-					'<option value="option3">Option #3</option>' .
-				'</select>'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_multi_select method
-	 *
-	 * @dataProvider build_multi_select_test_data
-	 * @param array $option_ary
-	 * @param string|array $selected_items
-	 * @param string $key
-	 * @param string $expected
-	 */
-	public function test_build_multi_select(array $option_ary, $selected_items, $key, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_multi_select($option_ary, $selected_items, $key);
-
-		$this->assertEquals($expected, $html);
-	}
-
-	/**
-	 * Data set for test_build_radio
-	 *
-	 * @return array
-	 */
-	public function build_radio_test_data()
-	{
-		return array(
-			array(
-				array(),
-				'',
-				'some_var',
-				''
-			),
-			array(
-				array(
-					'option1'	=> 'Option #1',
-					'option2'	=> 'Option #2',
-					'option3'	=> 'Option #3',
-				),
-				'option2',
-				'some_var',
-				'<label><input type="radio" name="config[some_var]" value="option1" class="radio" /> Option #1</label><br />' .
-				'<label><input type="radio" name="config[some_var]" value="option2" checked="checked" class="radio" /> Option #2</label><br />' .
-				'<label><input type="radio" name="config[some_var]" value="option3" class="radio" /> Option #3</label><br />'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_radio method
-	 *
-	 * @dataProvider build_radio_test_data
-	 * @param array $option_ary
-	 * @param string|array $selected_items
-	 * @param string $key
-	 * @param string $expected
-	 */
-	public function test_build_radio(array $option_ary, $selected_items, $key, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_radio($option_ary, $selected_items, $key);
-
-		$this->assertEquals($expected, $html);
-	}
-
-	/**
-	 * Data set for test_build_checkbox
-	 *
-	 * @return array
-	 */
-	public function build_checkbox_test_data()
-	{
-		return array(
-			array(
-				array(),
-				'',
-				'topic_ids',
-				'<div class="topic_ids-checkbox" id="topic_ids-col-0"></div>'
-			),
-			array(
-				array(
-					'option1'	=> 'Option #1',
-					'option2'	=> 'Option #2',
-					'option3'	=> 'Option #3',
-				),
-				'',
-				'topic_ids',
-				'<div class="topic_ids-checkbox" id="topic_ids-col-0">' .
-					'<label><input type="checkbox" name="config[topic_ids][0]" value="option1" class="checkbox" /> Option #1</label><br />' .
-					'<label><input type="checkbox" name="config[topic_ids][1]" value="option2" class="checkbox" /> Option #2</label><br />' .
-					'<label><input type="checkbox" name="config[topic_ids][2]" value="option3" class="checkbox" /> Option #3</label><br />' .
-				'</div>'
-			),
-			array(
-				array(
-					'news' => array(
-						'news_field1' => 'News Label 1',
-						'news_field2' => 'News Label 2',
-					),
-					'articles' => array(
-						'article_field1' => 'Article Label 1',
-						'article_field2' => 'Article Label 2',
-					),
-				),
-				'',
-				'content_type',
-				'<div class="grid-noBottom">' .
-					'<div class="col content_type-checkbox" id="content_type-col-news">' .
-						'<label><input type="checkbox" name="config[content_type][0]" value="news_field1" class="checkbox" /> News Label 1</label><br />' .
-						'<label><input type="checkbox" name="config[content_type][1]" value="news_field2" class="checkbox" /> News Label 2</label><br />' .
-					'</div>' .
-					'<div class="col content_type-checkbox" id="content_type-col-articles">' .
-						'<label><input type="checkbox" name="config[content_type][2]" value="article_field1" class="checkbox" /> Article Label 1</label><br />' .
-						'<label><input type="checkbox" name="config[content_type][3]" value="article_field2" class="checkbox" /> Article Label 2</label><br />' .
-					'</div>' .
-				'</div>'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_checkbox method
-	 *
-	 * @dataProvider build_checkbox_test_data
-	 * @param array $option_ary
-	 * @param string|array $selected_items
-	 * @param string $key
-	 * @param string $expected
-	 */
-	public function test_build_checkbox(array $option_ary, $selected_items, $key, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key);
-
-		$this->assertEquals($expected, $html);
-	}
-
-	/**
-	 * Data set for test_build_radio
-	 *
-	 * @return array
-	 */
-	public function build_code_editor_test_data()
-	{
-		return array(
-			array(
-				'',
-				'',
-				array(),
-				'',
-				'<textarea id="foo-editor" class="code-editor" name="config[foo]"></textarea>' .
-				'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
-				'</div>'
-			),
-			array(
-				'my awesome code',
-				'FOO_EXPLAIN',
-				array('allow-full-screen' => false, 'line-wrapping' => true),
-				'FOO',
-				'<label for="foo"><strong>FOO</strong></label>' .
-				'<span>FOO_EXPLAIN</span>' .
-				'<textarea id="foo-editor" class="code-editor" name="config[foo]" data-allow-full-screen="0" data-line-wrapping="1">my awesome code</textarea>' .
-				'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-				'</div>'
-			),
-		);
-	}
-
-	/**
-	 * Test the build_code_editor
-	 *
-	 * @dataProvider build_code_editor_test_data
-	 * @param string $value
-	 * @param string $explain
-	 * @param array $data_props
-	 * @param string $label
-	 * @param string $expected
-	 */
-	public function test_build_code_editor($value, $explain, array $data_props, $label, $expected)
-	{
-		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_code_editor('foo', $value, $explain, $data_props, $label);
-
-		$this->assertEquals($expected, $html);
 	}
 
 	/**

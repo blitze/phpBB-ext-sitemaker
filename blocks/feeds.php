@@ -55,12 +55,13 @@ class feeds extends block
 	 */
 	public function get_config(array $settings)
 	{
+		$template_default = '<a target="_blank" href="{{ item.link }}">{{ item.title }}</a>';
 		return array(
 			'legend1'			=> 'SETTINGS',
-			'feeds'			=> array('type' => 'custom', 'default' => [], 'object' => $this, 'method' => 'get_feeds_ui', 'params' => [$settings['feeds'], $settings['template']]),
+			'feeds'			=> array('lang' => 'FEED_URLS', 'type' => 'multi_input:0', 'default' => []),
+			'template'		=> array('type' => 'custom', 'default' => $template_default, 'object' => $this, 'method' => 'get_cfg_feeds_template'),
 			'max'			=> array('lang' => 'MAX_ITEMS', 'validate' => 'int:1', 'type' => 'number:1', 'default' => 5),
 			'cache'			=> array('lang' => 'CACHE_DURATION', 'validate' => 'int:1', 'type' => 'number:1', 'default' => 6, 'append' => 'HOURS_SHORT'),
-			'template'		=> array('type' => 'hidden', 'default' => '<a target="_blank" href="{{ item.link }}">{{ item.title }}</a>'),
 		);
 	}
 
@@ -142,18 +143,16 @@ class feeds extends block
 	}
 
 	/**
-	 * @param mixed $feeds
 	 * @param string $template
 	 * @return string
 	 */
-	public function get_feeds_ui($feeds, $template)
+	public function get_cfg_feeds_template($template)
 	{
 		$this->ptemplate->assign_vars([
-			'feeds'		=> array_filter((array) $feeds),
 			'template'	=> $template,
 		]);
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/feeds_settings.html', 'feeds_settings');
+		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/cfg_feeds_template.html', 'cfg_feeds_template');
 	}
 
 	/**
