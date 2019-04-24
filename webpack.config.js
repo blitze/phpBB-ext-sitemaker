@@ -69,7 +69,7 @@ Encore.setOutputPath(paths.output)
 				to: 'tinymce/',
 			},
 			{
-				from: 'vendor/ResponsiveFilemanager/tinymce/plugins/',
+				from: 'vendor/trippo/ResponsiveFilemanager/tinymce/plugins/',
 				to: 'tinymce/plugins/[path][name].[ext]',
 			},
 		]),
