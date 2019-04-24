@@ -153,8 +153,6 @@ export default function EditBlock($block, codemirror) {
 	$document = $(document);
 	$dialogEdit = getEditDialog();
 
-	$dialogEdit.on('change', '.block-preview', () => previewBlock());
-
 	$dialogEdit.on('dialogopen', function isFeedBlock() {
 		if ($(this).find('.sm-multi-input-ui').length) {
 			import(/* webpackChunkName: "blocks/multiInput/input" */ '../../MultiInputUI').then(
@@ -189,6 +187,11 @@ export default function EditBlock($block, codemirror) {
 					cm.setSize(width, height);
 				}
 			});
+
+		$dialogEdit
+			.find('.block-preview')
+			.off()
+			.change(() => previewBlock());
 	});
 
 	const id = $block.attr('id').substring(6);
