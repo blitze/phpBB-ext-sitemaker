@@ -91,12 +91,18 @@ Encore.setOutputPath(paths.output)
 		css: '[name].min.css',
 	})
 
-	.configureBabel(babelConfig => {
-		// add additional presets
-		babelConfig.presets.push('@babel/preset-flow');
+	.configureBabel(
+		babelConfig => {
+			// add additional presets
+			babelConfig.presets.push('@babel/preset-flow');
 
-		// no plugins are added by default, but you can add some
-		babelConfig.plugins.push('@babel/plugin-proposal-class-properties');
-	});
+			// no plugins are added by default, but you can add some
+			babelConfig.plugins.push('@babel/plugin-proposal-class-properties');
+		},
+		{
+			useBuiltIns: 'entry',
+			corejs: 3,
+		},
+	);
 
 module.exports = Encore.getWebpackConfig();
