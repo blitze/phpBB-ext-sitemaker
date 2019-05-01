@@ -23,10 +23,12 @@
 /* Misc */
 .field-label {
 	font-weight: bold;
+	margin-top: 0.5rem;
 }
 
 .label-hidden {
 	display: none;
+	height: 0;
 
 	.content &,
 	.sm-content-footer & {
@@ -41,7 +43,7 @@
 	.content &:before {
 		content: ' ';
 		display: block;
-		height: 0.4rem;
+		height: 0.5rem;
 		white-space: pre;
 	}
 }
