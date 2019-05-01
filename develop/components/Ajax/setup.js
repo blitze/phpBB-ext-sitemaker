@@ -9,7 +9,6 @@ export default function Ajaxer($loader, showMessage, append = '') {
 			if (settings.url.indexOf('/sitemaker') > -1) {
 				sitemakerRequest = true;
 				$loader.addClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
-
 				if (append) {
 					const delim = settings.url.indexOf('?') < 0 ? '?' : '&';
 					settings.url += `${delim}${append}`;
@@ -21,7 +20,6 @@ export default function Ajaxer($loader, showMessage, append = '') {
 				$loader
 					.delay(2000)
 					.removeClass('fa-spinner fa-green fa-spin fa-lg fa-pulse');
-
 				// Display any returned message
 				if (
 					responseJSON &&
@@ -32,16 +30,16 @@ export default function Ajaxer($loader, showMessage, append = '') {
 					);
 				}
 			}
-
 			sitemakerRequest = false;
 		},
 		error: event => {
-			showMessage(
-				event.responseJSON && event.responseJSON.message
-					? event.responseJSON.message
-					: lang.ajaxError,
-			);
+			if (sitemakerRequest) {
+				showMessage(
+					event.responseJSON && event.responseJSON.message
+						? event.responseJSON.message
+						: lang.ajaxError,
+				);
+			}
 		},
-		dataType: 'json',
 	});
 }
