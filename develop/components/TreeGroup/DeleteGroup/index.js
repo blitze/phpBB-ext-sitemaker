@@ -9,7 +9,7 @@ export default function DeleteGroup($groups, actions, initTree) {
 	const deleteGroup = () => {
 		$.post(`${config.ajaxUrl}${actions.remove}`).done(() => {
 			if ($currentGroup.siblings('.group-item').length) {
-				const $selected = $currentGroup.prev('.group-item')
+				const $selected = $currentGroup.prev('.group-item').length
 					? $currentGroup.prev()
 					: $currentGroup.next();
 				$selected.trigger('click');
