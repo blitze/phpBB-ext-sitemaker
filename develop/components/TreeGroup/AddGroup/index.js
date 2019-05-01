@@ -4,7 +4,8 @@ import Button from '../../Button/button';
 const { config, lang } = window;
 
 export default function AddGroup($groups, actions) {
-	Button('#add-group', {}, () => {
+	Button('#add-group', {}, e => {
+		e.stopImmediatePropagation();
 		$.post(`${config.ajaxUrl}${actions.add}`).done(({ id, title }) => {
 			if (id > 0) {
 				const $item = $(
