@@ -120,6 +120,7 @@ services:
             - '@service_container'
             - '@template'
             - '@user'
+            - '@blitze.sitemaker.util'
             - '%core.root_path%'
             - '%core.php_ext%'
         calls:
