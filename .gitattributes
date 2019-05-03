@@ -1,6 +1,5 @@
 * text=auto
 
-develop/			export-ignore
 docs/				export-ignore
 tests/				export-ignore
 travis/				export-ignore
