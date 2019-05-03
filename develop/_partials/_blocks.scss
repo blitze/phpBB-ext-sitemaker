@@ -53,6 +53,7 @@
 .sm-block-content {
 	display: block;
 	clear: both;
+	overflow: hidden;
 	word-wrap: break-word;
 	
 	.forabg & {
@@ -69,13 +70,6 @@
 	
 	p:last-of-type {
 		margin-bottom: 0;
-	}
-}
-
-.forabg {
-	.inner {
-		height: 100%;
-		overflow: hidden;
 	}
 }
 
