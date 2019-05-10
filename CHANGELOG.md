@@ -20,6 +20,7 @@
 - Created new localized documentation site
 - Provide links to documentation site directly from the extension with english fallback if translation is not available
 - Several other minor bug and display fixes
+- [feature] Added twig filter to use phpBB's format_date function in template files e.g. {{ TOPIC_TIME|format_date('M d, Y') }}
 
 ## 3.1.1 - 2018-6-9
 

@@ -22,9 +22,9 @@ class template_test extends \phpbb_test_case
 	}
 
 	/**
-	 * Create the members service
+	 * Create the template service
 	 *
-	 * @return \blitze\sitemaker\services\members
+	 * @return \blitze\sitemaker\services\template
 	 */
 	public function get_service()
 	{

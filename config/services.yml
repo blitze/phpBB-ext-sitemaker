@@ -255,6 +255,13 @@ services:
             - '@template.twig.extensions.collection'
             - '@ext.manager'
 
+    blitze.sitemaker.template.extensions.format_date:
+        class: blitze\sitemaker\services\template\extensions\format_date
+        arguments:
+            - @user
+        tags:
+            - { name: twig.extension }
+
     blitze.sitemaker.template_context:
         class: phpbb\template\context
 
