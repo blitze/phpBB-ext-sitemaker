@@ -128,8 +128,7 @@ export default function EditBlock($block, codemirror) {
 			.find('.ui-dialog-buttonpane')
 			.prepend(
 				`<label class="dialog-check-button">
-					<input id="update-similar" type="checkbox" /> 
-					${lang.updateSimilar}
+					<input id="update-similar" type="checkbox" /> ${lang.updateSimilar}
 				</label>`,
 			);
 	}

@@ -140,8 +140,13 @@ export default function Feeds(
 		let start = cursor.ch;
 		let end = cursor.ch;
 
-		while (start && /\S/.test(line.charAt(start - 1))) start -= 1;
-		while (end < line.length && /\w/.test(line.charAt(end))) end += 1;
+		while (start && /\S/.test(line.charAt(start - 1))) {
+			start -= 1;
+		}
+
+		while (end < line.length && /\w/.test(line.charAt(end))) {
+			end += 1;
+		}
 
 		const word = line.slice(start, end).toLowerCase();
 		const mapping = getWordMapping(contentFromLineUp);
