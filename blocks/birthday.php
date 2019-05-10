@@ -86,10 +86,10 @@ class birthday extends block
 
 		$sql = 'SELECT u.user_id, u.username, u.user_colour, u.user_birthday 
 				FROM ' . USERS_TABLE . ' u
-				LEFT JOIN ' . BANLIST_TABLE . " b ON (u.user_id = b.ban_userid)
+				LEFT JOIN ' . BANLIST_TABLE . ' b ON (u.user_id = b.ban_userid)
 				WHERE (b.ban_id IS NULL
 					OR b.ban_exclude = 1)
-					AND (u.user_birthday " . $this->db->sql_like_expression(sprintf('%2d-%2d-', $now['mday'], $now['mon']) . $this->db->get_any_char()) . " $leap_year_birthdays)
+					AND (u.user_birthday ' . $this->db->sql_like_expression(sprintf('%2d-%2d-', $now['mday'], $now['mon']) . $this->db->get_any_char()) . " $leap_year_birthdays)
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
 				ORDER BY u.username ASC';
 		$result = $this->db->sql_query($sql);

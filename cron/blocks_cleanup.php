@@ -173,10 +173,10 @@ class blocks_cleanup extends \phpbb\cron\task\base
 			'LEFT_JOIN'	=> array(
 				array(
 					'FROM'	=> array($this->blocks_table => 'b'),
-					'ON'	=> "b.bid = cb.block_id",
+					'ON'	=> 'b.bid = cb.block_id',
 				)
 			),
-			'WHERE'		=> "b.bid IS NULL"
+			'WHERE'		=> 'b.bid IS NULL'
 		));
 		$result = $this->db->sql_query($sql);
 
