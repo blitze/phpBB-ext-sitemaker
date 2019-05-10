@@ -28,12 +28,12 @@ class format_date extends \Twig\Extension\AbstractExtension
 	/**
 	 * @inheritdoc
 	 */
-    public function getFilters()
-    {
-        return [
-            new \Twig\TwigFilter('format_date', [$this, 'format_date_filter']),
-        ];
-    }
+	public function getFilters()
+	{
+		return [
+			new \Twig\TwigFilter('format_date', [$this, 'format_date_filter']),
+		];
+	}
 
 	/**
 	* Format user date
@@ -44,8 +44,8 @@ class format_date extends \Twig\Extension\AbstractExtension
 	*
 	* @return mixed translated date
 	*/
-    public function format_date_filter($timestamp, $format = false, $forcedate = false)
-    {
-        return $this->user->format_date($timestamp, $format, $forcedate);
-    }
+	public function format_date_filter($timestamp, $format = false, $forcedate = false)
+	{
+		return $this->user->format_date($timestamp, $format, $forcedate);
+	}
 }
