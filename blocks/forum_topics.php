@@ -207,8 +207,8 @@ class forum_topics extends forum_topics_config
 		$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 		$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
-		$truncateService = new TruncateService();
-		return $truncateService->truncate($row['post_text'], $this->settings['preview_chars']);
+		$truncator = new TruncateService();
+		return $truncator->truncate($row['post_text'], $this->settings['preview_chars']);
 	}
 
 	/**

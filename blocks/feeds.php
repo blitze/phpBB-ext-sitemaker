@@ -178,7 +178,7 @@ class feeds extends block
 			{
 				$value = $feed->{$field};
 				$feed_data[$field] = $value;
-				$feed_fields[$field] = $this->buildTags($field, $value);
+				$feed_fields[$field] = $this->build_tags($field, $value);
 			}
 
 			$data['items'][] = array_filter($feed_data);
@@ -200,7 +200,7 @@ class feeds extends block
 		$feed_props = [];
 		foreach ($this->feed_fields as $field)
 		{
-			$feed_props[$field] = $this->buildTags($field, $item->feed->{$field});
+			$feed_props[$field] = $this->build_tags($field, $item->feed->{$field});
 			$data['feed'][$field] = $item->feed->{$field};
 		}
 
@@ -222,7 +222,7 @@ class feeds extends block
 	 * @param mixed $value
 	 * @return array|string
 	 */
-	protected function buildTags($field, $value)
+	protected function build_tags($field, $value)
 	{
 		if (empty($value))
 		{
@@ -255,7 +255,7 @@ class feeds extends block
 		ksort($props);
 		foreach ($props as $prop => $value)
 		{
-			$data['children'][$prop] = $this->buildTags($prop, $value);
+			$data['children'][$prop] = $this->build_tags($prop, $value);
 		}
 	}
 
