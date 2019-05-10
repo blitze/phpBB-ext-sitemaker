@@ -36,8 +36,8 @@
 			<div class="sm-inner img-align-left small-avatar">
 				<a href="{{ topicrow.U_VIEWPROFILE }}" class="img-ui">{{ topicrow.AVATAR }}</a>
 				<div class="sm-fill-space">
-					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p><br /><br />
-					<p class="small"><i class="fa fa-clock-o"></i>{{ topicrow.TOPIC_POST_TIME|date("M d, Y") }}</p>
+					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p>
+					<p class="small"><i class="fa fa-clock-o"></i>{{ topicrow.TOPIC_POST_TIME }}</p>
 				</div>
 			</div>
 		</li>
