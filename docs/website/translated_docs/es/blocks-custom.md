@@ -2,6 +2,7 @@
 id: blocks-custom
 title: Custom Block
 ---
+
 If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
 
 ## The editor
