@@ -111,18 +111,16 @@
 
 /* Footer */
 .footer {
-	&.panel {
-		padding: 1rem;
-	}
-
 	.block {
 		.panel {
 			background: transparent;
 		}
 	}
 
-	@media (max-width: $breakpoint-small) {
-		margin-left: 0;
+	@media (min-width: $breakpoint-small) {
+		&.panel {
+			padding: 1rem;
+		}
 	}
 }
 
