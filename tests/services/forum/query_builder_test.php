@@ -69,13 +69,7 @@ class query_builder_test extends \phpbb_database_test_case
 
 		$content_visibility = new \phpbb\content_visibility($auth, $this->config, $phpbb_dispatcher, $db, $this->user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
-		$this->query_builder = $this->getMockBuilder('\blitze\sitemaker\services\forum\query_builder')
-			->setConstructorArgs(array($auth, $this->config, $content_visibility, $db, $this->user, 0))
-            ->setMethods(array('time'))
-            ->getMock();
-		$this->query_builder->expects($this->any())
-			->method('time')
-			->willReturn('123456');
+		$this->query_builder = new \blitze\sitemaker\services\forum\query_builder($auth, $this->config, $content_visibility, $db, $this->user, 0);
 	}
 
 	/**
@@ -110,7 +104,7 @@ class query_builder_test extends \phpbb_database_test_case
 							'ON' => 'ft.user_id = 0 AND t.forum_id = ft.forum_id',
 						),
 					),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -139,7 +133,7 @@ class query_builder_test extends \phpbb_database_test_case
 							'ON' => 'ft.user_id = 0 AND t.forum_id = ft.forum_id',
 						),
 					),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -155,7 +149,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -171,7 +165,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 't.forum_Id = 2 AND t.topic_id = 4 AND t.topic_poster = 3 AND t.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => 't.forum_Id = 2 AND t.topic_id = 4 AND t.topic_poster = 3 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 		);
@@ -217,7 +211,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -238,7 +232,7 @@ class query_builder_test extends \phpbb_database_test_case
 							'ON' => 'ws.topic_id = t.topic_id AND ws.user_id = 0',
 						),
 					),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 		);
@@ -281,7 +275,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -301,7 +295,7 @@ class query_builder_test extends \phpbb_database_test_case
 							'ON' => 'bm.user_id = 3 AND t.topic_id = bm.topic_id',
 						),
 					),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 		);
@@ -345,7 +339,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 't.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -363,7 +357,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 'x.foo = \'bar\' AND t.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => 'x.foo = \'bar\' AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 			array(
@@ -381,7 +375,7 @@ class query_builder_test extends \phpbb_database_test_case
 						'phpbb_topics' => 't',
 					),
 					'LEFT_JOIN' => array(),
-					'WHERE' => 'x.foo = \'bar\' AND t.topic_time <= 123456 AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
+					'WHERE' => 'x.foo = \'bar\' AND ((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
 				),
 			),
 		);

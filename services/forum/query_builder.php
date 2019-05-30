@@ -308,14 +308,6 @@ class query_builder
 	}
 
 	/**
-	 * @return int
-	 */
-	public function time()
-	{
-		return time();
-	}
-
-	/**
 	 * @param bool $enable_caching
 	 * @return void
 	 */
