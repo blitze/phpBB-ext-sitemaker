@@ -166,4 +166,37 @@ abstract class base_entity implements entity_interface
 
 		return current($annotations[1]);
 	}
+
+	/**
+	 * Set array field value
+	 * @param string $field
+	 * @param array|string $settings
+	 * @return bool
+	 */
+	protected function set_array_field($field, $settings)
+	{
+		$this->$field = '';
+		$encoded = false;
+
+		if (!is_array($settings))
+		{
+			$this->$field = $settings;
+		}
+		else if (sizeof($settings))
+		{
+			$this->$field = json_encode($settings);
+			$encoded = true;
+		}
+
+		return $encoded;
+	}
+
+	/**
+	 * Get array field value
+	 * @return array
+	 */
+	protected function get_array_field($field)
+	{
+		return ($this->$field) ? json_decode($this->$field, true) : array();
+	}
 }
