@@ -23,7 +23,7 @@
 /* Misc */
 .field-label {
 	font-weight: bold;
-	margin-top: 0.5rem;
+	margin-top: 1rem;
 }
 
 .label-hidden {
@@ -59,6 +59,10 @@
 
 .sm-full-width {
 	width: 100%;
+
+	.content {
+		overflow: hidden;
+	}
 }
 
 .sm-fill-space {
