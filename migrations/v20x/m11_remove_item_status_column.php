@@ -40,4 +40,21 @@ class m11_remove_item_status_column extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * Revert schema changes
+	 *
+	 * @return array Array of table schema
+	 * @access public
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'add_columns'	=> array(
+				$this->table_prefix . 'sm_menu_items'	=> array(
+					'item_status'	=> array('BOOL', 1),
+				),
+			),
+		);
+	}
 }

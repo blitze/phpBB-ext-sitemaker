@@ -50,4 +50,28 @@ class m8_remove_config_table extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * Revert schema changes
+	 *
+	 * @return array Array of table schema
+	 * @access public
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'add_tables'	=> array(
+				$this->table_prefix . 'sm_blocks_config' => array(
+					'COLUMNS'		=> array(
+						'bid'			=> array('UINT', 0),
+						'bvar'			=> array('VCHAR', ''),
+						'bval'			=> array('VCHAR_UNI', ''),
+					),
+					'KEYS'			=> array(
+						'bid'			=> array('INDEX', 'bid'),
+					),
+				),
+			),
+		);
+	}
 }
