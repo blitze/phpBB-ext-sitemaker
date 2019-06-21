@@ -46,4 +46,25 @@ class m9_update_menu_items_fields extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * Revert schema changes
+	 *
+	 * @return array Array of table schema
+	 * @access public
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'drop_columns'	=> array(
+				$this->table_prefix . 'sm_menu_items'	=> array('item_parents'),
+			),
+			'add_columns'	=> array(
+				$this->table_prefix . 'sm_menu_items'	=> array(
+					'group_id'			=> array('UINT', 0),
+					'item_desc'			=> array('VCHAR:55', ''),
+				),
+			),
+		);
+	}
 }
