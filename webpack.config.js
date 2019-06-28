@@ -70,7 +70,7 @@ Encore.setOutputPath(paths.output)
 				ignore: ['composer.json'],
 			},
 			{
-				from: 'vendor/trippo/ResponsiveFilemanager/tinymce/plugins/',
+				from: 'vendor/trippo/responsivefilemanager/tinymce/plugins/',
 				to: 'tinymce/plugins/[path][name].[ext]',
 			},
 		]),
