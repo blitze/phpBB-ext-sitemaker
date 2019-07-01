@@ -47,14 +47,14 @@ class ext extends \phpbb\extension\base
 		$required_version = html_entity_decode($required_version);
 		list($min_req_version, $max_req_version) = explode(',', $required_version);
 
-		$contraint = $this->get_version_constraint($min_req_version);
-		if (!phpbb_version_compare($current_version, $contraint['version'], $contraint['operator']))
+		$constraint = $this->get_version_constraint($min_req_version);
+		if (!phpbb_version_compare($current_version, $constraint['version'], $constraint['operator']))
 		{
 			return false;
 		}
 
-		$contraint = $this->get_version_constraint($max_req_version);
-		if ($constraint['version'] && !phpbb_version_compare($current_version, $contraint['version'], $contraint['operator']))
+		$constraint = $this->get_version_constraint($max_req_version);
+		if ($constraint['version'] && !phpbb_version_compare($current_version, $constraint['version'], $constraint['operator']))
 		{
 			return false;
 		}
@@ -68,6 +68,7 @@ class ext extends \phpbb\extension\base
 	 */
 	protected function get_version_constraint($version)
 	{
+		$operator = '';
 		if (preg_match('/^(\D+)(.+)/i', trim($version), $matches))
 		{
 			list(, $operator, $version) = $matches;
@@ -84,7 +85,7 @@ class ext extends \phpbb\extension\base
 	 *
 	 * @param string $name
 	 * @param string $element
-	 * @return array
+	 * @return array|string
 	 */
 	protected function get_metadata($name, $element = 'all')
 	{
