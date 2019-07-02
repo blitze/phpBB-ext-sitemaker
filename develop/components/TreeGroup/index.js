@@ -20,6 +20,7 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 	const $msgBox = $('#ajax-message');
 	const $groups = $('#sm-groups').show();
 	const $tree = $('#nested-tree');
+	let $treeBuilder;
 
 	const showMessage = message => {
 		if (message) {
@@ -34,8 +35,8 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 			import(/* webpackChunkName: "tree/builder" */ '../Tree/builder').then(
 				() => {
 					$tree.show();
-					if (!$tree.treeBuilder('instance')) {
-						$tree.treeBuilder({
+					if (!$treeBuilder) {
+						$treeBuilder = $tree.treeBuilder({
 							...options,
 							init: () => $tree.treeBuilder('getItems'),
 						});
@@ -66,10 +67,8 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 	$('body').on('click', '.group-item', e => {
 		e.preventDefault();
 
-		const isUnsaved = $tree.treeBuilder('isUnsaved');
-
 		// eslint-disable-next-line no-alert
-		if (!isUnsaved || window.confirm(lang.unsavedChanges)) {
+		if (!$treeBuilder || !$tree.treeBuilder('isUnsaved') || window.confirm(lang.unsavedChanges)) {
 			groupId = $(e.currentTarget)
 				.addClass('row3 current-group')
 				.siblings()
