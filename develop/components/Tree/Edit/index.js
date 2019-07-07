@@ -66,11 +66,13 @@ export default function EditItem(tree) {
 			[lang.saveNode]: function editBtn() {
 				if (checkRequired()) {
 					submitForm();
+					itemID = 0;
 					$(this).dialog('close');
 				}
 			},
 
 			[lang.cancel]: function cancelBtn() {
+				itemID = 0;
 				$(this).dialog('close');
 			},
 		},
