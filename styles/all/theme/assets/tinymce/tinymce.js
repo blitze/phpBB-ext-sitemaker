@@ -1,13 +1,9 @@
-// 4.9.4 (2019-03-20)
+// 4.9.5 (2019-07-02)
 (function () {
 (function (domGlobals) {
     'use strict';
 
     var noop = function () {
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
     };
     var compose = function (fa, fb) {
       return function () {
@@ -190,9 +186,9 @@
       if (x === null)
         return 'null';
       var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array'))
         return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x))
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String'))
         return 'string';
       return t;
     };
@@ -209,6 +205,7 @@
     var isFunction = isType('function');
     var isNumber = isType('number');
 
+    var slice = Array.prototype.slice;
     var rawIndexOf = function () {
       var pIndexOf = Array.prototype.indexOf;
       var fastIndex = function (xs, x) {
@@ -334,7 +331,6 @@
       }
       return true;
     };
-    var slice = Array.prototype.slice;
     var reverse = function (xs) {
       var r = slice.call(xs, 0);
       r.reverse();
@@ -3676,7 +3672,7 @@
     };
 
     var isSupported = function (dom) {
-      return dom.style !== undefined;
+      return dom.style !== undefined && isFunction(dom.style.getPropertyValue);
     };
 
     var inBody = function (element) {
@@ -4208,9 +4204,15 @@
         toOption: Option.none
       };
     };
+    var fromOption = function (opt, err) {
+      return opt.fold(function () {
+        return error(err);
+      }, value);
+    };
     var Result = {
       value: value,
-      error: error
+      error: error,
+      fromOption: fromOption
     };
 
     function StyleSheetLoader(document, settings) {
@@ -4581,6 +4583,9 @@
         return !!node && node.nodeType === type;
       };
     };
+    var isRestrictedNode = function (node) {
+      return !!node && !Object.getPrototypeOf(node);
+    };
     var isElement$1 = isNodeType(1);
     var matchNodeNames = function (names) {
       var items = names.toLowerCase().split(' ');
@@ -4666,6 +4671,7 @@
       isBr: isBr$1,
       isContentEditableTrue: isContentEditableTrue,
       isContentEditableFalse: isContentEditableFalse,
+      isRestrictedNode: isRestrictedNode,
       matchNodeNames: matchNodeNames,
       hasPropValue: hasPropValue,
       hasAttribute: hasAttribute,
@@ -5938,7 +5944,7 @@
       var getViewPort = function (argWin) {
         var actWin = !argWin ? win : argWin;
         var doc = actWin.document;
-        var rootElm = doc.documentElement;
+        var rootElm =  doc.documentElement ;
         return {
           x: actWin.pageXOffset || rootElm.scrollLeft,
           y: actWin.pageYOffset || rootElm.scrollTop,
@@ -7318,9 +7324,10 @@
         if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
           t[p] = s[p];
       if (s != null && typeof Object.getOwnPropertySymbols === 'function')
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)
-          if (e.indexOf(p[i]) < 0)
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
             t[p[i]] = s[p[i]];
+        }
       return t;
     }
 
@@ -9906,7 +9913,7 @@
     function Annotator (editor) {
       var registry = create$1();
       setup$1(editor, registry);
-      var changes = setup(editor, registry);
+      var changes = setup(editor);
       return {
         register: function (name, settings) {
           registry.register(name, settings);
@@ -10665,165 +10672,129 @@
     };
     var InsertContent = { insertAtCaret: insertAtCaret$1 };
 
-    var sectionResult = Immutable('sections', 'settings');
-    var detection = PlatformDetection$1.detect();
-    var isTouch = detection.deviceType.isTouch();
-    var mobilePlugins = [
-      'lists',
-      'autolink',
-      'autosave'
-    ];
-    var defaultMobileSettings = { theme: 'mobile' };
-    var normalizePlugins = function (plugins) {
-      var pluginNames = isArray(plugins) ? plugins.join(' ') : plugins;
-      var trimmedPlugins = map(isString(pluginNames) ? pluginNames.split(' ') : [], trim$2);
-      return filter(trimmedPlugins, function (item) {
-        return item.length > 0;
-      });
-    };
-    var filterMobilePlugins = function (plugins) {
-      return filter(plugins, curry(contains, mobilePlugins));
-    };
-    var extractSections = function (keys, settings) {
-      var result = bifilter(settings, function (value, key) {
-        return contains(keys, key);
-      });
-      return sectionResult(result.t, result.f);
-    };
-    var getSection = function (sectionResult, name, defaults) {
-      var sections = sectionResult.sections();
-      var sectionSettings = sections.hasOwnProperty(name) ? sections[name] : {};
-      return Tools.extend({}, defaults, sectionSettings);
-    };
-    var hasSection = function (sectionResult, name) {
-      return sectionResult.sections().hasOwnProperty(name);
-    };
-    var getDefaultSettings = function (id, documentBaseUrl, editor) {
-      return {
-        id: id,
-        theme: 'modern',
-        delta_width: 0,
-        delta_height: 0,
-        popup_css: '',
-        plugins: '',
-        document_base_url: documentBaseUrl,
-        add_form_submit_trigger: true,
-        submit_patch: true,
-        add_unload_trigger: true,
-        convert_urls: true,
-        relative_urls: true,
-        remove_script_host: true,
-        object_resizing: true,
-        doctype: '<!DOCTYPE html>',
-        visual: true,
-        font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
-        font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
-        forced_root_block: 'p',
-        hidden_input: true,
-        render_ui: true,
-        indentation: '40px',
-        inline_styles: true,
-        convert_fonts_to_spans: true,
-        indent: 'simple',
-        indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' + 'tfoot,tbody,tr,section,summary,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-        indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' + 'tfoot,tbody,tr,section,summary,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-        entity_encoding: 'named',
-        url_converter: editor.convertURL,
-        url_converter_scope: editor,
-        ie7_compat: true
-      };
-    };
-    var getExternalPlugins = function (overrideSettings, settings) {
-      var userDefinedExternalPlugins = settings.external_plugins ? settings.external_plugins : {};
-      if (overrideSettings && overrideSettings.external_plugins) {
-        return Tools.extend({}, overrideSettings.external_plugins, userDefinedExternalPlugins);
-      } else {
-        return userDefinedExternalPlugins;
-      }
-    };
-    var combinePlugins = function (forcedPlugins, plugins) {
-      return [].concat(normalizePlugins(forcedPlugins)).concat(normalizePlugins(plugins));
-    };
-    var processPlugins = function (isTouchDevice, sectionResult, defaultOverrideSettings, settings) {
-      var forcedPlugins = normalizePlugins(defaultOverrideSettings.forced_plugins);
-      var plugins = normalizePlugins(settings.plugins);
-      var platformPlugins = isTouchDevice && hasSection(sectionResult, 'mobile') ? filterMobilePlugins(plugins) : plugins;
-      var combinedPlugins = combinePlugins(forcedPlugins, platformPlugins);
-      return Tools.extend(settings, { plugins: combinedPlugins.join(' ') });
-    };
-    var isOnMobile = function (isTouchDevice, sectionResult) {
-      var isInline = sectionResult.settings().inline;
-      return isTouchDevice && hasSection(sectionResult, 'mobile') && !isInline;
-    };
-    var combineSettings = function (isTouchDevice, defaultSettings, defaultOverrideSettings, settings) {
-      var sectionResult = extractSections(['mobile'], settings);
-      var extendedSettings = Tools.extend(defaultSettings, defaultOverrideSettings, sectionResult.settings(), isOnMobile(isTouchDevice, sectionResult) ? getSection(sectionResult, 'mobile', defaultMobileSettings) : {}, {
-        validate: true,
-        content_editable: sectionResult.settings().inline,
-        external_plugins: getExternalPlugins(defaultOverrideSettings, sectionResult.settings())
-      });
-      return processPlugins(isTouchDevice, sectionResult, defaultOverrideSettings, extendedSettings);
-    };
-    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
-      var defaultSettings = getDefaultSettings(id, documentBaseUrl, editor);
-      return combineSettings(isTouch, defaultSettings, defaultOverrideSettings, settings);
-    };
-    var getFiltered = function (predicate, editor, name) {
-      return Option.from(editor.settings[name]).filter(predicate);
-    };
-    var getString = curry(getFiltered, isString);
-    var getParamObject = function (value) {
-      var output = {};
-      if (typeof value === 'string') {
-        each(value.indexOf('=') > 0 ? value.split(/[;,](?![^=;,]*(?:[;,]|$))/) : value.split(','), function (val) {
-          var arr = val.split('=');
-          if (arr.length > 1) {
-            output[Tools.trim(arr[0])] = Tools.trim(arr[1]);
-          } else {
-            output[Tools.trim(arr[0])] = Tools.trim(arr);
-          }
-        });
-      } else {
-        output = value;
-      }
-      return output;
-    };
-    var isArrayOf = function (p) {
-      return function (a) {
-        return isArray(a) && forall(a, p);
-      };
-    };
-    var getParam = function (editor, name, defaultVal, type) {
-      var value = name in editor.settings ? editor.settings[name] : defaultVal;
-      if (type === 'hash') {
-        return getParamObject(value);
-      } else if (type === 'string') {
-        return getFiltered(isString, editor, name).getOr(defaultVal);
-      } else if (type === 'number') {
-        return getFiltered(isNumber, editor, name).getOr(defaultVal);
-      } else if (type === 'boolean') {
-        return getFiltered(isBoolean, editor, name).getOr(defaultVal);
-      } else if (type === 'object') {
-        return getFiltered(isObject, editor, name).getOr(defaultVal);
-      } else if (type === 'array') {
-        return getFiltered(isArray, editor, name).getOr(defaultVal);
-      } else if (type === 'string[]') {
-        return getFiltered(isArrayOf(isString), editor, name).getOr(defaultVal);
-      } else if (type === 'function') {
-        return getFiltered(isFunction, editor, name).getOr(defaultVal);
-      } else {
-        return value;
-      }
-    };
-
     var strongRtl = /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/;
     var hasStrongRtl = function (text) {
       return strongRtl.test(text);
     };
 
+    var getBodySetting = function (editor, name, defaultValue) {
+      var value = editor.getParam(name, defaultValue);
+      if (value.indexOf('=') !== -1) {
+        var bodyObj = editor.getParam(name, '', 'hash');
+        return bodyObj.hasOwnProperty(editor.id) ? bodyObj[editor.id] : defaultValue;
+      } else {
+        return value;
+      }
+    };
+    var getIframeAttrs = function (editor) {
+      return editor.getParam('iframe_attrs', {});
+    };
+    var getDocType = function (editor) {
+      return editor.getParam('doctype', '<!DOCTYPE html>');
+    };
+    var getDocumentBaseUrl = function (editor) {
+      return editor.getParam('document_base_url', '');
+    };
+    var getBodyId = function (editor) {
+      return getBodySetting(editor, 'body_id', 'tinymce');
+    };
+    var getBodyClass = function (editor) {
+      return getBodySetting(editor, 'body_class', '');
+    };
+    var getContentSecurityPolicy = function (editor) {
+      return editor.getParam('content_security_policy', '');
+    };
+    var shouldPutBrInPre = function (editor) {
+      return editor.getParam('br_in_pre', true);
+    };
+    var getForcedRootBlock = function (editor) {
+      if (editor.getParam('force_p_newlines', false)) {
+        return 'p';
+      }
+      var block = editor.getParam('forced_root_block', 'p');
+      return block === false ? '' : block;
+    };
+    var getForcedRootBlockAttrs = function (editor) {
+      return editor.getParam('forced_root_block_attrs', {});
+    };
+    var getBrNewLineSelector = function (editor) {
+      return editor.getParam('br_newline_selector', '.mce-toc h2,figcaption,caption');
+    };
+    var getNoNewLineSelector = function (editor) {
+      return editor.getParam('no_newline_selector', '');
+    };
+    var shouldKeepStyles = function (editor) {
+      return editor.getParam('keep_styles', true);
+    };
+    var shouldEndContainerOnEmptyBlock = function (editor) {
+      return editor.getParam('end_container_on_empty_block', false);
+    };
+    var getFontStyleValues = function (editor) {
+      return Tools.explode(editor.getParam('font_size_style_values', ''));
+    };
+    var getFontSizeClasses = function (editor) {
+      return Tools.explode(editor.getParam('font_size_classes', ''));
+    };
+    var getImagesDataImgFilter = function (editor) {
+      return editor.getParam('images_dataimg_filter', constant(true), 'function');
+    };
+    var isAutomaticUploadsEnabled = function (editor) {
+      return editor.getParam('automatic_uploads', true, 'boolean');
+    };
+    var shouldReuseFileName = function (editor) {
+      return editor.getParam('images_reuse_filename', false, 'boolean');
+    };
+    var shouldReplaceBlobUris = function (editor) {
+      return editor.getParam('images_replace_blob_uris', true, 'boolean');
+    };
+    var getImageUploadUrl = function (editor) {
+      return editor.getParam('images_upload_url', '', 'string');
+    };
+    var getImageUploadBasePath = function (editor) {
+      return editor.getParam('images_upload_base_path', '', 'string');
+    };
+    var getImagesUploadCredentials = function (editor) {
+      return editor.getParam('images_upload_credentials', false, 'boolean');
+    };
+    var getImagesUploadHandler = function (editor) {
+      return editor.getParam('images_upload_handler', null, 'function');
+    };
+    var shouldUseContentCssCors = function (editor) {
+      return editor.getParam('content_css_cors', false, 'boolean');
+    };
+    var getInlineBoundarySelector = function (editor) {
+      return editor.getParam('inline_boundaries_selector', 'a[href],code,.mce-annotation', 'string');
+    };
+    var Settings = {
+      getIframeAttrs: getIframeAttrs,
+      getDocType: getDocType,
+      getDocumentBaseUrl: getDocumentBaseUrl,
+      getBodyId: getBodyId,
+      getBodyClass: getBodyClass,
+      getContentSecurityPolicy: getContentSecurityPolicy,
+      shouldPutBrInPre: shouldPutBrInPre,
+      getForcedRootBlock: getForcedRootBlock,
+      getForcedRootBlockAttrs: getForcedRootBlockAttrs,
+      getBrNewLineSelector: getBrNewLineSelector,
+      getNoNewLineSelector: getNoNewLineSelector,
+      shouldKeepStyles: shouldKeepStyles,
+      shouldEndContainerOnEmptyBlock: shouldEndContainerOnEmptyBlock,
+      getFontStyleValues: getFontStyleValues,
+      getFontSizeClasses: getFontSizeClasses,
+      getImagesDataImgFilter: getImagesDataImgFilter,
+      isAutomaticUploadsEnabled: isAutomaticUploadsEnabled,
+      shouldReuseFileName: shouldReuseFileName,
+      shouldReplaceBlobUris: shouldReplaceBlobUris,
+      getImageUploadUrl: getImageUploadUrl,
+      getImageUploadBasePath: getImageUploadBasePath,
+      getImagesUploadCredentials: getImagesUploadCredentials,
+      getImagesUploadHandler: getImagesUploadHandler,
+      shouldUseContentCssCors: shouldUseContentCssCors,
+      getInlineBoundarySelector: getInlineBoundarySelector
+    };
+
     var isInlineTarget = function (editor, elm) {
-      var selector = getString(editor, 'inline_boundaries_selector').getOr('a[href],code');
-      return is$1(Element.fromDom(elm), selector);
+      return is$1(Element.fromDom(elm), Settings.getInlineBoundarySelector(editor));
     };
     var isRtl = function (element) {
       return DOMUtils$1.DOM.getStyle(element, 'direction', true) === 'rtl' || hasStrongRtl(element.textContent);
@@ -13015,118 +12986,6 @@
       forwardDeleteCommand: forwardDeleteCommand
     };
 
-    var getBodySetting = function (editor, name, defaultValue) {
-      var value = editor.getParam(name, defaultValue);
-      if (value.indexOf('=') !== -1) {
-        var bodyObj = editor.getParam(name, '', 'hash');
-        return bodyObj.hasOwnProperty(editor.id) ? bodyObj[editor.id] : defaultValue;
-      } else {
-        return value;
-      }
-    };
-    var getIframeAttrs = function (editor) {
-      return editor.getParam('iframe_attrs', {});
-    };
-    var getDocType = function (editor) {
-      return editor.getParam('doctype', '<!DOCTYPE html>');
-    };
-    var getDocumentBaseUrl = function (editor) {
-      return editor.getParam('document_base_url', '');
-    };
-    var getBodyId = function (editor) {
-      return getBodySetting(editor, 'body_id', 'tinymce');
-    };
-    var getBodyClass = function (editor) {
-      return getBodySetting(editor, 'body_class', '');
-    };
-    var getContentSecurityPolicy = function (editor) {
-      return editor.getParam('content_security_policy', '');
-    };
-    var shouldPutBrInPre = function (editor) {
-      return editor.getParam('br_in_pre', true);
-    };
-    var getForcedRootBlock = function (editor) {
-      if (editor.getParam('force_p_newlines', false)) {
-        return 'p';
-      }
-      var block = editor.getParam('forced_root_block', 'p');
-      return block === false ? '' : block;
-    };
-    var getForcedRootBlockAttrs = function (editor) {
-      return editor.getParam('forced_root_block_attrs', {});
-    };
-    var getBrNewLineSelector = function (editor) {
-      return editor.getParam('br_newline_selector', '.mce-toc h2,figcaption,caption');
-    };
-    var getNoNewLineSelector = function (editor) {
-      return editor.getParam('no_newline_selector', '');
-    };
-    var shouldKeepStyles = function (editor) {
-      return editor.getParam('keep_styles', true);
-    };
-    var shouldEndContainerOnEmptyBlock = function (editor) {
-      return editor.getParam('end_container_on_empty_block', false);
-    };
-    var getFontStyleValues = function (editor) {
-      return Tools.explode(editor.getParam('font_size_style_values', ''));
-    };
-    var getFontSizeClasses = function (editor) {
-      return Tools.explode(editor.getParam('font_size_classes', ''));
-    };
-    var getImagesDataImgFilter = function (editor) {
-      return editor.getParam('images_dataimg_filter', constant(true), 'function');
-    };
-    var isAutomaticUploadsEnabled = function (editor) {
-      return editor.getParam('automatic_uploads', true, 'boolean');
-    };
-    var shouldReuseFileName = function (editor) {
-      return editor.getParam('images_reuse_filename', false, 'boolean');
-    };
-    var shouldReplaceBlobUris = function (editor) {
-      return editor.getParam('images_replace_blob_uris', true, 'boolean');
-    };
-    var getImageUploadUrl = function (editor) {
-      return editor.getParam('images_upload_url', '', 'string');
-    };
-    var getImageUploadBasePath = function (editor) {
-      return editor.getParam('images_upload_base_path', '', 'string');
-    };
-    var getImagesUploadCredentials = function (editor) {
-      return editor.getParam('images_upload_credentials', false, 'boolean');
-    };
-    var getImagesUploadHandler = function (editor) {
-      return editor.getParam('images_upload_handler', null, 'function');
-    };
-    var shouldUseContentCssCors = function (editor) {
-      return editor.getParam('content_css_cors', false, 'boolean');
-    };
-    var Settings = {
-      getIframeAttrs: getIframeAttrs,
-      getDocType: getDocType,
-      getDocumentBaseUrl: getDocumentBaseUrl,
-      getBodyId: getBodyId,
-      getBodyClass: getBodyClass,
-      getContentSecurityPolicy: getContentSecurityPolicy,
-      shouldPutBrInPre: shouldPutBrInPre,
-      getForcedRootBlock: getForcedRootBlock,
-      getForcedRootBlockAttrs: getForcedRootBlockAttrs,
-      getBrNewLineSelector: getBrNewLineSelector,
-      getNoNewLineSelector: getNoNewLineSelector,
-      shouldKeepStyles: shouldKeepStyles,
-      shouldEndContainerOnEmptyBlock: shouldEndContainerOnEmptyBlock,
-      getFontStyleValues: getFontStyleValues,
-      getFontSizeClasses: getFontSizeClasses,
-      getImagesDataImgFilter: getImagesDataImgFilter,
-      isAutomaticUploadsEnabled: isAutomaticUploadsEnabled,
-      shouldReuseFileName: shouldReuseFileName,
-      shouldReplaceBlobUris: shouldReplaceBlobUris,
-      getImageUploadUrl: getImageUploadUrl,
-      getImageUploadBasePath: getImageUploadBasePath,
-      getImagesUploadCredentials: getImagesUploadCredentials,
-      getImagesUploadHandler: getImagesUploadHandler,
-      shouldUseContentCssCors: shouldUseContentCssCors
-    };
-
     var getSpecifiedFontProp = function (propName, rootElm, elm) {
       var getProperty = function (elm) {
         return getRaw(elm, propName);
@@ -13549,6 +13408,9 @@
     };
     var InsertBr = { insert: insert };
 
+    var create$3 = Immutable('start', 'soffset', 'finish', 'foffset');
+    var SimRange = { create: create$3 };
+
     var adt = Adt.generate([
       { before: ['element'] },
       {
@@ -13559,8 +13421,24 @@
       },
       { after: ['element'] }
     ]);
+    var cata = function (subject, onBefore, onOn, onAfter) {
+      return subject.fold(onBefore, onOn, onAfter);
+    };
+    var getStart = function (situ) {
+      return situ.fold(identity, identity, identity);
+    };
+    var before$4 = adt.before;
+    var on = adt.on;
+    var after$3 = adt.after;
+    var Situ = {
+      before: before$4,
+      on: on,
+      after: after$3,
+      cata: cata,
+      getStart: getStart
+    };
 
-    var type$1 = Adt.generate([
+    var adt$1 = Adt.generate([
       { domRange: ['rng'] },
       {
         relative: [
@@ -13577,7 +13455,38 @@
         ]
       }
     ]);
-    var range = Immutable('start', 'soffset', 'finish', 'foffset');
+    var exactFromRange = function (simRange) {
+      return adt$1.exact(simRange.start(), simRange.soffset(), simRange.finish(), simRange.foffset());
+    };
+    var getStart$1 = function (selection) {
+      return selection.match({
+        domRange: function (rng) {
+          return Element.fromDom(rng.startContainer);
+        },
+        relative: function (startSitu, finishSitu) {
+          return Situ.getStart(startSitu);
+        },
+        exact: function (start, soffset, finish, foffset) {
+          return start;
+        }
+      });
+    };
+    var domRange = adt$1.domRange;
+    var relative = adt$1.relative;
+    var exact = adt$1.exact;
+    var getWin = function (selection) {
+      var start = getStart$1(selection);
+      return defaultView(start);
+    };
+    var range = SimRange.create;
+    var Selection = {
+      domRange: domRange,
+      relative: relative,
+      exact: exact,
+      exactFromRange: exactFromRange,
+      getWin: getWin,
+      range: range
+    };
 
     var browser$3 = PlatformDetection$1.detect().browser;
     var clamp = function (offset, element) {
@@ -13590,10 +13499,10 @@
       return offset;
     };
     var normalizeRng = function (rng) {
-      return range(rng.start(), clamp(rng.soffset(), rng.start()), rng.finish(), clamp(rng.foffset(), rng.finish()));
+      return Selection.range(rng.start(), clamp(rng.soffset(), rng.start()), rng.finish(), clamp(rng.foffset(), rng.finish()));
     };
     var isOrContains = function (root, elm) {
-      return contains$3(root, elm) || eq(root, elm);
+      return !NodeType.isRestrictedNode(elm.dom()) && (contains$3(root, elm) || eq(root, elm));
     };
     var isRngInRoot = function (root) {
       return function (rng) {
@@ -13604,7 +13513,7 @@
       return editor.inline === true || browser$3.isIE();
     };
     var nativeRangeToSelectionRange = function (r) {
-      return range(Element.fromDom(r.startContainer), r.startOffset, Element.fromDom(r.endContainer), r.endOffset);
+      return Selection.range(Element.fromDom(r.startContainer), r.startOffset, Element.fromDom(r.endContainer), r.endOffset);
     };
     var readRange = function (win) {
       var selection = win.getSelection();
@@ -14512,6 +14421,156 @@
     };
     EditorObservable = Tools.extend({}, Observable, EditorObservable);
     var EditorObservable$1 = EditorObservable;
+
+    var sectionResult = Immutable('sections', 'settings');
+    var detection = PlatformDetection$1.detect();
+    var isTouch = detection.deviceType.isTouch();
+    var mobilePlugins = [
+      'lists',
+      'autolink',
+      'autosave'
+    ];
+    var defaultMobileSettings = { theme: 'mobile' };
+    var normalizePlugins = function (plugins) {
+      var pluginNames = isArray(plugins) ? plugins.join(' ') : plugins;
+      var trimmedPlugins = map(isString(pluginNames) ? pluginNames.split(' ') : [], trim$2);
+      return filter(trimmedPlugins, function (item) {
+        return item.length > 0;
+      });
+    };
+    var filterMobilePlugins = function (plugins) {
+      return filter(plugins, curry(contains, mobilePlugins));
+    };
+    var extractSections = function (keys, settings) {
+      var result = bifilter(settings, function (value, key) {
+        return contains(keys, key);
+      });
+      return sectionResult(result.t, result.f);
+    };
+    var getSection = function (sectionResult, name, defaults) {
+      var sections = sectionResult.sections();
+      var sectionSettings = sections.hasOwnProperty(name) ? sections[name] : {};
+      return Tools.extend({}, defaults, sectionSettings);
+    };
+    var hasSection = function (sectionResult, name) {
+      return sectionResult.sections().hasOwnProperty(name);
+    };
+    var getDefaultSettings = function (id, documentBaseUrl, editor) {
+      return {
+        id: id,
+        theme: 'modern',
+        delta_width: 0,
+        delta_height: 0,
+        popup_css: '',
+        plugins: '',
+        document_base_url: documentBaseUrl,
+        add_form_submit_trigger: true,
+        submit_patch: true,
+        add_unload_trigger: true,
+        convert_urls: true,
+        relative_urls: true,
+        remove_script_host: true,
+        object_resizing: true,
+        doctype: '<!DOCTYPE html>',
+        visual: true,
+        font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
+        font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
+        forced_root_block: 'p',
+        hidden_input: true,
+        render_ui: true,
+        indentation: '40px',
+        inline_styles: true,
+        convert_fonts_to_spans: true,
+        indent: 'simple',
+        indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' + 'tfoot,tbody,tr,section,summary,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+        indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' + 'tfoot,tbody,tr,section,summary,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+        entity_encoding: 'named',
+        url_converter: editor.convertURL,
+        url_converter_scope: editor,
+        ie7_compat: true
+      };
+    };
+    var getExternalPlugins = function (overrideSettings, settings) {
+      var userDefinedExternalPlugins = settings.external_plugins ? settings.external_plugins : {};
+      if (overrideSettings && overrideSettings.external_plugins) {
+        return Tools.extend({}, overrideSettings.external_plugins, userDefinedExternalPlugins);
+      } else {
+        return userDefinedExternalPlugins;
+      }
+    };
+    var combinePlugins = function (forcedPlugins, plugins) {
+      return [].concat(normalizePlugins(forcedPlugins)).concat(normalizePlugins(plugins));
+    };
+    var processPlugins = function (isTouchDevice, sectionResult, defaultOverrideSettings, settings) {
+      var forcedPlugins = normalizePlugins(defaultOverrideSettings.forced_plugins);
+      var plugins = normalizePlugins(settings.plugins);
+      var platformPlugins = isTouchDevice && hasSection(sectionResult, 'mobile') ? filterMobilePlugins(plugins) : plugins;
+      var combinedPlugins = combinePlugins(forcedPlugins, platformPlugins);
+      return Tools.extend(settings, { plugins: combinedPlugins.join(' ') });
+    };
+    var isOnMobile = function (isTouchDevice, sectionResult) {
+      var isInline = sectionResult.settings().inline;
+      return isTouchDevice && hasSection(sectionResult, 'mobile') && !isInline;
+    };
+    var combineSettings = function (isTouchDevice, defaultSettings, defaultOverrideSettings, settings) {
+      var sectionResult = extractSections(['mobile'], settings);
+      var extendedSettings = Tools.extend(defaultSettings, defaultOverrideSettings, sectionResult.settings(), isOnMobile(isTouchDevice, sectionResult) ? getSection(sectionResult, 'mobile', defaultMobileSettings) : {}, {
+        validate: true,
+        content_editable: sectionResult.settings().inline,
+        external_plugins: getExternalPlugins(defaultOverrideSettings, sectionResult.settings())
+      });
+      return processPlugins(isTouchDevice, sectionResult, defaultOverrideSettings, extendedSettings);
+    };
+    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
+      var defaultSettings = getDefaultSettings(id, documentBaseUrl, editor);
+      return combineSettings(isTouch, defaultSettings, defaultOverrideSettings, settings);
+    };
+    var getFiltered = function (predicate, editor, name) {
+      return Option.from(editor.settings[name]).filter(predicate);
+    };
+    var getParamObject = function (value) {
+      var output = {};
+      if (typeof value === 'string') {
+        each(value.indexOf('=') > 0 ? value.split(/[;,](?![^=;,]*(?:[;,]|$))/) : value.split(','), function (val) {
+          var arr = val.split('=');
+          if (arr.length > 1) {
+            output[Tools.trim(arr[0])] = Tools.trim(arr[1]);
+          } else {
+            output[Tools.trim(arr[0])] = Tools.trim(arr);
+          }
+        });
+      } else {
+        output = value;
+      }
+      return output;
+    };
+    var isArrayOf = function (p) {
+      return function (a) {
+        return isArray(a) && forall(a, p);
+      };
+    };
+    var getParam = function (editor, name, defaultVal, type) {
+      var value = name in editor.settings ? editor.settings[name] : defaultVal;
+      if (type === 'hash') {
+        return getParamObject(value);
+      } else if (type === 'string') {
+        return getFiltered(isString, editor, name).getOr(defaultVal);
+      } else if (type === 'number') {
+        return getFiltered(isNumber, editor, name).getOr(defaultVal);
+      } else if (type === 'boolean') {
+        return getFiltered(isBoolean, editor, name).getOr(defaultVal);
+      } else if (type === 'object') {
+        return getFiltered(isObject, editor, name).getOr(defaultVal);
+      } else if (type === 'array') {
+        return getFiltered(isArray, editor, name).getOr(defaultVal);
+      } else if (type === 'string[]') {
+        return getFiltered(isArrayOf(isString), editor, name).getOr(defaultVal);
+      } else if (type === 'function') {
+        return getFiltered(isFunction, editor, name).getOr(defaultVal);
+      } else {
+        return value;
+      }
+    };
 
     var each$b = Tools.each, explode$2 = Tools.explode;
     var keyCodeLookup = {
@@ -16577,9 +16636,17 @@
       if (range.collapsed) {
         return false;
       }
-      return foldl(range.getClientRects(), function (state, rect) {
-        return state || containsXY(rect, clientX, clientY);
-      }, false);
+      if (Env.ie && Env.ie <= 11 && range.startOffset === range.endOffset - 1 && range.startContainer === range.endContainer) {
+        var elm = range.startContainer.childNodes[range.startOffset];
+        if (NodeType.isElement(elm)) {
+          return exists(elm.getClientRects(), function (rect) {
+            return containsXY(rect, clientX, clientY);
+          });
+        }
+      }
+      return exists(range.getClientRects(), function (rect) {
+        return containsXY(rect, clientX, clientY);
+      });
     };
     var RangePoint = { isXYWithinRange: isXYWithinRange };
 
@@ -16905,7 +16972,7 @@
         if (startContainer.nodeType !== 1) {
           return null;
         }
-        if (endOffset === startOffset + 1) {
+        if (endOffset === startOffset + 1 && startContainer === range.endContainer) {
           node = startContainer.childNodes[startOffset];
         }
         if (!isContentEditableFalse$9(node)) {
@@ -18618,7 +18685,7 @@
             }
             ed.selection.setRng(RangeNormalizer.normalize(ed.selection.getRng()));
             bookmark = GetBookmark.getPersistentBookmark(ed.selection, true);
-            applyRngStyle(dom, ExpandRange.expandRng(ed, selection.getRng(), formatList), bookmark);
+            applyRngStyle(dom, ExpandRange.expandRng(ed, selection.getRng(), formatList));
             if (format.styles) {
               MergeFormats.mergeUnderlineAndColor(dom, format, vars, curSelNode);
             }
@@ -20632,7 +20699,6 @@
       var contextMenuSelectImage = function (evt) {
         var target = evt.target;
         if (isEventOnImageOutsideRange(evt, editor.selection.getRng()) && !evt.isDefaultPrevented()) {
-          evt.preventDefault();
           editor.selection.select(target);
         }
       };
@@ -21428,7 +21494,7 @@
         return elm.dom();
       }).getOr(root);
     };
-    var getStart = function (root, rng, real) {
+    var getStart$2 = function (root, rng, real) {
       return getEndpointElement(root, rng, true, real, function (elm, offset) {
         return Math.min(childNodesCount(elm), offset);
       });
@@ -21488,7 +21554,7 @@
       var node, root;
       var selectedBlocks = [];
       root = dom.getRoot();
-      startElm = dom.getParent(startElm || getStart(root, rng, rng.collapsed), dom.isBlock);
+      startElm = dom.getParent(startElm || getStart$2(root, rng, rng.collapsed), dom.isBlock);
       endElm = dom.getParent(endElm || getEnd(root, rng, rng.collapsed), dom.isBlock);
       if (startElm && startElm !== root) {
         selectedBlocks.push(startElm);
@@ -21537,7 +21603,7 @@
         return isAttachedToDom(rng.startContainer) && isAttachedToDom(rng.endContainer);
       }
     };
-    var Selection = function (dom, win, serializer, editor) {
+    var Selection$1 = function (dom, win, serializer, editor) {
       var bookmarkManager, controlSelection;
       var selectedRange, explicitRange, selectorChangedData;
       var setCursorLocation = function (node, offset) {
@@ -21558,8 +21624,8 @@
       var setContent = function (content, args) {
         return SetSelectionContent.setContent(editor, content, args);
       };
-      var getStart$1 = function (real) {
-        return getStart(editor.getBody(), getRng(), real);
+      var getStart = function (real) {
+        return getStart$2(editor.getBody(), getRng(), real);
       };
       var getEnd$1 = function (real) {
         return getEnd(editor.getBody(), getRng(), real);
@@ -21617,7 +21683,7 @@
           }
         }
         try {
-          if (selection = getSel()) {
+          if ((selection = getSel()) && !NodeType.isRestrictedNode(selection.anchorNode)) {
             if (selection.rangeCount > 0) {
               rng = selection.getRangeAt(0);
             } else {
@@ -21824,7 +21890,7 @@
         getSel: getSel,
         setRng: setRng,
         getRng: getRng,
-        getStart: getStart$1,
+        getStart: getStart,
         getEnd: getEnd$1,
         getSelectedBlocks: getSelectedBlocks$1,
         normalize: normalize,
@@ -22332,7 +22398,7 @@
       return function () {
         return Option.from(editor.dom.getParent(editor.selection.getNode(), 'td,th')).bind(function (td) {
           return Option.from(editor.dom.getParent(td, 'table')).map(function (table) {
-            return navigateHorizontally(editor, forward, table, td);
+            return navigateHorizontally(editor, forward, table);
           });
         }).getOr(false);
       };
@@ -23282,9 +23348,20 @@
     var navigateIgnoreEmptyTextNodes = function (forward, root, from) {
       return CaretFinder.navigateIgnore(forward, root, from, isEmptyText);
     };
+    var getClosestBlock = function (root, pos) {
+      return find(Parents.parentsAndSelf(Element.fromDom(pos.container()), root), isBlock);
+    };
+    var isAtBeforeAfterBlockBoundary = function (forward, root, pos) {
+      return navigateIgnoreEmptyTextNodes(forward, root.dom(), pos).forall(function (newPos) {
+        return getClosestBlock(root, pos).fold(function () {
+          return isInSameBlock(newPos, pos, root.dom()) === false;
+        }, function (fromBlock) {
+          return isInSameBlock(newPos, pos, root.dom()) === false && contains$3(fromBlock, Element.fromDom(newPos.container()));
+        });
+      });
+    };
     var isAtBlockBoundary = function (forward, root, pos) {
-      var parentBlocks = filter(Parents.parentsAndSelf(Element.fromDom(pos.container()), root), isBlock);
-      return head(parentBlocks).fold(function () {
+      return getClosestBlock(root, pos).fold(function () {
         return navigateIgnoreEmptyTextNodes(forward, root.dom(), pos).forall(function (newPos) {
           return isInSameBlock(newPos, pos, root.dom()) === false;
         });
@@ -23294,12 +23371,14 @@
     };
     var isAtStartOfBlock = curry(isAtBlockBoundary, false);
     var isAtEndOfBlock = curry(isAtBlockBoundary, true);
+    var isBeforeBlock = curry(isAtBeforeAfterBlockBoundary, false);
+    var isAfterBlock = curry(isAtBeforeAfterBlockBoundary, true);
 
     var nbsp = '\xA0';
     var isInMiddleOfText = function (pos) {
       return CaretPosition.isTextPosition(pos) && !pos.isAtStart() && !pos.isAtEnd();
     };
-    var getClosestBlock = function (root, pos) {
+    var getClosestBlock$1 = function (root, pos) {
       var parentBlocks = filter(Parents.parentsAndSelf(Element.fromDom(pos.container()), root), isBlock);
       return head(parentBlocks).getOr(root);
     };
@@ -23307,20 +23386,19 @@
       if (isInMiddleOfText(pos)) {
         return isAfterSpace(pos);
       } else {
-        return isAfterSpace(pos) || CaretFinder.prevPosition(getClosestBlock(root, pos).dom(), pos).exists(isAfterSpace);
+        return isAfterSpace(pos) || CaretFinder.prevPosition(getClosestBlock$1(root, pos).dom(), pos).exists(isAfterSpace);
       }
     };
     var hasSpaceAfter = function (root, pos) {
       if (isInMiddleOfText(pos)) {
         return isBeforeSpace(pos);
       } else {
-        return isBeforeSpace(pos) || CaretFinder.nextPosition(getClosestBlock(root, pos).dom(), pos).exists(isBeforeSpace);
+        return isBeforeSpace(pos) || CaretFinder.nextPosition(getClosestBlock$1(root, pos).dom(), pos).exists(isBeforeSpace);
       }
     };
     var isPreValue = function (value) {
       return contains([
         'pre',
-        'pre-line',
         'pre-wrap'
       ], value);
     };
@@ -23351,7 +23429,7 @@
       if (isInPre(pos)) {
         return false;
       } else {
-        return isAtStartOfBlock(root, pos) || isAfterBr(root, pos) || hasSpaceBefore(root, pos);
+        return isAtStartOfBlock(root, pos) || isBeforeBlock(root, pos) || isAfterBr(root, pos) || hasSpaceBefore(root, pos);
       }
     };
     var leanRight = function (pos) {
@@ -23368,7 +23446,7 @@
       if (isInPre(afterPos)) {
         return false;
       } else {
-        return isAtEndOfBlock(root, afterPos) || isBeforeBr(root, afterPos) || hasSpaceAfter(root, afterPos);
+        return isAtEndOfBlock(root, afterPos) || isAfterBlock(root, afterPos) || isBeforeBr(root, afterPos) || hasSpaceAfter(root, afterPos);
       }
     };
     var needsToBeNbsp = function (root, pos) {
@@ -24224,7 +24302,7 @@
       });
       editor.parser = createParser(editor);
       editor.serializer = DomSerializer$1(settings, editor);
-      editor.selection = Selection(editor.dom, editor.getWin(), editor.serializer, editor);
+      editor.selection = Selection$1(editor.dom, editor.getWin(), editor.serializer, editor);
       editor.annotator = Annotator(editor);
       editor.formatter = Formatter(editor);
       editor.undoManager = UndoManager(editor);
@@ -25773,8 +25851,8 @@
       defaultSettings: {},
       $: DomQuery,
       majorVersion: '4',
-      minorVersion: '9.4',
-      releaseDate: '2019-03-20',
+      minorVersion: '9.5',
+      releaseDate: '2019-07-02',
       editors: legacyEditors,
       i18n: I18n,
       activeEditor: null,
@@ -26171,7 +26249,7 @@
       if (rel[4] === 'c') {
         x -= round$2(w / 2);
       }
-      return create$3(x, y, w, h);
+      return create$4(x, y, w, h);
     };
     var findBestRelativePosition = function (rect, targetRect, constrainRect, rels) {
       var pos, i;
@@ -26184,7 +26262,7 @@
       return null;
     };
     var inflate = function (rect, w, h) {
-      return create$3(rect.x - w, rect.y - h, rect.w + w * 2, rect.h + h * 2);
+      return create$4(rect.x - w, rect.y - h, rect.w + w * 2, rect.h + h * 2);
     };
     var intersect = function (rect, cropRect) {
       var x1, y1, x2, y2;
@@ -26195,7 +26273,7 @@
       if (x2 - x1 < 0 || y2 - y1 < 0) {
         return null;
       }
-      return create$3(x1, y1, x2 - x1, y2 - y1);
+      return create$4(x1, y1, x2 - x1, y2 - y1);
     };
     var clamp$1 = function (rect, clampRect, fixedSize) {
       var underflowX1, underflowY1, overflowX2, overflowY2, x1, y1, x2, y2, cx2, cy2;
@@ -26219,9 +26297,9 @@
       }
       x2 -= overflowX2;
       y2 -= overflowY2;
-      return create$3(x1, y1, x2 - x1, y2 - y1);
+      return create$4(x1, y1, x2 - x1, y2 - y1);
     };
-    var create$3 = function (x, y, w, h) {
+    var create$4 = function (x, y, w, h) {
       return {
         x: x,
         y: y,
@@ -26230,7 +26308,7 @@
       };
     };
     var fromClientRect = function (clientRect) {
-      return create$3(clientRect.left, clientRect.top, clientRect.width, clientRect.height);
+      return create$4(clientRect.left, clientRect.top, clientRect.width, clientRect.height);
     };
     var Rect = {
       inflate: inflate,
@@ -26238,7 +26316,7 @@
       findBestRelativePosition: findBestRelativePosition,
       intersect: intersect,
       clamp: clamp$1,
-      create: create$3,
+      create: create$4,
       fromClientRect: fromClientRect
     };
 
@@ -26676,7 +26754,7 @@
       }
     };
 
-    var create$4 = function () {
+    var create$5 = function () {
       return function () {
         var data = {};
         var keys = [];
@@ -26719,7 +26797,7 @@
     try {
       localStorage = domGlobals.window.localStorage;
     } catch (e) {
-      localStorage = create$4();
+      localStorage = create$5();
     }
     var LocalStorage = localStorage;
 
@@ -26754,7 +26832,7 @@
         Serializer: DomSerializer$1,
         ControlSelection: ControlSelection,
         BookmarkManager: BookmarkManager$1,
-        Selection: Selection,
+        Selection: Selection$1,
         Event: EventUtils.Event
       },
       html: {
