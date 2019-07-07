@@ -1,4 +1,4 @@
-import 'nestedSortable/jquery.ui.nestedSortable';
+import 'nestedSortable/jquery.mjs.nestedSortable';
 
 export default function TreeItems(tree) {
 	const { nestedList, noNesting, listType, ajaxMessage } = tree.options;
@@ -18,6 +18,8 @@ export default function TreeItems(tree) {
 			tabSize: 25,
 			tolerance: 'pointer',
 			toleranceElement: '> div',
+			excludeRoot: true,
+			rootID: 0,
 			errorClass: ajaxMessage,
 			update: () => {
 				tree.itemsChanged = true;

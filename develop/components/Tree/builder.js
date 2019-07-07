@@ -213,7 +213,7 @@ $.widget('sitemaker.treeBuilder', {
 				callBack();
 			});
 		} else {
-			this.editForm.deserialize({});
+			this.editForm[0].reset();
 		}
 	},
 
@@ -273,9 +273,15 @@ $.widget('sitemaker.treeBuilder', {
 	},
 
 	_saveTree() {
-		const tree = $(this.options.nestedList).find('li').length
-			? this.nestedList.nestedSortable('toArray')
-			: [];
+		const tree = this.nestedList.nestedSortable('toArray')
+			.reduce((accumulator, row) => {
+				const { id, ...rest } = row;
+				accumulator.push({
+					[this.options.fields.itemId]: id,
+					...rest,
+				});
+				return accumulator;
+			}, []);
 
 		this._saveItem('save_tree', { tree });
 		this._resetActions(tree.length);

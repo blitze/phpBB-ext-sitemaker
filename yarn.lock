@@ -4848,9 +4848,10 @@ neo-async@^2.5.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
   integrity sha512-MFh0d/Wa7vkKO3Y3LlacqAEeHK0mckVqzDieUKTT+KGxi+zIpeVsFxymkIiRpbpDziHc290Xr9A1O4Om7otoRA==
 
-"nestedSortable@https://github.com/ilikenwf/nestedSortable#1.3.4":
-  version "0.0.0"
-  resolved "https://github.com/ilikenwf/nestedSortable#22cdadd599b2798c304628ac797fca61b0264d02"
+nestedSortable@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/nestedSortable/-/nestedSortable-1.3.4.tgz#23bcd4294462ba117c1751ef570ded14cbae3354"
+  integrity sha1-I7zUKURiuhF8F1HvVw3tFMuuM1Q=
 
 next-tick@^1.0.0:
   version "1.0.0"
