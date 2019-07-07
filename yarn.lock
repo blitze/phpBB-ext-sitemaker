@@ -4198,6 +4198,13 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+jquery-deserialize@^2.0.0-rc1:
+  version "2.0.0-rc1"
+  resolved "https://registry.yarnpkg.com/jquery-deserialize/-/jquery-deserialize-2.0.0-rc1.tgz#86420415f0a9cd439a65a8e1ecdc96742674cd2d"
+  integrity sha1-hkIEFfCpzUOaZajh7NyWdCZ0zS0=
+  dependencies:
+    jquery ">=1.4.3"
+
 jquery-ui-themes@^1.12.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/jquery-ui-themes/-/jquery-ui-themes-1.12.0.tgz#a57ba0ad96800d84522fe76893ffcbde67081d51"
@@ -4213,9 +4220,10 @@ jquery-ui@^1.12.1:
   resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
   integrity sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE=
 
-"jquery.populate@https://github.com/dtuite/jquery.populate.git":
-  version "0.0.0"
-  resolved "https://github.com/dtuite/jquery.populate.git#a6f1223d0b3d226203b532e8206b5cf23d201df3"
+jquery@>=1.4.3:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
+  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
 
 js-base64@^2.1.8:
   version "2.5.1"

@@ -10,7 +10,7 @@
 import 'jquery-ui/ui/widget';
 import 'jquery-ui/ui/widgets/sortable';
 import 'jquery-ui/ui/effects/effect-slide';
-import 'jquery.populate/jquery.populate';
+import 'jquery-deserialize';
 
 import AddBtn from './Add';
 import AddBulkBtn from './Bulk';
@@ -209,11 +209,11 @@ $.widget('sitemaker.treeBuilder', {
 
 			$.get(`${ajaxUrl}load_item?${itemId}=${id}`).done(data => {
 				this.showMessage(data.message);
-				this.editForm.populate(data);
+				this.editForm.deserialize(data);
 				callBack();
 			});
 		} else {
-			this.editForm.populate({});
+			this.editForm.deserialize({});
 		}
 	},
 
