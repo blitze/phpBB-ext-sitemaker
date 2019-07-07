@@ -8,3 +8,4 @@ docs/website/translated_docs
 docs/website/build/
 docs/website/i18n/*
 !docs/website/i18n/en.json
+.DS_Store
