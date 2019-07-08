@@ -33,6 +33,7 @@ $.widget('sitemaker.treeBuilder', {
 
 		fields: {
 			itemId: 'item_id',
+			itemIcon: 'item_icon',
 			itemTitle: 'item_title',
 			parentId: 'parent_id',
 		},
@@ -89,7 +90,7 @@ $.widget('sitemaker.treeBuilder', {
 				selector: this.options.iconSelectClass,
 				onSelect: ($item, iconClass) => {
 					const itemID = this._getItemId($item.closest('li'));
-					this.updateItem({ item_icon: iconClass }, itemID);
+					this.updateItem({ [this.options.fields.itemIcon]: iconClass }, itemID);
 				},
 			});
 
@@ -319,6 +320,7 @@ $.widget('sitemaker.treeBuilder', {
 	},
 
 	_renderItem(data) {
+		data.item_icon = data[this.options.fields.itemIcon];
 		return this.template.render(data);
 	},
 
