@@ -154,6 +154,7 @@ abstract class display
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$data[$row[$this->pk]] = $row;
+			$data[$row[$this->pk]]['depth'] = $row['depth'] - $start;
 		}
 		$this->db->sql_freeresult($result);
 
@@ -209,7 +210,7 @@ abstract class display
 	/**
 	 * Get tree as form options or data
 	 *
-	 * @param	array	$db_data	Raw tree data from database
+	 * @param	array	$db_data		Raw tree data from database
 	 * @param	string	$title_column	Database column name to use as label/title for each item
 	 * @param	array	$selected_ids	Array of selected items
 	 * @param	string	$return_mode	options | data
@@ -219,9 +220,6 @@ abstract class display
 	 */
 	public function display_options($db_data, $title_column, $selected_ids = array(), $return_mode = 'options', $pad_with = '&nbsp;&nbsp;&nbsp;')
 	{
-		$right = 0;
-		$padding = '';
-		$padding_store = array('0' => '');
 		$return = array('options' => '', 'data' => array());
 
 		$db_data = array_values($db_data);
@@ -229,36 +227,13 @@ abstract class display
 		{
 			$row = $db_data[$i];
 
-			$this->set_padding($padding, $pad_with, $row, $padding_store, $right);
-
-			$right = $row[$this->column_right_id];
+			$padding = str_repeat($pad_with, $row['depth']);
 			$title = $this->get_padded_title($padding, $row[$title_column]);
 			$return['options'] .= $this->get_html_option($row, $selected_ids, $title);
 			$return['data'][$row[$this->pk]] = $title;
 		}
 
 		return $return[$return_mode];
-	}
-
-	/**
-	 * @param string $padding
-	 * @param string $pad_with
-	 * @param array $row
-	 * @param array $padding_store
-	 * @param int $right
-	 * @retur void
-	 */
-	protected function set_padding(&$padding, $pad_with, array $row, array $padding_store, $right)
-	{
-		if ($row[$this->column_left_id] < $right)
-		{
-			$padding .= $pad_with;
-			$padding_store[$row[$this->column_parent_id]] = $padding;
-		}
-		else if ($row[$this->column_left_id] > $right + 1)
-		{
-			$padding = (isset($padding_store[$row[$this->column_parent_id]])) ? $padding_store[$row[$this->column_parent_id]] : '';
-		}
 	}
 
 	/**
