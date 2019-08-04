@@ -11,11 +11,13 @@ export default function EditGroup(actions) {
 		const id = idAttr.substring(6);
 		const title = e.currentTarget.value;
 
-		$.post(`${config.ajaxUrl}${actions.edit}`, { id, title }).done(result => {
-			$(`#${idAttr}`)
-				.find('.group-title')
-				.text(result.name);
-		});
+		$.post(`${config.ajaxUrl}${actions.edit}`, { id, title }).done(
+			result => {
+				$(`#${idAttr}`)
+					.find('.group-title')
+					.text(result.name);
+			},
+		);
 
 		return lang.processing;
 	};

@@ -85,44 +85,44 @@
 			position: relative;
 		}
 
-	.bulk-dropdown {
-		width: 350px;
-		height: auto;
-		display: none;
-		position: absolute;
-		filter: drop-shadow(5px 5px 10px black);
-		z-index: 1000;
+		.bulk-dropdown {
+			width: 350px;
+			height: auto;
+			display: none;
+			position: absolute;
+			filter: drop-shadow(5px 5px 10px black);
+			z-index: 1000;
 
-		fieldset {
-			margin: 0;
-		}
+			fieldset {
+				margin: 0;
+			}
 
-		.CodeMirror {
-			width: 328px;
-		}
-	}
-	
-	.bulk-type-items {
-		width: auto;
-		max-height: 150px;
-		overflow: hidden;
-		overflow-y: auto;
-		white-space: nowrap;
-		z-index: 5000;
-	
-		a {
-			display: block;
-			width: 100%;
-			padding: 4px 8px;
-			margin: 1px;
-			background: #eee;
-			
-			&:hover {
-				text-decoration: none;
-				opacity: 0.8;
+			.CodeMirror {
+				width: 328px;
 			}
 		}
-	}
+
+		.bulk-type-items {
+			width: auto;
+			max-height: 150px;
+			overflow: hidden;
+			overflow-y: auto;
+			white-space: nowrap;
+			z-index: 5000;
+
+			a {
+				display: block;
+				width: 100%;
+				padding: 4px 8px;
+				margin: 1px;
+				background: #eee;
+
+				&:hover {
+					text-decoration: none;
+					opacity: 0.8;
+				}
+			}
+		}
 	}
 
 	.error {

@@ -32,19 +32,15 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 		AjaxSetup($loader, showMessage, `${idKey}=${groupId}`);
 
 		if (groupId > 0) {
-			import(/* webpackChunkName: "tree/builder" */ '../Tree/builder').then(
-				() => {
-					$tree.show();
-					if (!$treeBuilder) {
-						$treeBuilder = $tree.treeBuilder({
-							...options,
-							init: () => $tree.treeBuilder('getItems'),
-						});
-					} else {
-						$tree.treeBuilder('getItems');
-					}
-				},
-			);
+			$tree.show();
+			if (!$treeBuilder) {
+				$treeBuilder = $tree.treeBuilder({
+					...options,
+					init: () => $tree.treeBuilder('getItems'),
+				});
+			} else {
+				$tree.treeBuilder('getItems');
+			}
 		} else {
 			$tree.hide();
 		}
@@ -58,17 +54,25 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 
 	const actions = { ...defaultActions, ...groupActions };
 
-	init(groupId);
-	AddGroup($groups, actions);
-	EditGroup(actions);
-	DeleteGroup($groups, actions, init);
+	import(/* webpackChunkName: "tree/builder" */ '../Tree/builder').then(
+		() => {
+			init(groupId);
+			AddGroup($groups, actions);
+			EditGroup(actions);
+			DeleteGroup($groups, actions, init);
+		},
+	);
 
 	$('#groups-loader').hide();
 	$('body').on('click', '.group-item', e => {
 		e.preventDefault();
 
 		// eslint-disable-next-line no-alert
-		if (!$treeBuilder || !$tree.treeBuilder('isUnsaved') || window.confirm(lang.unsavedChanges)) {
+		if (
+			!$treeBuilder ||
+			!$tree.treeBuilder('isUnsaved') ||
+			window.confirm(lang.unsavedChanges)
+		) {
 			groupId = $(e.currentTarget)
 				.addClass('row3 current-group')
 				.siblings()

@@ -62,10 +62,10 @@ body {
 			text-align: center;
 			position: relative;
 			line-height: $admin-bar-height - 2;
-				
+
 			@media (max-width: $breakpoint-small) {
 				position: initial;
-				
+
 				.sm-dropdown {
 					left: -4px;
 					right: -4px;
@@ -137,19 +137,19 @@ body {
 			position: relative;
 		}
 	}
-	
+
 	.ex-positions-box {
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		max-height: 85px;
 		padding: 4px 0;
 		overflow: auto;
-		
+
 		label {
 			display: block;
-		    padding: 0 5px;
-		    margin: 0;
-			
+			padding: 0 5px;
+			margin: 0;
+
 			&:hover {
 				background-color: #ee3;
 			}

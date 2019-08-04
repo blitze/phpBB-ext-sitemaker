@@ -90,7 +90,10 @@ $.widget('sitemaker.treeBuilder', {
 				selector: this.options.iconSelectClass,
 				onSelect: ($item, iconClass) => {
 					const itemID = this._getItemId($item.closest('li'));
-					this.updateItem({ [this.options.fields.itemIcon]: iconClass }, itemID);
+					this.updateItem(
+						{ [this.options.fields.itemIcon]: iconClass },
+						itemID,
+					);
 				},
 			});
 
@@ -274,7 +277,8 @@ $.widget('sitemaker.treeBuilder', {
 	},
 
 	_saveTree() {
-		const tree = this.nestedList.nestedSortable('toArray')
+		const tree = this.nestedList
+			.nestedSortable('toArray')
 			.reduce((accumulator, row) => {
 				const { id, ...rest } = row;
 				accumulator.push({

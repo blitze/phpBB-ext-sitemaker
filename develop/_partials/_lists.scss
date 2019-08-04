@@ -196,7 +196,7 @@ ul {
 		/*
 		 * Transform vertical list to horizontal blocks
 		 */
-		[class*=list-block-] & {
+		[class*='list-block-'] & {
 			box-sizing: border-box;
 			display: flex;
 			flex-flow: row wrap;
@@ -207,7 +207,7 @@ ul {
 				padding: 0 $gutter-width;
 				max-width: 100%;
 				box-sizing: border-box;
-				
+
 				@media (max-width: $breakpoint-medium) {
 					& {
 						flex: none !important;

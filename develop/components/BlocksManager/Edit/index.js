@@ -154,15 +154,17 @@ export default function EditBlock($block, codemirror) {
 
 	$dialogEdit.on('dialogopen', function isFeedBlock() {
 		if ($(this).find('.sm-multi-input-ui').length) {
-			import(/* webpackChunkName: "blocks/multiInput/input" */ '../../MultiInputUI').then(
-				() => $('.sm-multi-input-ui').multiInputUI(),
-			);
+			import(
+				/* webpackChunkName: "blocks/multiInput/input" */ '../../MultiInputUI'
+			).then(() => $('.sm-multi-input-ui').multiInputUI());
 		}
 
 		if ($(this).find('#sm-feed-template').length) {
 			Promise.all([
 				import(/* webpackChunkName: "twig/twig" */ 'twig'),
-				import(/* webpackChunkName: "blocks/feeds/feeds" */ '../../Feeds'),
+				import(
+					/* webpackChunkName: "blocks/feeds/feeds" */ '../../Feeds'
+				),
 			]).then(([{ default: Twig }, { default: Feeds }]) =>
 				Feeds($(this), Twig, codemirror),
 			);

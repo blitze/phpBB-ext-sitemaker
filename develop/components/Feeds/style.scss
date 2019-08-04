@@ -1,42 +1,42 @@
 .sm-feed-editor {
-    overflow: hidden;
+	overflow: hidden;
 
-    .CodeMirror {
-        height: 100px;
-    }
+	.CodeMirror {
+		height: 100px;
+	}
 }
 
 .CodeMirror-hints {
-    font-size: 0.6rem;
-    z-index: 5000 !important;
+	font-size: 0.6rem;
+	z-index: 5000 !important;
 }
 
 #sm-feeds-preview-viewer {
-    margin: 5px auto;
+	margin: 5px auto;
 
-    .block {
-        position: relative;
+	.block {
+		position: relative;
 
-        .panel {
-            height: 150px;
-            overflow: auto;
-        }
-    }
+		.panel {
+			height: 150px;
+			overflow: auto;
+		}
+	}
 }
 
 #sm-feeds-preview-source {
-    display: none;
-    position: absolute;
-    top: 0;
-    width: 98%;
-    height: 160px;
+	display: none;
+	position: absolute;
+	top: 0;
+	width: 98%;
+	height: 160px;
 }
 
 #sm-feeds-data-viewer {
-    margin: 0;
-    padding: 5px;
+	margin: 0;
+	padding: 5px;
 
-    textarea {
-        width: 98%;
-    }
+	textarea {
+		width: 98%;
+	}
 }

@@ -50,7 +50,9 @@ export default function BlocksManager(positions) {
 			const $block = $(e.currentTarget).closest('.block');
 
 			Promise.all([
-				import(/* webpackChunkName: "codemirror/codemirror" */ '../CodeMirror'),
+				import(
+					/* webpackChunkName: "codemirror/codemirror" */ '../CodeMirror'
+				),
 				import(/* webpackChunkName: "blocks/edit" */ './Edit'),
 			]).then(([codemirror, { default: EditHandler }]) =>
 				EditHandler($block, codemirror),
