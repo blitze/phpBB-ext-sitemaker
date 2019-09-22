@@ -306,3 +306,6 @@ services:
             - '@path_helper'
             - '@template'
             - '@user'
+
+    truncator:
+        class: Urodoz\Truncate\TruncateService

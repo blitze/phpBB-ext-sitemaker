@@ -50,10 +50,16 @@ class forum_topics_test extends blocks_base
 		global $cache, $symfony_request;
 
 		$symfony_request = new Request();
+		$cache = new \phpbb_mock_cache();
 
 		$cache = $this->getMockBuilder('\phpbb\cache\service')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$cache->expects($this->any())
+			->method('obtain_word_list')
+			->willReturn(array());
+
 		$cache->expects($this->any())
 			->method('obtain_ranks')
 			->willReturn(array(
@@ -97,7 +103,9 @@ class forum_topics_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
+		$truncator = new \Urodoz\Truncate\TruncateService();
+
+		$block = new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 		$block->set_template($this->ptemplate);
 
 		return $block;
