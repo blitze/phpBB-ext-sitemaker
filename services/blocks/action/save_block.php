@@ -34,16 +34,8 @@ class save_block extends base_action
 		$old_hash = $entity->get_hash();
 		$updated_blocks = array();
 
-		try
-		{
-			/** @var \blitze\sitemaker\model\entity\block $entity */
-			$entity = $this->get_updated_settings($entity);
-		}
-		catch (\Exception $e)
-		{
-			throw $e;
-		}
-
+		/** @var \blitze\sitemaker\model\entity\block $entity */
+		$entity = $this->get_updated_settings($entity);
 		$entity = $this->block_mapper->save($entity);
 
 		$new_hash = $entity->get_hash();
