@@ -73,6 +73,10 @@ class admin_bar_test extends \phpbb_database_test_case
 			)
 		);
 
+		$lang_mapping = array(
+			'fr' => 'fr_FR',
+		);
+
 		$auth = $this->getMock('\phpbb\auth\auth');
 		$auth->expects($this->any())
 			->method('acl_get')
@@ -191,7 +195,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
 		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path, $phpEx);
 
-		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $phpbb_root_path, $phpEx);
+		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $lang_mapping);
 	}
 
 	/**

@@ -43,11 +43,8 @@ class admin_bar
 	/** @var \blitze\sitemaker\services\util */
 	protected $util;
 
-	/** @var string */
-	protected $phpbb_root_path;
-
-	/** @var string phpEx */
-	protected $php_ext;
+	/** @var array */
+	protected $lang_mapping;
 
 	/**
 	 * Constructor
@@ -62,10 +59,9 @@ class admin_bar
 	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager			Filemanager object
 	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
-	 * @param string										$phpbb_root_path		Path to the phpbb includes directory.
-	 * @param string										$php_ext				phpEx
+	 * @param array											$lang_mapping			Lang mapping array for tinymce
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $lang_mapping)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
@@ -77,8 +73,7 @@ class admin_bar
 		$this->filemanager = $filemanager;
 		$this->icons = $icons;
 		$this->util = $util;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
+		$this->lang_mapping = $lang_mapping;
 	}
 
 	/**
@@ -154,11 +149,10 @@ class admin_bar
 	protected function get_tinymce_lang()
 	{
 		$user_lang = $this->user->data['user_lang'];
-		$mapping = include($this->phpbb_root_path . 'ext/blitze/sitemaker/services/blocks/lang_mapping.' . $this->php_ext);
 
-		if (isset($mapping[$user_lang]))
+		if (isset($this->lang_mapping[$user_lang]))
 		{
-			return $mapping[$user_lang];
+			return $this->lang_mapping[$user_lang];
 		}
 		else
 		{
