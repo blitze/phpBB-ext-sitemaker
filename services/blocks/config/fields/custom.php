@@ -12,7 +12,7 @@ namespace blitze\sitemaker\services\blocks\config\fields;
 /**
  * @package sitemaker
  */
-class custom implements cfg_field_interface
+class custom extends cfg_field_base
 {
 	/**
 	 * @inheritdoc

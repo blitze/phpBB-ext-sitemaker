@@ -152,7 +152,7 @@ class feeds extends block
 			'template'	=> $template,
 		]);
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/cfg_feeds_template.html', 'cfg_feeds_template');
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/feeds.html', 'cfg_feeds');
 	}
 
 	/**

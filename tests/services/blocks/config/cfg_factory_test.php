@@ -36,13 +36,21 @@ class cfg_factory_test extends \phpbb_test_case
 
 		parent::setUp();
 
+		$translator = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$phpbb_container = new \phpbb_mock_container_builder();
 
 		$this->cfg_fields = new \phpbb\di\service_collection($phpbb_container);
 
 		$this->cfg_fields->add('my.foo.field');
 
-		$phpbb_container->set('my.foo.field', new \blitze\sitemaker\services\blocks\config\fields\custom);
+		$phpbb_container->set('my.foo.field', new \blitze\sitemaker\services\blocks\config\fields\custom($translator, $ptemplate));
 	}
 
 	/**

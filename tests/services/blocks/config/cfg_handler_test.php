@@ -141,14 +141,14 @@ class cfg_handler_test extends \phpbb_test_case
 		$cfg_fields_collection->add('cfg.radio.field');
 		$cfg_fields_collection->add('cfg.select.field');
 
-		$phpbb_container->set('cfg.checkbox.field', new \blitze\sitemaker\services\blocks\config\fields\checkbox($translator));
-		$phpbb_container->set('cfg.code_editor.field', new \blitze\sitemaker\services\blocks\config\fields\code_editor($translator));
-		$phpbb_container->set('cfg.custom.field', new \blitze\sitemaker\services\blocks\config\fields\custom());
-		$phpbb_container->set('cfg.hidden.field', new \blitze\sitemaker\services\blocks\config\fields\hidden());
-		$phpbb_container->set('cfg.multi_input.field', new \blitze\sitemaker\services\blocks\config\fields\multi_input($ptemplate));
-		$phpbb_container->set('cfg.multi_select.field', new \blitze\sitemaker\services\blocks\config\fields\multi_select($translator));
-		$phpbb_container->set('cfg.radio.field', new \blitze\sitemaker\services\blocks\config\fields\radio($translator));
-		$phpbb_container->set('cfg.select.field', new \blitze\sitemaker\services\blocks\config\fields\select($translator));
+		$phpbb_container->set('cfg.checkbox.field', new \blitze\sitemaker\services\blocks\config\fields\checkbox($translator, $ptemplate));
+		$phpbb_container->set('cfg.code_editor.field', new \blitze\sitemaker\services\blocks\config\fields\code_editor($translator, $ptemplate));
+		$phpbb_container->set('cfg.custom.field', new \blitze\sitemaker\services\blocks\config\fields\custom($translator, $ptemplate));
+		$phpbb_container->set('cfg.hidden.field', new \blitze\sitemaker\services\blocks\config\fields\hidden($translator, $ptemplate));
+		$phpbb_container->set('cfg.multi_input.field', new \blitze\sitemaker\services\blocks\config\fields\multi_input($translator, $ptemplate));
+		$phpbb_container->set('cfg.multi_select.field', new \blitze\sitemaker\services\blocks\config\fields\multi_select($translator, $ptemplate));
+		$phpbb_container->set('cfg.radio.field', new \blitze\sitemaker\services\blocks\config\fields\radio($translator, $ptemplate));
+		$phpbb_container->set('cfg.select.field', new \blitze\sitemaker\services\blocks\config\fields\select($translator, $ptemplate));
 
 		$cfg_factory = new \blitze\sitemaker\services\blocks\config\cfg_factory($cfg_fields_collection);
 
@@ -182,9 +182,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<div class="my_var-checkbox" id="my_var-col-0">' .
-						'<label><input type="checkbox" name="config[my_var][0]" value="option1" checked="checked" class="checkbox" /> Option 1</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][1]" value="option2" class="checkbox" /> Option 2</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][2]" value="option3" checked="checked" class="checkbox" /> Option 3</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label><br />' .
+						'<label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label><br />' .
 						'</div>',
 				),
 			),
@@ -397,7 +397,7 @@ class cfg_handler_test extends \phpbb_test_case
 		{
 			if (isset($option['CONTENT']))
 			{
-				$option['CONTENT'] = preg_replace('/\s{2,}/', '', $option['CONTENT']);
+				$option['CONTENT'] = trim(preg_replace('/\s{2,}|\n/', '', $option['CONTENT']));
 			}
 		}
 

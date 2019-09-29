@@ -1,0 +1,17 @@
+{% set checkbox %}
+	{% for key, column in columns %}
+		<div class="{{ class ~ field ~ '-checkbox' }}" id="{{ field ~ '-col-' ~ key }}">
+		{% for value, title in column %}
+			<label><input type="checkbox" name="{{ 'config[' ~ field ~ '][]' }}" value="{{ value }}"{% if value in selected %} checked="checked"{% endif %} class="checkbox" /> {{ lang(title) }}</label><br />
+		{% endfor %}
+		</div>
+	{% endfor %}
+{% endset %}
+
+{% if class %}
+<div class="grid-noBottom">
+	{{ checkbox }}
+</div>
+{% else %}
+	{{ checkbox }}
+{% endif %}

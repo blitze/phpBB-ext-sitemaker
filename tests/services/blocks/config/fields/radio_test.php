@@ -11,33 +11,14 @@ namespace blitze\sitemaker\tests\services\blocks\config\fields;
 
 use blitze\sitemaker\services\blocks\config\fields\radio;
 
-class radio_test extends \phpbb_test_case
+class radio_test extends cfg_test_base
 {
 	/**
-	 * Define the extension to be tested.
-	 *
-	 * @return string[]
-	 */
-	protected static function setup_extensions()
-	{
-		return array('blitze/sitemaker');
-	}
-
-	/**
-	 * @return \blitze\sitemaker\services\blocks\config\fields\checkbox
+	 * @return \blitze\sitemaker\services\blocks\config\fields\radio
 	 */
 	protected function get_service()
 	{
-		$translator = $this->getMockBuilder('\phpbb\language\language')
-			->disableOriginalConstructor()
-			->getMock();
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode('-', func_get_args());
-			});
-
-		return new radio($translator);
+		return new radio($this->translator, $this->ptemplate);
 	}
 
     /**
@@ -91,6 +72,6 @@ class radio_test extends \phpbb_test_case
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_radio($option_ary, $selected_items, $key);
 
-		$this->assertEquals($expected, $html);
+		$this->assertEquals($expected, $this->clean_output($html));
 	}
 }

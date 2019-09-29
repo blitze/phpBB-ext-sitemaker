@@ -12,21 +12,8 @@ namespace blitze\sitemaker\services\blocks\config\fields;
 /**
  * @package sitemaker
  */
-class code_editor implements cfg_field_interface
+class code_editor extends cfg_field_base
 {
-	/** @var \phpbb\language\language */
-	protected $translator;
-
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\language\language	$translator		Language object
-	 */
-	public function __construct(\phpbb\language\language $translator)
-	{
-		$this->translator = $translator;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -62,22 +49,16 @@ class code_editor implements cfg_field_interface
 	 */
 	public function build_code_editor($key, $value, $explain, array $data_props = array(), $label = '')
 	{
-		$html = '';
-		$id = $key . '-editor';
-		$class = $id . '-button';
-		$attributes = $this->get_code_editor_attributes($data_props);
+		$this->ptemplate->assign_vars(array(
+			'key'			=> $key,
+			'value'			=> $value,
+			'label'			=> $label,
+			'explain'		=> $explain,
+			'attributes'	=> $this->get_code_editor_attributes($data_props),
+			'fullscreen'	=> $this->fullscreen_allowed($data_props),
+		));
 
-		$html .= ($label) ? '<label for="' . $key . '"><strong>' . $this->translator->lang($label) . '</strong></label>' : '';
-		$html .= ($explain) ? '<span>' . $explain . '</span>' : '';
-		$html .= '<textarea id="' . $id . '" class="code-editor" name="config[' . $key . ']"' . $attributes . '>' . $value . '</textarea>';
-		$html .= '<div class="align-right">';
-		$html .= '<button class="' . $class . ' CodeMirror-button" data-action="undo" title="' . $this->translator->lang('UNDO') . '"><i class="fa fa-undo" aria-hidden="true"></i></button>';
-		$html .= '<button class="' . $class . ' CodeMirror-button" data-action="redo" title="' . $this->translator->lang('REDO') . '"><i class="fa fa-repeat" aria-hidden="true"></i></button>';
-		$html .= '<button class="' . $class . ' CodeMirror-button" data-action="clear" title="' . $this->translator->lang('CLEAR') . '"><i class="fa fa-ban" aria-hidden="true"></i></button>';
-		$html .= $this->fullscreen_allowed($data_props) ? '<button class="' . $class . ' CodeMirror-button" data-action="fullscreen" title="' . $this->translator->lang('FULLSCREEN') . '"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' : '';
-		$html .= '</div>';
-
-		return $html;
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/code_editor.html', $key);
 	}
 
 	/**

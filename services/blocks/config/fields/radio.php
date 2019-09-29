@@ -14,21 +14,8 @@ use blitze\sitemaker\services\blocks\config\cfg_utils;
 /**
  * @package sitemaker
  */
-class radio implements cfg_field_interface
+class radio extends cfg_field_base
 {
-	/** @var \phpbb\language\language */
-	protected $translator;
-
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\language\language	$translator		Language object
-	 */
-	public function __construct(\phpbb\language\language $translator)
-	{
-		$this->translator = $translator;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -55,20 +42,17 @@ class radio implements cfg_field_interface
 	 *
 	 * @param array $option_ary
 	 * @param mixed $selected_item
-	 * @param string $key
+	 * @param string $field
 	 * @return string
 	 */
-	public function build_radio(array $option_ary, $selected_item, $key)
+	public function build_radio(array $option_ary, $selected_item, $field)
 	{
-		$selected_item = (is_array($selected_item)) ? $selected_item : array($selected_item);
+		$this->ptemplate->assign_vars(array(
+			'field'		=> $field,
+			'options'	=> $option_ary,
+			'selected'	=> (is_array($selected_item)) ? array_pop($selected_item) : $selected_item,
+		));
 
-		$html = '';
-		foreach ($option_ary as $value => $title)
-		{
-			$selected = cfg_utils::get_selected_option($value, $selected_item, 'checked');
-			$html .= '<label><input type="radio" name="config[' . $key . ']" value="' . $value . '"' . $selected . ' class="radio" /> ' . $this->translator->lang($title) . '</label><br />';
-		}
-
-		return $html;
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/radio.html', 'radio');
 	}
 }

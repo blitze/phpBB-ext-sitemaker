@@ -12,21 +12,8 @@ namespace blitze\sitemaker\services\blocks\config\fields;
 /**
  * @package sitemaker
  */
-class multi_input implements cfg_field_interface
+class multi_input extends cfg_field_base
 {
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
-
-	/**
-	 * Constructor
-	 *
-	 * @param \blitze\sitemaker\services\template	$ptemplate		Template object
-	 */
-	public function __construct(\blitze\sitemaker\services\template $ptemplate)
-	{
-		$this->ptemplate = $ptemplate;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -76,6 +63,6 @@ class multi_input implements cfg_field_interface
 			'label'		=> $label,
 		));
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/cfg_multi_input.html', 'multi_input_ui');
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/multi_input.html', 'multi_input_ui');
 	}
 }

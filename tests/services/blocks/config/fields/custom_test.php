@@ -7,28 +7,18 @@
  *
  */
 
-namespace blitze\sitemaker\tests\services\blocks\config;
+namespace blitze\sitemaker\tests\services\blocks\config\fields;
 
 use blitze\sitemaker\services\blocks\config\fields\custom;
 
-class custom_test extends \phpbb_test_case
+class custom_test extends cfg_test_base
 {
-	/**
-	 * Define the extension to be tested.
-	 *
-	 * @return string[]
-	 */
-	protected static function setup_extensions()
-	{
-		return array('blitze/sitemaker');
-	}
-
 	/**
 	 * @return \blitze\sitemaker\services\blocks\config\fields\custom
 	 */
 	protected function get_service()
 	{
-		return new custom($translator);
+		return new custom($this->translator, $this->ptemplate);
 	}
 
     /**

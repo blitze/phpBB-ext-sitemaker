@@ -7,28 +7,18 @@
  *
  */
 
-namespace blitze\sitemaker\tests\services\blocks\config;
+namespace blitze\sitemaker\tests\services\blocks\config\fields;
 
 use blitze\sitemaker\services\blocks\config\fields\hidden;
 
-class hidden_test extends \phpbb_test_case
+class hidden_test extends cfg_test_base
 {
-	/**
-	 * Define the extension to be tested.
-	 *
-	 * @return string[]
-	 */
-	protected static function setup_extensions()
-	{
-		return array('blitze/sitemaker');
-	}
-
 	/**
 	 * @return \blitze\sitemaker\services\blocks\config\fields\hidden
 	 */
 	protected function get_service()
 	{
-		return new hidden();
+		return new hidden($this->translator, $this->ptemplate);
 	}
 
     /**

@@ -14,21 +14,8 @@ use blitze\sitemaker\services\blocks\config\cfg_utils;
 /**
  * @package sitemaker
  */
-class select implements cfg_field_interface
+class select extends cfg_field_base
 {
-	/** @var \phpbb\language\language */
-	protected $translator;
-
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\language\language	$translator		Language object
-	 */
-	public function __construct(\phpbb\language\language $translator)
-	{
-		$this->translator = $translator;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -56,39 +43,25 @@ class select implements cfg_field_interface
 	/**
 	 * Used to add a select drop down in blocks config
 	 *
-	 * @param array $option_ary
-	 * @param string $selected_item
-	 * @param string $key
+	 * @param array $options
+	 * @param string $selected
+	 * @param string $field
 	 * @param int $size
 	 * @param bool $multi_select
-	 * @param string $data_toggle_key
-	 * @return string
-	 */
-	public function build_select(array $option_ary, $selected_item, $key, $size = 1, $multi_select = false, $data_toggle_key = '')
-	{
-		$selected_item = cfg_utils::ensure_array($selected_item);
-
-		$options = $this->get_select_options($option_ary, $selected_item, $data_toggle_key);
-		$data_toggle = ($data_toggle_key) ? ' data-togglable-settings="true"' : '';
-
-		return '<select id="' . $key . '" name="config[' . $key . ']' . (($multi_select) ? '[]" multiple="multiple"' : '"') . (($size > 1) ? ' size="' . $size . '"' : '') . $data_toggle . '>' . $options . '</select>';
-	}
-
-	/**
-	 * @param array $option_ary
-	 * @param array $selected_items
 	 * @param string $togglable_key
 	 * @return string
 	 */
-	protected function get_select_options(array $option_ary, array $selected_items, $togglable_key)
+	public function build_select(array $options, $selected, $field, $size = 1, $multi_select = false, $togglable_key = '')
 	{
-		$options = '';
-		foreach ($option_ary as $value => $title)
-		{
-			$selected = cfg_utils::get_selected_option($value, $selected_items);
-			$togglable_option = ($togglable_key) ? ' data-toggle-setting="#' . $togglable_key . '-' . $value . '"' : '';
-			$options .= '<option value="' . $value . '"' . $selected . $togglable_option . '>' . $this->translator->lang($title) . '</option>';
-		}
-		return $options;
+		$this->ptemplate->assign_vars(array(
+			'field'			=> $field,
+			'selected'		=> cfg_utils::ensure_array($selected),
+			'options'		=> $options,
+			'size'			=> $size,
+			'multi_select'	=> $multi_select,
+			'togglable_key'	=> $togglable_key,
+		));
+
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/select.html', 'select');
 	}
 }

@@ -1,0 +1,10 @@
+{%- set size = (size > 1) ? ' size="' ~ size ~ '"' : '' -%}
+{%- set multi_select = (multi_select) ? '[]" multiple="multiple' : '' -%}
+{%- set data_toggle = (togglable_key) ? ' data-togglable-settings="true"' : '' -%}
+
+<select id="{{ field }}" name="{{ 'config[' ~ field ~ ']' ~ multi_select }}"{{ size }}{{ data_toggle }}>
+{% for value, title in options %}
+	{%- set togglable_option = (togglable_key) ? ' data-toggle-setting="#' ~ togglable_key ~ '-' ~ value ~ '"' : '' -%}
+	<option value="{{ value }}"{% if value in selected %} selected="selected"{% endif %}{{ togglable_option }}>{{ lang(title) }}</option>
+{% endfor %}
+</select>

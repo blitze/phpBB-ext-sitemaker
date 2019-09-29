@@ -7,54 +7,56 @@ services:
         tags:
             - { name: service_collection, tag: sitemaker.cfg_field }
 
-    blitze.sitemaker.cfg_field.checkbox:
-        class: blitze\sitemaker\services\blocks\config\fields\checkbox
+    blitze.sitemaker.cfg_field.base:
+        class: blitze\sitemaker\services\blocks\config\fields\cfg_field_base
         arguments:
             - '@language'
+            - '@blitze.sitemaker.template'
+
+    blitze.sitemaker.cfg_field.checkbox:
+        class: blitze\sitemaker\services\blocks\config\fields\checkbox
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.code_editor:
         class: blitze\sitemaker\services\blocks\config\fields\code_editor
-        arguments:
-            - '@language'
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.custom:
         class: blitze\sitemaker\services\blocks\config\fields\custom
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.hidden:
         class: blitze\sitemaker\services\blocks\config\fields\hidden
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.multi_input:
         class: blitze\sitemaker\services\blocks\config\fields\multi_input
-        arguments:
-            - '@blitze.sitemaker.template'
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.multi_select:
         class: blitze\sitemaker\services\blocks\config\fields\multi_select
-        arguments:
-            - '@language'
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.radio:
         class: blitze\sitemaker\services\blocks\config\fields\radio
-        arguments:
-            - '@language'
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }
 
     blitze.sitemaker.cfg_field.select:
         class: blitze\sitemaker\services\blocks\config\fields\select
-        arguments:
-            - '@language'
+        parent: blitze.sitemaker.cfg_field.base
         tags:
             - { name: sitemaker.cfg_field }

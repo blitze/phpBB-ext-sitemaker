@@ -1,0 +1,3 @@
+{% for value, title in options %}
+<label><input type="radio" name="{{ 'config[' ~ field ~ ']' }}" value="{{ value }}"{% if selected === value %} checked="checked"{% endif %} class="radio" /> {{ lang(title) }}</label><br />
+{% endfor %}

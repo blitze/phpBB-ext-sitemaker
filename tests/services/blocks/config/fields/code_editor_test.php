@@ -11,33 +11,14 @@ namespace blitze\sitemaker\tests\services\blocks\config\fields;
 
 use blitze\sitemaker\services\blocks\config\fields\code_editor;
 
-class code_editor_test extends \phpbb_test_case
+class code_editor_test extends cfg_test_base
 {
-	/**
-	 * Define the extension to be tested.
-	 *
-	 * @return string[]
-	 */
-	protected static function setup_extensions()
-	{
-		return array('blitze/sitemaker');
-	}
-
 	/**
 	 * @return \blitze\sitemaker\services\blocks\config\fields\code_editor
 	 */
 	protected function get_service()
 	{
-		$translator = $this->getMockBuilder('\phpbb\language\language')
-			->disableOriginalConstructor()
-			->getMock();
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode('-', func_get_args());
-			});
-
-		return new code_editor($translator);
+		return new code_editor($this->translator, $this->ptemplate);
 	}
 
     /**
@@ -101,6 +82,6 @@ class code_editor_test extends \phpbb_test_case
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->build_code_editor('foo', $value, $explain, $data_props, $label);
 
-		$this->assertEquals($expected, $html);
+		$this->assertEquals($expected, $this->clean_output($html));
 	}
 }

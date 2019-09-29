@@ -148,15 +148,15 @@ class base_action extends \phpbb_database_test_case
 		$util = new \blitze\sitemaker\services\util($path_helper, $template, $user);
 
 		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, $util, 'phpbb_sm_cblocks');
-		
+
 		$cfg_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\config\cfg_factory')
 			->disableOriginalConstructor()
 			->getMock();
 		$cfg_factory->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($type) {
+			->will($this->returnCallback(function($type) use ($ptemplate) {
 				return ($type === 'radio')
-					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator)
+					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator, $ptemplate)
 					: false;
 			}));
 

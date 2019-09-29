@@ -14,21 +14,8 @@ use blitze\sitemaker\services\blocks\config\cfg_utils;
 /**
  * @package sitemaker
  */
-class multi_select implements cfg_field_interface
+class multi_select extends cfg_field_base
 {
-	/** @var \phpbb\language\language */
-	protected $translator;
-
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\language\language	$translator		Language object
-	 */
-	public function __construct(\phpbb\language\language $translator)
-	{
-		$this->translator = $translator;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -57,16 +44,13 @@ class multi_select implements cfg_field_interface
 	 */
 	public function build_multi_select(array $option_ary, $selected_items, $field)
 	{
-		$selected_items = cfg_utils::ensure_array($selected_items);
+		$this->ptemplate->assign_vars(array(
+			'field'		=> $field,
+			'options'	=> $option_ary,
+			'selected'	=> cfg_utils::ensure_array($selected_items),
+		));
 
-		$html = '<select id="' . $field . '" name="config[' . $field . '][]" multiple="multiple">';
-		foreach ($option_ary as $value => $title)
-		{
-			$selected = cfg_utils::get_selected_option($value, $selected_items);
-			$html .= '<option value="' . $value . '"' . $selected . '>' . $this->translator->lang($title) . '</option>';
-		}
-		$html .= '</select>';
+		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/multi_select.html', 'multi_select');
 
-		return $html;
 	}
 }

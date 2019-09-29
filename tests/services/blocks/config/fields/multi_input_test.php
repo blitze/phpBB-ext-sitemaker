@@ -10,80 +10,15 @@
 namespace blitze\sitemaker\tests\services\blocks\config\fields;
 
 use blitze\sitemaker\services\blocks\config\fields\multi_input;
-use blitze\sitemaker\services\template;
 
-class multi_input_test extends \phpbb_test_case
+class multi_input_test extends cfg_test_base
 {
 	/**
-	 * Define the extension to be tested.
-	 *
-	 * @return string[]
-	 */
-	protected static function setup_extensions()
-	{
-		return array('blitze/sitemaker');
-	}
-
-	/**
-	 * @return \blitze\sitemaker\services\blocks\config\fields\multi_select
+	 * @return \blitze\sitemaker\services\blocks\config\fields\multi_input
 	 */
 	protected function get_service()
 	{
-		global $phpbb_root_path, $phpEx;
-
-		$translator = $this->getMockBuilder('\phpbb\language\language')
-			->disableOriginalConstructor()
-			->getMock();
-		$translator->expects($this->any())
-			->method('lang')
-			->willReturnCallback(function () {
-				return implode('-', func_get_args());
-			});
-
-		$user = new \phpbb\user($translator, '\phpbb\datetime');
-
-		$config = new \phpbb\config\config(array());
-
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$filesystem = new \phpbb\filesystem\filesystem();
-
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			$filesystem,
-			$request,
-			$phpbb_root_path,
-			$php_ext
-		);
-
-		$cache_path = $phpbb_root_path . 'cache/twig';
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-		$template_context = new \phpbb\template\context();
-		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
-		$twig = new \phpbb\template\twig\environment(
-			$config,
-			$filesystem,
-			$path_helper,
-			$cache_path,
-			null,
-			$template_loader,
-			$phpbb_dispatcher,
-			array(
-				'cache'			=> false,
-				'debug'			=> false,
-				'auto_reload'	=> true,
-				'autoescape'	=> false,
-			)
-		);
-
-		$ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $user)));
-		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
-
-		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
-
-		return new multi_input($ptemplate);
+		return new multi_input($this->translator, $this->ptemplate);
 	}
 
     /**
