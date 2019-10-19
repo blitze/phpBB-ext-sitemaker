@@ -47,10 +47,12 @@ class radio extends cfg_field_base
 	 */
 	public function build_radio(array $option_ary, $selected_item, $field)
 	{
+		$selected_items = cfg_utils::ensure_array($selected_items);
+
 		$this->ptemplate->assign_vars(array(
 			'field'		=> $field,
 			'options'	=> $option_ary,
-			'selected'	=> (is_array($selected_item)) ? array_pop($selected_item) : $selected_item,
+			'selected'	=> array_pop($selected_item),
 		));
 
 		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/radio.html', 'radio');
