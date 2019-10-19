@@ -71,7 +71,7 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 		if (
 			!$treeBuilder ||
 			!$tree.treeBuilder('isUnsaved') ||
-			window.confirm(lang.unsavedChanges)
+			window.confirm(lang.unsavedChanges)		// eslint-disable-line no-alert
 		) {
 			groupId = $(e.currentTarget)
 				.addClass('row3 current-group')
