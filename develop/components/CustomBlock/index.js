@@ -37,12 +37,14 @@ export default function CustomBlock() {
 			selector: 'div.editable-block',
 			menubar: false,
 			inline: true,
+			// theme: 'inlite',
 			image_advtab: true,
 			hidden_input: false,
+			auto_focus: false,
 			noneditable_noneditable_class: 'fa',
 			plugins: [
 				'advlist autolink lists link image imagetools charmap preview hr anchor pagebreak',
-				'visualblocks visualchars code media nonbreaking save table contextmenu directionality',
+				'visualblocks code media nonbreaking save table contextmenu directionality',
 				'paste textcolor colorpicker textpattern noneditable',
 			],
 			toolbar: [
@@ -138,14 +140,13 @@ export default function CustomBlock() {
 			options.plugins.push('responsivefilemanager');
 
 			const rfmPath = `${scriptPath}ResponsiveFilemanager/filemanager/`;
-
 			const filemanagerOptions = {
+				filemanager_access_key: config.RFAccessKey,
+				filemanager_title: lang.fileManager,
 				external_filemanager_path: rfmPath,
 				external_plugins: {
 					filemanager: `${rfmPath}plugin.min.js`,
 				},
-				filemanager_access_key: config.RFAccessKey,
-				filemanager_title: lang.fileManager,
 			};
 			options = { ...options, ...filemanagerOptions };
 		}
@@ -158,9 +159,9 @@ export default function CustomBlock() {
 		.on('blitze_sitemaker_render_block_after', ({ block, $block }) => {
 			// if custom block, add editor
 			if (block.name === 'blitze.sitemaker.block.custom') {
-				// if tinymce editor instance already exists, remove it
 				const editorId = `block-editor-${block.id}`;
 
+				// if tinymce editor instance already exists, remove it
 				if (tinymce.get(editorId)) {
 					tinymce.EditorManager.execCommand(
 						'mceFocus',
