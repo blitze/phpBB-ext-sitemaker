@@ -14,6 +14,9 @@ class manager
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
+	/** @var \phpbb\log\log */
+	protected $log;
+
 	/** @var \blitze\sitemaker\services\blocks\factory */
 	protected $block_factory;
 
@@ -27,12 +30,14 @@ class manager
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
+	 * @param \phpbb\log\log								$log					The phpBB log system
 	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\log\log $log, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory)
 	{
 		$this->cache = $cache;
+		$this->log = $log;
 		$this->block_factory = $block_factory;
 
 		$this->block_mapper = $mapper_factory->create('blocks');
@@ -99,6 +104,8 @@ class manager
 		$this->route_mapper->delete(array('style', '=', $style_id));
 
 		$this->cache->destroy('sitemaker_block_routes');
+
+		$this->log->add('admin', null, null, 'LOG_DELETED_BLOCKS_FOR_STYLE', time(), array($style_id));
 	}
 
 	/**
@@ -108,11 +115,18 @@ class manager
 	public function delete_blocks_by_route($route)
 	{
 		$collection = $this->route_mapper->find(array('route', '=', $route));
-
 		$route_ids = array_keys($collection->get_entities());
+
+		$missing_routes = [];
+		foreach ($collection as $entity)
+		{
+			$missing_routes[] = $entity->get_route();
+		}
 
 		$this->block_mapper->delete(array('route_id', '=', $route_ids));
 		$this->route_mapper->delete(array('route_id', '=', $route_ids));
+
+		$this->log->add('admin', null, null, 'LOG_DELETED_BLOCKS_FOR_ROUTE', time(), array(join("<br />", $missing_routes)));
 	}
 
 	/**
@@ -127,5 +141,7 @@ class manager
 		{
 			$this->block_mapper->delete($entity);
 		}
+
+		$this->log->add('admin', null, null, 'LOG_DELETED_BLOCKS', time(), array($block_name));
 	}
 }

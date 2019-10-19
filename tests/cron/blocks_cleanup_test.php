@@ -131,7 +131,11 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		$this->block_mapper = $mapper_factory->create('blocks');
 
-		$blocks_manager = new manager($cache, $blocks_factory, $mapper_factory);
+		$log = $this->getMockBuilder('\phpbb\log\log')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$blocks_manager = new manager($cache, $log, $blocks_factory, $mapper_factory);
 
 		$url = $this->getMockBuilder('\blitze\sitemaker\services\url_checker')
 			->getMock();

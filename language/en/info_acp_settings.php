@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package phpBB Sitemaker [English]
@@ -8,15 +9,13 @@
  */
 
 /**
-* @ignore
-*/
-if (!defined('IN_PHPBB'))
-{
+ * @ignore
+ */
+if (!defined('IN_PHPBB')) {
 	exit;
 }
 
-if (empty($lang) || !is_array($lang))
-{
+if (empty($lang) || !is_array($lang)) {
 	$lang = array();
 }
 
@@ -85,6 +84,10 @@ $strings = array(
 	'LAYOUT_PORTAL'				=> 'Portal',
 	'LAYOUT_PORTAL_ALT'			=> 'Portal (alt)',
 	'LAYOUT_SETTINGS'			=> 'Layout Settings',
+	
+	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Sitemaker blocks deleted for missing style with id %s',
+	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
+	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
 
 	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
 	'NO_NAVBAR'					=> 'None',
