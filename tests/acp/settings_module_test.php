@@ -238,8 +238,6 @@ class settings_module_test extends \phpbb_database_test_case
 						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 					),
 					'filemanager' => array(
-						'aviary_active'				=> false,
-						'aviary_apiKey'				=> '',
 						'image_watermark'			=> '',
 						'image_watermark_position'	=> 'br',
 						'image_max_width'			=> 0,
@@ -291,7 +289,6 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_forum_icon'		=> 'fa fa-car',
 		);
 		$filemanager = array(
-			'aviary_apiKey' => 'some key',
 			'image_watermark_coordinates' => '40x50',
 			'image_max_width' => 800,
 			'image_resizing' => 'true',
@@ -331,8 +328,6 @@ class settings_module_test extends \phpbb_database_test_case
 			'layout_prefs'			=> $layouts,
 			'filemanager'			=> 1,
 			'filemanager_config'	=> array(
-				'aviary_active'				=> true,
-				'aviary_apiKey'				=> 'some key',
 				'image_watermark'			=> './test.png',
 				'image_watermark_position'	=> '40x50',
 				'image_max_width'			=> 800,

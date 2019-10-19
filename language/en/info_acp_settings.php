@@ -67,11 +67,9 @@ $strings = array(
 	'FILEMANAGER_WATERMARK_POSITION_BL'			=> 'Bottom Left',
 	'FILEMANAGER_WATERMARK_POSITION_B'			=> 'Bottom',
 	'FILEMANAGER_WATERMARK_POSITION_BR'			=> 'Bottom Right',
-	'FILEMANAGER_WATERMARK_POSITION_SUFFIX'	=> 'or',
+	'FILEMANAGER_WATERMARK_POSITION_SUFFIX'		=> 'or',
 	'FILEMANAGER_WATERMARK_PADDING'				=> 'Watermark padding',
 	'FILEMANAGER_WATERMARK_PADDING_EXPLAIN'		=> 'If using a pre-determined position you can adjust the padding from the edges. If using co-ordinates, this value is ignored',
-	'FILEMANAGER_AVIARY_API_KEY'				=> 'Aviary Image editor API key',
-	'FILEMANAGER_AVIARY_API_KEY_EXPLAIN'		=> 'Subscribe to creativesdk.adobe.com to get a free api key at <a href="https://creativesdk.adobe.com/myapps.html" target="_blank"><strong>My Apps</strong></a>.<br />Without a valid API key, you will not be able to save your edited images',
 
 	'FORUM_INDEX_SETTINGS'			=> 'Forum Index Settings',
 	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
