@@ -37,23 +37,20 @@ export default function CustomBlock() {
 			selector: 'div.editable-block',
 			menubar: false,
 			inline: true,
-			// theme: 'inlite',
-			image_advtab: true,
 			hidden_input: false,
-			auto_focus: false,
-			noneditable_noneditable_class: 'fa',
 			plugins: [
-				'advlist autolink lists link image imagetools charmap preview hr anchor pagebreak',
-				'visualblocks code media nonbreaking save table contextmenu directionality',
-				'paste textcolor colorpicker textpattern noneditable',
+				'paste searchreplace autolink directionality code visualblocks image link media codesample table charmap hr anchor advlist lists imagetools textpattern noneditable charmap quickbars emoticons',
 			],
-			toolbar: [
-				'undo redo | styleselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify',
-				'responsivefilemanager image media | bullist numlist outdent indent | hr pagebreak | link | table | removeformat code',
-			],
-			insert_toolbar: 'quicktable image responsivefilemanager media',
-			selection_toolbar: 'bold italic | h2 h3 | blockquote quicklink',
-			contextmenu: 'inserttable | cell row column deletetable',
+			// toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | responsivefilemanager image media link anchor codesample | ltr rtl | code',
+			toolbar: false,
+			image_advtab: true,
+			image_caption: true,
+			quickbars_insert_toolbar:
+				'responsivefilemanager image media codesample hr quicktable',
+			quickbars_selection_toolbar:
+				'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | responsivefilemanager image media link charmap emoticons codesample code',
+			noneditable_noneditable_class: 'mceNonEditable',
+			contextmenu: 'inserttable | cell row column deletetable | code',
 			powerpaste_word_import: 'clean',
 			powerpaste_html_import: 'clean',
 			automatic_uploads: true,
@@ -62,6 +59,8 @@ export default function CustomBlock() {
 			images_upload_url: config.uploadUrl,
 			valid_elements: '*[*]',
 			end_container_on_empty_block: true,
+			relative_urls: true,
+			document_base_url: `${config.boardUrl}/`,
 			setup: editor => {
 				let $blockContainer;
 				let blockIsInactive = true;

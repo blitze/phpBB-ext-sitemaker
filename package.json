@@ -46,7 +46,7 @@
 		"jquery-ui-themes": "^1.12.0",
 		"jquery-ui-touch-punch": "^0.2.3",
 		"nestedSortable": "^1.3.4",
-		"tinymce": "^4.8.5",
+		"tinymce": "^5.1.0",
 		"twig": "^1.12.0"
 	},
 	"browserslist": [
