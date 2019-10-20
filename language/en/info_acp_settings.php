@@ -35,7 +35,7 @@ if (empty($lang) || !is_array($lang)) {
 // ’ » “ ” …
 //
 
-$strings = array(
+$lang = array_merge($lang, array(
 	'ACP_SITEMAKER'				=> 'SiteMaker',
 	'ACP_SM_SETTINGS'			=> 'Settings',
 
@@ -84,7 +84,7 @@ $strings = array(
 	'LAYOUT_PORTAL'				=> 'Portal',
 	'LAYOUT_PORTAL_ALT'			=> 'Portal (alt)',
 	'LAYOUT_SETTINGS'			=> 'Layout Settings',
-	
+
 	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Sitemaker blocks deleted for missing style with id %s',
 	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
 	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
@@ -98,6 +98,4 @@ $strings = array(
 	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
 	'SHOW_FORUM_NAV_EXPLAIN'	=> 'When a page is set as startpage instead of the forum index, should we display ’Forum’ in navigation bar',
 	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Yes - with icon:',
-);
-
-$lang = array_merge($lang, $strings);
+));

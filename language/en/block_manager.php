@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$strings = array(
+$lang = array_merge($lang, array(
 	'ADD_BLOCK_EXPLAIN'							=> '*Drag and Drop blocks',
 	'AJAX_ERROR'								=> 'Oops! There was an error processing your request. Please try again.',
 	'AJAX_LOADING'								=> 'Loading...',
@@ -116,6 +116,4 @@ $strings = array(
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
 	'VISIT_PAGE'								=> 'Visit Page',
-);
-
-$lang = array_merge($lang, $strings);
+));

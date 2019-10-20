@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$strings = array(
+$lang = array_merge($lang, array(
 	'ACP_MENU'					=> 'Menu',
 	'ACP_MENU_MANAGE'			=> 'Menu Management',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Here you can create and manage menus for your site',
@@ -91,6 +91,4 @@ $strings = array(
 	'UNSAVED_CHANGES'			=> 'You have unsaved changes',
 
 	'VISIT_PAGE'				=> 'Visit Page',
-);
-
-$lang = array_merge($lang, $strings);
+));
