@@ -47,7 +47,7 @@ class radio extends cfg_field_base
 	 */
 	public function build_radio(array $option_ary, $selected_item, $field)
 	{
-		$selected_items = cfg_utils::ensure_array($selected_items);
+		$selected_item = cfg_utils::ensure_array($selected_item);
 
 		$this->ptemplate->assign_vars(array(
 			'field'		=> $field,
