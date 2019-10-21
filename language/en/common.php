@@ -57,7 +57,6 @@ $lang = array_merge($lang, array(
 	'MY_BOOKMARKS'					=> 'My Bookmarks',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
-	'NO_NEW_POSTS'					=> 'There are no new posts to display',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 
 	'POLL'							=> 'Poll',

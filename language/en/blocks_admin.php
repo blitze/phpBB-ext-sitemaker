@@ -21,9 +21,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ADD'										=> 'Add',
 	'ALL_TYPES'									=> 'All Types',
-	'ALL_FORUMS'								=> 'All Forums',
 	'ALL_GROUPS'								=> 'All Groups',
 	'ARCHIVES'									=> 'Archives',
 	'AUTO_LOGIN'								=> 'Allow auto login?',
@@ -63,7 +61,6 @@ $lang = array_merge($lang, array(
 	'CACHE_DURATION'							=> 'Cache duration',
 	'CONTEXT'									=> 'Context',
 	'CSS_SCRIPTS'								=> 'CSS Scripts',
-	'CUSTOM_PROFILE_FIELDS'						=> 'Custom Profile Fields',
 
 	'DATE_RANGE'								=> 'Date Range',
 	'DISPLAY_PREVIEW'							=> 'Display Preview?',
@@ -132,7 +129,6 @@ $lang = array_merge($lang, array(
 	'OR'										=> '<strong>OR</strong>',
 	'ORDER_BY'									=> 'Order by',
 
-	'PIXEL'										=> 'px',
 	'POLL_FROM_FORUMS'							=> 'Display polls from forums(s)',
 	'POLL_FROM_FORUMS_EXPLAIN'					=> 'Only polls from the selected forums will be displayed as long as no topics are specified above',
 	'POLL_FROM_GROUPS'							=> 'Display polls from groups(s)',

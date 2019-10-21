@@ -68,8 +68,6 @@ $lang = array_merge($lang, array(
 	'ITEM_URL'					=> 'Item URL',
 	'ITEM_URL_EXPLAIN'			=> '- Leave empty for headings<br />- External sites must begin with http(s)://, ftp://, //, etc',
 
-	'LOADING'					=> 'Loading...',
-
 	'MENU_ITEMS'				=> 'Menu Items',
 
 	'NO_MENU_ITEMS'				=> 'No menu items have been created',
