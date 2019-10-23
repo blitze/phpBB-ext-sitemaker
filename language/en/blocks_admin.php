@@ -61,6 +61,7 @@ $lang = array_merge($lang, array(
 	'CACHE_DURATION'							=> 'Cache duration',
 	'CONTEXT'									=> 'Context',
 	'CSS_SCRIPTS'								=> 'CSS Scripts',
+	'CUSTOM_PROFILE_FIELDS'						=> 'Custom Profile Fields',
 
 	'DATE_RANGE'								=> 'Date Range',
 	'DISPLAY_PREVIEW'							=> 'Display Preview?',
