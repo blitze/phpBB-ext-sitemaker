@@ -73,16 +73,17 @@ class feeds extends block
 		$title = 'FEEDS';
 		$content = '';
 		$settings = $bdata['settings'];
-		$feed_urls = array_filter((array) $settings['feeds']);
+		$feed_urls = $this->get_feeds_array($settings['feeds']);
 
 		if (sizeof($feed_urls))
 		{
-			try
+			if ($items = $this->get_feed_items($feed_urls, $content, $settings['max'], $settings['cache']))
 			{
-				$template = $this->twig->createTemplate($this->get_template($settings['template']));
-
-				if ($items = $this->get_feed_items($feed_urls, $settings['max'], $settings['cache']))
+				// We try to render block with user-provided trig template
+				try
 				{
+					$template = $this->twig->createTemplate($this->get_template($settings['template']));
+
 					return array(
 						'title'		=> $title,
 						'content'	=> $template->render([
@@ -90,12 +91,10 @@ class feeds extends block
 						])
 					);
 				}
-
-				$content = $this->translator->lang('FEED_PROBLEMS');
-			}
-			catch (\Exception $e)
-			{
-				$content = $e->getMessage();
+				catch (\Exception $e)
+				{
+					$content = $e->getMessage();
+				}
 			}
 		}
 		else
@@ -107,39 +106,6 @@ class feeds extends block
 			'title'		=> $title,
 			'content'	=> ($edit_mode) ? $content : '',
 		);
-	}
-
-	/**
-	 * @param array $feed_urls
-	 * @param int $max
-	 * @param int $cache
-	 * @return array
-	 */
-	protected function get_feed_items(array $feed_urls, $max, $cache = 0, $items_per_feed = 0)
-	{
-		$items = [];
-		$feed_urls = array_filter(array_map('trim', $feed_urls));
-
-		if (sizeof($feed_urls))
-		{
-			$feed = new \blitze\sitemaker\services\simplepie\feed;
-			$feed->set_feed_url($feed_urls);
-			$feed->enable_cache((bool) $cache);
-			$feed->set_cache_location($this->cache_dir);
-			$feed->set_cache_duration($cache * 3600);
-
-			if ($items_per_feed)
-			{
-				$feed->set_item_limit($items_per_feed);
-			}
-
-			$feed->init();
-			$feed->handle_content_type();
-
-			$items = $feed->get_items(0, $max);
-		}
-
-		return $items;
 	}
 
 	/**
@@ -164,10 +130,12 @@ class feeds extends block
 		$this->translator->add_lang('feed_fields', 'blitze/sitemaker');
 
 		$feeds = $this->request->variable('feeds', array(0 => ''));
-		$feed_items = $this->get_feed_items($feeds, 0, 0, 1);
+		$feeds = $this->get_feeds_array($feeds);
 
+		$message = '';
 		$data = array('items' => []);
 		$fields = array('items' => $this->get_field_defaults('items'));
+		$feed_items = $this->get_feed_items($feeds, $message, 0, 0, 1);
 
 		foreach ($feed_items as $feed)
 		{
@@ -188,7 +156,51 @@ class feeds extends block
 		return [
 			'fields'	=> array_filter($fields),
 			'data'		=> array_filter($data),
+			'message'	=> $message,
 		];
+	}
+
+	/**
+	 * @param array $feed_urls
+	 * @param string $message
+	 * @param int $max
+	 * @param int $cache
+	 * @return array
+	 */
+	protected function get_feed_items(array $feed_urls, &$message, $max, $cache = 0, $items_per_feed = 0)
+	{
+		$items = [];
+
+		if (sizeof($feed_urls))
+		{
+			try
+			{
+				$feed = new \blitze\sitemaker\services\simplepie\feed;
+				$feed->set_feed_url($feed_urls);
+				$feed->enable_cache((bool) $cache);
+				$feed->set_cache_location($this->cache_dir);
+				$feed->set_cache_duration($cache * 3600);
+
+				if ($items_per_feed)
+				{
+					$feed->set_item_limit($items_per_feed);
+				}
+
+				$feed->init();
+				$feed->handle_content_type();
+
+				if (!($items = $feed->get_items(0, $max)))
+				{
+					$message = $this->translator->lang('FEED_PROBLEMS');
+				}
+			}
+			catch (\Exception $e)
+			{
+				$message = $e->getMessage();
+			}
+		}
+
+		return array_filter((array) $items);
 	}
 
 	/**
@@ -296,5 +308,14 @@ class feeds extends block
 			</li>
 			{% endfor %}
 		</ul>";
+	}
+
+	/**
+	 * @param mixed $feeds
+	 * @return array
+	 */
+	protected function get_feeds_array($feeds)
+	{
+		return array_map('trim', array_filter((array) $feeds));
 	}
 }

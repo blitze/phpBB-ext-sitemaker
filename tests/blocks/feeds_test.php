@@ -147,7 +147,7 @@ class feeds_test extends blocks_base
 				array(
 					'feeds'		=> ['https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss'],
 					'max'		=> 2,
-					'template'	=> '<p>{{ item.title </p>',
+					'template'	=> '<p>{{ item.title </p>',		// broken twig template
 				),
 				'',
 			),
@@ -156,7 +156,7 @@ class feeds_test extends blocks_base
 				array(
 					'feeds'		=> ['https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss'],
 					'max'		=> 2,
-					'template'	=> '<p>{{ item.title </p>',
+					'template'	=> '<p>{{ item.title </p>',		// broken twig template
 				),
 				'Unexpected token "operator" of value "/" in "__string_template__b00b7a3c2b740866fc9be8b17037943bfd4084a5bf8ca2daf6f6fe4ad561f493" at line 4.',
 			),
