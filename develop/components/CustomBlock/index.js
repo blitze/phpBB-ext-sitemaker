@@ -46,7 +46,7 @@ export default function CustomBlock() {
 			image_advtab: true,
 			image_caption: true,
 			quickbars_insert_toolbar:
-				'responsivefilemanager image media codesample hr quicktable',
+				'responsivefilemanager image media codesample hr quicktable code',
 			quickbars_selection_toolbar:
 				'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | responsivefilemanager image media link charmap emoticons codesample code',
 			noneditable_noneditable_class: 'mceNonEditable',
