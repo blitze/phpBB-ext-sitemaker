@@ -36,16 +36,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-/*
-* These are errors which can be triggered by sending invalid data to the
-* boardrules extension API.
-*
-* These errors will never show to a user unless they are either modifying
-* the core boardrules extension code OR unless they are writing an extension
-* which makes calls to this extension.
-*
-* Translators: Feel free to not translate these language strings
-*/
 $lang = array_merge($lang, array(
 	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
 	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
