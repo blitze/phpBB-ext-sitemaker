@@ -27,7 +27,7 @@ class settings
 	protected $config_template;
 
 	/** @var string */
-	protected $config_version = '3.1.1';
+	protected $config_version = '3.2.0';
 
 	/** @var array */
 	protected $filemanager_prop_types = array(
