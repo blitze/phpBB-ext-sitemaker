@@ -6,7 +6,7 @@ import './style.scss';
 const { actions } = window;
 
 export default function SidebarWidth(getPositionName: Function): string {
-	const defaultColSize = '200px';
+	const defaultColWidth = 200;
 	let timeOut;
 
 	/**
@@ -15,34 +15,32 @@ export default function SidebarWidth(getPositionName: Function): string {
 	 */
 	function getWidthParts(width: string): [] {
 		const matches = width.match(/(^\d+\.?\d?)([a-z%]+$)?/i);
-		const [, size = 200, unit = 'px'] = matches || [];
+		const [, size = defaultColWidth, unit = ''] = matches || [];
 		return [+size, unit];
 	}
 
 	/**
 	 * @param {jQuery} $sidebar
 	 * @param {jQuery} $input
-	 * @param {string} width
+	 * @param {number} width
+	 * @param {string} unit
 	 */
-	function save($sidebar: jQuery, $input: jQuery, width: string): void {
+	function save($sidebar: jQuery, $input: jQuery, width: number, unit: string): void {
 		clearTimeout(timeOut);
 		timeOut = setTimeout(() => {
 			const data = {
 				position: getPositionName($sidebar),
-				width,
+				width: `${width}${unit || 'px'}`,
 			};
 
 			$.post(actions.update_column_width, data);
-			$input.val(width);
-		}, 1000);
+			$input.val(`${width}${unit}`);
+		}, 500);
 	}
 
-	$('.column-sizer').each((i, el) => {
-		let stepTimer;
-		let colUnit;
-		let colWidth = 0;
+	$('.column-sizer').each((i, element) => {
 
-		const $columnSizeInput = $(el).find('.column-size-input');
+		const $columnSizeInput = $(element).find('.column-size-input');
 		const $sidebar = $columnSizeInput.closest('.sidebar');
 
 		/**
@@ -51,30 +49,33 @@ export default function SidebarWidth(getPositionName: Function): string {
 		function render($input: jQuery): void {
 			const inputSize = $input.val();
 			const [width, unit] = getWidthParts(inputSize);
-			const size = width > 0 ? `${width}${unit}` : defaultColSize;
-			$sidebar.css('width', size);
-			save($sidebar, $input, size);
+			const colWidth = width > 0 ? width : defaultColWidth;
+
+			$sidebar.css('width', `${colWidth}${unit}`);
+			save($sidebar, $input, colWidth, unit);
 		}
+
+		let stepTimer;
+		let colWidth = 0;
 
 		$columnSizeInput.keyup(e => render($(e.target)));
 
-		$(el)
+		$(element)
 			.find('.stepper')
 			.mouseup(() => clearInterval(stepTimer))
 			.mousedown(e => {
-				e.preventDefault();
 				const $input = $columnSizeInput.find('input');
 				const widthVal = $input.val();
 				const [width, unit] = getWidthParts(widthVal);
 				const step = $(e.target).hasClass('increment') ? 1 : -1;
 
+				e.preventDefault();
 				colWidth = width;
-				colUnit = colUnit || unit;
 
 				const columnSizer = () => {
 					colWidth += step;
 					if (colWidth > 0) {
-						const size = `${colWidth}${colUnit}`;
+						const size = `${colWidth}${unit}`;
 						render($input.val(size));
 					}
 				};
