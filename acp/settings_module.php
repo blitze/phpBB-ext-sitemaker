@@ -283,7 +283,6 @@ class settings_module
 
 		if (sizeof($settings))
 		{
-			$settings['aviary_active'] = ($settings['aviary_apiKey']) ? 'true' : 'false';
 			$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
 			unset($settings['image_watermark_coordinates']);
 

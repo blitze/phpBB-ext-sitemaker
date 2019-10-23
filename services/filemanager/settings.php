@@ -41,8 +41,6 @@ class settings
 		'image_watermark'			=> 'string',
 		'image_watermark_position'	=> 'string',
 		'image_watermark_padding'	=> 'integer',
-		'aviary_apiKey'				=> 'string',
-		'aviary_active'				=> 'boolean',
 	);
 
 	/**
