@@ -41,6 +41,13 @@ $lang = array_merge($lang, array(
 	'ACP_SITEMAKER'				=> 'SiteMaker',
 	'ACP_SM_SETTINGS'			=> 'Settings',
 
+	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
+	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
+	'BLOCKS_CLEANUP_BLOCKS'		=> 'Invalid Blocks (e.g. from uninstalled extensions):',
+	'BLOCKS_CLEANUP_ROUTES'		=> 'Unreachable/broken Pages:',
+	'BLOCKS_CLEANUP_STYLES'		=> 'Uninstalled Styles (ids):',
+	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
+
 	'FILEMANAGER_SETTINGS'						=> 'File Manager Settings',
 	'FILEMANAGER_STATUS'						=> 'Status',
 	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/docs/en/filemanager.md" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',

@@ -13,6 +13,37 @@
 
 <a data-fancybox data-type="iframe" class="pull-right" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ sm_user_lang }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a>
 
+{% if BLOCKS_CLEANUP %}
+
+<h1>{{ lang('BLOCKS_CLEANUP') }}</h1>
+
+<form id="blocks_cleanup" method="post" action="{{ u_action }}">
+	<fieldset>
+		<p>{{ lang('BLOCKS_CLEANUP_EXPLAIN') }}</p>
+		<ul class="sm-list">
+		{% for component, orphans in orphaned_blocks %}
+			{% if component === 'styles' %}
+				{% set orphans = orphans|map(id => '<a href="./index.php' ~ SID ~ '&i=acp_styles&mode=style&action=details&id=' ~ id ~ '" target="_blank">' ~ id ~ '</a>') %}
+			{% elseif component === 'routes' %}
+				{% set orphans = orphans|map(url => '<a href="' ~ url ~ '" target="_blank">' ~ url ~ '</a>') %}
+			{% endif %}
+			<li>
+				<label><input type="checkbox" name="cleanup[]" value="{{ component }}" checked="checked"> <strong>{{ lang('BLOCKS_CLEANUP_' ~ component|upper) }}</strong></label><br />
+				<ul class="sm-list">
+					<li>{{ orphans|join('</li><li>') }}</li>
+				</ul>
+				
+			</li>
+		{% endfor %}
+		</ul>
+        <p class="submit-buttons">
+        	{{ S_FORM_TOKEN }}
+            <input class="button1" type="submit" id="submit" name="orphans" value="{{ lang('CONFIRM') }}" />
+        </p>
+	</fieldset>
+</form>
+{% endif %}
+
 <h1>{{ lang('SETTINGS') }}</h1>
 
 <form id="acp_settings" method="post" action="{{ u_action }}">

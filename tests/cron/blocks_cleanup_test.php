@@ -9,14 +9,8 @@
 
 namespace blitze\sitemaker\tests\cron;
 
-use blitze\sitemaker\cron\blocks_cleanup;
-use blitze\sitemaker\services\blocks\manager;
-
 class blocks_cleanup_test extends \phpbb_database_test_case
 {
-	protected $block_mapper;
-	protected $config;
-
 	protected $task_name = 'blitze.sitemaker.cron.blocks_cleanup';
 
 	/**
@@ -81,73 +75,13 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 	 */
 	protected function create_blocks_cleanup_cron_task()
 	{
-		global $cache, $request;
+		$config = new \phpbb\config\config(array());
 
-		$table_prefix = 'phpbb_';
-		$blocks_table = $table_prefix . 'sm_blocks';
-		$block_routes_table = $table_prefix . 'sm_block_routes';
-		$custom_blocks_table = $table_prefix . 'sm_cblocks';
-
-		$db = $this->new_dbal();
-
-		$request = $this->getMock('\phpbb\request\request_interface');
-
-		$this->config = new \phpbb\config\config(array(
-			'sitemaker_column_widths'	=> json_encode(array(
-				1	=> array(
-					'sidebar'		=> '200px',
-					'subcontent'	=> '20%',
-				),
-				2	=> array(
-					'sidebar'		=> '300px',
-				),
-			)),
-
-			// these config vars are set in migrations upon install
-			'sitemaker_blocks_cleanup_last_gc'	=> 0,
-			'sitemaker_blocks_cleanup_gc'		=> 604800
-		));
-
-		$cache = new \phpbb_mock_cache();
-
-		$blocks_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
+		$this->blocks_cleaner = $this->getMockBuilder('\blitze\sitemaker\services\blocks\cleaner')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$blocks_factory->expects($this->any())
-			->method('get_block')
-			->will($this->returnCallback(function($service_name) {
-				return ($service_name === 'blitze.sitemaker.blocks.stats') ? true : false;
-			}));
-
-		$tables = array(
-			'mapper_tables'	=> array(
-				'blocks'	=> $blocks_table,
-				'routes'	=> $block_routes_table
-			)
-		);
-
-		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
-
-		$this->block_mapper = $mapper_factory->create('blocks');
-
-		$log = $this->getMockBuilder('\phpbb\log\log')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$blocks_manager = new manager($cache, $log, $blocks_factory, $mapper_factory);
-
-		$url = $this->getMockBuilder('\blitze\sitemaker\services\url_checker')
-			->getMock();
-
-		$url->expects($this->any())
-			->method('exists')
-			->will($this->returnCallback(function($url) {
-				$url = str_replace('http://', '', $url);
-				return in_array($url, array('index.php', 'app.php/foo/test')) ? true : false;
-			}));
-
-		$task = new blocks_cleanup($this->config, $db, $blocks_manager, $url, $blocks_table, $custom_blocks_table);
+		$task = new \blitze\sitemaker\cron\blocks_cleanup($config, $this->blocks_cleaner);
 
 		// this is normally called automatically in the yaml service config
 		// but we have to do it manually here
@@ -175,32 +109,13 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 
 		// the task should be ready to run initially
 		$this->assertTrue($task->should_run());
-
-		// We start out with 5 blocks (see fixtures)
-		// 4 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
-		$blocks = $this->block_mapper->find();
-		$this->assertEquals(5, count($blocks));
-
 		$this->assertTrue($task->is_runnable());
+
+		$this->blocks_cleaner->expects($this->once())
+			->method('test');
 
 		// run the task
 		$task->run();
-
-		// After run cron trask, we should end up with just 2 blocks
-		$blocks = $this->block_mapper->find();
-		$this->assertEquals(2, count($blocks));
-
-		// confirm we have the expected blocks ids
-		$this->assertEquals(array(1, 2), array_keys($blocks->get_entities()));
-
-		// column widths for non-existing style should be gone
-		$this->assertEquals(array(
-			1 => array(
-				'sidebar'		=> '200px',
-				'subcontent'	=> '20%',
-			)),
-			json_decode($this->config['sitemaker_column_widths'], true)
-		);
 
 		// after successful run, the task should not be ready to run again until enough time has elapsed
 		$this->assertFalse($task->should_run());

@@ -1,13 +1,15 @@
 # Changelog
 
-## 3.2.0 - 2019-4-10
+## 3.2.0 - 2019-10-26
 
 - Switched from Bower/Gulp workflow to npm/yarn/babel/webpack
 - [feature] Use code splitting and dynamic imports to reduce js/css bundle sizes (webpack)
 - [feature] Added Google maps block
 - [feature] Added RSS/Atom feeds block with ability to set display template (uses simplepie)
 - [feature] Added block modifiers to enforce image aspect ratio (1x1, 4x3, 16x9)
-- Upgraded to Tinymce 4.9.4
+- [feature] We no longer automatically delete orphaned blocks/routes/styles via cron as there are false positives. Give admin control over orphaned blocks
+- Upgraded to Tinymce 5
+- Switch Tinymce to distraction free mode
 - Display Tinymce in users language if translation is available
 - Upgraded to support Responsive Filemanager 9.14.0
 - Ensure Admin Bar and menu items are fully responsive
