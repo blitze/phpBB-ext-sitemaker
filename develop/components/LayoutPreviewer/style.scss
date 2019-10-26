@@ -11,7 +11,7 @@
 	}
 }
 
-.layout-preview {
+.layout-small-preview {
 	float: left;
 	width: 20%;
 	max-width: 400px;
@@ -19,24 +19,24 @@
 	img {
 		max-width: 100%;
 	}
+}
 
-	.larger-view {
-		position: absolute;
-		visibility: hidden;
-		left: -2000px;
-		top: -100px;
-		border: 5px solid #666666;
-		border-radius: 5px;
-		z-index: 2000;
-		max-width: 80%;
-		opacity: 0;
-		transition: visibility 0s linear 0.5s, opacity 0.5s linear;
-	}
+.layout-large-preview {
+	position: absolute;
+    left: 0;
+	top: 0;
+	opacity: 0;
+	visibility: hidden;
+    overflow: hidden;
+    border: 5px solid #666;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 80%;
+	transition: opacity 500ms linear, visibility 0s linear 500ms;
+}
 
-	&:hover .larger-view {
-		visibility: visible;
-		opacity: 1;
-		transition-delay: 0s;
-		left: 0;
-	}
+.show {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 500ms linear, visibility 0s linear;
 }

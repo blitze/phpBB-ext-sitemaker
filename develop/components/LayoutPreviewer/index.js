@@ -1,27 +1,33 @@
 /* global $ */
 import './style.scss';
 
-let $preview;
+let $smallPreview;
+let $largePreview;
 let currPreview = '';
 const defaultPreview = './images/spacer.gif';
 
-function showPreview(layout) {
+function showSmallPreview(layout) {
 	if (layout !== currPreview) {
-		$preview.error(() => {
-			$preview.attr('src', defaultPreview);
+		$smallPreview.error(() => {
+			$smallPreview.attr('src', defaultPreview);
 		});
-		$preview.attr('src', `${layout}preview.png`);
+		const src = `${layout}preview.png`;
+		$smallPreview.attr('src', src);
+		$largePreview.attr('src', src);
 		currPreview = layout;
 	}
 }
 
 export default function LayoutPreviewer() {
-	$preview = $('.layout-preview').find('img');
+	$largePreview = $('.layout-large-preview').find('img');
+	$smallPreview = $('.layout-small-preview').find('img').hover(() => {
+		$largePreview.parent().toggleClass('show');
+	});
 
 	$('.style-layouts > dl')
 		.hover(e => {
 			const layout = $(e.currentTarget).data('layout');
-			showPreview(layout);
+			showSmallPreview(layout);
 		})
 		.find('.layout-option')
 		.change(e => {
