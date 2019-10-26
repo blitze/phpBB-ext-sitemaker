@@ -1,4 +1,9 @@
 /* global $ */
+import 'jquery-ui/ui/widgets/tabs';
+import 'jquery-ui/themes/base/core.css';
+import 'jquery-ui/themes/base/theme.css';
+import 'jquery-ui/themes/base/tabs.css';
+
 import 'codemirror/mode/twig/twig';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
@@ -226,6 +231,10 @@ export default function Feeds(
 
 	$dialogDiv.on('input', '.sm-multi-input-item input', getFields);
 	$dialogDiv.on('click', '.sm-multi-input-delete', getFields);
+	$dialogDiv.find('#sm-feeds-tabs').tabs({
+		active: false,
+		collapsible: true,
+	});
 
 	getFields();
 }

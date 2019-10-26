@@ -77,8 +77,17 @@ $lang = array_merge($lang, array(
 
 	'FEATURED_MEMBER_IDS'						=> 'User IDs',
 	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
+	'FEED_DATA_PREVIEW'							=> 'Feed Data',
 	'FEED_ITEM_TEMPLATE'						=> 'Item Template',
-	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />- Access feed data in <strong>item</strong> variable e.g. item.title<br />- Click <strong>Samples</strong> above for sample templates<br />- Template must be in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntax</a>',
+	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />
+		<ul class="sm-list">
+			<li>Access feed data in <strong>item</strong> variable e.g. item.title</li>
+			<li>Template must be in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntax</a></li>
+			<li>Click <strong>Samples</strong> above for sample templates</li>
+			<li>Use <code>get_item_tags(<a href="http://simplepie.org/wiki/faq/supported_xml_namespaces" target="_blank">$namespace</a>, $tag)</code> to get any tag from the feed that we do not provide e.g.<br /><strong><code>{{ get_item_tags(\'\', \'image\') }}</code></strong></li>
+			<li>Use Twig’s json_encode filter to see contents of array e.g. <strong><code>{{ get_item_tags(\'\', \'image\')|json_encode() }}</code></strong></li>
+		</ul>',
+	'FEED_PREVIEW_SOURCE'						=> 'Source',
 	'FEED_URL_PLACEHOLDER'						=> 'http://example.com/rss',
 	'FEED_URLS'									=> 'Feed URLs',
 	'FIRST_POST_ONLY'							=> 'First Post Only',
