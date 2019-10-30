@@ -20,9 +20,11 @@ function showSmallPreview(layout) {
 
 export default function LayoutPreviewer() {
 	$largePreview = $('.layout-large-preview').find('img');
-	$smallPreview = $('.layout-small-preview').find('img').hover(() => {
-		$largePreview.parent().toggleClass('show');
-	});
+	$smallPreview = $('.layout-small-preview')
+		.find('img')
+		.hover(() => {
+			$largePreview.parent().toggleClass('show');
+		});
 
 	$('.style-layouts > dl')
 		.hover(e => {

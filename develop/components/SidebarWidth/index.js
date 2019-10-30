@@ -25,7 +25,12 @@ export default function SidebarWidth(getPositionName: Function): string {
 	 * @param {number} width
 	 * @param {string} unit
 	 */
-	function save($sidebar: jQuery, $input: jQuery, width: number, unit: string): void {
+	function save(
+		$sidebar: jQuery,
+		$input: jQuery,
+		width: number,
+		unit: string,
+	): void {
 		clearTimeout(timeOut);
 		timeOut = setTimeout(() => {
 			const data = {
@@ -39,7 +44,6 @@ export default function SidebarWidth(getPositionName: Function): string {
 	}
 
 	$('.column-sizer').each((i, element) => {
-
 		const $columnSizeInput = $(element).find('.column-size-input');
 		const $sidebar = $columnSizeInput.closest('.sidebar');
 
