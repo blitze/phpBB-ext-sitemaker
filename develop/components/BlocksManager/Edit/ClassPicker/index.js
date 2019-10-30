@@ -16,6 +16,10 @@ export default function ClassPicker(
 				actionBtnsSelector: '.sm-class-editor-button',
 			});
 		},
+		close: () => {
+			$dialogEdit.off('click', '.class-cat');
+			$dialogEdit.off('click', '.transform');
+		},
 	});
 
 	$dialogEdit
@@ -24,7 +28,7 @@ export default function ClassPicker(
 
 			const id = $(this).attr('href');
 			const $scroller = $('#classes-scroller');
-			$scroller.animate(
+			$scroller.stop().animate(
 				{
 					scrollTop: $scroller.scrollTop() + $(id).position().top,
 				},
