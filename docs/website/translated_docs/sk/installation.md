@@ -2,6 +2,7 @@
 id: installation
 title: Installing / Upgrading
 ---
+
 Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
 ## Installing phpBB SiteMaker
