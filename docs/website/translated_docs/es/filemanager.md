@@ -2,6 +2,7 @@
 id: filemanager
 title: Responsive Filemanager
 ---
+
 As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
 * The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
