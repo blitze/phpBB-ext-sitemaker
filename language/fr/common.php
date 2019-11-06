@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$strings = array(
+$lang = array_merge($lang, array(
 	'ALL_TIME'						=> 'All Time',
 
 	'BLOCK_TITLE'					=> 'Block Title',
@@ -57,7 +57,6 @@ $strings = array(
 	'MY_BOOKMARKS'					=> 'My Bookmarks',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
-	'NO_NEW_POSTS'					=> 'There are no new posts to display',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 
 	'POLL'							=> 'Poll',
@@ -93,6 +92,4 @@ $strings = array(
 	'WELCOME'						=> 'Welcome',
 	'WHATS_NEW'						=> 'What’s New?',
 	'WORDGRAPH'						=> 'Wordgraph',
-);
-
-$lang = array_merge($lang, $strings);
+));
