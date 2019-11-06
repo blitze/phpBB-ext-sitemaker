@@ -2,6 +2,7 @@
 id: blocks-inheritance
 title: Understanding Block Inheritance
 ---
+
 We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
 
 ## Parent/Child Routes
