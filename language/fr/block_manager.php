@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$strings = array(
+$lang = array_merge($lang, array(
 	'ADD_BLOCK_EXPLAIN'							=> '*Drag and Drop blocks',
 	'AJAX_ERROR'								=> 'Oops! There was an error processing your request. Please try again.',
 	'AJAX_LOADING'								=> 'Loading...',
@@ -50,7 +50,6 @@ $strings = array(
 	'CHILD_ROUTE'								=> 'Child',
 	'CHILD_ROUTE_EXPLAIN'						=> '/viewforum.php, /dir/index.php<br />/viewtopic.php?f=2&t=1<br />/articles/my-article',
 	'CLEAR'										=> 'Clear',
-	'COLUMN_WIDTH_EXPLAIN'						=> "Hit enter/return to save",
 	'COPY'										=> 'Copy',
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
@@ -73,7 +72,7 @@ $strings = array(
 	'FIELD_TOO_LONG'							=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
 	'FIELD_TOO_SHORT'							=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
 
-	'HIDE_ALL_BLOCKS'							=> 'N\'afficher pas des blocs sur cette page',
+	'HIDE_ALL_BLOCKS'							=> 'Do not show blocks on this page',
 	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions:',
 
 	'IMAGES'									=> 'Images',
@@ -116,6 +115,4 @@ $strings = array(
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
 	'VISIT_PAGE'								=> 'Visit Page',
-);
-
-$lang = array_merge($lang, $strings);
+));
