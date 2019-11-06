@@ -35,18 +35,8 @@ if (empty($lang) || !is_array($lang))
 // Some characters you may want to copy&paste:
 // ’ » “ ” …
 //
-
-/*
-* These are errors which can be triggered by sending invalid data to the
-* boardrules extension API.
-*
-* These errors will never show to a user unless they are either modifying
-* the core boardrules extension code OR unless they are writing an extension
-* which makes calls to this extension.
-*
-* Translators: Feel free to not translate these language strings
-*/
-$strings = array(
+//
+$lang = array_merge($lang, array(
 	'LIST_FLAT'				=> 'Flat list',
 	'LIST_ARROW'			=> 'Arrow list marker',
 	'LIST_CIRCLE'			=> 'Circle list marker',
@@ -99,6 +89,4 @@ $strings = array(
 	'SUCCESS_COLOR'			=> 'Success',
 	'WARNING_COLOR'			=> 'Warning',
 	'DANGER_COLOR'			=> 'Danger',
-);
-
-$lang = array_merge($lang, $strings);
+));
