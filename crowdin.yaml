@@ -2,6 +2,7 @@ project_identifier_env: CROWDIN_SITEMAKER_PROJECT_ID
 api_key_env: CROWDIN_SITEMAKER_API_KEY
 base_path: ./
 preserve_hierarchy: true
+commit_message: "[ci skip]"
 files:
   -
     source: '/docs/docs/*.md'
