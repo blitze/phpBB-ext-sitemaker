@@ -2,6 +2,7 @@
 id: site-layouts
 title: Layouts
 ---
+
 "Layouts" determine the available block positions and how they are displayed.
 
 ## Block Positions
