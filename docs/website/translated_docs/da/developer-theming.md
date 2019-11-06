@@ -2,6 +2,7 @@
 id: developer-theming
 title: Theming
 ---
+
 phpBB SiteMaker comes with styles and colors made for prosilver. You can overwrite CSS, JS, and HTML files by creating the corresponding file in your style's folder.
 
 # Creating JS/CSS files for your style
