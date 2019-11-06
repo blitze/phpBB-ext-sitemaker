@@ -2,6 +2,7 @@
 id: developer-extensions
 title: Extending phpBB SiteMaker
 ---
+
 You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
 
 ## Creating a SiteMaker block
