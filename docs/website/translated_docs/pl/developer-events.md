@@ -2,6 +2,7 @@
 id: developer-events
 title: phpBB SiteMaker Events
 ---
+
 You can modify the behavior of phpBB SiteMaker using phpBB's event system.
 
 ## PHP Events
