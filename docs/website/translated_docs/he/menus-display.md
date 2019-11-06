@@ -2,6 +2,7 @@
 id: menus-display
 title: Displaying Menus
 ---
+
 Now that you have create your menus, you can display them in several ways:
 
 ## Links Block
