@@ -2,6 +2,7 @@
 id: menus-managing
 title: Managing Menus
 ---
+
 You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
 ## Managing Menus
