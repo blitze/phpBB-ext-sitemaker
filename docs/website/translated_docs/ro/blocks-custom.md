@@ -2,6 +2,7 @@
 id: blocks-custom
 title: Custom Block
 ---
+
 If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
 
 ## The editor
@@ -15,7 +16,7 @@ If the available blocks do not give you the freedom you need, there is the `Cust
 
 ## The File Manager
 
-The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders * You can edit images using Aviary online editor
+The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
 
 ## The Scripts Manager
 
