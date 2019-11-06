@@ -2,6 +2,7 @@
 id: menus-managing-items
 title: Managing Menu Items
 ---
+
 Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
 
 > The URL for external sites must begin with http(s)://, ftp://, //, etc.
