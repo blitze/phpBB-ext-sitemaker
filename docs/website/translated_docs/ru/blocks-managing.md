@@ -2,6 +2,7 @@
 id: blocks-managing
 title: Managing Blocks
 ---
+
 To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
 
 > When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
