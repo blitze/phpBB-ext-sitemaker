@@ -46,7 +46,7 @@ if (empty($lang) || !is_array($lang))
 *
 * Translators: Feel free to not translate these language strings
 */
-$strings = array(
+$lang = array_merge($lang, array(
 	'AUTHOR'			=> 'author',
 	'AUTHORS'			=> 'authors (array)',
 	'BITRATE'			=> 'bitrate',
@@ -105,6 +105,4 @@ $strings = array(
 	'UPDATED_GMDATE'	=> 'updated GM date',
 	'VALUE'				=> 'value',
 	'WIDTH'				=> 'width',
-);
-
-$lang = array_merge($lang, $strings);
+));
