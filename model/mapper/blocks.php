@@ -85,8 +85,8 @@ class blocks extends base_mapper
 			SET weight = weight + 1
 			WHERE weight >= ' . (int) $entity->get_weight() . '
 				AND route_id = ' . (int) $entity->get_route_id() . '
-				AND position = "' . $entity->get_position() . '"
-				AND style = ' . (int) $entity->get_style();
+				AND style = ' . (int) $entity->get_style() . "
+				AND position = '" . $this->db->sql_escape($entity->get_position()) . "'";
 		$this->db->sql_query($sql);
 	}
 }
