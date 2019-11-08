@@ -131,8 +131,9 @@ class routes
 		// if block has own settings but no blocks, inherit route_id and has_blocks from parent route if it exists
 		if (empty($route_info['has_blocks']))
 		{
-			unset($route_info['route_id'], $route_info['has_blocks']);
-			$route_info += $this->get_parent_route($routes, $current_route, $page_dir);
+			$parent_route_info = $this->get_parent_route($routes, $current_route, $page_dir);
+			$route_info['route_id'] = $parent_route_info['route_id'];
+			$route_info['has_blocks'] = $parent_route_info['has_blocks'];
 		}
 
 		// fill in missing fields, while forcing route and style props to current route and style
