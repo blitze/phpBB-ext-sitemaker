@@ -52,9 +52,10 @@ class blocks extends base_mapper
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function insert(\blitze\sitemaker\model\entity\block $entity)
+	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		// do we have other existing blocks for route at this position?
+		/** @type \blitze\sitemaker\model\entity\block $entity */
 		$collection = $this->find(array(
 			array('route_id', '=', $entity->get_route_id()),
 			array('style', '=', $entity->get_style()),
