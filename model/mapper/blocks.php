@@ -52,7 +52,7 @@ class blocks extends base_mapper
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
+	protected function insert(\blitze\sitemaker\model\entity\block $entity)
 	{
 		// do we have other existing blocks for route at this position?
 		$collection = $this->find(array(
@@ -76,11 +76,10 @@ class blocks extends base_mapper
 	}
 
 	/**
-	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @param \blitze\sitemaker\model\entity\block $entity
 	 */
-	protected function move_blocks_down(\blitze\sitemaker\model\entity_interface $entity)
+	protected function move_blocks_down(\blitze\sitemaker\model\entity\block $entity)
 	{
-		/** @type \blitze\sitemaker\model\entity\block $entity */
 		$sql = 'UPDATE ' . $this->entity_table . '
 			SET weight = weight + 1
 			WHERE weight >= ' . (int) $entity->get_weight() . '
