@@ -65,23 +65,25 @@ abstract class base_action implements action_interface
 	 * This is guaranteed to return a route entity. If the route does not exist, it create it
 	 *
 	 * @param array $route_data
-	 * @param bool  $has_blocks
+	 * @param bool  $force_has_blocks
 	 * @return \blitze\sitemaker\model\entity_interface
 	 */
-	protected function force_get_route(array $route_data, $has_blocks = false)
+	protected function force_get_route(array $route_data, $force_has_blocks = false)
 	{
 		$route_mapper = $this->mapper_factory->create('routes');
 
-		if (($route = $route_mapper->load($this->get_condition($route_data))) === null)
+		if (($entity = $route_mapper->load($this->get_condition($route_data))) === null)
 		{
 			$route_data['ext_name'] = $this->request->variable('ext', '');
-			$route_data['has_blocks'] = $has_blocks;
-
 			$entity = $route_mapper->create_entity($route_data);
-			$route = $route_mapper->save($entity);
 		}
 
-		return $route;
+		if ($force_has_blocks)
+		{
+			$entity->set_has_blocks(true);
+		}
+
+		return $route_mapper->save($entity);
 	}
 
 	/**

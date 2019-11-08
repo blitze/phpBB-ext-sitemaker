@@ -21,9 +21,9 @@ class add_block_test extends base_action
 	{
 		return array(
 			array(
+				'index.php',
 				array(
 					array('block', '', false, request_interface::REQUEST, 'my.foo.block'),
-					array('route', '', false, request_interface::REQUEST, 'index.php'),
 					array('position', '', false, request_interface::REQUEST, 'sidebar'),
 					array('weight', 0, false, request_interface::REQUEST, 0),
 				),
@@ -35,13 +35,35 @@ class add_block_test extends base_action
 					'content'	=> 'foo block content',
 					'class'		=> '',
 					'settings'	=> array(),
-					'view'		=> 'boxed',
-				)
+					'view'		=> '',
+				),
+				array(
+					'route_id'		=> 1,
+					'route'			=> 'index.php',
+					'has_blocks'	=> true,
+					'blocks'		=> array(
+						8 => array(
+							'name'		=> 'my.foo.block',
+							'position'	=> 'sidebar',
+							'weight'	=> 0,
+						),
+						1 => array(
+							'name'		=> 'my.baz.block',
+							'position'	=> 'sidebar',
+							'weight'	=> 1,
+						),
+						4 => array(
+							'name'		=> 'my.empty.block',
+							'position'	=> 'top',
+							'weight'	=> 0,
+						),
+					),
+				),
 			),
 			array(
+				'viewforum.php?f=1',
 				array(
 					array('block', '', false, request_interface::REQUEST, 'my.baz.block'),
-					array('route', '', false, request_interface::REQUEST, 'viewforum.php?f=1'),
 					array('position', '', false, request_interface::REQUEST, 'sidebar'),
 					array('weight', 0, false, request_interface::REQUEST, 1),
 				),
@@ -59,12 +81,24 @@ class add_block_test extends base_action
 						'other_setting'	=> 0,
 					),
 					'view'		=> 'simple'
-				)
+				),
+				array(
+					'route_id'		=> 6,
+					'route'			=> 'viewforum.php?f=1',
+					'has_blocks'	=> true,
+					'blocks'		=> array(
+						8 => array(
+							'name'		=> 'my.baz.block',
+							'position'	=> 'sidebar',
+							'weight'	=> 0,
+						),
+					),
+				),
 			),
 			array(
+				'app.php/foo/foo',
 				array(
 					array('block', '', false, request_interface::REQUEST, 'my.empty.block'),
-					array('route', '', false, request_interface::REQUEST, 'app.php/foo/foo'),
 					array('position', '', false, request_interface::REQUEST, 'sidebar'),
 					array('weight', 0, false, request_interface::REQUEST, 0),
 				),
@@ -79,7 +113,51 @@ class add_block_test extends base_action
 					'class'		=> ' sm-inactive',
 					'settings'	=> array(),
 					'view'		=> 'basic'
-				)
+				),
+				array(
+					'route_id'		=> 6,
+					'route'			=> 'app.php/foo/foo',
+					'has_blocks'	=> true,
+					'blocks'		=> array(
+						8 => array(
+							'name'		=> 'my.empty.block',
+							'position'	=> 'sidebar',
+							'weight'	=> 0,
+						),
+					),
+				),
+			),
+			array(
+				'search.php',
+				array(
+					array('block', '', false, request_interface::REQUEST, 'my.foo.block'),
+					array('position', '', false, request_interface::REQUEST, 'top'),
+					array('weight', 0, false, request_interface::REQUEST, 2),
+				),
+				array(
+					'view' => 'basic',
+				),
+				array(
+					'id'		=> 8,
+					'route_id'	=> 4,
+					'title'		=> 'I am foo block',
+					'content'	=> 'foo block content',
+					'class'		=> '',
+					'settings'	=> array(),
+					'view'		=> 'basic'
+				),
+				array(
+					'route_id'		=> 4,
+					'route'			=> 'search.php',
+					'has_blocks'	=> true,
+					'blocks'		=> array(
+						8 => array(
+							'name'		=> 'my.foo.block',
+							'position'	=> 'top',
+							'weight'	=> 0,
+						),
+					),
+				),
 			),
 		);
 	}
@@ -88,24 +166,25 @@ class add_block_test extends base_action
 	 * Test add block
 	 *
 	 * @dataProvider add_block_test_data
+	 * @param string $route
 	 * @param array $variable_map
 	 * @param array $config_text
-	 * @param array $expected
+	 * @param array $expected_return
+	 * @param array $expected_route_info
 	 */
-	public function test_add_block(array $variable_map, array $config_text, array $expected)
+	public function test_add_block($route, array $variable_map, array $config_text, array $expected_return, array $expected_route_info)
 	{
+		$variable_map[] = array('route', '', false, request_interface::REQUEST, $route);
+
 		$command = $this->get_command('add_block', $variable_map);
 
 		$style_id = 1;
-		if (sizeof($config_text))
-		{
-			$data[$style_id] = $config_text;
-			$this->config_text->set('sm_layout_prefs', json_encode($data));
-		}
+		$data[$style_id] = $config_text;
+		$this->config_text->set('sm_layout_prefs', json_encode($data));
 
 		$result = $command->execute($style_id);
 
-		$actual = array(
+		$this->assertEquals($expected_return, array(
 			'id'		=> $result['bid'],
 			'route_id'	=> $result['route_id'],
 			'title'		=> $result['title'],
@@ -113,9 +192,32 @@ class add_block_test extends base_action
 			'class'		=> $result['class'],
 			'settings'	=> $result['settings'],
 			'view'		=> $result['view'],
-		);
+		));
 
-		$this->assertSame($expected, $actual);
+		$mapper = $this->mapper_factory->create('routes');
+
+		$actual_route_info = [];
+		if ($entity = $mapper->load(array('route', '=', $route)))
+		{
+			$actual_route_info = array(
+				'route_id'		=> $entity->get_route_id(),
+				'route'			=> $entity->get_route(),
+				'has_blocks'	=> $entity->get_has_blocks(),
+				'blocks'		=> [],
+			);
+
+			$collection = $entity->get_blocks();
+			foreach ($collection as $entity)
+			{
+				$actual_route_info['blocks'][$entity->get_bid()] = array(
+					'name'		=> $entity->get_name(),
+					'position'	=> $entity->get_position(),
+					'weight'	=> $entity->get_weight(),
+				);
+			}
+		}
+
+		$this->assertEquals($expected_route_info, $actual_route_info);
 	}
 
 	/**

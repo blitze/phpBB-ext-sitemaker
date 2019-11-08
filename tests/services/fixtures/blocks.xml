@@ -64,6 +64,7 @@
 		<column>route_id</column>
 		<column>style</column>
 		<column>position</column>
+		<column>weight</column>
 		<column>settings</column>
 		<column>hash</column>
 		<column>permission</column>
@@ -76,6 +77,7 @@
 			<value>1</value>
 			<value>1</value>
 			<value>sidebar</value>
+			<value>0</value>
 			<value>{"my_setting":1,"other_setting":0}</value>
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value></value>
@@ -89,6 +91,7 @@
 			<value>2</value>
 			<value>1</value>
 			<value>subcontent</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
@@ -102,6 +105,7 @@
 			<value>3</value>
 			<value>2</value>
 			<value>bottom</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
@@ -115,6 +119,7 @@
 			<value>1</value>
 			<value>1</value>
 			<value>top</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
@@ -128,6 +133,7 @@
 			<value>2</value>
 			<value>1</value>
 			<value>sidebar</value>
+			<value>0</value>
 			<value>{"my_setting":1,"other_setting":0}</value>
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value></value>
@@ -141,6 +147,7 @@
 			<value>3</value>
 			<value>2</value>
 			<value>sidebar</value>
+			<value>0</value>
 			<value>{"my_setting":1,"other_setting":0}</value>
 			<value>d3d9446802a44259755d38e6d163e820</value>
 			<value>2</value>
@@ -154,6 +161,7 @@
 			<value>5</value>
 			<value>1</value>
 			<value>sidebar</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
