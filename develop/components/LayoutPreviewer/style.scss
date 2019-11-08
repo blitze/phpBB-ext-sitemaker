@@ -23,15 +23,15 @@
 
 .layout-large-preview {
 	position: absolute;
-    left: 0;
+	left: 0;
 	top: 0;
 	opacity: 0;
 	visibility: hidden;
-    overflow: hidden;
-    border: 5px solid #666;
-    border-radius: 5px;
-    z-index: 1000;
-    max-width: 80%;
+	overflow: hidden;
+	border: 5px solid #666;
+	border-radius: 5px;
+	z-index: 1000;
+	max-width: 80%;
 	transition: opacity 500ms linear, visibility 0s linear 500ms;
 }
 
