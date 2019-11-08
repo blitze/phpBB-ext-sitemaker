@@ -92,7 +92,7 @@ class wordgraph extends block
 		$params = $this->get_graph_params($words_array, $settings);
 
 		// Sort words in result
-		$words = array_keys($words_array);
+		$words = array_filter(array_keys($words_array));
 		sort($words);
 
 		foreach ($words as $word)
