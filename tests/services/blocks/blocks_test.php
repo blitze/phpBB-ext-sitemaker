@@ -270,7 +270,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 0,	// no route to inherit from
+					'route_id' => 4,	// no route to inherit from
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -327,7 +327,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 0,
+					'route_id' => 4,
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
