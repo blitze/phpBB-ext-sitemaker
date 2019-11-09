@@ -47,6 +47,7 @@ img {
 
 	// image sizes
 	.small-img & {
+		flex: 0 0 $small-image-size;
 		width: $small-image-size;
 	}
 
