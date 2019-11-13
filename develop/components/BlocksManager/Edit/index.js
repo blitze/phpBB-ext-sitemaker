@@ -190,6 +190,17 @@ export default function EditBlock($block, codemirror) {
 			});
 
 		$dialogEdit
+			.find('.sortable')
+			.sortable({
+				axis: 'y',
+				containment: 'parent',
+				classes: {
+					'ui-sortable-handle': 'panel'
+				}
+			})
+			.disableSelection();
+
+		$dialogEdit
 			.find('.block-preview')
 			.off()
 			.change(() => previewBlock());

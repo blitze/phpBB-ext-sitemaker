@@ -46,17 +46,16 @@ img {
 	position: relative;
 
 	// image sizes
-	.small-img & {
-		flex: 0 0 $small-image-size;
-		width: $small-image-size;
+	.large-img & {
+		width: $large-image-size;
 	}
 
 	.medium-img & {
 		width: $medium-image-size;
 	}
 
-	.large-img & {
-		width: $large-image-size;
+	.small-img & {
+		width: $small-image-size;
 	}
 
 	.card-img &,
@@ -87,12 +86,19 @@ img {
 	// image alignment
 	.img-align-left & {
 		float: left;
-		margin-right: 1rem;
+		margin-right: 0.8rem;
 	}
 
 	.img-align-right & {
 		float: right;
-		margin-left: 1rem;
+		margin-left: 0.8rem;
+	}
+
+	.img-align-left &,
+	.img-align-right & {
+		& + .label-hidden {
+			display: none;
+		}
 	}
 
 	// image borders
@@ -107,12 +113,12 @@ img {
 	}
 
 	// image shape
-	.img-circle & {
+	.img-circle & img {
 		border-radius: 50%;
 		overflow: hidden;
 	}
 
-	.img-rounded & {
+	.img-rounded & img {
 		border-radius: $panel_border_radius;
 	}
 

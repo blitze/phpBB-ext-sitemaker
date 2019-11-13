@@ -7,16 +7,17 @@ ul {
 		margin: 0;
 		padding: 0;
 		list-style: none;
+		width: 100%;
 
 		> li {
 			margin: 5px 0;
-			font-size: 11px;
 			vertical-align: top;
 			clear: both;
 
 			> .sm-inner {
 				display: inline-block;
 				width: 100%;
+				margin-bottom: 1rem;
 			}
 
 			&:last-of-type > .sm-inner {
@@ -25,7 +26,7 @@ ul {
 		}
 
 		& > li > & {
-			margin-left: 15px;
+			margin-left: 1rem;
 		}
 
 		/* List Types */
