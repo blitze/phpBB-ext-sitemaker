@@ -1,15 +1,15 @@
 {% set checkbox %}
 	{% for key, column in columns %}
-		<div class="{{ class ~ field ~ '-checkbox' }}" id="{{ field ~ '-col-' ~ key }}">
+		<ul class="sm-list {{ class ~ field ~ '-checkbox' ~ (sortable ? ' ' ~ sortable : '') }}" id="{{ field ~ '-col-' ~ key }}">
 		{% for value, title in column %}
-			<label><input type="checkbox" name="{{ 'config[' ~ field ~ '][]' }}" value="{{ value }}"{% if value in selected %} checked="checked"{% endif %} class="checkbox" /> {{ lang(title) }}</label><br />
+			<li><label><input type="checkbox" name="{{ 'config[' ~ field ~ '][]' }}" value="{{ value }}"{% if value in selected %} checked="checked"{% endif %} class="checkbox" /> {{ lang(title) }}</label></li>
 		{% endfor %}
-		</div>
+		</ul>
 	{% endfor %}
 {% endset %}
 
 {% if class %}
-<div class="grid-noBottom">
+<div class="grid-noBottom_xs-1">
 	{{ checkbox }}
 </div>
 {% else %}

@@ -29,8 +29,12 @@ class checkbox extends cfg_field_base
 	 */
 	public function prep_field(array &$vars, array &$type, $field, array $db_settings)
 	{
+		// set defaults for types: field type, css class
+		$type += array('', 0);
+
 		$vars['method'] = 'build_checkbox';
 		$vars['params'][] = $field;
+		$vars['params'][] = (string) $type[1];	// css class to be applied to list
 		$type[0] = 'custom';
 	}
 
@@ -51,9 +55,10 @@ class checkbox extends cfg_field_base
 	 * @param array $option_ary
 	 * @param mixed $selected_items
 	 * @param string $field
+	 * @param string $css_class
 	 * @return string
 	 */
-	public function build_checkbox(array $option_ary, $selected_items, $field)
+	public function build_checkbox(array $option_ary, $selected_items, $field, $css_class = '')
 	{
 		$column_class = 'col ';
 		$selected_items = cfg_utils::ensure_array($selected_items);
@@ -64,6 +69,7 @@ class checkbox extends cfg_field_base
 			'selected'	=> $selected_items,
 			'columns'	=> $option_ary,
 			'class'		=> $column_class,
+			'sortable'	=> $css_class,
 		));
 
 		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/checkbox.html', 'checkbox');
