@@ -58,7 +58,6 @@ img {
 		width: $small-image-size;
 	}
 
-	.card-img &,
 	.fullwidth-img & {
 		float: none !important;
 		margin: 0 !important;
@@ -66,9 +65,10 @@ img {
 	}
 
 	.card-img & {
-		margin: -4px -9px auto -9px;
+		margin: -4px -10px auto;
 
 		img {
+			width: 100%;
 			padding: 0;
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;

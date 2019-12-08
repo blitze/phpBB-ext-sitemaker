@@ -181,11 +181,11 @@ class cfg_handler_test extends \phpbb_test_case
 					'TITLE'			=> 'MY_SETTING',
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<div class="my_var-checkbox" id="my_var-col-0">' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label><br />' .
-						'<label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label><br />' .
-						'</div>',
+					'CONTENT'		=> '<ul class="sm-list my_var-checkbox" id="my_var-col-0">' .
+							'<li><label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label></li>' .
+							'<li><label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label></li>' .
+							'<li><label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label></li>' .
+						'</ul>',
 				),
 			),
 			array(
