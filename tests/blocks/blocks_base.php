@@ -42,7 +42,7 @@ abstract class blocks_base extends \phpbb_database_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $auth, $cache, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
@@ -71,9 +71,13 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style['style_path'] = 'prosilver';
 
-		$request = $this->getMock('\phpbb\request\request');
+		$request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->willReturn(true);

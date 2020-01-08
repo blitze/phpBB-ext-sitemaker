@@ -37,7 +37,9 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

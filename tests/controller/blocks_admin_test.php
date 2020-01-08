@@ -49,7 +49,6 @@ class blocks_admin_test extends \phpbb_database_test_case
 	{
 		global $config, $phpbb_dispatcher, $symfony_request, $request, $phpbb_path_helper, $user, $phpbb_root_path, $phpEx;
 
-		$auth = $this->getMock('\phpbb\auth\auth');
 		$cache = new \phpbb_mock_cache();
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
@@ -60,12 +59,17 @@ class blocks_admin_test extends \phpbb_database_test_case
 			'force_server_vars' => false
 		));
 
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request->expects($this->any())
 			->method('is_ajax')
@@ -197,7 +201,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
-		$this->assertSame($expected,$response->getContent());
+		$this->assertSame($expected, $response->getContent());
 	}
 
 	/**
@@ -217,6 +221,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 
 		$response = $controller->handle($action);
 
-		$this->assertEquals('http://www.example.com/phpBB', $response);
+		$this->assertEquals(401, $response->getStatusCode());
+		$this->assertSame('{"id":"","title":"","content":"","message":"NOT_AUTHORISED"}', $response->getContent());
 	}
 }

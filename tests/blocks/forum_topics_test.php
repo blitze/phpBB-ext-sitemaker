@@ -21,7 +21,7 @@ class forum_topics_test extends blocks_base
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 

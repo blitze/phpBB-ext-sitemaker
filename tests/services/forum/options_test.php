@@ -40,13 +40,15 @@ class options_test extends \phpbb_database_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $auth, $db, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		parent::setUp();
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

@@ -47,28 +47,32 @@ class forum_test extends \phpbb_database_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$db = $this->new_dbal();
-		$auth = $this->getMock('\phpbb\auth\auth');
 		$config = new \phpbb\config\config(array());
 
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($auth_map));
-
-		$request = $this->getMock('\phpbb\request\request_interface');
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 		$this->template = &$template;
 
-		$phpbb_container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$phpbb_container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$phpbb_container->expects($this->any())
 			->method('get')
 			->with('content.visibility')

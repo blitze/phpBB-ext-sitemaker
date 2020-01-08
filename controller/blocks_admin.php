@@ -66,12 +66,7 @@ class blocks_admin
 			'message'   => '',
 		);
 
-		if (!$this->request->is_ajax())
-		{
-			return redirect(generate_board_url(), $this->return_url);
-		}
-
-		if (!$this->auth->acl_get('a_sm_manage_blocks'))
+		if (!$this->request->is_ajax() || !$this->auth->acl_get('a_sm_manage_blocks'))
 		{
 			$return_data['message'] = $this->translator->lang('NOT_AUTHORISED');
 			return new JsonResponse($return_data, 401);

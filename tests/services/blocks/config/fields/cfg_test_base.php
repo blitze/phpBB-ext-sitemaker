@@ -40,7 +40,9 @@ abstract class cfg_test_base extends \phpbb_test_case
 
 		parent::setUp();
 
-		$request = $this->getMock('\phpbb\request\request');
+		$request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -100,7 +102,7 @@ abstract class cfg_test_base extends \phpbb_test_case
 			)
 		);
 
-		$this->ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $user)));
+		$this->ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $twig, $user)));
 		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
 
 		$this->ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');

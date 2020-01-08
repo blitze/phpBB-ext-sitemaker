@@ -77,7 +77,9 @@ class whois_test extends blocks_base
 				return null;
 			});
 
-		$user = $this->getMock('\phpbb\user', array(), array($translator, '\phpbb\datetime'));
+		$user = $this->getMockBuilder('\phpbb\user', array(), array($translator, '\phpbb\datetime'))
+			->disableOriginalConstructor()
+			->getMock();
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->expects($this->any())
 			->method('lang')

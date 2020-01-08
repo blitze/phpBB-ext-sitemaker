@@ -63,7 +63,9 @@ class display_test extends \phpbb_database_test_case
 			)
 		);
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
@@ -94,7 +96,9 @@ class display_test extends \phpbb_database_test_case
 			1 => $config_text_data
 		)));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('is_set')
 			->will($this->returnCallback(function($var) use ($variable_map) {

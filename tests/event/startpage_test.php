@@ -53,7 +53,9 @@ class startpage_test extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->request = $this->getMock('\phpbb\request\request_interface');
+		$this->request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$language = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
@@ -66,7 +68,9 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user = new \phpbb\user($language, '\phpbb\datetime');
 
-		$container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$container->expects($this->any())
 			->method('has')

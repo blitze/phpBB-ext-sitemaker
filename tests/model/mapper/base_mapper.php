@@ -26,7 +26,7 @@ abstract class base_mapper extends \phpbb_database_test_case
 		return array('blitze/sitemaker');
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		global $db, $config, $request, $symfony_request, $user;
 
@@ -39,7 +39,9 @@ abstract class base_mapper extends \phpbb_database_test_case
 			'sitemaker.table_lock.menu_items_table' => 0
 		));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()

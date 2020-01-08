@@ -27,7 +27,9 @@ class upload_test extends \phpbb_test_case
 
 		$call_count = $upload_dir ? 1 : 0;
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())

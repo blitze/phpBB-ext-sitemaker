@@ -45,7 +45,7 @@ class ext extends \phpbb\extension\base
 	protected function version_is_ok($current_version, &$required_version)
 	{
 		$required_version = html_entity_decode($required_version);
-		list($min_req_version, $max_req_version) = explode(',', $required_version);
+		list($min_req_version, $max_req_version) = array_pad(explode(',', $required_version), 2, '');
 
 		$constraint = $this->get_version_constraint($min_req_version);
 		if (!phpbb_version_compare($current_version, $constraint['version'], $constraint['operator']))

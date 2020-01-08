@@ -60,7 +60,9 @@ class cfg_handler_test extends \phpbb_test_case
 				return $tpl_data;
 			}));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
@@ -125,7 +127,7 @@ class cfg_handler_test extends \phpbb_test_case
 			)
 		);
 
-		$ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $user)));
+		$ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $twig, $user)));
 		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
 
 		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');

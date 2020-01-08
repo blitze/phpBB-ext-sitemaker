@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88b3774fdb41d5daf60d1c11ad32e1e8",
+    "content-hash": "9e58eb392e55bb60df3abb301eefe6c4",
     "packages": [
         {
             "name": "composer/installers",
@@ -303,9 +303,7 @@
             "version": "9.14.0",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.14.0/responsive_filemanager.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.14.0/responsive_filemanager.zip"
             },
             "type": "library"
         }

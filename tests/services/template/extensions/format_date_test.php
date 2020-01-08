@@ -41,12 +41,16 @@ class format_date_test extends \phpbb_test_case
 
 		$filesystem = new \phpbb\filesystem\filesystem();
 
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
 				new \phpbb_mock_request()
 			),
 			$filesystem,
-			$this->getMock('\phpbb\request\request_interface'),
+			$request,
 			$phpbb_root_path,
 			$phpEx
 		);

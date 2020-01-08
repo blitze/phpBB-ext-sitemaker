@@ -77,7 +77,9 @@ class admin_bar_test extends \phpbb_database_test_case
 			'fr' => 'fr_FR',
 		);
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
@@ -85,7 +87,9 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 

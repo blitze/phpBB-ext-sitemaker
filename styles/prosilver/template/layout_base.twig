@@ -8,11 +8,18 @@
 	{% endset %}
 {% endif %}
 
-{% set sidebar_size = block('sidebar_size')|default(3) %}
-{% set sidebar_width = block('sidebar_width')|default('') %}
-{% set sidebar_placement = block('sidebar_placement')|default('') %}
-{% set subcontent_size = block('subcontent_size')|default(3) %}
-{% set subcontent_width = block('subcontent_width')|default('') %}
-{% set subcontent_placement = block('subcontent_placement')|default('') %}
+{% set sidebar_size = 3 %}
+{% set sidebar_width = '' %}
+{% set sidebar_placement = '' %}
+{% set subcontent_size = 3 %}
+{% set subcontent_width = '' %}
+{% set subcontent_placement = '' %}
+
+{% if block('sidebar_size') is defined %}{% set sidebar_size = block('sidebar_size')|default(3) %}{% endif %}
+{% if block('sidebar_width') is defined %}{% set sidebar_width = block('sidebar_width')|default('') %}{% endif %}
+{% if block('sidebar_placement') is defined %}{% set sidebar_placement = block('sidebar_placement')|default('') %}{% endif %}
+{% if block('subcontent_size') is defined %}{% set subcontent_size = block('subcontent_size')|default(3) %}{% endif %}
+{% if block('subcontent_width') is defined %}{% set subcontent_width = block('subcontent_width')|default('') %}{% endif %}
+{% if block('subcontent_placement') is defined %}{% set subcontent_placement = block('subcontent_placement')|default('') %}{% endif %}
 
 {% block layout %}{% endblock %}

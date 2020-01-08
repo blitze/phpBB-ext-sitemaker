@@ -54,7 +54,9 @@ class cleaner_test extends \phpbb_database_test_case
 
 		$this->db = $this->new_dbal();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->config = new \phpbb\config\config(array(
 			'sitemaker_column_widths'	=> json_encode(array(

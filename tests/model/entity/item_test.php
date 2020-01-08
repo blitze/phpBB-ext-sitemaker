@@ -43,7 +43,9 @@ class item_test extends \phpbb_test_case
 			'force_server_vars' => false
 		));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()

@@ -265,7 +265,7 @@ services:
     blitze.sitemaker.template.extensions.format_date:
         class: blitze\sitemaker\services\template\extensions\format_date
         arguments:
-            - @user
+            - '@user'
         tags:
             - { name: twig.extension }
 

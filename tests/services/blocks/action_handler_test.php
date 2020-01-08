@@ -39,7 +39,9 @@ class action_handler_test extends \phpbb_test_case
 		$config = new \phpbb\config\config(array());
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

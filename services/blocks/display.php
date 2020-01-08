@@ -184,6 +184,17 @@ class display
 
 	/**
 	 * @param int $style_id
+	 * @return string
+	 */
+	protected function get_column_widths($style_id)
+	{
+		$column_widths = array_filter((array) json_decode($this->config['sitemaker_column_widths'], true));
+
+		return (isset($column_widths[$style_id])) ? $column_widths[$style_id] : '';
+	}
+
+	/**
+	 * @param int $style_id
 	 * @param string $current_route
 	 * @param string $page_dir
 	 * @param int $style_id
@@ -207,7 +218,7 @@ class display
 		$this->template->assign_vars(array(
 			'S_SITEMAKER'		=> true,
 			'S_LAYOUT'			=> $this->get_layout($style_id),
-			'S_COLUMN_WIDTHS'	=> (array) json_decode($this->config['sitemaker_column_widths'], true)[$style_id],
+			'S_COLUMN_WIDTHS'	=> $this->get_column_widths($style_id),
 			'U_EDIT_MODE'		=> $u_edit_mode,
 		));
 	}

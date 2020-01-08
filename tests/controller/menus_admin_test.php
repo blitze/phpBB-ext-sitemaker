@@ -56,7 +56,9 @@ class menus_admin_test extends \phpbb_database_test_case
 			'force_server_vars' => false
 		));
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
@@ -64,7 +66,9 @@ class menus_admin_test extends \phpbb_database_test_case
 				array('a_sm_manage_menus', 0, $authorized),
 			)));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->once())
 			->method('is_ajax')
 			->will($this->returnValue($ajax_request));
@@ -197,7 +201,8 @@ class menus_admin_test extends \phpbb_database_test_case
 
 		$response = $controller->handle($action);
 
-		$this->assertEquals('http://www.example.com/phpBB', $response);
+		$this->assertEquals(401, $response->getStatusCode());
+		$this->assertSame('{"message":"NOT_AUTHORISED"}', $response->getContent());
 	}
 
 	/**
@@ -211,6 +216,7 @@ class menus_admin_test extends \phpbb_database_test_case
 
 		$response = $controller->handle($action);
 
-		$this->assertEquals('http://www.example.com/phpBB', $response);
+		$this->assertEquals(401, $response->getStatusCode());
+		$this->assertSame('{"message":"NOT_AUTHORISED"}', $response->getContent());
 	}
 }

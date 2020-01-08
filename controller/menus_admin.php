@@ -55,7 +55,8 @@ class menus_admin
 		$return_data = array();
 		if (!$this->request->is_ajax() || !$this->auth->acl_get('a_sm_manage_menus'))
 		{
-			return redirect(generate_board_url(), $this->return_url);
+			$return_data['message'] = $this->translator->lang('NOT_AUTHORISED');
+			return new JsonResponse($return_data, 401);
 		}
 
 		try

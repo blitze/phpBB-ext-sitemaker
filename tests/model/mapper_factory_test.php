@@ -57,7 +57,10 @@ class mapper_factory_test extends \phpbb_test_case
 			)
 		);
 
-		$db = $this->getMock('\phpbb\db\driver\driver_interface');
+		$db = $this->getMockBuilder('\phpbb\db\driver\driver_interface')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$config = new \phpbb\config\config(array());
 
 		$mapper_factory = new mapper_factory($config, $db, $tables);

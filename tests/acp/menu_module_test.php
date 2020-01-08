@@ -90,7 +90,9 @@ class menu_module_test extends \phpbb_database_test_case
 		$user->data['user_lang'] = $user_lang;
 		$user->page['root_script_path'] = '/phpBB/';
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())

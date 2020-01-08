@@ -92,7 +92,7 @@ class links_test extends blocks_base
 			)
 		);
 
-		$ptemplate = new template($path_helper, $this->config, $template_context, $twig, $cache_path, $this->user, array(new \phpbb\template\twig\extension($template_context, $this->user)));
+		$ptemplate = new template($path_helper, $this->config, $template_context, $twig, $cache_path, $this->user, array(new \phpbb\template\twig\extension($template_context, $twig, $this->user)));
 		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
 
 		$ptemplate->set_custom_style('all', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all');

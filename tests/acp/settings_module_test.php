@@ -46,8 +46,8 @@ class settings_module_test extends \phpbb_database_test_case
 		self::$helper->empty_dir($phpbb_root_path . 'ext/foo');
 		rmdir($phpbb_root_path . 'ext/foo');
 	}
-	
-	protected function setUp()
+
+	protected function setUp(): void
 	{
 		global $phpbb_root_path;
 
@@ -56,7 +56,7 @@ class settings_module_test extends \phpbb_database_test_case
 		copy($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/test_config.php', $phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');
     }
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		global $phpbb_root_path;
 
@@ -121,7 +121,9 @@ class settings_module_test extends \phpbb_database_test_case
 		$this->config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
 		$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
