@@ -48,7 +48,7 @@ class checkbox_test extends cfg_test_base
 				array(),
 				'',
 				'topic_ids',
-				'sortable',
+				true,
 				'<ul class="sm-list topic_ids-checkbox sortable" id="topic_ids-col-0"></ul>'
 			),
 			array(
@@ -59,7 +59,7 @@ class checkbox_test extends cfg_test_base
 				),
 				'option2',
 				'topic_ids',
-				'',
+				false,
 				'<ul class="sm-list topic_ids-checkbox" id="topic_ids-col-0">' .
 					'<li><label><input type="checkbox" name="config[topic_ids][]" value="option1" class="checkbox" /> Option #1</label></li>' .
 					'<li><label><input type="checkbox" name="config[topic_ids][]" value="option2" checked="checked" class="checkbox" /> Option #2</label></li>' .
@@ -74,7 +74,7 @@ class checkbox_test extends cfg_test_base
 				),
 				'option2',
 				'topic_ids',
-				'sortable',
+				true,
 				'<ul class="sm-list topic_ids-checkbox sortable" id="topic_ids-col-0">' .
 					'<li><label><input type="checkbox" name="config[topic_ids][]" value="option1" class="checkbox" /> Option #1</label></li>' .
 					'<li><label><input type="checkbox" name="config[topic_ids][]" value="option2" checked="checked" class="checkbox" /> Option #2</label></li>' .
@@ -119,7 +119,7 @@ class checkbox_test extends cfg_test_base
 				),
 				['news_field1', 'article_field2'],
 				'content_type',
-				'sortable',
+				true,
 				'<div class="grid-noBottom_xs-1">' .
 					'<ul class="sm-list col content_type-checkbox sortable" id="content_type-col-news">' .
 						'<li><label><input type="checkbox" name="config[content_type][]" value="news_field1" checked="checked" class="checkbox" /> News Label 1</label></li>' .
@@ -141,13 +141,13 @@ class checkbox_test extends cfg_test_base
 	 * @param array $option_ary
 	 * @param string|array $selected_items
 	 * @param string $key
-	 * @param string $css_class
+	 * @param bool $sortable
 	 * @param string $expected
 	 */
-	public function test_build_checkbox(array $option_ary, $selected_items, $key, $css_class, $expected)
+	public function test_build_checkbox(array $option_ary, $selected_items, $key, $sortable, $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key, $css_class);
+		$html = $cfg_fields->build_checkbox($option_ary, $selected_items, $key, $sortable);
 
 		$this->assertEquals($expected, $this->clean_output($html));
 	}
