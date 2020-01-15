@@ -22,9 +22,7 @@
 		<p>{{ lang('BLOCKS_CLEANUP_EXPLAIN') }}</p>
 		<ul class="sm-list">
 		{% for component, orphans in orphaned_blocks %}
-			{% if component === 'styles' %}
-				{% set orphans = orphans|map(id => '<a href="./index.php' ~ SID ~ '&i=acp_styles&mode=style&action=details&id=' ~ id ~ '" target="_blank">' ~ id ~ '</a>') %}
-			{% elseif component === 'routes' %}
+			{% if component === 'routes' %}
 				{% set orphans = orphans|map(url => '<a href="' ~ url ~ '" target="_blank">' ~ url ~ '</a>') %}
 			{% endif %}
 			<li>
@@ -32,7 +30,6 @@
 				<ul class="sm-list">
 					<li>{{ orphans|join('</li><li>') }}</li>
 				</ul>
-
 			</li>
 		{% endfor %}
 		</ul>
