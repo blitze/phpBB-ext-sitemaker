@@ -8,9 +8,6 @@ const defaultPreview = './images/spacer.gif';
 
 function showSmallPreview(layout) {
 	if (layout !== currPreview) {
-		$smallPreview.error(() => {
-			$smallPreview.attr('src', defaultPreview);
-		});
 		const src = `${layout}preview.png`;
 		$smallPreview.attr('src', src);
 		$largePreview.attr('src', src);
@@ -24,6 +21,9 @@ export default function LayoutPreviewer() {
 		.find('img')
 		.hover(() => {
 			$largePreview.parent().toggleClass('show');
+		})
+		.on('error', () => {
+			$smallPreview.attr('src', defaultPreview);
 		});
 
 	$('.style-layouts > dl')
