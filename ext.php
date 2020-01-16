@@ -24,21 +24,20 @@ class ext extends \phpbb\extension\base
 		$user = $this->container->get('user');
 		$user->add_lang_ext('blitze/sitemaker', 'ext');
 
-		$lang = $user->lang;
 		$metadata = $this->get_metadata('blitze/sitemaker');
 
 		$req_phpbb_version = $metadata['extra']['soft-require']['phpbb/phpbb'];
 		$phpbb_version = $this->container->get('config')['version'];
-		$is_enableable = $this->version_is_ok($phpbb_version, $req_phpbb_version) && $this->image_directory_is_ready();
+		$version_ok = $this->version_is_ok($phpbb_version, $req_phpbb_version);
+		$img_dir_ok = $this->image_directory_is_ready();
 
-		if (!$is_enableable)
+		if (!$version_ok || !$img_dir_ok)
 		{
-			$errors = array_map([$user, 'lang'], array_filter($this->errors), [$req_phpbb_version]);
-			$lang['EXTENSION_NOT_ENABLEABLE'] .= '<br>' . join('<br />', $errors);
+			$errors = array_merge(['EXTENSION_NOT_ENABLEABLE'], $this->errors);
+			return array_map([$user, 'lang'], array_filter($errors), ['', $req_phpbb_version]);
 		}
 
-		$user->lang = $lang;
-		return $is_enableable;
+		return true;
 	}
 
 	/**
@@ -47,8 +46,11 @@ class ext extends \phpbb\extension\base
 	protected function image_directory_is_ready()
 	{
 		$root_path = $this->container->getParameter('core.root_path');
+		$filesystem = $this->container->get('filesystem');
+		$images_folder = $root_path . 'images';
+		$uploads_folder = $images_folder . '/sitemaker_uploads';
 
-		if (!is_dir($root_path . 'images/sitemaker_uploads') && !is_writable($root_path . 'images'))
+		if (!$filesystem->exists($uploads_folder) && !$filesystem->is_writable($images_folder))
 		{
 			$this->errors[] = 'IMAGE_DIRECTORY_NOT_WRITABLE';
 			return false;

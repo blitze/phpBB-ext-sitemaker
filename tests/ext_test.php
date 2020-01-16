@@ -13,9 +13,10 @@ class ext_test extends \phpbb_test_case
 {
 	/**
 	 * @param string $required_phpbb_version
+	 * @param bool $image_is_writable
 	 * @return \blitze\sitemaker\ext
 	 */
-	public function get_ext($required_phpbb_version)
+	public function get_ext($required_phpbb_version, $image_is_writable)
 	{
 		global $phpbb_root_path;
 
@@ -58,9 +59,20 @@ class ext_test extends \phpbb_test_case
 				return $metadata_manager;
 			});
 
+		$filesystem = $this->getMockBuilder('\phpbb\filesystem\filesystem')
+			->disableOriginalConstructor()
+			->getMock();
+		$filesystem->expects($this->any())
+			->method('exists')
+			->willReturn(false);
+		$filesystem->expects($this->any())
+			->method('is_writable')
+			->willReturn($image_is_writable);
+
 		$container->set('user', $this->user);
 		$container->set('config', $config);
 		$container->set('ext.manager', $ext_manager);
+		$container->set('filesystem', $filesystem);
 		$container->setParameter('core.root_path', $phpbb_root_path);
 
 		$finder = $this->getMockBuilder('\phpbb\finder')
@@ -82,18 +94,41 @@ class ext_test extends \phpbb_test_case
 		return array(
 			array(
 				'3.2.8',
-				false,
-				'<br>PHPBB_VERSION_UNMET-3.2.8',
+				true,
+				array(
+					'EXTENSION_NOT_ENABLEABLE-',
+					'PHPBB_VERSION_UNMET-3.2.8',
+				),
+			),
+			array(
+				'>=3.2.8,<3.3.0@dev',
+				true,
+				array(
+					'EXTENSION_NOT_ENABLEABLE-',
+					'PHPBB_VERSION_UNMET->=3.2.8,<3.3.0@dev',
+				),
 			),
 			array(
 				'>=3.2.8,<3.3.0@dev',
 				false,
-				'<br>PHPBB_VERSION_UNMET->=3.2.8,<3.3.0@dev',
+				array(
+					'EXTENSION_NOT_ENABLEABLE-',
+					'PHPBB_VERSION_UNMET->=3.2.8,<3.3.0@dev',
+					'IMAGE_DIRECTORY_NOT_WRITABLE-',
+				),
+			),
+			array(
+				'>=3.2.7,<3.3.0@dev',
+				false,
+				array(
+					'EXTENSION_NOT_ENABLEABLE-',
+					'IMAGE_DIRECTORY_NOT_WRITABLE->=3.2.7,<3.3.0@dev',
+				),
 			),
 			array(
 				'>=3.2.7,<3.3.0@dev',
 				true,
-				'',
+				true
 			),
 		);
 	}
@@ -101,16 +136,15 @@ class ext_test extends \phpbb_test_case
 	/**
 	 * @dataProvider ext_test_data
 	 * @param string $required_phpbb_version
+	 * @param bool $image_is_writable
 	 * @param bool $expected_result
-	 * @param string $expect_message
 	 * @return void
 	 */
-	public function test_is_enableable($required_phpbb_version, $expected_result, $expected_message)
+	public function test_is_enableable($required_phpbb_version, $image_is_writable, $expected_result)
 	{
-		$ext = $this->get_ext($required_phpbb_version);
+		$ext = $this->get_ext($required_phpbb_version, $image_is_writable);
 		$result = $ext->is_enableable();
 
 		$this->assertEquals($expected_result, $result);
-		$this->assertEquals($expected_message, $this->user->lang['EXTENSION_NOT_ENABLEABLE']);
 	}
 }
