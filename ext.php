@@ -11,6 +11,9 @@ namespace blitze\sitemaker;
 
 class ext extends \phpbb\extension\base
 {
+	/** array */
+	protected $errors = [];
+
 	/**
 	 * Check whether or not the extension can be enabled.
 	 *
@@ -26,15 +29,31 @@ class ext extends \phpbb\extension\base
 
 		$req_phpbb_version = $metadata['extra']['soft-require']['phpbb/phpbb'];
 		$phpbb_version = $this->container->get('config')['version'];
-		$is_enableable = $this->version_is_ok($phpbb_version, $req_phpbb_version);
+		$is_enableable = $this->version_is_ok($phpbb_version, $req_phpbb_version) && $this->image_directory_is_ready();
 
 		if (!$is_enableable)
 		{
-			$lang['EXTENSION_NOT_ENABLEABLE'] .= '<br>' . $user->lang('PHPBB_VERSION_UNMET', $req_phpbb_version);
+			$errors = array_map([$user, 'lang'], array_filter($this->errors), [$req_phpbb_version]);
+			$lang['EXTENSION_NOT_ENABLEABLE'] .= '<br>' . join('<br />', $errors);
 		}
 
 		$user->lang = $lang;
 		return $is_enableable;
+	}
+
+	/**
+	 * return bool
+	*/
+	protected function image_directory_is_ready()
+	{
+		$root_path = $this->container->getParameter('core.root_path');
+
+		if (!is_dir($root_path . 'images/sitemaker_uploads') && !is_writable($root_path . 'images'))
+		{
+			$this->errors[] = 'IMAGE_DIRECTORY_NOT_WRITABLE';
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -50,12 +69,14 @@ class ext extends \phpbb\extension\base
 		$constraint = $this->get_version_constraint($min_req_version);
 		if (!phpbb_version_compare($current_version, $constraint['version'], $constraint['operator']))
 		{
+			$this->errors[] = 'PHPBB_VERSION_UNMET';
 			return false;
 		}
 
 		$constraint = $this->get_version_constraint($max_req_version);
 		if ($constraint['version'] && !phpbb_version_compare($current_version, $constraint['version'], $constraint['operator']))
 		{
+			$this->errors[] = 'PHPBB_VERSION_UNMET';
 			return false;
 		}
 

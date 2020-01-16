@@ -17,6 +17,8 @@ class ext_test extends \phpbb_test_case
 	 */
 	public function get_ext($required_phpbb_version)
 	{
+		global $phpbb_root_path;
+
 		$config = new \phpbb\config\config(['version' => '3.2.7']);
 
 		$translator = $this->getMockBuilder('\phpbb\language\language')
@@ -59,6 +61,7 @@ class ext_test extends \phpbb_test_case
 		$container->set('user', $this->user);
 		$container->set('config', $config);
 		$container->set('ext.manager', $ext_manager);
+		$container->setParameter('core.root_path', $phpbb_root_path);
 
 		$finder = $this->getMockBuilder('\phpbb\finder')
 			->disableOriginalConstructor()
