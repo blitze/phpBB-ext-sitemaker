@@ -1,5 +1,4 @@
 services:
-
     blitze.sitemaker.block.attachments:
         class: blitze\sitemaker\blocks\attachments
         arguments:
@@ -59,7 +58,7 @@ services:
             - '@language'
             - '@request'
             - '@template.twig.environment'
-            - '%core.cache_dir%'
+            - '%core.cache_dir%/%core.environment%'
         calls:
             - [set_name, [blitze.sitemaker.block.feeds]]
         tags:
