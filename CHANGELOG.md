@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.1 - 2020-01-16
+
+- Support for phpBB 3.3
+
 ## 3.2.0 - 2019-10-26
 
 - Switched from Bower/Gulp workflow to npm/yarn/babel/webpack
@@ -15,7 +19,7 @@
 - Ensure Admin Bar and menu items are fully responsive
 - Switched to flexbox grid (gridlex) for layout
 - [feature] Added ability to add js/css files to page using Custom block
-- [feature] Added code editor block config type using codemirror 
+- [feature] Added code editor block config type using codemirror
 - [bug] Fix issue that returned ajax error when marking forums read: https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support/topic/198911
 - [feature] Add new Custom Layout that allows you to set sidebar widths
 - [feature] Recent Forum topics block now uses the 'Context' setting to point to first or last post

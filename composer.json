@@ -1,10 +1,10 @@
 {
 	"name": "blitze/sitemaker",
-    "type": "phpbb-extension",
+	"type": "phpbb-extension",
 	"description": "A portal/CMS for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.2.0",
-	"time": "2019-04-10",
+	"version": "3.2.1",
+	"time": "2020-01-16",
 	"keywords": ["phpbb", "extension", "portal", "cms"],
 	"license": "GPL-2.0-only",
 	"authors": [{
@@ -15,7 +15,7 @@
 	}],
 	"repositories": [{
 		"type": "package",
-        "package": {
+		"package": {
 			"name": "trippo/responsivefilemanager",
 			"version": "9.14.0",
 			"dist": {
@@ -31,7 +31,7 @@
 		"simplepie/simplepie": "^1.5"
 	},
 	"require-dev": {
-        "phing/phing": "2.4.*",
+		"phing/phing": "2.4.*",
 		"trippo/responsivefilemanager": "9.14.*"
 	},
 	"extra": {
