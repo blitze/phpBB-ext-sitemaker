@@ -37,7 +37,7 @@
 	"extra": {
 		"display-name": "phpBB SiteMaker",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.1"
+			"phpbb/phpbb": ">=3.2.8"
 		},
 		"version-check": {
 			"host": "www.phpbb.com",
