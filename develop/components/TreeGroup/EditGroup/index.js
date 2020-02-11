@@ -1,4 +1,3 @@
-/* global $ */
 import InlineEditor from '../../InlineEditor';
 
 const { config, lang } = window;

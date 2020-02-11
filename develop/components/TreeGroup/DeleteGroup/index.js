@@ -1,4 +1,3 @@
-/* global $ */
 import Dialog from '../../Dialog';
 
 const { config, lang } = window;

@@ -1,5 +1,3 @@
-/* global $ */
-
 export default function StyleSelector() {
 	const $styleSelector = $('#style-options');
 

@@ -1,4 +1,3 @@
-/* global $ */
 const { config, TreeGroup } = window;
 
 $(document).ready(() => {

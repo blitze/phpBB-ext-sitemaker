@@ -1,4 +1,3 @@
-/* global $ */
 export default function OutsideClick($element, handleOutsideClick) {
 	$(document.body).click(e => {
 		if (

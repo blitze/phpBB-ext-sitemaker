@@ -1,4 +1,3 @@
-/* global $ */
 // flow
 import BlockRenderer from '../BlockRenderer';
 

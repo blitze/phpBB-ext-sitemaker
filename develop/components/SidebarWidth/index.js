@@ -1,6 +1,4 @@
 // @flow
-/* global $ */
-
 import './style.scss';
 
 const { actions } = window;

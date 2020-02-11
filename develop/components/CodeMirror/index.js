@@ -1,4 +1,3 @@
-/* global $ */
 import CodeMirror from 'codemirror';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/addon/display/autorefresh';

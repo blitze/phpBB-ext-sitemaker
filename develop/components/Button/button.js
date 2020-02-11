@@ -1,4 +1,3 @@
-/* global $ */
 // @flow
 import 'jquery-ui/ui/widgets/button';
 import 'jquery-ui/themes/base/core.css';

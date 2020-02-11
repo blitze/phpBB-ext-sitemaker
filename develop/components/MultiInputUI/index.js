@@ -1,5 +1,3 @@
-/* global $ */
-
 import './style.scss';
 
 class Plugin {

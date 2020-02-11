@@ -1,4 +1,3 @@
-/* global $ */
 // @flow
 import { fixPaths, inactiveBlockClass } from '../../utils';
 

@@ -1,4 +1,3 @@
-/* global $ */
 import LayoutPreviewer from '../../components/LayoutPreviewer';
 
 import 'jquery-ui/ui/widgets/accordion';

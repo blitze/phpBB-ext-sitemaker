@@ -1,4 +1,3 @@
-/* global $ */
 const { lang } = window;
 
 export default function Ajaxer($loader, showMessage, append = '') {

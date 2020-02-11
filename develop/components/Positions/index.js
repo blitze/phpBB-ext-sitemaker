@@ -1,5 +1,4 @@
 // @flow
-/* global $ */
 import 'jquery-ui/ui/widgets/sortable';
 import 'jquery-ui-touch-punch';
 

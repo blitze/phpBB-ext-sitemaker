@@ -1,5 +1,3 @@
-/* global $ */
-
 const { config } = window;
 
 export const inactiveBlockClass = 'sm-inactive';

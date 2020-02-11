@@ -1,4 +1,3 @@
-/* global $ */
 // @flow
 import './style.scss';
 /**

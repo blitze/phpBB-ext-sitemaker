@@ -1,4 +1,3 @@
-/* global $ */
 import Dialog from '../../../Dialog';
 import Button from '../../../Button/button';
 

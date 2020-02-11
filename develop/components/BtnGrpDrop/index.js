@@ -1,4 +1,3 @@
-/* global $ */
 import Button from '../Button/button';
 import OutsideClick from '../OutsideClick';
 

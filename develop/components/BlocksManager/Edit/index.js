@@ -1,4 +1,3 @@
-/* global $ */
 import 'jquery-ui/ui/widgets/tabs';
 import 'jquery-ui/themes/base/core.css';
 import 'jquery-ui/themes/base/theme.css';
@@ -195,8 +194,8 @@ export default function EditBlock($block, codemirror) {
 				axis: 'y',
 				containment: 'parent',
 				classes: {
-					'ui-sortable-handle': 'panel'
-				}
+					'ui-sortable-handle': 'panel',
+				},
 			})
 			.disableSelection();
 

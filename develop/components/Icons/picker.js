@@ -12,8 +12,6 @@ import OutsideClick from '../OutsideClick';
 
 import './picker.scss';
 
-/* global $ */
-
 const pluginName = 'iconPicker';
 const dataPlugin = `plugin_${pluginName}`;
 const defaults = {

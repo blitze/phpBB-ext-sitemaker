@@ -1,4 +1,3 @@
-/* global $ */
 import CustomBlock from '../CustomBlock';
 import InlineEditor from '../InlineEditor';
 
@@ -62,9 +61,10 @@ export default function BlocksManager(positions) {
 			e.preventDefault();
 			const $block = $(e.currentTarget).closest('.block');
 
-			import(/* webpackChunkName: "blocks/edit" */ './Delete').then(
-				({ default: DeleteHandler }) =>
-					DeleteHandler(positions, $block),
+			import(
+				/* webpackChunkName: "blocks/edit" */ './Delete'
+			).then(({ default: DeleteHandler }) =>
+				DeleteHandler(positions, $block),
 			);
 		});
 }

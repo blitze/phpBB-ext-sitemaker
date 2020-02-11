@@ -1,4 +1,3 @@
-/* global $ */
 import { getPOJO, inactiveBlockClass } from '../../../../utils';
 
 import HighlightPositions from '../HighlightPositions';
@@ -29,7 +28,7 @@ export default function HidePositionsManager(positions, showMessage) {
 		} else if (exPositions.length) {
 			showMessage(
 				`<span>
-					<i class="fa fa-info-circle fa-blue fa-lg"></i> 
+					<i class="fa fa-info-circle fa-blue fa-lg"></i>
 					${lang.hidingPos}: <strong>${exPositions.join(', ')}</strong>
 				</span>`,
 			);

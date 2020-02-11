@@ -1,5 +1,3 @@
-/* global $ */
-
 import './style.scss';
 
 export default function HighlightPositions($exPositionsBox, positions) {

@@ -1,4 +1,3 @@
-/* global $ */
 import './style.scss';
 
 let $smallPreview;

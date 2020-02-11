@@ -1,4 +1,3 @@
-/* global $ */
 /* eslint-disable no-underscore-dangle */
 import Dialog from '../../Dialog';
 import InlineEditor from '../../InlineEditor';

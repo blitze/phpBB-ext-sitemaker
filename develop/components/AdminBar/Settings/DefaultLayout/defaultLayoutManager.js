@@ -1,5 +1,3 @@
-/* global $ */
-
 import Button from '../../../Button/button';
 
 const {

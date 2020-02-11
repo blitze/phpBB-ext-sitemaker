@@ -1,4 +1,3 @@
-/* global $ */
 import { fixPaths } from '../../utils';
 
 function BlockRenderer() {

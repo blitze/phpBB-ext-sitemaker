@@ -1,5 +1,4 @@
 // @flow
-/* global $ */
 import AjaxSetup from '../Ajax/setup';
 import OutsideClick from '../OutsideClick';
 import BlocksGallery from './BlocksGallery';

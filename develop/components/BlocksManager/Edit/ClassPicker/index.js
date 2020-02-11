@@ -1,5 +1,3 @@
-/* global $ */
-
 export default function ClassPicker(
 	$dialogEdit,
 	{ initCodeMirror, insertText },

@@ -1,4 +1,3 @@
-/* global $ */
 import '../../entries/publicPath';
 import AjaxSetup from '../Ajax/setup';
 import AddGroup from './AddGroup';

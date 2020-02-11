@@ -1,5 +1,4 @@
 // @flow
-/* global $ */
 import '../publicPath';
 import AdminBar from '../../components/AdminBar';
 import Positions from '../../components/Positions';

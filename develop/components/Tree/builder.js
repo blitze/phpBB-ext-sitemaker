@@ -4,7 +4,6 @@
  * Licensed under the GPL license
  */
 
-/* global $ */
 /* eslint-disable no-underscore-dangle */
 
 import 'jquery-ui/ui/widget';
