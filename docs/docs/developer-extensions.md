@@ -14,7 +14,9 @@ Say we have an extension with vendor/extension as my/example. To create a block 
 
 * Create a "blocks" folder
 * Create my_block.php file in the blocks folder with the following content
-```php
+```
+<?php
+
 namespace my\example\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
