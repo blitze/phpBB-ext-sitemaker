@@ -300,7 +300,17 @@ class settings_module
 			$settings['image_watermark_position'] = ($settings['image_watermark_coordinates']) ? $settings['image_watermark_coordinates'] : $settings['image_watermark_position'];
 			unset($settings['image_watermark_coordinates']);
 
-			$this->filemanager->save($settings);
+			if ($this->filemanager->config_is_writable())
+			{
+				$this->filemanager->save($settings);
+			}
+			else
+			{
+				$this->config->set('sm_filemanager', false);
+				$filemanager_docs = 'https://blitze.github.io/phpBB-ext-sitemaker/docs/' . $this->user->data['user_lang'] . '/filemanager';
+
+				trigger_error($this->translator->lang('FILEMANAGER_NO_EXIST', $filemanager_docs) . adm_back_link($this->u_action), E_USER_WARNING);
+			}
 		}
 	}
 

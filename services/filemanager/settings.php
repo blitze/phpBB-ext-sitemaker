@@ -66,7 +66,7 @@ class settings
 	public function get_settings($check_file = true)
 	{
 		// return empty array if filemanager is not installed
-		if (!is_dir($this->config_path))
+		if (!$this->is_installed())
 		{
 			return array();
 		}
@@ -115,14 +115,22 @@ class settings
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function config_is_writable()
+	{
+		return $this->is_installed() && $this->filesystem->is_writable($this->get_config_file());
+	}
+
+	/**
 	 * @param array $settings
 	 * @return void
 	 */
 	public function save(array $settings)
 	{
-		$config_file = $this->get_config_file();
 		if (sizeof($settings))
 		{
+			$config_file = $this->get_config_file();
 			$config_str = file_get_contents($config_file);
 
 			foreach ($settings as $prop => $value)
@@ -134,6 +142,14 @@ class settings
 
 			$this->filesystem->dump_file(realpath($config_file), $config_str);
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function is_installed()
+	{
+		return is_dir($this->config_path);
 	}
 
 	/**

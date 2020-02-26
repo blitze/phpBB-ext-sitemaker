@@ -148,7 +148,7 @@
 					<dd><input id="filemanager_watermark_padding" type="number" min="0" name="filemanager[image_watermark_padding]" value="{{ filemanager.image_watermark_padding }}" /> {{ lang('PIXEL') }}</dd>
 				</dl>
 			{% else %}
-				<p>{{ lang('FILEMANAGER_NO_EXIST') }}</p>
+				<p>{{ lang('FILEMANAGER_NO_EXIST', 'https://blitze.github.io/phpBB-ext-sitemaker/docs/' ~ sm_user_lang ~ '/filemanager') }}</p>
 			{% endif %}
 			</div>
 		</fieldset>
