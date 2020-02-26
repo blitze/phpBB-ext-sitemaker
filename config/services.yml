@@ -119,9 +119,9 @@ services:
         class: blitze\sitemaker\cron\blocks_cleanup
         arguments:
             - '@config'
-            - '@blitze.sitemaker.blocks.cleaner'
         calls:
             - [set_name, [blitze.sitemaker.cron.blocks_cleanup]]
+            - [set_cleaner, ['@blitze.sitemaker.blocks.cleaner']]
         tags:
             - { name: cron.task }
 

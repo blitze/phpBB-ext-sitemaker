@@ -77,15 +77,16 @@ class blocks_cleanup_test extends \phpbb_database_test_case
 	{
 		$config = new \phpbb\config\config(array());
 
-		$this->blocks_cleaner = $this->getMockBuilder('\blitze\sitemaker\services\blocks\cleaner')
+		$this->blocks_cleaner = $this->getMockBuilder('\blitze\sitemaker\services\blocks\cleaner_interface')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$task = new \blitze\sitemaker\cron\blocks_cleanup($config, $this->blocks_cleaner);
+		$task = new \blitze\sitemaker\cron\blocks_cleanup($config);
 
-		// this is normally called automatically in the yaml service config
+		// these are normally called automatically in the yaml service config
 		// but we have to do it manually here
 		$task->set_name($this->task_name);
+		$task->set_cleaner($this->blocks_cleaner);
 
 		return $task;
 	}

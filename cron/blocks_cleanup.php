@@ -14,18 +14,27 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \blitze\sitemaker\services\blocks\cleaner */
+	/** @var \blitze\sitemaker\services\blocks\cleaner_inteface */
 	protected $cleaner;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config							$config				Config object
-	 * @param \blitze\sitemaker\services\blocks\cleaner		$cleaner			Block cleaning service
 	 */
-	public function __construct(\phpbb\config\config $config, \blitze\sitemaker\services\blocks\cleaner $cleaner)
+	public function __construct(\phpbb\config\config $config)
 	{
 		$this->config = $config;
+	}
+
+	/**
+	 * We do this instead of the constructor injection to avoid circular reference
+	 * since phpBB controller.helper service now has a dependency on cron.manager
+	 *
+	 * @param \blitze\sitemaker\services\blocks\cleaner_interface $cleaner
+	 */
+	public function set_cleaner(\blitze\sitemaker\services\blocks\cleaner_interface $cleaner)
+	{
 		$this->cleaner = $cleaner;
 	}
 

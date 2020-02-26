@@ -9,7 +9,7 @@
 
 namespace blitze\sitemaker\services\blocks;
 
-class cleaner
+class cleaner implements cleaner_interface
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -56,8 +56,7 @@ class cleaner
 	}
 
 	/**
-	 * @param array $components
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function run(array $components)
 	{
@@ -77,7 +76,7 @@ class cleaner
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function test()
 	{
@@ -100,7 +99,7 @@ class cleaner
 	 * Removes all block routes and blocks belonging to these routes for styles that no longer exist
 	 * @return void
 	 */
-	private function clean_styles()
+	protected function clean_styles()
 	{
 		$routes_ary	= array_keys($this->manager->get_routes('style'));
 		$style_ids	= $this->get_style_ids();
@@ -129,7 +128,7 @@ class cleaner
 	 * Removes all blocks for routes that no longer exist
 	 * @return void
 	 */
-	private function clean_routes()
+	protected function clean_routes()
 	{
 		$board_url = generate_board_url();
 		$routes	= $this->manager->get_routes('route');
@@ -156,7 +155,7 @@ class cleaner
 	 * Removes all blocks that (the service) no longer exist
 	 * @return void
 	 */
-	private function clean_blocks()
+	protected function clean_blocks()
 	{
 		$block_names = $this->manager->get_unique_block_names();
 
@@ -185,7 +184,7 @@ class cleaner
 	 * Removes from custom blocks table, any custom blocks no longer present in blocks table
 	 * @return void
 	 */
-	private function clean_custom_blocks()
+	protected function clean_custom_blocks()
 	{
 		$sql = $this->db->sql_build_query('SELECT', array(
 			'SELECT'	=> 'cb.block_id',
@@ -218,7 +217,7 @@ class cleaner
 	/**
 	 * @return array
 	 */
-	private function get_style_ids()
+	protected function get_style_ids()
 	{
 		$sql = 'SELECT style_id, style_name
 			FROM ' . STYLES_TABLE;
