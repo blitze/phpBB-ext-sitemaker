@@ -14,9 +14,9 @@ namespace blitze\sitemaker\tests\functional;
  */
 class startpage_test extends \phpbb_functional_test_case
 {
-	static private $helper;
+	private static $helper;
 
-	static public function setUpBeforeClass()
+	public static function setUpBeforeClass()
 	{
 		global $phpbb_root_path;
 
@@ -27,7 +27,7 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$helper->copy_dir($phpbb_root_path . '../tests/functional/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
-	static public function tearDownAfterClass()
+	public static function tearDownAfterClass()
 	{
 		global $phpbb_root_path;
 
@@ -38,12 +38,21 @@ class startpage_test extends \phpbb_functional_test_case
 	}
 
 	/**
+	* Test setup
+	*/
+	public function setUp(): void
+	{
+		parent::setUp();
+		$this->login();
+	}
+
+	/**
 	 * Define the extensions to be tested
 	 *
 	 * @return array vendor/name of extension(s) to test
 	 * @access static
 	 */
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('blitze/sitemaker');
 	}
@@ -58,19 +67,17 @@ class startpage_test extends \phpbb_functional_test_case
 		$phpbb_extension_manager = $this->get_extension_manager();
 		$phpbb_extension_manager->enable('foo/bar');
 
-		$this->login();
-
 		// Confirm forum index is initial start page
-		$crawler = self::request('GET', 'index.php');
+		$crawler = self::request('GET', 'index.php?sid=' . $this->sid);
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
 		// Confirm foo/bar path exists and displays content
-		$crawler = self::request('GET', 'app.php/foo/template');
+		$crawler = self::request('GET', 'app.php/foo/template?sid=' . $this->sid);
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
 		// switch to edit mode and confirm we have option to set start page
-		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
-		$this->assertContains('Set As Start Page', $crawler->filter('#startpage-toggler')->text());
+		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1&sid=' . $this->sid);
+		$this->assertContainsLang('SET_STARTPAGE', $crawler->filter('#startpage-toggler')->text());
 
 		$this->make_ajax_request([
 			'controller'	=> 'foo_bar.controller',
@@ -78,11 +85,11 @@ class startpage_test extends \phpbb_functional_test_case
 		]);
 
 		// Go to index.php and Confirm it now displays the contents of foo/bar controller
-		$crawler = self::request('GET', 'index.php?edit_mode=1');
+		$crawler = self::request('GET', 'index.php?edit_mode=1&sid=' . $this->sid);
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
 		// Confirm Remove Start Page is now available to us
-		$this->assertContains('Remove Start Page', $crawler->filter('#startpage-toggler')->text());
+		$this->assertContainsLang('REMOVE_STARTPAGE', $crawler->filter('#startpage-toggler')->text());
 
 		// Remove as startpage
 		$this->make_ajax_request([
