@@ -14,13 +14,13 @@ class blocks_cleanup extends \phpbb\cron\task\base
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \blitze\sitemaker\services\blocks\cleaner_inteface */
+	/** @var \blitze\sitemaker\services\blocks\cleaner_interface */
 	protected $cleaner;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config							$config				Config object
+	 * @param \phpbb\config\config			$config				Config object
 	 */
 	public function __construct(\phpbb\config\config $config)
 	{
