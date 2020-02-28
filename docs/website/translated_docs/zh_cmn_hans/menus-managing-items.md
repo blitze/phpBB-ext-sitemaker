@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: 菜单管理项目
+title: 管理菜单项
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+您的菜单是无用的，除非有菜单项。 您可以添加指向本地或外部文件的菜单项。
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> 外部网站的 URL 必须以 http(s)：/, ftp:/, /, /, /, /, /, 等 开头。
 > 
-> You can create a divider by entering '-' as the item title
+> 你可以通过输入 '-' 作为项目标题创建一个分隔符
 
-## Adding Menu items
+## 添加菜单项
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+您可以随时添加一个菜单项，或者您可以在其中添加多个菜单项。
 
-### Adding single menu items
+### 添加单个菜单项
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+要添加一个菜单项, * 点击 `添加菜单项` 按钮 * 填写所需信息并点击 `保存`
 
-### Adding multiple items
+### 添加多个项目
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+一次添加多个菜单项， * 点击 `添加菜单项` * 您可以手动添加项目，将每个项目放置在新行上，使用标签字符排名项目或 * 您可以点击文本底部提供的选项之一自动填充菜单项。
 
-## Reorder the menu items
+## 重新排序菜单项
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+你可以拖放菜单项来设置其显示顺序，或拖拽它们左/右以设置所需的等级。
 
-## Rebuilding the menu items
+## 重建菜单项
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+如果您发现菜单项没有正确显示，点击 `重建树` 按钮来重建菜单项。
