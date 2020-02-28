@@ -1,34 +1,34 @@
 ---
 id: filemanager
-title: Responsive Filemanager
+title: Filemanante Responsivo
 ---
 
-As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
+A partire dalla versione 3.1.0, phpBB SiteMaker supporta il [Responsive Filemanager](http://responsivefilemanager.com)
 
-* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
-* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
+* Il file manager è utilizzato come un plugin TinyMCE (WYSIWYG editor) per la modifica di blocchi personalizzati
+* Attualmente è configurato per creare cartelle separate per ogni utente, ad eccezione dell'utente con il permesso a_sm_filemanager (può vedere/gestire le cartelle degli altri utenti), che consente loro di accedere alla visualizzazione/gestire tutte le cartelle upload.
 
-## Installation
+## Installazione
 
-* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
+* Scarica il [Responsive File Manager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* Estrarlo e caricare i file nella cartella root di phpBB. La struttura del file deve essere come segue:
 
 ```text
 phpBB
-├── images/
-├── includes/
-├── ...
-└── ResponsiveFilemanager/
-    └── filemanager/
-        └── config/
-            ├── .htaccess
-            └── config.php
+© images/
+© includes/
+<unk> <unk> <unk> <unk> ...
+<unk> ，ResponsiveFilemanager/
+    <unk> 藏 fileemager/
+        <unk> 藏 config/
+            l’unico modo in cui si applica il software in questione.htaccess
+            <unk> → config.php
 ```
 
-## Activation
+## Attivazione
 
-* Go to ACP > Extensions > SiteMaker > Settings
-* Enable File Manager feature
-* Save changes
-* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
-* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
+* Vai a ACP > Estensioni > SiteMaker > Impostazioni
+* Attiva la funzione Gestione File
+* Salva modifiche
+* Aggiorna i permessi utente (scheda varie) per determinare chi può utilizzare questa funzione [Può utilizzare File Manager]
+* Aggiorna i permessi di amministratore (scheda varie) per determinare chi può gestire le cartelle utente [Può vedere/gestire le cartelle di altri utenti in File Manager]
