@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: 模块概览
+title: 什么是模块？
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+在 phpBB SiteMaker 的核心就是区块的概念。 区块是你可以放置在不同的预先定义区域 (区块位置) 中的内容。 区块通常会有设置/更改以微调您希望显示的内容。 大多数模块，但并非所有，都将进行数据库查询以获得所需的内容。 所以，我们不会太疯了 :)。 要管理模块，您需要切换到“编辑模式”。
 
-## Edit Mode
+## 编辑模式
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+点击网站右上角的铅笔图标切换到编辑模式。 这将使用“Blocks”和“设置”菜单项显示“管理栏”。 这被称为“编辑模式”。
