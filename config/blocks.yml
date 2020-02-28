@@ -58,7 +58,7 @@ services:
             - '@language'
             - '@request'
             - '@template.twig.environment'
-            - '%core.cache_dir%/%core.environment%'
+            - '%core.cache_dir%'
         calls:
             - [set_name, [blitze.sitemaker.block.feeds]]
         tags:
