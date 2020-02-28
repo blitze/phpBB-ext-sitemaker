@@ -1,23 +1,23 @@
 ---
-id: filemanager
-title: Responsive Filemanager
+id: 文件管理器
+title: 响应文件管理器
 ---
 
-As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
+从 3.1.0 版本，phpBB SiteMaker 支持 [响应文件管理器](http://responsivefilemanager.com)
 
-* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
-* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
+* 在编辑自定义块时，文件管理器被用作TinyMCE 插件(WYSIWYG 编辑器)
+* 它目前被配置为每个用户创建单独的文件夹，但拥有_sm_filemanager 权限的用户除外 (可以查看/管理其他用户的文件夹)，允许他们访问/管理所有的上传文件夹。
 
-## Installation
+## 安装
 
-* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
+* 下载 [响应式文件管理器](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* 提取并上传文件到您的 phpBB 根目录。 文件结构应该如下：
 
 ```text
 phpBB
-├── images/
-├── includes/
-├── ...
+| - images/
+- - - include /
+learm - ...
 └── ResponsiveFilemanager/
     └── filemanager/
         └── config/
@@ -25,10 +25,10 @@ phpBB
             └── config.php
 ```
 
-## Activation
+## 激活
 
-* Go to ACP > Extensions > SiteMaker > Settings
-* Enable File Manager feature
-* Save changes
-* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
-* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
+* 转到 ACP > 扩展 > SiteMaker > 设置
+* 启用文件管理器功能
+* 保存更改
+* 更新用户权限 (Misctab) 以确定谁可以使用此功能 [可以使用文件管理器]
+* 更新管理员权限 (Misctab) 以确定谁可以管理用户文件夹 [可以在文件管理器中查看/管理其他用户文件夹]
