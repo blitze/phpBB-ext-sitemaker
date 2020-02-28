@@ -1,8 +1,8 @@
 ---
-id: site-startpage
-title: Setting a Start Page
+id: pagina iniziale del sito
+title: Impostazione di una pagina iniziale
 ---
 
-phpBB SiteMaker allows you to choose any front controller (pages accessed via app.php/...) as your default start page (the page that will be shown when someone visits your site) instead of the board index.
+phpBB SiteMaker ti permette di scegliere qualsiasi controller frontale (pagine accedute via app.php/...) come pagina iniziale predefinita (la pagina che verrà visualizzata quando qualcuno visita il tuo sito) al posto dell'indice della board.
 
-To do this: * Go to the page that you want to set as default start page * Click on `Settings` in the admin bar. If it is an eligible page, you will see a `Set as start page` button * Click on the `Set as start page` button
+Per fare questo: * Vai alla pagina che vuoi impostare come pagina iniziale predefinita * Clicca su `Impostazioni` nella barra di amministrazione. Se è una pagina idonea, vedrai un `impostato come pagina iniziale` pulsante * Clicca sul pulsante `Imposta come pagina iniziale`
