@@ -23,10 +23,10 @@ class settings_module_test extends \phpbb_database_test_case
 	protected $util;
 	protected $php_ext;
 
-	static private $helper;
+	private static $helper;
 	protected $config_path;
 
-	static public function setUpBeforeClass()
+	public static function setUpBeforeClass()
 	{
 		global $phpbb_root_path;
 
@@ -34,10 +34,10 @@ class settings_module_test extends \phpbb_database_test_case
 
 		self::$helper = new \phpbb_test_case_helpers(__CLASS__);
 
-		self::$helper->copy_dir($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
+		self::$helper->copy_dir(dirname(__FILE__) . '/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
-	static public function tearDownAfterClass()
+	public static function tearDownAfterClass()
 	{
 		global $phpbb_root_path;
 
@@ -49,20 +49,23 @@ class settings_module_test extends \phpbb_database_test_case
 
 	protected function setUp(): void
 	{
-		global $phpbb_root_path;
+		global $phpbb_root_path, $phpEx;
 
 		parent::setUp();
 
-		copy($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/test_config.php', $phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');
-    }
+		copy(
+			dirname(__FILE__) . '/fixtures/filemanager/test_config.' . $phpEx,
+			dirname(__FILE__) . '/fixtures/filemanager/config.' . $phpEx
+		);
+	}
 
 	protected function tearDown(): void
 	{
-		global $phpbb_root_path;
+		global $phpbb_root_path, $phpEx;
 
 		parent::tearDown();
 
-		unlink($phpbb_root_path . 'ext/blitze/sitemaker/tests/acp/fixtures/filemanager/config.php');
+		unlink(dirname(__FILE__) . '/fixtures/filemanager/config.' . $phpEx);
 	}
 
 	/**

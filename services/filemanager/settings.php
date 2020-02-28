@@ -128,20 +128,17 @@ class settings
 	 */
 	public function save(array $settings)
 	{
-		if (sizeof($settings))
+		$config_file = $this->get_config_file();
+		$config_str = file_get_contents($config_file);
+
+		foreach ($settings as $prop => $value)
 		{
-			$config_file = $this->get_config_file();
-			$config_str = file_get_contents($config_file);
+			$this->type_cast_config_value($prop, $value);
 
-			foreach ($settings as $prop => $value)
-			{
-				$this->type_cast_config_value($prop, $value);
-
-				$config_str = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $config_str);
-			}
-
-			$this->filesystem->dump_file(realpath($config_file), $config_str);
+			$config_str = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $config_str);
 		}
+
+		$this->filesystem->dump_file(realpath($config_file), $config_str);
 	}
 
 	/**
