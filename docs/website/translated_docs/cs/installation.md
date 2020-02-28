@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: instalace
+title: Instalace / Aktualizace
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+Stáhnout rozšíření z [zde](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
-## Installing phpBB SiteMaker
+## Instalace phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker.
+* Jděte do "AKT" > "Celní" > "Rozšiřování" a umožnit rozšíření "phpBB Sitemaker".
 
-## Upgrading phpBB SiteMaker
+## Aktualizace phpBB SiteMaker
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Vytvořte zálohu vaší databáze pro případ, že se něco pokazí.
+* Jděte do "AKT" > "Customise" > "Extensions" a disable (no purge) "phpBB Sitemaker"
+* Stáhnout a extrahovat nejnovější verzi phpBB SiteMaker a upload to your phpBB/ext/ složka (overwrite)
+* Jděte do "AKT" > "Celní" > "Rozšiřování" a umožnit rozšíření "phpBB Sitemaker".
