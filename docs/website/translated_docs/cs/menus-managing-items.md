@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: položky pro správu menu
+title: Správa Menu bodů
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Vaše menu je zbytečné, pokud neobsahuje položky menu. Můžete přidat položky menu, které ukazují místní nebo externí soubory.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> URL pro externí stránky musí začít u http(s)://, ftp://, //, atd.
 > 
-> You can create a divider by entering '-' as the item title
+> Můžete vytvořit dělicí čáru zadáním '-' jako položky titul titulu položky.
 
-## Adding Menu items
+## Přidat položky Menu
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Podmínky menu můžete přidat jednou položkou, nebo můžete přidat více menu.
 
-### Adding single menu items
+### Přidáním samostatných menu
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Možnost přidat položku nabídky, * klikněte na `Přidat položku nabídky` * Vyplňte požadované informace a stiskněte `Uložit`
 
-### Adding multiple items
+### Přidáním více položek
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Pro přidání více položek nabídky najednou, * Klikni na ikonu vedle `přidat položku nabídky` * Můžete ručně přidat položky, přidáním každé položky na nový řádek a použitím záložkového znaku, nebo * Můžete kliknout na jednu z nabízených možností ve spodní části textarey, aby se automaticky vyplnily položky nabídky.
 
-## Reorder the menu items
+## Nastavte nabídku
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Můžete přetáhnout položky menu nahoru/dolů a nastavit jejich pořadí, nebo je přetáhněte vlevo/vpravo pro nastavení požadované hierarchie.
 
-## Rebuilding the menu items
+## Obnovení nabídky
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Zjistíte-li, že položky menu nejsou správně zobrazeny, klepněte na tlačítko `Rebuild Tree` Rebuild Tree obnovit položky menu.
