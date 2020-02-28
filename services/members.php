@@ -34,7 +34,7 @@ class members
 
 	protected $explain_range = '';
 	protected $sql_date_field = '';
-	protected $view_mode = 'member_date';
+	protected $view_mode = '';
 	protected $user_header = 'USERNAME';
 	protected $info_header = 'MEMBERS_DATE';
 	protected $settings = array();
@@ -75,6 +75,7 @@ class members
 	 */
 	public function get_list(array $get = array())
 	{
+		$this->view_mode = 'member_date';
 		$this->settings = $get + array(
 			'query_type'	=> 'recent',
 			'date_range'	=> '',
@@ -84,15 +85,13 @@ class members
 		$sql = $this->get_sql_statement();
 		$result = $this->db->sql_query_limit($sql, $this->settings['max_members']);
 
-		$has_results = false;
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$has_results = true;
 			$this->ptemplate->assign_block_vars('member', call_user_func_array(array($this, $this->view_mode), array($row)));
 		}
 		$this->db->sql_freeresult($result);
 
-		return $this->show_results($has_results);
+		return $this->show_results();
 	}
 
 	/**
@@ -137,24 +136,17 @@ class members
 	}
 
 	/**
-	 * @param bool $has_results
 	 * @return string
 	 */
-	protected function show_results($has_results)
+	protected function show_results()
 	{
-		$html = '';
-		if ($has_results)
-		{
-			$this->ptemplate->assign_vars(array(
-				'S_LIST'		=> $this->settings['query_type'],
-				'USER_TITLE'	=> $this->translator->lang($this->user_header),
-				'INFO_TITLE'	=> $this->translator->lang($this->info_header),
-			));
+		$this->ptemplate->assign_vars(array(
+			'S_LIST'		=> $this->settings['query_type'],
+			'USER_TITLE'	=> $this->translator->lang($this->user_header),
+			'INFO_TITLE'	=> $this->translator->lang($this->info_header),
+		));
 
-			$html = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
-		}
-
-		return $html;
+		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
 	}
 
 	/**
