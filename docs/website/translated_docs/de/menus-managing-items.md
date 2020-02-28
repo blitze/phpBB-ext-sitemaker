@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: menüs-management-items
+title: Menüeinträge verwalten
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Ihr Menü ist nutzlos, es sei denn, es hat Menüpunkte. Sie können Menüeinträge hinzufügen, die auf lokale oder externe Dateien verweisen.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> Die URL für externe Seiten muss mit http(s)://, ftp://, //, etc. beginnen.
 > 
-> You can create a divider by entering '-' as the item title
+> Sie können einen Trenner erstellen, indem Sie '-' als Titel eingeben
 
-## Adding Menu items
+## Menüeinträge hinzufügen
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Sie können jederzeit Menüeinträge ein Element hinzufügen oder mehrere Menüeinträge hinzufügen.
 
-### Adding single menu items
+### Einzelne Menüeinträge hinzufügen
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Um ein einzelnes Menüelement hinzuzufügen, klicken Sie * auf die Schaltfläche `Menüpunkt hinzufügen` * Füllen Sie die benötigten Informationen aus und drücken Sie `Speichern`
 
-### Adding multiple items
+### Mehrere Elemente hinzufügen
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Mehrere Menüpunkte auf einmal hinzufügen * Klicken Sie auf das <unk> Symbol neben `Menüpunkt hinzufügen` * Sie können manuell Elemente hinzufügen, indem Sie jedes Element auf eine neue Zeile platzieren und die Tabulator-Elemente verwenden oder * Sie können auf eine der angebotenen Optionen am unteren Rand des Textbereichs klicken, um automatisch die Menüpunkte auszufüllen
 
-## Reorder the menu items
+## Menüeinträge neu anordnen
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Sie können die Menüeinträge nach oben oder unten ziehen, um ihre Anzeigereihenfolge festzulegen, oder sie nach links/rechts ziehen, um die gewünschte Hierarchie festzulegen.
 
-## Rebuilding the menu items
+## Menüpunkte neu aufbauen
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Wenn Sie feststellen, dass die Menüeinträge nicht korrekt angezeigt werden, klicken Sie auf die Schaltfläche `Umbau Baum` , um die Menüeinträge neu zu erstellen.
