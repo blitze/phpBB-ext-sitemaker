@@ -1,17 +1,17 @@
 ---
-id: contrib-translators
-title: Translators
+id: contrib-vertalers
+title: Vertalers
 ---
 
-We need help translating this extension, as well as its documentation. We have created a project on Crowdin to ease translations. Crowdin gives you a translation interface that's second to none. You can contribute how ever you want but we really recommend using Crowdin.
+We hebben hulp nodig bij het vertalen van deze extensie en de documentatie ervan. We hebben een project op Crowdin opgezet om vertalingen te vereenvoudigen. Crowdin geeft u een vertaalinterface die op geen enkele plaats is. U kunt bijdragen hoe u wilt, maar we raden u aan om Crowdin te gebruiken.
 
-> Crowdin is a localization management platform that helps companies to translate their software. You can read more about Crowdin [here](https://support.crowdin.com/crowdin-intro/)
+> Crowdin is een lokalisatiebeheerplatform dat bedrijven helpt hun software te vertalen. U kunt meer lezen over Crowdin [hier](https://support.crowdin.com/crowdin-intro/)
 
-If you are willing to contribute with translations, you will need:
+Als u bereid bent bij te dragen aan vertalingen, zult u:
 
-* A [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) account.
-* Chose the target language if exist otherwise request to be enabled.
+* Een [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) -account.
+* Kies de doeltaal als er een andere aanvraag bestaat om ingeschakeld te worden.
 
-If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
+Als uw gewenste taal niet is weergegeven, neem dan [contact met mij op](https://crowdin.com/profile/blitze) en ik zal het toevoegen.
 
-[Start Translating](https://crowdin.com/project/phpbb-ext-sitemaker)
+[Begin met vertalen](https://crowdin.com/project/phpbb-ext-sitemaker)
