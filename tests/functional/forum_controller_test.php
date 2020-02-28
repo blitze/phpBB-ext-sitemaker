@@ -29,7 +29,8 @@ class forum_controller_test extends \phpbb_functional_test_case
     {
 		$this->add_lang_ext('blitze/sitemaker', 'common');
 
-        $crawler = self::request('GET', 'app.php/forum');
+		$crawler = self::request('GET', 'app.php/forum');
+		print $crawler->filter('#nav-main')->text();
         $this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
     }
 }
