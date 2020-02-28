@@ -1,34 +1,34 @@
 ---
 id: filemanager
-title: Responsive Filemanager
+title: Responsive Dateimanager
 ---
 
-As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
+Ab Version 3.1.0 unterstützt phpBB SiteMaker den [Responsive Filemanager](http://responsivefilemanager.com)
 
-* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
-* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
+* Der Dateimanager wird als TinyMCE-Plug-In (WYSIWYG-Editor) verwendet, wenn benutzerdefinierte Blöcke bearbeitet werden
+* Es ist derzeit konfiguriert, separate Ordner für jeden Benutzer zu erstellen, außer dem Benutzer mit a_sm_filemanager Berechtigung (Kann Ordner anderer Benutzer sehen/verwalten), was ihnen den Zugriff auf alle Upload-Ordner erlaubt.
 
 ## Installation
 
-* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
+* Lade den [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs) herunter
+* Extrahieren Sie sie und laden Sie die Dateien in Ihren phpBB-Root-Ordner hoch. Die Dateistruktur sollte wie folgt sein:
 
 ```text
 phpBB
-├── images/
-├── includes/
-├── ...
-└── ResponsiveFilemanager/
-    └── filemanager/
-        └── config/
-            ├── .htaccess
-            └── config.php
+<unk> 文<unk> Bilder/
+<unk> <unk> <unk> <unk> <unk> <unk> includes/
+<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+<unk> <unk> ResponsiveFilemanager/
+    <unk> 本<unk> filemanager/
+        <unk> 本<unk> config/
+            <unk> 本<unk> .htaccess
+            <unk> <unk> <unk> config.php
 ```
 
-## Activation
+## Aktivierung
 
-* Go to ACP > Extensions > SiteMaker > Settings
-* Enable File Manager feature
-* Save changes
-* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
-* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
+* Gehen Sie zu AKP > Erweiterungen > SiteMaker > Einstellungen
+* Dateimanager Funktion aktivieren
+* Änderungen speichern
+* Benutzerrechte aktualisieren (Misc Tab), um festzustellen, wer diese Funktion nutzen kann [Kann Dateimanager verwenden]
+* Administratorrechte aktualisieren (Misc Tab), um festzustellen, wer Benutzerordner verwalten kann [Kann Ordner anderer Benutzer im Dateimanager sehen/verwalten]
