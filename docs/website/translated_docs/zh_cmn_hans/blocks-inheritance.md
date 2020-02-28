@@ -1,31 +1,31 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: 区块继承
+title: 理解方块继承
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+我们已经看到，通过设置默认布局，没有自己模块的其他页面将从默认布局继承区块。 然而，还有另一种块继承方式。
 
-## Parent/Child Routes
+## 父/子路由
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+在 phpBB SiteMaker 中，我们从真正嵌套的 (子目录) 或者几乎嵌套的路径/路线的角度讲嵌套路线。 请跟我保持 :)。 * 真实的父/子路径：例如，路径 /some_directory/sub_directory/index.php 是 /some_directory/index.php 的子路径： * Virtual 父/子路径：例如， viewtopic.php 被视为视野论坛的子路径.php。
 
-Here are some examples of parent/child routes:
+下面是父子路径的一些例子：
 
-| Parent             | Child                          |
+| 父级                 | 儿童                             |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
 | /app.php/articles  | /app.php/articles/my-article   |
 
-## Parent/Child Block Inheritance
+## 父级/子模块继承
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+对于父路径/子路径，子路径继承父路径的方块(如果父方块有自己的方块)或者从默认布局(如果已经设置)。 换句话说，即使有默认布局，如果父路径有自己的模块，子路由也会继承父路径中的区块。 但是，并非所有来自父路径的方块都必须继承。
 
-## Controlling Block Inheritance
+## 控制方块继承
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+在区块一级，你可以控制一个块可以由子路径继承。 我们早些时候在 [编辑块设置中触动了](./blocks-managing#editing-block-settings)。
 
-Consider the following real directory structure:
+考虑以下真实目录结构：
 
 ```text
 phpBB
@@ -37,8 +37,8 @@ phpBB
         └── index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+为继承方块，我们要说： * /phpBB/Movies/Comedy/index.php的父路径是/phpBB/Movies/index。 hp 而不是 /phpB/Movies/page.php * 子目录中相对于/phpBB/index.php的所有页面都是一个子路径的 /phpBB/index.php。 所以 /phpBB/Movies/index.php 和 /phpBB/Movies/page.php 都是 /phpBB/index.php 的儿童，因此如果他们没有自己的区块，他们将继承其区块。 在这种情况下： * 当块在 /phpBB/index. hp 设置为 **在子路上隐藏**, 该方块将在 /phpBB/index中显示。 hp (父路由)，但不在子路上 * 当块在 /phpBB/index时. hp 被设置为显示在 **只显示在子路上**, 它将显示在 /php/BB/Movies/index.php和 /phpBB/Movies/page. hp (子路由)，但不在 /phpBB/index.php(父) 上，也不在 phpB/Movies/Comedy/index。 hp (我们只深入一层) * 当一个块在 /phpBB/index时。 hp 设置为始终显示 **** (默认)，它将在 /phpBB/index.php(父)、/phpBB/Movies/index上显示。 hp 和 /php/page.php(儿童路由器)，但不在 /phpBB/Movies/Comedy/index.php(我们只能深入一层)。 在这种情况下/phpBB/Movies/Comedy/index.php将从默认路径继承(如果存在的话)
 
-## Posible Future State
+## 可爱的未来状态
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+我对你在这方面的反馈真正感兴趣。 大多数phpBB用户不会有上面概述的真实目录。 因此，我想使用菜单项中定义的结构作为一个虚拟目录结构，并将这种父子继承权应用于该目录。 我还在考虑超越一个层次。 请让我知道，这对你是有益的。
