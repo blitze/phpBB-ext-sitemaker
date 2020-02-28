@@ -1,25 +1,25 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: bloky na míru
+title: Celní blok
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
+Pokud dostupné bloky neposkytují potřebnou svobodu. existuje `Vlastní blok` umožňující zobrazení vlastního obsahu pomocí BBCode nebo HTML. Blok je dodáván s WYSIWYG editorem (TinyMCE), [Správce souborů](./filemanager.md)a správce skriptů:
 
-## The editor
+## Redaktor
 
-* You can use the editor to create HTML content
-* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-* The editor allows you to upload and modify images
-* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    * Add the Custom Block to desired location
-    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+* Můžete použít editor k vytvoření obsahu HTML
+* Pokud potřebujete tuto úroveň řízení, můžete upravit kliknutím na ikonu `zdrojového kódu` (`<>`) v editoru
+* Editor vám umožní nahrát a upravovat obrázky
+* Editor filtruje jakékoli potenciálně nebezpečné skripty, jako je javascript atd. Pokud potřebujete přidat obsah jako google reklamy, javascript bude odfiltrován, ale můžete si to obejít pomocí následující: 
+    * Přidejte celní blok na požadovanou polohu
+    * Upravte vlastní blok, klikněte na záložku `HTML` a vložte svůj JavaScript
 
-## The File Manager
+## Správce souborů
 
-The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
+`Custom Block` také obsahuje [File Manager](./filemanager.md) jako TinyMCE pluglin * Vytváří novou složku v phpBB/images/sitemaker_uploads/ pro každého uživatele, který k ní má přístup. * Můžete prohlížet/spravovat všechny složky uživatele
 
-## The Scripts Manager
+## Správce skriptů
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
+Vlastní blok také umožňuje přidat na stránku vlastní CSS a JavaScript soubory. Chcete-li tak učinit: * Přidejte `vlastní blok` do libovolné pozice bloku. Na pozici nezáleží, pokud nezobrazujete obsah s blokem * Upravte blok, klikněte na kartu `Scripts` a přidejte CSS nebo JavaScript soubory
 
-> Word of caution though: Adding to many scripts on your page can affect load times
+> Ale opatrnost: Přidání mnoha skriptů na vaší stránce může ovlivnit dobu nahrávání
