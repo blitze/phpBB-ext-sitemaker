@@ -1,20 +1,20 @@
 ---
-id: site-layouts
-title: Layouts
+id: макеты сайта
+title: Макеты
 ---
 
-"Layouts" determine the available block positions and how they are displayed.
+"Макеты" определяют доступные позиции блоков и как они отображаются.
 
-## Block Positions
+## Позиции блока
 
-Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
+Позиции блоков - это предопределенные области на вашем сайте, где могут существовать блоки. Доступные позиции блоков определяются тем стилем, который вы используете. Для серебра phpBB SiteMaker поставляется со следующими позициями блоков: * панель: полная ширина сверху * боковая панель: левая/правая в зависимости от расположения ниже * подсодержимое: похожа на боковую панель всего больше * сверху_hor: горизонтальные блоки по всему верху, фланг над боковой панель/подконтентом в зависимости от макета * сверху: выше основного контента * блок: одинаковая ширина, горизонтальные блоки под основным содержимым * снизу: под основным содержимым * внизу_гор: горизонтальные блоки снизу вниз, фланг боковой панели/подконтента в зависимости от разметки * футер: горизонтальные блоки в футере Вы можете добавить больше позиций блоков в ваших собственных шаблонах стилей, скопировав и изменив соответствующие шаблоны phpBB SiteMaker
 
-## Site Layout
+## Разметка сайта
 
-You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
+Вы можете выбрать макет для вашего сайта в АШП (Расширения > Сайтмейкер > Настройки): * **Блог**: подсодержимое и боковая панель рядом друг с другом, нажато вправо, подсодержимое top_hor/botom_hor фланца * **Holy Grail**: одинаковая ширина боковой панели и подсодержимое с противоположных сторон, фланцевое содержимое top_hor/botom_hor * **Портал**: боковая панель слева, подсодержимое справа, фланцевое содержимое top_hor/botom_hor * **Portal Alt**: подсодержимое слева, боковая панель справа, top_hor/botom_hor фланцевая боковая панель * **Custom**: Вручную установить ширину боковых панелей как px, %, em или rem. По умолчанию 200 пикселей с каждой стороны
 
-## Custom templates/styles
+## Пользовательские шаблоны/стили
 
-As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
+Насколько это возможно, мы пытались поместить файлы шаблонов и активы в стили/все/ папку, чтобы вы могли переписать их, создав файл с таким же именем под своим собственным шаблоном, например, prosilver. Поэтому, если вы хотите изменить то, как отображается определенный блок, или если вы хотите создать свой собственный макет с собственными позициями блоков, вам просто нужно создать файл с таким же именем и путем, как оригинал в вашем собственном стиле.
 
-If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
+Если вам нужно настроить CSS/JS файлы, посмотрите раздел [theming](./developer-theming.md).
