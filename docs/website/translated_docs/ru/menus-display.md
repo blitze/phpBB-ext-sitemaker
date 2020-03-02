@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: отображение меню
+title: Отображение меню
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Теперь, когда вы создали меню, вы можете отобразить их несколькими способами:
 
-## Links Block
+## Блок ссылок
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Вы можете использовать этот блок для отображения плоского или вложенного списка пунктов меню. Этот блок не предназначен для навигации, т.е. он не будет показывать текущую страницу или что-либо подобное. Предназначен для списка элементов, включая внешние ссылки.
 
-## Menus Block
+## Блок меню
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Этот блок предназначен для навигации по сайту. Это делает некоторые дополнительные вычисления для определения текущего местоположения и не является очень большим списком.
 
-## Navigation bar
+## Панель навигации
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Как и в блоке Меню, панель навигации будет отображать пункты меню в виде быстрого выпадающего меню, предназначенного для навигации по сайту. Вы можете включить это в ACP > Расширения > Sitemaker > Настройки > Выберите меню
