@@ -1,24 +1,19 @@
 <?php
 
 /**
- *
- * @package phpBB Sitemaker [English]
  * @copyright (c) 2013 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
- *
  */
 
 /**
  * @ignore
  */
-if (!defined('IN_PHPBB'))
-{
-	exit;
+if (!defined('IN_PHPBB')) {
+    exit;
 }
 
-if (empty($lang) || !is_array($lang))
-{
-	$lang = array();
+if (empty($lang) || !is_array($lang)) {
+    $lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,74 +32,75 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
-	'ACP_SITEMAKER'				=> 'SiteMaker',
-	'ACP_SM_SETTINGS'			=> 'Settings',
+$lang = array_merge($lang, [
+    'ACP_SITEMAKER' => 'SiteMaker',
+    'ACP_SM_SETTINGS' => 'Impostazioni',
 
-	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
-	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
-	'BLOCKS_CLEANUP_BLOCKS'		=> 'Invalid Blocks (e.g. from uninstalled extensions):',
-	'BLOCKS_CLEANUP_ROUTES'		=> 'Unreachable/broken Pages:',
-	'BLOCKS_CLEANUP_STYLES'		=> 'Uninstalled Styles (ids):',
-	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
+    'BLOCKS_CLEANUP' => 'Pulizia blocchi',
+    'BLOCKS_CLEANUP_EXPLAIN' => 'I seguenti elementi non esistono più o non sono raggiungibili, quindi è possibile eliminare tutti i blocchi associati a essi. Si prega di tenere a mente che alcuni di questi potrebbero essere falsi positivi',
+    'BLOCKS_CLEANUP_BLOCKS' => 'Blocchi non validi (es. da estensioni disinstallate):',
+    'BLOCKS_CLEANUP_ROUTES' => 'Pagine non raggiungibili/rotte:',
+    'BLOCKS_CLEANUP_STYLES' => 'Stili disinstallati (ids):',
+    'BLOCKS_CLEANUP_SUCCESS' => 'I blocchi sono stati eliminati con successo',
 
-	'FILEMANAGER_SETTINGS'						=> 'File Manager Settings',
-	'FILEMANAGER_STATUS'						=> 'Status',
-	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
-	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Automatically resize uploaded images?',
-	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Resize to specified dimensions',
-	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Auto resizing mode',
-	'FILEMANAGER_IMAGE_MAX_DIMENSIONS'			=> 'Max. image size',
-	'FILEMANAGER_IMAGE_MAX_MODE'				=> 'Max. image size mode',
-	'FILEMANAGER_IMAGE_MODE_EXPLAIN'			=> 'Used to calculate the height/width if you only provide height or width but not both above',
-	'FILEMANAGER_IMAGE_MODE_AUTO'				=> 'Auto',
-	'FILEMANAGER_IMAGE_MODE_CROP'				=> 'Crop',
-	'FILEMANAGER_IMAGE_MODE_EXACT'				=> 'Exact',
-	'FILEMANAGER_IMAGE_MODE_LANDSCAPE'			=> 'Landscape',
-	'FILEMANAGER_IMAGE_MODE_PORTRAIT'			=> 'Portrait',
-	'FILEMANAGER_WATERMARK'						=> 'Watermark',
-	'FILEMANAGER_WATERMARK_EXPLAIN'				=> 'URL of image to use as watermark on all uploaded images',
-	'FILEMANAGER_WATERMARK_POSITION'			=> 'Watermark position',
-	'FILEMANAGER_WATERMARK_POSITION_EXPLAIN'	=> 'Select a pre-determined position where the watermark should appear or enter the coordinates e.g. 50x100',
-	'FILEMANAGER_WATERMARK_POSITION_TL'			=> 'Top Left',
-	'FILEMANAGER_WATERMARK_POSITION_T'			=> 'Top',
-	'FILEMANAGER_WATERMARK_POSITION_TR'			=> 'Top Right',
-	'FILEMANAGER_WATERMARK_POSITION_L'			=> 'Left',
-	'FILEMANAGER_WATERMARK_POSITION_M'			=> 'Middle',
-	'FILEMANAGER_WATERMARK_POSITION_R'			=> 'Right',
-	'FILEMANAGER_WATERMARK_POSITION_BL'			=> 'Bottom Left',
-	'FILEMANAGER_WATERMARK_POSITION_B'			=> 'Bottom',
-	'FILEMANAGER_WATERMARK_POSITION_BR'			=> 'Bottom Right',
-	'FILEMANAGER_WATERMARK_POSITION_SUFFIX'		=> 'or',
-	'FILEMANAGER_WATERMARK_PADDING'				=> 'Watermark padding',
-	'FILEMANAGER_WATERMARK_PADDING_EXPLAIN'		=> 'If using a pre-determined position you can adjust the padding from the edges. If using co-ordinates, this value is ignored',
+    'FILEMANAGER_SETTINGS' => 'Impostazioni del gestore file',
+    'FILEMANAGER_STATUS' => 'Stato',
+    'FILEMANAGER_NO_EXIST' => 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
+    'FILEMENAGER_NOT_WRITABLE' => 'Filemanager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
+    'FILEMANAGER_IMAGE_AUTO_RESIZE' => 'Ridimensionare automaticamente le immagini caricate?',
+    'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS' => 'Ridimensiona alle dimensioni specificate',
+    'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE' => 'Modalità ridimensionamento automatico',
+    'FILEMANAGER_IMAGE_MAX_DIMENSIONS' => 'Dimensione massima immagine',
+    'FILEMANAGER_IMAGE_MAX_MODE' => 'Massimo modalità dimensione immagine',
+    'FILEMANAGER_IMAGE_MODE_EXPLAIN' => 'Usato per calcolare l\'altezza/larghezza se si fornisce solo altezza o larghezza ma non entrambe sopra',
+    'FILEMANAGER_IMAGE_MODE_AUTO' => 'Auto',
+    'FILEMANAGER_IMAGE_MODE_CROP' => 'Ritaglia',
+    'FILEMANAGER_IMAGE_MODE_EXACT' => 'Esatto',
+    'FILEMANAGER_IMAGE_MODE_LANDSCAPE' => 'Orizzontale',
+    'FILEMANAGER_IMAGE_MODE_PORTRAIT' => 'Ritratto',
+    'FILEMANAGER_WATERMARK' => 'Filigrana',
+    'FILEMANAGER_WATERMARK_EXPLAIN' => 'URL dell\'immagine da usare come filigrana su tutte le immagini caricate',
+    'FILEMANAGER_WATERMARK_POSITION' => 'Posizione filigrana',
+    'FILEMANAGER_WATERMARK_POSITION_EXPLAIN' => 'Seleziona una posizione predeterminata dove la filigrana deve apparire o inserire le coordinate ad es. 50x100',
+    'FILEMANAGER_WATERMARK_POSITION_TL' => 'In alto a sinistra',
+    'FILEMANAGER_WATERMARK_POSITION_T' => 'Sopra',
+    'FILEMANAGER_WATERMARK_POSITION_TR' => 'Alto a destra',
+    'FILEMANAGER_WATERMARK_POSITION_L' => 'Sinistra',
+    'FILEMANAGER_WATERMARK_POSITION_M' => 'Al centro',
+    'FILEMANAGER_WATERMARK_POSITION_R' => 'Destra',
+    'FILEMANAGER_WATERMARK_POSITION_BL' => 'In basso a sinistra',
+    'FILEMANAGER_WATERMARK_POSITION_B' => 'Basso',
+    'FILEMANAGER_WATERMARK_POSITION_BR' => 'In basso a destra',
+    'FILEMANAGER_WATERMARK_POSITION_SUFFIX' => 'o',
+    'FILEMANAGER_WATERMARK_PADDING' => 'Riempimento filigrana',
+    'FILEMANAGER_WATERMARK_PADDING_EXPLAIN' => 'Se si utilizza una posizione predeterminata è possibile regolare il padding dai bordi. Se si utilizza il coordinatore, questo valore viene ignorato',
 
-	'FORUM_INDEX_SETTINGS'			=> 'Forum Index Settings',
-	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
+    'FORUM_INDEX_SETTINGS' => 'Impostazioni indice forum',
+    'FORUM_INDEX_SETTINGS_EXPLAIN' => 'Queste impostazioni si applicano solo quando non c\'è nessuna pagina iniziale definita',
 
-	'HIDE'						=> 'Hide',
-	'HIDE_BIRTHDAY'				=> 'Hide Birthday section',
-	'HIDE_LOGIN'				=> 'Hide login box',
-	'HIDE_ONLINE'				=> 'Hide Whos online section',
+    'HIDE' => 'Pelle',
+    'HIDE_BIRTHDAY' => 'Nascondi sezione compleanno',
+    'HIDE_LOGIN' => 'Nascondi casella di accesso',
+    'HIDE_ONLINE' => 'Nascondi Whos online',
 
-	'LAYOUT_BLOG'				=> 'Blog',
-	'LAYOUT_CUSTOM'				=> 'Custom',
-	'LAYOUT_HOLYGRAIL'			=> 'Holy Grail',
-	'LAYOUT_PORTAL'				=> 'Portal',
-	'LAYOUT_PORTAL_ALT'			=> 'Portal (alt)',
-	'LAYOUT_SETTINGS'			=> 'Layout Settings',
+    'LAYOUT_BLOG' => 'Blog',
+    'LAYOUT_CUSTOM' => 'Personale',
+    'LAYOUT_HOLYGRAIL' => 'Rotaia Santa',
+    'LAYOUT_PORTAL' => 'Portale',
+    'LAYOUT_PORTAL_ALT' => 'Portale (alt)',
+    'LAYOUT_SETTINGS' => 'Impostazioni Layout',
 
-	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Sitemaker blocks deleted for missing style with id %s',
-	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
-	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
+    'LOG_DELETED_BLOCKS_FOR_STYLE' => 'Blocchi Sitemaker eliminati per mancanza di stile con id %s',
+    'LOG_DELETED_BLOCKS_FOR_ROUTE' => 'Blocchi di sitemaker eliminati per pagine guastate:<br />%s',
+    'LOG_DELETED_BLOCKS' => 'Blocchi Sitemaker non validi:<br />%s',
 
-	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
-	'NO_NAVBAR'					=> 'None',
+    'NAVIGATION_SETTINGS' => 'Impostazioni di navigazione',
+    'NO_NAVBAR' => 'Nulla',
 
-	'SELECT_NAVBAR_MENU'		=> 'Select main navigation menu',
-	'SETTINGS_SAVED'			=> 'Your settings have been saved',
-	'SHOW'						=> 'Show',
-	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
-	'SHOW_FORUM_NAV_EXPLAIN'	=> 'When a page is set as startpage instead of the forum index, should we display ’Forum’ in navigation bar',
-	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Yes - with icon:',
-));
+    'SELECT_NAVBAR_MENU' => 'Seleziona il menu di navigazione principale',
+    'SETTINGS_SAVED' => 'Le tue impostazioni sono state salvate',
+    'SHOW' => 'Mostra',
+    'SHOW_FORUM_NAV' => 'Mostrare \'Forum\' nella barra di navigazione?',
+    'SHOW_FORUM_NAV_EXPLAIN' => 'Quando una pagina è impostata come pagina iniziale invece dell\'indice del forum, se mostrassimo \'Forum\' nella barra di navigazione',
+    'SHOW_FORUM_NAV_WITH_ICON' => 'Sì - con l\'icona:',
+]);
