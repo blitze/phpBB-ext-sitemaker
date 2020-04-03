@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: gestione blocchi
+title: Gestione dei blocchi
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+Per gestire i blocchi in phpBB SiteMaker, devi essere in [Modo Modifica](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Quando un blocco non mostra alcun contenuto, non verrà visualizzato, eccetto in modalità modifica. In questo modo, puoi dargli contenuto (nel caso del blocco personalizzato) o cambiarne le impostazioni.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> In modalità modifica, i blocchi in un certo senso trasparenti sono blocchi che altrimenti non verranno visualizzati ma verranno visualizzati solo perché siamo in modalità di modifica
 
-## Adding blocks
+## Aggiungi blocchi
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+Puoi aggiungere blocchi a qualsiasi pagina frontale, eccetto il Pannello di Controllo Utente e le pagine del Pannello di Controllo Moderatore. Per aggiungere un blocco, devi: * clicca su **Blocchi** nella barra di amministrazione. Questo mostrerà una lista di blocchi disponibili * Trascina e rilascia il blocco desiderato in qualsiasi posizione di blocco
 
-## Editing blocks
+## Modifica blocchi
 
-### Adding a block icon
+### Aggiungi icona blocco
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+A sinistra del titolo del blocco (prosilver), c'è una casella per l'icona del blocco. Clicca su questa casella per ottenere il selettore icona. È possibile selezionare la dimensione dell'icona, colore, float, rotazione, ecc.
 
-### Editing the Block Title
+### Modifica del titolo del blocco
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+phpBB SiteMaker blocchi avranno un titolo predefinito, tradotto ma se il titolo non soddisfa le tue esigenze, puoi cambiarlo. Per modificare il titolo del blocco, * Clicca sul titolo del blocco per ottenere un modulo di modifica inline * Cambia il titolo in quello che vuoi * Rimuovi il focus dal campo o premi invio per inviare le modifiche
 
-> Your modified block title is not translated
+> Il titolo del blocco modificato non è tradotto
 > 
-> To revert to the default title, simple delete the title and hit enter
+> Per tornare al titolo predefinito, elimina il titolo e premi invio
 
-### Editing block settings
+### Modifica impostazioni blocco
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Quando passi sopra un blocco, un'icona rotellino apparirà a destra del blocco che può essere utilizzato per modificare il blocco. Nella finestra di modifica del blocco, puoi: - Abilita/disabilita un blocco [Status] - Scegli quando il blocco non deve essere visualizzato [Display]. Questo vale solo per i casi in cui hai annidato pagine (vedi [Understanding Block Inheritance](./blocks-inheritance.md)): - **Sempre**: mostra sempre il blocco - **Hide on Children**: Mostra solo questo blocco sul percorso genitore - **Mostra solo sulle rotte figli**: mostra solo questo blocco su un percorso figlio - Scegli quali gruppi di utenti possono visualizzare il blocco [Visualizzabile da]. Usa CTRL + click per selezionare più gruppi. - Imposta le classi personalizzate per modificare l'aspetto del blocco o degli elementi (liste, immagini, sfondo, ecc) all'interno del blocco [CSS Class] - Mostra/nascondi il titolo del blocco [Nascondi titolo del blocco?] - Seleziona la vista del blocco [Vista blocco]. Puoi selezionare una vista di blocco predefinita quando vengono aggiunti nuovi blocchi nei paesi ACP. - **di default / Semplice**: usa la classe pannello proargento per inserire il blocco in un contenitore imbottito - **Base**: il blocco non ha alcun contenitore da confezionare - **Boxed**: usa la classe proargver forabg per ingoiare il blocco in una casella - Imposta / Aggiorna impostazioni specifiche del blocco - se hai lo stesso blocco con le stesse impostazioni in più pagine, puoi aggiornarli tutti contemporaneamente controllando i **blocchi di aggiornamento con impostazioni simili**
 
-## Deleting blocks
+## Eliminazione blocchi
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Passa sopra il blocco che vuoi eliminare
+- Clicca sull'icona **x** e conferma di voler eliminare il blocco
+- Vai fino alla barra di amministrazione e clicca su `Salva le modifiche`
