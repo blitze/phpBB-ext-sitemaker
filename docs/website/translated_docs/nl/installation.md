@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: installatie
+title: Installeren / Upgraden
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+Download de extensie van [hier](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
-## Installing phpBB SiteMaker
+## Installeren van phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Haal het uit en upload het naar je phpBB/ext/ map zodat je phpBB/ext/blitze/sitemaker hebt
+* Ga naar "ACS" > "Aanpassen" > "Extensies" en schakel de "phpBB Sitemaker" extensie in.
 
-## Upgrading phpBB SiteMaker
+## Upgraden van phpBB SiteMaker
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Maak een back-up van uw database voor het geval er iets fout gaat
+* Ga naar "ACS" > "Aanpassen" > "Extensies" en schakel uit (niet reinigen) "phpBB Sitemaker"
+* Download en extract de nieuwste versie van phpBB SiteMaker en upload deze naar uw phpBB/ext/ map (overschrijf)
+* Ga naar "ACS" > "Aanpassen" > "Extensies" en schakel de "phpBB Sitemaker" extensie in.
