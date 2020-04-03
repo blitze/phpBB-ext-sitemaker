@@ -1,25 +1,25 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: пользовательские блоки
+title: Пользовательский блок
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
+Если доступные блоки не дают тебе нужную свободу, есть `Пользовательский блок` , который позволяет вам свободно отображать свой собственный контент с помощью BBcode или HTML. Блокировка поставляется с WYSIWYG редактором (TinyMCE), [Менеджером Файлов](./filemanager.md), и менеджером сценариев:
 
-## The editor
+## Редактор
 
-* You can use the editor to create HTML content
-* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-* The editor allows you to upload and modify images
-* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    * Add the Custom Block to desired location
-    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+* Вы можете использовать редактор для создания HTML-контента
+* Вы можете изменить исходный код, если вам нужен такой уровень контроля, нажав на значок `Исходный код` (`<>`) в редакторе
+* Редактор позволяет загружать и изменять изображения
+* Редактор фильтрует любые потенциально опасные скрипты, такие как javascript и т.д. Если вам нужно добавить контент как Google рекламу, javascript будет отфильтрован, но вы можете обойти это, сделав следующее: 
+    * Добавить пользовательский блок в нужное место
+    * Редактировать пользовательский блок, нажмите на вкладку `HTML` и вставьте ваш Javascript
 
-## The File Manager
+## Файловый менеджер
 
-The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
+`Пользовательский блок` также поставляется с [Менеджером файлов](./filemanager.md) в качестве плагина TinyMCE * Он создает новую папку в phpBB/images/sitemaker_uploads/ для каждого пользователя, у которого есть доступ к нему * Вы можете просматривать и управлять всеми папками пользователей
 
-## The Scripts Manager
+## Менеджер сценариев
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
+Пользовательский блок также позволяет добавлять пользовательские файлы CSS и Javascript на вашу страницу. Для этого: * Добавить `пользовательский блок` в любое положение блока. Позиция не имеет значения, если вы также не отображаете контент с блоком * Редактировать блок, нажмите на вкладку `Scripts` и добавьте файлы CSS или Javascript
 
-> Word of caution though: Adding to many scripts on your page can affect load times
+> Однако осторожно: добавление ко многим скриптам на вашей странице может повлиять на время загрузки
