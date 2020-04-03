@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: gestión de menús
+title: Gestionar Menús
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Puede crear menús en ACP que luego se pueden mostrar usando los bloques Menus o Links o como una barra de navegación horizontal.
 
-## Managing Menus
+## Gestionar Menús
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Para administrar menús, vaya a ACP > Extensiones > Sitemaker > Menu
 
-### Creating Menus
+### Creando Menús
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Para crear un nuevo menú (grupo), haga clic en el botón Agregar Menú ``. Se creará un nuevo grupo de menús con un nombre generado aleatoriamente. También se seleccionará el nuevo menú para que pueda comenzar a añadir elementos de menú.
 
-### Editing Menus
+### Editar Menús
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Si quieres un nombre de menú más significativo, * pasa por encima del nombre del menú y haz clic en el icono del engranaje * introduce el nuevo nombre del menú y pulsa Intro para actualizarlo
 
-### Deleting Menus
+### Eliminando Menús
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Para eliminar un menú, y sus elementos, * Pase el cursor sobre el nombre del menú y haga clic en el icono **x** * Si el elemento del menú no tiene elementos secundarios, tendrás que confirmar tu elección para eliminar el elemento * Si el elemento del menú tiene elementos secundarios, tendrás que indicar si quieres eliminar sólo el elemento y mover sus hijos hacia arriba o si quieres eliminar toda la rama
