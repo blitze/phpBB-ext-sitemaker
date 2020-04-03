@@ -38,11 +38,11 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Admin Permissions
-	'ACL_A_SM_SETTINGS'			=> 'Can manage Sitemaker settings',
-	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Can manage Sitemaker blocks',
-	'ACL_A_SM_MANAGE_MENUS'		=> 'Can manage Sitemaker menus',
-	'ACL_A_SM_FILEMANAGER'		=> 'Can see/manage other users’ folders in File Manager',
+	'ACL_A_SM_SETTINGS'			=> 'Może zarządzać ustawieniami Sitemaker',
+	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Można zarządzać blokami Sitemaker',
+	'ACL_A_SM_MANAGE_MENUS'		=> 'Można zarządzać menu Sitemaker',
+	'ACL_A_SM_FILEMANAGER'		=> 'Można widzieć/zarządzać folderami innych użytkowników w Menedżerze Plików',
 
 	// User Permissions
-	'ACL_U_SM_FILEMANAGER'		=> 'Can use File Manager',
+	'ACL_U_SM_FILEMANAGER'		=> 'Może używać Menedżera Plików',
 ));
