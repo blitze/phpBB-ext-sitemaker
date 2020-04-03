@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: blokken-beheer
+title: Blokken beheren
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+Om blokken in phpBB SiteMaker te beheren, moet u in [Bewerkingsmodus](./blocks-overview#edit-mode) zijn.
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Wanneer een blok geen inhoud toont, zal het niet worden weergegeven, behalve in bewerkmodus. Op die manier kunt u het inhoud geven (in het geval van het aangepaste blok) of de instellingen wijzigen.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> In bewerkmodus zijn de enigszins transparante blokken blokken die anders niet worden weergegeven maar alleen worden weergegeven omdat we in bewerkmodus zijn
 
-## Adding blocks
+## Blokken toevoegen
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+U kunt blokken toevoegen aan elke front-facing pagina, behalve de User Control Panel en de Moderator Control Panel pagina's. Om een blok toe te voegen moet u * klikken op **blokken** in de Admin balk. Dit toont een lijst van beschikbare blokken * Sleep en laat het gewenste blok naar een blok positie
 
-## Editing blocks
+## Blokken bewerken
 
-### Adding a block icon
+### Een blok icoon toevoegen
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+Aan de linkerkant van de bloktitel (prosilver), is er een vak voor het blokpictogram. Klik op dit vak om de pictogrammenkiezer te krijgen. U kunt de grootte van het pictogram selecteren, kleur, zwevend, rotatie, enz.
 
-### Editing the Block Title
+### Bloktitel bewerken
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+phpBB SiteMaker blokken zullen een standaard, vertaalde titel hebben, maar als de titel niet voldoet aan uw behoeften, kunt u deze wijzigen. Om de bloktitel te bewerken, * Klik op de bloktitel om een inline bewerkformulier te krijgen * Verander de titel naar wat je wilt * Verwijder de focus uit het veld of klik op enter om wijzigingen in te dienen
 
-> Your modified block title is not translated
+> Uw aangepaste block titel is niet vertaald
 > 
-> To revert to the default title, simple delete the title and hit enter
+> Om terug te keren naar de standaardtitel, verwijder de titel en druk op enter
 
-### Editing block settings
+### Bewerken block instellingen
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Wanneer je over een blok zweeft, zal een cog icoon naar rechts van het blok verschijnen dat gebruikt kan worden om het blok te bewerken. In het bewerk block dialoogvenster kunt u: - In- of uitschakelen van een blok [Status] - Kies wanneer het blok niet moet worden weergegeven [Display]. Dit is alleen van toepassing in de gevallen waarin je geneste pagina's hebt (zie [Understanding Block Inheritance](./blocks-inheritance.md)): - **Altijd**: altijd het blok - **Verbergen op onderliggende routes**: Toon alleen dit blok op de bovenliggende route - **Toon alleen op onderliggende routes**: Toon alleen dit blok op een onderliggende route - kies welke groepen het blok kunnen bekijken [Bekijk]. Gebruik CTRL + klik om meerdere groepen te selecteren. - Stel aangepaste klassen in om het uiterlijk van het blok of items (lijsten, afbeeldingen, achtergrond, enz) te wijzigen in het blok [CSS Class] - Toon/Verberg de bloktitel [Hide block title?] - Selecteer de blokweergave [Block view]. U kunt een standaard blokweergave selecteren wanneer nieuwe blokken worden toegevoegd in de ACS. - **Standaard / Eenvoudige**: maakt gebruik van de prosilver panel class om het blok in een geplakte container - **Basis**: blok bevat geen container verpakking - **Gebogen**: gebruikt de prosilver forg klasse om het blok in een box te verwerken, - Zet / Update blok specifieke instellingen - als je hetzelfde blok hebt met dezelfde instellingen op meerdere pagina's, je kunt ze allemaal tegelijk updaten door de **Update blokken te controleren met soortgelijke instellingen**
 
-## Deleting blocks
+## Blokken verwijderen
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Beweeg over het blok dat je wilt verwijderen
+- Klik op het pictogram **x** en bevestig dat u het blok wilt verwijderen
+- Ga naar de admin balk en klik op `Wijzigingen opslaan`
