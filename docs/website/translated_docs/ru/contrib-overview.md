@@ -1,11 +1,11 @@
 ---
-id: contrib-overview
-title: Get Involved
+id: contrib-обзор
+title: Примите участие
 ---
 
-phpBB SiteMaker is an open source project and welcomes your ideas and contributions. So feel free to get involved. You can contribute to this project by:
+phpBB SiteMaker является проектом с открытым исходным кодом и приветствует ваши идеи и вклад. Так что не стесняйтесь принимать участие. Вы можете внести свой вклад в этот проект:
 
-* [Providing Support/Feedback](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
-* [Reporting Bugs](https://github.com/blitze/phpBB-ext-sitemaker/issues)
-* [Helping with Translation](./contrib-translators.md)
-* [Fixing bugs or adding features](./contrib-pull-requests.md)
+* [Поддержка/Обратная связь](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
+* [Сообщить об ошибках](https://github.com/blitze/phpBB-ext-sitemaker/issues)
+* [Помощь с переводом](./contrib-translators.md)
+* [Исправление ошибок или добавление функций](./contrib-pull-requests.md)
