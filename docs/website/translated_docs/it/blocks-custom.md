@@ -1,25 +1,25 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blocchi-personalizzati
+title: Blocco personalizzato
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
+Se i blocchi disponibili non ti danno la libertà che ti serve, c'è il blocco `personalizzato` che ti permette di visualizzare liberamente i tuoi contenuti utilizzando BBcode o HTML. Il blocco è dotato di un editor WYSIWYG (TinyMCE), un [File Manager](./filemanager.md)e un gestore di script:
 
-## The editor
+## L'editor
 
-* You can use the editor to create HTML content
-* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-* The editor allows you to upload and modify images
-* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    * Add the Custom Block to desired location
-    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+* Puoi usare l'editor per creare contenuti HTML
+* Puoi modificare il codice sorgente se hai bisogno di questo livello di controllo cliccando sull'icona `del codice sorgente` (`<>`) nell'editor
+* L'editor ti permette di caricare e modificare immagini
+* L'editor filtra qualsiasi script potenzialmente pericoloso come javascript, ecc. Se hai bisogno di aggiungere contenuti come pubblicità google, gli javascript verranno filtrati, ma è possibile aggirare questo problema facendo quanto segue: 
+    * Aggiungi il blocco personalizzato alla posizione desiderata
+    * Modifica il Blocco Personalizzato, clicca sulla scheda `HTML` e incolla il tuo Javascript
 
-## The File Manager
+## Gestore File
 
-The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
+Il `Custom Block` è anche dotato di [File Manager](./filemanager.md) come un plugin TinyMCE * Crea una nuova cartella in phpBB/images/sitemaker_uploads/ per ogni utente che ha accesso a esso * È possibile vedere/gestire tutte le cartelle utente
 
-## The Scripts Manager
+## Lo script Manager
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
+Il blocco personalizzato consente anche di aggiungere file CSS e Javascript personalizzati alla tua pagina. To do this: * Add a `Custom Block` to any block position. La posizione non è rilevante a meno che non si visualizza anche il contenuto con il blocco * modificarlo, clicca sulla scheda `Script` e aggiungi i tuoi file CSS o Javascript
 
-> Word of caution though: Adding to many scripts on your page can affect load times
+> Ma la parola di cautela: aggiungere a molti script nella tua pagina può influire sui tempi di caricamento
