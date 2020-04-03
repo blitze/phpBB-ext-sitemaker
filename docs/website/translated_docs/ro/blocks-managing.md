@@ -1,6 +1,6 @@
 ---
 id: blocks-managing
-title: Managing Blocks
+title: Mananaging Blocks
 ---
 
 To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
