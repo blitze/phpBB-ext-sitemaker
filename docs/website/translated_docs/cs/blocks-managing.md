@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: správa bloků
+title: Správa bloků
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+Chcete-li spravovat bloky v phpBB SiteMaker, musíte být v [Edit Mode](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Pokud blok nezobrazí žádný obsah, nebude zobrazen, s výjimkou editačního režimu. Tímto způsobem jej můžete buď seznámit s obsahem (v případě celního bloku) nebo změnit jeho nastavení.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> V editačním režimu jsou poněkud transparentní bloky, které se jinak nezobrazují, ale zobrazují se pouze proto, že jsme v režimu úpravy.
 
-## Adding blocks
+## Přidání bloků
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+Bloky můžete přidávat na libovolnou stránku s náporem, kromě User Control Panel a Moderator Control Panel stránek. Chceš-li přidat blok, musíš to: * klikni na **bloky** v panelu Admina. Toto zobrazí seznam dostupných bloků * přetáhni požadovaný blok na jakoukoli pozici bloku
 
-## Editing blocks
+## Nastavení bloků
 
-### Adding a block icon
+### Přidáním blokové ikony
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+Pro levou část blokového titulu (prosilver) je zde krabice pro ikonu bloku. Klikněte na tuto schránku, abyste si vybrali ikonu. Můžete zvolit velikost ikon, barvu, float, rotaci, atd.
 
-### Editing the Block Title
+### Upravit blokovou hlavičku
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+phpBB SiteMaker bloky budou mít výchozí, přeložené tituly, ale pokud název nesplňuje vaše potřeby, můžete změnit. Možnost upravit název bloku, * Klikni na název bloku a najdi inline editační formulář * Změň název na cokoliv chceš * Odstraň zaměření pole nebo stiskni enter pro submit změn.
 
-> Your modified block title is not translated
+> Vaše modifikovaný název není přeložen
 > 
-> To revert to the default title, simple delete the title and hit enter
+> Pro návrat do výchozího názvu jednoduše smažte název a stiskněte Enter.
 
-### Editing block settings
+### Upravit nastavení bloků
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Když se vznášíte přes blok, objeví se ikona pro sdílení pravé části bloku, který může být použit k úpravě bloku. V okně bloku úprav můžete: - Povolit/zakázat blok [Status] - Vyberte kdy by blok neměl být zobrazován [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Použijte CTRL + klikněte na výběr více skupin. - Nastavte vlastní třídy pro změnu vzhledu bloku nebo položek (seznamy, obrázky, pozadí. atd) v bloku [CSS Class] - Zobrazit/skrýt název bloku [Skrýt název bloku? - Vyberte si zobrazení bloku [Block view]. Při přidání nových bloků do zemí AKT si můžete zvolit výchozí blokový náhled. - **Výchozí / Jednoduché**: použije třídu prostříbra panelu bloku pro zabalení do ohraničeného kontejneru - **Basic**: blok nemá žádný kontejner zabalený - **Boxed**: používá prosilver třídy pro zabalení bloku do pole - Aktualizujte specifické nastavení blokování - Pokud máte stejný blok se stejným nastavením na více stránkách, všechny aktualizace můžete aktualizovat najednou kontrolou **aktualizačních bloků v podobném nastavení**
 
-## Deleting blocks
+## Odstranění bloků
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Hover nad blokem, který chcete odstranit
+- Klepněte na ikonu **x** a potvrďte, že chcete tento blok odstranit.
+- Jdi na panel administrace a klikni na `Uložit změny`
