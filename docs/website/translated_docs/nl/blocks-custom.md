@@ -1,25 +1,25 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blokken-aangepast
+title: Aangepaste blok
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
+Als de beschikbare blokken je niet de vrijheid geven die je nodig hebt er is de `Custom Block` die u de vrijheid geeft om uw eigen inhoud te tonen met behulp van BBcode of HTML. Het blok komt met een WYSIWYG-editor (TinyMCE), een [Bestandsbeheerder](./filemanager.md)en een scripts manager:
 
-## The editor
+## De editor
 
-* You can use the editor to create HTML content
-* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-* The editor allows you to upload and modify images
-* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    * Add the Custom Block to desired location
-    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+* U kunt de editor gebruiken om HTML-inhoud aan te maken
+* Je kunt de broncode bewerken als je die controle nodig hebt door te klikken op het `Broncode` pictogram (`<>`) in de editor
+* De editor staat je toe om afbeeldingen te uploaden en te wijzigen
+* De editor filtert alle potentieel gevaarlijke scripts zoals javascript, enz. Als u inhoud zoals google ads moet toevoegen, zal de javascript worden gefilterd, maar u kunt er omheen door het volgende te doen: 
+    * Voeg het aangepaste blok toe aan de gewenste locatie
+    * Bewerk het Aangepast Blok, klik op het `tabblad HTML` en plak uw Javascript
 
-## The File Manager
+## De bestandsbeheerder
 
-The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
+De `Custom Block` komt ook met een [Bestandsbeheer](./filemanager.md) als een TinyMCE pluglin * Het maakt een nieuwe map aan in phpBB/images/sitemaker_uploads/ voor elke gebruiker die er toegang toe heeft * Je kunt alle gebruikersmappen bekijken of beheren
 
-## The Scripts Manager
+## De Scripts Manager
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
+Met het aangepaste Blok kunt u ook aangepaste CSS en Javascript bestanden toevoegen aan uw pagina. Om dit te doen: * Voeg een `Custom Blok` toe aan een willekeurige positie van een blok. De positie doet er niet toe tenzij u ook inhoud met blok * Bewerk het blok klik op het `Scripts` tabblad en voeg uw CSS of Javascript bestanden toe
 
-> Word of caution though: Adding to many scripts on your page can affect load times
+> Woord van voorzichtigheid: Toevoegen aan veel scripts op uw pagina kan laadtijden beïnvloeden
