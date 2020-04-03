@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: управление меню
+title: Управление меню
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Вы можете создавать меню в ACP, которые вы можете отображать, используя блоки Меню или Ссылки или отображать как горизонтальную панель навигации.
 
-## Managing Menus
+## Управление меню
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Для управления меню перейдите в ACP > Расширения > Sitemaker > Меню
 
-### Creating Menus
+### Создание меню
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Для создания нового меню (группы), нажмите на кнопку `Добавить меню`. Новая группа меню будет создана с случайным именем. Будет также выбрано новое меню, чтобы начать добавлять в него пункты меню.
 
-### Editing Menus
+### Редактирование меню
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Если вы хотите более значимое название меню, * наведите курсор на название меню и нажмите на значок cog * введите новое название меню и нажмите Enter, чтобы обновить его
 
-### Deleting Menus
+### Удаление меню
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Удалять меню и его элементы, * Наведите курсор на название меню и нажмите на значок **x** * Если пункт меню не имеет дочерних элементов, вам нужно подтвердить ваш выбор, чтобы удалить пункт * Если пункт меню имеет дочерние элементы, вам нужно будет указать, если вы хотите удалить только элемент и переместить его дочерние вверх или если вы хотите удалить всю ветку
