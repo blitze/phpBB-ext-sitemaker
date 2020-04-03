@@ -309,7 +309,7 @@ class settings_module
 				$this->config->set('sm_filemanager', false);
 				$filemanager_docs = 'https://blitze.github.io/phpBB-ext-sitemaker/docs/' . $this->user->data['user_lang'] . '/filemanager';
 
-				trigger_error($this->translator->lang('FILEMANAGER_NO_EXIST', $filemanager_docs) . adm_back_link($this->u_action), E_USER_WARNING);
+				trigger_error($this->translator->lang($this->filemanager->get_error(), $filemanager_docs) . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 		}
 	}

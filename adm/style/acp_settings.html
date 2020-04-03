@@ -86,7 +86,7 @@
 				</dd>
 			</dl>
 			<div id="filemanager-settings">
-			{% if filemanager|length %}
+			{% if filemanager is iterable %}
 				{% set image_modes = ['exact', 'portrait', 'landscape', 'auto', 'crop'] %}
 				<dl>
 					<dt><label for="filemanager_max_image">{{ lang('FILEMANAGER_IMAGE_MAX_DIMENSIONS') }}</label><br /><span>{{ lang('MAX_AVATAR_SIZE_EXPLAIN') }}</span></dt>
@@ -148,7 +148,7 @@
 					<dd><input id="filemanager_watermark_padding" type="number" min="0" name="filemanager[image_watermark_padding]" value="{{ filemanager.image_watermark_padding }}" /> {{ lang('PIXEL') }}</dd>
 				</dl>
 			{% else %}
-				<p>{{ lang('FILEMANAGER_NO_EXIST', 'https://blitze.github.io/phpBB-ext-sitemaker/docs/' ~ sm_user_lang ~ '/filemanager') }}</p>
+				<p>{{ lang(filemanager, 'https://blitze.github.io/phpBB-ext-sitemaker/docs/' ~ sm_user_lang ~ '/filemanager') }}</p>
 			{% endif %}
 			</div>
 		</fieldset>

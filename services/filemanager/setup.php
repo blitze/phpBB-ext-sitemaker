@@ -69,7 +69,7 @@ class setup extends settings
 	 */
 	public function is_enabled()
 	{
-		return is_dir($this->config_path) && $this->config['sm_filemanager'] && $this->auth->acl_get('u_sm_filemanager');
+		return $this->is_installed() && $this->config['sm_filemanager'] && $this->auth->acl_get('u_sm_filemanager');
 	}
 
 	/**

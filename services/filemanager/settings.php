@@ -1,17 +1,11 @@
 <?php
 /**
- *
- * @package sitemaker
  * @copyright (c) 2017 Daniel A. (blitze)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
- *
  */
 
 namespace blitze\sitemaker\services\filemanager;
 
-/**
-* @package sitemaker
-*/
 class settings
 {
 	/** @var \phpbb\filesystem\filesystem */
@@ -29,26 +23,29 @@ class settings
 	/** @var string */
 	protected $config_version = '3.2.0';
 
+	/** @var string */
+	protected $error = '';
+
 	/** @var array */
-	protected $filemanager_prop_types = array(
-		'image_max_width'			=> 'integer',
-		'image_max_height'			=> 'integer',
-		'image_max_mode'			=> 'string',
-		'image_resizing'			=> 'boolean',
-		'image_resizing_width'		=> 'integer',
-		'image_resizing_height'		=> 'integer',
-		'image_resizing_mode'		=> 'string',
-		'image_watermark'			=> 'string',
-		'image_watermark_position'	=> 'string',
-		'image_watermark_padding'	=> 'integer',
-	);
+	protected $filemanager_prop_types = [
+		'image_max_width' => 'integer',
+		'image_max_height' => 'integer',
+		'image_max_mode' => 'string',
+		'image_resizing' => 'boolean',
+		'image_resizing_width' => 'integer',
+		'image_resizing_height' => 'integer',
+		'image_resizing_mode' => 'string',
+		'image_watermark' => 'string',
+		'image_watermark_position' => 'string',
+		'image_watermark_padding' => 'integer',
+	];
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param \phpbb\filesystem\filesystem	$filesystem			File system
-	 * @param string						$config_path		Filemanager config path
-	 * @param string						$php_ext			phpEx
+	 * @param \phpbb\filesystem\filesystem	$filesystem  File system
+	 * @param string						$config_path Filemanager config path
+	 * @param string						$php_ext     phpEx
 	 */
 	public function __construct(\phpbb\filesystem\filesystem $filesystem, $config_path, $php_ext)
 	{
@@ -56,19 +53,19 @@ class settings
 		$this->config_path = $config_path;
 		$this->php_ext = $php_ext;
 
-		$this->config_template = __DIR__ . '/default.config';
+		$this->config_template = __DIR__.'/default.config';
 	}
 
 	/**
 	 * @param bool $check_file
+	 *
 	 * @return array
 	 */
 	public function get_settings($check_file = true)
 	{
-		// return empty array if filemanager is not installed
-		if (!$this->is_installed())
+		if (!$this->config_is_writable())
 		{
-			return array();
+			return $this->error;
 		}
 
 		$config_file = $this->get_config_file();
@@ -78,12 +75,19 @@ class settings
 			$this->ensure_config_is_ready();
 		}
 
-		return include($config_file);
+		return include $config_file;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_error()
+	{
+		return $this->error;
 	}
 
 	/**
 	 * @param string $file
-	 * @return void
 	 */
 	public function set_config_template($file)
 	{
@@ -98,9 +102,9 @@ class settings
 		$config_file = $this->get_config_file();
 		$test_line = file($config_file)[1];
 
-		if (strpos($test_line, 'Sitemaker ' . $this->config_version) === false)
+		if (false === strpos($test_line, 'Sitemaker '.$this->config_version))
 		{
-			$curr_settings = array();
+			$curr_settings = [];
 
 			// we are already using sitemaker config but it is out of date
 			if (strpos($test_line, 'Sitemaker'))
@@ -109,7 +113,7 @@ class settings
 				$curr_settings = array_intersect_key($curr_settings, $this->filemanager_prop_types);
 			}
 
-			$this->filesystem->remove($config_file);
+			// $this->filesystem->remove($config_file);
 			$this->save($curr_settings);
 		}
 	}
@@ -119,13 +123,21 @@ class settings
 	 */
 	public function config_is_writable()
 	{
-		return $this->is_installed() && $this->filesystem->is_writable($this->get_config_file());
+		if (!$this->is_installed())
+		{
+			$this->error = 'FILEMANAGER_NO_EXIST';
+			return false;
+		}
+
+		if (!$this->filesystem->is_writable($this->get_config_file()))
+		{
+			$this->error = 'FILEMANAGER_NOT_WRITABLE';
+			return false;
+		}
+
+		return true;
 	}
 
-	/**
-	 * @param array $settings
-	 * @return void
-	 */
 	public function save(array $settings)
 	{
 		$config_file = $this->get_config_file();
@@ -135,7 +147,7 @@ class settings
 		{
 			$this->type_cast_config_value($prop, $value);
 
-			$config_str = preg_replace("/\s'$prop'(\s+)=>\s+(.*?),/i", "	'$prop'$1=> $value,", $config_str);
+			$config_str = preg_replace("/\\s'{$prop}'(\\s+)=>\\s+(.*?),/i", "	'{$prop}'$1=> {$value},", $config_str);
 		}
 
 		$this->filesystem->dump_file(realpath($config_file), $config_str);
@@ -146,7 +158,7 @@ class settings
 	 */
 	protected function is_installed()
 	{
-		return is_dir($this->config_path);
+		return $this->filesystem->exists($this->config_path);
 	}
 
 	/**
@@ -154,7 +166,7 @@ class settings
 	 */
 	protected function get_config_file()
 	{
-		$config_file = $this->config_path . 'config.' . $this->php_ext;
+		$config_file = $this->config_path.'config.'.$this->php_ext;
 
 		if (!$this->filesystem->exists($config_file))
 		{
@@ -166,8 +178,7 @@ class settings
 
 	/**
 	 * @param string $prop
-	 * @param mixed $value
-	 * @return void
+	 * @param mixed  $value
 	 */
 	protected function type_cast_config_value($prop, &$value)
 	{
@@ -180,8 +191,9 @@ class settings
 			case 'boolean':
 				$value = ($value) ? 'true' : 'false';
 			break;
+
 			case 'string':
-				$value = "'$value'";
+				$value = "'{$value}'";
 			break;
 		}
 	}
