@@ -94,12 +94,12 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @param array $variable_map
 	 * @param array $layout_prefs
 	 * @param array $orphaned_blocks
-	 * @param bool $filemanager_exists
+	 * @param bool $filemanager_is_installed
 	 * @param bool $filemanager_is_writable
 	 * @param string $submit_var
 	 * @return \blitze\sitemaker\acp\settings_module
 	 */
-	public function get_module(array $variable_map, array $layout_prefs = array(), array $orphaned_blocks = array(), $filemanager_exists = true, $filemanager_is_writable = true, $submit_var = '')
+	public function get_module(array $variable_map, array $layout_prefs = array(), array $orphaned_blocks = array(), $filemanager_is_installed = true, $filemanager_is_writable = true, $submit_var = '')
 	{
 		global $phpbb_container, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
@@ -125,16 +125,6 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$this->config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
 		$this->config_text->set('sm_layout_prefs', json_encode($layout_prefs));
-
-		$filesystem = $this->getMockBuilder('\phpbb\filesystem\filesystem')
-			->setMethods(['exists', 'is_writable'])
-			->getMock();
-		$filesystem->expects($this->any())
-			->method('exists')
-			->willReturn($filemanager_exists);
-		$filesystem->expects($this->any())
-			->method('is_writable')
-			->willReturn($filemanager_is_writable);
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
@@ -231,8 +221,22 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\settings($filesystem, $this->config_path, $phpEx);
+		$filesystem = $this->getMockBuilder('\phpbb\filesystem\filesystem')
+			->setMethods(['is_writable'])
+			->getMock();
+		$filesystem->expects($this->any())
+			->method('is_writable')
+			->willReturn($filemanager_is_writable);
+
+		$this->config_path = dirname(__FILE__).'/fixtures/filemanager/';
+
+		$filemanager = $this->getMockBuilder('\blitze\sitemaker\services\filemanager\settings')
+			->setConstructorArgs([$filesystem, $this->config_path, $phpEx])
+			->setMethods(['is_installed'])
+			->getMock();
+		$filemanager->expects($this->any())
+			->method('is_installed')
+			->willReturn($filemanager_is_installed);
 		$filemanager->set_config_template($this->config_path . 'default.config');
 
 		$phpbb_container->set('config_text', $this->config_text);
@@ -376,7 +380,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 					),
 					'filemanager' => array(
-						'image_watermark'			=> './image.jpg',
+						'image_watermark'			=> '',
 						'image_watermark_position'	=> 'br',
 						'image_max_width'			=> 0,
 						'image_resizing'			=> false,
@@ -398,13 +402,13 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @dataProvider module_test_data
 	 * @param array $layout_prefs
 	 * @param array $orphaned_blocks
-	 * @param bool $filemanager_exists
+	 * @param bool $filemanager_is_installed
 	 * @param bool $filemanager_is_writable
 	 * @param array $expected
 	 */
-	public function test_module(array $layout_prefs, $orphaned_blocks, $filemanager_exists, $filemanager_is_writable, array $expected)
+	public function test_module(array $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable, array $expected)
 	{
-		$module = $this->get_module(array(), $layout_prefs, $orphaned_blocks, $filemanager_exists, $filemanager_is_writable);
+		$module = $this->get_module(array(), $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable);
 
 		$this->icon_picker->expects($this->once())
 			->method('picker');
@@ -690,12 +694,12 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @dataProvider save_settings_test_data
 	 * @param string $submit_var
 	 * @param array $variable_map
-	 * @param bool $filemanager_exists
+	 * @param bool $filemanager_is_installed
 	 * @param bool $filemanager_is_writable
 	 * @param array $expected
 	 * @param string $message
 	 */
-	public function test_save_settings($submit_var, array $variable_map, $filemanager_exists, $filemanager_is_writable, array $expected, $message)
+	public function test_save_settings($submit_var, array $variable_map, $filemanager_is_installed, $filemanager_is_writable, array $expected, $message)
 	{
 		$layout_prefs = array(
 			1 => array(
@@ -710,7 +714,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'blocks' => ['my.invalid.block'],
 		);
 
-		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $filemanager_exists, $filemanager_is_writable, $submit_var);
+		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable, $submit_var);
 
 		try
 		{

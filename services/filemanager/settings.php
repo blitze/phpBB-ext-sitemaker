@@ -95,30 +95,6 @@ class settings
 	}
 
 	/**
-	 * @return void
-	 */
-	public function ensure_config_is_ready()
-	{
-		$config_file = $this->get_config_file();
-		$test_line = file($config_file)[1];
-
-		if (false === strpos($test_line, 'Sitemaker '.$this->config_version))
-		{
-			$curr_settings = [];
-
-			// we are already using sitemaker config but it is out of date
-			if (strpos($test_line, 'Sitemaker'))
-			{
-				$curr_settings = $this->get_settings(false);
-				$curr_settings = array_intersect_key($curr_settings, $this->filemanager_prop_types);
-			}
-
-			// $this->filesystem->remove($config_file);
-			$this->save($curr_settings);
-		}
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function config_is_writable()
@@ -138,6 +114,34 @@ class settings
 		return true;
 	}
 
+	/**
+	 * @return void
+	 */
+	public function ensure_config_is_ready()
+	{
+		$config_file = $this->get_config_file();
+		$test_line = file($config_file)[1];
+
+		if (false === strpos($test_line, 'Sitemaker ' . $this->config_version))
+		{
+			$curr_settings = [];
+
+			// we are already using sitemaker config but it is out of date
+			if (strpos($test_line, 'Sitemaker'))
+			{
+				$curr_settings = $this->get_settings(false);
+				$curr_settings = array_intersect_key($curr_settings, $this->filemanager_prop_types);
+			}
+
+			$this->filesystem->remove($config_file);
+			$this->save($curr_settings);
+		}
+	}
+
+	/**
+	 * @param array $settings
+	 * @return void
+	 */
 	public function save(array $settings)
 	{
 		$config_file = $this->get_config_file();
@@ -166,7 +170,7 @@ class settings
 	 */
 	protected function get_config_file()
 	{
-		$config_file = $this->config_path.'config.'.$this->php_ext;
+		$config_file = $this->config_path . 'config.' . $this->php_ext;
 
 		if (!$this->filesystem->exists($config_file))
 		{
