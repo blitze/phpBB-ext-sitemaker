@@ -47,8 +47,8 @@ $lang = array_merge($lang, [
 
 	'FILEMANAGER_SETTINGS'						=> 'Paramètres du Gestionnaire de fichiers',
 	'FILEMANAGER_STATUS'						=> 'Statut',
-	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
-	'FILEMENAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
+	'FILEMANAGER_NO_EXIST'						=> 'Vous devrez installer le gestionnaire de fichiers avant de pouvoir l\'activer. Les instructions d\'installation se trouvent <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>ici</strong></a>',
+	'FILEMENAGER_NOT_WRITABLE'					=> 'Le répertoire « config » du gestionnaire de fichiers (root/ResponsiveFilemanager/filemanager/config/) n\'est pas accessible en écriture. Veuillez modifier les permissions pour autoriser l\'écriture pour tout le monde (777 ou -rwxrwxrwx via un client FTP)',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Redimensionner automatiquement les images téléchargées ?',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Redimensionner aux dimensions spécifiées',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Mode de redimensionnement automatique',
