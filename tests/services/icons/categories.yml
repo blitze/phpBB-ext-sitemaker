@@ -1,0 +1,10 @@
+logistics:
+    icons:
+        -
+            name: box
+            terms: archive|container|package|storage|box
+            prefixes: [fas]
+        -
+            name: boxes
+            terms: archives|inventory|storage|warehouse|boxes
+            prefixes: [fas, fab]

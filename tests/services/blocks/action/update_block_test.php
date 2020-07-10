@@ -39,11 +39,11 @@ class update_block_test extends base_action
 				array(
 					array('id', 0, false, request_interface::REQUEST, 1),
 					array('field', 'icon', false, request_interface::REQUEST, 'icon'),
-					array('icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
+					array('icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
 					array('title', '', true, request_interface::REQUEST, ''),
 				),
 				array(
-					'icon'		=> 'fa fa-circle',
+					'icon'		=> 'fas fa-circle',
 					'title'		=> 'I am baz block',
 					'id'		=> 1,
 				),

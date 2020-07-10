@@ -36,7 +36,7 @@
 				{% for profile_field in loops.profile_field %}
 				<li><strong>{{ profile_field.PROFILE_FIELD_NAME }}{{ lang('COLON') }}</strong> {{ profile_field.PROFILE_FIELD_VALUE }}</li>
 				{% endfor %}
-				<li><strong>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</strong> {{ POSTS }}{% if POSTS %}  <a href="{{ U_SEARCH_POSTS }}"><i class="fa fa-search"></i></a>{% else %}{% endif %}{% if POSTS_PCT neq 0 %}<br />[{{ POSTS_PCT }}]{% endif %}</li>
+				<li><strong>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</strong> {{ POSTS }}{% if POSTS %}  <a href="{{ U_SEARCH_POSTS }}"><i class="fas fa-search" aria-hidden="true"></i></a>{% else %}{% endif %}{% if POSTS_PCT neq 0 %}<br />[{{ POSTS_PCT }}]{% endif %}</li>
 			</ul>
 		</dd>
 	</dl>

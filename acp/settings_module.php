@@ -41,7 +41,7 @@ class settings_module
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\icon_picker */
+	/** @var \blitze\sitemaker\services\icons\picker */
 	protected $icon;
 
 	/** @var \blitze\sitemaker\services\blocks\cleaner */
@@ -89,7 +89,7 @@ class settings_module
 		$this->translator = $phpbb_container->get('language');
 		$this->blocks_cleaner = $phpbb_container->get('blitze.sitemaker.blocks.cleaner');
 		$this->filemanager = $phpbb_container->get('blitze.sitemaker.filemanager.settings');
-		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
+		$this->icon = $phpbb_container->get('blitze.sitemaker.icons.picker');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
 	}
 

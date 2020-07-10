@@ -44,10 +44,10 @@ class code_editor_test extends cfg_test_base
 				'',
 				'<textarea id="foo-editor" class="code-editor" name="config[foo]"></textarea>' .
 				'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="fullscreen" title="FULLSCREEN"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fas fa-undo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fas fa-redo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fas fa-ban" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="fullscreen" title="FULLSCREEN"><i class="fas fa-window-restore" aria-hidden="true"></i></button>' .
 				'</div>'
 			),
 			array(
@@ -59,9 +59,9 @@ class code_editor_test extends cfg_test_base
 				'<span>FOO_EXPLAIN</span>' .
 				'<textarea id="foo-editor" class="code-editor" name="config[foo]" data-allow-full-screen="0" data-line-wrapping="1">my awesome code</textarea>' .
 				'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fas fa-undo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fas fa-redo" aria-hidden="true"></i></button>' .
+					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fas fa-ban" aria-hidden="true"></i></button>' .
 				'</div>'
 			),
 		);

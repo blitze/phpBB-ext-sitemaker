@@ -14,10 +14,10 @@ export default function AddGroup($groups, actions) {
 						</a>
 						<div class="group-actions">
 							<a href="#" class="group-edit left" title="${lang.edit}">
-								<i class="fa fa-cog"></i>
+								<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 							</a>
 							<a href="#" class="group-delete left" title="${lang.remove}">
-								<i class="fa fa-close"></i>
+								<i class="fas fa-times" aria-hidden="true"></i>
 							</a>
 						</div>
 					</li>`,

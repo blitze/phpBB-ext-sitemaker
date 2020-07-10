@@ -2,7 +2,9 @@
 	{% include 'layouts/' ~ S_LAYOUT ~ '/footer_layout.twig' %}
 
 	{% if U_EDIT_MODE && !S_EDIT_MODE %}
-	<a class="edit-mode-btn bg3" href="{{ U_EDIT_MODE }}"><i class="fa fa-pencil"></i></a>
+	<a class="edit-mode-btn bg3" href="{{ U_EDIT_MODE }}">
+		<i class="icon fa-wrench fa-fw" aria-hidden="true"></i>
+	</a>
 	{% endif %}
 
 	{% if S_EDIT_MODE %}

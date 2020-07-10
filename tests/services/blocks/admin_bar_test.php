@@ -171,7 +171,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
 
-		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
+		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
 			->disableOriginalConstructor()
 			->getMock();
 

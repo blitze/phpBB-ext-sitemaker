@@ -28,7 +28,7 @@ class menu_module
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \blitze\sitemaker\services\icon_picker */
+	/** @var \blitze\sitemaker\services\icons\picker */
 	protected $icon;
 
 	/** @var \phpbb\language\language */
@@ -72,7 +72,7 @@ class menu_module
 		$this->controller_helper = $phpbb_container->get('controller.helper');
 		$this->language = $phpbb_container->get('language');
 		$this->mapper_factory = $phpbb_container->get('blitze.sitemaker.mapper.factory');
-		$this->icon = $phpbb_container->get('blitze.sitemaker.icon_picker');
+		$this->icon = $phpbb_container->get('blitze.sitemaker.icons.picker');
 	}
 
 	/**

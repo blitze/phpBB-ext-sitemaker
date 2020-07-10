@@ -127,7 +127,7 @@ class menu_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
+		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -135,7 +135,7 @@ class menu_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('controller.helper', $controller_helper);
 		$phpbb_container->set('language', $language);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
-		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
+		$phpbb_container->set('blitze.sitemaker.icons.picker', $icons);
 
 		return new menu_module();
 	}

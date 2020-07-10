@@ -197,7 +197,7 @@ class menu_test extends blocks_base
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
 						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
 						'</li>' .
 						'<li>' .
 							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
@@ -226,7 +226,7 @@ class menu_test extends blocks_base
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
 						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
 						'</li>' .
 						'<li>' .
 							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
@@ -255,7 +255,7 @@ class menu_test extends blocks_base
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
 						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
 						'</li>' .
 						'<li>' .
 							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
@@ -369,7 +369,7 @@ class menu_test extends blocks_base
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
 						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
 						'</li>' .
 						'<li>' .
 							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .

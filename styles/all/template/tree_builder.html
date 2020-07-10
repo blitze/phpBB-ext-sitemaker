@@ -1,4 +1,4 @@
-<p id="groups-loader"><i class="fa fa-spinner fa-green fa-spin fa-lg" aria-hidden="true"></i>{{ lang('LOADING') }}</p>
+<p id="groups-loader"><i class="fas fa-spinner fa-green fa-spin fa-lg" aria-hidden="true"></i>{{ lang('LOADING') }}</p>
 
 <div class="grid-noGutter">
 	<div class="col-3">
@@ -9,8 +9,8 @@
 				<li id="group-{{ group.ID }}" class="group-item{% if group.S_ACTIVE %} row3 current-group{% endif %}">
 					<a href="#" class="group-option"><span class="group-title">{{ group.NAME }}</span></a>
 					<div class="group-actions">
-						<a href="#" class="group-edit left" title="{{ lang('EDIT') }}"><i class="fa fa-cog"></i></a>
-						<a href="#" class="group-delete left" title="{{ lang('DELETE') }}"><i class="fa fa-close"></i></a>
+						<a href="#" class="group-edit left" title="{{ lang('EDIT') }}"><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+						<a href="#" class="group-delete left" title="{{ lang('DELETE') }}"><i class="fas fa-times" aria-hidden="true"></i></a>
 					</div>
 				</li>
 			{% endfor %}
@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div class="col-9">
-		<div id="loader" class="pull-right"><i class="fa"></i></div>
+		<div id="loader"><i class="fas fa-pull-right" aria-hidden="true"></i></div>
 		<div id="ajax-message" class="message" style="display: none"></div>
 		<div id="nested-tree" class="tree-builder">
 		
@@ -109,6 +109,7 @@
 		showNode			: '{{ lang('SHOW')|e('js') }}',
 		cancel				: '{{ lang('CANCEL')|e('js') }}',
 		remove				: '{{ lang('DELETE')|e('js') }}',
+		edit				: '{{ lang('EDIT')|e('js') }}',
 		deleteNode			: '{{ lang('DELETE_ITEM')|e('js') }}',
 		deleteChildNodes	: '{{ lang('DELETE_KIDS')|e('js') }}',
 		required			: '{{ lang('REQUIRED')|e('js') }}',

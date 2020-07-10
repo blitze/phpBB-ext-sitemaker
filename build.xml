@@ -93,6 +93,7 @@
 	Run webpack build process
 	-->
 	<target name="build-assets" depends="yarn-install">
+		<exec command="yarn fontawesome" dir="${package-directory}" passthru="true" checkreturn="true" />
 		<exec command="yarn build" dir="${package-directory}" passthru="true" checkreturn="true" />
 	</target>
 

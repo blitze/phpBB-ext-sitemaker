@@ -131,7 +131,7 @@ export default class SortableBlocks extends Positions {
 				.addClass('block')
 				.html(
 					`<div class="ui-state-highlight sm-block-spacing sortable" style="padding: 5px">
-						<i class="fa fa-spinner fa-2x fa-spin"></i> ${lang.ajaxLoading}
+						<i class="fas fa-spinner fa-2x fa-spin" aria-hidden="true"></i> ${lang.ajaxLoading}
 					</div>`,
 				);
 

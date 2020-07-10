@@ -327,10 +327,10 @@ class cfg_handler_test extends \phpbb_test_case
 						'<span>CODE_EDITOR</span>' .
 						'<textarea id="my_var-editor" class="code-editor" name="config[my_var]" data-height="200" data-allow-full-screen="1">option2</textarea>' .
 						'<div class="align-right">' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-repeat" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fas fa-undo" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fas fa-redo" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fas fa-ban" aria-hidden="true"></i></button>' .
+							'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fas fa-window-restore" aria-hidden="true"></i></button>' .
 						'</div>',
 				),
 			),
@@ -346,17 +346,17 @@ class cfg_handler_test extends \phpbb_test_case
 						'<label><strong>MY_SETTING</strong></label>' .
 						'<div class="sm-multi-input-list">' .
 							'<div class="sm-multi-input-item">' .
-								'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+								'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
 								'<input type="text" name="config[my_var][]" value="option2" />' .
-								'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+								'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
     						'</div>' .
                             '<div class="sm-multi-input-item">' .
-                            	'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+                            	'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
                             	'<input type="text" name="config[my_var][]" value="" />' .
-                            	'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+                            	'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
                             '</div>' .
                         '</div>' .
-                        '<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
+                        '<button class="sm-multi-input-add pull-right"><i class="fas fa-plus" aria-hidden="true"></i></button>' .
                     '</div>',
 				),
 			),

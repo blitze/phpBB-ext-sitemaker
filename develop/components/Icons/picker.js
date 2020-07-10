@@ -74,13 +74,11 @@ Plugin.prototype = {
 		this.$iconsDiv
 			.width(this.options.width)
 			.find('#icons-font-cat-list')
-			.find('a')
-			.click(e => {
+			.change(e => {
 				e.preventDefault();
-				e.stopImmediatePropagation();
 				this.$iconsSearch.val('');
 				this.$icons.show();
-				this.scrollToIcon($($(e.currentTarget).attr('href')));
+				this.scrollToIcon($($(e.target).find(':selected').val()));
 			});
 
 		this.$iconsDiv.find('#icon-picker-insert').click(e => {
@@ -149,7 +147,7 @@ Plugin.prototype = {
 	insertIcon(icon) {
 		if ($.isEmptyObject(currentItem) !== true) {
 			const iconClass = this.getIconProps(icon);
-			const iconHtml = iconClass ? `<i class="${iconClass}"></i>` : '';
+			const iconHtml = iconClass ? `<i class="${iconClass}" aria-hidden="true"></i>` : '';
 
 			currentItem.html(iconHtml);
 			this.options.onSelect.call(this, currentItem, iconClass, iconHtml);
@@ -173,12 +171,12 @@ Plugin.prototype = {
 
 	setCurrentIcon($element) {
 		const $currIcon = $element.find('i');
-		const $inputs = this.$customization.find(':input');
+		const $settings = this.$customization.find(':input')
+			.removeAttr('checked')
+			.removeAttr('selected');
 
 		this.$colorBoxes.removeClass('selected');
 		this.$fontList.find('a').removeClass('icon-selected');
-		this.$customization.get(0).reset();
-		this.$customization.find('select').val('');
 		this.selectedIcon = '';
 
 		if ($currIcon.length) {
@@ -186,27 +184,29 @@ Plugin.prototype = {
 				.attr('class')
 				.trim()
 				.split(' ');
-			iconInfo.shift();
+			const prefix = iconInfo.shift();
 
 			const iconClass = iconInfo.shift();
-			const $icon = this.$fontList.find(`.${iconClass}`);
+			const $icon = this.$fontList.find(`.${iconClass}`).eq(0);
 
 			if ($icon.length > 0) {
 				$icon.parent().addClass('icon-selected');
 
-				this.selectedIcon = `fa ${iconClass}`;
+				this.selectedIcon = `${prefix} ${iconClass}`;
 				this.scrollToIcon($icon, true);
 
-				const $selects = $inputs.filter('select').children();
+				const $selects = $settings.filter('select').children();
+				const $inputs = $settings.not('select');
 
 				$.each(iconInfo, (i, val) => {
-					$selects.filter(`[value=${val}]`).attr('selected', true);
 					$inputs.filter(`[value=${val}]`).attr('checked', true);
+					$selects.filter(`[value=${val}]`).parent().val(val);
 				});
 
 				const $color = this.$customization.find(
 					'input[name=color]:checked',
 				);
+
 				if ($color.length > 0) {
 					$color.prev().addClass('selected');
 				}
@@ -239,7 +239,7 @@ Plugin.prototype = {
 	},
 
 	scrollToIcon: function scrollToIcon($element, center) {
-		let adjustment = 20;
+		let adjustment = 0;
 		if (center) {
 			adjustment = -(this.$fontList.height() / 2);
 		}

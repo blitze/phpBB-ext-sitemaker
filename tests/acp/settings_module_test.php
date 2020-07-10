@@ -112,7 +112,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_hide_online'		=> false,
 			'sm_show_forum_nav'		=> true,
 			'sm_navbar_menu'		=> 2,
-			'sm_forum_icon'			=> 'fa fa-comments',
+			'sm_forum_icon'			=> 'fas fa-comments',
 			'sm_filemanager'		=> false,
 			'sm_orphaned_blocks'	=> json_encode($orphaned_blocks),
 			'sitemaker_column_widths' => json_encode([
@@ -206,7 +206,7 @@ class settings_module_test extends \phpbb_database_test_case
 		$url_checker = $this->getMockBuilder('\blitze\sitemaker\services\url_checker')
 			->getMock();
 
-		$this->icon_picker = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
+		$this->icon_picker = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -242,7 +242,7 @@ class settings_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
-		$phpbb_container->set('blitze.sitemaker.icon_picker', $this->icon_picker);
+		$phpbb_container->set('blitze.sitemaker.icons.picker', $this->icon_picker);
 		$phpbb_container->set('blitze.sitemaker.filemanager.settings', $filemanager);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.blocks.cleaner', $this->blocks_cleaner);
@@ -439,7 +439,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				true,
 				array(
-					'forum_icon'			=> 'fa fa-comments',
+					'forum_icon'			=> 'fas fa-comments',
 					'navbar_menu'			=> 2,
 					'show_forum_nav'		=> true,
 					'hide_login'			=> false,
@@ -472,7 +472,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 0,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fa fa-gear',
+						'sm_forum_icon'		=> 'fas fa-gear',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -490,7 +490,7 @@ class settings_module_test extends \phpbb_database_test_case
 				false,
 				false,
 				array(
-					'forum_icon'			=> 'fa fa-gear',
+					'forum_icon'			=> 'fas fa-gear',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 0,
 					'hide_login'			=> 0,
@@ -527,7 +527,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fa fa-car',
+						'sm_forum_icon'		=> 'fas fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -545,7 +545,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				false,
 				array(
-					'forum_icon'			=> 'fa fa-car',
+					'forum_icon'			=> 'fas fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,
@@ -582,7 +582,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 0,
-						'sm_forum_icon'		=> 'fa fa-car',
+						'sm_forum_icon'		=> 'fas fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array()),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
@@ -595,7 +595,7 @@ class settings_module_test extends \phpbb_database_test_case
 				false,
 				false,
 				array(
-					'forum_icon'			=> 'fa fa-car',
+					'forum_icon'			=> 'fas fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,
@@ -632,7 +632,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fa fa-car',
+						'sm_forum_icon'		=> 'fas fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -654,7 +654,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				true,
 				array(
-					'forum_icon'			=> 'fa fa-car',
+					'forum_icon'			=> 'fas fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,

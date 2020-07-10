@@ -11,7 +11,7 @@
 {% INCLUDECSS 'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css' %}
 {% INCLUDEJS 'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js' %}
 
-<a data-fancybox data-type="iframe" class="pull-right" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ sm_user_lang }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange"></i></a>
+<a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ sm_user_lang }}/introduction"><i class="fas fa-question-circle fa-lg fa-pull-right fa-orange" aria-hidden="true"></i></a>
 
 {% if BLOCKS_CLEANUP %}
 
@@ -55,8 +55,8 @@
 				<dd>
 					<label><input type="radio" class="radio" id="show_forum_nav" name="config[sm_show_forum_nav]" value="1"{% if config.sm_show_forum_nav %} checked="checked"{% endif %} /> {{ lang('SHOW_FORUM_NAV_WITH_ICON') }}</label>
 					<div class="icon-container">
+						<a href="#" class="icon-select"><i class="{{ config.sm_forum_icon }}" aria-hidden="true"></i></a>
 						<input type="hidden" name="config[sm_forum_icon]" value="{{ config.sm_forum_icon }}" />
-						<a href="#" class="icon-select"><i class="{{ config.sm_forum_icon }}"></i></a>
 					</div><br />
 					<label><input type="radio" class="radio" name="config[sm_show_forum_nav]" value="0"{% if !config.sm_show_forum_nav %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 				</dd>

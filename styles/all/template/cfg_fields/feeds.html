@@ -5,17 +5,17 @@
     </h5>
     <textarea id="sm-feed-template" name="config[template]">{{ template }}</textarea>
 	<div class="pull-right">
-		<button class="sm-feed-template-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
-		<button class="sm-feed-template-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
-		<button class="sm-feed-template-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
-		<button class="sm-feed-template-button" data-action="fullscreen" title="{{ lang('FULLSCREEN') }}"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+		<button class="sm-feed-template-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fas fa-undo" aria-hidden="true"></i></button>
+		<button class="sm-feed-template-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fas fa-redo" aria-hidden="true"></i></button>
+		<button class="sm-feed-template-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fas fa-ban" aria-hidden="true"></i></button>
+		<button class="sm-feed-template-button" data-action="fullscreen" title="{{ lang('FULLSCREEN') }}"><i class="far fa-window-restore" aria-hidden="true"></i></button>
 	</div>
 	<br clear="both" />
 	<div id="sm-feeds-tabs">
 		<ul>
-			<li><a href="#sm-feeds-preview-viewer" title="{{ lang('PREVIEW') }}"><i class="fa fa-eye fa-blue" aria-hidden="true"></i></a></li>
-			<li><a href="#sm-feeds-data-viewer" title="{{ lang('FEED_DATA_PREVIEW') }}"><i class="fa fa-database fa-red" aria-hidden="true"></i></a></li>
-			<li><a href="#sm-feeds-explain" title="{{ lang('HELP') }}"><i class="fa fa-question-circle-o fa-green" aria-hidden="true"></i></a></li>
+			<li><a href="#sm-feeds-preview-viewer" title="{{ lang('PREVIEW') }}"><i class="fas fa-eye fa-blue" aria-hidden="true"></i></a></li>
+			<li><a href="#sm-feeds-data-viewer" title="{{ lang('FEED_DATA_PREVIEW') }}"><i class="fas fa-database fa-red" aria-hidden="true"></i></a></li>
+			<li><a href="#sm-feeds-explain" title="{{ lang('HELP') }}"><i class="far fa-question-circle fa-green" aria-hidden="true"></i></a></li>
 		</ul>
 		<div id="sm-feeds-preview-viewer">
 			<div class="block">
@@ -28,7 +28,7 @@
 				</div>
 				<textarea id="sm-feeds-preview-source" wrap="off" readonly></textarea>
 			</div>
-			<button class="sm-toggler pull-right" data-target="#sm-feeds-preview-source" title="{{ lang('FEED_PREVIEW_SOURCE') }}"><i class="fa fa-code" aria-hidden="true"></i></button>
+			<button class="sm-toggler pull-right" data-target="#sm-feeds-preview-source" title="{{ lang('FEED_PREVIEW_SOURCE') }}"><i class="fas fa-code" aria-hidden="true"></i></button>
 		</div>
 		<div id="sm-feeds-data-viewer">
 			<textarea id="sm-feeds-data" rows="6" wrap="off" readonly></textarea>

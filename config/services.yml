@@ -51,7 +51,7 @@ services:
             - '@language'
             - '@user'
             - '@blitze.sitemaker.filemanager.setup'
-            - '@blitze.sitemaker.icon_picker'
+            - '@blitze.sitemaker.icons.picker'
             - '@blitze.sitemaker.util'
             - '%filemanager.lang_mapping%'
 
@@ -183,12 +183,13 @@ services:
             - '@language'
             - '@user'
 
-    blitze.sitemaker.icon_picker:
-        class: blitze\sitemaker\services\icon_picker
+    blitze.sitemaker.icons.picker:
+        class: blitze\sitemaker\services\icons\picker
         arguments:
             - '@language'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'
+            - '%fontawesome.categories_path%'
 
     blitze.sitemaker.mapper.factory:
         class: blitze\sitemaker\model\mapper_factory

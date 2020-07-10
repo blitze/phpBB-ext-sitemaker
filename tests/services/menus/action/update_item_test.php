@@ -23,7 +23,7 @@ class update_item_test extends base_action
 			array(
 				array(
 					array('item_id', 0, false, request_interface::REQUEST, 2),
-					array('item_icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
+					array('item_icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
 					array('item_title', '', true, request_interface::REQUEST, 'my page'),
 					array('field', 'item_icon', false, request_interface::REQUEST, 'item_target'),
 				),
@@ -36,7 +36,7 @@ class update_item_test extends base_action
 			array(
 				array(
 					array('item_id', 0, false, request_interface::REQUEST, 2),
-					array('item_icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
+					array('item_icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
 					array('item_title', '', true, request_interface::REQUEST, 'my page'),
 					array('field', 'item_icon', false, request_interface::REQUEST, 'item_status'),
 				),
@@ -49,20 +49,20 @@ class update_item_test extends base_action
 			array(
 				array(
 					array('item_id', 0, false, request_interface::REQUEST, 2),
-					array('item_icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
+					array('item_icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
 					array('item_title', '', true, request_interface::REQUEST, 'my page'),
 					array('field', 'item_icon', false, request_interface::REQUEST, 'item_icon'),
 				),
 				array(
 					'item_id'		=> 2,
 					'item_title'	=> 'Item 2',
-					'item_icon'		=> 'fa fa-circle ',
+					'item_icon'		=> 'fas fa-circle ',
 				),
 			),
 			array(
 				array(
 					array('item_id', 0, false, request_interface::REQUEST, 2),
-					array('item_icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
+					array('item_icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
 					array('item_title', '', true, request_interface::REQUEST, 'my page'),
 					array('field', 'item_icon', false, request_interface::REQUEST, 'item_title'),
 				),

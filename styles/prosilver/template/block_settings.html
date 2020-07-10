@@ -26,7 +26,7 @@
 				<dl>
 					<dt>
 						<label for="block_type">{{ lang('BLOCK_DISPLAY_TYPE') }}</label>
-						<button class="sm-toggler" data-target="#route-examples"><i class="fa fa-question-circle-o fa-lg"></i></button>
+						<button class="sm-toggler" data-target="#route-examples"><i class="far fa-question-circle fa-lg" aria-hidden="true"></i></button>
 					</dt>
 					<dd>
 						<label><input type="radio" name="type" value="0"{% if not S_TYPE %} checked="checked"{% endif %} id="block_type" /> {{ lang('BLOCK_SHOW_ALWAYS') }}</label>
@@ -69,10 +69,10 @@
 							<textarea id="class_editor" class="block-preview" name="class">{{ S_BLOCK_CLASS }}</textarea>
 						</div>
 						<div class="align-right">
-							<button class="sm-class-editor-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
-							<button class="sm-class-editor-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
-							<button class="sm-class-editor-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
-							<button class="sm-toggler" data-target="#css-class-options"><i class="fa fa-sort"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
+							<button class="sm-class-editor-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fas fa-undo" aria-hidden="true"></i></button>
+							<button class="sm-class-editor-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fas fa-redo" aria-hidden="true"></i></button>
+							<button class="sm-class-editor-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fas fa-ban" aria-hidden="true"></i></button>
+							<button class="sm-toggler" data-target="#css-class-options"><i class="fas fa-sort" aria-hidden="true"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
 						</div>
 					</dd>
 				</dl>

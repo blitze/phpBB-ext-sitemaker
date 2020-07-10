@@ -37,7 +37,7 @@ class admin_bar
 	/** @var \blitze\sitemaker\services\filemanager\setup */
 	protected $filemanager;
 
-	/** @var \blitze\sitemaker\services\icon_picker */
+	/** @var \blitze\sitemaker\services\icons\picker */
 	protected $icons;
 
 	/** @var \blitze\sitemaker\services\util */
@@ -57,11 +57,11 @@ class admin_bar
 	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \phpbb\user									$user					User object
 	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager			Filemanager object
-	 * @param \blitze\sitemaker\services\icon_picker		$icons					Sitemaker icon picker object
+	 * @param \blitze\sitemaker\services\icons\picker		$icons					Sitemaker icon picker object
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
 	 * @param array											$lang_mapping			Lang mapping array for tinymce
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icon_picker $icons, \blitze\sitemaker\services\util $util, $lang_mapping)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icons\picker $icons, \blitze\sitemaker\services\util $util, $lang_mapping)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;

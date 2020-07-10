@@ -7,11 +7,11 @@
  *
  */
 
-namespace blitze\sitemaker\tests\services;
+namespace blitze\sitemaker\tests\services\icons;
 
-use blitze\sitemaker\services\icon_picker;
+use blitze\sitemaker\services\icons\picker;
 
-class icon_picker_test extends \phpbb_test_case
+class picker_test extends \phpbb_test_case
 {
 	/**
 	 * Define the extension to be tested.
@@ -52,6 +52,28 @@ class icon_picker_test extends \phpbb_test_case
 			->method('set_style')
 			->with($this->equalTo(array('ext/blitze/sitemaker/styles', 'styles')));
 
+		$ptemplate->expects($this->once())
+			->method('assign_var')
+			->with(
+				'categories',
+				$this->equalTo(array(
+					'logistics' => array(
+						'icons' => array(
+							array(
+								'name' => 'box',
+								'terms' => 'archive|container|package|storage|box',
+								'prefixes' => ['fas']
+							),
+							array(
+								'name' => 'boxes',
+								'terms' => 'archives|inventory|storage|warehouse|boxes',
+								'prefixes' => ['fas', 'fab']
+							),
+						),
+					)
+				))
+			);
+
 		// make sure we've set template file
 		$ptemplate->expects($this->once())
 			->method('set_filenames')
@@ -63,7 +85,8 @@ class icon_picker_test extends \phpbb_test_case
 			->method('assign_display')
 			->with('icons');
 
-		$icon = new icon_picker($translator, $util, $ptemplate);
+		$categories_path = dirname(__FILE__) . '/categories.yml';
+		$icon = new picker($translator, $util, $ptemplate, $categories_path);
 		$icon->picker();
 	}
 }

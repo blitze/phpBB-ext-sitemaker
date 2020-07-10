@@ -37,7 +37,7 @@
 		}
 	}
 
-	.icon-filter {
+	.icon-search {
 		margin: 2px auto;
 		width: 150px;
 
@@ -47,26 +47,35 @@
 		}
 	}
 
+	.icon-categories {
+		margin-bottom: 1.2rem;
+		border-color: #ccc;
+		height: 2rem;
+		width: 100%;
+	}
+
 	.preview-container {
 		float: left;
 		text-align: center;
 		font-size: 100%;
-		margin: 10px 10px 0 10px;
+		margin: 10px 10px 1.2rem 10px;
 		padding: 3px;
 		border: 1px solid #ccc;
 		transform-style: preserve-3d;
 
 		i {
 			position: relative;
-			top: 50%;
-			transform: translateY(-50%);
+			margin: 0;
 		}
 	}
 
 	.preview {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		overflow: hidden;
-		width: 55px;
-		height: 50px;
+		width: 75px;
+		height: 75px;
 	}
 
 	.actions-container {
@@ -104,24 +113,25 @@
 		overflow-y: auto;
 
 		p {
-			clear: left;
+			clear: both;
 			font-weight: bold;
-			margin: 20px 4px;
+			padding: 1.5rem 0 0 0;
 			font-size: 14px;
 			color: #c3f;
 		}
 
 		a {
+			float: left;
 			width: 28px;
 			height: 32px;
 			line-height: 32px;
 			font-size: 14px;
-			float: left;
-			display: block;
+			text-align: center;
 
 			&:hover {
 				background-color: #fbf4f4;
 				color: blue;
+				text-decoration: none;
 
 				:before {
 					font-size: 28px;
@@ -129,28 +139,15 @@
 					color: blue;
 				}
 			}
+
+			.fas, .far, .fab {
+				margin: 3px;
+			}
 		}
 
 		.icon-selected {
 			color: #ffffff;
 			background-color: #21b384;
-		}
-	}
-
-	.cats-container {
-		position: relative;
-		clear: both;
-
-		a {
-			padding: 4px;
-			margin: 2px 0;
-			font-weight: bold;
-			font-size: 10px;
-			background-color: #ccc;
-			border-radius: 4px;
-			position: relative;
-			display: inline-block;
-			width: auto;
 		}
 	}
 

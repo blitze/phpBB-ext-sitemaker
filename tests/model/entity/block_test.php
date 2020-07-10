@@ -99,7 +99,7 @@ class block_test extends \phpbb_test_case
 	public function accessors_and_mutators_test_data()
 	{
 		return array(
-			array('icon', '', 'fa', 'fa', 'fa fa-check', 'fa fa-check'),
+			array('icon', '', 'fa', 'fa', 'fas fa-check', 'fas fa-check'),
 			array('name', '', 'some string', 'some string', 'another string', 'another string'),
 			array('title', '', 'some title', 'Some title', 'my block', 'My block'),
 			array('route_id', 0, 1, 1, 2, 2),

@@ -5,6 +5,7 @@ parameters:
     tables.sitemaker.menus: '%core.table_prefix%sm_menus'
     tables.sitemaker.menu_items: '%core.table_prefix%sm_menu_items'
     sitemaker.cache_time: 10800
+    fontawesome.categories_path: '%core.root_path%ext/blitze/sitemaker/services/icons/categories.yml'
     filemanager.config_path: '%core.root_path%ResponsiveFilemanager/filemanager/config/'
     filemanager.lang_mapping:
         'bg'          : 'bg_BG'

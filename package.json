@@ -7,6 +7,7 @@
 		"prettier": "prettier --write \"develop/**/*.+(js|json|css|scss)\"",
 		"validate": "npm run lint && npm run prettier -- --list-different",
 		"filemanager": "cpr vendor/trippo/responsivefilemanager/ ../../../ResponsiveFilemanager/ -o",
+		"fontawesome": "node develop/components/Icons/categories.js",
 		"start": "npm run filemanager && encore dev --watch",
 		"dev": "npm run filemanager && encore dev",
 		"build": "encore production",
@@ -21,6 +22,7 @@
 		"@babel/preset-flow": "^7.0.0",
 		"@symfony/webpack-encore": "^0.28.2",
 		"autoprefixer": "^9.3.1",
+		"axios": "^0.19.2",
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.4",
 		"copy-webpack-plugin": "^5.0.2",
@@ -36,7 +38,8 @@
 		"node-sass": "^4.13.1",
 		"postcss-loader": "^3.0.0",
 		"prettier": "^1.18.2",
-		"sass-loader": "^7.0.1"
+		"sass-loader": "^7.0.1",
+		"yamljs": "^0.3.0"
 	},
 	"dependencies": {
 		"codemirror": "^5.51.0",
