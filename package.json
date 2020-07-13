@@ -6,7 +6,7 @@
 		"format": "npm run prettier -- --write",
 		"prettier": "prettier --write \"develop/**/*.+(js|json|css|scss)\"",
 		"validate": "npm run lint && npm run prettier -- --list-different",
-		"filemanager": "cpr vendor/trippo/responsivefilemanager/ ../../../ResponsiveFilemanager/ -o",
+		"filemanager": "cpr vendor/trippo/responsivefilemanager/responsive_filemanager/ ../../../ResponsiveFilemanager/ -o",
 		"start": "npm run filemanager && encore dev --watch",
 		"dev": "npm run filemanager && encore dev",
 		"build": "encore production",
