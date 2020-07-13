@@ -105,7 +105,7 @@ class settings
 			return false;
 		}
 
-		if (!$this->filesystem->is_writable($this->get_config_file()))
+		if (!$this->filesystem->is_writable($this->config_path))
 		{
 			$this->error = 'FILEMANAGER_NOT_WRITABLE';
 			return false;
