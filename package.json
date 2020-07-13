@@ -10,6 +10,7 @@
 		"start": "npm run filemanager && encore dev --watch",
 		"dev": "npm run filemanager && encore dev",
 		"build": "encore production",
+		"release": "./vendor/bin/phing",
 		"crowdin-upload": "crowdin --config ./crowdin.yaml upload sources --auto-update -b develop",
 		"crowdin-download": "crowdin --config ./crowdin.yaml download -b develop"
 	},
