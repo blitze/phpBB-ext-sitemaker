@@ -133,8 +133,11 @@ class settings
 				$curr_settings = array_intersect_key($curr_settings, $this->filemanager_prop_types);
 			}
 
-			$this->filesystem->remove($config_file);
-			$this->save($curr_settings);
+			if ($this->config_is_writable())
+			{
+				$this->filesystem->remove($config_file);
+				$this->save($curr_settings);
+			}
 		}
 	}
 
