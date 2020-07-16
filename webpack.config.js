@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const Encore = require('@symfony/webpack-encore');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const style = process.env.style || 'all';
 const jqueryUITheme = process.env.jq_ui_theme || 'smoothness';
@@ -62,19 +61,17 @@ Encore.setOutputPath(paths.output)
 		'jquery-ui/sortable': 'jquery-ui/ui/widgets/sortable',
 	})
 
-	.addPlugin(
-		new CopyWebpackPlugin([
-			{
-				from: './node_modules/tinymce/',
-				to: 'tinymce/',
-				ignore: ['composer.json'],
-			},
-			{
-				from: 'vendor/trippo/responsivefilemanager/responsive_filemanager/tinymce/plugins/',
-				to: 'tinymce/plugins/[path][name].[ext]',
-			},
-		]),
-	)
+	.copyFiles([
+		{
+			from: './node_modules/tinymce/',
+			to: 'tinymce/[path][name].[ext]',
+			pattern: /^(?!composer\.json).*$/,
+		},
+		{
+			from: 'vendor/trippo/responsivefilemanager/responsive_filemanager/tinymce/plugins/',
+			to: 'tinymce/plugins/[path][name].[ext]',
+		}
+	])
 
 	.addPlugin(
 		new webpack.NormalModuleReplacementPlugin(

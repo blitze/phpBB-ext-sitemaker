@@ -2,7 +2,7 @@
 	"parser": "babel-eslint",
 	"parserOptions": {
 		"ecmaVersion": 2018,
-		"sourceType": "module",
+		"sourceType": "module"
 	},
 	"extends": [
 		"eslint:recommended",
@@ -18,7 +18,7 @@
 	},
 	"plugins": [
 		"dollar-sign",
-		"smells",
+		"smells"
 	],
 	"rules": {
 		"indent": [2, "tab"],
@@ -29,6 +29,7 @@
 		"smells/no-switch": 1,
 		"smells/no-complex-switch-case": 1,
 		"smells/no-setinterval": 1,
-		"smells/no-this-assign": 1,
-	}
+		"smells/no-this-assign": 1
+	},
+	"ignorePatterns": [ "styles/*", "vendor/*" ]
 }
