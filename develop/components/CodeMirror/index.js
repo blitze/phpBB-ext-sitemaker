@@ -27,16 +27,14 @@ export function insertText(cm, text, newLine = false) {
 	if (!cm.getSelection().length) {
 		const doc = cm.getDoc();
 		const cursor = doc.getCursor();
-		const { line } = cursor;
+		const { ch, line } = cursor;
 		const lineStr = doc.getLine(line);
 
-		let { ch } = cursor;
 		let preCh = '';
 		let postCh = '';
 
-		if (newLine && lineStr.length) {
-			ch = lineStr.length - 1;
-			preCh = '\n';
+		if (newLine) {
+			preCh = lineStr.trim().length ? '\n' : '';
 		} else {
 			const chPre = cm.getRange({ line, ch: ch - 1 }, cursor);
 			const chPost = cm.getRange(cursor, { line, ch: ch + 1 });
@@ -79,11 +77,11 @@ export function initCodeMirror(textarea, overwrites = {}) {
 	if (settings.allowFullScreen) {
 		settings.extraKeys = {
 			...settings.extraKeys,
-			F11: cm => {
+			F11: (cm) => {
 				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
 				cm.focus();
 			},
-			Esc: cm => {
+			Esc: (cm) => {
 				if (cm.getOption('fullScreen')) {
 					cm.setOption('fullScreen', false);
 				}
@@ -101,7 +99,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 		}
 	});
 
-	codeMirror.on('change', cm => {
+	codeMirror.on('change', (cm) => {
 		$textarea.text(` ${cm.getValue().trim()} `).trigger('change');
 
 		if ($undoRedo.length) {
@@ -116,7 +114,7 @@ export function initCodeMirror(textarea, overwrites = {}) {
 	if (settings.actionBtnsSelector) {
 		const $buttons = $(settings.actionBtnsSelector)
 			.addClass('CodeMirror-button')
-			.click(e => {
+			.click((e) => {
 				e.preventDefault();
 				const action = $(e.currentTarget).data('action');
 				runAction(codeMirror, action);
