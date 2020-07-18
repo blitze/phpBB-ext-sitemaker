@@ -101,18 +101,18 @@ $lang = array_merge($lang, array(
 	'SAVE_CHANGES'								=> 'Enregistrer les modifications',
 	'SAVE_SETTINGS'								=> 'Enregistrer les paramètres',
 	'SELECT_ICON'								=> 'Sélectionner une icône',
-	'SETTINGS'									=> 'Réglages',
-	'SETTING_TOO_BIG'							=> 'La valeur fournie pour le paramètre «%1$s» est trop élevée. La valeur maximale acceptable est de %2$d.',
-	'SETTING_TOO_LONG'							=> 'La valeur fournie pour le paramètre «%1$s» est trop longue. La longueur maximale acceptable est de %2$d.',
-	'SETTING_TOO_LOW'							=> 'La valeur fournie pour le paramètre «%1$s» est trop faible. La valeur minimale acceptable est de %2$d.',
-	'SETTING_TOO_SHORT'							=> 'La valeur fournie pour le paramètre «%1$s» est trop courte. La longueur minimale acceptable est de %2$d.',
-	'SET_STARTPAGE'								=> 'Définir comme page de départ',
+	'SETTINGS'									=> 'Paramètres',
+	'SETTING_TOO_BIG'							=> 'La valeur indiquée pour le paramètre «%1$s» est trop élevée. La valeur maximale acceptable est de %2$d.',
+	'SETTING_TOO_LONG'							=> 'La valeur indiquée pour le paramètre «%1$s» est trop longue. La longueur maximale acceptable est de %2$d.',
+	'SETTING_TOO_LOW'							=> 'La valeur indiquée pour le paramètre «%1$s» est trop faible. La valeur minimale acceptable est de %2$d.',
+	'SETTING_TOO_SHORT'							=> 'La valeur indiquée pour le paramètre «%1$s» est trop courte. La longueur minimale acceptable est de %2$d.',
+	'SET_STARTPAGE'								=> 'Définir en tant que page d\'accueil',
 
 	'TITLES'									=> 'Titres',
 
 	'UPDATE_SIMILAR'							=> 'Mettre à jour les blocs avec des paramètres similaires',
 	'UNDO'										=> 'Annuler',
 
-	'VIEW_DEFAULT_LAYOUT'						=> 'Afficher/Modifier la mise en page par défaut',
+	'VIEW_DEFAULT_LAYOUT'						=> 'Afficher/Editer la disposition par défaut',
 	'VISIT_PAGE'								=> 'Visiter la page',
 ));
