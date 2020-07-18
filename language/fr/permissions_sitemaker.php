@@ -38,9 +38,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Admin Permissions
-	'ACL_A_SM_SETTINGS'			=> 'Peut gérer les paramètres du sitemaker',
-	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Peut gérer les blocs du sitemaker',
-	'ACL_A_SM_MANAGE_MENUS'		=> 'Peut gérer les menus du sitemaker',
+	'ACL_A_SM_SETTINGS'			=> 'Peut gérer les paramètres Sitemaker',
+	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Peut gérer les blocs Sitemaker',
+	'ACL_A_SM_MANAGE_MENUS'		=> 'Peut gérer les menus Sitemaker',
 	'ACL_A_SM_FILEMANAGER'		=> 'Peut voir/gérer les dossiers des autres utilisateurs dans le gestionnaire de fichiers',
 
 	// User Permissions
