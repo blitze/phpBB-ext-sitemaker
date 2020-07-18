@@ -21,22 +21,22 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TIME'						=> 'Tout temps',
+	'ALL_TIME'						=> 'Tout le temps',
 
 	'BLOCK_TITLE'					=> 'Titre du bloc',
 
-	'CHANGE_ME'						=> 'Changer moi',
+	'CHANGE_ME'						=> 'Éditer moi',
 
 	'DAILY_MEMBER'					=> 'Membre du jour',
 
 	'FEATURED_MEMBER'				=> 'Membre en vedette',
-	'FEATURED_MEMBERLIST'			=> 'Liste des membres recommandés',
+	'FEATURED_MEMBERLIST'			=> 'Liste des membres en vedette',
 	'FEEDS'							=> 'Flux',
 	'FORUM_ANNOUNCEMENTS'			=> 'Annonces du forum',
-	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Annonces du Forum Mondial',
+	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Annonces générales du forum',
 	'FORUM_RECENT_POSTS'			=> 'Messages récents du forum',
 	'FORUM_RECENT_TOPICS'			=> 'Sujets récents du forum',
-	'FORUM_STICKY_POSTS'			=> 'Messages collants récents',
+	'FORUM_STICKY_POSTS'			=> 'Messages épinglés récents',
 
 	'HELP'							=> 'Aide',
 	'HOURLY_MEMBER'					=> 'Membre de l\'heure',
