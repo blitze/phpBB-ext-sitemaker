@@ -40,12 +40,12 @@ $lang = array_merge($lang, array(
 	'ACP_MENU'					=> 'Menu',
 	'ACP_MENU_MANAGE'			=> 'Gestion des menus',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Ici vous pouvez créer et gérer des menus pour votre site',
-	'ADD_BULK_MENU'				=> 'Ajouter des éléments de menu en masse',
-	'ADD_BULK_MENU_EXPLAIN'		=> 'Ajouter plusieurs éléments de menu à la fois.<br /> - Placez chaque élément sur une ligne séparée<br /> - Utilisez le <strong>Tab</strong> clé pour indenter des éléments pour représenter les relations parents-enfant<br /> - Entrez item et URL comme si : Home|index.php',
-	'ADD_MENU'					=> 'Ajouter Menu',
+	'ADD_BULK_MENU'				=> 'Ajouter en masse des éléments de menu',
+	'ADD_BULK_MENU_EXPLAIN'		=> 'Ajouter plusieurs éléments de menu à la fois.<br /> - Placez chacun des éléments sur une ligne séparée<br /> - Utilisez la touche <strong>Tab</strong> pour indenter les éléments afin de représenter les relations parents-enfants<br /> - Saisir les éléments et URL de cette façon : Accueil|index.php',
+	'ADD_MENU'					=> 'Ajouter un menu',
 	'ADD_MENU_ITEM'				=> 'Ajouter un élément de menu',
-	'ADD_ITEM'					=> 'Ajouter un élément',
-	'AJAX_PROCESSING'			=> 'Travailler',
+	'ADD_ITEM'					=> 'Ajouter un nouvel élément',
+	'AJAX_PROCESSING'			=> 'En cours',
 
 	'CHANGE_ME'					=> 'Changer moi',
 
