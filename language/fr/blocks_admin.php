@@ -47,7 +47,7 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'Mes signets',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistiques',
 	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Changeur de style',
-	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'Quoi de neuf?',
+	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'Quoi de neuf ?',
 	'BLITZE_SITEMAKER_BLOCK_WHOIS'				=> 'Qui est en ligne',
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraphe',
 
@@ -58,7 +58,7 @@ $lang = array_merge($lang, array(
 	'BLOCK_VIEW_DEFAULT'						=> 'Défaut',
 	'BLOCK_VIEW_SIMPLE'							=> 'Simple',
 
-	'CACHE_DURATION'							=> 'Durée du cache',
+	'CACHE_DURATION'							=> 'Durée de mise en cache',
 	'CONTEXT'									=> 'Contexte',
 	'CSS_SCRIPTS'								=> 'Scripts CSS',
 	'CUSTOM_PROFILE_FIELDS'						=> 'Champs de profil personnalisés',
