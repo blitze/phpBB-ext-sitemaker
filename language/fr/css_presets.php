@@ -37,16 +37,16 @@ if (empty($lang) || !is_array($lang))
 //
 //
 $lang = array_merge($lang, array(
-	'LIST_FLAT'				=> 'Liste des plats',
-	'LIST_ARROW'			=> 'Marqueur de liste de flèches',
-	'LIST_CIRCLE'			=> 'Marqueur de liste de cercle',
-	'LIST_DISC'				=> 'Marqueur de liste de puces',
-	'LIST_SQUARE'			=> 'Marqueur de liste carrée',
+	'LIST_FLAT'				=> 'Liste plate',
+	'LIST_ARROW'			=> 'Liste à puces Flèche',
+	'LIST_CIRCLE'			=> 'Liste à puces Cercle',
+	'LIST_DISC'				=> 'Liste à puces Point',
+	'LIST_SQUARE'			=> 'Liste à puces Carré',
 	'LIST_NUMBERED'			=> 'Liste numérotée',
 	'LIST_INLINE'			=> 'Liste en ligne',
-	'LIST_INLINE_SEP'		=> 'Liste séparée par des virgules',
+	'LIST_INLINE_SEP'		=> 'Liste CSV (séparée par des virgules)',
 	'LIST_HOVER'			=> 'Surligner au survol',
-	'LIST_STRIPED'			=> 'Liste rayée',
+	'LIST_STRIPED'			=> 'Liste à rayures (Striped-List)',
 	'LIST_STACKED'			=> 'Liste empilée',
 	'LIST_AUTOWIDTH'		=> 'Largeur auto',
 	'LIST_FIT_CONTENT'		=> 'Contenu adapté',
