@@ -41,9 +41,9 @@ $lang = array_merge($lang, array(
 	'HELP'							=> 'Aide',
 	'HOURLY_MEMBER'					=> 'Membre de l\'heure',
 
-	'GOOGLE_MAP'					=> 'Carte Google',
+	'GOOGLE_MAP'					=> 'Google Map',
 
-	'JOIN_DATE'						=> 'Date de participation',
+	'JOIN_DATE'						=> 'Date d\'inscription',
 
 	'LAST_POST_BY_AUTHOR'			=> 'Dernier message par',
 	'LAST_VISITED'					=> 'Dernière visite',
@@ -53,43 +53,43 @@ $lang = array_merge($lang, array(
 	'MEMBERS_DATE'					=> 'Date',
 	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Membre du mois',
-	'MOST_TENURED'					=> 'Plus ténu',
-	'MY_BOOKMARKS'					=> 'Mes signets',
+	'MOST_TENURED'					=> 'Le plus actif',
+	'MY_BOOKMARKS'					=> 'Mes marque-pages',
 
-	'NO_BOOKMARKED_TOPICS'			=> 'Vous n\'avez mis en signet aucun sujet',
+	'NO_BOOKMARKED_TOPICS'			=> 'Vous n\'avez mis aucun sujet en marque-pages',
 	'NO_NEW_TOPICS'					=> 'Il n\'y a aucun nouveau sujet à afficher',
 
 	'POLL'							=> 'Sondage',
-	'POSTS_MEMBER'					=> 'Top Poster',
-	'PROCESSING'					=> 'traité...',
+	'POSTS_MEMBER'					=> 'Meilleur rédacteur',
+	'PROCESSING'					=> 'en cours...',
 
 	'QTYPE_POSTS'					=> 'Félicitations à :',
 	'QTYPE_RECENT'					=> 'Veuillez souhaiter la bienvenue à notre nouveau membre :',
 
-	'RECENT_BOTS'					=> 'Moteurs de recherche récents',
+	'RECENT_BOTS'					=> 'Recherches récentes',
 	'RECENT_MEMBER'					=> 'Membre récent',
 	'RECENT_MEMBERS'				=> 'Membres récents',
 
-	'SESSION_HIDE_ME'				=> 'Cacher moi',
+	'SESSION_HIDE_ME'				=> 'Masquer moi',
 	'SM_NAVIGATION'					=> 'Navigation',
-	'SM_TOGGLE_DROPDOWN'			=> 'Basculer le menu déroulant',
-	'STYLE_SWITCHER'				=> 'Changeur de style',
+	'SM_TOGGLE_DROPDOWN'			=> 'Afficher/Masquer le menu déroulant',
+	'STYLE_SWITCHER'				=> 'Commutateur de style',
 
-	'THIS_MONTH'					=> 'Ce mois-ci',
-	'THIS_WEEK'						=> 'Cette semaine',
-	'THIS_YEAR'						=> 'Cette année',
+	'THIS_MONTH'					=> 'Ce Mois-ci',
+	'THIS_WEEK'						=> 'Cette Semaine',
+	'THIS_YEAR'						=> 'Cette Année',
 	'TODAY'							=> 'Aujourd\'hui',
 	'TOPICS_LAST_READ'				=> 'Derniers sujets lus',
 	'TOPIC_LAST_READ'				=> 'Dernière lecture %s',
-	'TOP_POSTERS'					=> 'Top affiches',
+	'TOP_POSTERS'					=> 'Meilleurs rédacteurs',
 
 	'UCP_SITEMAKER_CONTENT'			=> 'Mes trucs',
 
-	'VIEW_DETAILS'					=> 'Voir les détails',
+	'VIEW_DETAILS'					=> 'Afficher les détails',
 	'VIEW_USER_PROFILE'				=> 'Tout sur %s',
 
 	'WEEKLY_MEMBER'					=> 'Membre de la semaine',
-	'WELCOME'						=> 'Souhaits de bienvenue',
-	'WHATS_NEW'						=> 'Quoi de neuf?',
+	'WELCOME'						=> 'Bienvenue',
+	'WHATS_NEW'						=> 'Quoi de neuf ?',
 	'WORDGRAPH'						=> 'Wordgraphe',
 ));
