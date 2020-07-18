@@ -93,16 +93,16 @@ $lang = array_merge($lang, [
 	'LAYOUT_SETTINGS'	=> 'Paramètres de Disposition',
 
 	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Blocs Sitemaker supprimés en raison de l\'absence du style dont l\'identifiant est %s',
-	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Blocs du sitemaker supprimés pour les pages cassées:<br />%s',
-	'LOG_DELETED_BLOCKS'			=> 'Blocs de sitemaker invalides supprimés :<br />%s',
+	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Blocs Sitemaker supprimés en raison de pages cassées:<br />%s',
+	'LOG_DELETED_BLOCKS'			=> 'Blocs Sitemaker invalides supprimés :<br />%s',
 
-	'NAVIGATION_SETTINGS'	=> 'Paramètres de navigation',
+	'NAVIGATION_SETTINGS'	=> 'Paramètres de Navigation',
 	'NO_NAVBAR'				=> 'Aucun',
 
 	'SELECT_NAVBAR_MENU'		=> 'Sélectionnez le menu de navigation principal',
-	'SETTINGS_SAVED'			=> 'Vos paramètres ont été sauvegardés',
-	'SHOW'						=> 'Montrer',
-	'SHOW_FORUM_NAV'			=> 'Afficher \'Forum\' dans la barre de navigation ?',
-	'SHOW_FORUM_NAV_EXPLAIN'	=> 'Lorsqu\'une page est définie comme page de démarrage au lieu de l\'index du forum, devrions-nous afficher \'Forum\' dans la barre de navigation',
+	'SETTINGS_SAVED'			=> 'Vos paramètres ont été enregistrés',
+	'SHOW'						=> 'Afficher',
+	'SHOW_FORUM_NAV'			=> 'Afficher \'Forum\' sur la barre de navigation ?',
+	'SHOW_FORUM_NAV_EXPLAIN'	=> 'Lorsqu\'une page est définie comme page d\'accueil à la place de l\'index du forum, devons-nous afficher \'Forum\' dans la barre de navigation ?',
 	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Oui - avec l\'icône :',
 ]);
