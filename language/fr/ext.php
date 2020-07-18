@@ -37,6 +37,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'IMAGE_DIRECTORY_NOT_WRITABLE'	=> 'Le répertoire des images phpBB n\'est pas accessible en écriture. Veuillez modifier les permissions d\'écriture par tous (777 ou -rwxrwxrwx au sein de votre client FTP)',
-	'PHPBB_VERSION_UNMET'			=> 'Cette extension nécessite au moins phpBB %s',
+	'IMAGE_DIRECTORY_NOT_WRITABLE'	=> 'Le répertoire des images phpBB n\'est pas accessible en écriture. Veuillez accorder les permissions d\'écriture à tout le monde (777 ou -rwxrwxrwx avec votre client FTP)',
+	'PHPBB_VERSION_UNMET'			=> 'Cette extension nécessite au moins la version %s de phpBB',
 ));
