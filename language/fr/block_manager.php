@@ -77,13 +77,13 @@ $lang = array_merge($lang, array(
 
 	'IMAGES'									=> 'Images',
 
-	'LAYOUT'									=> 'Mise en page',
-	'LAYOUT_SAVED'								=> 'Mise en page enregistrée avec succès !',
-	'LAYOUT_SETTINGS'							=> 'Paramètres de mise en page',
-	'LEAVE_CONFIRM'								=> 'Vous avez des modifications non enregistrées sur cette page. Veuillez enregistrer votre travail avant de passer à',
+	'LAYOUT'									=> 'Disposition',
+	'LAYOUT_SAVED'								=> 'Disposition enregistrée avec succès !',
+	'LAYOUT_SETTINGS'							=> 'Paramètres de Disposition',
+	'LEAVE_CONFIRM'								=> 'Vous avez des modifications non enregistrées sur cette page. Veuillez enregistrer votre travail avant de quitter celle-ci',
 	'LISTS'										=> 'Listes',
 
-	'MAKE_DEFAULT_LAYOUT'						=> 'Définir comme mise en page par défaut',
+	'MAKE_DEFAULT_LAYOUT'						=> 'Définir comme disposition par défaut',
 
 	'OR'										=> '<strong>OU</strong>',
 
@@ -92,11 +92,11 @@ $lang = array_merge($lang, array(
 	'PREDEFINED_CLASSES'						=> 'Classes prédéfinies',
 
 	'REDO'										=> 'Rétablir',
-	'REMOVE_DEFAULT_LAYOUT'						=> 'Supprimer comme mise en page par défaut',
+	'REMOVE_DEFAULT_LAYOUT'						=> 'Supprimer en tant que disposition par défaut',
 	'REMOVE_STARTPAGE'							=> 'Supprimer la page d\'accueil',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Les blocs sont masqués pour cette page',
 	'ROUTE_HIDDEN_POSITIONS'					=> 'Les blocs sont masqués pour les positions suivantes',
-	'ROUTE_UPDATED'								=> 'Paramètres de la page mis à jour avec succès',
+	'ROUTE_UPDATED'								=> 'Les paramètres de la page ont été mis à jour avec succès',
 
 	'SAVE_CHANGES'								=> 'Enregistrer les modifications',
 	'SAVE_SETTINGS'								=> 'Enregistrer les paramètres',
