@@ -47,26 +47,26 @@ $lang = array_merge($lang, array(
 	'ADD_ITEM'					=> 'Ajouter un nouvel élément',
 	'AJAX_PROCESSING'			=> 'En cours',
 
-	'CHANGE_ME'					=> 'Changer moi',
+	'CHANGE_ME'					=> 'Éditer moi',
 
 	'DELETE_ITEM'				=> 'Supprimer l\'élément',
-	'DELETE_KIDS'				=> 'Supprimer la branche',
+	'DELETE_KIDS'				=> 'Supprimer l\'arborescence',
 	'DELETE_MENU'				=> 'Supprimer le menu',
 	'DELETE_MENU_CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce menu ?<br />Cela supprimera le menu et tous ses éléments',
-	'DELETE_MENU_ITEM'			=> 'Supprimer l\'élément',
+	'DELETE_MENU_ITEM'			=> 'Supprimer l\'élément de menu',
 	'DELETE_MENU_ITEM_CONFIRM'	=> 'Êtes-vous sûr de vouloir supprimer cet élément de menu ?',
 	'DELETE_SELECTED'			=> 'Supprimer la sélection',
 
-	'EDIT_ITEM'					=> 'Éditer',
+	'EDIT_ITEM'					=> 'Éditer l\'élément',
 
 	'ITEM_ACTIVE'				=> 'Actif',
 	'ITEM_INACTIVE'				=> 'Inactif',
 	'ITEM_PARENT'				=> 'Parent',
 	'ITEM_TITLE'				=> 'Titre de l\'élément',
-	'ITEM_TITLE_EXPLAIN'		=> 'Définir comme \'-\' pour le séparateur',
+	'ITEM_TITLE_EXPLAIN'		=> 'Définir comme \'-\' pour un séparateur',
 	'ITEM_TARGET'				=> 'Cible de l\'élément',
 	'ITEM_URL'					=> 'URL de l\'élément',
-	'ITEM_URL_EXPLAIN'			=> '- Laisser vide pour les rubriques<br />- Les sites externes doivent commencer par http(s)://, ftp://, //, etc',
+	'ITEM_URL_EXPLAIN'			=> '- Laisser vide pour les rubriques<br />- Les adresses de sites externes doivent commencer par http(s)://, ftp://, //, etc',
 
 	'MENU_ITEMS'				=> 'Éléments de menu',
 
@@ -75,12 +75,12 @@ $lang = array_merge($lang, array(
 
 	'PROCESSING_ERROR'			=> 'Erreur de traitement',
 
-	'REBUILD_TREE'				=> 'Reconstruire l\'arbre',
-	'REQUIRED'					=> 'Requis',
-	'REQUIRED_FIELDS'			=> '* Champs requis',
+	'REBUILD_TREE'				=> 'Reconstruire l\'arborescence',
+	'REQUIRED'					=> 'Obligatoire',
+	'REQUIRED_FIELDS'			=> '* Champs obligatoires',
 
 	'SAVE_CHANGES'				=> 'Enregistrer les modifications',
-	'SAVE'						=> 'Sauver',
+	'SAVE'						=> 'Enregistrer',
 	'SELECT_ALL'				=> 'Tout sélectionner',
 
 	'TARGET_BLANK'				=> 'Page vide',
