@@ -83,8 +83,8 @@ $lang = array_merge($lang, array(
 	'SAVE'						=> 'Enregistrer',
 	'SELECT_ALL'				=> 'Tout sélectionner',
 
-	'TARGET_BLANK'				=> 'Page vide',
-	'TARGET_PARENT'				=> 'Parent',
+	'TARGET_BLANK'				=> 'Nouvelle page/fenêtre',
+	'TARGET_PARENT'				=> 'Même page/fenêtre',
 
 	'UNSAVED_CHANGES'			=> 'Vous avez des modifications non enregistrées',
 
