@@ -102,7 +102,7 @@ $lang = array_merge($lang, array(
 	'TITLE'				=> 'titre',
 	'TYPE'				=> 'type',
 	'UPDATED_DATE'		=> 'date/heure de mise à jour',
-	'UPDATED_GMDATE'	=> 'date de GM mise à jour',
+	'UPDATED_GMDATE'	=> 'date/heure GMT de mise à jour',
 	'VALUE'				=> 'valeur',
 	'WIDTH'				=> 'largeur',
 ));
