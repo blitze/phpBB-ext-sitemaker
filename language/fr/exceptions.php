@@ -38,10 +38,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'EXCEPTION_FIELD_MISSING'		=> 'Champ obligatoire manquant',
-	'EXCEPTION_INVALID_ACTION'		=> 'L\'action n\'existe pas',
+	'EXCEPTION_INVALID_ACTION'		=> 'Cette action n\'existe pas',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Argument invalide spécifié pour `%1$s`. Raison : %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'La valeur fournie est d\'un type de données inattendues',
-	'EXCEPTION_INVALID_ENTITY'		=> 'L\'entité fournie est d\'une classe d\'entité inattendue',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'La valeur indiquée est d\'un type de données non valide',
+	'EXCEPTION_INVALID_ENTITY'		=> 'L\'entité indiquée est d\'une classe d\'entité non valide',
 	'EXCEPTION_INVALID_PROPERTY'	=> 'La propriété demandée n\'existe pas',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Le `%1$s` demandé n\'existe pas',
 	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Le service demandé n\'a pas été trouvé',
