@@ -21,17 +21,17 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TYPES'									=> 'Tous les types',
-	'ALL_GROUPS'								=> 'Tous les groupes',
+	'ALL_TYPES'									=> 'Tous les Types',
+	'ALL_GROUPS'								=> 'Tous les Groupes',
 	'ARCHIVES'									=> 'Archives',
 	'AUTO_LOGIN'								=> 'Autoriser la connexion automatique ?',
 	'FILE_MANAGER'								=> 'Gestionnaire de fichiers',
-	'TOPIC_POST_IDS'							=> 'Depuis le Topic/Post Ids',
-	'TOPIC_POST_IDS_EXPLAIN'					=> 'Id(s) des sujets/messages pour récupérer les pièces jointes, séparés par <strong>virgules</strong>(,). Indiquez si cette liste est pour les ids des discussions ou des messages ci-dessus.',
-	'TOPIC_POST_IDS_TYPE'						=> 'Type d\'ID (ci-dessous)',
+	'TOPIC_POST_IDS'							=> 'Depuis les identifiants de Sujet/Message',
+	'TOPIC_POST_IDS_EXPLAIN'					=> 'Identifiant(s) des sujets/messages depuis lesquels récupérer les pièces-jointes, séparés par des <strong>virgules</strong>(,). Indiquez si cette liste concerne des identifiants de sujet ou de message ci-dessus.',
+	'TOPIC_POST_IDS_TYPE'						=> 'Type d\'identifiant (ci-dessous)',
 
 	// Blocks
-	'BLITZE_SITEMAKER_BLOCK_ATTACHMENTS'		=> 'Pièces jointes',
+	'BLITZE_SITEMAKER_BLOCK_ATTACHMENTS'		=> 'Pièces-jointes',
 	'BLITZE_SITEMAKER_BLOCK_BIRTHDAY'			=> 'Anniversaire',
 	'BLITZE_SITEMAKER_BLOCK_CUSTOM'				=> 'Bloc personnalisé',
 	'BLITZE_SITEMAKER_BLOCK_FEATURED_MEMBER'	=> 'Membre en vedette',
@@ -44,11 +44,11 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Membres',
 	'BLITZE_SITEMAKER_BLOCK_MEMBER_MENU'		=> 'Menu Membres',
 	'BLITZE_SITEMAKER_BLOCK_MENU'				=> 'Menu',
-	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'Mes signets',
+	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'Mes marque-pages',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistiques',
-	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Changeur de style',
+	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Commutateur de style',
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'Quoi de neuf ?',
-	'BLITZE_SITEMAKER_BLOCK_WHOIS'				=> 'Qui est en ligne',
+	'BLITZE_SITEMAKER_BLOCK_WHOIS'				=> 'Qui est en ligne ?',
 	'BLITZE_SITEMAKER_BLOCK_WORDGRAPH'			=> 'Wordgraphe',
 
 	// block views
