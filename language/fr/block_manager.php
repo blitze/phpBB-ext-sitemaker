@@ -54,26 +54,26 @@ $lang = array_merge($lang, array(
 	'COPY_BLOCKS'								=> 'Copier les blocs ?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Êtes-vous sûr de vouloir copier les blocs d\'une autre page ?<br /><br />Ceci supprimera tous les blocs existants et leurs paramètres sur cette page et les remplacera par les blocs de la page sélectionnée.',
 
-	'DEFAULT_LAYOUT_EXPLAIN'					=> 'Si défini, toutes les pages du site pour lesquelles vous n\'avez pas de blocs spécifiés hériteront les blocs de la disposition par défaut. Vous pouvez cependant remplacer la disposition par défaut pour certaines pages en utilisant les options à droite.',
+	'DEFAULT_LAYOUT_EXPLAIN'					=> 'Si défini, toutes les pages du site pour lesquelles vous n\'avez pas de blocs spécifiés hériteront des blocs de la disposition par défaut. Vous pouvez cependant remplacer la disposition par défaut pour certaines pages en utilisant les options à droite.',
 	'DELETE'									=> 'Supprimer',
 	'DELETE_ALL_BLOCKS'							=> 'Supprimer tous les blocs',
 	'DELETE_ALL_BLOCKS_CONFIRM'					=> 'Êtes-vous sûr de vouloir supprimer tous les blocs de cette page ?',
 	'DELETE_BLOCK'								=> 'Supprimer le bloc',
-	'DELETE_BLOCK_CONFIRM'						=> 'Êtes-vous sûr de vouloir supprimer ce bloc ?<br /><br /><br /><strong>Remarque :</strong> Vous devrez enregistrer les changements de disposition pour faire ce permanent.',
+	'DELETE_BLOCK_CONFIRM'						=> 'Êtes-vous sûr de vouloir supprimer ce bloc ?<br /><br /><br /><strong>Remarque :</strong> Vous devrez enregistrer les changements de disposition afin de rendre cette suppression permanente.',
 
 	'EDIT'										=> 'Editer',
-	'EDIT_BLOCK'								=> 'Modifier le bloc',
+	'EDIT_BLOCK'								=> 'Editer le bloc',
 	'EXIT_EDIT_MODE'							=> 'Quitter le mode d\'édition',
 
 	'FEED_PROBLEMS'								=> 'Un problème est survenu lors du traitement des flux rss/atom fournis(s).',
-	'FEED_URL_MISSING'							=> 'Veuillez fournir au moins un flux rss/atom pour commencer',
-	'FIELD_INVALID'								=> 'La valeur fournie pour le champ «%s» a un format invalide',
+	'FEED_URL_MISSING'							=> 'Veuillez indiquer au moins un flux rss/atom pour commencer',
+	'FIELD_INVALID'								=> 'La valeur fournie pour le champ «%s» utilise un format invalide',
 	'FIELD_REQUIRED'							=> 'Le champ «%s» est obligatoire',
-	'FIELD_TOO_LONG'							=> 'La valeur fournie pour le champ «%1$s» est trop longue. La valeur maximale acceptable est de %2$d.',
-	'FIELD_TOO_SHORT'							=> 'La valeur fournie pour le champ «%1$s» est trop courte. La valeur minimale acceptable est de %2$d.',
+	'FIELD_TOO_LONG'							=> 'La valeur indiquée pour le champ «%1$s» est trop longue. La valeur maximale acceptable est de %2$d.',
+	'FIELD_TOO_SHORT'							=> 'La valeur indiquée pour le champ «%1$s» est trop courte. La valeur minimale acceptable est de %2$d.',
 
-	'HIDE_ALL_BLOCKS'							=> 'Ne pas afficher les blocs sur cette page',
-	'HIDE_BLOCK_POSITIONS'						=> 'Ne pas afficher les blocs pour les positions de bloc suivantes:',
+	'HIDE_ALL_BLOCKS'							=> 'Ne pas afficher de bloc sur cette page',
+	'HIDE_BLOCK_POSITIONS'						=> 'Ne pas afficher de bloc pour les positions de bloc suivantes :',
 
 	'IMAGES'									=> 'Images',
 
