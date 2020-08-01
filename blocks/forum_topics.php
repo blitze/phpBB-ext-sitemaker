@@ -159,6 +159,7 @@ class forum_topics extends forum_topics_config
 				'VIEWS'				=> (int) $row['topic_views'],
 				'S_UNREAD_TOPIC'	=> $this->is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
 
+				'U_VIEWPROFILE'		=> $author['u_viewprofile'],
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
 				'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
