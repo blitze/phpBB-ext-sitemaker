@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -41,22 +42,22 @@ class cfg_handler_test extends \phpbb_test_case
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->tpl_data =& $tpl_data;
+		$this->tpl_data = &$tpl_data;
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data) {
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data) {
 				$tpl_data[$key][] = $data;
 			}));
 
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data) {
 				return $tpl_data;
 			}));
 
@@ -79,7 +80,8 @@ class cfg_handler_test extends \phpbb_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/',
 				),
 			),
-			$phpbb_container);
+			$phpbb_container
+		);
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang_loader->set_extension_manager($phpbb_extension_manager);
@@ -184,9 +186,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<ul class="sm-list my_var-checkbox" id="my_var-col-0">' .
-							'<li><label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label></li>' .
-							'<li><label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label></li>' .
-							'<li><label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label></li>' .
+						'<li><label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label></li>' .
+						'<li><label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label></li>' .
+						'<li><label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label></li>' .
 						'</ul>',
 				),
 			),
@@ -199,9 +201,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> true,
 					'TITLE_EXPLAIN'	=> 'MY_SETTING_EXPLAIN',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-							'<option value="option1" selected="selected">Option 1</option>' .
-							'<option value="option2" selected="selected">Option 2</option>' .
-							'<option value="option3">Option 3</option>' .
+						'<option value="option1" selected="selected">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
 						'</select>YEARS',
 				),
 			),
@@ -227,9 +229,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var]">' .
-							'<option value="option1">Option 1</option>' .
-							'<option value="option2" selected="selected">Option 2</option>' .
-							'<option value="option3">Option 3</option>' .
+						'<option value="option1">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -242,9 +244,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-							'<option value="option1">Option 1</option>' .
-							'<option value="option2" selected="selected">Option 2</option>' .
-							'<option value="option3">Option 3</option>' .
+						'<option value="option1">Option 1</option>' .
+						'<option value="option2" selected="selected">Option 2</option>' .
+						'<option value="option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -257,9 +259,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var]" size="5" data-togglable-settings="true">' .
-							'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
-							'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
-							'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
+						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
+						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
+						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -272,9 +274,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
 					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple" data-togglable-settings="true">' .
-							'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
-							'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
-							'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
+						'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
+						'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
+						'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
 						'</select>',
 				),
 			),
@@ -327,10 +329,10 @@ class cfg_handler_test extends \phpbb_test_case
 						'<span>CODE_EDITOR</span>' .
 						'<textarea id="my_var-editor" class="code-editor" name="config[my_var]" data-height="200" data-allow-full-screen="1">option2</textarea>' .
 						'<div class="align-right">' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fas fa-undo" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fas fa-redo" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fas fa-ban" aria-hidden="true"></i></button>' .
-							'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fas fa-window-restore" aria-hidden="true"></i></button>' .
+						'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
+						'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-redo" aria-hidden="true"></i></button>' .
+						'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
+						'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
 						'</div>',
 				),
 			),
@@ -345,19 +347,19 @@ class cfg_handler_test extends \phpbb_test_case
 					'CONTENT'		=> '<div class="sm-multi-input-ui sortable">' .
 						'<label><strong>MY_SETTING</strong></label>' .
 						'<div class="sm-multi-input-list">' .
-							'<div class="sm-multi-input-item">' .
-								'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
-								'<input type="text" name="config[my_var][]" value="option2" />' .
-								'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-    						'</div>' .
-                            '<div class="sm-multi-input-item">' .
-                            	'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
-                            	'<input type="text" name="config[my_var][]" value="" />' .
-                            	'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-                            '</div>' .
-                        '</div>' .
-                        '<button class="sm-multi-input-add pull-right"><i class="fas fa-plus" aria-hidden="true"></i></button>' .
-                    '</div>',
+						'<div class="sm-multi-input-item">' .
+						'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+						'<input type="text" name="config[my_var][]" value="option2" />' .
+						'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+						'</div>' .
+						'<div class="sm-multi-input-item">' .
+						'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+						'<input type="text" name="config[my_var][]" value="" />' .
+						'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+						'</div>' .
+						'</div>' .
+						'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
+						'</div>',
 				),
 			),
 		);
@@ -384,21 +386,21 @@ class cfg_handler_test extends \phpbb_test_case
 			'my_var'	=> $default_settings,
 		);
 
-		$expected = array_merge(array(
+		$expected = array_merge(
 			array(
-				'S_LEGEND'	=> 'legend1',
-				'LEGEND'	=> 'Settings',
-			)),
+				array(
+					'S_LEGEND'	=> 'legend1',
+					'LEGEND'	=> 'Settings',
+				)
+			),
 			array($expected)
 		);
 
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->get_edit_form($block_data, $default_settings);
 
-		foreach ($html['options'] as &$option)
-		{
-			if (isset($option['CONTENT']))
-			{
+		foreach ($html['options'] as &$option) {
+			if (isset($option['CONTENT'])) {
 				$option['CONTENT'] = trim(preg_replace('/\s{2,}|\n/', '', $option['CONTENT']));
 			}
 		}
@@ -477,21 +479,15 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
-		try
-		{
+		try {
 			$data = $cfg_fields->get_submitted_settings($default_settings);
-			if (is_array($expected))
-			{
+			if (is_array($expected)) {
 				$this->assertSame($expected, $data);
-			}
-			else
-			{
+			} else {
 				$this->fail('no exception thrown');
 			}
-		}
-		catch (\Exception $e)
-		{
-			$this->assertEquals($expected,$e->getMessage());
+		} catch (\Exception $e) {
+			$this->assertEquals($expected, $e->getMessage());
 		}
 	}
 
@@ -503,8 +499,7 @@ class cfg_handler_test extends \phpbb_test_case
 	public function create_test_options(array $options, $current)
 	{
 		$html = '';
-		foreach ($options as $value => $title)
-		{
+		foreach ($options as $value => $title) {
 			$selected = ($current == $value) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $selected . ' data-toggle-setting="#test-' . $value . '">' . $title . '</option>';
 		}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -38,9 +39,9 @@ class picker
 	 */
 	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $icon_categories_yml)
 	{
-		$this->translator = $translator;
-		$this->util = $util;
-		$this->ptemplate = $ptemplate;
+		$this->translator          = $translator;
+		$this->util                = $util;
+		$this->ptemplate           = $ptemplate;
 		$this->icon_categories_yml = $icon_categories_yml;
 	}
 
@@ -50,6 +51,7 @@ class picker
 	public function picker()
 	{
 		$this->translator->add_lang('icons', 'blitze/sitemaker');
+		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
 
 		$this->util->add_assets(array(
 			'css'	=> array_filter(array(
@@ -57,14 +59,19 @@ class picker
 			))
 		));
 
-		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
+		$icons_tpl = 'fontawesome4';
+		if (phpbb_version_compare(PHPBB_VERSION, '3.3.1', '>='))
+		{
+			$icons_tpl = 'fontawesome5';
+			$categories = Yaml::parseFile($this->icon_categories_yml);
 
-		$categories = Yaml::parseFile($this->icon_categories_yml);
+			$this->ptemplate->assign_var('categories', $categories);
+		}
 
-		$this->ptemplate->assign_var('categories', $categories);
+		$this->ptemplate->assign_var('icons_tpl', $icons_tpl);
 
 		$this->ptemplate->set_filenames(array(
-			'icons'	=> 'icon_picker.html'
+			'icons'	=> 'icons/picker.html'
 		));
 
 		return $this->ptemplate->assign_display('icons');

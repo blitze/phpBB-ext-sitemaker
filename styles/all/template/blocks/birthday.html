@@ -1,5 +1,5 @@
 <ul class="fa-ul">
 {% for birthday in loops.birthday %}
-	<li><i class="fa-li fas fa-user" aria-hidden="true"></i>{{ birthday.USERNAME }}{% if birthday.USER_AGE %} ({{ birthday.USER_AGE }}){% endif %}</li>
+	<li><i class="fa-li fa fa-user" aria-hidden="true"></i>{{ birthday.USERNAME }}{% if birthday.USER_AGE %} ({{ birthday.USER_AGE }}){% endif %}</li>
 {% endfor %}
 </ul>

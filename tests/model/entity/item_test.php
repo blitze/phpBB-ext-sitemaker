@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -74,20 +75,16 @@ class item_test extends \phpbb_test_case
 			'item_title'	=> 'item 1',
 		);
 
-		foreach ($required_fields as $field)
-		{
+		foreach ($required_fields as $field) {
 			$test_data = $data;
 			unset($test_data[$field]);
 
 			$entity = new item($test_data);
 
-			try
-			{
+			try {
 				$entity->to_db();
 				$this->fail('no exception thrown');
-			}
-			catch (\blitze\sitemaker\exception\invalid_argument $e)
-			{
+			} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT-{$field}-FIELD_MISSING", $e->get_message($this->translator));
 			}
 		}
@@ -123,7 +120,7 @@ class item_test extends \phpbb_test_case
 			array('parent_id', 0, 1, 1, 2, 2),
 			array('item_title', '', 'some title', 'Some title', 'another title', 'Another title'),
 			array('item_url', '', 'index.php', '/index.php', 'forum', '/forum'),
-			array('item_icon', '', 'fas fa-arrow', 'fas fa-arrow ', 'fas fa-check', 'fas fa-check '),
+			array('item_icon', '', 'fa fa-arrow', 'fa fa-arrow ', 'fa fa-check', 'fa fa-check '),
 			array('item_target', 0, 1, 1, 0, 0),
 			array('left_id', 0, 1, 1, 2, 2),
 			array('right_id', 0, 1, 1, 2, 2),
@@ -162,23 +159,17 @@ class item_test extends \phpbb_test_case
 	{
 		$item = new item(array());
 
-		try
-		{
+		try {
 			$this->assertNull($item->get_foo());
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\invalid_argument $e)
-		{
+		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 
-		try
-		{
+		try {
 			$this->assertNull($item->set_foo('bar'));
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\invalid_argument $e)
-		{
+		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 	}
@@ -194,7 +185,7 @@ class item_test extends \phpbb_test_case
 			'parent_id'		=> 0,
 			'item_title'	=> 'item 1',
 			'item_url'		=> 'app.php/foo/bar',
-			'item_icon'		=> 'fas fa-bookmark',
+			'item_icon'		=> 'fa fa-bookmark',
 			'item_target'	=> 1,
 			'left_id'		=> 1,
 			'right_id'		=> 2,
@@ -208,7 +199,7 @@ class item_test extends \phpbb_test_case
 			'parent_id'		=> 0,
 			'item_title'	=> 'Item 1',
 			'item_url'		=> '/app.php/foo/bar',
-			'item_icon'		=> 'fas fa-bookmark ',
+			'item_icon'		=> 'fa fa-bookmark ',
 			'item_target'	=> 1,
 			'left_id'		=> 1,
 			'right_id'		=> 2,
@@ -225,7 +216,7 @@ class item_test extends \phpbb_test_case
 			'parent_id'		=> 0,
 			'item_title'	=> 'Item 1',
 			'item_url'		=> '/app.php/foo/bar',
-			'item_icon'		=> 'fas fa-bookmark ',
+			'item_icon'		=> 'fa fa-bookmark ',
 			'item_target'	=> 1,
 			'left_id'		=> 1,
 			'right_id'		=> 2,

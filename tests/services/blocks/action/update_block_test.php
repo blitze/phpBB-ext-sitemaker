@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -39,11 +40,11 @@ class update_block_test extends base_action
 				array(
 					array('id', 0, false, request_interface::REQUEST, 1),
 					array('field', 'icon', false, request_interface::REQUEST, 'icon'),
-					array('icon', '', false, request_interface::REQUEST, 'fas fa-circle'),
+					array('icon', '', false, request_interface::REQUEST, 'fa fa-circle'),
 					array('title', '', true, request_interface::REQUEST, ''),
 				),
 				array(
-					'icon'		=> 'fas fa-circle',
+					'icon'		=> 'fa fa-circle',
 					'title'		=> 'I am baz block',
 					'id'		=> 1,
 				),
@@ -92,13 +93,10 @@ class update_block_test extends base_action
 
 		$command = $this->get_command('update_block', $variable_map);
 
-		try
-		{
+		try {
 			$this->assertNull($command->execute(1));
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\base $e)
-		{
+		} catch (\blitze\sitemaker\exception\base $e) {
 			$this->assertEquals('EXCEPTION_OUT_OF_BOUNDS-bid', $e->get_message($this->translator));
 		}
 	}

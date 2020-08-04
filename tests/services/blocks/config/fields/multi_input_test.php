@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -21,8 +22,8 @@ class multi_input_test extends cfg_test_base
 		return new multi_input($this->translator, $this->ptemplate);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
@@ -43,13 +44,13 @@ class multi_input_test extends cfg_test_base
 				'',
 				'<div class="sm-multi-input-ui">' .
 					'<div class="sm-multi-input-list">' .
-						'<div class="sm-multi-input-item">' .
-							'<input type="text" name="config[foo][]" value="" />' .
-							'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
+					'<div class="sm-multi-input-item">' .
+					'<input type="text" name="config[foo][]" value="" />' .
+					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
 					'</div>' .
-					'<button class="sm-multi-input-add pull-right"><i class="fas fa-plus" aria-hidden="true"></i></button>' .
-				'</div>',
+					'</div>' .
+					'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
+					'</div>',
 			),
 			array(
 				true,
@@ -58,24 +59,24 @@ class multi_input_test extends cfg_test_base
 				'<div class="sm-multi-input-ui sortable">' .
 					'<label><strong>MY_FOO_INPUT</strong></label>' .
 					'<div class="sm-multi-input-list">' .
-						'<div class="sm-multi-input-item">' .
-							'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
-							'<input type="text" name="config[foo][]" value="https://google.com" />' .
-							'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
-						'<div class="sm-multi-input-item">' .
-							'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
-							'<input type="text" name="config[foo][]" value="some-site.com" />' .
-							'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
-						'<div class="sm-multi-input-item">' .
-							'<span><i class="fas fa-bars" aria-hidden="true"></i></span>' .
-							'<input type="text" name="config[foo][]" value="" />' .
-							'<button class="sm-multi-input-delete"><i class="fas fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
+					'<div class="sm-multi-input-item">' .
+					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+					'<input type="text" name="config[foo][]" value="https://google.com" />' .
+					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
 					'</div>' .
-					'<button class="sm-multi-input-add pull-right"><i class="fas fa-plus" aria-hidden="true"></i></button>' .
-				'</div>',
+					'<div class="sm-multi-input-item">' .
+					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+					'<input type="text" name="config[foo][]" value="some-site.com" />' .
+					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+					'</div>' .
+					'<div class="sm-multi-input-item">' .
+					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
+					'<input type="text" name="config[foo][]" value="" />' .
+					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
+					'</div>' .
+					'</div>' .
+					'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
+					'</div>',
 			),
 		);
 	}

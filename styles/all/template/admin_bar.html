@@ -5,7 +5,7 @@
 	<div id="admin-options" class="admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#"><i class="fas fa-cubes" aria-hidden="true"></i><span class="responsive-hide">{{ lang('BLOCKS') }}</span></a>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cubes" aria-hidden="true"></i><span class="responsive-hide">{{ lang('BLOCKS') }}</span></a>
 				<div id="add-block-panel" class="sm-dropdown">
 					<div class="ui-state-default align-center"><strong>{{ lang('ADD_BLOCK_EXPLAIN') }}</strong></div>
 
@@ -13,7 +13,7 @@
 						<div class="grid-3_sm-2-noBottom">
 							{% for block in loops.block %}
 							<div data-block="{{ block.SERVICE }}" class="col sitemaker-block">
-								<div class="inner"><i class="fas fa-arrows-alt" aria-hidden="true"></i>{{ block.NAME }}</div>
+								<div class="inner"><i class="fa fa-arrows-alt" aria-hidden="true"></i>{{ block.NAME }}</div>
 							</div>
 							{% endfor %}
 						</div>
@@ -23,7 +23,7 @@
 			    </div>
 			</li>
 			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#"><i class="fas fa-cog" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SETTINGS') }}</span></a>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SETTINGS') }}</span></a>
 				<div class="sm-dropdown">
 					<div class="grid-2_sm-1-noBottom">
 						<div class="col grid-1-noBottom">
@@ -39,8 +39,8 @@
 										<select name="from_style">{{ S_STYLE_OPTIONS }}</select>
 									</p>
 									<p>
-										<a href="#" class="layout-copy" data-action="view"><i class="fas fa-eye" aria-hidden="true"></i> {{ lang('VISIT_PAGE') }}</a>
-										<a href="#" class="layout-copy" data-action="copy"><i class="far fa-copy" aria-hidden="true"></i> {{ lang('BLOCKS_COPY_FROM') }}</a>
+										<a href="#" class="layout-copy" data-action="view"><i class="fa fa-eye" aria-hidden="true"></i> {{ lang('VISIT_PAGE') }}</a>
+										<a href="#" class="layout-copy" data-action="copy"><i class="fa fa-copy" aria-hidden="true"></i> {{ lang('BLOCKS_COPY_FROM') }}</a>
 									</p>
 								</form>
 							</div>
@@ -65,9 +65,9 @@
 			</li>
 			{% EVENT blitze_sitemaker_admin_bar_append %}
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fas fa-check fa-lg" aria-hidden="true"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
-			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fas fa-save fa-lg" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SAVE_CHANGES') }}</span></a></li>
-			<li class="hmenu-item right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ SM_USER_LANG }}/introduction"><i class="fas fa-question-circle fa-lg fa-orange" aria-hidden="true"></i></a></li>
+			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg" aria-hidden="true"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
+			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SAVE_CHANGES') }}</span></a></li>
+			<li class="hmenu-item right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ SM_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange" aria-hidden="true"></i></a></li>
 			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
 			<li class="hmenu-item right responsive-hide">
 				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{{ PAGE_URL }}&amp;style='+this.options[this.selectedIndex].value;}">
@@ -76,7 +76,7 @@
 			</li>
 		</ul>
 	</div>
-	<a id="admin-control" class="admin-bar-control" href="#"><i class="fas fa-exchange-alt" aria-hidden="true"></i></a>
+	<a id="admin-control" class="admin-bar-control" href="#"><i class="fa fa-exchange-alt" aria-hidden="true"></i></a>
 
 	<div class="message-container">
 		<div id="ajax-message" class="flash-message"></div>

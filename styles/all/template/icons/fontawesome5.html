@@ -1,0 +1,12 @@
+{% for name, category in categories %}
+	<p id="{{ 'cat-' ~ name }}" class="filter-icon">{{ lang('ICON_' ~ name|upper|replace({'-': "_"})) }}</p>
+	<div class="icon-list">
+	{%- for icon in category.icons -%}
+		{%- for prefix in icon.prefixes -%}
+		<div class="filter-icon" data-filter="{{ icon.terms }}">
+			<a href="#{{ prefix ~ ' fa-' ~ icon.name }}"><i class="{{ prefix ~ ' fa-' ~ icon.name }}" aria-hidden="true"></i></a>
+		</div>
+		{%- endfor -%}
+	{%- endfor -%}
+	</div>
+{% endfor %}

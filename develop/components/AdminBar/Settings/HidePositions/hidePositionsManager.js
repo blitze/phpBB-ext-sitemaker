@@ -21,14 +21,14 @@ export default function HidePositionsManager(positions, showMessage) {
 		if (hidingBlocks) {
 			showMessage(
 				`<span>
-					<i class="fas fa-info-circle fa-blue fa-lg" aria-hidden="true"></i>
+					<i class="fa fa-info-circle fa-blue fa-lg" aria-hidden="true"></i>
 					${lang.hidingBlocks}
 				</span>`,
 			);
 		} else if (exPositions.length) {
 			showMessage(
 				`<span>
-					<i class="fas fa-info-circle fa-blue fa-lg" aria-hidden="true"></i>
+					<i class="fa fa-info-circle fa-blue fa-lg" aria-hidden="true"></i>
 					${lang.hidingPos}: <strong>${exPositions.join(', ')}</strong>
 				</span>`,
 			);

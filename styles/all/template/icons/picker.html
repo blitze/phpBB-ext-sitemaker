@@ -1,3 +1,30 @@
+{%- set fa4_categories = {
+	'computers': 'computers',
+	'accessibility': 'accessibility',
+	'hands': 'hands',
+	'travel': 'travel',
+	'gender': 'gender',
+	'files': 'files',
+	'spinners': 'spinners',
+	'interfaces': 'interfaces',
+	'payments-shopping': 'payments-shopping',
+	'business': 'business',
+	'currency': 'currency',
+	'editors': 'editors',
+	'arrows': 'arrows',
+	'audio-video': 'audio-video',
+	'brand': 'brand',
+	'medical': 'medical'
+} -%}
+
+{%- set size_options = ['lg', '2x', '3x', '4x', '5x'] -%}
+{%- set rotation_options = ['rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical'] -%}
+
+{% if icons_tpl === 'fontawesome5' %}
+	{%- set size_options = ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'] -%}
+	{%- set rotation_options = rotation_options|merge(['flip-both']) -%}
+{% endif %}
+
 <div id="icon-picker" class="icon-picker-container panel" style="display: none">
 	<div id="icons-tab" class="icons-bottom-tabs">
 		<ul>
@@ -11,23 +38,12 @@
 			</div>
 			<div class="icons-container">
 				<div id="icons-font-list" class="icons">
-					{% for name, category in categories %}
-					<p id="{{ 'cat-' ~ name }}" class="filter-icon">{{ lang('ICON_' ~ name|upper|replace({'-': "_"})) }}</p>
-					<div class="icon-list">
-					{%- for icon in category.icons -%}
-						{%- for prefix in icon.prefixes -%}
-						<div class="filter-icon" data-filter="{{ icon.terms }}">
-							<a href="#{{ prefix ~ ' fa-' ~ icon.name }}"><i class="{{ prefix ~ ' fa-' ~ icon.name }}" aria-hidden="true"></i></a>
-						</div>
-						{%- endfor -%}
-					{%- endfor -%}
-					</div>
-					{% endfor %}
+					{% include '@blitze_sitemaker/icons/' ~ icons_tpl ~ '.html' %}
 				</div>
 			</div>
 
 			<select id="icons-font-cat-list" class="icon-categories">
-				{% for category in categories|keys %}
+				{% for category in categories|default(fa4_categories)|keys %}
 				<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper|replace({'-': "_"})) }}</option>
 				{% endfor %}
 			</select>
@@ -51,18 +67,9 @@
 						<dd>
 							<select id="icons-size" class="icons-customize" name="size">
 								<option value="" selected="selected">{{ lang('ICON_DEFAULT') }}</option>
-								<option value="fa-xs">{{ lang('ICON_SIZE_XSMALL') }}</option>
-								<option value="fa-sm">{{ lang('ICON_SIZE_SMALL') }}</option>
-								<option value="fa-lg">{{ lang('ICON_SIZE_LARGER') }}</option>
-								<option value="fa-2x">2x</option>
-								<option value="fa-3x">3x</option>
-								<option value="fa-4x">4x</option>
-								<option value="fa-5x">5x</option>
-								<option value="fa-6x">6x</option>
-								<option value="fa-7x">7x</option>
-								<option value="fa-8x">8x</option>
-								<option value="fa-9x">9x</option>
-								<option value="fa-10x">10x</option>
+								{% for size in size_options %}
+								<option value="{{ 'fa-' ~ size }}">{{ lang('ICON_SIZE_' ~ size|upper) }}</option>
+								{% endfor %}
 							</select>
 						</dd>
 					</dl>
@@ -147,24 +154,11 @@
 						<dd>
 							<label><input type="radio" name="rotation" class="icons-customize" value="" checked="checked" /> {{ lang('ICON_DEFAULT') }}</label>
 						</dd>
+						{% for rotation in rotation_options %}
 						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-90" /> {{ lang('ICON_ROTATION_90_DEG') }}</label>
+							<label><input type="radio" name="rotation" class="icons-customize" value="{{ 'fa-' ~ rotation }}" /> {{ lang('ICON_' ~ rotation|upper|replace({'-': "_"})) }}</label>
 						</dd>
-						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-180" /> {{ lang('ICON_ROTATION_180_DEG') }}</label>
-						</dd>
-						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-rotate-270" /> {{ lang('ICON_ROTATION_270_DEG') }}</label>
-						</dd>
-						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-horizontal" /> {{ lang('ICON_FLIP_HORIZONTAL') }}</label>
-						</dd>
-						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-vertical" /> {{ lang('ICON_FLIP_VERTICAL') }}</label>
-						</dd>
-						<dd>
-							<label><input type="radio" name="rotation" class="icons-customize" value="fa-flip-both" /> {{ lang('ICON_FLIP_BOTH') }}</label>
-						</dd>
+						{% endfor %}
 					</dl>
 				</fieldset>
 			</form>

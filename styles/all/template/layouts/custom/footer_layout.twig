@@ -7,8 +7,8 @@
 
 {% block sidebar_sizer %}
     <div class="column-sizer left bg3">
-        <i class="fas fa-angle-left fa-lg stepper decrement" aria-hidden="true"></i>
-        <i class="fas fa-angle-right fa-lg stepper increment" aria-hidden="true"></i>
+        <i class="fa fa-angle-left fa-lg stepper decrement" aria-hidden="true"></i>
+        <i class="fa fa-angle-right fa-lg stepper increment" aria-hidden="true"></i>
         <div class="column-sizer-inner">
             <form class="column-size-input">
                 <input type="text" class="input" name="width" value="{{ S_COLUMN_WIDTHS['sidebar']|default(defaultColWidth) }}" autocomplete="off" />
@@ -19,8 +19,8 @@
 
 {% block subcontent_sizer %}
     <div class="column-sizer right bg3">
-        <i class="fas fa-angle-left fa-lg stepper increment" aria-hidden="true"></i>
-        <i class="fas fa-angle-right fa-lg stepper decrement" aria-hidden="true"></i>
+        <i class="fa fa-angle-left fa-lg stepper increment" aria-hidden="true"></i>
+        <i class="fa fa-angle-right fa-lg stepper decrement" aria-hidden="true"></i>
         <div class="column-sizer-inner">
             <form class="column-size-input">
                 <input type="text" class="input" name="width" value="{{ S_COLUMN_WIDTHS['subcontent']|default(defaultColWidth) }}" autocomplete="off" />

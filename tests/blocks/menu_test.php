@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -51,7 +52,7 @@ class menu_test extends blocks_base
 		$this->user->host = 'www.example.com';
 		$this->user->page = $page_data;
 		$this->user->page['root_script_path'] = '/phpBB/';
-		$this->user->style = array (
+		$this->user->style = array(
 			'style_name' => 'all',
 			'style_path' => 'all',
 		);
@@ -196,17 +197,17 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</nav>',
 				array(),
 			),
 			array(
@@ -225,17 +226,17 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
+					'<li class="active">' .
+					'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</nav>',
 				array(),
 			),
 			array(
@@ -254,35 +255,35 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li class="active">' .
-											'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li class="active">' .
+					'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(
 					'navlinks' => array(
 						array(
@@ -312,29 +313,29 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li class="active">' .
-											'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw" aria-hidden="true"></i>Startups</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li class="active">' .
+					'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw" aria-hidden="true"></i>Startups</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(
 					'navlinks' => array(
 						array(
@@ -368,35 +369,35 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fas fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li>' .
-											'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
+					'<li class="active">' .
+					'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(),
 			),
 			array(
@@ -415,16 +416,16 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.google.com"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.google.com"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(),
 			),
 			array(
@@ -443,16 +444,16 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(),
 			),
 			array(
@@ -471,16 +472,16 @@ class menu_test extends blocks_base
 				false,
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/file.zip"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/file.zip"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+					'</li>' .
 					'</ul>' .
-				'</nav>',
+					'</li>' .
+					'</ul>' .
+					'</nav>',
 				array(),
 			),
 		);

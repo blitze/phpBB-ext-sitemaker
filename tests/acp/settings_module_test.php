@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -112,7 +113,7 @@ class settings_module_test extends \phpbb_database_test_case
 			'sm_hide_online'		=> false,
 			'sm_show_forum_nav'		=> true,
 			'sm_navbar_menu'		=> 2,
-			'sm_forum_icon'			=> 'fas fa-comments',
+			'sm_forum_icon'			=> 'fa fa-comments',
 			'sm_filemanager'		=> false,
 			'sm_orphaned_blocks'	=> json_encode($orphaned_blocks),
 			'sitemaker_column_widths' => json_encode([
@@ -135,7 +136,7 @@ class settings_module_test extends \phpbb_database_test_case
 			->will($this->returnValueMap($variable_map));
 		$request->expects($this->any())
 			->method('is_set_post')
-			->willReturnCallback(function($var) use ($submit_var) {
+			->willReturnCallback(function ($var) use ($submit_var) {
 				return $submit_var === $var;
 			});
 
@@ -158,25 +159,25 @@ class settings_module_test extends \phpbb_database_test_case
 			->getMock();
 		$template->expects($this->any())
 			->method('assign_var')
-			->will($this->returnCallback(function($key, $value) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $value) use (&$tpl_data) {
 				$tpl_data[$key] = $value;
 			}));
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data) {
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data) {
 				$tpl_data[$key][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data) {
 				return $tpl_data;
 			}));
-		$this->template =& $template;
+		$this->template = &$template;
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
@@ -193,7 +194,8 @@ class settings_module_test extends \phpbb_database_test_case
 					'ext_path'		=> 'foo/bar/',
 				),
 			),
-			$phpbb_container);
+			$phpbb_container
+		);
 
 		$blocks_manager = $this->getMockBuilder('\blitze\sitemaker\services\blocks\manager')
 			->disableOriginalConstructor()
@@ -228,7 +230,7 @@ class settings_module_test extends \phpbb_database_test_case
 			->method('is_writable')
 			->willReturn($filemanager_is_writable);
 
-		$this->config_path = dirname(__FILE__).'/fixtures/filemanager/';
+		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
 
 		$filemanager = $this->getMockBuilder('\blitze\sitemaker\services\filemanager\settings')
 			->setConstructorArgs([$filesystem, $this->config_path, $phpEx])
@@ -439,7 +441,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				true,
 				array(
-					'forum_icon'			=> 'fas fa-comments',
+					'forum_icon'			=> 'fa fa-comments',
 					'navbar_menu'			=> 2,
 					'show_forum_nav'		=> true,
 					'hide_login'			=> false,
@@ -472,7 +474,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 0,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fas fa-gear',
+						'sm_forum_icon'		=> 'fa fa-gear',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -481,7 +483,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_watermark' => './test.png',
 					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
-						1 => array (
+						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
 							'view' => 'simple',
 						),
@@ -490,7 +492,7 @@ class settings_module_test extends \phpbb_database_test_case
 				false,
 				false,
 				array(
-					'forum_icon'			=> 'fas fa-gear',
+					'forum_icon'			=> 'fa fa-gear',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 0,
 					'hide_login'			=> 0,
@@ -527,7 +529,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fas fa-car',
+						'sm_forum_icon'		=> 'fa fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -536,7 +538,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_watermark' => './test.png',
 					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
-						1 => array (
+						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
 							'view' => 'boxed',
 						),
@@ -545,7 +547,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				false,
 				array(
-					'forum_icon'			=> 'fas fa-car',
+					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,
@@ -582,11 +584,11 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 0,
-						'sm_forum_icon'		=> 'fas fa-car',
+						'sm_forum_icon'		=> 'fa fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array()),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
-						1 => array (
+						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 							'view' => 'simple',
 						),
@@ -595,7 +597,7 @@ class settings_module_test extends \phpbb_database_test_case
 				false,
 				false,
 				array(
-					'forum_icon'			=> 'fas fa-car',
+					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,
@@ -632,7 +634,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
 						'sm_filemanager'	=> 1,
-						'sm_forum_icon'		=> 'fas fa-car',
+						'sm_forum_icon'		=> 'fa fa-car',
 					)),
 					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
 						'image_watermark_coordinates' => '40x50',
@@ -641,11 +643,11 @@ class settings_module_test extends \phpbb_database_test_case
 						'image_watermark' => './test.png',
 					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
-						1 => array (
+						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
 							'view' => 'boxed',
 						),
-						2 => array (
+						2 => array(
 							'layout' => 'phpBB/ext/foo/bar/styles/prosilver/template/layouts/my_layout/',
 							'view' => 'simple',
 						),
@@ -654,7 +656,7 @@ class settings_module_test extends \phpbb_database_test_case
 				true,
 				true,
 				array(
-					'forum_icon'			=> 'fas fa-car',
+					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
 					'show_forum_nav'		=> 1,
 					'hide_login'			=> 1,
@@ -716,12 +718,9 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable, $submit_var);
 
-		try
-		{
+		try {
 			$module->main();
-		}
-		catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
 			preg_match('/\w+/i', $e->getMessage(), $matches);
 			$this->assertEquals(!empty($matches[0]) ? $matches[0] : '', $message);
 		}

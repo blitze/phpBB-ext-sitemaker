@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -74,7 +75,7 @@ class startpage_test extends \phpbb_database_test_case
 
 		$container->expects($this->any())
 			->method('has')
-			->will($this->returnCallback(function($service_name) {
+			->will($this->returnCallback(function ($service_name) {
 				return ($service_name === 'foo.bar.controller') ? true : false;
 			}));
 
@@ -100,9 +101,8 @@ class startpage_test extends \phpbb_database_test_case
 
 		$container->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($service_name) use (&$controller_helper, &$dummy_extension) {
-				switch ($service_name)
-				{
+			->will($this->returnCallback(function ($service_name) use (&$controller_helper, &$dummy_extension) {
+				switch ($service_name) {
 					case 'controller.helper':
 						return $controller_helper;
 
@@ -112,9 +112,9 @@ class startpage_test extends \phpbb_database_test_case
 			}));
 
 		return $this->getMockBuilder('\blitze\sitemaker\event\startpage')
-            ->setConstructorArgs(array($this->config, $container, $this->request, $this->template, $language, $this->user, $phpEx))
-            ->setMethods(array('exit_handler'))
-            ->getMock();
+			->setConstructorArgs(array($this->config, $container, $this->request, $this->template, $language, $this->user, $phpEx))
+			->setMethods(array('exit_handler'))
+			->getMock();
 	}
 
 	/**
@@ -163,12 +163,12 @@ class startpage_test extends \phpbb_database_test_case
 			array(
 				'index.php',
 				array(
-					'sm_forum_icon' => 'fas fa-comments',
+					'sm_forum_icon' => 'fa fa-comments',
 					'sm_show_forum_nav' => true,
 					'sitemaker_startpage_controller' => 'foo.bar.controller',
 				),
 				array(
-					'SM_FORUM_ICON' => 'fas fa-comments',
+					'SM_FORUM_ICON' => 'fa fa-comments',
 					'SM_SHOW_FORUM_NAV'	=> true,
 					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
@@ -179,12 +179,12 @@ class startpage_test extends \phpbb_database_test_case
 			array(
 				'index.php',
 				array(
-					'sm_forum_icon' => 'fas fa-comments',
+					'sm_forum_icon' => 'fa fa-comments',
 					'sm_show_forum_nav' => false,
 					'sitemaker_startpage_controller' => 'foo.bar.controller',
 				),
 				array(
-					'SM_FORUM_ICON' => 'fas fa-comments',
+					'SM_FORUM_ICON' => 'fa fa-comments',
 					'SM_SHOW_FORUM_NAV'	=> false,
 					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
@@ -195,12 +195,12 @@ class startpage_test extends \phpbb_database_test_case
 			array(
 				'viewforum.php?f=1',
 				array(
-					'sm_forum_icon' => 'fas fa-comments',
+					'sm_forum_icon' => 'fa fa-comments',
 					'sm_show_forum_nav' => false,
 					'sitemaker_startpage_controller' => 'foo.bar.controller',
 				),
 				array(
-					'SM_FORUM_ICON' => 'fas fa-comments',
+					'SM_FORUM_ICON' => 'fa fa-comments',
 					'SM_SHOW_FORUM_NAV'	=> false,
 					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
@@ -231,12 +231,12 @@ class startpage_test extends \phpbb_database_test_case
 			array(
 				'posting.php?f=1',
 				array(
-					'sm_forum_icon' => 'fas fa-comments-o',
+					'sm_forum_icon' => 'fa fa-comments-o',
 					'sm_show_forum_nav' => true,
 					'sitemaker_startpage_controller' => 'foo.bar.controller',
 				),
 				array(
-					'SM_FORUM_ICON' => 'fas fa-comments-o',
+					'SM_FORUM_ICON' => 'fa fa-comments-o',
 					'SM_SHOW_FORUM_NAV'	=> true,
 					'U_SM_VIEWFORUM' => $u_viewforum,
 				),
@@ -278,15 +278,14 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user->page['page'] = $current_page;
 
-		foreach ($config_data as $key => $value)
-		{
+		foreach ($config_data as $key => $value) {
 			$this->config->set($key, $value);
 		}
 
 		$this->request->expects($this->any())
 			->method('is_set')
 			->with('f')
-			->will($this->returnCallback(function() use ($current_page) {
+			->will($this->returnCallback(function () use ($current_page) {
 				return (strpos($current_page, 'f=') !== false) ? true : false;
 			}));
 
@@ -341,8 +340,7 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user->page['page_name'] = $current_page;
 
-		if ($expected_contents)
-		{
+		if ($expected_contents) {
 			$listener->expects($this->once())
 				->method('exit_handler');
 		}
@@ -353,8 +351,7 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->expectOutputString($expected_contents);
 
-		if ($controller_method == 'no_exists')
-		{
+		if ($controller_method == 'no_exists') {
 			$this->assertEquals('', $this->config['sitemaker_startpage_controller']);
 			$this->assertEquals('', $this->config['sitemaker_startpage_method']);
 			$this->assertEquals('', $this->config['sitemaker_startpage_params']);

@@ -78,7 +78,13 @@ Plugin.prototype = {
 				e.preventDefault();
 				this.$iconsSearch.val('');
 				this.$icons.show();
-				this.scrollToIcon($($(e.target).find(':selected').val()));
+				this.scrollToIcon(
+					$(
+						$(e.target)
+							.find(':selected')
+							.val(),
+					),
+				);
 			});
 
 		this.$iconsDiv.find('#icon-picker-insert').click(e => {
@@ -147,7 +153,9 @@ Plugin.prototype = {
 	insertIcon(icon) {
 		if ($.isEmptyObject(currentItem) !== true) {
 			const iconClass = this.getIconProps(icon);
-			const iconHtml = iconClass ? `<i class="${iconClass}" aria-hidden="true"></i>` : '';
+			const iconHtml = iconClass
+				? `<i class="${iconClass}" aria-hidden="true"></i>`
+				: '';
 
 			currentItem.html(iconHtml);
 			this.options.onSelect.call(this, currentItem, iconClass, iconHtml);
@@ -171,7 +179,8 @@ Plugin.prototype = {
 
 	setCurrentIcon($element) {
 		const $currIcon = $element.find('i');
-		const $settings = this.$customization.find(':input')
+		const $settings = this.$customization
+			.find(':input')
 			.removeAttr('checked')
 			.removeAttr('selected');
 
@@ -200,7 +209,10 @@ Plugin.prototype = {
 
 				$.each(iconInfo, (i, val) => {
 					$inputs.filter(`[value=${val}]`).attr('checked', true);
-					$selects.filter(`[value=${val}]`).parent().val(val);
+					$selects
+						.filter(`[value=${val}]`)
+						.parent()
+						.val(val);
 				});
 
 				const $color = this.$customization.find(
