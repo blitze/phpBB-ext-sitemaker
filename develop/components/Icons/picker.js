@@ -48,6 +48,24 @@ Plugin.prototype = {
 
 			if (!this.$element || this.$element.context !== $element.context) {
 				this.showPicker($element);
+				const $iconCats = this.$fontList.find('.icon-cat');
+				const height = $iconCats.eq(0).height();
+
+				// create cache of icon cats and their heights relative to the top of the icons list container
+				// we only do this once
+				this.catsCache =
+					this.catsCache ||
+					$iconCats
+						.map((i, el) => {
+							const $category = $(el);
+							const top = $category.position().top;
+							return {
+								id: $category.attr('id'),
+								top,
+								bottom: top + height,
+							};
+						})
+						.get();
 			} else {
 				this.hidePicker();
 			}
@@ -71,7 +89,7 @@ Plugin.prototype = {
 			}
 		});
 
-		this.$iconsDiv
+		const $categoriesList = this.$iconsDiv
 			.width(this.options.width)
 			.find('#icons-font-cat-list')
 			.change(e => {
@@ -86,6 +104,20 @@ Plugin.prototype = {
 					),
 				);
 			});
+
+		const $iconCats = this.$fontList.find('.icon-cat');
+		this.$fontList.on('scroll', () => {
+			if (this.$iconsSearch.val().length) {
+				return false;
+			}
+
+			// find icon cat that is in viewport
+			const cat = this.catsCache.find(cat => this.isInViewport(cat));
+
+			if (cat) {
+				$categoriesList.val(`#${cat.id}`);
+			}
+		});
 
 		this.$iconsDiv.find('#icon-picker-insert').click(e => {
 			e.preventDefault();
@@ -134,6 +166,13 @@ Plugin.prototype = {
 
 		this.hidePicker = this.hidePicker.bind(this);
 		OutsideClick(this.$iconsDiv, this.hidePicker);
+	},
+
+	isInViewport(cat) {
+		const viewportTop = this.$fontList.scrollTop();
+		const viewportBottom = viewportTop + this.$fontList.height() / 2;
+
+		return cat.bottom > viewportTop && cat.top < viewportBottom;
 	},
 
 	getIconProps(iconClass) {
