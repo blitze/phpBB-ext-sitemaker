@@ -9506,3 +9506,1777 @@ writing:
             name: thumbtack
             terms: coordinates|location|marker|pin|thumb-tack|thumbtack
             prefixes: [fas]
+brands:
+    icons:
+        -
+            name: 500px
+            terms: 500px
+            prefixes: [fab]
+        -
+            name: accessible-icon
+            terms: accessibility|handicap|person|wheelchair|wheelchair-alt|accessible-icon
+            prefixes: [fab]
+        -
+            name: accusoft
+            terms: accusoft
+            prefixes: [fab]
+        -
+            name: acquisitions-incorporated
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|game|gaming|tabletop|acquisitions-incorporated'
+            prefixes: [fab]
+        -
+            name: adn
+            terms: adn
+            prefixes: [fab]
+        -
+            name: adobe
+            terms: acrobat|app|design|illustrator|indesign|photoshop|adobe
+            prefixes: [fab]
+        -
+            name: adversal
+            terms: adversal
+            prefixes: [fab]
+        -
+            name: affiliatetheme
+            terms: affiliatetheme
+            prefixes: [fab]
+        -
+            name: airbnb
+            terms: airbnb
+            prefixes: [fab]
+        -
+            name: algolia
+            terms: algolia
+            prefixes: [fab]
+        -
+            name: alipay
+            terms: alipay
+            prefixes: [fab]
+        -
+            name: amazon
+            terms: amazon
+            prefixes: [fab]
+        -
+            name: amazon-pay
+            terms: amazon-pay
+            prefixes: [fab]
+        -
+            name: amilia
+            terms: amilia
+            prefixes: [fab]
+        -
+            name: android
+            terms: robot|android
+            prefixes: [fab]
+        -
+            name: angellist
+            terms: angellist
+            prefixes: [fab]
+        -
+            name: angrycreative
+            terms: angrycreative
+            prefixes: [fab]
+        -
+            name: angular
+            terms: angular
+            prefixes: [fab]
+        -
+            name: app-store
+            terms: app-store
+            prefixes: [fab]
+        -
+            name: app-store-ios
+            terms: app-store-ios
+            prefixes: [fab]
+        -
+            name: apper
+            terms: apper
+            prefixes: [fab]
+        -
+            name: apple
+            terms: 'fruit|ios|mac|operating system|os|osx|apple'
+            prefixes: [fab]
+        -
+            name: apple-pay
+            terms: apple-pay
+            prefixes: [fab]
+        -
+            name: artstation
+            terms: artstation
+            prefixes: [fab]
+        -
+            name: asymmetrik
+            terms: asymmetrik
+            prefixes: [fab]
+        -
+            name: atlassian
+            terms: atlassian
+            prefixes: [fab]
+        -
+            name: audible
+            terms: audible
+            prefixes: [fab]
+        -
+            name: autoprefixer
+            terms: autoprefixer
+            prefixes: [fab]
+        -
+            name: avianex
+            terms: avianex
+            prefixes: [fab]
+        -
+            name: aviato
+            terms: aviato
+            prefixes: [fab]
+        -
+            name: aws
+            terms: aws
+            prefixes: [fab]
+        -
+            name: bandcamp
+            terms: bandcamp
+            prefixes: [fab]
+        -
+            name: battle-net
+            terms: battle-net
+            prefixes: [fab]
+        -
+            name: behance
+            terms: behance
+            prefixes: [fab]
+        -
+            name: behance-square
+            terms: behance-square
+            prefixes: [fab]
+        -
+            name: bimobject
+            terms: bimobject
+            prefixes: [fab]
+        -
+            name: bitbucket
+            terms: atlassian|bitbucket-square|git|bitbucket
+            prefixes: [fab]
+        -
+            name: bitcoin
+            terms: bitcoin
+            prefixes: [fab]
+        -
+            name: bity
+            terms: bity
+            prefixes: [fab]
+        -
+            name: black-tie
+            terms: black-tie
+            prefixes: [fab]
+        -
+            name: blackberry
+            terms: blackberry
+            prefixes: [fab]
+        -
+            name: blogger
+            terms: blogger
+            prefixes: [fab]
+        -
+            name: blogger-b
+            terms: blogger-b
+            prefixes: [fab]
+        -
+            name: bluetooth
+            terms: bluetooth
+            prefixes: [fab]
+        -
+            name: bluetooth-b
+            terms: bluetooth-b
+            prefixes: [fab]
+        -
+            name: bootstrap
+            terms: bootstrap
+            prefixes: [fab]
+        -
+            name: btc
+            terms: btc
+            prefixes: [fab]
+        -
+            name: buffer
+            terms: buffer
+            prefixes: [fab]
+        -
+            name: buromobelexperte
+            terms: buromobelexperte
+            prefixes: [fab]
+        -
+            name: buy-n-large
+            terms: buy-n-large
+            prefixes: [fab]
+        -
+            name: buysellads
+            terms: buysellads
+            prefixes: [fab]
+        -
+            name: canadian-maple-leaf
+            terms: canada|flag|flora|nature|plant|canadian-maple-leaf
+            prefixes: [fab]
+        -
+            name: cc-amazon-pay
+            terms: cc-amazon-pay
+            prefixes: [fab]
+        -
+            name: cc-amex
+            terms: amex|cc-amex
+            prefixes: [fab]
+        -
+            name: cc-apple-pay
+            terms: cc-apple-pay
+            prefixes: [fab]
+        -
+            name: cc-diners-club
+            terms: cc-diners-club
+            prefixes: [fab]
+        -
+            name: cc-discover
+            terms: cc-discover
+            prefixes: [fab]
+        -
+            name: cc-jcb
+            terms: cc-jcb
+            prefixes: [fab]
+        -
+            name: cc-mastercard
+            terms: cc-mastercard
+            prefixes: [fab]
+        -
+            name: cc-paypal
+            terms: cc-paypal
+            prefixes: [fab]
+        -
+            name: cc-stripe
+            terms: cc-stripe
+            prefixes: [fab]
+        -
+            name: cc-visa
+            terms: cc-visa
+            prefixes: [fab]
+        -
+            name: centercode
+            terms: centercode
+            prefixes: [fab]
+        -
+            name: centos
+            terms: 'linux|operating system|os|centos'
+            prefixes: [fab]
+        -
+            name: chrome
+            terms: browser|chrome
+            prefixes: [fab]
+        -
+            name: chromecast
+            terms: chromecast
+            prefixes: [fab]
+        -
+            name: cloudscale
+            terms: cloudscale
+            prefixes: [fab]
+        -
+            name: cloudsmith
+            terms: cloudsmith
+            prefixes: [fab]
+        -
+            name: cloudversify
+            terms: cloudversify
+            prefixes: [fab]
+        -
+            name: codepen
+            terms: codepen
+            prefixes: [fab]
+        -
+            name: codiepie
+            terms: codiepie
+            prefixes: [fab]
+        -
+            name: confluence
+            terms: atlassian|confluence
+            prefixes: [fab]
+        -
+            name: connectdevelop
+            terms: connectdevelop
+            prefixes: [fab]
+        -
+            name: contao
+            terms: contao
+            prefixes: [fab]
+        -
+            name: cotton-bureau
+            terms: clothing|t-shirts|tshirts|cotton-bureau
+            prefixes: [fab]
+        -
+            name: cpanel
+            terms: cpanel
+            prefixes: [fab]
+        -
+            name: creative-commons
+            terms: creative-commons
+            prefixes: [fab]
+        -
+            name: creative-commons-by
+            terms: creative-commons-by
+            prefixes: [fab]
+        -
+            name: creative-commons-nc
+            terms: creative-commons-nc
+            prefixes: [fab]
+        -
+            name: creative-commons-nc-eu
+            terms: creative-commons-nc-eu
+            prefixes: [fab]
+        -
+            name: creative-commons-nc-jp
+            terms: creative-commons-nc-jp
+            prefixes: [fab]
+        -
+            name: creative-commons-nd
+            terms: creative-commons-nd
+            prefixes: [fab]
+        -
+            name: creative-commons-pd
+            terms: creative-commons-pd
+            prefixes: [fab]
+        -
+            name: creative-commons-pd-alt
+            terms: creative-commons-pd-alt
+            prefixes: [fab]
+        -
+            name: creative-commons-remix
+            terms: creative-commons-remix
+            prefixes: [fab]
+        -
+            name: creative-commons-sa
+            terms: creative-commons-sa
+            prefixes: [fab]
+        -
+            name: creative-commons-sampling
+            terms: creative-commons-sampling
+            prefixes: [fab]
+        -
+            name: creative-commons-sampling-plus
+            terms: creative-commons-sampling-plus
+            prefixes: [fab]
+        -
+            name: creative-commons-share
+            terms: creative-commons-share
+            prefixes: [fab]
+        -
+            name: creative-commons-zero
+            terms: creative-commons-zero
+            prefixes: [fab]
+        -
+            name: critical-role
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|game|gaming|tabletop|critical-role'
+            prefixes: [fab]
+        -
+            name: css3
+            terms: code|css3
+            prefixes: [fab]
+        -
+            name: css3-alt
+            terms: css3-alt
+            prefixes: [fab]
+        -
+            name: cuttlefish
+            terms: cuttlefish
+            prefixes: [fab]
+        -
+            name: d-and-d
+            terms: d-and-d
+            prefixes: [fab]
+        -
+            name: d-and-d-beyond
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|gaming|tabletop|d-and-d-beyond'
+            prefixes: [fab]
+        -
+            name: dailymotion
+            terms: dailymotion
+            prefixes: [fab]
+        -
+            name: dashcube
+            terms: dashcube
+            prefixes: [fab]
+        -
+            name: delicious
+            terms: delicious
+            prefixes: [fab]
+        -
+            name: deploydog
+            terms: deploydog
+            prefixes: [fab]
+        -
+            name: deskpro
+            terms: deskpro
+            prefixes: [fab]
+        -
+            name: dev
+            terms: dev
+            prefixes: [fab]
+        -
+            name: deviantart
+            terms: deviantart
+            prefixes: [fab]
+        -
+            name: dhl
+            terms: 'Dalsey|Hillblom and Lynn|german|package|shipping|dhl'
+            prefixes: [fab]
+        -
+            name: diaspora
+            terms: diaspora
+            prefixes: [fab]
+        -
+            name: digg
+            terms: digg
+            prefixes: [fab]
+        -
+            name: digital-ocean
+            terms: digital-ocean
+            prefixes: [fab]
+        -
+            name: discord
+            terms: discord
+            prefixes: [fab]
+        -
+            name: discourse
+            terms: discourse
+            prefixes: [fab]
+        -
+            name: dochub
+            terms: dochub
+            prefixes: [fab]
+        -
+            name: docker
+            terms: docker
+            prefixes: [fab]
+        -
+            name: draft2digital
+            terms: draft2digital
+            prefixes: [fab]
+        -
+            name: dribbble
+            terms: dribbble
+            prefixes: [fab]
+        -
+            name: dribbble-square
+            terms: dribbble-square
+            prefixes: [fab]
+        -
+            name: dropbox
+            terms: dropbox
+            prefixes: [fab]
+        -
+            name: drupal
+            terms: drupal
+            prefixes: [fab]
+        -
+            name: dyalog
+            terms: dyalog
+            prefixes: [fab]
+        -
+            name: earlybirds
+            terms: earlybirds
+            prefixes: [fab]
+        -
+            name: ebay
+            terms: ebay
+            prefixes: [fab]
+        -
+            name: edge
+            terms: browser|ie|edge
+            prefixes: [fab]
+        -
+            name: elementor
+            terms: elementor
+            prefixes: [fab]
+        -
+            name: ello
+            terms: ello
+            prefixes: [fab]
+        -
+            name: ember
+            terms: ember
+            prefixes: [fab]
+        -
+            name: empire
+            terms: empire
+            prefixes: [fab]
+        -
+            name: envira
+            terms: leaf|envira
+            prefixes: [fab]
+        -
+            name: erlang
+            terms: erlang
+            prefixes: [fab]
+        -
+            name: ethereum
+            terms: ethereum
+            prefixes: [fab]
+        -
+            name: etsy
+            terms: etsy
+            prefixes: [fab]
+        -
+            name: evernote
+            terms: evernote
+            prefixes: [fab]
+        -
+            name: expeditedssl
+            terms: expeditedssl
+            prefixes: [fab]
+        -
+            name: facebook
+            terms: 'facebook-official|social network|facebook'
+            prefixes: [fab]
+        -
+            name: facebook-f
+            terms: facebook|facebook-f
+            prefixes: [fab]
+        -
+            name: facebook-messenger
+            terms: facebook-messenger
+            prefixes: [fab]
+        -
+            name: facebook-square
+            terms: 'social network|facebook-square'
+            prefixes: [fab]
+        -
+            name: fantasy-flight-games
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|game|gaming|tabletop|fantasy-flight-games'
+            prefixes: [fab]
+        -
+            name: fedex
+            terms: 'Federal Express|package|shipping|fedex'
+            prefixes: [fab]
+        -
+            name: fedora
+            terms: 'linux|operating system|os|fedora'
+            prefixes: [fab]
+        -
+            name: figma
+            terms: app|design|interface|figma
+            prefixes: [fab]
+        -
+            name: firefox
+            terms: browser|firefox
+            prefixes: [fab]
+        -
+            name: firefox-browser
+            terms: browser|firefox-browser
+            prefixes: [fab]
+        -
+            name: first-order
+            terms: first-order
+            prefixes: [fab]
+        -
+            name: first-order-alt
+            terms: first-order-alt
+            prefixes: [fab]
+        -
+            name: firstdraft
+            terms: firstdraft
+            prefixes: [fab]
+        -
+            name: flickr
+            terms: flickr
+            prefixes: [fab]
+        -
+            name: flipboard
+            terms: flipboard
+            prefixes: [fab]
+        -
+            name: fly
+            terms: fly
+            prefixes: [fab]
+        -
+            name: font-awesome
+            terms: meanpath|font-awesome
+            prefixes: [fab]
+        -
+            name: font-awesome-alt
+            terms: font-awesome-alt
+            prefixes: [fab]
+        -
+            name: font-awesome-flag
+            terms: font-awesome-flag
+            prefixes: [fab]
+        -
+            name: font-awesome-logo-full
+            terms: font-awesome-logo-full
+            prefixes: [far, fas, fab]
+        -
+            name: fonticons
+            terms: fonticons
+            prefixes: [fab]
+        -
+            name: fonticons-fi
+            terms: fonticons-fi
+            prefixes: [fab]
+        -
+            name: fort-awesome
+            terms: castle|fort-awesome
+            prefixes: [fab]
+        -
+            name: fort-awesome-alt
+            terms: castle|fort-awesome-alt
+            prefixes: [fab]
+        -
+            name: forumbee
+            terms: forumbee
+            prefixes: [fab]
+        -
+            name: foursquare
+            terms: foursquare
+            prefixes: [fab]
+        -
+            name: free-code-camp
+            terms: free-code-camp
+            prefixes: [fab]
+        -
+            name: freebsd
+            terms: freebsd
+            prefixes: [fab]
+        -
+            name: fulcrum
+            terms: fulcrum
+            prefixes: [fab]
+        -
+            name: galactic-republic
+            terms: 'politics|star wars|galactic-republic'
+            prefixes: [fab]
+        -
+            name: galactic-senate
+            terms: 'star wars|galactic-senate'
+            prefixes: [fab]
+        -
+            name: get-pocket
+            terms: get-pocket
+            prefixes: [fab]
+        -
+            name: gg
+            terms: gg
+            prefixes: [fab]
+        -
+            name: gg-circle
+            terms: gg-circle
+            prefixes: [fab]
+        -
+            name: git
+            terms: git
+            prefixes: [fab]
+        -
+            name: git-alt
+            terms: git-alt
+            prefixes: [fab]
+        -
+            name: git-square
+            terms: git-square
+            prefixes: [fab]
+        -
+            name: github
+            terms: octocat|github
+            prefixes: [fab]
+        -
+            name: github-alt
+            terms: octocat|github-alt
+            prefixes: [fab]
+        -
+            name: github-square
+            terms: octocat|github-square
+            prefixes: [fab]
+        -
+            name: gitkraken
+            terms: gitkraken
+            prefixes: [fab]
+        -
+            name: gitlab
+            terms: Axosoft|gitlab
+            prefixes: [fab]
+        -
+            name: gitter
+            terms: gitter
+            prefixes: [fab]
+        -
+            name: glide
+            terms: glide
+            prefixes: [fab]
+        -
+            name: glide-g
+            terms: glide-g
+            prefixes: [fab]
+        -
+            name: gofore
+            terms: gofore
+            prefixes: [fab]
+        -
+            name: goodreads
+            terms: goodreads
+            prefixes: [fab]
+        -
+            name: goodreads-g
+            terms: goodreads-g
+            prefixes: [fab]
+        -
+            name: google
+            terms: google
+            prefixes: [fab]
+        -
+            name: google-drive
+            terms: google-drive
+            prefixes: [fab]
+        -
+            name: google-play
+            terms: google-play
+            prefixes: [fab]
+        -
+            name: google-plus
+            terms: google-plus-circle|google-plus-official|google-plus
+            prefixes: [fab]
+        -
+            name: google-plus-g
+            terms: 'google-plus|social network|google-plus-g'
+            prefixes: [fab]
+        -
+            name: google-plus-square
+            terms: 'social network|google-plus-square'
+            prefixes: [fab]
+        -
+            name: google-wallet
+            terms: google-wallet
+            prefixes: [fab]
+        -
+            name: gratipay
+            terms: favorite|heart|like|love|gratipay
+            prefixes: [fab]
+        -
+            name: grav
+            terms: grav
+            prefixes: [fab]
+        -
+            name: gripfire
+            terms: gripfire
+            prefixes: [fab]
+        -
+            name: grunt
+            terms: grunt
+            prefixes: [fab]
+        -
+            name: gulp
+            terms: gulp
+            prefixes: [fab]
+        -
+            name: hacker-news
+            terms: hacker-news
+            prefixes: [fab]
+        -
+            name: hacker-news-square
+            terms: hacker-news-square
+            prefixes: [fab]
+        -
+            name: hackerrank
+            terms: hackerrank
+            prefixes: [fab]
+        -
+            name: hips
+            terms: hips
+            prefixes: [fab]
+        -
+            name: hire-a-helper
+            terms: hire-a-helper
+            prefixes: [fab]
+        -
+            name: hooli
+            terms: hooli
+            prefixes: [fab]
+        -
+            name: hornbill
+            terms: hornbill
+            prefixes: [fab]
+        -
+            name: hotjar
+            terms: hotjar
+            prefixes: [fab]
+        -
+            name: houzz
+            terms: houzz
+            prefixes: [fab]
+        -
+            name: html5
+            terms: html5
+            prefixes: [fab]
+        -
+            name: hubspot
+            terms: hubspot
+            prefixes: [fab]
+        -
+            name: ideal
+            terms: ideal
+            prefixes: [fab]
+        -
+            name: imdb
+            terms: imdb
+            prefixes: [fab]
+        -
+            name: instagram
+            terms: instagram
+            prefixes: [fab]
+        -
+            name: instagram-square
+            terms: instagram-square
+            prefixes: [fab]
+        -
+            name: intercom
+            terms: app|customer|messenger|intercom
+            prefixes: [fab]
+        -
+            name: internet-explorer
+            terms: browser|ie|internet-explorer
+            prefixes: [fab]
+        -
+            name: invision
+            terms: app|design|interface|invision
+            prefixes: [fab]
+        -
+            name: ioxhost
+            terms: ioxhost
+            prefixes: [fab]
+        -
+            name: itch-io
+            terms: itch-io
+            prefixes: [fab]
+        -
+            name: itunes
+            terms: itunes
+            prefixes: [fab]
+        -
+            name: itunes-note
+            terms: itunes-note
+            prefixes: [fab]
+        -
+            name: java
+            terms: java
+            prefixes: [fab]
+        -
+            name: jedi-order
+            terms: 'star wars|jedi-order'
+            prefixes: [fab]
+        -
+            name: jenkins
+            terms: jenkins
+            prefixes: [fab]
+        -
+            name: jira
+            terms: atlassian|jira
+            prefixes: [fab]
+        -
+            name: joget
+            terms: joget
+            prefixes: [fab]
+        -
+            name: joomla
+            terms: joomla
+            prefixes: [fab]
+        -
+            name: js
+            terms: js
+            prefixes: [fab]
+        -
+            name: js-square
+            terms: js-square
+            prefixes: [fab]
+        -
+            name: jsfiddle
+            terms: jsfiddle
+            prefixes: [fab]
+        -
+            name: kaggle
+            terms: kaggle
+            prefixes: [fab]
+        -
+            name: keybase
+            terms: keybase
+            prefixes: [fab]
+        -
+            name: keycdn
+            terms: keycdn
+            prefixes: [fab]
+        -
+            name: kickstarter
+            terms: kickstarter
+            prefixes: [fab]
+        -
+            name: kickstarter-k
+            terms: kickstarter-k
+            prefixes: [fab]
+        -
+            name: korvue
+            terms: korvue
+            prefixes: [fab]
+        -
+            name: laravel
+            terms: laravel
+            prefixes: [fab]
+        -
+            name: lastfm
+            terms: lastfm
+            prefixes: [fab]
+        -
+            name: lastfm-square
+            terms: lastfm-square
+            prefixes: [fab]
+        -
+            name: leanpub
+            terms: leanpub
+            prefixes: [fab]
+        -
+            name: less
+            terms: less
+            prefixes: [fab]
+        -
+            name: line
+            terms: line
+            prefixes: [fab]
+        -
+            name: linkedin
+            terms: linkedin-square|linkedin
+            prefixes: [fab]
+        -
+            name: linkedin-in
+            terms: linkedin|linkedin-in
+            prefixes: [fab]
+        -
+            name: linode
+            terms: linode
+            prefixes: [fab]
+        -
+            name: linux
+            terms: tux|linux
+            prefixes: [fab]
+        -
+            name: lyft
+            terms: lyft
+            prefixes: [fab]
+        -
+            name: magento
+            terms: magento
+            prefixes: [fab]
+        -
+            name: mailchimp
+            terms: mailchimp
+            prefixes: [fab]
+        -
+            name: mandalorian
+            terms: mandalorian
+            prefixes: [fab]
+        -
+            name: markdown
+            terms: markdown
+            prefixes: [fab]
+        -
+            name: mastodon
+            terms: mastodon
+            prefixes: [fab]
+        -
+            name: maxcdn
+            terms: maxcdn
+            prefixes: [fab]
+        -
+            name: mdb
+            terms: mdb
+            prefixes: [fab]
+        -
+            name: medapps
+            terms: medapps
+            prefixes: [fab]
+        -
+            name: medium
+            terms: medium
+            prefixes: [fab]
+        -
+            name: medium-m
+            terms: medium-m
+            prefixes: [fab]
+        -
+            name: medrt
+            terms: medrt
+            prefixes: [fab]
+        -
+            name: meetup
+            terms: meetup
+            prefixes: [fab]
+        -
+            name: megaport
+            terms: megaport
+            prefixes: [fab]
+        -
+            name: mendeley
+            terms: mendeley
+            prefixes: [fab]
+        -
+            name: microblog
+            terms: microblog
+            prefixes: [fab]
+        -
+            name: microsoft
+            terms: microsoft
+            prefixes: [fab]
+        -
+            name: mix
+            terms: mix
+            prefixes: [fab]
+        -
+            name: mixcloud
+            terms: mixcloud
+            prefixes: [fab]
+        -
+            name: mixer
+            terms: mixer
+            prefixes: [fab]
+        -
+            name: mizuni
+            terms: mizuni
+            prefixes: [fab]
+        -
+            name: modx
+            terms: modx
+            prefixes: [fab]
+        -
+            name: monero
+            terms: monero
+            prefixes: [fab]
+        -
+            name: napster
+            terms: napster
+            prefixes: [fab]
+        -
+            name: neos
+            terms: neos
+            prefixes: [fab]
+        -
+            name: nimblr
+            terms: nimblr
+            prefixes: [fab]
+        -
+            name: node
+            terms: node
+            prefixes: [fab]
+        -
+            name: node-js
+            terms: node-js
+            prefixes: [fab]
+        -
+            name: npm
+            terms: npm
+            prefixes: [fab]
+        -
+            name: ns8
+            terms: ns8
+            prefixes: [fab]
+        -
+            name: nutritionix
+            terms: nutritionix
+            prefixes: [fab]
+        -
+            name: odnoklassniki
+            terms: odnoklassniki
+            prefixes: [fab]
+        -
+            name: odnoklassniki-square
+            terms: odnoklassniki-square
+            prefixes: [fab]
+        -
+            name: old-republic
+            terms: 'politics|star wars|old-republic'
+            prefixes: [fab]
+        -
+            name: opencart
+            terms: opencart
+            prefixes: [fab]
+        -
+            name: openid
+            terms: openid
+            prefixes: [fab]
+        -
+            name: opera
+            terms: opera
+            prefixes: [fab]
+        -
+            name: optin-monster
+            terms: optin-monster
+            prefixes: [fab]
+        -
+            name: orcid
+            terms: orcid
+            prefixes: [fab]
+        -
+            name: osi
+            terms: osi
+            prefixes: [fab]
+        -
+            name: page4
+            terms: page4
+            prefixes: [fab]
+        -
+            name: pagelines
+            terms: eco|flora|leaf|leaves|nature|plant|tree|pagelines
+            prefixes: [fab]
+        -
+            name: palfed
+            terms: palfed
+            prefixes: [fab]
+        -
+            name: patreon
+            terms: patreon
+            prefixes: [fab]
+        -
+            name: paypal
+            terms: paypal
+            prefixes: [fab]
+        -
+            name: penny-arcade
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|game|gaming|pax|tabletop|penny-arcade'
+            prefixes: [fab]
+        -
+            name: periscope
+            terms: periscope
+            prefixes: [fab]
+        -
+            name: phabricator
+            terms: phabricator
+            prefixes: [fab]
+        -
+            name: phoenix-framework
+            terms: phoenix-framework
+            prefixes: [fab]
+        -
+            name: phoenix-squadron
+            terms: phoenix-squadron
+            prefixes: [fab]
+        -
+            name: php
+            terms: php
+            prefixes: [fab]
+        -
+            name: pied-piper
+            terms: pied-piper
+            prefixes: [fab]
+        -
+            name: pied-piper-alt
+            terms: pied-piper-alt
+            prefixes: [fab]
+        -
+            name: pied-piper-hat
+            terms: clothing|pied-piper-hat
+            prefixes: [fab]
+        -
+            name: pied-piper-pp
+            terms: pied-piper-pp
+            prefixes: [fab]
+        -
+            name: pied-piper-square
+            terms: pied-piper-square
+            prefixes: [fab]
+        -
+            name: pinterest
+            terms: pinterest
+            prefixes: [fab]
+        -
+            name: pinterest-p
+            terms: pinterest-p
+            prefixes: [fab]
+        -
+            name: pinterest-square
+            terms: pinterest-square
+            prefixes: [fab]
+        -
+            name: playstation
+            terms: playstation
+            prefixes: [fab]
+        -
+            name: product-hunt
+            terms: product-hunt
+            prefixes: [fab]
+        -
+            name: pushed
+            terms: pushed
+            prefixes: [fab]
+        -
+            name: python
+            terms: python
+            prefixes: [fab]
+        -
+            name: qq
+            terms: qq
+            prefixes: [fab]
+        -
+            name: quinscape
+            terms: quinscape
+            prefixes: [fab]
+        -
+            name: quora
+            terms: quora
+            prefixes: [fab]
+        -
+            name: r-project
+            terms: r-project
+            prefixes: [fab]
+        -
+            name: raspberry-pi
+            terms: raspberry-pi
+            prefixes: [fab]
+        -
+            name: ravelry
+            terms: ravelry
+            prefixes: [fab]
+        -
+            name: react
+            terms: react
+            prefixes: [fab]
+        -
+            name: reacteurope
+            terms: reacteurope
+            prefixes: [fab]
+        -
+            name: readme
+            terms: readme
+            prefixes: [fab]
+        -
+            name: rebel
+            terms: rebel
+            prefixes: [fab]
+        -
+            name: red-river
+            terms: red-river
+            prefixes: [fab]
+        -
+            name: reddit
+            terms: reddit
+            prefixes: [fab]
+        -
+            name: reddit-alien
+            terms: reddit-alien
+            prefixes: [fab]
+        -
+            name: reddit-square
+            terms: reddit-square
+            prefixes: [fab]
+        -
+            name: redhat
+            terms: 'linux|operating system|os|redhat'
+            prefixes: [fab]
+        -
+            name: renren
+            terms: renren
+            prefixes: [fab]
+        -
+            name: replyd
+            terms: replyd
+            prefixes: [fab]
+        -
+            name: researchgate
+            terms: researchgate
+            prefixes: [fab]
+        -
+            name: resolving
+            terms: resolving
+            prefixes: [fab]
+        -
+            name: rev
+            terms: rev
+            prefixes: [fab]
+        -
+            name: rocketchat
+            terms: rocketchat
+            prefixes: [fab]
+        -
+            name: rockrms
+            terms: rockrms
+            prefixes: [fab]
+        -
+            name: safari
+            terms: browser|safari
+            prefixes: [fab]
+        -
+            name: salesforce
+            terms: salesforce
+            prefixes: [fab]
+        -
+            name: sass
+            terms: sass
+            prefixes: [fab]
+        -
+            name: schlix
+            terms: schlix
+            prefixes: [fab]
+        -
+            name: scribd
+            terms: scribd
+            prefixes: [fab]
+        -
+            name: searchengin
+            terms: searchengin
+            prefixes: [fab]
+        -
+            name: sellcast
+            terms: eercast|sellcast
+            prefixes: [fab]
+        -
+            name: sellsy
+            terms: sellsy
+            prefixes: [fab]
+        -
+            name: servicestack
+            terms: servicestack
+            prefixes: [fab]
+        -
+            name: shirtsinbulk
+            terms: shirtsinbulk
+            prefixes: [fab]
+        -
+            name: shopify
+            terms: shopify
+            prefixes: [fab]
+        -
+            name: shopware
+            terms: shopware
+            prefixes: [fab]
+        -
+            name: simplybuilt
+            terms: simplybuilt
+            prefixes: [fab]
+        -
+            name: sistrix
+            terms: sistrix
+            prefixes: [fab]
+        -
+            name: sith
+            terms: sith
+            prefixes: [fab]
+        -
+            name: sketch
+            terms: app|design|interface|sketch
+            prefixes: [fab]
+        -
+            name: skyatlas
+            terms: skyatlas
+            prefixes: [fab]
+        -
+            name: skype
+            terms: skype
+            prefixes: [fab]
+        -
+            name: slack
+            terms: anchor|hash|hashtag|slack
+            prefixes: [fab]
+        -
+            name: slack-hash
+            terms: anchor|hash|hashtag|slack-hash
+            prefixes: [fab]
+        -
+            name: slideshare
+            terms: slideshare
+            prefixes: [fab]
+        -
+            name: snapchat
+            terms: snapchat
+            prefixes: [fab]
+        -
+            name: snapchat-ghost
+            terms: snapchat-ghost
+            prefixes: [fab]
+        -
+            name: snapchat-square
+            terms: snapchat-square
+            prefixes: [fab]
+        -
+            name: soundcloud
+            terms: soundcloud
+            prefixes: [fab]
+        -
+            name: sourcetree
+            terms: sourcetree
+            prefixes: [fab]
+        -
+            name: speakap
+            terms: speakap
+            prefixes: [fab]
+        -
+            name: speaker-deck
+            terms: speaker-deck
+            prefixes: [fab]
+        -
+            name: spotify
+            terms: spotify
+            prefixes: [fab]
+        -
+            name: squarespace
+            terms: squarespace
+            prefixes: [fab]
+        -
+            name: stack-exchange
+            terms: stack-exchange
+            prefixes: [fab]
+        -
+            name: stack-overflow
+            terms: stack-overflow
+            prefixes: [fab]
+        -
+            name: stackpath
+            terms: stackpath
+            prefixes: [fab]
+        -
+            name: staylinked
+            terms: staylinked
+            prefixes: [fab]
+        -
+            name: steam
+            terms: steam
+            prefixes: [fab]
+        -
+            name: steam-square
+            terms: steam-square
+            prefixes: [fab]
+        -
+            name: steam-symbol
+            terms: steam-symbol
+            prefixes: [fab]
+        -
+            name: sticker-mule
+            terms: sticker-mule
+            prefixes: [fab]
+        -
+            name: strava
+            terms: strava
+            prefixes: [fab]
+        -
+            name: stripe
+            terms: stripe
+            prefixes: [fab]
+        -
+            name: stripe-s
+            terms: stripe-s
+            prefixes: [fab]
+        -
+            name: studiovinari
+            terms: studiovinari
+            prefixes: [fab]
+        -
+            name: stumbleupon
+            terms: stumbleupon
+            prefixes: [fab]
+        -
+            name: stumbleupon-circle
+            terms: stumbleupon-circle
+            prefixes: [fab]
+        -
+            name: superpowers
+            terms: superpowers
+            prefixes: [fab]
+        -
+            name: supple
+            terms: supple
+            prefixes: [fab]
+        -
+            name: suse
+            terms: 'linux|operating system|os|suse'
+            prefixes: [fab]
+        -
+            name: swift
+            terms: swift
+            prefixes: [fab]
+        -
+            name: symfony
+            terms: symfony
+            prefixes: [fab]
+        -
+            name: teamspeak
+            terms: teamspeak
+            prefixes: [fab]
+        -
+            name: telegram
+            terms: telegram
+            prefixes: [fab]
+        -
+            name: telegram-plane
+            terms: telegram-plane
+            prefixes: [fab]
+        -
+            name: tencent-weibo
+            terms: tencent-weibo
+            prefixes: [fab]
+        -
+            name: the-red-yeti
+            terms: the-red-yeti
+            prefixes: [fab]
+        -
+            name: themeco
+            terms: themeco
+            prefixes: [fab]
+        -
+            name: themeisle
+            terms: themeisle
+            prefixes: [fab]
+        -
+            name: think-peaks
+            terms: think-peaks
+            prefixes: [fab]
+        -
+            name: trade-federation
+            terms: trade-federation
+            prefixes: [fab]
+        -
+            name: trello
+            terms: atlassian|trello
+            prefixes: [fab]
+        -
+            name: tripadvisor
+            terms: tripadvisor
+            prefixes: [fab]
+        -
+            name: tumblr
+            terms: tumblr
+            prefixes: [fab]
+        -
+            name: tumblr-square
+            terms: tumblr-square
+            prefixes: [fab]
+        -
+            name: twitch
+            terms: twitch
+            prefixes: [fab]
+        -
+            name: twitter
+            terms: 'social network|tweet|twitter'
+            prefixes: [fab]
+        -
+            name: twitter-square
+            terms: 'social network|tweet|twitter-square'
+            prefixes: [fab]
+        -
+            name: typo3
+            terms: typo3
+            prefixes: [fab]
+        -
+            name: uber
+            terms: uber
+            prefixes: [fab]
+        -
+            name: ubuntu
+            terms: 'linux|operating system|os|ubuntu'
+            prefixes: [fab]
+        -
+            name: uikit
+            terms: uikit
+            prefixes: [fab]
+        -
+            name: umbraco
+            terms: umbraco
+            prefixes: [fab]
+        -
+            name: uniregistry
+            terms: uniregistry
+            prefixes: [fab]
+        -
+            name: unity
+            terms: unity
+            prefixes: [fab]
+        -
+            name: untappd
+            terms: untappd
+            prefixes: [fab]
+        -
+            name: ups
+            terms: 'United Parcel Service|package|shipping|ups'
+            prefixes: [fab]
+        -
+            name: usb
+            terms: usb
+            prefixes: [fab]
+        -
+            name: usps
+            terms: american|package|shipping|usa|usps
+            prefixes: [fab]
+        -
+            name: ussunnah
+            terms: ussunnah
+            prefixes: [fab]
+        -
+            name: vaadin
+            terms: vaadin
+            prefixes: [fab]
+        -
+            name: viacoin
+            terms: viacoin
+            prefixes: [fab]
+        -
+            name: viadeo
+            terms: viadeo
+            prefixes: [fab]
+        -
+            name: viadeo-square
+            terms: viadeo-square
+            prefixes: [fab]
+        -
+            name: viber
+            terms: viber
+            prefixes: [fab]
+        -
+            name: vimeo
+            terms: vimeo
+            prefixes: [fab]
+        -
+            name: vimeo-square
+            terms: vimeo-square
+            prefixes: [fab]
+        -
+            name: vimeo-v
+            terms: vimeo|vimeo-v
+            prefixes: [fab]
+        -
+            name: vine
+            terms: vine
+            prefixes: [fab]
+        -
+            name: vk
+            terms: vk
+            prefixes: [fab]
+        -
+            name: vnv
+            terms: vnv
+            prefixes: [fab]
+        -
+            name: vuejs
+            terms: vuejs
+            prefixes: [fab]
+        -
+            name: waze
+            terms: waze
+            prefixes: [fab]
+        -
+            name: weebly
+            terms: weebly
+            prefixes: [fab]
+        -
+            name: weibo
+            terms: weibo
+            prefixes: [fab]
+        -
+            name: weixin
+            terms: weixin
+            prefixes: [fab]
+        -
+            name: whatsapp
+            terms: whatsapp
+            prefixes: [fab]
+        -
+            name: whatsapp-square
+            terms: whatsapp-square
+            prefixes: [fab]
+        -
+            name: whmcs
+            terms: whmcs
+            prefixes: [fab]
+        -
+            name: wikipedia-w
+            terms: wikipedia-w
+            prefixes: [fab]
+        -
+            name: windows
+            terms: 'microsoft|operating system|os|windows'
+            prefixes: [fab]
+        -
+            name: wix
+            terms: wix
+            prefixes: [fab]
+        -
+            name: wizards-of-the-coast
+            terms: 'Dungeons & Dragons|d&d|dnd|fantasy|game|gaming|tabletop|wizards-of-the-coast'
+            prefixes: [fab]
+        -
+            name: wolf-pack-battalion
+            terms: wolf-pack-battalion
+            prefixes: [fab]
+        -
+            name: wordpress
+            terms: wordpress
+            prefixes: [fab]
+        -
+            name: wordpress-simple
+            terms: wordpress-simple
+            prefixes: [fab]
+        -
+            name: wpbeginner
+            terms: wpbeginner
+            prefixes: [fab]
+        -
+            name: wpexplorer
+            terms: wpexplorer
+            prefixes: [fab]
+        -
+            name: wpforms
+            terms: wpforms
+            prefixes: [fab]
+        -
+            name: wpressr
+            terms: rendact|wpressr
+            prefixes: [fab]
+        -
+            name: xbox
+            terms: xbox
+            prefixes: [fab]
+        -
+            name: xing
+            terms: xing
+            prefixes: [fab]
+        -
+            name: xing-square
+            terms: xing-square
+            prefixes: [fab]
+        -
+            name: y-combinator
+            terms: y-combinator
+            prefixes: [fab]
+        -
+            name: yahoo
+            terms: yahoo
+            prefixes: [fab]
+        -
+            name: yammer
+            terms: yammer
+            prefixes: [fab]
+        -
+            name: yandex
+            terms: yandex
+            prefixes: [fab]
+        -
+            name: yandex-international
+            terms: yandex-international
+            prefixes: [fab]
+        -
+            name: yarn
+            terms: yarn
+            prefixes: [fab]
+        -
+            name: yelp
+            terms: yelp
+            prefixes: [fab]
+        -
+            name: yoast
+            terms: yoast
+            prefixes: [fab]
+        -
+            name: youtube
+            terms: film|video|youtube-play|youtube-square|youtube
+            prefixes: [fab]
+        -
+            name: youtube-square
+            terms: youtube-square
+            prefixes: [fab]
+        -
+            name: zhihu
+            terms: zhihu
+            prefixes: [fab]
