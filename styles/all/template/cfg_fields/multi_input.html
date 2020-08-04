@@ -9,9 +9,9 @@
 {% macro create_multi_input_ui(field, list, label, sortable) %}
     {% import _self as ui %}
 
-    <div class="sm-multi-input-ui{{ sortable ? ' sortable' : '' }}">
+    <div class="sm-multi-input-ui">
         {% if label %}<label><strong>{{ lang(label) }}</strong></label>{% endif %}
-        <div class="sm-multi-input-list">
+        <div class="sm-multi-input-list{{ sortable ? ' sortable' : '' }}">
             {% for value in list %}
                 {{ ui.input(sortable, field, value) }}
             {% endfor %}
