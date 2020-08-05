@@ -1,22 +1,21 @@
 <?php
-/**
-*
-* @package phpBB Sitemaker [English]
- * @copyright (c) 2013 Daniel A. (blitze)
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
 
 /**
-* DO NOT CHANGE
-*/
-if (!defined('IN_PHPBB'))
-{
+ *
+ * @package phpBB Sitemaker [English]
+ * @copyright (c) 2013 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
+
+/**
+ * DO NOT CHANGE
+ */
+if (!defined('IN_PHPBB')) {
 	exit;
 }
 
-if (empty($lang) || !is_array($lang))
-{
+if (empty($lang) || !is_array($lang)) {
 	$lang = array();
 }
 
@@ -38,11 +37,11 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Admin Permissions
-	'ACL_A_SM_SETTINGS'			=> 'Dokáže spravovat nastavení Sitemaker',
-	'ACL_A_SM_MANAGE_BLOCKS'	=> 'Můžeš spravovat Sitemaker bloky',
-	'ACL_A_SM_MANAGE_MENUS'		=> 'Můžeš spravovat menu Sitemaker',
-	'ACL_A_SM_FILEMANAGER'		=> 'Můžete vidět/spravovat složky ostatních uživatelů ve správci souborů',
+	'ACL_A_SM_SETTINGS'			=> '[ SiteMaker ] Can manage settings',
+	'ACL_A_SM_MANAGE_BLOCKS'	=> '[ SiteMaker ] Can manage blocks',
+	'ACL_A_SM_MANAGE_MENUS'		=> '[ SiteMaker ] Can manage menus',
+	'ACL_A_SM_FILEMANAGER'		=> '[ SiteMaker ] Can see/manage other users’ folders in File Manager',
 
 	// User Permissions
-	'ACL_U_SM_FILEMANAGER'		=> 'Lze použít správce souborů',
+	'ACL_U_SM_FILEMANAGER'		=> '[ SiteMaker ] Can use File Manager',
 ));
