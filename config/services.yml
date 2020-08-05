@@ -6,7 +6,6 @@ imports:
     - { resource: listeners.yml }
 
 services:
-
     blitze.sitemaker.auto_lang:
         class: blitze\sitemaker\services\auto_lang
         arguments:
@@ -186,6 +185,7 @@ services:
     blitze.sitemaker.icons.picker:
         class: blitze\sitemaker\services\icons\picker
         arguments:
+            - '@config'
             - '@language'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'
@@ -197,10 +197,10 @@ services:
             - '@config'
             - '@dbal.conn'
             - mappers:
-                blocks: '%tables.sitemaker.blocks%'
-                routes: '%tables.sitemaker.block_routes%'
-                menus: '%tables.sitemaker.menus%'
-                items: '%tables.sitemaker.menu_items%'
+                  blocks: '%tables.sitemaker.blocks%'
+                  routes: '%tables.sitemaker.block_routes%'
+                  menus: '%tables.sitemaker.menus%'
+                  items: '%tables.sitemaker.menu_items%'
 
     blitze.sitemaker.members:
         class: blitze\sitemaker\services\members

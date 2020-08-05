@@ -45,19 +45,22 @@ class cfg_handler_test extends \phpbb_test_case
 		$this->tpl_data = &$tpl_data;
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function ($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function ($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
+			{
 				$tpl_data[$key][] = $data;
 			}));
 
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function () use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
 
@@ -344,9 +347,9 @@ class cfg_handler_test extends \phpbb_test_case
 					'TITLE'			=> '',
 					'S_EXPLAIN'		=> false,
 					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<div class="sm-multi-input-ui sortable">' .
+					'CONTENT'		=> '<div class="sm-multi-input-ui">' .
 						'<label><strong>MY_SETTING</strong></label>' .
-						'<div class="sm-multi-input-list">' .
+						'<div class="sm-multi-input-list sortable">' .
 						'<div class="sm-multi-input-item">' .
 						'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
 						'<input type="text" name="config[my_var][]" value="option2" />' .
@@ -399,8 +402,10 @@ class cfg_handler_test extends \phpbb_test_case
 		$cfg_fields = $this->get_service();
 		$html = $cfg_fields->get_edit_form($block_data, $default_settings);
 
-		foreach ($html['options'] as &$option) {
-			if (isset($option['CONTENT'])) {
+		foreach ($html['options'] as &$option)
+		{
+			if (isset($option['CONTENT']))
+			{
 				$option['CONTENT'] = trim(preg_replace('/\s{2,}|\n/', '', $option['CONTENT']));
 			}
 		}
@@ -479,14 +484,20 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
-		try {
+		try
+		{
 			$data = $cfg_fields->get_submitted_settings($default_settings);
-			if (is_array($expected)) {
+			if (is_array($expected))
+			{
 				$this->assertSame($expected, $data);
-			} else {
+			}
+			else
+			{
 				$this->fail('no exception thrown');
 			}
-		} catch (\Exception $e) {
+		}
+		catch (\Exception $e)
+		{
 			$this->assertEquals($expected, $e->getMessage());
 		}
 	}
@@ -499,7 +510,8 @@ class cfg_handler_test extends \phpbb_test_case
 	public function create_test_options(array $options, $current)
 	{
 		$html = '';
-		foreach ($options as $value => $title) {
+		foreach ($options as $value => $title)
+		{
 			$selected = ($current == $value) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $selected . ' data-toggle-setting="#test-' . $value . '">' . $title . '</option>';
 		}

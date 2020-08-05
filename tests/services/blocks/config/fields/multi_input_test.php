@@ -56,9 +56,9 @@ class multi_input_test extends cfg_test_base
 				true,
 				['https://google.com', 'some-site.com'],
 				'MY_FOO_INPUT',
-				'<div class="sm-multi-input-ui sortable">' .
+				'<div class="sm-multi-input-ui">' .
 					'<label><strong>MY_FOO_INPUT</strong></label>' .
-					'<div class="sm-multi-input-list">' .
+					'<div class="sm-multi-input-list sortable">' .
 					'<div class="sm-multi-input-item">' .
 					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
 					'<input type="text" name="config[foo][]" value="https://google.com" />' .

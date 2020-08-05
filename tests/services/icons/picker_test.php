@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -13,6 +14,8 @@ use blitze\sitemaker\services\icons\picker;
 
 class picker_test extends \phpbb_test_case
 {
+	protected $tpl_data;
+
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -23,8 +26,18 @@ class picker_test extends \phpbb_test_case
 		return array('blitze/sitemaker');
 	}
 
-	public function test_picker()
+	/**
+	 * Create the icon picker service
+	 *
+	 * @param string $phpbb_version
+	 * @return \blitze\sitemaker\services\icons\picker
+	 */
+	public function get_service($phpbb_version)
 	{
+		$config = new \phpbb\config\config(array(
+			'version'	=> $phpbb_version,
+		));
+
 		$translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
@@ -43,42 +56,29 @@ class picker_test extends \phpbb_test_case
 		$util->expects($this->once())
 			->method('add_assets');
 
+		$tpl_data = array();
 		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->tpl_data = &$tpl_data;
+		$ptemplate->expects($this->once())
+			->method('assign_vars')
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
+				$tpl_data = array_merge($tpl_data, $data);
+			}));
 
 		// make sure we've set style path to this extension
 		$ptemplate->expects($this->once())
 			->method('set_style')
 			->with($this->equalTo(array('ext/blitze/sitemaker/styles', 'styles')));
 
-		$ptemplate->expects($this->once())
-			->method('assign_var')
-			->with(
-				'categories',
-				$this->equalTo(array(
-					'logistics' => array(
-						'icons' => array(
-							array(
-								'name' => 'box',
-								'terms' => 'archive|container|package|storage|box',
-								'prefixes' => ['fas']
-							),
-							array(
-								'name' => 'boxes',
-								'terms' => 'archives|inventory|storage|warehouse|boxes',
-								'prefixes' => ['fas', 'fab']
-							),
-						),
-					)
-				))
-			);
-
 		// make sure we've set template file
 		$ptemplate->expects($this->once())
 			->method('set_filenames')
 			->with(array(
-				'icons'	=> 'icon_picker.html'
+				'icons'	=> 'icons/picker.html'
 			));
 
 		$ptemplate->expects($this->once())
@@ -86,7 +86,61 @@ class picker_test extends \phpbb_test_case
 			->with('icons');
 
 		$categories_path = dirname(__FILE__) . '/categories.yml';
-		$icon = new picker($translator, $util, $ptemplate, $categories_path);
+		return new picker($config, $translator, $util, $ptemplate, $categories_path);
+	}
+
+	/**
+	 * Data set for picker_test
+	 *
+	 * @return array
+	 */
+	function picker_test_data()
+	{
+		return array(
+			array(
+				'3.3.0',
+				array(
+					'icons_tpl'		=> 'fontawesome4',
+					'categories'	=> '',
+				),
+			),
+			array(
+				'3.3.1',
+				array(
+					'icons_tpl'		=> 'fontawesome5',
+					'categories'	=> array(
+						'logistics' 	=> array(
+							'icons' 		=> array(
+								array(
+									'name' => 'box',
+									'terms' => 'archive|container|package|storage|box',
+									'prefixes' => ['fas']
+								),
+								array(
+									'name' => 'boxes',
+									'terms' => 'archives|inventory|storage|warehouse|boxes',
+									'prefixes' => ['fas', 'fab']
+								),
+							),
+						)
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test the picker method
+	 *
+	 * @dataProvider picker_test_data
+	 * @param string $phpbb_version
+	 * @param array $expected
+	 */
+	function test_picker($phpbb_version, array $expected)
+	{
+		$icon = $this->get_service($phpbb_version);
 		$icon->picker();
+
+		$this->assertSame($expected, $this->tpl_data);
 	}
 }

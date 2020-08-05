@@ -17,6 +17,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class picker
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\language\language */
 	protected $translator;
 
@@ -32,13 +35,15 @@ class picker
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\language\language     			$translator     		Language object
 	 * @param \blitze\sitemaker\services\util		$util					Sitemaker utility object
 	 * @param \blitze\sitemaker\services\template	$ptemplate				Sitemaker Template object
 	 * @param string								$icon_categories_yml	YAML file containing fontawesome icon categories
 	 */
-	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $icon_categories_yml)
+	public function __construct(\phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $icon_categories_yml)
 	{
+		$this->config              = $config;
 		$this->translator          = $translator;
 		$this->util                = $util;
 		$this->ptemplate           = $ptemplate;
@@ -59,16 +64,19 @@ class picker
 			))
 		));
 
+		$categories = '';
 		$icons_tpl = 'fontawesome4';
-		if (phpbb_version_compare(PHPBB_VERSION, '3.3.1', '>='))
+
+		if (phpbb_version_compare($this->config['version'], '3.3.1', '>='))
 		{
 			$icons_tpl = 'fontawesome5';
 			$categories = Yaml::parseFile($this->icon_categories_yml);
-
-			$this->ptemplate->assign_var('categories', $categories);
 		}
 
-		$this->ptemplate->assign_var('icons_tpl', $icons_tpl);
+		$this->ptemplate->assign_vars(array(
+			'icons_tpl'		=> $icons_tpl,
+			'categories'	=> $categories,
+		));
 
 		$this->ptemplate->set_filenames(array(
 			'icons'	=> 'icons/picker.html'
