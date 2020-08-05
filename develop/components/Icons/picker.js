@@ -58,7 +58,7 @@ Plugin.prototype = {
 					$iconCats
 						.map((i, el) => {
 							const $category = $(el);
-							const top = $category.position().top;
+							const { top } = $category.position();
 							return {
 								id: $category.attr('id'),
 								top,
@@ -99,17 +99,16 @@ Plugin.prototype = {
 				this.scrollToIcon($($(e.target).find(':selected').val()));
 			});
 
-		const $iconCats = this.$fontList.find('.icon-cat');
 		this.$fontList.on('scroll', () => {
-			if (this.$iconsSearch.val().length) {
-				return false;
-			}
+			if (!this.$iconsSearch.val().length) {
+				// find icon cat that is in viewport
+				const category = this.catsCache.find((cat) =>
+					this.isInViewport(cat),
+				);
 
-			// find icon cat that is in viewport
-			const cat = this.catsCache.find((cat) => this.isInViewport(cat));
-
-			if (cat) {
-				$categoriesList.val(`#${cat.id}`);
+				if (category) {
+					$categoriesList.val(`#${category.id}`);
+				}
 			}
 		});
 
