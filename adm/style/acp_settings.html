@@ -189,19 +189,17 @@
 				<dl data-layout="{{ style.layout }}">
 					<dt><label for="{{ style.name }}">{{ style.name }}</label></dt>
 					<dd>
-						<label>
-							<select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">
-							{% for name, path in layouts %}
-								<option value="{{ path }}"{{ path === style.layout ? ' selected="selected"' : '' }}>{{ lang('LAYOUT_' ~ name|upper) }}</option>
-							{% endfor %}
-							</select>
-							<select class="view-option" name="layouts[{{ style.id }}][view]">
-							{%- set view = style.view ?: 'simple' -%}
-							{% for value in views %}
-								<option value="{{ value }}"{{ value === view ? ' selected="selected"' : '' }}>{{ lang('BLOCK_VIEW_' ~ value|upper) }}</option>
-							{% endfor %}
-							</select>
-						</label>
+						<select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">
+						{% for name, path in layouts %}
+							<option value="{{ path }}"{{ path === style.layout ? ' selected="selected"' : '' }}>{{ lang('LAYOUT_' ~ name|upper) }}</option>
+						{% endfor %}
+						</select>
+						<select class="view-option" name="layouts[{{ style.id }}][view]">
+						{%- set view = style.view ?: 'simple' -%}
+						{% for value in views %}
+							<option value="{{ value }}"{{ value === view ? ' selected="selected"' : '' }}>{{ lang('BLOCK_VIEW_' ~ value|upper) }}</option>
+						{% endfor %}
+						</select>
 					</dd>
 				</dl>
 				{% if !loop.first %}<hr />{% endif %}
