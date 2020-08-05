@@ -35,7 +35,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'ACP_SITEMAKER'		=> 'Fabricant de site',
+	'ACP_SITEMAKER'		=> 'SiteMaker',
 	'ACP_SM_SETTINGS'	=> 'Paramètres',
 
 	'BLOCKS_CLEANUP'			=> 'Nettoyage des blocs',
@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 	'FILEMANAGER_SETTINGS'						=> 'Paramètres Gestionnaire de Fichiers',
 	'FILEMANAGER_STATUS'						=> 'État',
 	'FILEMANAGER_NO_EXIST'						=> 'Vous devez tout d\'abord installer le Gestionnaire de Fichiers avant de pouvoir l\'activer. Les instructions d\'installation sont disponibles <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>ici</strong></a>',
-	'FILEMANAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
+	'FILEMANAGER_NOT_WRITABLE'					=> 'Le dossier de configuration du gestionnaire de fichiers (root/ResponsiveFilemanager/filemanager/config/) n\'est pas accessible en écriture. Veuillez modifier les permissions pour tous les droits en écriture (777 ou -rwxrwwx dans votre client FTP)',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Redimensionner automatiquement les images téléversées ?',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Redimensionner aux dimensions spécifiées',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Mode de redimensionnement automatique',
