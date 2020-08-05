@@ -105,7 +105,7 @@ class settings
 			return false;
 		}
 
-		if (!$this->filesystem->is_writable($this->get_config_file()))
+		if (!$this->filesystem->is_writable($this->config_path))
 		{
 			$this->error = 'FILEMANAGER_NOT_WRITABLE';
 			return false;
@@ -133,8 +133,11 @@ class settings
 				$curr_settings = array_intersect_key($curr_settings, $this->filemanager_prop_types);
 			}
 
-			$this->filesystem->remove($config_file);
-			$this->save($curr_settings);
+			if ($this->config_is_writable())
+			{
+				$this->filesystem->remove($config_file);
+				$this->save($curr_settings);
+			}
 		}
 	}
 

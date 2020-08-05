@@ -40,7 +40,7 @@ Plugin.prototype = {
 
 		$.extend(this.options, options);
 
-		this.$container.on('click', this.options.selector, e => {
+		this.$container.on('click', this.options.selector, (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -71,13 +71,13 @@ Plugin.prototype = {
 			}
 		});
 
-		this.$icons.find('i').click(e => {
+		this.$icons.find('i').click((e) => {
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			this.selectIcon($(e.currentTarget));
 		});
 
-		this.$iconsSearch.keyup(e => {
+		this.$iconsSearch.keyup((e) => {
 			const keyword = $(e.currentTarget).val();
 			if (keyword.length) {
 				this.$icons
@@ -92,17 +92,11 @@ Plugin.prototype = {
 		const $categoriesList = this.$iconsDiv
 			.width(this.options.width)
 			.find('#icons-font-cat-list')
-			.change(e => {
+			.change((e) => {
 				e.preventDefault();
 				this.$iconsSearch.val('');
 				this.$icons.show();
-				this.scrollToIcon(
-					$(
-						$(e.target)
-							.find(':selected')
-							.val(),
-					),
-				);
+				this.scrollToIcon($($(e.target).find(':selected').val()));
 			});
 
 		const $iconCats = this.$fontList.find('.icon-cat');
@@ -112,31 +106,31 @@ Plugin.prototype = {
 			}
 
 			// find icon cat that is in viewport
-			const cat = this.catsCache.find(cat => this.isInViewport(cat));
+			const cat = this.catsCache.find((cat) => this.isInViewport(cat));
 
 			if (cat) {
 				$categoriesList.val(`#${cat.id}`);
 			}
 		});
 
-		this.$iconsDiv.find('#icon-picker-insert').click(e => {
+		this.$iconsDiv.find('#icon-picker-insert').click((e) => {
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			this.insertIcon(this.selectedIcon);
 		});
 
-		this.$iconsDiv.find('#icon-picker-none').click(e => {
+		this.$iconsDiv.find('#icon-picker-none').click((e) => {
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			this.insertIcon('');
 		});
 
-		this.$customization.find('.icons-customize').change(e => {
+		this.$customization.find('.icons-customize').change((e) => {
 			e.preventDefault();
 			this.previewIcon();
 		});
 
-		this.$colorBoxes.click(e => {
+		this.$colorBoxes.click((e) => {
 			e.preventDefault();
 			this.$colorBoxes.removeClass('selected');
 			$(e.currentTarget)
@@ -147,9 +141,7 @@ Plugin.prototype = {
 			this.previewIcon();
 		});
 
-		const $tabs = $('#icons-tab')
-			.tabs()
-			.parent();
+		const $tabs = $('#icons-tab').tabs().parent();
 
 		// fix the classes
 		const tabsBottomSelector =
@@ -228,10 +220,7 @@ Plugin.prototype = {
 		this.selectedIcon = '';
 
 		if ($currIcon.length) {
-			const iconInfo = $currIcon
-				.attr('class')
-				.trim()
-				.split(' ');
+			const iconInfo = $currIcon.attr('class').trim().split(' ');
 			const prefix = iconInfo.shift();
 
 			const iconClass = iconInfo.shift();
@@ -248,10 +237,7 @@ Plugin.prototype = {
 
 				$.each(iconInfo, (i, val) => {
 					$inputs.filter(`[value=${val}]`).attr('checked', true);
-					$selects
-						.filter(`[value=${val}]`)
-						.parent()
-						.val(val);
+					$selects.filter(`[value=${val}]`).parent().val(val);
 				});
 
 				const $color = this.$customization.find(

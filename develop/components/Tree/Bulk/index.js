@@ -36,7 +36,7 @@ export default function AddBulkBtn(tree) {
 				codeMirror = initCodeMirror(tree.options.addBulkList);
 
 				let cmTabs = 0;
-				codeMirror.on('keyup', cm => {
+				codeMirror.on('keyup', (cm) => {
 					const doc = cm.getDoc();
 					const line = doc.getLine(cm.getCursor().line);
 					const matches = line.match(/\s/gim);
@@ -57,19 +57,14 @@ export default function AddBulkBtn(tree) {
 					});
 				});
 
-				Button('.bulk-type', {}, e => {
+				Button('.bulk-type', {}, (e) => {
 					e.preventDefault();
-					const itemsStr = $(e.currentTarget)
-						.data('items')
-						.trim();
+					const itemsStr = $(e.currentTarget).data('items').trim();
 					insertText(codeMirror, itemsStr, true);
 				}).each((i, element) => {
 					const list = [];
 					const $type = $(element);
-					const items = $type
-						.data('items')
-						.trim()
-						.split('\n');
+					const items = $type.data('items').trim().split('\n');
 					$.each(items, (j, item) => {
 						const parts = item.split('|');
 						const title = parts[0].replace(/\t/g, '&nbsp; &nbsp;');
@@ -86,7 +81,7 @@ export default function AddBulkBtn(tree) {
 
 				BtnGrpDrop('.bulk-type-list', 'up');
 
-				$('.bulk-type-items').on('click', 'a', e => {
+				$('.bulk-type-items').on('click', 'a', (e) => {
 					e.preventDefault();
 
 					const $item = $(e.currentTarget);
@@ -111,7 +106,7 @@ export default function AddBulkBtn(tree) {
 			.val();
 	});
 
-	$('.toggle-view').click(e => {
+	$('.toggle-view').click((e) => {
 		e.preventDefault();
 		$($(e.currentTarget).attr('href')).slideToggle();
 	});
@@ -123,7 +118,7 @@ export default function AddBulkBtn(tree) {
 		.find('#cancel')
 		.click(() => $addBulkBtn.trigger('click'))
 		.next()
-		.click(e => {
+		.click((e) => {
 			e.preventDefault();
 			const data = {
 				add_list: codeMirror.getValue(),

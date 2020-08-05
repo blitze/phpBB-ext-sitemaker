@@ -61,7 +61,7 @@ export default function EditBlock($block, codemirror) {
 		 */
 		$document.trigger({ type: 'blitze_sitemaker_save_block_before', data });
 
-		$.post(actions.save_block, data).done(resp => {
+		$.post(actions.save_block, data).done((resp) => {
 			if (resp.list) {
 				$dialogEdit.dialog('close');
 				$.each(resp.list, (i, block) =>
@@ -72,7 +72,7 @@ export default function EditBlock($block, codemirror) {
 	}
 
 	function getEditForm(id) {
-		$.getJSON(actions.edit_block, { id }).done(row => {
+		$.getJSON(actions.edit_block, { id }).done((row) => {
 			blockData.block = row;
 			if (row.form) {
 				const title = row.title.replace(/(<([^>]+)>)/gi, '');
@@ -87,7 +87,7 @@ export default function EditBlock($block, codemirror) {
 				$dialogEdit.find('#block-settings').tabs();
 				$dialogEdit
 					.find('.sm-toggler')
-					.click(e => {
+					.click((e) => {
 						e.preventDefault();
 						const target = $(e.currentTarget).data('target');
 						$(target).slideToggle();
@@ -122,14 +122,11 @@ export default function EditBlock($block, codemirror) {
 	}
 
 	function addBottomPane() {
-		$(this)
-			.dialog('widget')
-			.find('.ui-dialog-buttonpane')
-			.prepend(
-				`<label class="dialog-check-button">
+		$(this).dialog('widget').find('.ui-dialog-buttonpane').prepend(
+			`<label class="dialog-check-button">
 					<input id="update-similar" type="checkbox" /> ${lang.updateSimilar}
 				</label>`,
-			);
+		);
 	}
 
 	function getEditDialog() {
@@ -176,7 +173,7 @@ export default function EditBlock($block, codemirror) {
 				const id = $textarea.attr('id');
 				if (!$textarea.next().hasClass('CodeMirror')) {
 					const {
-						width = '100%',
+						width,
 						height = 100,
 						...options
 					} = $textarea.data();
