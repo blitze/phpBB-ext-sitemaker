@@ -4,7 +4,7 @@
 	{%- for icon in category.icons -%}
 		{%- for prefix in icon.prefixes -%}
 		<div class="filter-icon" data-filter="{{ icon.terms }}">
-			<a href="#{{ prefix ~ ' fa-' ~ icon.name }}"><i class="{{ prefix ~ ' fa-' ~ icon.name }}" aria-hidden="true"></i></a>
+			<a href="#{{ 'fa-' ~ icon.name }}"><i class="{{ prefix ~ ' fa-' ~ icon.name }}" aria-hidden="true"></i></a>
 		</div>
 		{%- endfor -%}
 	{%- endfor -%}
