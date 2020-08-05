@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 	'FILEMANAGER_SETTINGS'						=> '文件管理器设置',
 	'FILEMANAGER_STATUS'						=> '状态',
 	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
-	'FILEMENAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
+	'FILEMANAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> '自动调整上传图像大小？',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> '调整尺寸到指定尺寸',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> '自动调整大小模式',
