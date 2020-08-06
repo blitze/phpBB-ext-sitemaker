@@ -44,7 +44,7 @@
 							<label>{{ lang(GROUP_ITEMS) }}</label>
 							<textarea id="add_list" rows="5" cols="50" name="add_list"></textarea>
 							{% for type, items in bulk_options %}
-								<div class="bulk-container pull-left">
+								<div class="bulk-type-wrapper">
 									<div>
 										<button class="bulk-type" data-items="{{ items }}">{{ lang(type) }}</button>
 										<button class="bulk-type-list">{{ lang('SELECT') }}</button>
