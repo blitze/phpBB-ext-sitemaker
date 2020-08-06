@@ -85,7 +85,7 @@ class picker_test extends \phpbb_test_case
 			->method('assign_display')
 			->with('icons');
 
-		$categories_path = dirname(__FILE__) . '/categories.yml';
+		$categories_path = dirname(__FILE__) . '/categories.json';
 		return new picker($config, $translator, $util, $ptemplate, $categories_path);
 	}
 
@@ -110,17 +110,15 @@ class picker_test extends \phpbb_test_case
 					'icons_tpl'		=> 'fontawesome5',
 					'categories'	=> array(
 						'logistics' 	=> array(
-							'icons' 		=> array(
-								array(
-									'name' => 'box',
-									'terms' => 'archive|container|package|storage|box',
-									'prefixes' => ['fas']
-								),
-								array(
-									'name' => 'boxes',
-									'terms' => 'archives|inventory|storage|warehouse|boxes',
-									'prefixes' => ['fas', 'fab']
-								),
+							array(
+								'name' => 'box',
+								'terms' => 'archive|container|package|storage|box',
+								'prefixes' => ['fas']
+							),
+							array(
+								'name' => 'boxes',
+								'terms' => 'archives|inventory|storage|warehouse|boxes',
+								'prefixes' => ['fas', 'fab']
 							),
 						)
 					),

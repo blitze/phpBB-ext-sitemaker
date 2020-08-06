@@ -189,7 +189,7 @@ services:
             - '@language'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'
-            - '%fontawesome.categories_path%'
+            - '%fontawesome.categories%'
 
     blitze.sitemaker.mapper.factory:
         class: blitze\sitemaker\model\mapper_factory

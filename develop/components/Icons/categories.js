@@ -7,7 +7,7 @@ const categoriesSrc =
 	'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.13.0/metadata/categories.yml';
 const iconsSrc =
 	'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.13.0/metadata/icons.yml';
-const outputYML = 'services/icons/categories.yml';
+const outputJSON = 'services/icons/categories.json';
 
 async function getJson() {
 	try {
@@ -28,29 +28,34 @@ async function getCategories() {
 	let categoriesJson = YAML.parse(categoriesYML);
 
 	categoriesJson['brands'] = {
-		icons: Object.keys(iconsJson).filter(x =>
+		icons: Object.keys(iconsJson).filter((x) =>
 			iconsJson[x].styles.includes('brands'),
 		),
 	};
 
 	const newCategories = Object.keys(categoriesJson).reduce((cats, name) => {
 		let { icons } = categoriesJson[name];
-		icons = icons.map(icon => {
+		icons = icons.map((icon) => {
 			return {
 				name: icon,
 				terms: [...iconsJson[icon].search.terms, icon].join('|'),
-				prefixes: iconsJson[icon].styles.map(style => `fa${style[0]}`),
+				prefixes: iconsJson[icon].styles.map(
+					(style) => `fa${style[0]}`,
+				),
 			};
 		});
 
 		return {
 			...cats,
-			[name]: { icons },
+			[name]: icons,
 		};
 	}, {});
 
-	// Generate YAML
-	fs.writeFileSync(outputYML, YAML.stringify(newCategories, 4));
+	try {
+		fs.writeFileSync(outputJSON, JSON.stringify(newCategories));
+	} catch (err) {
+		console.error(err);
+	}
 }
 
 getCategories();

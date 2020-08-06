@@ -10,8 +10,6 @@
 
 namespace blitze\sitemaker\services\icons;
 
-use Symfony\Component\Yaml\Yaml;
-
 /**
  * Sitemaker icons
  */
@@ -30,7 +28,7 @@ class picker
 	protected $ptemplate;
 
 	/** @var string */
-	protected $icon_categories_yml;
+	protected $categories_file;
 
 	/**
 	 * Constructor
@@ -39,15 +37,15 @@ class picker
 	 * @param \phpbb\language\language     			$translator     		Language object
 	 * @param \blitze\sitemaker\services\util		$util					Sitemaker utility object
 	 * @param \blitze\sitemaker\services\template	$ptemplate				Sitemaker Template object
-	 * @param string								$icon_categories_yml	YAML file containing fontawesome icon categories
+	 * @param string								$categories_file		Categories file (json)
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $icon_categories_yml)
+	public function __construct(\phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $categories_file)
 	{
-		$this->config              = $config;
-		$this->translator          = $translator;
-		$this->util                = $util;
-		$this->ptemplate           = $ptemplate;
-		$this->icon_categories_yml = $icon_categories_yml;
+		$this->config          = $config;
+		$this->translator      = $translator;
+		$this->util            = $util;
+		$this->ptemplate       = $ptemplate;
+		$this->categories_file = $categories_file;
 	}
 
 	/**
@@ -55,6 +53,7 @@ class picker
 	 */
 	public function picker()
 	{
+		global $phpbb_root_path;
 		$this->translator->add_lang('icons', 'blitze/sitemaker');
 		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
 
@@ -70,7 +69,7 @@ class picker
 		if (phpbb_version_compare($this->config['version'], '3.3.1', '>='))
 		{
 			$icons_tpl = 'fontawesome5';
-			$categories = Yaml::parseFile($this->icon_categories_yml);
+			$categories = json_decode(file_get_contents($this->categories_file), true);
 		}
 
 		$this->ptemplate->assign_vars(array(
