@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 	'FILEMANAGER_SETTINGS'						=> 'Dateimanager Einstellungen',
 	'FILEMANAGER_STATUS'						=> 'Status',
 	'FILEMANAGER_NO_EXIST'						=> 'Sie müssen den Dateimanager installieren, bevor Sie ihn aktivieren können. Installationsanweisungen finden Sie <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>hier</strong></a>',
-	'FILEMANAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
+	'FILEMANAGER_NOT_WRITABLE'					=> 'Der Filemanager Konfigurationsordner (root/ResponsiveFilemanager/filemanager/config/) ist nicht beschreibbar. Bitte ändern Sie die Schreibrechte für alle (777 oder -rwxrwxrwx in Ihrem FTP-Client)',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Größe der hochgeladenen Bilder automatisch ändern?',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Größe auf bestimmte Dimensionen ändern',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Automatische Größenänderung',
