@@ -85,7 +85,7 @@ $lang = array_merge($lang, array(
 
 	'MAKE_DEFAULT_LAYOUT'						=> 'Set As Default Layout',
 
-	'OR'										=> '<strong>OR</strong>',
+	'OR'										=> '<strong>VEYA</strong>',
 
 	'PARENT_ROUTE'								=> 'Üst',
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
