@@ -6,7 +6,7 @@
     "tagline": "A portal/CMS for phpBB 3.2x",
     "docs": {
       "blocks-custom": {
-        "title": "Custom Block"
+        "title": "Özel Blok"
       },
       "blocks-inheritance": {
         "title": "Understanding Block Inheritance"
@@ -98,7 +98,7 @@
     "Download It|no description given": "Download It",
     "Docs|no description given": "Docs",
     "Help Translate|recruit community translators for your project": "Help Translate",
-    "Edit this Doc|recruitment message asking to edit the doc source": "Edit",
+    "Edit this Doc|recruitment message asking to edit the doc source": "Düzenle",
     "Translate this Doc|recruitment message asking to translate the docs": "Translate"
   }
 }
