@@ -29,7 +29,7 @@ $lang = array_merge($lang, array(
 
 	'DAILY_MEMBER'					=> 'Member of the day',
 
-	'FEATURED_MEMBER'				=> 'Featured Member',
+	'FEATURED_MEMBER'				=> 'Özellikli Üye',
 	'FEATURED_MEMBERLIST'			=> 'Featured members list',
 	'FEEDS'							=> 'Feeds',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
@@ -47,14 +47,14 @@ $lang = array_merge($lang, array(
 
 	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
 	'LAST_VISITED'					=> 'Last Visited',
-	'LINKS'							=> 'Links',
+	'LINKS'							=> 'Bağlantılar',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Contents',
-	'MEMBERS_DATE'					=> 'Date',
-	'MENU'							=> 'Menu',
+	'MEMBERS_DATE'					=> 'Tarih',
+	'MENU'							=> 'Menü',
 	'MONTHLY_MEMBER'				=> 'Member of the month',
 	'MOST_TENURED'					=> 'Most Tenured',
-	'MY_BOOKMARKS'					=> 'My Bookmarks',
+	'MY_BOOKMARKS'					=> 'Yer İmlerim',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
@@ -73,7 +73,7 @@ $lang = array_merge($lang, array(
 	'SESSION_HIDE_ME'				=> 'Hide Me',
 	'SM_NAVIGATION'					=> 'Navigation',
 	'SM_TOGGLE_DROPDOWN'			=> 'Toggle dropdown',
-	'STYLE_SWITCHER'				=> 'Style Switcher',
+	'STYLE_SWITCHER'				=> 'Stil Değiştirici',
 
 	'THIS_MONTH'					=> 'This Month',
 	'THIS_WEEK'						=> 'This Week',
@@ -90,6 +90,6 @@ $lang = array_merge($lang, array(
 
 	'WEEKLY_MEMBER'					=> 'Member of the week',
 	'WELCOME'						=> 'Welcome',
-	'WHATS_NEW'						=> 'What’s New?',
+	'WHATS_NEW'						=> 'Neler yeni?',
 	'WORDGRAPH'						=> 'Wordgraph',
 ));
