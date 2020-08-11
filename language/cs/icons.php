@@ -64,7 +64,7 @@ $lang = array_merge($lang, array(
 	'ICON_HOLIDAY'				=> 'Holiday',
 	'ICON_HOTEL'				=> 'Hotel',
 	'ICON_HOUSEHOLD'			=> 'Household',
-	'ICON_IMAGES'				=> 'Images',
+	'ICON_IMAGES'				=> 'Obrázky',
 	'ICON_INTERFACES'			=> 'Interfaces',
 	'ICON_LOGISTICS'			=> 'Logistics',
 	'ICON_MAPS'					=> 'Maps',
@@ -99,7 +99,7 @@ $lang = array_merge($lang, array(
 	'ICON_WRITING'				=> 'Writing',
 
 	'ICON_COLOR'				=> 'Barva',
-	'ICON_DEFAULT'				=> 'Default',
+	'ICON_DEFAULT'				=> 'Výchozí',
 	'ICON_FLIP_BOTH'			=> 'Flip Both',
 	'ICON_FLIP_HORIZONTAL'		=> 'Překlopit vodorovně',
 	'ICON_FLIP_VERTICAL'		=> 'Překlopení svisle',
