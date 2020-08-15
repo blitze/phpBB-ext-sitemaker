@@ -1,22 +1,22 @@
 ---
-id: gestion des menus
-title: Gérer les menus
+id: menus-managing
+title: Managing Menus
 ---
 
-Vous pouvez créer des menus en ACP que vous pouvez ensuite afficher en utilisant les menus ou les blocs Liens ou affichés comme une barre de navigation horizontale.
+You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
-## Gérer les menus
+## Managing Menus
 
-Pour gérer les menus, allez dans ACP > Extensions > Plan du site > Menu
+To manage menus, go to ACP > Extensions > Sitemaker > Menu
 
-### Création du menu
+### Creating Menus
 
-Pour créer un nouveau menu (groupe), cliquez sur le bouton `Ajouter le menu`'. Un nouveau groupe de menu sera créé avec un nom généré aléatoirement. Le nouveau menu sera également sélectionné afin que vous puissiez commencer à y ajouter des éléments de menu.
+To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
 
-### Modifier le menu
+### Editing Menus
 
-Si vous voulez un nom de menu plus significatif, * survolez le nom du menu et cliquez sur l'icône cog * entrez le nouveau nom de menu et appuyez sur Entrée pour le mettre à jour
+If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
 
-### Suppression des menus
+### Deleting Menus
 
-Pour supprimer un menu et ses éléments, * Survolez le nom du menu et cliquez sur l'icône **x** * Si l'élément de menu n'a pas d'élément enfant, vous devrez confirmer votre choix pour supprimer l'article * Si l'élément de menu a des éléments enfants, vous devrez indiquer si vous voulez supprimer seulement l'élément et déplacer ses enfants vers le haut ou si vous voulez supprimer la branche entière
+To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
