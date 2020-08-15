@@ -1,6 +1,6 @@
 ---
-id: панель навигации
-title: Панель навигации
+id: site-navbar
+title: Navigation Bar
 ---
 
-Смотрите [Отображение меню](./menus-display#navigation-bar)
+See [Displaying Menus](./menus-display#navigation-bar)
