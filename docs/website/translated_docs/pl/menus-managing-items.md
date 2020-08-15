@@ -1,30 +1,30 @@
 ---
-id: menu-zarządzania
-title: Zarządzanie elementami menu
+id: menus-managing-items
+title: Managing Menu Items
 ---
 
-Twoje menu jest bezużyteczne, chyba że ma elementy menu. Możesz dodać elementy menu, które wskazują na pliki lokalne lub zewnętrzne.
+Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
 
-> Adres URL dla zewnętrznych witryn musi zaczynać się od http(s)://, ftp://, //, itp.
+> The URL for external sites must begin with http(s)://, ftp://, //, etc.
 > 
-> Możesz utworzyć separator wprowadzając '-' jako tytuł elementu
+> You can create a divider by entering '-' as the item title
 
-## Dodawanie elementów menu
+## Adding Menu items
 
-Możesz dodać jedną pozycję menu na raz, lub dodać wiele pozycji menu na jeden.
+You can add menu items one item at a time, or you can add multiple menu items at ones.
 
-### Dodawanie pojedynczych pozycji menu
+### Adding single menu items
 
-Aby dodać pojedynczą pozycję menu, * kliknij `Dodaj element menu` * Wypełnij wymagane informacje i wciśnij `Zapisz`
+To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
 
-### Dodawanie wielu elementów
+### Adding multiple items
 
-Aby dodać wiele pozycji menu naraz, * Kliknij ikonę <unk> obok `Dodaj pozycję menu` * Możesz ręcznie dodać elementy poprzez umieszczenie każdego elementu w nowej linii i użycie elementów gniazda znaków karty lub * Możesz kliknąć na jedną z podanych opcji na dole pola tekstowego, aby automatycznie wypełnić elementy menu
+To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
 
-## Zmień kolejność pozycji menu
+## Reorder the menu items
 
-Możesz przeciągnąć i upuścić elementy menu w górę/dół, aby ustawić ich kolejność wyświetlania lub przeciągnąć je w lewo/prawo, aby ustawić żądaną hierarchię.
+You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
 
-## Przebudowa pozycji menu
+## Rebuilding the menu items
 
-Jeśli okaże się, że elementy menu nie są wyświetlane prawidłowo, kliknij przycisk `Przebuduj drzewo` , aby przebudować elementy menu.
+If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
