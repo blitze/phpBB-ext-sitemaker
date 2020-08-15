@@ -1,6 +1,6 @@
 ---
-id: blocks-náhledy
-title: Blokové zobrazení
+id: blocks-views
+title: Block Views
 ---
 
-Probíhající práce...
+Work in progress...
