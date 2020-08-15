@@ -1,6 +1,6 @@
 ---
-id: сайт-блок-модификаторы
-title: Настройка отображения блоков
+id: site-block-modifiers
+title: Customizing Blocks Display
 ---
 
-Идет работа...
+Work in progress...
