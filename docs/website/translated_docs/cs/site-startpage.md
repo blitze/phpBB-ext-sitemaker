@@ -1,8 +1,8 @@
 ---
-id: web-startpage
-title: Nastavení startovacích kanálů
+id: site-startpage
+title: Setting a Start Page
 ---
 
-phpBB SiteMaker umožňuje zvolit libovolný přední řadič (stránky přístupné přes app.php/...) jako výchozí úvodní stránku (stránku, která se zobrazí, když někdo navštíví vaše stránky) namísto deskového indexu.
+phpBB SiteMaker allows you to choose any front controller (pages accessed via app.php/...) as your default start page (the page that will be shown when someone visits your site) instead of the board index.
 
-Chcete-li tak učinit: * Přejděte na stránku, kterou chcete nastavit jako výchozí úvodní stránku, * Klikněte na `Nastavení` v admin panelu. If it is an eligible page, you will see a `Set as start page` button * Click on the `Set as start page` button
+To do this: * Go to the page that you want to set as default start page * Click on `Settings` in the admin bar. If it is an eligible page, you will see a `Set as start page` button * Click on the `Set as start page` button
