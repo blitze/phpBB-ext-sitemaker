@@ -3,32 +3,32 @@ id: filemanager
 title: Responsive Filemanager
 ---
 
-Vanaf versie 3.1.0 ondersteunt phpBB SiteMaker de [Responsive Filemanager](http://responsivefilemanager.com)
+As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
-* De bestandsbeheerder wordt gebruikt als een TinyMCE pluging (WYSIWYG editor) bij het bewerken van aangepaste blokken
-* Het is momenteel geconfigureerd om afzonderlijke mappen voor elke gebruiker te maken, behalve de gebruiker met een_sm_filemanager permissie (kan andere gebruikersmappen zien/beheren), waardoor ze toegang hebben tot het bekijken/beheren van alle uploadmappen.
+* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
+* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
 
-## Installatie
+## Installation
 
-* Download de [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Haal het uit en upload de bestanden naar uw phpBB hoofdmap. De bestandsstructuur moet als hieronder zijn:
+* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
 
 ```text
 phpBB
-<unk> <unk> afbeeldingen/
-<unk> <unk> <unk> includes/
-<unk> <unk> <unk> <unk> <unk> ...
-<unk> ResponsiveFilemanager/
-    <unk> <unk> filemanager/
-        <unk> <unk> <unk> <unk> config/
-            <unk> <unk> <unk> <unk> Toegang
-            <unk> config.php
+├── images/
+├── includes/
+├── ...
+└── ResponsiveFilemanager/
+    └── filemanager/
+        └── config/
+            ├── .htaccess
+            └── config.php
 ```
 
-## Activering
+## Activation
 
-* Ga naar ACS > Extensies > SiteMaker > Instellingen
-* Schakel bestandsbeheerder functie in
-* Wijzigingen opslaan
-* Wijzig gebruikersrechten (Misc tab) om te bepalen wie deze functie kan gebruiken [Kan Bestandsbeheer gebruiken]
-* Update beheerdersrechten (Misc tab) om te bepalen wie de gebruikersmappen kan beheren [Kan mappen van andere gebruikers zien/beheren in Bestandsbeheer]
+* Go to ACP > Extensions > SiteMaker > Settings
+* Enable File Manager feature
+* Save changes
+* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
+* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
