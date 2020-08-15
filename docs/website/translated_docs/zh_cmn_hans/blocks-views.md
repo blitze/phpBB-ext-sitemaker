@@ -1,6 +1,6 @@
 ---
-id: 块视图
-title: 阻止视图
+id: blocks-views
+title: Block Views
 ---
 
-正在工作...
+Work in progress...
