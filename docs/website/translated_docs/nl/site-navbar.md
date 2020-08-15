@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigatiebalk
+title: Navigation Bar
 ---
 
-Bekijk [Menu's](./menus-display#navigation-bar)
+See [Displaying Menus](./menus-display#navigation-bar)
