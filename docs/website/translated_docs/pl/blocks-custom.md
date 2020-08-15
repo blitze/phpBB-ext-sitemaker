@@ -1,25 +1,25 @@
 ---
-id: niestandardowe bloki
-title: Własny blok
+id: blocks-custom
+title: Custom Block
 ---
 
-Jeśli dostępne bloki nie dają ci potrzebnej wolności, istnieje `Blok niestandardowy` który pozwala ci na swobodne wyświetlanie własnych treści za pomocą BBcode lub HTML. Blok zawiera edytor WYSIWYG (TinyMCE), [Menedżer plików](./filemanager.md)i menedżer skryptów:
+If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
 
-## Edytor
+## The editor
 
-* Możesz użyć edytora do tworzenia zawartości HTML
-* Możesz edytować kod źródłowy, jeśli potrzebujesz tego poziomu kontroli klikając na ikonę `kodu źródłowego` (`<>`) w edytorze
-* Edytor pozwala na wysyłanie i modyfikowanie obrazów
-* Edytor filtruje wszelkie potencjalnie niebezpieczne skrypty, takie jak javascript, itp. Jeśli potrzebujesz dodać treści takie jak reklamy google, javascript zostanie przefiltrowany, ale możesz to obejść, wykonując następujące czynności: 
-    * Dodaj niestandardowy blok do pożądanej lokalizacji
-    * Edytuj niestandardowy blokadę, kliknij na kartę `HTML` i wklej Javascript
+* You can use the editor to create HTML content
+* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+* The editor allows you to upload and modify images
+* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
+    * Add the Custom Block to desired location
+    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
 
-## Menedżer plików
+## The File Manager
 
-`Własny blok` jest również z [Menadżżerem Plików](./filemanager.md) jako wtyczką TinyMCE * Tworzy nowy folder w phpBB/images/sitemaker_uploads/ dla każdego użytkownika, który ma do niego dostęp, * Możesz przeglądać/zarządzać wszystkimi folderami użytkowników
+The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
 
-## Menedżer skryptów
+## The Scripts Manager
 
-Własny blok pozwala również dodać niestandardowe pliki CSS i JavaScript do swojej strony. Aby to zrobić: * Dodaj `Blok niestandardowy` do dowolnej pozycji bloku. Pozycja nie ma znaczenia, chyba że wyświetla się również zawartość z blokiem * Edytuj blok, kliknij na kartę `skryptów` i dodaj pliki CSS lub Javascript
+The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
 
-> Słowo ostrożności: Dodanie do wielu skryptów na twojej stronie może mieć wpływ na czas ładowania
+> Word of caution though: Adding to many scripts on your page can affect load times
