@@ -1,6 +1,6 @@
 ---
 id: blocks-views
-title: Ansichten blockieren
+title: Block Views
 ---
 
-Arbeiten läuft...
+Work in progress...
