@@ -1,23 +1,23 @@
 ---
-id: менеджер файлов
-title: Отзывчивый Filemanager
+id: filemanager
+title: Responsive Filemanager
 ---
 
-Начиная с версии 3.1.0, phpBB SiteMaker поддерживает [Отзывчивый файловый менеджер](http://responsivefilemanager.com)
+As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
-* Файловый менеджер используется в качестве плагина TinyMCE (WYSIWYG редактор) при редактировании пользовательских блоков
-* В настоящее время он настроен на создание отдельных папок для каждого пользователя, за исключением пользователя с правами доступа a_sm_filemanager (может видеть/управлять папками других пользователей), что позволяет им просматривать/управлять всеми папками загрузки.
+* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
+* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
 
-## Установка
+## Installation
 
-* Скачать [Отзывчивый Менеджер файлов](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Извлеките его и загрузите файлы в корневую папку phpBB. Структура файла должна быть следующей:
+* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
 
 ```text
 phpBB
-<unk> ذ <unk> <unk> Изображения/
-<unk> <unk> <unk> <unk> Вкл<unk>
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> ...
+├── images/
+├── includes/
+├── ...
 └── ResponsiveFilemanager/
     └── filemanager/
         └── config/
@@ -25,10 +25,10 @@ phpBB
             └── config.php
 ```
 
-## Активация
+## Activation
 
-* Перейдите в ACP > Расширения > SiteMaker > Настройки
-* Включить функцию файлового менеджера
-* Сохранить изменения
-* Обновить права пользователя (Misc tab), чтобы определить, кто может использовать эту функцию [Может использовать файловый менеджер]
-* Обновить права администратора (Misc tab), чтобы определить, кто может управлять папками пользователей [Может видеть/управлять папками других пользователей в файловом менеджере]
+* Go to ACP > Extensions > SiteMaker > Settings
+* Enable File Manager feature
+* Save changes
+* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
+* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
