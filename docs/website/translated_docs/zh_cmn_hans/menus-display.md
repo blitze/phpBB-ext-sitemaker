@@ -1,18 +1,18 @@
 ---
-id: 菜单显示
-title: 显示菜单
+id: menus-display
+title: Displaying Menus
 ---
 
-既然你创建了菜单，你可以通过几种方式显示它们：
+Now that you have create your menus, you can display them in several ways:
 
-## 链接块
+## Links Block
 
-你可以使用这个模块来显示一个平坦或嵌套的菜单项。 此模块不是用于导航，即它不会显示当前页面或任何类似页面。 它旨在列出项目，包括外部链接。
+You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
 
-## 菜单块
+## Menus Block
 
-此模块用于网站导航。 它为确定当前位置做了一些额外的计算，并不打算成为一个非常庞大的清单。
+This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
 
-## 导航栏
+## Navigation bar
 
-与菜单块相似，导航栏将显示菜单项作为响应式下拉菜单，用于站点导航。 您可以在 ACP > 扩展 > 站点管理器 > 设置 > 选择菜单中启用
+Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
