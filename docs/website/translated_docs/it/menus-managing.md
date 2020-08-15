@@ -1,22 +1,22 @@
 ---
-id: gestione menu
-title: Gestione menu
+id: menus-managing
+title: Managing Menus
 ---
 
-Puoi creare dei menu nei paesi ACP che poi potrai visualizzare usando i menu o i blocchi dei link o visualizzarli come navbar orizzontale.
+You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
-## Gestione menu
+## Managing Menus
 
-Per gestire i menu, vai su ACP > Estensioni > Sitemaker > Menu
+To manage menus, go to ACP > Extensions > Sitemaker > Menu
 
-### Creazione di menu
+### Creating Menus
 
-Per creare un nuovo menu (gruppo), clicca sul pulsante `Aggiungi Menu`. Verrà creato un nuovo gruppo di menu con un nome generato casualmente. Il nuovo menu verrà selezionato in modo da poter iniziare ad aggiungere voci di menu.
+To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
 
-### Modifica menu
+### Editing Menus
 
-Se vuoi un nome del menu più significativo, * passa sopra il nome del menu e clicca sull'icona del ingrana * inserisci il nuovo nome del menu e premi invio per aggiornarlo
+If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
 
-### Eliminazione menu
+### Deleting Menus
 
 To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
