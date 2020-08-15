@@ -1,6 +1,6 @@
 ---
-id: modificadores-de-bloque-sitio
-title: Personalizar pantalla de bloques
+id: site-block-modifiers
+title: Customizing Blocks Display
 ---
 
-Trabajo en curso...
+Work in progress...
