@@ -1,22 +1,22 @@
 ---
-id: gerenciamento de menus
-title: Gerenciando Menus
+id: menus-managing
+title: Managing Menus
 ---
 
-Você pode criar menus em ACP que você pode depois exibir usando os Menus ou os blocos de Links ou exibir como uma barra de navegação horizontal.
+You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
-## Gerenciando Menus
+## Managing Menus
 
-Para gerenciar menus, vá para ACP > Extensões > Sitemaker > Menu
+To manage menus, go to ACP > Extensions > Sitemaker > Menu
 
-### Criando menus
+### Creating Menus
 
-To create a new menu (group), click on the `Add Menu` button. Um novo grupo de menu será criado com um nome gerado aleatoriamente. O novo menu também será selecionado para que você possa começar a adicionar itens de menu a ele.
+To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
 
-### Editando menus
+### Editing Menus
 
-Se você quiser um nome de menu mais significativo, * hover sobre o nome do menu e clique no ícone cog * digite o novo nome de menu e clique em enter para atualizá-lo
+If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
 
-### Excluindo Menus
+### Deleting Menus
 
-Para excluir um menu e seus itens * Passe o mouse sobre o nome do menu e clique no ícone **x** * Se o item de menu não tem itens filhos, você precisará confirmar sua escolha para excluir o item * Se o item de menu tiver itens filhos, você precisará indicar se você deseja excluir apenas o item e mover seus filhos para cima ou se você deseja excluir o branch inteiro
+To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
