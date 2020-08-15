@@ -1,6 +1,6 @@
 ---
-id: blokken-views
-title: Blokkeer weergaven
+id: blocks-views
+title: Block Views
 ---
 
-Werken in uitvoering...
+Work in progress...
