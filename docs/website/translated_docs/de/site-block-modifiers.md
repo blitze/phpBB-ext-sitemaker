@@ -1,6 +1,6 @@
 ---
 id: site-block-modifiers
-title: Anzeige der Blöcke anpassen
+title: Customizing Blocks Display
 ---
 
-Arbeiten läuft...
+Work in progress...
