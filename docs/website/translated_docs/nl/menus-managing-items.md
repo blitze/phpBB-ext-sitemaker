@@ -1,30 +1,30 @@
 ---
-id: Menu-beheer-items
-title: Menu-items beheren
+id: menus-managing-items
+title: Managing Menu Items
 ---
 
-Uw menu is nutteloos tenzij het menu-items bevat. U kunt menu-items toevoegen die verwijzen naar lokale of externe bestanden.
+Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
 
-> De URL voor externe sites moet beginnen met http(s)://, ftp:/, //, etc.
+> The URL for external sites must begin with http(s)://, ftp://, //, etc.
 > 
-> U kunt een duiker aanmaken door '-' in te voeren als titel van het item
+> You can create a divider by entering '-' as the item title
 
-## Menu items toevoegen
+## Adding Menu items
 
-U kunt menu-items één item tegelijk toevoegen, of u kunt meerdere menu-items toevoegen.
+You can add menu items one item at a time, or you can add multiple menu items at ones.
 
-### Enkele menu-items toevoegen
+### Adding single menu items
 
-Om een enkel menu-item toe te voegen, * klik op de " `Voeg menu toe"` * knop * Vul de vereiste informatie in en druk op `` Opslaan
+To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
 
-### Meerdere items toevoegen
+### Adding multiple items
 
-Om meerdere menu-items in een keer toe te voegen * Klik op het pictogram naast `menu-item` * U kunt handmatig items toevoegen door elk item op een nieuwe regel te plaatsen en gebruik te maken van de tab nest items of * U kunt op een van de verstrekte opties klikken aan de onderkant van de tekst om de menu-items automatisch in te vullen
+To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
 
-## Menu-items opnieuw bestellen
+## Reorder the menu items
 
-U kunt de menu-items slepen en neerzetten om hun weergavevolgorde in te stellen, of ze naar links/rechts slepen om de gewenste hiërarchie in te stellen.
+You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
 
-## Herbouwen van de menu-items
+## Rebuilding the menu items
 
-Als u vindt dat de menu-items niet correct worden weergegeven, klik dan op de knop `herbouwde Boom` om de menu-items opnieuw op te bouwen.
+If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
