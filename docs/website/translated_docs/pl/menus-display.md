@@ -1,18 +1,18 @@
 ---
-id: wyświetlanie menu
-title: Wyświetlane menu
+id: menus-display
+title: Displaying Menus
 ---
 
-Po utworzeniu menu możesz je wyświetlić na kilka sposobów:
+Now that you have create your menus, you can display them in several ways:
 
-## Blok linków
+## Links Block
 
-Możesz użyć tego bloku aby wyświetlić płaską lub zagnieżdżoną listę elementów menu. Ten blok nie jest przeznaczony do nawigacji, tzn. nie będzie pokazywał bieżącej strony ani czegokolwiek takiego. Jest on przeznaczony do sporządzania wykazu pozycji, w tym powiązań zewnętrznych.
+You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
 
-## Blok menu
+## Menus Block
 
-Ten blok przeznaczony jest do nawigacji w witrynie. Dokonuje kilku dodatkowych obliczeń w celu określenia aktualnej lokalizacji i nie ma być bardzo dużą listą.
+This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
 
-## Pasek nawigacji
+## Navigation bar
 
-Podobnie jak blok menu, pasek nawigacji będzie wyświetlany jako responsywne menu rozwijane, przeznaczone do nawigacji witryny. Możesz włączyć to w dodatku AKP > Rozszerzenia > Sitemaker > Ustawienia > Wybierz menu
+Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
