@@ -1,25 +1,25 @@
 ---
-id: 模块自定义
-title: 自定义块
+id: blocks-custom
+title: Custom Block
 ---
 
-如果可用的方块不能给予您所需的自由。 有 `个自定义块` 允许您自由使用BBcode 或 HTML显示自己的内容。 方块有一个 WYSIWYG 编辑器 (TinyMCE), 一个 [文件管理器](./filemanager.md)和脚本管理器：
+If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE), a [File Manager](./filemanager.md), and a scripts manager:
 
-## 编辑器
+## The editor
 
-* 您可以使用编辑器创建 HTML 内容
-* 如果你需要通过点击编辑器中的 `源代码` 图标(`<>`)，你可以编辑源代码。
-* 编辑器允许您上传和修改图像
-* 编辑器过滤任何潜在的危险脚本，例如 javascript 等。 如果您需要添加像Google广告这样的内容，Javascript将被过滤，但你可以通过以下方式绕过这一点： 
-    * 添加自定义块
-    * 编辑自定义方块，点击 `HTML` 标签页并粘贴您的 Javascript
+* You can use the editor to create HTML content
+* You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+* The editor allows you to upload and modify images
+* The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
+    * Add the Custom Block to desired location
+    * Edit the Custom Block, click on the `HTML` tab and paste your Javascript
 
-## 文件管理器
+## The File Manager
 
-`自定义块` 还有一个 [文件管理器](./filemanager.md) 作为一个 TinyMCE 插件 * 它在 phpBB/images/sitemaker_uploads/中为每个有权访问它的用户创建一个新文件夹 * 你可以查看/管理所有用户文件夹
+The `Custom Block` also comes with a [File Manager](./filemanager.md) as a TinyMCE pluglin * It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it * You can view/manage all user folders
 
-## 脚本管理器
+## The Scripts Manager
 
-自定义方块还允许您将自定义的 CSS 和 Javascript 文件添加到您的页面。 要做到这一点： * 向任何方块位置添加 `个自定义方块` 除非您也显示方块 * 编辑方块，否则方位不重要。 点击 `脚本` 标签页并添加您的 CSS 或 Javascript 文件
+The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this: * Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block * Edit the block, click on the `Scripts` tab and add your CSS or Javascript files
 
-> 请谨慎：添加到您页面上的许多脚本可能会影响加载时间
+> Word of caution though: Adding to many scripts on your page can affect load times
