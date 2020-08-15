@@ -1,20 +1,20 @@
 ---
-id: site-lay-outs
-title: Lay-outs
+id: site-layouts
+title: Layouts
 ---
 
-"Layouts" bepalen de beschikbare blokposities en hoe ze worden weergegeven.
+"Layouts" determine the available block positions and how they are displayed.
 
-## Blokkeer posities
+## Block Positions
 
-Blokkeer posities zijn vooraf gedefinieerde gebieden op je site waar blokken kunnen bestaan. De beschikbare blokposities worden bepaald door de template stijl die u gebruikt. Voor prosilver, phpBB SiteMaker komt met de volgende blokposities: paneel: volledige breedte over de top * sidebar: links/rechts afhankelijk van de lay-out onder * subinhoud: vergelijkbaar met de zijbalk die net groter is * top_hor: horizontale blokken aan de top, flanken boven sidebar/subinhoud afhankelijk van lay-out * top: boven hoofdinhoud * box: gelijke breedte, horizontale blokken onder hoofdinhoud * onder: onder hoofdinhoud * bottom_hor: horizontale blokken overal onderaan De sidebar/subcontent flankeren afhankelijk van lay-out * footer: horizontale blokken in de footer Je kunt meer blokken toevoegen in je eigen stijl sjablonen door de bijbehorende phpBB SiteMaker sjablonen te kopiëren en aan te passen
+Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
 
-## Site lay-out
+## Site Layout
 
-U kunt de indeling voor uw site in de ACS kiezen (Extensions > Sitemaker > Instellingen): * **Blog**: subinhoud en sidebar naast elkaar duwde naar rechts, boven_hoor/botom_hor subinhoud * **Heilige Grail**: gelijke breedte zijbalk en subinhoud aan tegenzijde. top_hor/botom_hor flank subinhoud * **Portal**: sidebar aan de linkerkant, subinhoud aan de rechterkant top_hor/botom_hor flank subinhoud * **Portal Alt**: subinhoud links zijbalk aan de rechterkant top_hor/botom_hor flank sidebar * **Aangepast**: Stel de breedte van de sidebars handmatig in als px, %, em of rem. Standaard op 200px aan elke kant
+You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
 
-## Aangepaste templates/stijlen
+## Custom templates/styles
 
-We hebben zo veel mogelijk geprobeerd sjabloonbestanden en bestanden in stijlen/all/ map te plaatsen, zodat je ze kunt overschrijven door een bestand met dezelfde naam te maken onder je eigen template thema, bijvoorbeeld prosilver. Dus als je wilt aanpassen hoe een bepaald blok displays of als je je eigen lay-out wilt maken met je eigen blokposities, moet je simpelweg een bestand maken met dezelfde naam en pad als het origineel in je eigen stijl.
+As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
 
-Als u CSS/JS bestanden moet aanpassen, kijk dan naar de [theming](./developer-theming.md) sectie.
+If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
