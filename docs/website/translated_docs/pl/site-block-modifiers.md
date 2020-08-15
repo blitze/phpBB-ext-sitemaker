@@ -1,6 +1,6 @@
 ---
-id: modyfikatory bloków stron
-title: Dostosuj wyświetlanie bloków
+id: site-block-modifiers
+title: Customizing Blocks Display
 ---
 
-Praca w toku...
+Work in progress...
