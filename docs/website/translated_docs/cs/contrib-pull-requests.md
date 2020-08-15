@@ -1,76 +1,76 @@
 ---
-id: Požadavky na registraci
-title: Odesílání žádosti o ubytování
+id: contrib-pull-requests
+title: Submitting a Pull Request
 sidebar_label: Pull Requests
 ---
 
-`Pull requests let you tell others about changes you've ve ve made a branch in a repository on GitHub. Po otevření pull requestu můžete prodiskutovat a zkontrolovat případné změny se spolupracovníky a přidat následné commity před sloučením do základní větve.` [Přečtěte si více](https://help.github.com/articles/about-pull-requests/)
+`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
 
-## Klonování
+## Forking/Cloning
 
-* Pokud již nemáte účet
-* Jděte na https://github.com/blitze/phpBB-ext-sitemaker.git a klikněte na "Fork"
+* Create a github account if you don't already have one
+* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
 
-Klone Váš vidák repozitáře:
+Clone your fork of the repository:
 
-    git klon git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker/
+    git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-Z příkazové řádky přejděte do složky sitemaker:
+From command line go to sitemaker directory:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Konfigurovat git:**
+**Configure git:**
 
-Přidejte uživatelské jméno Gitovi na váš systém:
+Add your Username to Git on your system:
 
-    git config --global user.name "Vaše jméno zde"
+    git config --global user.name "Your Name Here"
     
 
-Přidejte svou e-mailovou adresu k Gitu na váš systém:
+Add your E-mail address to Git on your system:
 
     git config --add user.email username@phpbb.com
     
 
-Přidejte nahoru vzdálený (můžete změnit ‘upstream’ na to, co chcete):
+Add the upstream remote (you can change ‘upstream’ to whatever you like):
 
-    git vzdálené přidat upstream git://github.com/blitze/phpBB-ext-sitemaker.git.
+    git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Nainstalujte prodejce**
+**Install vendors**
 
-    Jak instalovat skladatele
+    composer install
     
 
-**Nainstalujte NPM balíčky**
+**Install NPM packages**
 
     npm install
     
 
-Případně můžete použít [yarn](https://yarnpkg.com):
+Alternatively you may use [yarn](https://yarnpkg.com):
 
-    yarn instalace
+    yarn install
     
 
 ## Pull Requests
 
-    # Vytvořte novou větev pro vaši funkci & přepněte na ni
+    # Create a new branch for your feature & switch to it
     git checkout -b feature/my-fancy-new-feature
     
-    # vytvořte novou větev pro problém, na kterém pracujete* přepnout na (ticket # je z github tracker)
+    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
     git checkout -b ticket/1234
     
 
-Učiňte změny
+Make your changes
 
-    # Fáze souborů
+    # Stage the files
     git add <files> 
     
-    # archivovaných souborů - použijte prosím správnou commit zprávu
-    git commit -m "moje commit zpráva"
+    # Commit staged files - please use a correct commit message
+    git commit -m "my commit message"
     
 
-Stiskněte větev zpět na GitHub možnost původu gitu / muj-fancy-new-feature
+Push the branch back to GitHub git push origin feature/my-fancy-new-feature
 
-Podat [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
