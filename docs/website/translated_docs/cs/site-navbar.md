@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Bar navigace
+title: Navigation Bar
 ---
 
-Viz [Displaying Menus](./menus-display#navigation-bar)
+See [Displaying Menus](./menus-display#navigation-bar)
