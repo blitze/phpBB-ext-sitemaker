@@ -1,45 +1,44 @@
 ---
-id: blokken-erfenis
-title: Erkennende Blok Ererisief
+id: blocks-inheritance
+title: Understanding Block Inheritance
 ---
 
-We hebben al gezien dat door het instellen van een standaard lay-out, andere pagina's die geen eigen blokken hebben de blokken van de standaard lay-out zullen overnemen. Er is echter nog een andere vorm van groepsovername.
+We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
 
-## Ouder/Kind Routes
+## Parent/Child Routes
 
-In phpBB SiteMaker hebben we het over geneste routes in termen van echte geneste (sub) mappen of bijna geneste paden/routes. Blijf bij mij :). * Real Parent/Child routes: bijvoorbeeld het pad /some_directory/sub_directory/index.php is een kind van /some_directory/index.php. * Virtual Parent/Child routes: Bijvoorbeeld, viewtopic.php wordt behandeld als een kind van viewforum.php.
+In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
 
-Hier zijn enkele voorbeelden van ouder/kind routes:
+Here are some examples of parent/child routes:
 
-| Ouder              | Kind                            |
-| ------------------ | ------------------------------- |
-| /index.php         | /viewforum.php, /dir/index.php  |
-| /viewforum.php?f=2 | /viewtopic.php?f=2&t=1          |
-| /app.php/artikelen | /app.php/artikelen/mijn-artikel |
+| Parent             | Child                          |
+| ------------------ | ------------------------------ |
+| /index.php         | /viewforum.php, /dir/index.php |
+| /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
+| /app.php/articles  | /app.php/articles/my-article   |
 
-## Bovenliggend/Kind Blok Erven
+## Parent/Child Block Inheritance
 
-Voor bovenliggende/kind routes erft de onderliggende route de blokken van de bovenliggende route (als de ouder zijn eigen blokken heeft) of van de standaard lay-out (als deze is ingesteld). Met andere woorden, zelfs als er een standaard lay-out is, zal de onderliggende route blokken van de bovenliggende route overnemen als de bovenliggende route zijn eigen blokken heeft. Maar niet alle blokken van de bovenliggende route moeten geërfd worden.
+For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
 
-## Blok Overnemen bepalen
+## Controlling Block Inheritance
 
-Op een blokniveau kun je bepalen wanneer een blok geërfd kan worden door onderliggende routes. We hebben dit eerder aangeraakt in de [Blok Instellingen](./blocks-managing#editing-block-settings).
+At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
 
-Overweeg de volgende echte map structuur:
+Consider the following real directory structure:
 
 ```text
 phpBB
-
- <unk> <unk> index.php
-<unk> <unk> Movies/
-    Verandert u index.php
-    <unk> <unk> pagina.php
-    <unk> <unk> Comedy/
-        <unk> <unk> <unk> index.php
+├── index.php
+└── Movies/
+    ├── index.php
+    ├── page.php
+    └── Comedy/
+        └── index.php
 ```
 
-Voor het erfgenamen van blokken zeggen we: * De bovenliggende route van /phpBB/Files/Comedy/index.php is /phpBB/Files/index.php en niet /phpBB/Movies/page.php * Alle pagina's in een sub directory relatief aan /phpBB/index.php is een kind van /phpBB/index.php. Dus /phpBB/Files/index.php en /phpBB/Movies/page.php zijn alle kinderen van /phpBB/index.php en zullen daarom de blokken overnemen als ze geen eigen blokken hebben. In dit geval: * Wanneer een blok op /phpBB/index. hp is ingesteld om weer te geven op **Verberg op subroutes**, het blok wordt weergegeven op /phpBB/index. hp (bovenliggende route) maar niet op de onderliggende routes * Wanneer een blok op /phpBB/index staat. hp is ingesteld om weer te geven op **Toon op subroutes alleen**, het wordt weergegeven op /phpBB/Movies/index.php en /phpBB/Movies/page. hp (kinderroutes) maar niet op /phpBB/index.php (ouder), of /phpBB/Movies/Comedy/index. hp (we gaan maar één niveau diep) * Wanneer een blok op /phpBB/index staat. hp is ingesteld op weergave van **altijd** (standaard), het wordt weergegeven op /phpBB/index.php (ouder), /phpBB/Movies/index. hp en /phpBB/page.php (onderkinderroutes) maar niet op /phpBB/Movies/Comedy/index.php (we gaan slechts een diepte). In dit geval zal, /phpBB/Files/Comedy/index.php geërfd worden van de standaard route (als deze bestaat)
+For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
 
-## Mogelijke toekomstige status
+## Posible Future State
 
-Ik ben echt geïnteresseerd in uw feedback in dit gebied. De meeste phpBB-gebruikers zullen geen echte mappen hebben zoals hierboven beschreven. Ik denk dus aan het gebruik van de structuur die gedefinieerd is in een menu blok als een virtuele directory structuur en gebruik deze ouder/kind erfenis erop. Ik ben ook van plan om verder te gaan dan één niveau diep. Laat mij weten of dit nuttig voor u is.
+I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
