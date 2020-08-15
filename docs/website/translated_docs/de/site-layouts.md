@@ -3,18 +3,18 @@ id: site-layouts
 title: Layouts
 ---
 
-"Layouts" bestimmen die verfügbaren Blockpositionen und wie sie angezeigt werden.
+"Layouts" determine the available block positions and how they are displayed.
 
-## Blockpositionen
+## Block Positions
 
-Blockpositionen sind vordefinierte Bereiche auf Ihrer Website, in denen Blöcke existieren können. Die verfügbaren Blockpositionen werden durch den verwendeten Template-Stil bestimmt. Für Prosilver, phpBB SiteMaker enthält die folgenden Blockpositionen: * Panel: volle Breite über die obere * Seitenleiste: links/rechts je nach Layout unten * Subcontent: ähnlich der Seitenleiste nur größer * top_hor: horizontale Blöcke über die Oberseite, Flansche oberhalb der Seitenleiste/Unterinhalt abhängig vom Layout * oben: oberhalb des Hauptinhalts * Box: gleiche Breite, horizontale Blöcke unterhalb des Hauptinhalts * unten: unterhalb des Hauptinhalts: * bottom_hor: horizontale Blöcke über die Unterseite, die Seitenleiste/Unterinhalt abhängig vom Layout * Fußzeile flankieren: horizontale Blöcke in der Fußzeile Sie können weitere Blockpositionen in Ihren eigenen Stilvorlagen hinzufügen, indem Sie die entsprechenden phpBB SiteMaker Templates kopieren und ändern
+Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
 
-## Site-Layout
+## Site Layout
 
-Sie können das Layout für Ihre Site in AKP auswählen (Erweiterungen > Sitemaker > Einstellungen): * **Blog**: Unterinhalt und Seitenleiste nebeneinander nach rechts gedrückt, top_hor/botom_hor Flankeninhalt * **Heiliger Gral**: gleiche Breite Seitenleiste und Unterinhalt auf gegenüberliegenden Seiten, top_hor/botom_hor flankieren Unterinhalt * **Portal**: Sidebar auf links, Unterinhalt auf der rechten Seite top_hor/botom_hor flankieren Unterinhalt * **Portal Alt**: Unterinhalt auf links, Seitenleiste auf der rechten Seite top_hor/botom_hor flank Sidebar * **Benutzerdefiniert**: Manuell die Breite der Sidebars als px, %, em oder rem. Standardeinstellung auf 200px auf jeder Seite
+You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
 
-## Eigene Vorlagen/Stile
+## Custom templates/styles
 
-So weit wie möglich haben wir versucht, Template-Dateien und Assets in Styles/all/ Ordner zu setzen, so dass Sie diese überschreiben können, indem Sie eine Datei mit demselben Namen unter Ihrem eigenen Template-Theme erstellen, z.B. prosilver. Wenn Sie also ändern möchten, wie ein bestimmter Block angezeigt wird oder wenn Sie Ihr eigenes Layout mit Ihren eigenen Blockpositionen erstellen möchten, müssen Sie einfach eine Datei mit dem gleichen Namen und Pfad wie das Original in Ihrem eigenen Stil erstellen.
+As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
 
-Wenn Sie CSS/JS-Dateien anpassen müssen, werfen Sie einen Blick auf das [Thema](./developer-theming.md).
+If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
