@@ -1,6 +1,6 @@
 ---
-id: barre de navigation
-title: Barre de navigation
+id: site-navbar
+title: Navigation Bar
 ---
 
-Voir [Affichage des menus](./menus-display#navigation-bar)
+See [Displaying Menus](./menus-display#navigation-bar)
