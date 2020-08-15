@@ -1,6 +1,6 @@
 ---
-id: modificatori-blocco-sito
-title: Visualizzazione dei blocchi personalizzati
+id: site-block-modifiers
+title: Customizing Blocks Display
 ---
 
-Lavoro in corso...
+Work in progress...
