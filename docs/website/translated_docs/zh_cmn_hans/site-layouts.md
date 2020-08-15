@@ -1,20 +1,20 @@
 ---
-id: 站点布局
-title: 布局
+id: site-layouts
+title: Layouts
 ---
 
-“布局”确定可用方块位置及其显示方式。
+"Layouts" determine the available block positions and how they are displayed.
 
-## 屏蔽位置
+## Block Positions
 
-屏蔽位置是您网站上可以存在方块的预设区域。 可用的模块位置由您使用的模板样式决定。 对于prosilever, phpBB SiteMaker 带有以下方块位置： * 面板：顶部 * 侧边栏全宽：左/右，取决于下面的布局 * 子内容：类似于侧边栏大小的 * 顶部：横跨顶部水平块， 根据布局在侧边栏/子内容上面填充 * 顶部：高于主要内容 * 框：等宽度， 主内容下面的水平块 * 底部：低于主内容 * 底部：横跨底部的水平块， 根据布局 * 页脚填充侧边栏/子内容：页脚的水平块 您可以通过复制和修改相应的 phpBB 站点Maker 模板，在自己样式模板中添加更多块位置
+Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
 
-## 网站布局
+## Site Layout
 
-您可以在 ACP (Extensions > sitemaker > Settings): * **博客**: 子内容和侧边栏 推向右，top_hor/botom_hor flandk subcontent * **Holy Grail**：对面侧侧面宽度和子内容 top_hor/botom_hor fank subcontent * **Portal**: 左侧边栏，右侧的子内容 top_hor/botom_hor flank子内容 * **Portal Alt**: 左侧的子内容 右侧边栏 top_hor/botom_hor fank 侧边栏 * **自定义**：手动设置侧边栏宽度为px、%、em 或 rem。 每个侧面的默认值为200px
+You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
 
-## 自定义模板/样式
+## Custom templates/styles
 
-我们尽量将模板文件和资产置于样式/全部/文件夹中，以便你可以通过在你自己的模板主题下创建一个同名的文件来覆盖它们，例如 prosilver。 所以，如果你想要修改某个块的显示方式，或者如果你想用你自己的块位置创建你自己的布局，你只需要创建一个同你自己风格的原始名称和路径相同的文件。
+As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
 
-如果您需要自定义 CSS/JS 文件，请查看 [主题](./developer-theming.md)。
+If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
