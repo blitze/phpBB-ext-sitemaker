@@ -1,34 +1,34 @@
 ---
 id: filemanager
-title: Responsivní správce souborů
+title: Responsive Filemanager
 ---
 
-Od verze 3.1.0, phpBB SiteMaker podporuje [Responsive Filemanager](http://responsivefilemanager.com)
+As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
-* Správce souborů se používá jako pluging TinyMCE (WYSIWYG editor) při úpravě vlastních bloků
-* V současné době je konfigurován tak, aby vytvářel pro každého uživatele oddělené složky kromě uživatele s povolením_sm_filemanager (můžete vidět/spravovat složky ostatních uživatelů), které jim umožní přístup k zobrazení a správu všech složek pro nahrávání.
+* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
+* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
 
-## Instalace
+## Installation
 
-* Stáhni si [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Extract it, a upload souborů do vaší kořenové složky phpBB. Struktura souboru by měla být následující:
+* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
 
 ```text
 phpBB
-<unk> َ<unk> images/
-<unk> َ<unk> includes/
-<unk> <unk> ...
-<unk> <unk> ResponsiveFilemanager/
-    <unk> <unk> َ<unk> filemanager/
-        <unk> ★<unk> config/
-            <unk> <unk> .htaccess
-            <unk> config.php
+├── images/
+├── includes/
+├── ...
+└── ResponsiveFilemanager/
+    └── filemanager/
+        └── config/
+            ├── .htaccess
+            └── config.php
 ```
 
-## Aktivita
+## Activation
 
-* Přejděte do AKT > Rozšíření > SiteMaker > Nastavení
-* Povolit funkci Správce souborů
-* Uložit změny
-* Aktualizovat uživatelská oprávnění (Překročit kartu), aby se určilo, kdo může tuto vlastnost používat [Can use File Manager]
-* Update administrace oprávnění (Opustit kartu), která určuje, kdo může spravovat složky pro uživatele [Může vidět/spravovat složky ostatních uživatelů v File Manager]
+* Go to ACP > Extensions > SiteMaker > Settings
+* Enable File Manager feature
+* Save changes
+* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
+* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
