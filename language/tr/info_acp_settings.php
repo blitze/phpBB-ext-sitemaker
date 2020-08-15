@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SITEMAKER'		=> 'SiteMaker',
-	'ACP_SM_SETTINGS'	=> 'Ayarlar',
+	'ACP_SM_SETTINGS'	=> 'Settings',
 
 	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
 	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
@@ -46,9 +46,9 @@ $lang = array_merge($lang, [
 	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
 
 	'FILEMANAGER_SETTINGS'						=> 'File Manager Settings',
-	'FILEMANAGER_STATUS'						=> 'Durum',
+	'FILEMANAGER_STATUS'						=> 'Status',
 	'FILEMANAGER_NO_EXIST'						=> 'You will need to install the File Manager before you can enable it. Installation instructions are found <a href="%s" target="_blank"  rel="noopener noreferrer"><strong>here</strong></a>',
-	'FILEMANAGER_NOT_WRITABLE'					=> 'Dosya yöneticisi ayar kalsörü (root/ResponsiveFilemanager/filemanager/config/) yazılabilir değil. Lütfen tüm izinleri yazılabilir olarak değiştirin (777 veya - FTP aracılığıyla rwxrwxrwx olarak)',
+	'FILEMANAGER_NOT_WRITABLE'					=> 'File manager config folder (root/ResponsiveFilemanager/filemanager/config/) is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE'				=> 'Automatically resize uploaded images?',
 	'FILEMANAGER_IMAGE_AUTO_RESIZE_DIMENSIONS'	=> 'Resize to specified dimensions',
 	'FILEMANAGER_IMAGE_AUTO_RESIZING_MODE'		=> 'Auto resizing mode',
@@ -67,9 +67,9 @@ $lang = array_merge($lang, [
 	'FILEMANAGER_WATERMARK_POSITION_TL'			=> 'Top Left',
 	'FILEMANAGER_WATERMARK_POSITION_T'			=> 'Top',
 	'FILEMANAGER_WATERMARK_POSITION_TR'			=> 'Top Right',
-	'FILEMANAGER_WATERMARK_POSITION_L'			=> 'Sol',
+	'FILEMANAGER_WATERMARK_POSITION_L'			=> 'Left',
 	'FILEMANAGER_WATERMARK_POSITION_M'			=> 'Middle',
-	'FILEMANAGER_WATERMARK_POSITION_R'			=> 'Sağ',
+	'FILEMANAGER_WATERMARK_POSITION_R'			=> 'Right',
 	'FILEMANAGER_WATERMARK_POSITION_BL'			=> 'Bottom Left',
 	'FILEMANAGER_WATERMARK_POSITION_B'			=> 'Bottom',
 	'FILEMANAGER_WATERMARK_POSITION_BR'			=> 'Bottom Right',
