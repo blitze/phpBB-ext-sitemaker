@@ -1,10 +1,10 @@
 ---
-id: blocks-přehled
-title: Jaké jsou bloky?
+id: blocks-overview
+title: What are blocks?
 ---
 
-V srdci phpBB SiteMaker je koncept bloků. Blocks jsou malé části obsahu, které můžete umístit v různých předdefinovaných oblastech (blokové pozice) na vašich stránkách. Bloky budou mít obvykle nastavení, která můžete nastavit nebo změnit tak, aby vyhovovala obsahu, který chcete zobrazit. Většina bloků, ale ne všechny, bude database dotazy získat požadovaný obsah. A tak se nenechme být příliš blázniví :). Pro správu bloků budete muset přejít na "editační režim".
+At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
 
-## Upravit model
+## Edit Mode
 
-Chcete-li změnit režim, klepněte na ikonu pencil přímo na horní stránce. Toto zobrazí položku "Admin bar" s položkami "Blocks" a "Nastavení". To se označuje jako "editační režim".
+Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
