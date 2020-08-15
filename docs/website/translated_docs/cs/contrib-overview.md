@@ -1,11 +1,11 @@
 ---
-id: Náhled
-title: Zapojit se
+id: contrib-overview
+title: Get Involved
 ---
 
-phpBB SiteMaker je open source projekt a vítá vaše myšlenky a příspěvky. Takže se můžete svobodně zapojit. Do tohoto projektu můžete přispět:
+phpBB SiteMaker is an open source project and welcomes your ideas and contributions. So feel free to get involved. You can contribute to this project by:
 
-* [Poskytování podpory/zpětného ohlédnutí](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
-* [Oznámení o platbách](https://github.com/blitze/phpBB-ext-sitemaker/issues)
-* [Pomoc s překladem](./contrib-translators.md)
-* [Oprava chyb nebo přidání funkcí](./contrib-pull-requests.md)
+* [Providing Support/Feedback](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
+* [Reporting Bugs](https://github.com/blitze/phpBB-ext-sitemaker/issues)
+* [Helping with Translation](./contrib-translators.md)
+* [Fixing bugs or adding features](./contrib-pull-requests.md)
