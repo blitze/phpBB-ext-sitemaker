@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigationsleiste
+title: Navigation Bar
 ---
 
-Siehe [angezeigte Menüs](./menus-display#navigation-bar)
+See [Displaying Menus](./menus-display#navigation-bar)
