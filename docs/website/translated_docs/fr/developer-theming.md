@@ -1,55 +1,55 @@
 ---
-id: thème développeur
-title: Thème
+id: developer-theming
+title: Theming
 ---
 
-phpBB SiteMaker est livré avec des styles et des couleurs faits pour prosilver. Vous pouvez écraser les fichiers CSS, JS et HTML en créant le fichier correspondant dans le dossier de votre style.
+phpBB SiteMaker comes with styles and colors made for prosilver. You can overwrite CSS, JS, and HTML files by creating the corresponding file in your style's folder.
 
-# Création de fichiers JS/CSS pour votre style
+# Creating JS/CSS files for your style
 
-Note: * Pour les instructions ci-dessous, nous supposerons que vous avez un style appelé mon-style.
+Note: * For the purpose of the below instructions we will assume that you have a style called my-style.
 
-Cloner dans phpBB/ext/blitze/sitemaker :
+Clone into phpBB/ext/blitze/sitemaker:
 
     git clone https://github.com/blitze/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-De la ligne de commande, allez au répertoire sitemaker :
+From command line go to sitemaker directory:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Installer des vendeurs**
+**Install vendors**
 
-    installation du compositeur
+    composer install
     
 
-**Installer des paquets**
+**Install packages**
 
-Pour les commandes ci-dessous, vous pouvez utiliser npm ou [yarn](https://yarnpkg.com)
+For the below commands you can use npm or [yarn](https://yarnpkg.com)
 
     yarn install
     
 
-**Suivre les changements**
+**Watch Changes**
 
-    yarn start --theme mon-style
+    yarn start --theme my-style
     
 
-**Modifier**
+**Make Changes**
 
-* Faites vos modifications aux fichiers dans le dossier phpBB/ext/blitze/sitemaker/develop.
-* Regardez phpBB/ext/blitze/sitemaker/develop/_partials/_globals.scss for sass variables
+* Make your changes to files in the phpBB/ext/blitze/sitemaker/develop folder.
+* Look at phpBB/ext/blitze/sitemaker/develop/_partials/_globals.scss for sass variables
 
-**Construire des éléments**
+**Build Assets**
 
-    yarn build --theme mon-style
+    yarn build --theme my-style
     
 
-**Déployer**
+**Deploy**
 
-Vous pouvez maintenant copier les fichiers générés depuis phpBB/ext/blitze/sitemaker/styles/my-style et les télécharger sur votre serveur de production.
+You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
 
-> Cette extension utilise l'interface jQuery pour les onglets, les dialogues et les boutons. Le thème jQuery par défaut est 'smoothness.' Vous pouvez utiliser un autre thème jQuery UI qui correspond le mieux à votre thème. Vous pouvez spécifier le thème jQuery UI en utilisant le drapeau --jq_ui_theme. Par exemple :
+> This extension uses jQuery UI for tabs, dialogs and buttons. The default jQuery theme is 'smoothness.' You can use a different jQuery UI theme that best fits your theme. You can specify the jQuery UI theme using the flag --jq_ui_theme. For example:
 
     yarn build --theme my-style --jq_ui_theme ui-lightness
