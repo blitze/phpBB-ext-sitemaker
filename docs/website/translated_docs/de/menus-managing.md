@@ -1,22 +1,22 @@
 ---
-id: menüsverwaltung
-title: Menüs verwalten
+id: menus-managing
+title: Managing Menus
 ---
 
-Sie können Menüs in den AKP-Ländern erstellen, die Sie dann mit Hilfe des Menüs oder der Links-Blöcke anzeigen können oder als horizontale Navigationsleiste angezeigt werden.
+You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
-## Menüs verwalten
+## Managing Menus
 
-Um Menüs zu verwalten, gehen Sie zu AKP > Erweiterungen > Sitemaker > Menü
+To manage menus, go to ACP > Extensions > Sitemaker > Menu
 
-### Menüs erstellen
+### Creating Menus
 
-Um ein neues Menü (Gruppe) zu erstellen, klicken Sie auf die Schaltfläche `Menü hinzufügen`. Eine neue Menügruppe wird mit einem zufällig generierten Namen erstellt. Das neue Menü wird ebenfalls ausgewählt, damit Sie damit beginnen können, Menüpunkte hinzuzufügen.
+To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
 
-### Menüs bearbeiten
+### Editing Menus
 
-Wenn Sie einen aussagekräftigeren Menünamen wollen, * schweben über dem Menünamen und klicken Sie auf das Zahnrad-Symbol * geben Sie den neuen Menünamen ein und drücken Sie Enter, um es zu aktualisieren
+If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
 
-### Lösche Menüs
+### Deleting Menus
 
-Um ein Menü und seine Elemente zu löschen * Schweben Sie über den Menünamen und klicken Sie auf das **x** Symbol * Wenn der Menüpunkt keine untergeordneten Elemente hat, müssen Sie Ihre Wahl bestätigen, um den Eintrag * zu löschen, wenn der Menüpunkt untergeordnete Elemente enthält, müssen Sie angeben, ob Sie nur das Element löschen und dessen Unterordner nach oben verschieben möchten oder ob Sie den gesamten Zweig löschen möchten
+To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
