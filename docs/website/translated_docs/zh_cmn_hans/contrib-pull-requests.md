@@ -1,76 +1,76 @@
 ---
-id: contribution-pull 请求
-title: 提交拉取请求
-sidebar_label: 拉取请求
+id: contrib-pull-requests
+title: Submitting a Pull Request
+sidebar_label: Pull Requests
 ---
 
-`Pull 请求让您告诉其他人您推送到 GitHub 仓库中的分支。 一旦启动拉取请求，您可以与合作者讨论和审查可能的变化，并在您的更改合并为基础分支之前添加后续提交。` [阅读更多](https://help.github.com/articles/about-pull-requests/)
+`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
 
-## 禁止/克隆
+## Forking/Cloning
 
-* 如果您没有 github 账户，请创建
-* 转到 https://github.com/blitze/phpBB-ext-sitemaker.git 并点击“Fork”
+* Create a github account if you don't already have one
+* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
 
-克隆仓库的叉：
+Clone your fork of the repository:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-从命令行到 sitemaker 目录：
+From command line go to sitemaker directory:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**配置git：**
+**Configure git:**
 
-在您的系统上添加您的用户名到 Git：
+Add your Username to Git on your system:
 
     git config --global user.name "Your Name Here"
     
 
-在您的系统上添加您的电子邮件地址到 Git：
+Add your E-mail address to Git on your system:
 
     git config --add user.email username@phpbb.com
     
 
-添加上游远程 (你可以将'上游'更改为你喜欢的任何内容):
+Add the upstream remote (you can change ‘upstream’ to whatever you like):
 
-    git 远程添加上游 git://github.com/blitze/phpBB-ext-sitemaker.git
+    git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**安装供应商**
+**Install vendors**
 
-    编辑器安装
+    composer install
     
 
-**安装 NPM 软件包**
+**Install NPM packages**
 
-    npm 安装
+    npm install
     
 
-或者你可以使用 [yarn](https://yarnpkg.com)：
+Alternatively you may use [yarn](https://yarnpkg.com):
 
-    yarn 安装
+    yarn install
     
 
-## 拉取请求
+## Pull Requests
 
-    # 为您的功能创建一个新的分支 & 切换到它
+    # Create a new branch for your feature & switch to it
     git checkout -b feature/my-fancy-new-feature
     
-    # 为您正在处理的问题创建一个新分支* 切换到它(工单#来自github Tracker)
-    git 签出-b ticket/1234
+    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
+    git checkout -b ticket/1234
     
 
-更改
+Make your changes
 
-    # 阶段文件
-    git 添加 <files> 
+    # Stage the files
+    git add <files> 
     
-    # 提交分阶段文件 - 请使用正确的提交信息
-    git committee -m "my 提交消息"
+    # Commit staged files - please use a correct commit message
+    git commit -m "my commit message"
     
 
-将分支推送到 GitHub git 推送源功能/my-fancy-new 功能
+Push the branch back to GitHub git push origin feature/my-fancy-new-feature
 
-提交 [拉取请求](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
