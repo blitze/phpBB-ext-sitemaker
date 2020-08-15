@@ -1,8 +1,8 @@
 ---
-id: стартовая страница сайта
-title: Установка стартовой страницы
+id: site-startpage
+title: Setting a Start Page
 ---
 
-phpBB SiteMaker позволяет выбрать любой контроллер (страницы, доступные через app.php/...) в качестве стартовой страницы по умолчанию (страница, которая будет показана при посещении вашего сайта) вместо индекса доски.
+phpBB SiteMaker allows you to choose any front controller (pages accessed via app.php/...) as your default start page (the page that will be shown when someone visits your site) instead of the board index.
 
-Для этого: * Перейдите на страницу, которую вы хотите установить как стартовую страницу по умолчанию * Нажмите на `Настройки` в панели администратора. Если это подходящая страница, вы увидите `Установить как стартовую страницу` кнопку * Нажмите на `как стартовую страницу` кнопку
+To do this: * Go to the page that you want to set as default start page * Click on `Settings` in the admin bar. If it is an eligible page, you will see a `Set as start page` button * Click on the `Set as start page` button
