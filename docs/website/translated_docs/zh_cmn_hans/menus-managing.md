@@ -1,22 +1,22 @@
 ---
-id: 菜单管理
-title: 管理菜单
+id: menus-managing
+title: Managing Menus
 ---
 
-您可以在非加太区域创建菜单，然后使用菜单或链接模块显示，或者显示为横向导航栏。
+You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
 
-## 管理菜单
+## Managing Menus
 
-要管理菜单，请前往非加太 > 扩展 > 站点管理器 > 菜单
+To manage menus, go to ACP > Extensions > Sitemaker > Menu
 
-### 创建菜单
+### Creating Menus
 
-要创建一个新的菜单 (群组)，点击 `添加菜单` 按钮。 将创建一个新的菜单组，使用随机生成的名称。 也将选择新的菜单，以便你可以开始添加菜单项。
+To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
 
-### 编辑菜单
+### Editing Menus
 
-如果你想要更有意义的菜单名称， * 在菜单名称上悬停，然后点击焦图标 * 输入新的菜单名称，然后点击进入更新
+If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
 
-### 删除菜单
+### Deleting Menus
 
-删除菜单及其条目， * 悬停在菜单名称上，然后点击 **x** 图标 * 如果菜单项没有子项 如果菜单项含有子项，您需要确认您的选择来删除项目 * 您需要指明是否只要删除该项并将其子项上移，或者是否要删除整个分支
+To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
