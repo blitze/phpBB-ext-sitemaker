@@ -1,10 +1,10 @@
 ---
-id: vue d'ensemble des blocs
-title: Quels sont les blocs ?
+id: blocks-overview
+title: What are blocks?
 ---
 
-Au cœur de phpBB SiteMaker est le concept de blocs. Les blocs sont de petits morceaux de contenu que vous pouvez placer dans différentes zones prédéfinies (positions des blocs) sur votre site. Les blocs ont généralement des paramètres que vous pouvez définir/modifier pour affiner le contenu que vous souhaitez afficher. La plupart des blocs, mais pas tous, feront des requêtes de base de données pour obtenir le contenu désiré. Alors ne soyons pas trop fou :). Pour gérer les blocs, vous devrez passer en mode "édition".
+At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
 
-## Mode Edition
+## Edit Mode
 
-Basculez pour modifier le mode en cliquant sur l'icône crayon en haut à droite de votre site. Ceci affichera la barre d'administration avec les éléments de menu "Blocs" et "Paramètres". Il s'agit d'être en "mode édition".
+Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
