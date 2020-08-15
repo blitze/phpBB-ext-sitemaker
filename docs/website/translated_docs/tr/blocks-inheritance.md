@@ -11,7 +11,7 @@ In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) dire
 
 Here are some examples of parent/child routes:
 
-| Üst                | Child                          |
+| Parent             | Child                          |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
