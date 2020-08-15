@@ -1,114 +1,114 @@
 ---
-id: Vývojářské akce
-title: phpBB SiteMaker Události
+id: developer-events
+title: phpBB SiteMaker Events
 ---
 
-Umíte změnit chování phpBB SiteMaker pomocí phpBB event systém.
+You can modify the behavior of phpBB SiteMaker using phpBB's event system.
 
-## Události PHP
+## PHP Events
 
-# blitze.sitemaker.acp_add_bulk_menu_options_options_options_options.
+# blitze.sitemaker.acp_add_bulk_menu_options
 
-* Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php.
-* Vzhledem k tomu: 3.1.0
-* Cíl: Nastavení široké nabídky v menu acp
+* Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+* Since: 3.1.0
+* Purpose: Add bulk menu options in acp menu
 
 # blitze.sitemaker.acp_display_settings_form
 
-* Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php.
-* Vzhledem k tomu: 3.1.0
-* Účet: zobrazovací formulář (sitemaker)
+* Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+* Since: 3.1.0
+* Purpose: display acp (sitemaker) settings form
 
 # blitze.sitemaker.acp_save_settings
 
-* Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php.
-* Vzhledem k tomu: 3.1.0
-* Cíl: Uložit acp (sitemaker) nastavení
+* Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+* Since: 3.1.0
+* Purpose: Save acp (sitemaker) settings
 
 # blitze.sitemaker.admin_bar.set_assets
 
 * Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
-* Od: 3.0.1-RC1
-* Cíl: Přidat aktiva k dostupným blokům v režimu editace
+* Since: 3.0.1-RC1
+* Purpose: Add assets for available blocks in edit mode
 
 # blitze.sitemaker.modify_block_positions
 
-* Location: /phpBB/ext/blitze/sitemaker/services/blocks.php
-* Od: 3.0.1-RC1
-* Záměr: změna blokových postojů
+* Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+* Since: 3.0.1-RC1
+* Purpose: Modify block positions
 
 # blitze.sitemaker.modify_rendered_block
 
-* Location: /phpBB/ext/blitze/sitemaker/services/blocks.php
-* Od: 3.0.1-RC1
-* Záměr: Jak změnit tvarovaný blok
+* Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+* Since: 3.0.1-RC1
+* Purpose: Modify a rendered block
 
 ## Template Events
 
 # blitze_sitemaker_acp_settings
 
 * Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
-* Vzhledem k tomu: 3.1.0
-* Cíl: Přidat pole formuláře pro nastavení sitemaker
+* Since: 3.1.0
+* Purpose: Add form fields for sitemaker settings
 
 # blitze_sitemaker_admin_bar_append
 
 * Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-* Vzhledem k tomu: 3.1.0
-* Cíl: Přidat položky menu do admin baru
+* Since: 3.1.0
+* Purpose: Add menu items to admin bar
 
 # blitze_sitemaker_admin_bar_templates
 
 * Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-* Vzhledem k tomu: 3.1.0
-* Cíl: Přidat šablony, které mají být použity v JS pro blokové názory, atd.
+* Since: 3.1.0
+* Purpose: Add template files to be used in JS for block views, etc
 
-## Události JavaScript
+## Javascript Events
 
 # blitze_sitemaker_layout_saved
 
-* Místo: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
-* Od: 3.1.2
-* Úmysl: Pokud jsou změny rozložení zachráněny, akce umožňují jiným rozšířením něco udělat.
+* Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout changes are saved
 
-# blitze_sitemaker_render_block_before before
+# blitze_sitemaker_render_block_before
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-* Od: 3.1.2
-* Záměr: Příprava umožňující jiným rozšířením něco udělat před odebráním bloku nebo zabránit jeho znovuzavedení.
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
 
 # blitze_sitemaker_render_block_after
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-* Od: 3.1.2
-* Úmysl: Příprava povolit další rozšíření tak, aby něco dělal po bloku se provádí
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something after block is rendered
 
-# blitze_sitemaker_save_block_před tím.
+# blitze_sitemaker_save_block_before
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
-* Od: 3.1.2
-* Cíl: Událost umožňující jiným rozšířením měnit bloková data dříve, než je uložena.
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to modify block data before it is saved
 
 # blitze_sitemaker_show_all_block_positions
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-* Od: 3.1.2
-* Úmysl: Když se na všechny blokové pozice objeví všechny přípony, povolte jiným rozšířením něco dělat.
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when all block positions are shown
 
 # blitze_sitemaker_hide_empty_block_positions
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-* Od: 3.1.2
-* Záměr: Událost umožňující jiným rozšířením něco dělat, když jsou prázdná místa skryta.
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when empty positions are hidden
 
 # blitze_sitemaker_layout_cleared
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-* Od: 3.1.2
-* Cíl: Událost umožňující jiným rozšířením něco dělat, je-li rozložení odstraněno.
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout is cleared
 
 # blitze_sitemaker_layout_updated
 
 * Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-* Od: 3.1.2
-* Cíl: Událost umožňující jiným rozšířením něco dělat, je-li rozložení aktualizováno
+* Since: 3.1.2
+* Purpose: Event to allow other extensions to do something when layout is updated
