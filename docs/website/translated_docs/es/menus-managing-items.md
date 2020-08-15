@@ -1,30 +1,30 @@
 ---
-id: menús-elementos-de-gestión
-title: Gestionar elementos del menú
+id: menus-managing-items
+title: Managing Menu Items
 ---
 
-Su menú es inútil a menos que tenga elementos de menú. Puede añadir elementos de menú que apunten a archivos locales o externos.
+Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
 
-> La URL para sitios externos debe comenzar con http(s)://, ftp://, ///, etc.
+> The URL for external sites must begin with http(s)://, ftp://, //, etc.
 > 
-> Puede crear un divisor introduciendo '-' como título del artículo
+> You can create a divider by entering '-' as the item title
 
-## Agregando elementos del menú
+## Adding Menu items
 
-Puede añadir elementos de menú a una hora, o puede añadir varios elementos de menú a los que desee.
+You can add menu items one item at a time, or you can add multiple menu items at ones.
 
-### Agregando elementos de menú único
+### Adding single menu items
 
-Para añadir un único elemento de menú, * haga clic en el botón Agregar elemento de menú `` * Rellene la información requerida y pulse `Guardar`
+To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
 
-### Agregando múltiples elementos
+### Adding multiple items
 
-Para añadir varios elementos de menú a la vez, * Haga clic en el <unk> icono junto a `Añadir elemento de menú` * Puede agregar elementos manualmente colocando cada elemento en una nueva línea y usando la pestaña nido de caracteres o * Puede hacer clic en una de las opciones proporcionadas en la parte inferior del área de texto para rellenar automáticamente los elementos del menú
+To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
 
-## Reordenar los elementos del menú
+## Reorder the menu items
 
-Puede arrastrar y soltar los elementos del menú arriba/abajo para establecer su orden de visualización, o arrastrarlos hacia la izquierda/derecha para establecer la jerarquía deseada.
+You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
 
-## Reconstruyendo los elementos del menú
+## Rebuilding the menu items
 
-Si encuentras que los elementos del menú no se muestran correctamente, haz clic en el botón `Reconstruir árbol` para reconstruir los elementos del menú.
+If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
