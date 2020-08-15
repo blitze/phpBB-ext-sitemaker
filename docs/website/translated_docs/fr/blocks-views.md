@@ -1,6 +1,6 @@
 ---
-id: vues-blocs
-title: Vue de bloc
+id: blocks-views
+title: Block Views
 ---
 
-Travail en cours...
+Work in progress...
