@@ -1,34 +1,34 @@
 ---
-id: menedżer plików
-title: Responsywny menedżer plików
+id: filemanager
+title: Responsive Filemanager
 ---
 
-Od wersji 3.1.0, phpBB SiteMaker obsługuje [responsywny menedżer plików](http://responsivefilemanager.com)
+As of version 3.1.0, phpBB SiteMaker supports the [Responsive Filemanager](http://responsivefilemanager.com)
 
-* Menedżer plików jest używany jako wtyczka TinyMCE (edytor WYSIWYG) podczas edycji niestandardowych bloków
-* Jest on obecnie skonfigurowany do tworzenia oddzielnych folderów dla każdego użytkownika, z wyjątkiem użytkownika z uprawnieniami a_sm_filemanager (zobacz/zarządzaj folderami innych użytkowników), które umożliwiają dostęp do przeglądania/zarządzania wszystkimi folderami wysyłania.
+* The file manager is used as a TinyMCE pluging (WYSIWYG editor) when editing custom blocks
+* It is currently configured to creat separate folders for each user, except the user with a_sm_filemanager permission (Can see/manage other users' folders), which allows them access to view/manage all upload folders.
 
-## Instalacja
+## Installation
 
-* Pobierz [responsywny Menedżer plików](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
-* Rozpakuj i prześlij pliki do katalogu głównego phpBB. Struktura pliku powinna być następująca:
+* Download the [Responsive FileManager](http://responsivefilemanager.com/index.php#sthash.5UrnhjX2.dpbs)
+* Extract it, and upload the files to your phpBB root folder. The file structure should be as below:
 
 ```text
 phpBB
-<unk> →images/
-<unk> · obejmuje/
-<unk> <unk> →...
-<unk> ✓ ResponsiveFilemanager/
-    <unk> ✓ filemanager/
-        <unk> · config/
-            <unk> · .htaccess
-            <unk> · config.php
+├── images/
+├── includes/
+├── ...
+└── ResponsiveFilemanager/
+    └── filemanager/
+        └── config/
+            ├── .htaccess
+            └── config.php
 ```
 
-## Aktywacja
+## Activation
 
-* Przejdź do AKP > Rozszerzenia > SiteMaker > Ustawienia
-* Włącz funkcję Menedżera Plików
-* Zapisz zmiany
-* Zaktualizuj uprawnienia użytkownika (karta mikrofonu), aby określić, kto może korzystać z tej funkcji [Może używać Menedżera plików]
-* Zaktualizuj uprawnienia administratora (karta mikrofonu), aby określić, kto może zarządzać folderami użytkowników [Zobacz/zarządzać folderami innych użytkowników w Menedżerze plików]
+* Go to ACP > Extensions > SiteMaker > Settings
+* Enable File Manager feature
+* Save changes
+* Update user permissions (Misc tab) to determine who can use this feature [Can use File Manager]
+* Update admin permissions (Misc tab) to determine who can manager user folders [Can see/manage other users’ folders in File Manager]
