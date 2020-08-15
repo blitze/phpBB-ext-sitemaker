@@ -1,18 +1,18 @@
 ---
-id: zobrazování menu
+id: menus-display
 title: Displaying Menus
 ---
 
-Nyní, když vytvoříte menu, můžete je zobrazit několika způsoby:
+Now that you have create your menus, you can display them in several ways:
 
-## Linky bloku
+## Links Block
 
-Tento blok můžete použít k zobrazení plochého nebo nestydatého seznamu nabídek. Tento blok není určen pro navigaci, tj. nebude zobrazovat aktuální stránku nebo nic podobného. Je určen pro seznam položek včetně externích odkazů.
+You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
 
-## Muž blokovat
+## Menus Block
 
-Tento blok je určen pro navigaci na webu. Určuje aktuální umístění a není určen pro velký seznam.
+This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
 
-## Třída navigace
+## Navigation bar
 
-Podobně jako Menus blok, bude navigační lišta zobrazovat položky menu jako nabídku reagující shazování menu určená pro navigaci na místě. To je možné v AKT > Rozšíření > Mapa stránek > Nastavení > Vyberte nabídku
+Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
