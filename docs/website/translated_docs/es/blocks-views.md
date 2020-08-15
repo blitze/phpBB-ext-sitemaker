@@ -1,6 +1,6 @@
 ---
-id: vistas-de-bloques
-title: Bloquear vistas
+id: blocks-views
+title: Block Views
 ---
 
-Trabajo en curso...
+Work in progress...
