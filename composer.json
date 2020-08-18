@@ -3,27 +3,36 @@
 	"type": "phpbb-extension",
 	"description": "A portal/CMS for phpBB 3.2x.",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.2.1",
-	"time": "2020-01-16",
-	"keywords": ["phpbb", "extension", "portal", "cms"],
+	"version": "3.2.2",
+	"time": "2020-09-17",
+	"keywords": [
+		"phpbb",
+		"extension",
+		"portal",
+		"cms"
+	],
 	"license": "GPL-2.0-only",
-	"authors": [{
-		"name": "Daniel A.",
-		"email": "shizzah@hotmail.com",
-		"homepage": "https://github.com/blitze",
-		"role": "Lead Developer"
-	}],
-	"repositories": [{
-		"type": "package",
-		"package": {
-			"name": "trippo/responsivefilemanager",
-			"version": "9.14.0",
-			"dist": {
-				"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.14.0/responsive_filemanager.zip",
-				"type": "zip"
+	"authors": [
+		{
+			"name": "Daniel A.",
+			"email": "shizzah@hotmail.com",
+			"homepage": "https://github.com/blitze",
+			"role": "Lead Developer"
+		}
+	],
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "trippo/responsivefilemanager",
+				"version": "9.14.0",
+				"dist": {
+					"url": "https://github.com/trippo/ResponsiveFilemanager/releases/download/v9.14.0/responsive_filemanager.zip",
+					"type": "zip"
+				}
 			}
 		}
-	}],
+	],
 	"require": {
 		"php": ">=5.4",
 		"composer/installers": "^1.1",
