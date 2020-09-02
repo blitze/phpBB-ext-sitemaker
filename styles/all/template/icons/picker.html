@@ -1,29 +1,5 @@
-{%- set fa4_categories = {
-	'computers': 'computers',
-	'accessibility': 'accessibility',
-	'hands': 'hands',
-	'travel': 'travel',
-	'gender': 'gender',
-	'files': 'files',
-	'spinners': 'spinners',
-	'interfaces': 'interfaces',
-	'payments-shopping': 'payments-shopping',
-	'business': 'business',
-	'currency': 'currency',
-	'editors': 'editors',
-	'arrows': 'arrows',
-	'audio-video': 'audio-video',
-	'brand': 'brand',
-	'medical': 'medical'
-} -%}
-
 {%- set size_options = ['lg', '2x', '3x', '4x', '5x'] -%}
 {%- set rotation_options = ['rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical'] -%}
-
-{% if icons_tpl === 'fontawesome5' %}
-	{%- set size_options = ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'] -%}
-	{%- set rotation_options = rotation_options|merge(['flip-both']) -%}
-{% endif %}
 
 <div id="icon-picker" class="icon-picker-container panel" style="display: none">
 	<div id="icons-tab" class="icons-bottom-tabs">
@@ -38,13 +14,22 @@
 			</div>
 			<div class="icons-container">
 				<div id="icons-font-list" class="icons">
-					{% include '@blitze_sitemaker/icons/' ~ icons_tpl ~ '.html' %}
+				{% for category, icons in categories %}
+					<p id="{{ 'cat-' ~ category }}" class="filter-icon icon-cat">{{ lang('ICON_' ~ category|upper) }}</p>
+					<div class="icon-list">
+					{%- for icon in icons -%}
+						<div class="filter-icon" data-filter="{{ icon.filter|join('|') }}">
+							<a href="#{{ 'fa-' ~ icon.id }}"><i class="{{ 'fa fa-' ~ icon.id }}" aria-hidden="true"></i></a>
+						</div>
+					{%- endfor -%}
+					</div>
+				{% endfor %}
 				</div>
 			</div>
 
 			<select id="icons-font-cat-list" class="icon-categories">
-				{% for category in categories|default(fa4_categories)|keys %}
-				<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper|replace({'-': "_"})) }}</option>
+				{% for category in categories|keys %}
+				<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper) }}</option>
 				{% endfor %}
 			</select>
 

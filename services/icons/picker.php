@@ -53,7 +53,6 @@ class picker
 	 */
 	public function picker()
 	{
-		global $phpbb_root_path;
 		$this->translator->add_lang('icons', 'blitze/sitemaker');
 		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
 
@@ -63,19 +62,7 @@ class picker
 			))
 		));
 
-		$categories = '';
-		$icons_tpl = 'fontawesome4';
-
-		if (phpbb_version_compare($this->config['version'], '3.3.1', '>='))
-		{
-			$icons_tpl = 'fontawesome5';
-			$categories = json_decode(file_get_contents($this->categories_file), true);
-		}
-
-		$this->ptemplate->assign_vars(array(
-			'icons_tpl'		=> $icons_tpl,
-			'categories'	=> $categories,
-		));
+		$this->ptemplate->assign_var('categories', json_decode(file_get_contents($this->categories_file), true));
 
 		$this->ptemplate->set_filenames(array(
 			'icons'	=> 'icons/picker.html'
