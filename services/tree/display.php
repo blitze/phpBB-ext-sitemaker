@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -10,8 +11,8 @@
 namespace blitze\sitemaker\services\tree;
 
 /**
-* Display nested sets
-*/
+ * Display nested sets
+ */
 abstract class display
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -43,13 +44,13 @@ abstract class display
 	protected $data = array();
 
 	/**
-	* Construct
-	*
-	* @param \phpbb\db\driver\driver_interface		$db             Database connection
-	* @param string									$items_table	Table name
-	* @param string									$pk				Primary key
-	* @param string									$sql_where		Column restriction
-	*/
+	 * Construct
+	 *
+	 * @param \phpbb\db\driver\driver_interface			$db             Database connection
+	 * @param string									$items_table	Table name
+	 * @param string									$pk				Primary key
+	 * @param string									$sql_where		Column restriction
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, $items_table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
@@ -89,7 +90,7 @@ abstract class display
 	{
 		$sql = "SELECT *
 			FROM $this->items_table
-			WHERE $this->pk = " . (int) $node_id ;
+			WHERE $this->pk = " . (int) $node_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -160,9 +161,8 @@ class display extends \blitze\sitemaker\services\tree\display
 				continue;
 			}
 
-			$is_current_item = $this->is_current_item($row);
-			$is_parent = $this->is_parent_of_current_item($row);
-			$this_depth	= $this->parental_depth[$row[$this->column_parent_id]] + 1;
+			[$is_current_item, $is_parent] = $this->get_current_item($row);
+			$this_depth	= $this->get_parental_depth($row) + 1;
 			$leaf = $this->get_leaf_node($row, $is_current_item, $is_parent);
 
 			$this->parental_depth[$row[$this->pk]] = $this_depth;
@@ -188,12 +188,39 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	/**
 	 * @param array $row
+	 * @return int
+	 */
+	protected function get_parental_depth(array $row)
+	{
+		$parent_id = $row[$this->column_parent_id];
+		return isset($this->parental_depth[$parent_id]) ? $this->parental_depth[$parent_id] : -1;
+	}
+
+	/**
+	 * @param array $row
 	 * @param array $leaf
 	 * @return bool
 	 */
 	protected function should_skip_branch(array $row, array $leaf)
 	{
 		return (sizeof($leaf) && $row[$this->column_left_id] < $leaf[$this->column_right_id]);
+	}
+
+	/**
+	 * @param array $row
+	 * @return array
+	 */
+	protected function get_current_item(array $row)
+	{
+		$is_current_item = $is_parent = false;
+
+		if ($this->current_item)
+		{
+			$is_current_item = $this->is_current_item($row);
+			$is_parent = $this->is_parent_of_current_item($row);
+		}
+
+		return [$is_current_item, $is_parent];
 	}
 
 	/**
