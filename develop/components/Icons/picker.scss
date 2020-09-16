@@ -43,7 +43,7 @@
 
 		.search {
 			border-radius: 4px;
-			width: 150px;
+			border: 1px solid #ccc;
 		}
 	}
 
@@ -140,7 +140,9 @@
 				}
 			}
 
-			.fas, .far, .fab {
+			.fas,
+			.far,
+			.fab {
 				margin: 3px;
 			}
 		}

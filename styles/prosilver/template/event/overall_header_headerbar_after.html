@@ -16,12 +16,12 @@
 		{% endif %}
 		<li{% if tree.IS_CURRENT or tree.IS_PARENT %} class="forabg active"{% endif %}>
 			{% if tree.FULL_URL %}
-			<a class="nav-item" href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}>
+			<a class="sm-nav-item" href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}>
 				<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>
 				{{ tree.ITEM_TITLE }}{% if tree.NUM_KIDS %}<span class="drop-icon">{{ tree.THIS_DEPTH ? '&#9654;' : '&#9660;' }}</span>{% endif %}
 			</a>
 			{% elseif tree.ITEM_TITLE !== '-' %}
-				<h5 class="nav-item nav-header">
+				<h5 class="sm-nav-item sm-nav-header">
 					{{ tree.ITEM_TITLE }}{% if tree.NUM_KIDS %}<span class="drop-icon">{{ tree.THIS_DEPTH ? '&#9654;' : '&#9660;' }}</span>{% endif %}
 				</h5>
 			{% else %}

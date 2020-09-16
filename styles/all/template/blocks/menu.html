@@ -13,9 +13,11 @@
 		{% if tree.ITEM_URL %}
 		<li{% if tree.IS_CURRENT %} class="active"{% endif %}>
 			<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}</a>
+		{% elseif tree.ITEM_TITLE !== '-' %}
+		<li class="sm-nav-header">
+			<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}
 		{% else %}
-		<li class="nav-header">
-			{% if tree.ITEM_TITLE !== '-' %}<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}{% else %}<hr />{% endif %}
+		<li class="sm-nav-divider"><hr />
 		{% endif %}
 		{% if tree.NUM_KIDS == 0 %}
 		</li>

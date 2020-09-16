@@ -1,7 +1,7 @@
 {%- set size_options = ['lg', '2x', '3x', '4x', '5x'] -%}
 {%- set rotation_options = ['rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical'] -%}
 
-<div id="icon-picker" class="icon-picker-container panel" style="display: none">
+<div id="icon-picker" class="icon-picker-container" style="display: none">
 	<div id="icons-tab" class="icons-bottom-tabs">
 		<ul>
 			<li><a href="#tab-icons-font">{{ lang('ICON_FONT') }}</a></li>
@@ -27,11 +27,13 @@
 				</div>
 			</div>
 
-			<select id="icons-font-cat-list" class="icon-categories">
-				{% for category in categories|keys %}
-				<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper) }}</option>
-				{% endfor %}
-			</select>
+			<div class="sm-reset">
+				<select id="icons-font-cat-list" class="icon-categories">
+					{% for category in categories|keys %}
+					<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper) }}</option>
+					{% endfor %}
+				</select>
+			</div>
 
 			<div class="preview-container">
 				<div id="icon-picker-preview" class="preview">
@@ -44,7 +46,7 @@
 			</div>
 			<div class="clear"></div>
 		</div>
-		<div id="tab-icons-font-settings" class="tab-content">
+		<div id="tab-icons-font-settings" class="sm-reset tab-content">
 			<form id="icon-customization">
 				<fieldset class="small">
 					<dl>

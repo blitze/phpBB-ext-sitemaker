@@ -81,7 +81,7 @@
 			border-radius: 0;
 			clear: none;
 		}
-		.nav-item {
+		.sm-nav-item {
 			@extend %extend_1;
 			padding: 1em 1.5em;
 			transition: all 0.125s ease-in-out;
@@ -101,10 +101,10 @@
 		li {
 			border: 0;
 		}
-		.nav-item:hover {
+		.sm-nav-item:hover {
 			color: $navbar_sub_menu_background_color;
 		}
-		.nav-header {
+		.sm-nav-header {
 			background-color: #555;
 			color: #ff9;
 

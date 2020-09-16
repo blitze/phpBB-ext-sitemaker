@@ -9,17 +9,41 @@
 	</dt>
 	<dd id="classes-scroller" class="scroll-list small">
         <h3 id="classes-lists">{{ lang('LISTS') }}</h3>
-		<a class="transform" href="#" title="{{ lang('LIST_FLAT') }}">sm-list-flat</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_ARROW') }}">sm-list-arrow</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_CIRCLE') }}">sm-list-circle</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_DISC') }}">sm-list-disc</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_SQUARE') }}">sm-list-square</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED') }}">sm-list-numbered</a><br /><br />
+		<a class="transform" href="#" title="{{ lang('LIST_ARROW') }}">sm-list-type-arrow</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_ARROW') }}">sm-list-type-arrow2</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_ARROW') }}">sm-list-type-arrow3</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_ARROW') }}">sm-list-type-arrow4</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_CIRCLE') }}">sm-list-type-circle</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_DISC') }}">sm-list-type-disc</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_SQUARE') }}">sm-list-type-square</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED') }}">sm-list-type-numbered</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED_ZERO') }}">sm-list-type-numbered-zero</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED_ALPHABET') }}">sm-list-type-numbered-alphabet</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED_ROMAN') }}">sm-list-type-numbered-roman</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_NUMBERED_NESTED') }}">sm-list-type-numbered-nested</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_TRIANGLE') }}">sm-list-type-triangle</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_HYPHEN') }}">sm-list-type-hyphen</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_PLUS') }}">sm-list-type-plus</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_SPADE') }}">sm-list-type-spade</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_CLUB') }}">sm-list-type-club</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_DIAMOND') }}">sm-list-type-diamond</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_HEART') }}">sm-list-type-heart</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_STAR') }}">sm-list-type-star</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_CHECK') }}">sm-list-type-check</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_CHECK') }}">sm-list-type-check2</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_SNOWFLAKE') }}">sm-list-type-snowflake</a>,
+		<a class="transform" href="#" title="{{ lang('LIST_MUSIC') }}">sm-list-type-music</a>
+		<br /><br />
 
+		<a class="transform" href="#" title="{{ lang('SIZE') }}">sm-list-type-2x</a>,
+		<a class="transform" href="#" title="{{ lang('SIZE') }}">sm-list-type-3x</a>
+		<br /><br />
+
+		<a class="transform" href="#" title="{{ lang('LIST_REVERSE') }}">sm-list-reverse</a>,
 		<a class="transform" href="#" title="{{ lang('LIST_INLINE') }}">sm-list-inline</a>,
-		<a class="transform" href="#" title="{{ lang('LIST_INLINE_SEP') }}">sm-list-inline-sep</a><br /><br />
+		<a class="transform" href="#" title="{{ lang('LIST_INLINE_SEP') }}">sm-list-inline-sep</a>
+		<br /><br />
 
-		<a class="transform" href="#" title="{{ lang('LIST_HOVER') }}">sm-list-hover</a>,
 		<a class="transform" href="#" title="{{ lang('LIST_STRIPED') }}">sm-list-striped</a>,
 		<a class="transform" href="#" title="{{ lang('LIST_STACKED') }}">sm-list-stacked</a><br /><br />
 
@@ -35,10 +59,8 @@
 		<a class="transform" href="#" title="{{ lang('LIST_Y_DIVIDER_DOTTED') }}">sm-y-divider-dotted</a>,
 		<a class="transform" href="#" title="{{ lang('LIST_Y_DIVIDER_LINE') }}">sm-y-divider-line</a>,
 
-        <h3 id="classes-background">{{ lang('BACKGROUND') }}</h3>
-		<a class="transform" href="#">bg1</a>,
-		<a class="transform" href="#">bg2</a>,
-		<a class="transform" href="#">bg3</a>
+		<h3 id="classes-background">{{ lang('BACKGROUND') }}</h3>
+		{% INCLUDE 'preset_background_options.html' %}
 
         <h3 id="classes-images">{{ lang('IMAGES') }}</h3>
 		<a class="transform" href="#" title="{{ lang('IMAGE_SMALL') }}">small-img</a>,

@@ -42,7 +42,7 @@ function copyBlocks(copyFrom, positions) {
 		ext: config.ext,
 	});
 
-	$.getJSON(actions.copy_route, ajaxData, resp => {
+	$.getJSON(actions.copy_route, ajaxData, (resp) => {
 		if (!resp.list || resp.list.length === 0) {
 			return;
 		}
@@ -86,7 +86,7 @@ export default function LayoutDuplicator(positions, hideDropdown) {
 		},
 	});
 
-	Button('.layout-copy', {}, e => {
+	Button('.layout-copy', {}, (e) => {
 		e.preventDefault();
 
 		data = getPOJO($copyForm.serializeArray());

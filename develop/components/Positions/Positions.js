@@ -36,11 +36,7 @@ export default class Positions {
 	get ids(): Array {
 		const positions = [];
 		this.$blockPositions.each(function iterator() {
-			positions.push(
-				$(this)
-					.attr('id')
-					.substring(4),
-			);
+			positions.push($(this).attr('id').substring(4));
 		});
 		return positions;
 	}
@@ -57,9 +53,7 @@ export default class Positions {
 		const blocks = {};
 		this.$blockPositions.find('.block').each(function iterator() {
 			const blockId = $(this).attr('id');
-			const positionId = $(this)
-				.parent()
-				.attr('id');
+			const positionId = $(this).parent().attr('id');
 
 			if (positionId && blockId) {
 				if (positionId !== prevPosId) {
@@ -104,7 +98,7 @@ export default class Positions {
 			ext: config.ext,
 		};
 
-		$.getJSON(actions.add_block, data, block => {
+		$.getJSON(actions.add_block, data, (block) => {
 			if (block.id) {
 				BlockRenderer.render($block, { block });
 
@@ -173,10 +167,7 @@ export default class Positions {
 		const $emptyPositions = this.emptyPositions
 			.addClass('show-position')
 			.removeClass('empty-position');
-		$emptyPositions
-			.filter('#pos-footer')
-			.parent()
-			.show();
+		$emptyPositions.filter('#pos-footer').parent().show();
 		this.adjustMiddleColumns(false);
 
 		/**
@@ -199,13 +190,9 @@ export default class Positions {
 	 * @memberof Positions
 	 */
 	hideEmptyPositions(): void {
-		const $emptyPositions = this.emptyPositions
-			.addClass('empty-position')
-			.removeClass('show-position');
-		$emptyPositions
-			.filter('#pos-footer')
-			.parent()
-			.hide();
+		const $emptyPositions = this.emptyPositions.addClass('empty-position');
+		$emptyPositions.filter('#pos-footer').parent().hide();
+		this.$blockPositions.removeClass('show-position');
 		this.adjustMiddleColumns(true);
 
 		/**

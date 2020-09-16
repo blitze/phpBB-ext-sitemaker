@@ -5,7 +5,7 @@
 
 <form id="edit_form" method="post" style="width: 400px; height: 100%">
 	<input type="hidden" name="id" value="{{ S_BLOCK_ID }}" />
-	<div id="block-settings" style="border: 0; padding: 0">
+	<div id="block-settings" class="sm-reset" style="border: 0; padding: 0">
 
 		<ul{% if !loops.options|length %} class="hide"{% endif %}>
 			<li><a href="#tab-design">{{ lang('BLOCK_DESIGN') }}</a></li>
@@ -26,7 +26,7 @@
 				<dl>
 					<dt>
 						<label for="block_type">{{ lang('BLOCK_DISPLAY_TYPE') }}</label>
-						<button class="sm-toggler" data-target="#route-examples"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></button>
+						<a href="#" class="sm-toggler" data-target="#route-examples"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></a>
 					</dt>
 					<dd>
 						<label><input type="radio" name="type" value="0"{% if not S_TYPE %} checked="checked"{% endif %} id="block_type" /> {{ lang('BLOCK_SHOW_ALWAYS') }}</label>
@@ -34,7 +34,7 @@
 						<label><input type="radio" name="type" value="2"{% if S_TYPE == 2 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_ONLY') }}</label>
 					</dd>
 				</dl>
-				<div id="route-examples" class="panel bg1 small" style="display: none">
+				<div id="route-examples" class="sm-panel small" style="display: none">
 					<table>
 						<thead>
 							<tr>
@@ -57,7 +57,7 @@
 				<dl>
 					<dt><label for="permission">{{ lang('BLOCK_PERMISSION') }}</label></dt>
 					<dd>
-						<select id="permission" name="permission[]" multiple="multiple" size="3">
+						<select id="permission" class="sm-scrollbars" name="permission[]" multiple="multiple" size="3">
 							{{ S_GROUP_OPS }}
 						</select>
 					</dd>
@@ -66,17 +66,19 @@
 					<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label><br /><span>{{ lang('BLOCK_CLASS_EXPLAIN') }}</span></span></dt>
 					<dd>
 						<div class="block-class-editor">
-							<textarea id="class_editor" class="block-preview" name="class">{{ S_BLOCK_CLASS }}</textarea>
+							<textarea id="class_editor" class="sm-scrollbars block-preview" name="class">{{ S_BLOCK_CLASS }}</textarea>
 						</div>
-						<div class="align-right">
-							<button class="sm-class-editor-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
-							<button class="sm-class-editor-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-redo" aria-hidden="true"></i></button>
-							<button class="sm-class-editor-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
-							<button class="sm-toggler" data-target="#css-class-options"><i class="fa fa-sort" aria-hidden="true"></i>{{ lang('PREDEFINED_CLASSES') }}</button>
+						<div class="sm-polar">
+							<div>
+								<button class="sm-class-editor-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+								<button class="sm-class-editor-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+								<button class="sm-class-editor-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
+							</div>
+							<a class="sm-toggler" data-target="#css-class-options" href="#"><i class="fa fa-sort" aria-hidden="true"></i>{{ lang('PREDEFINED_CLASSES') }}</a>
 						</div>
 					</dd>
 				</dl>
-				<div id="css-class-options" class="modifiers rules small">
+				<div id="css-class-options" class="modifiers sm-panel small">
 					{% INCLUDE 'block_css_presets.html' %}
 				</div>
 				<dl>

@@ -1,9 +1,9 @@
 {% if loops.member|length %}
 	<div class="align-center small clearfix"><strong>{{ RANGE }}</strong></div>
-	<div class="grid-2-noBottom header">
-		<div class="col">{{ USER_TITLE }}</div>
-		<div class="col align-right">{{ INFO_TITLE }}</div>
-	</div>
+	<p class="sm-polar small">
+		<strong>{{ USER_TITLE }}</strong>
+		<strong>{{ INFO_TITLE }}</strong>
+	</p>
 	<ul class="sm-list">
 	{% if S_LIST == 'bots' %}
 		{% for member in loops.member %}
@@ -12,8 +12,10 @@
 	{% else %}
 		{% for member in loops.member %}
 		<li>
-			<span class="info">{{ member.USER_INFO }}</span>
-			<span class="tiny-avatar">{{ member.USER_AVATAR }} {{ member.USERNAME }}</span>
+			<div class="sm-polar">
+				<span class="tiny-avatar">{{ member.USER_AVATAR }} {{ member.USERNAME }}</span>
+				<span class="info">{{ member.USER_INFO }}</span>
+			</div>
 		</li>
 		{% endfor %}
 	{% endif %}

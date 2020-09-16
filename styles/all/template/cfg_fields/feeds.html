@@ -22,16 +22,16 @@
 				<div class="panel post sm-block-container">
 					<div class="inner">
 						<div class="sm-block-content">
-							<div id="sm-feeds-preview"></div>
+							<div id="sm-feeds-preview" class="sm-scrollbars"></div>
 						</div>
 					</div>
 				</div>
-				<textarea id="sm-feeds-preview-source" wrap="off" readonly></textarea>
+				<textarea id="sm-feeds-preview-source" class="sm-scrollbars" wrap="off" readonly></textarea>
 			</div>
 			<button class="sm-toggler pull-right" data-target="#sm-feeds-preview-source" title="{{ lang('FEED_PREVIEW_SOURCE') }}"><i class="fa fa-code" aria-hidden="true"></i></button>
 		</div>
 		<div id="sm-feeds-data-viewer">
-			<textarea id="sm-feeds-data" rows="6" wrap="off" readonly></textarea>
+			<textarea id="sm-feeds-data" class="sm-scrollbars" rows="6" wrap="off" readonly></textarea>
 		</div>
 		<div id="sm-feeds-explain" class="sm-list-numbered">
 			{{ lang('FEED_ITEM_TEMPLATE_EXPLAIN') }}

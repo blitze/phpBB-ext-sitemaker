@@ -123,7 +123,7 @@ export default function EditBlock($block, codemirror) {
 
 	function addBottomPane() {
 		$(this).dialog('widget').find('.ui-dialog-buttonpane').prepend(
-			`<label class="dialog-check-button">
+			`<label class="sm-reset dialog-check-button">
 					<input id="update-similar" type="checkbox" /> ${lang.updateSimilar}
 				</label>`,
 		);

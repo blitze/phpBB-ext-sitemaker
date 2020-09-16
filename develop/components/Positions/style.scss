@@ -1,15 +1,10 @@
 .block-controls {
 	display: none;
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	top: 10px;
+	right: 5px;
 	width: auto;
 	z-index: 1000;
-
-	.forabg + & {
-		top: 7px;
-		right: 10px;
-	}
 }
 
 .block-receiver {
@@ -17,6 +12,13 @@
 	overflow: visible;
 
 	.block-controls {
+		border-width: 1px;
+		opacity: 0.8;
+
+		&:hover {
+			opacity: 1;
+		}
+
 		.item-action {
 			float: right;
 		}
@@ -30,34 +32,34 @@
 				display: block;
 
 				a {
-					&:hover {
-						border: 1px solid #ccc;
-					}
+					margin-left: 4px;
 				}
 			}
 		}
 	}
 
 	.block-title {
-		height: 20px;
 		width: auto;
-		max-width: 90%;
 		cursor: pointer;
-		overflow: visible;
 	}
 
 	.block-icon {
-		display: inline-block;
-		min-width: 15px;
-		min-height: 10px;
+		align-self: center;
+		min-width: 0.5rem;
+		min-height: 0.5rem;
 		padding: 1px;
 		margin-left: 0.1rem;
+		margin-right: 0.2rem;
 		text-align: center;
 		cursor: pointer;
 		outline: 1px solid #ddd;
 
 		&:hover {
 			outline: 1px solid #968787;
+		}
+
+		.fa {
+			margin: 0;
 		}
 	}
 
