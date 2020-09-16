@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package phpBB Sitemaker [English]
@@ -8,8 +9,8 @@
  */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -37,17 +38,31 @@ if (empty($lang) || !is_array($lang))
 //
 //
 $lang = array_merge($lang, array(
-	'LIST_FLAT'				=> 'Flat list',
 	'LIST_ARROW'			=> 'Arrow list marker',
 	'LIST_CIRCLE'			=> 'Circle list marker',
 	'LIST_DISC'				=> 'Bullet list marker',
 	'LIST_SQUARE'			=> 'Square list marker',
 	'LIST_NUMBERED'			=> 'Numbered list',
+	'LIST_NUMBERED_ALPHABET' => 'Numbered with alphabet',
+	'LIST_NUMBERED_NESTED'	=> 'Numbered with subsections',
+	'LIST_NUMBERED_ROMAN'	=> 'Numbered with Roman numerals',
+	'LIST_NUMBERED_ZERO'	=> 'Numbered with leading zero',
 	'LIST_INLINE'			=> 'Inline list',
 	'LIST_INLINE_SEP'		=> 'Comma-separated list',
-	'LIST_HOVER'			=> 'Highlight on hover',
+	'LIST_REVERSE'			=> 'Reverse order',
 	'LIST_STRIPED'			=> 'Striped list',
 	'LIST_STACKED'			=> 'Stacked list',
+	'LIST_TRIANGLE'			=> 'Triangle',
+	'LIST_HYPHEN'			=> 'Hyphen',
+	'LIST_PLUS'				=> 'Plus',
+	'LIST_SPADE'			=> 'Spade',
+	'LIST_CLUB'				=> 'Club',
+	'LIST_DIAMOND'			=> 'Diamond',
+	'LIST_HEART'			=> 'Heart',
+	'LIST_STAR'				=> 'Star',
+	'LIST_CHECK'			=> 'Check',
+	'LIST_SNOWFLAKE'		=> 'Snowflake',
+	'LIST_MUSIC'			=> 'Music',
 	'LIST_AUTOWIDTH'		=> 'Auto width',
 	'LIST_FIT_CONTENT'		=> 'Fit content',
 	'LIST_2COLS'			=> '2 column list',
