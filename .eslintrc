@@ -16,7 +16,7 @@
 		"jquery": true,
 		"es6": true
 	},
-	"plugins": ["dollar-sign", "smells"],
+	"plugins": ["dollar-sign", "smells", "prettier"],
 	"rules": {
 		"indent": [2, "tab"],
 		"no-tabs": 0,
