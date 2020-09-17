@@ -1,7 +1,7 @@
 /vendor/
 /node_modules/
 /build/
-/styles/all/theme/assets/manifest.json
+/styles/all/theme/
 
 # Doc Website
 docs/website/translated_docs

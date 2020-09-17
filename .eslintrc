@@ -16,10 +16,7 @@
 		"jquery": true,
 		"es6": true
 	},
-	"plugins": [
-		"dollar-sign",
-		"smells"
-	],
+	"plugins": ["dollar-sign", "smells"],
 	"rules": {
 		"indent": [2, "tab"],
 		"no-tabs": 0,
@@ -31,5 +28,5 @@
 		"smells/no-setinterval": 1,
 		"smells/no-this-assign": 1
 	},
-	"ignorePatterns": [ "styles/*", "vendor/*" ]
+	"ignorePatterns": ["styles/*", "vendor/*"]
 }
