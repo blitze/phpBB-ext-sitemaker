@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -48,7 +49,7 @@ class edit_block_test extends base_action
 						'TITLE'			=> 'OTHER_SETTING',
 						'S_EXPLAIN'		=> true,
 						'TITLE_EXPLAIN'	=> 'OTHER_SETTING_EXPLAIN',
-						'CONTENT'		=> '<input id="other_setting" type="number" max="10" name="config[other_setting]" value="0" />',
+						'CONTENT'		=> '<input id="other_setting" type="number" min="0" max="10" name="config[other_setting]" value="0" />',
 					),
 				),
 			),

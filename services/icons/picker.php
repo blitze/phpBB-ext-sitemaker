@@ -15,9 +15,6 @@ namespace blitze\sitemaker\services\icons;
  */
 class picker
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\language\language */
 	protected $translator;
 
@@ -33,15 +30,13 @@ class picker
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config					$config					Config object
 	 * @param \phpbb\language\language     			$translator     		Language object
 	 * @param \blitze\sitemaker\services\util		$util					Sitemaker utility object
 	 * @param \blitze\sitemaker\services\template	$ptemplate				Sitemaker Template object
 	 * @param string								$categories_file		Categories file (json)
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $categories_file)
+	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $categories_file)
 	{
-		$this->config          = $config;
 		$this->translator      = $translator;
 		$this->util            = $util;
 		$this->ptemplate       = $ptemplate;

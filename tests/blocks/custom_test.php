@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -44,10 +45,11 @@ class custom_test extends blocks_base
 			->getMock();
 
 		$assets = array();
-		$this->assets =& $assets;
+		$this->assets = &$assets;
 		$util->expects($this->any())
 			->method('add_assets')
-			->will($this->returnCallback(function($data) use (&$assets) {
+			->will($this->returnCallback(function ($data) use (&$assets)
+			{
 				$assets = array_merge($assets, $data);
 			}));
 
@@ -121,7 +123,7 @@ class custom_test extends blocks_base
 				),
 				false,
 				array(),
-				'<p>My custom content with <span style="font-weight:bold">bbcode</span> and <a href="#">html</a></p>',
+				'<p>My custom content with <strong class="text-strong">bbcode</strong> and <a href="#">html</a></p>',
 			),
 			array(
 				array(
@@ -133,7 +135,7 @@ class custom_test extends blocks_base
 				),
 				true,
 				array(),
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;" data-active="0"><p>My custom content with <span style="font-weight:bold">bbcode</span> and <a href="#">html</a></p></div>',
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;" data-active="0"><p>My custom content with <strong class="text-strong">bbcode</strong> and <a href="#">html</a></p></div>',
 			),
 			array(
 				array(
@@ -215,7 +217,7 @@ class custom_test extends blocks_base
 				),
 				array(
 					'id' => 2,
-					'content' => '<p>my new <span style="font-weight:bold">content</span></p>',
+					'content' => '<p>my new <strong class="text-strong">content</strong></p>',
 				),
 			),
 		);

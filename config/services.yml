@@ -185,7 +185,6 @@ services:
     blitze.sitemaker.icons.picker:
         class: blitze\sitemaker\services\icons\picker
         arguments:
-            - '@config'
             - '@language'
             - '@blitze.sitemaker.util'
             - '@blitze.sitemaker.template'

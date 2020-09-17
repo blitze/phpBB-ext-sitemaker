@@ -1,14 +1,21 @@
 {
 	"logistics": [
 		{
-			"name": "box",
-			"terms": "archive|container|package|storage|box",
-			"prefixes": ["fas"]
+			"id": "box",
+			"name": "Box",
+			"filter": ["archive", "container", "package", "storage", "box"]
 		},
 		{
-			"name": "boxes",
-			"terms": "archives|inventory|storage|warehouse|boxes",
-			"prefixes": ["fas", "fab"]
+			"id": "boxes",
+			"name": "Boxes",
+			"filter": ["archives", "inventory", "storage", "warehouse", "boxes"]
+		}
+	],
+	"example": [
+		{
+			"id": "sample-code",
+			"name": "Sample Code",
+			"filter": ["sample", "code"]
 		}
 	]
 }
