@@ -1,5 +1,4 @@
 services:
-
     blitze.sitemaker.blocks.admin.controller:
         class: blitze\sitemaker\controller\blocks_admin
         arguments:
@@ -32,7 +31,6 @@ services:
     blitze.sitemaker.upload.controller:
         class: blitze\sitemaker\controller\upload
         arguments:
-            - '@auth'
             - '@files.factory'
             - '@language'
-            - '@blitze.sitemaker.filemanager.setup'
+            - '@blitze.sitemaker.filemanager'

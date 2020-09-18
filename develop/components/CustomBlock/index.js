@@ -8,7 +8,7 @@ export default function CustomBlock() {
 
 	function customBlockAction(data) {
 		if (data.id) {
-			$.post(actions.handle_custom_action, data).done(resp => {
+			$.post(actions.handle_custom_action, data).done((resp) => {
 				if (resp.id) {
 					const id = `block-editor-${resp.id}`;
 					const rawHTML = fixPaths(resp.content);
@@ -30,9 +30,9 @@ export default function CustomBlock() {
 	}
 
 	function initTinyMCE() {
-		const { scriptPath, webRootPath } = config;
+		const { webRootPath } = config;
 
-		let options = {
+		const options = {
 			selector: 'div.editable-block',
 			menubar: false,
 			inline: true,
@@ -60,7 +60,7 @@ export default function CustomBlock() {
 			end_container_on_empty_block: true,
 			relative_urls: true,
 			document_base_url: `${config.boardUrl}/`,
-			setup: editor => {
+			setup: (editor) => {
 				let $blockContainer;
 				let blockIsInactive = true;
 				let blockRawHTML = '';
@@ -134,20 +134,19 @@ export default function CustomBlock() {
 			options.language_url = `https://olli-suutari.github.io/tinyMCE-4-translations/${tinymceLang}.js`;
 		}
 
-		if (config.filemanager) {
-			options.plugins.push('responsivefilemanager');
+		/**
+		 * Event to allow other extensions to modify tinymce options
+		 *
+		 * @event blitze_sitemaker_tinymce_options
+		 * @type {Object}
+		 * @property {Object} options - simple object representing tinymce options
+		 * @since 3.3.0
+		 */
+		$(document).trigger({
+			type: 'blitze_sitemaker_tinymce_options',
+			options,
+		});
 
-			const rfmPath = `${scriptPath}ResponsiveFilemanager/filemanager/`;
-			const filemanagerOptions = {
-				filemanager_access_key: config.RFAccessKey,
-				filemanager_title: lang.fileManager,
-				external_filemanager_path: rfmPath,
-				external_plugins: {
-					filemanager: `${rfmPath}plugin.min.js`,
-				},
-			};
-			options = { ...options, ...filemanagerOptions };
-		}
 		tinymce.init(options);
 	}
 

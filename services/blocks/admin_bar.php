@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -34,9 +35,6 @@ class admin_bar
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \blitze\sitemaker\services\filemanager\setup */
-	protected $filemanager;
-
 	/** @var \blitze\sitemaker\services\icons\picker */
 	protected $icons;
 
@@ -44,7 +42,7 @@ class admin_bar
 	protected $util;
 
 	/** @var array */
-	protected $lang_mapping;
+	protected $tinymce_lang_mapping;
 
 	/**
 	 * Constructor
@@ -56,12 +54,11 @@ class admin_bar
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\language\language						$translator				Language object
 	 * @param \phpbb\user									$user					User object
-	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager			Filemanager object
 	 * @param \blitze\sitemaker\services\icons\picker		$icons					Sitemaker icon picker object
 	 * @param \blitze\sitemaker\services\util				$util					Sitemaker util object
 	 * @param array											$lang_mapping			Lang mapping array for tinymce
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\filemanager\setup $filemanager, \blitze\sitemaker\services\icons\picker $icons, \blitze\sitemaker\services\util $util, $lang_mapping)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $controller_helper, ContainerInterface $phpbb_container, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\icons\picker $icons, \blitze\sitemaker\services\util $util, $lang_mapping)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
@@ -70,10 +67,9 @@ class admin_bar
 		$this->template = $template;
 		$this->translator = $translator;
 		$this->user = $user;
-		$this->filemanager = $filemanager;
 		$this->icons = $icons;
 		$this->util = $util;
-		$this->lang_mapping = $lang_mapping;
+		$this->tinymce_lang_mapping = $lang_mapping;
 	}
 
 	/**
@@ -125,7 +121,7 @@ class admin_bar
 			$u_default_route = reapply_sid($u_default_route);
 		}
 
-		$this->template->assign_vars(array_merge(array(
+		$this->template->assign_vars(array(
 			'S_IS_DEFAULT'		=> $is_default_route,
 
 			'BLOCK_ACTIONS'		=> $this->get_block_actions(),
@@ -140,7 +136,7 @@ class admin_bar
 			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_image_upload'),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
-		), $this->get_filemanager_settings()));
+		));
 	}
 
 	/**
@@ -150,13 +146,14 @@ class admin_bar
 	{
 		$user_lang = $this->user->data['user_lang'];
 
-		if (isset($this->lang_mapping[$user_lang]))
+		if (isset($this->tinymce_lang_mapping[$user_lang]))
 		{
-			return $this->lang_mapping[$user_lang];
+			return $this->tinymce_lang_mapping[$user_lang];
 		}
 		else
 		{
-			return preg_replace_callback('/_([a-z0-9]+)/i', function($parts) {
+			return preg_replace_callback('/_([a-z0-9]+)/i', function ($parts)
+			{
 				return strtoupper($parts[0]);
 			}, $user_lang);
 		}
@@ -201,8 +198,8 @@ class admin_bar
 		{
 			$this->template->assign_block_vars('block', array(
 				'NAME'		=> $name,
-				'SERVICE'	=> $service)
-			);
+				'SERVICE'	=> $service
+			));
 		}
 	}
 
@@ -339,23 +336,5 @@ class admin_bar
 	protected function startpage_is_set()
 	{
 		return ($this->config['sitemaker_startpage_controller']) ? true : false;
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function get_filemanager_settings()
-	{
-		$enabled = $this->filemanager->is_enabled();
-
-		if ($enabled)
-		{
-			$this->filemanager->ensure_config_is_ready();
-		}
-
-		return array(
-			'FILEMANAGER'		=> $enabled,
-			'FILEMANAGER_AKEY'	=> $this->filemanager->get_access_key(),
-		);
 	}
 }

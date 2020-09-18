@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -16,24 +17,17 @@ class upload_test extends \phpbb_test_case
 	/**
 	 * Create the blocks admin controller
 	 *
-	 * @param array $auth_map
+	 * @param bool $writable
+	 * @param int $user_type
 	 * @param string $filename
 	 * @param string $upload_dir
 	 * @return \blitze\sitemaker\controller\upload
 	 */
-	protected function get_controller(array $auth_map, $filename, $upload_dir)
+	protected function get_controller($writable, $user_type, $filename, $upload_dir)
 	{
-		global $auth, $phpbb_root_path, $phpEx;
+		global $phpbb_root_path, $phpEx;
 
-		$call_count = $upload_dir ? 1 : 0;
-
-		$auth = $this->getMockBuilder('\phpbb\auth\auth')
-			->disableOriginalConstructor()
-			->getMock();
-		$auth->expects($this->any())
-			->method('acl_get')
-			->with($this->stringContains('_'), $this->anything())
-			->will($this->returnValueMap($auth_map));
+		$call_count = (int) $writable;
 
 		$config = new \phpbb\config\config(array());
 
@@ -50,13 +44,15 @@ class upload_test extends \phpbb_test_case
 			->getMock();
 		$filespec->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($prop) use (&$filename) {
+			->willReturnCallback(function ($prop) use (&$filename)
+			{
 				return $prop === 'filename' ? '/path/' . $filename : $filename;
 			});
 		$filespec->expects($this->exactly($call_count))
 			->method('clean_filename')
 			->with($clean_filename_mode, $clean_filename_prefix)
-			->willReturnCallback(function($clean_filename_mode, $clean_filename_prefix) use (&$filename) {
+			->willReturnCallback(function ($clean_filename_mode, $clean_filename_prefix) use (&$filename)
+			{
 				$filename = $clean_filename_prefix . ($clean_filename_mode == 'unique' ? 'unique.jpg' : $filename);
 			});
 		$filespec->expects($this->exactly($call_count))
@@ -64,7 +60,15 @@ class upload_test extends \phpbb_test_case
 			->with($upload_dir, true);
 		$filespec->error = pathinfo($filename, PATHINFO_EXTENSION) !== 'jpg' ? array('ERROR_MESSAGE') : array();
 
-		$filesystem = new \phpbb\filesystem\filesystem();
+		$filesystem = $this->getMockBuilder('\phpbb\filesystem\filesystem')
+			->getMock();
+
+		if (!$writable)
+		{
+			$filesystem->expects($this->any())
+				->method('mkdir')
+				->will($this->throwException(new \Exception('FILESYSTEM_CANNOT_CREATE_DIRECTORY')));
+		}
 
 		$upload = $this->getMockBuilder('\phpbb\files\upload')
 			->disableOriginalConstructor()
@@ -72,7 +76,8 @@ class upload_test extends \phpbb_test_case
 		$upload->expects($this->exactly($call_count))
 			->method('handle_upload')
 			->with('files.types.form', 'file')
-			->willReturnCallback(function() use ($filespec) {
+			->willReturnCallback(function () use ($filespec)
+			{
 				return $filespec;
 			});
 		$upload->expects($this->exactly($call_count))
@@ -92,10 +97,11 @@ class upload_test extends \phpbb_test_case
 
 		$user = new \phpbb\user($language, '\phpbb\datetime');
 		$user->data['username'] = 'demo';
+		$user->data['user_type'] = $user_type;
 
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, '', $phpbb_root_path, $phpEx);
+		$filemanager = new \blitze\sitemaker\services\filemanager($filesystem, $user, $phpbb_root_path);
 
-		$controller = new upload($auth, $files_factory, $language, $filemanager);
+		$controller = new upload($files_factory, $language, $filemanager);
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;
@@ -108,54 +114,25 @@ class upload_test extends \phpbb_test_case
 	{
 		return array(
 			array(
-				array(
-					array('u_sm_filemanager', 0, false),
-					array('a_sm_filemanager', 0, false),
-				),
-				'',
-				'',
-				'{"location":"","message":"You are not authorised to access this area."}',
-				401,
-			),
-			array(
-				array(
-					array('u_sm_filemanager', 0, true),
-					array('a_sm_filemanager', 0, false),
-				),
+				true,
+				USER_NORMAL,
 				'test.jpg',
 				'images/sitemaker_uploads/source/users/demo',
 				'{"location":"users\/demo\/test.jpg","message":""}',
-				200,
 			),
 			array(
-				array(
-					array('u_sm_filemanager', 0, true),
-					array('a_sm_filemanager', 0, true),
-				),
+				true,
+				USER_FOUNDER,
 				'blobid01.jpg',
 				'images/sitemaker_uploads/source',
 				'{"location":"sm_unique.jpg","message":""}',
-				200,
 			),
 			array(
-				array(
-					array('u_sm_filemanager', 0, true),
-					array('a_sm_filemanager', 0, true),
-				),
-				'imagetools56.jpg',
+				false,
+				USER_NORMAL,
+				'blobid01.jpg',
 				'images/sitemaker_uploads/source',
-				'{"location":"sm_unique.jpg","message":""}',
-				200,
-			),
-			array(
-				array(
-					array('u_sm_filemanager', 0, true),
-					array('a_sm_filemanager', 0, true),
-				),
-				'test.png',
-				'images/sitemaker_uploads/source',
-				'{"location":"","message":"ERROR_MESSAGE"}',
-				200,
+				'{"location":"","message":"FILESYSTEM_CANNOT_CREATE_DIRECTORY"}',
 			),
 		);
 	}
@@ -163,19 +140,18 @@ class upload_test extends \phpbb_test_case
 	/**
 	 * @dataProvider sample_data
 	 *
-	 * @param array $auth_map
+	 * @param bool $writable
+	 * @param int $user_type
 	 * @param string $filename
 	 * @param string $upload_dir
 	 * @param string $expected_json
-	 * @param int $response_code
 	 */
-	public function test_controller(array $auth, $filename, $upload_dir, $expected_json, $response_code)
+	public function test_controller($writable, $user_type, $filename, $upload_dir, $expected_json)
 	{
-		$controller = $this->get_controller($auth, $filename, $upload_dir);
+		$controller = $this->get_controller($writable, $user_type, $filename, $upload_dir);
 		$response = $controller->handle();
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertEquals($response_code, $response->getStatusCode());
-		$this->assertSame($expected_json,$response->getContent());
+		$this->assertSame($expected_json, $response->getContent());
 	}
 }

@@ -127,10 +127,6 @@
 		style: '{{ UA_STYLE_ID }}',
 		tinymceLang: '{{ TINYMCE_LANG|e('js') }}',
 		directionality: '{{ S_CONTENT_DIRECTION|e('js') }}',
-{% if FILEMANAGER %}
-		filemanager: true,
-		RFAccessKey: '{{ FILEMANAGER_AKEY|e('js') }}',
-{% endif %}
 		uploadUrl: '{{ UA_UPLOAD_URL }}',
 		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
 	};

@@ -7,7 +7,6 @@
 		"prettier": "prettier --write \"develop/**/*.+(js|json|css|scss)\"",
 		"validate": "npm run lint && npm run prettier -- --list-different",
 		"fontawesome": "node develop/components/Icons/categories.js",
-		"filemanager": "cpr vendor/trippo/responsivefilemanager/responsive_filemanager/ ../../../ResponsiveFilemanager/ -o",
 		"start": "encore dev --watch",
 		"dev": "encore dev",
 		"build": "encore production",

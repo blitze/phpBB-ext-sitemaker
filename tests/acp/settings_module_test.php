@@ -48,27 +48,6 @@ class settings_module_test extends \phpbb_database_test_case
 		rmdir($phpbb_root_path . 'ext/foo');
 	}
 
-	protected function setUp(): void
-	{
-		global $phpbb_root_path, $phpEx;
-
-		parent::setUp();
-
-		copy(
-			dirname(__FILE__) . '/fixtures/filemanager/test_config.' . $phpEx,
-			dirname(__FILE__) . '/fixtures/filemanager/config.' . $phpEx
-		);
-	}
-
-	protected function tearDown(): void
-	{
-		global $phpbb_root_path, $phpEx;
-
-		parent::tearDown();
-
-		unlink(dirname(__FILE__) . '/fixtures/filemanager/config.' . $phpEx);
-	}
-
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -95,12 +74,10 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @param array $variable_map
 	 * @param array $layout_prefs
 	 * @param array $orphaned_blocks
-	 * @param bool $filemanager_is_installed
-	 * @param bool $filemanager_is_writable
 	 * @param string $submit_var
 	 * @return \blitze\sitemaker\acp\settings_module
 	 */
-	public function get_module(array $variable_map, array $layout_prefs = array(), array $orphaned_blocks = array(), $filemanager_is_installed = true, $filemanager_is_writable = true, $submit_var = '')
+	public function get_module(array $variable_map, array $layout_prefs = array(), array $orphaned_blocks = array(), $submit_var = '')
 	{
 		global $phpbb_container, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
@@ -136,7 +113,8 @@ class settings_module_test extends \phpbb_database_test_case
 			->will($this->returnValueMap($variable_map));
 		$request->expects($this->any())
 			->method('is_set_post')
-			->willReturnCallback(function ($var) use ($submit_var) {
+			->willReturnCallback(function ($var) use ($submit_var)
+			{
 				return $submit_var === $var;
 			});
 
@@ -145,7 +123,8 @@ class settings_module_test extends \phpbb_database_test_case
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -159,22 +138,26 @@ class settings_module_test extends \phpbb_database_test_case
 			->getMock();
 		$template->expects($this->any())
 			->method('assign_var')
-			->will($this->returnCallback(function ($key, $value) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $value) use (&$tpl_data)
+			{
 				$tpl_data[$key] = $value;
 			}));
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function ($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function ($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
+			{
 				$tpl_data[$key][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function () use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
 		$this->template = &$template;
@@ -223,29 +206,10 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$filesystem = $this->getMockBuilder('\phpbb\filesystem\filesystem')
-			->setMethods(['is_writable'])
-			->getMock();
-		$filesystem->expects($this->any())
-			->method('is_writable')
-			->willReturn($filemanager_is_writable);
-
-		$this->config_path = dirname(__FILE__) . '/fixtures/filemanager/';
-
-		$filemanager = $this->getMockBuilder('\blitze\sitemaker\services\filemanager\settings')
-			->setConstructorArgs([$filesystem, $this->config_path, $phpEx])
-			->setMethods(['is_installed'])
-			->getMock();
-		$filemanager->expects($this->any())
-			->method('is_installed')
-			->willReturn($filemanager_is_installed);
-		$filemanager->set_config_template($this->config_path . 'default.config');
-
 		$phpbb_container->set('config_text', $this->config_text);
 		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
 		$phpbb_container->set('language', $translator);
 		$phpbb_container->set('blitze.sitemaker.icons.picker', $this->icon_picker);
-		$phpbb_container->set('blitze.sitemaker.filemanager.settings', $filemanager);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.blocks.cleaner', $this->blocks_cleaner);
 
@@ -275,8 +239,6 @@ class settings_module_test extends \phpbb_database_test_case
 					),
 				),
 				array(),
-				false,
-				false,
 				array(
 					'styles' => array(
 						array(
@@ -300,46 +262,6 @@ class settings_module_test extends \phpbb_database_test_case
 						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
 						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 					),
-					'filemanager' => 'FILEMANAGER_NO_EXIST',
-					'sm_user_lang' => 'en',
-					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
-				),
-			),
-
-			array(
-				array(
-					1 => array(
-						'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
-						'view' => 'boxed',
-					),
-				),
-				array(),
-				true,
-				false,
-				array(
-					'styles' => array(
-						array(
-							'id' => '1',
-							'name' => 'prosilver',
-							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
-							'view' => 'boxed',
-						),
-						array(
-							'id' => '2',
-							'name' => 'prosilver2',
-							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
-							'view' => '',
-						),
-					),
-					'layouts' => array(
-						'blog' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
-						'my_layout' => 'phpBB/ext/foo/bar/styles/prosilver/template/layouts/my_layout/',
-						'portal' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
-						'portal_alt' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal_alt/',
-						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
-						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
-					),
-					'filemanager' => 'FILEMANAGER_NOT_WRITABLE',
 					'sm_user_lang' => 'en',
 					'menu_options' => '<option value="1">Menu 1</option><option value="2" selected="selected">Menu 2</option><option value="3">Menu 3</option>',
 				),
@@ -356,8 +278,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'styles' => [2, 5],
 					'routes' => ['https://example.com/phpBB/no_exist.php'],
 				),
-				true,
-				true,
 				array(
 					'styles' => array(
 						array(
@@ -381,12 +301,6 @@ class settings_module_test extends \phpbb_database_test_case
 						'holygrail' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/holygrail/',
 						'custom' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
 					),
-					'filemanager' => array(
-						'image_watermark'			=> '',
-						'image_watermark_position'	=> 'br',
-						'image_max_width'			=> 0,
-						'image_resizing'			=> false,
-					),
 					'orphaned_blocks' => array(
 						'styles' => [2, 5],
 						'routes' => ['https://example.com/phpBB/no_exist.php'],
@@ -404,13 +318,11 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @dataProvider module_test_data
 	 * @param array $layout_prefs
 	 * @param array $orphaned_blocks
-	 * @param bool $filemanager_is_installed
-	 * @param bool $filemanager_is_writable
 	 * @param array $expected
 	 */
-	public function test_module(array $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable, array $expected)
+	public function test_module(array $layout_prefs, $orphaned_blocks, array $expected)
 	{
-		$module = $this->get_module(array(), $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable);
+		$module = $this->get_module(array(), $layout_prefs, $orphaned_blocks);
 
 		$this->icon_picker->expects($this->once())
 			->method('picker');
@@ -438,8 +350,6 @@ class settings_module_test extends \phpbb_database_test_case
 				array(
 					array('cleanup', array(0 => ''), false, request_interface::REQUEST, array('styles', 'blocks'))
 				),
-				true,
-				true,
 				array(
 					'forum_icon'			=> 'fa fa-comments',
 					'navbar_menu'			=> 2,
@@ -447,13 +357,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'hide_login'			=> false,
 					'hide_online'			=> false,
 					'hide_birthday'			=> false,
-					'filemanager'			=> false,
-					'filemanager_config'	=> array(
-						'image_watermark'			=> './image.jpg',
-						'image_watermark_position'	=> 'br',
-						'image_max_width'			=> 0,
-						'image_resizing'			=> false,
-					),
 					'layout_prefs'			=> array(
 						1 => array(
 							'layout'	=> 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
@@ -476,12 +379,6 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_filemanager'	=> 1,
 						'sm_forum_icon'		=> 'fa fa-gear',
 					)),
-					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
-						'image_watermark_coordinates' => '40x50',
-						'image_max_width' => 800,
-						'image_resizing' => 'true',
-						'image_watermark' => './test.png',
-					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
 						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
@@ -489,8 +386,6 @@ class settings_module_test extends \phpbb_database_test_case
 						),
 					)),
 				),
-				false,
-				false,
 				array(
 					'forum_icon'			=> 'fa fa-gear',
 					'navbar_menu'			=> 3,
@@ -498,13 +393,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'hide_login'			=> 0,
 					'hide_online'			=> 0,
 					'hide_birthday'			=> 0,
-					'filemanager'			=> false,
-					'filemanager_config'	=> array(
-						'image_watermark'			=> './image.jpg',
-						'image_watermark_position'	=> 'br',
-						'image_max_width'			=> 0,
-						'image_resizing'			=> false,
-					),
 					'layout_prefs'			=> array(
 						1 => array(
 							'layout'	=> 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
@@ -517,7 +405,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'blocks' => ['my.invalid.block'],
 					),
 				),
-				'FILEMANAGER_NO_EXIST',
+				'SETTINGS_SAVED',
 			),
 			array(
 				'submit',
@@ -528,14 +416,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_hide_online'	=> 1,
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
-						'sm_filemanager'	=> 1,
 						'sm_forum_icon'		=> 'fa fa-car',
-					)),
-					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
-						'image_watermark_coordinates' => '40x50',
-						'image_max_width' => 800,
-						'image_resizing' => 'true',
-						'image_watermark' => './test.png',
 					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
 						1 => array(
@@ -544,8 +425,6 @@ class settings_module_test extends \phpbb_database_test_case
 						),
 					)),
 				),
-				true,
-				false,
 				array(
 					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
@@ -553,13 +432,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'hide_login'			=> 1,
 					'hide_online'			=> 1,
 					'hide_birthday'			=> 1,
-					'filemanager'			=> false,
-					'filemanager_config'	=> array(
-						'image_watermark'			=> './image.jpg',
-						'image_watermark_position'	=> 'br',
-						'image_max_width'			=> 0,
-						'image_resizing'			=> false,
-					),
 					'layout_prefs'			=> array(
 						1 => array(
 							'layout'	=> 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/portal/',
@@ -572,7 +444,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'blocks' => ['my.invalid.block'],
 					),
 				),
-				'FILEMANAGER_NOT_WRITABLE',
+				'SETTINGS_SAVED',
 			),
 			array(
 				'submit',
@@ -583,10 +455,8 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_hide_online'	=> 1,
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
-						'sm_filemanager'	=> 0,
 						'sm_forum_icon'		=> 'fa fa-car',
 					)),
-					array('filemanager', array('' => ''), false, request_interface::REQUEST, array()),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
 						1 => array(
 							'layout' => 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
@@ -594,8 +464,6 @@ class settings_module_test extends \phpbb_database_test_case
 						),
 					)),
 				),
-				false,
-				false,
 				array(
 					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
@@ -603,13 +471,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'hide_login'			=> 1,
 					'hide_online'			=> 1,
 					'hide_birthday'			=> 1,
-					'filemanager'			=> 0,
-					'filemanager_config'	=> array(
-						'image_watermark'			=> './image.jpg',
-						'image_watermark_position'	=> 'br',
-						'image_max_width'			=> 0,
-						'image_resizing'			=> false,
-					),
 					'layout_prefs'			=> array(
 						1 => array(
 							'layout'	=> 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/custom/',
@@ -633,14 +494,7 @@ class settings_module_test extends \phpbb_database_test_case
 						'sm_hide_online'	=> 1,
 						'sm_show_forum_nav'	=> 1,
 						'sm_navbar_menu'	=> 3,
-						'sm_filemanager'	=> 1,
 						'sm_forum_icon'		=> 'fa fa-car',
-					)),
-					array('filemanager', array('' => ''), false, request_interface::REQUEST, array(
-						'image_watermark_coordinates' => '40x50',
-						'image_max_width' => 800,
-						'image_resizing' => 'true',
-						'image_watermark' => './test.png',
 					)),
 					array('layouts', array(0 => array('' => '')), false, request_interface::REQUEST, array(
 						1 => array(
@@ -653,8 +507,6 @@ class settings_module_test extends \phpbb_database_test_case
 						),
 					)),
 				),
-				true,
-				true,
 				array(
 					'forum_icon'			=> 'fa fa-car',
 					'navbar_menu'			=> 3,
@@ -662,13 +514,6 @@ class settings_module_test extends \phpbb_database_test_case
 					'hide_login'			=> 1,
 					'hide_online'			=> 1,
 					'hide_birthday'			=> 1,
-					'filemanager'			=> 1,
-					'filemanager_config'	=> array(
-						'image_watermark'			=> './test.png',
-						'image_watermark_position'	=> '40x50',
-						'image_max_width'			=> 800,
-						'image_resizing'			=> true,
-					),
 					'layout_prefs'			=> array(
 						1 => array(
 							'layout'	=> 'phpBB/ext/blitze/sitemaker/styles/all/template/layouts/blog/',
@@ -696,12 +541,10 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @dataProvider save_settings_test_data
 	 * @param string $submit_var
 	 * @param array $variable_map
-	 * @param bool $filemanager_is_installed
-	 * @param bool $filemanager_is_writable
 	 * @param array $expected
 	 * @param string $message
 	 */
-	public function test_save_settings($submit_var, array $variable_map, $filemanager_is_installed, $filemanager_is_writable, array $expected, $message)
+	public function test_save_settings($submit_var, array $variable_map, array $expected, $message)
 	{
 		$layout_prefs = array(
 			1 => array(
@@ -716,11 +559,14 @@ class settings_module_test extends \phpbb_database_test_case
 			'blocks' => ['my.invalid.block'],
 		);
 
-		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $filemanager_is_installed, $filemanager_is_writable, $submit_var);
+		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $submit_var);
 
-		try {
+		try
+		{
 			$module->main();
-		} catch (\Exception $e) {
+		}
+		catch (\Exception $e)
+		{
 			preg_match('/\w+/i', $e->getMessage(), $matches);
 			$this->assertEquals(!empty($matches[0]) ? $matches[0] : '', $message);
 		}
@@ -732,8 +578,6 @@ class settings_module_test extends \phpbb_database_test_case
 			'hide_login'			=> $this->config['sm_hide_login'],
 			'hide_online'			=> $this->config['sm_hide_online'],
 			'hide_birthday'			=> $this->config['sm_hide_birthday'],
-			'filemanager'			=> $this->config['sm_filemanager'],
-			'filemanager_config'	=> include($this->config_path . 'config.' . $this->php_ext),
 			'layout_prefs'			=> json_decode($this->config_text->get('sm_layout_prefs'), true),
 			'orphaned_blocks'		=> json_decode($this->config['sm_orphaned_blocks'], true),
 		);

@@ -49,10 +49,9 @@ services:
             - '@template'
             - '@language'
             - '@user'
-            - '@blitze.sitemaker.filemanager.setup'
             - '@blitze.sitemaker.icons.picker'
             - '@blitze.sitemaker.util'
-            - '%filemanager.lang_mapping%'
+            - '%tinymce.lang_mapping%'
 
     blitze.sitemaker.blocks.cfg_handler:
         class: blitze\sitemaker\services\blocks\config\cfg_handler
@@ -129,23 +128,12 @@ services:
         arguments:
             - '@user'
 
-    blitze.sitemaker.filemanager.settings:
-        class: blitze\sitemaker\services\filemanager\settings
+    blitze.sitemaker.filemanager:
+        class: blitze\sitemaker\services\filemanager
         arguments:
-            - '@filesystem'
-            - '%filemanager.config_path%'
-            - '%core.php_ext%'
-
-    blitze.sitemaker.filemanager.setup:
-        class: blitze\sitemaker\services\filemanager\setup
-        arguments:
-            - '@auth'
-            - '@config'
             - '@filesystem'
             - '@user'
-            - '%filemanager.config_path%'
             - '%core.root_path%'
-            - '%core.php_ext%'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -39,15 +40,6 @@ class admin_bar_test extends \phpbb_database_test_case
 	public function getDataSet()
 	{
 		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/blocks.xml');
-	}
-
-	static public function tearDownAfterClass()
-	{
-		global $phpbb_root_path;
-
-		parent::tearDownAfterClass();
-
-		unlink(dirname(__FILE__) . '/../fixtures/filemanager/config.php');
 	}
 
 	/**
@@ -98,7 +90,8 @@ class admin_bar_test extends \phpbb_database_test_case
 			->getMock();
 		$controller_helper->expects($this->any())
 			->method('route')
-			->willReturnCallback(function($route, $params) {
+			->willReturnCallback(function ($route, $params)
+			{
 				return $route . '-' . implode('/', $params);
 			});
 
@@ -157,7 +150,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/fixtures/ext/foo/bar/',
 				),
 			),
-			$phpbb_container);
+			$phpbb_container
+		);
 
 		$symfony_request = new Request();
 		$symfony_request->attributes->set('_controller', $controller);
@@ -183,23 +177,22 @@ class admin_bar_test extends \phpbb_database_test_case
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->tpl_data =& $tpl_data;
+		$this->tpl_data = &$tpl_data;
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = $data;
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
+			{
 				$tpl_data[$key][] = $data;
 			}));
 
-		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path, $phpEx);
-
-		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $lang_mapping);
+		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $icons, $this->util, $lang_mapping);
 	}
 
 	/**
@@ -335,8 +328,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => false,
-					'FILEMANAGER' => false,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			),
 			array(
@@ -375,8 +366,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
-					'FILEMANAGER' => true,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			)
 		);

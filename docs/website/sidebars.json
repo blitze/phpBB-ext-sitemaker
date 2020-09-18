@@ -4,10 +4,7 @@
 			{
 				"type": "subcategory",
 				"label": "Getting Started",
-				"ids": [
-					"introduction",
-					"installation"
-				]
+				"ids": ["introduction", "installation"]
 			},
 			{
 				"type": "subcategory",
@@ -16,8 +13,7 @@
 					"blocks-overview",
 					"blocks-views",
 					"blocks-managing",
-					"blocks-custom",
-					"filemanager"
+					"blocks-custom"
 				]
 			},
 			{
