@@ -10,7 +10,7 @@
 	{% endfor %}
 	{% endif %}
 	<li>
-		<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}</a>
+		<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}</a>
 	{% if tree.NUM_KIDS == 0 %}
 	</li>
 	{% endif %}

@@ -275,7 +275,7 @@ class menu_test extends blocks_base
 					'</ul>' .
 					'</li>' .
 					'<li>' .
-					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
 					'</li>' .
 					'</ul>' .
 					'</li>' .
@@ -332,7 +332,7 @@ class menu_test extends blocks_base
 					'</ul>' .
 					'</li>' .
 					'<li>' .
-					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
 					'</li>' .
 					'</ul>' .
 					'</nav>',
@@ -389,7 +389,7 @@ class menu_test extends blocks_base
 					'</ul>' .
 					'</li>' .
 					'<li>' .
-					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
+					'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
 					'</li>' .
 					'</ul>' .
 					'</li>' .
@@ -445,7 +445,7 @@ class menu_test extends blocks_base
 				'<nav>' .
 					'<ul class="sm-list fa-ul">' .
 					'<li>' .
-					'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+					'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
 					'<ul class="sm-list fa-ul">' .
 					'<li>' .
 					'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
