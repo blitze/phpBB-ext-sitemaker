@@ -21,7 +21,7 @@ class remove_filemanager_permissions extends \phpbb\db\migration\container_aware
 	public static function depends_on()
 	{
 		return array(
-			'\blitze\sitemaker\migrations\v31x\m10_filemanager',
+			'\blitze\sitemaker\migrations\v31x\m310_filemanager',
 		);
 	}
 
