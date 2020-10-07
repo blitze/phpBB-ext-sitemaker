@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -19,7 +20,8 @@ class item extends \SimplePie_Item
 	 */
 	public function __get($name)
 	{
-		return $this->{'get_' . $name}();
+		$method = 'get_' . $name;
+		return (isset($this, $method)) ? $this->{$method}() : '';
 	}
 
 	/**
@@ -31,5 +33,25 @@ class item extends \SimplePie_Item
 	public function __isset($name)
 	{
 		return method_exists($this, 'get_' . $name) ? true : false;
+	}
+
+	/**
+	 * Override this method to fix issue in php 7.4
+	 * Get a single link for the item
+	 *
+	 * @since Beta 3
+	 * @param int $key The link that you want to return.  Remember that arrays begin with 0, not 1
+	 * @param string $rel The relationship of the link to return
+	 * @return string|null Link URL
+	 */
+	public function get_link($key = 0, $rel = 'alternate')
+	{
+		$links = $this->get_links($rel);
+		if (isset($links[$key]))
+		{
+			return $links[$key];
+		}
+
+		return null;
 	}
 }
