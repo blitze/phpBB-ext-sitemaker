@@ -24,6 +24,7 @@ ul.sm-list {
 		position: relative;
 		font-size: 12px;
 		line-height: 1.5;
+		padding: $gutter-width / 2 0;
 
 		> .sm-inner {
 			display: inline-block;
