@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -23,8 +24,8 @@ class members
 	/** @var \blitze\sitemaker\services\date_range */
 	protected $date_range;
 
-	/** @var \blitze\sitemaker\services\template driver_interface */
-	protected $ptemplate;
+	/** @var \phpbb\template\template */
+	protected $template;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -46,17 +47,17 @@ class members
 	 * @param \phpbb\language\language				$translator			Language Object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\date_range	$date_range			Date range object
-	 * @param \blitze\sitemaker\services\template	$ptemplate			Sitemaker template object
+	 * @param \phpbb\template\template	$template			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\template $ptemplate, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \phpbb\template\template $template, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->translator = $translator;
 		$this->user = $user;
 		$this->date_range = $date_range;
-		$this->ptemplate = $ptemplate;
+		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -85,13 +86,19 @@ class members
 		$sql = $this->get_sql_statement();
 		$result = $this->db->sql_query_limit($sql, $this->settings['max_members']);
 
+		$members = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->ptemplate->assign_block_vars('member', call_user_func_array(array($this, $this->view_mode), array($row)));
+			$members[] = call_user_func_array(array($this, $this->view_mode), array($row));
 		}
 		$this->db->sql_freeresult($result);
 
-		return $this->show_results();
+		return array(
+			'S_LIST'		=> $this->settings['query_type'],
+			'USER_TITLE'	=> $this->translator->lang($this->user_header),
+			'INFO_TITLE'	=> $this->translator->lang($this->info_header),
+			'MEMBERS'		=> $members,
+		);
 	}
 
 	/**
@@ -138,26 +145,12 @@ class members
 	/**
 	 * @return string
 	 */
-	protected function show_results()
-	{
-		$this->ptemplate->assign_vars(array(
-			'S_LIST'		=> $this->settings['query_type'],
-			'USER_TITLE'	=> $this->translator->lang($this->user_header),
-			'INFO_TITLE'	=> $this->translator->lang($this->info_header),
-		));
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/members.html', 'members_block');
-	}
-
-	/**
-	 * @return string
-	 */
 	protected function get_sql_statement()
 	{
 		$sql_ary = array(
 			'SELECT'		=> 'u.user_id, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
 			'FROM'			=> array(
-					USERS_TABLE => 'u'
+				USERS_TABLE => 'u'
 			),
 			'WHERE'			=> $this->db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER)),
 		);

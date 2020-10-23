@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -17,6 +18,13 @@ interface cfg_field_interface
 	 * @return string
 	 */
 	public function get_name();
+
+	/**
+	 * Get template in the form @[vendor]_[ext name]/[path]/[template name].[html/twig]
+	 *
+	 * @return string
+	 */
+	public function get_template();
 
 	/**
 	 * @param array $vars

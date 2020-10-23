@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -80,21 +81,12 @@ class forum_poll extends block
 	public function display(array $bdata, $edit_mode = false)
 	{
 		$this->settings = $bdata['settings'];
-		$title = 'POLL';
 
-		if (!($topic_data = $this->get_topic_data()))
-		{
-			return array(
-				'title'		=> $title,
-				'content'	=> '',
-			);
-		}
-
-		$this->poll->build($topic_data, $this->ptemplate);
+		$topic_data = $this->get_topic_data();
 
 		return array(
-			'title'		=> $title,
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_poll.html', 'forum_poll_block')
+			'title'	=> 'POLL',
+			'data'	=> $this->poll->build($topic_data),
 		);
 	}
 
@@ -158,5 +150,13 @@ class forum_poll extends block
 		);
 
 		return (isset($sort_order[$this->settings['order_by']])) ? $sort_order[$this->settings['order_by']] : 'RAND()';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/forum_poll.html';
 	}
 }

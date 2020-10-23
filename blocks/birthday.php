@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -54,23 +55,19 @@ class birthday extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		if (($content = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
+		if (($data = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
 		{
-			$content = '';
-			if ($this->find_birthday_users())
-			{
-				$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/birthday.html', 'birthday_block');
+			$data = $this->find_birthday_users();
 
-				// we only check birthdays every hour, may make this an admin choice
-				$this->cache->put('pt_block_data_' . $bdata['bid'], $content, 3600);
-			}
+			// we only check birthdays every hour, may make this an admin choice
+			$this->cache->put('pt_block_data_' . $bdata['bid'], $data, 3600);
 		}
 
 		$this->template->assign_var('S_DISPLAY_BIRTHDAY_LIST', false);
 
 		return array(
-			'title'		=> 'BIRTHDAYS',
-			'content'	=> $content,
+			'title'	=> 'BIRTHDAYS',
+			'data'	=> $data,
 		);
 	}
 
@@ -94,18 +91,18 @@ class birthday extends block
 				ORDER BY u.username ASC';
 		$result = $this->db->sql_query($sql);
 
-		$show_birthday = false;
+		$birthdays = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$show_birthday = true;
-			$this->ptemplate->assign_block_vars('birthday', array(
+			$birthdays[] = array(
 				'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 				'USER_AGE'		=> $this->get_user_age($row['user_birthday'], $now['year']),
-			));
+			);
 		}
 		$this->db->sql_freeresult($result);
 
-		return $show_birthday;
+		return $birthdays;
 	}
 
 	/**
@@ -135,5 +132,13 @@ class birthday extends block
 	{
 		$birthday_year = (int) substr($user_birthday, -4);
 		return ($birthday_year) ? max(0, $year - $birthday_year) : '';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/birthday.html';
 	}
 }

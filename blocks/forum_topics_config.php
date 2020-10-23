@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -31,6 +32,14 @@ abstract class forum_topics_config extends block
 	public function __construct(\blitze\sitemaker\services\forum\options $forum_options)
 	{
 		$this->forum_options = $forum_options;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/forum_topics.html';
 	}
 
 	/**

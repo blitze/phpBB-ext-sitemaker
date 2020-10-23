@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -67,27 +68,20 @@ class wordgraph extends block
 	public function display(array $bdata, $edit_mode = false)
 	{
 		$settings = $bdata['settings'];
-		$block = array(
-			'title'		=> 'WORDGRAPH',
-			'content'	=> '',
-		);
-
 		$words_array = $this->get_words($settings);
-		if (sizeof($words_array))
-		{
-			$this->show_graph($words_array, $settings);
 
-			$block['content'] = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/wordgraph.html', 'wordgraph_block');
-		}
-
-		return $block;
+		return array(
+			'title'	=> 'WORDGRAPH',
+			'data'	=> $this->get_wordgraph($words_array, $settings),
+		);
 	}
 
 	/**
 	 * @param array $words_array
 	 * @param array $settings
+	 * @return []
 	 */
-	protected function show_graph(array $words_array, array $settings)
+	protected function get_wordgraph(array $words_array, array $settings)
 	{
 		$params = $this->get_graph_params($words_array, $settings);
 
@@ -95,6 +89,7 @@ class wordgraph extends block
 		$words = array_filter(array_keys($words_array));
 		sort($words);
 
+		$wordgraph = [];
 		foreach ($words as $word)
 		{
 			$color = (int) ($params['min_sat'] + (($words_array[$word] - $params['min_count']) * $params['color_step']));
@@ -102,13 +97,15 @@ class wordgraph extends block
 			$b = dechex($params['max_sat'] - $color);
 			$g = 'c';
 
-			$this->ptemplate->assign_block_vars('wordgraph', array(
+			$wordgraph[] = array(
 				'WORD'			=> $this->show_word($word, $words_array[$word], $settings['show_word_count']),
 				'WORD_SIZE'		=> $settings['min_word_size'] + (($words_array[$word] - $params['min_count']) * $params['size_step']),
 				'WORD_COLOR'	=> $r . $g . $b,
 				'WORD_URL'		=> $this->get_url($word),
-			));
+			);
 		}
+
+		return $wordgraph;
 	}
 
 	/**
@@ -224,5 +221,13 @@ class wordgraph extends block
 	protected function get_url($word)
 	{
 		return append_sid("{$this->phpbb_root_path}search.$this->php_ext", 'keywords=' . urlencode($word));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/wordgraph.html';
 	}
 }

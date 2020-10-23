@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -56,7 +57,7 @@ class checkbox extends cfg_field_base
 	 * @param mixed $selected_items
 	 * @param string $field
 	 * @param bool $sortable
-	 * @return string
+	 * @return []
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $field, $sortable = false)
 	{
@@ -64,14 +65,20 @@ class checkbox extends cfg_field_base
 		$selected_items = cfg_utils::ensure_array($selected_items);
 		$option_ary = cfg_utils::ensure_multi_array($option_ary, $column_class);
 
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'field'		=> $field,
 			'selected'	=> $selected_items,
 			'columns'	=> $option_ary,
 			'class'		=> $column_class,
 			'sortable'	=> $sortable,
-		));
+		);
+	}
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/checkbox.html', 'checkbox');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/cfg_fields/checkbox.html';
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -45,20 +46,18 @@ class code_editor extends cfg_field_base
 	 * @param string $explain
 	 * @param array $data_props
 	 * @param string $label
-	 * @return string
+	 * @return []
 	 */
 	public function build_code_editor($key, $value, $explain, array $data_props = array(), $label = '')
 	{
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'key'			=> $key,
 			'value'			=> $value,
 			'label'			=> $label,
 			'explain'		=> $explain,
 			'attributes'	=> $this->get_code_editor_attributes($data_props),
 			'fullscreen'	=> $this->fullscreen_allowed($data_props),
-		));
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/code_editor.html', $key);
+		);
 	}
 
 	/**
@@ -83,5 +82,13 @@ class code_editor extends cfg_field_base
 			$attributes .= " data-{$prop}=\"{$value}\"";
 		}
 		return $attributes;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/cfg_fields/code_editor.html';
 	}
 }

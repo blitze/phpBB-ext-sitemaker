@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -34,14 +35,20 @@ class style_switcher extends block
 	 */
 	public function display(array $settings, $edit_mode = false)
 	{
-		$this->ptemplate->assign_vars(array(
-			'CURRENT_PAGE'		=> build_url(array('style')),
-			'S_STYLE_OPTIONS'	=> style_select($this->blocks_display->get_style_id(), true),
-		));
-
 		return array(
-			'title'		=> 'STYLE_SWITCHER',
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/style_switcher.html', 'style_switcher_block')
+			'title'	=> 'STYLE_SWITCHER',
+			'data'	=> array(
+				'CURRENT_PAGE'		=> build_url(array('style')),
+				'S_STYLE_OPTIONS'	=> style_select($this->blocks_display->get_style_id(), true),
+			)
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/style_switcher.html';
 	}
 }

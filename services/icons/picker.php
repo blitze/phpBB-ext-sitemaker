@@ -21,8 +21,8 @@ class picker
 	/** @var \blitze\sitemaker\services\util */
 	protected $util;
 
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
+	/** @var \phpbb\template\template */
+	protected $template;
 
 	/** @var string */
 	protected $categories_file;
@@ -32,14 +32,14 @@ class picker
 	 *
 	 * @param \phpbb\language\language     			$translator     		Language object
 	 * @param \blitze\sitemaker\services\util		$util					Sitemaker utility object
-	 * @param \blitze\sitemaker\services\template	$ptemplate				Sitemaker Template object
+	 * @param \phpbb\template\template	$template				Sitemaker Template object
 	 * @param string								$categories_file		Categories file (json)
 	 */
-	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\template $ptemplate, $categories_file)
+	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\util $util, \phpbb\template\template $template, $categories_file)
 	{
 		$this->translator      = $translator;
 		$this->util            = $util;
-		$this->ptemplate       = $ptemplate;
+		$this->template       = $template;
 		$this->categories_file = $categories_file;
 	}
 
@@ -49,7 +49,7 @@ class picker
 	public function picker()
 	{
 		$this->translator->add_lang('icons', 'blitze/sitemaker');
-		$this->ptemplate->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
+		$this->template->set_style(array('ext/blitze/sitemaker/styles', 'styles'));
 
 		$this->util->add_assets(array(
 			'css'	=> array_filter(array(
@@ -57,12 +57,12 @@ class picker
 			))
 		));
 
-		$this->ptemplate->assign_var('categories', json_decode(file_get_contents($this->categories_file), true));
+		$this->template->assign_var('categories', json_decode(file_get_contents($this->categories_file), true));
 
-		$this->ptemplate->set_filenames(array(
+		$this->template->set_filenames(array(
 			'icons'	=> 'icons/picker.html'
 		));
 
-		return $this->ptemplate->assign_display('icons');
+		return $this->template->assign_display('icons');
 	}
 }

@@ -7,7 +7,7 @@
 		</h2>
 		{% endif %}
 		<div class="sm-block-content">
-			{{ block.content }}
+			{{ block.content ? block.content : include(block.template, block.data is iterable ? block.data : []) }}
 		</div>
 	</div>
 </div>

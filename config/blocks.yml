@@ -178,8 +178,8 @@ services:
         class: blitze\sitemaker\blocks\stats
         arguments:
             - '@config'
-            - '@template'
             - '@language'
+            - '@template'
         calls:
             - [set_name, [blitze.sitemaker.block.stats]]
         tags:

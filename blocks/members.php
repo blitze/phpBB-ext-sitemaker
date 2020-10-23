@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -81,11 +82,24 @@ class members extends block
 	{
 		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
 
-		$this->ptemplate->assign_var('RANGE', $this->translator->lang($this->range_options[$bdata['settings']['range']]));
+		$data = $this->members->get_list($bdata['settings']);
+
+		if (count($data))
+		{
+			$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['range']]);
+		}
 
 		return array(
-			'title'		=> $this->query_type_options[$bdata['settings']['query_type']],
-			'content'	=> $this->members->get_list($bdata['settings']),
+			'title'	=> $this->query_type_options[$bdata['settings']['query_type']],
+			'data'	=> $data,
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/members.html';
 	}
 }

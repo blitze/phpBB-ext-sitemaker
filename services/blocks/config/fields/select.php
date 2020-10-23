@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -53,15 +54,21 @@ class select extends cfg_field_base
 	 */
 	public function build_select(array $options, $selected, $field, $size = 1, $multi_select = false, $togglable_key = '')
 	{
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'field'			=> $field,
 			'selected'		=> cfg_utils::ensure_array($selected),
 			'options'		=> $options,
 			'size'			=> $size,
 			'multi_select'	=> $multi_select,
 			'togglable_key'	=> $togglable_key,
-		));
+		);
+	}
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/select.html', 'select');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/cfg_fields/select.html';
 	}
 }

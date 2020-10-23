@@ -1,5 +1,4 @@
 services:
-
     blitze.sitemaker.cfg_field_collection:
         class: phpbb\di\service_collection
         arguments:
@@ -11,7 +10,7 @@ services:
         class: blitze\sitemaker\services\blocks\config\fields\cfg_field_base
         arguments:
             - '@language'
-            - '@blitze.sitemaker.template'
+            - '@template'
 
     blitze.sitemaker.cfg_field.checkbox:
         class: blitze\sitemaker\services\blocks\config\fields\checkbox

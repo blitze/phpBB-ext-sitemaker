@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -117,7 +118,7 @@ abstract class base_action implements action_interface
 
 			$returned_data['id'] = $db_data['bid'];
 			$returned_data['title'] = $this->get_block_title($db_data['title'], $returned_data['title']);
-			$returned_data['content'] = $this->get_block_content($returned_data);
+			$returned_data['content'] = $this->get_block_content($returned_data, $block_instance->get_template());
 
 			$block = array_merge($db_data, $returned_data);
 			$block['class'] .= (!$block['status']) ? ' sm-inactive' : '';
@@ -140,8 +141,20 @@ abstract class base_action implements action_interface
 	 * @param array $returned_data
 	 * @return string
 	 */
-	protected function get_block_content(array &$returned_data)
+	protected function get_block_content(array &$returned_data, $block_template)
 	{
+		if (!empty($returned_data['data']))
+		{
+			$template = $this->phpbb_container->get('template');
+			$template->assign_vars($returned_data['data']);
+
+			$template->set_filenames(array(
+				'block' => $block_template,
+			));
+
+			$returned_data['content'] = $template->assign_display('block');
+		}
+
 		if (empty($returned_data['content']))
 		{
 			$content = $this->translator->lang('BLOCK_NO_DATA');
@@ -151,6 +164,7 @@ abstract class base_action implements action_interface
 		{
 			$content = $returned_data['content'];
 		}
+
 		return $content;
 	}
 

@@ -17,7 +17,7 @@
 		{% endif %}
 		<ul class="forums inner-spacing">
 			<li class="sm-block-content">
-				{{ block.content }}
+				{{ block.content ? block.content : include(block.template, block.data) }}
 			</li>
 		</ul>
 	</div>

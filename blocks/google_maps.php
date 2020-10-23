@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -52,19 +53,17 @@ class google_maps extends block
 	{
 		$settings = $bdata['settings'];
 
-		$this->ptemplate->assign_vars(array(
-			'location'      => urlencode($settings['location']),
-			'coordinates'   => $settings['coordinates'],
-			'height'        => $settings['height'],
-			'title'         => urlencode($settings['title']),
-			'view'          => $settings['view'],
-			'zoom'          => $settings['zoom'],
-			'lang_code'		=> $this->template->retrieve_var('S_USER_LANG'),
-		));
-
 		return array(
 			'title'		=> 'GOOGLE_MAP',
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/google_maps.html', 'google_maps'),
+			'data'		=> array(
+				'location'      => urlencode($settings['location']),
+				'coordinates'   => $settings['coordinates'],
+				'height'        => $settings['height'],
+				'title'         => urlencode($settings['title']),
+				'view'          => $settings['view'],
+				'zoom'          => $settings['zoom'],
+				'lang_code'		=> $this->template->retrieve_var('S_USER_LANG'),
+			)
 		);
 	}
 
@@ -79,5 +78,13 @@ class google_maps extends block
 			'h' => 'MAP_VIEW_HYBRID',
 			'p' => 'MAP_VIEW_TERRAIN',
 		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/google_maps.html';
 	}
 }

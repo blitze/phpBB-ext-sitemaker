@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -99,17 +100,9 @@ class attachments extends block
 		$posts_data = $this->get_posts_data();
 		$attachments = $this->forum_data->get_attachments(0, $ext_groups[$this->settings['ext_type']], $this->settings['limit'], false);
 
-		$content = '';
-		if (sizeof($attachments))
-		{
-			$this->get_block_content($attachments, $posts_data, $extensions);
-
-			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/attachments.html', 'attachments');
-		}
-
 		return array(
-			'title'		=> 'ATTACHMENTS',
-			'content'	=> $content,
+			'title'	=> 'ATTACHMENTS',
+			'data'	=> $this->get_attachments_data($attachments, $posts_data, $extensions),
 		);
 	}
 
@@ -117,11 +110,12 @@ class attachments extends block
 	 * @param array $attachments_ary
 	 * @param array $posts_data
 	 * @param array $extensions
+	 * @return []
 	 */
-	protected function get_block_content(array $attachments_ary, array $posts_data, array $extensions)
+	protected function get_attachments_data(array $attachments_ary, array $posts_data, array $extensions)
 	{
 		$message = '';
-		$update_count = array();
+		$data = $update_count = [];
 
 		foreach ($attachments_ary as $post_id => $attachments)
 		{
@@ -130,19 +124,21 @@ class attachments extends block
 
 			parse_attachments($post_row['forum_id'], $message, $attachments, $update_count, true);
 
-			$this->ptemplate->assign_block_vars('postrow', array());
+			$attachment_row = [];
 			foreach ($attachments as $i => $attachment)
 			{
 				$row = $attachments_ary[$post_id][$i];
 				$topic_id = $row['topic_id'];
 				$post_id = $row['post_msg_id'];
 
-				$this->ptemplate->assign_block_vars('postrow.attachment', array(
+				$attachment_row[] = array(
 					'DISPLAY_ATTACHMENT'	=> $attachment,
 					'EXTENSION_GROUP'		=> $extensions[$row['extension']]['group_name'],
 					'U_VIEWTOPIC'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", "t=$topic_id&amp;p=$post_id") . '#p' . $post_id,
-				));
+				);
 			}
+
+			$data[] = $attachment_row;
 		}
 	}
 
@@ -212,5 +208,13 @@ class attachments extends block
 			'month' => 'THIS_MONTH',
 			'year'  => 'THIS_YEAR',
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/attachments.html';
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -181,14 +182,15 @@ class cfg_handler
 			);
 
 			$db_settings[$field] = $this->get_field_value($field, $vars['default'], $db_settings);
-			$content = $this->get_field_template($field, $db_settings, $vars);
 
-			$this->template->assign_block_vars('options', array(
-				'KEY'			=> $field,
-				'TITLE'			=> $this->translator->lang($vars['lang']),
-				'S_EXPLAIN'		=> $vars['explain'],
-				'TITLE_EXPLAIN'	=> $vars['lang_explain'],
-				'CONTENT'		=> $content,
+			$this->template->assign_block_vars('cfg_fields', array_merge(
+				$this->get_field_template($field, $db_settings, $vars),
+				array(
+					'KEY'			=> $field,
+					'TITLE'			=> $this->translator->lang($vars['lang']),
+					'S_EXPLAIN'		=> $vars['explain'],
+					'TITLE_EXPLAIN'	=> $vars['lang_explain'],
+				)
 			));
 		}
 	}
@@ -199,22 +201,45 @@ class cfg_handler
 	 * @param string $field
 	 * @param array $db_settings
 	 * @param array $vars
-	 * @return string
+	 * @return []
 	 */
 	private function get_field_template($field, array &$db_settings, array &$vars)
 	{
 		global $module;
 
 		$vars['lang_explain'] = $this->explain_field($vars);
-		$vars['append'] = $this->append_field($vars);
+		$append = $this->append_field($vars);
+
+		/**
+		 * as our own custom fields return an array while phpbb expects a string
+		 * and appends to that string, we remove it here to prevent an error
+		 */
+		unset($vars['append']);
 
 		$type = explode(':', $vars['type']);
+		$object = $this->get_field_object($vars, $type, $db_settings, $field);
+
+		$tpl_data = array(
+			'append'	=> $append,
+		);
 
 		// We fake this class as it is needed by the build_cfg_template function
 		$module = new \stdClass();
-		$module->module = $this->get_field_object($vars, $type, $db_settings, $field);
+		$module->module = $object;
 
-		return build_cfg_template($type, $field, $db_settings, $field, $vars);
+		$tpl = build_cfg_template($type, $field, $db_settings, $field, $vars);
+
+		if (is_array($tpl) && $object instanceof \blitze\sitemaker\services\blocks\config\fields\cfg_field_interface)
+		{
+			$tpl_data['template'] = $object->get_template();
+			$tpl_data['tpl_data'] = $tpl;
+		}
+		else
+		{
+			$tpl_data['content'] = $tpl;
+		}
+
+		return array_change_key_case($tpl_data, CASE_UPPER);
 	}
 
 	/**
@@ -266,7 +291,7 @@ class cfg_handler
 	{
 		if (strpos($field, 'legend') !== false)
 		{
-			$this->template->assign_block_vars('options', array(
+			$this->template->assign_block_vars('cfg_fields', array(
 				'S_LEGEND'	=> $field,
 				'LEGEND'	=> $this->translator->lang($vars)
 			));

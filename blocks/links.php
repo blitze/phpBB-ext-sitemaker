@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -12,9 +13,9 @@ namespace blitze\sitemaker\blocks;
 use blitze\sitemaker\services\blocks\driver\block;
 
 /**
-* Links Block
-* @package phpBB Sitemaker
-*/
+ * Links Block
+ * @package phpBB Sitemaker
+ */
 class links extends block
 {
 	/** @var \phpbb\language\language */
@@ -64,18 +65,18 @@ class links extends block
 	{
 		$menu_id = $db_data['settings']['menu_id'];
 
-		if (!$this->navigation->build_menu($this->ptemplate, $menu_id, $this->is_navigation, $db_data['settings']))
-		{
-			return array(
-				'title'		=> $this->title,
-				'content'	=> $this->get_message($menu_id, $editing),
-				'status'	=> (int) !$editing,
-			);
-		}
+		// if (!$this->navigation->build_menu($this->template, $menu_id, $this->is_navigation, $db_data['settings']))
+		// {
+		// 	return array(
+		// 		'title'		=> $this->title,
+		// 		'content'	=> $this->get_message($menu_id, $editing),
+		// 		'status'	=> (int) !$editing,
+		// 	);
+		// }
 
 		return array(
 			'title'     => $this->title,
-			'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/' . $this->tpl_name . '.html', $this->tpl_name . '_block'),
+			'content'   => [],
 		);
 	}
 
@@ -93,5 +94,13 @@ class links extends block
 		}
 
 		return $this->language->lang($msg_key);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/' . $this->tpl_name . '.html';
 	}
 }

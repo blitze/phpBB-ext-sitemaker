@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -52,17 +53,23 @@ class multi_input extends cfg_field_base
 	 * @param bool $sortable
 	 * @param array $values
 	 * @param string $label
-	 * @return string
+	 * @return []
 	 */
 	public function build_multi_input($field, $sortable, array $values, $label = '')
 	{
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'field'		=> $field,
 			'values'	=> array_filter((array) $values),
 			'sortable'	=> $sortable,
 			'label'		=> $label,
-		));
+		);
+	}
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/multi_input.html', 'multi_input_ui');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/cfg_fields/multi_input.html';
 	}
 }

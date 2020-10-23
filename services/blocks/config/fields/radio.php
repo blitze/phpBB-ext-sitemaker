@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -43,18 +44,24 @@ class radio extends cfg_field_base
 	 * @param array $option_ary
 	 * @param mixed $selected_item
 	 * @param string $field
-	 * @return string
+	 * @return []
 	 */
 	public function build_radio(array $option_ary, $selected_item, $field)
 	{
 		$selected_item = cfg_utils::ensure_array($selected_item);
 
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'field'		=> $field,
 			'options'	=> $option_ary,
 			'selected'	=> array_pop($selected_item),
-		));
+		);
+	}
 
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/radio.html', 'radio');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/cfg_fields/radio.html';
 	}
 }

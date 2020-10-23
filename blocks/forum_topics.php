@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -91,15 +92,15 @@ class forum_topics extends forum_topics_config
 
 		$topic_data = $this->get_topic_data();
 
-		$content = '';
+		$data = null;
 		if (sizeof($topic_data))
 		{
-			$content = $this->get_block_content($topic_data);
+			$data = $this->get_block_content($topic_data);
 		}
 
 		return array(
-			'title'		=> $this->get_block_title(),
-			'content'	=> $content,
+			'title'	=> $this->get_block_title(),
+			'data'	=> $data,
 		);
 	}
 
@@ -114,28 +115,26 @@ class forum_topics extends forum_topics_config
 		$post_data = $this->get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 
-		$this->show_topics($topic_data, $post_data);
-		unset($topic_data, $post_data);
-
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'CONTEXT'			=> $this->settings['context'],
 			'TEMPLATE'			=> $this->settings['template'],
+			'TOPICS'			=> $this->get_topics($topic_data, $post_data),
 			'S_IS_BOT'			=> $this->user->data['is_bot'],
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
 			'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
-		));
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block');
+		);
 	}
 
 	/**
 	 * @param array $topic_data
 	 * @param array $post_data
+	 * @return []
 	 */
-	protected function show_topics(array &$topic_data, array &$post_data)
+	protected function get_topics(array &$topic_data, array &$post_data)
 	{
 		$user_data = $this->forum_data->get_posters_info();
 
+		$topics = [];
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row = $topic_data[$i];
@@ -144,7 +143,7 @@ class forum_topics extends forum_topics_config
 			$author = $user_data[$row[$this->fields['user_id']]];
 			$last_poster = $user_data[$row['topic_last_poster_id']];
 
-			$this->ptemplate->assign_block_vars('topicrow', array(
+			$topics[] = array(
 				'USERNAME'			=> $author['username_full'],
 				'AVATAR'			=> $author['avatar'],
 				'LAST_POSTER'		=> $last_poster['username_full'],
@@ -164,9 +163,11 @@ class forum_topics extends forum_topics_config
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
 				'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
 				'U_LAST_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;p=" . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
-			));
+			);
 			unset($topic_data[$i], $post_data[$topic_id]);
 		}
+
+		return $topics;
 	}
 
 	/**
@@ -279,8 +280,6 @@ class forum_topics extends forum_topics_config
 		{
 			$this->fields['time'] = 'topic_last_post_time';
 			$this->fields['user_id'] = 'topic_last_poster_id';
-
-			$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->translator->lang('LAST_POST_BY_AUTHOR'));
 		}
 		else
 		{

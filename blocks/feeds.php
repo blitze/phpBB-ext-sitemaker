@@ -58,7 +58,7 @@ class feeds extends block
 	{
 		$template_default = '<a target="_blank" href="{{ item.link }}">{{ item.title }}</a>';
 		return array(
-			'legend1'			=> 'SETTINGS',
+			'legend1'		=> 'SETTINGS',
 			'feeds'			=> array('lang' => 'FEED_URLS', 'type' => 'multi_input:0', 'default' => []),
 			'template'		=> array('type' => 'custom', 'default' => $template_default, 'object' => $this, 'method' => 'get_cfg_feeds_template'),
 			'max'			=> array('lang' => 'MAX_ITEMS', 'validate' => 'int:1', 'type' => 'number:1', 'default' => 5),
@@ -71,7 +71,6 @@ class feeds extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$title = 'FEEDS';
 		$content = '';
 		$settings = $bdata['settings'];
 		$feed_urls = $this->get_feeds_array($settings['feeds']);
@@ -83,14 +82,11 @@ class feeds extends block
 				// We try to render block with user-provided trig template
 				try
 				{
-					$template = $this->twig->createTemplate($this->get_template($settings['template']));
+					$template = $this->twig->createTemplate($this->get_feed_template($settings['template']));
 
-					return array(
-						'title'		=> $title,
-						'content'	=> $template->render([
-							'items'	=> $items,
-						])
-					);
+					$content = $template->render([
+						'items'	=> $items,
+					]);
 				}
 				catch (\Exception $e)
 				{
@@ -104,22 +100,21 @@ class feeds extends block
 		}
 
 		return array(
-			'title'		=> $title,
-			'content'	=> ($edit_mode) ? $content : '',
+			'title'		=> 'FEEDS',
+			'content'	=> $content,
 		);
 	}
 
 	/**
-	 * @param string $template
+	 * @param string $source
 	 * @return string
 	 */
-	public function get_cfg_feeds_template($template)
+	public function get_cfg_feeds_template($source)
 	{
-		$this->ptemplate->assign_vars([
-			'template'	=> $template,
+		$template = $this->twig->load('@blitze_sitemaker/cfg_fields/feeds.html');
+		return $template->render([
+			'template'	=> $source,
 		]);
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'cfg_fields/feeds.html', 'cfg_feeds');
 	}
 
 	/**
@@ -305,7 +300,7 @@ class feeds extends block
 	 * @param string $tpl
 	 * @return string
 	 */
-	protected function get_template($item_tpl)
+	protected function get_feed_template($item_tpl)
 	{
 		$item_tpl = html_entity_decode(trim($item_tpl));
 		return "<ul class=\"sm-list\">

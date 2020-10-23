@@ -7,10 +7,10 @@
 	<input type="hidden" name="id" value="{{ S_BLOCK_ID }}" />
 	<div id="block-settings" class="sm-reset" style="border: 0; padding: 0">
 
-		<ul{% if !loops.options|length %} class="hide"{% endif %}>
+		<ul{% if !cfg_fields|length %} class="hide"{% endif %}>
 			<li><a href="#tab-design">{{ lang('BLOCK_DESIGN') }}</a></li>
-		{% for options in loops.options %}
-			{% if options.S_LEGEND %}<li><a href="#tab-{{ options.S_LEGEND }}">{{ options.LEGEND }}</a></li>{% endif %}
+		{% for field in cfg_fields %}
+			{% if field.S_LEGEND %}<li><a href="#tab-{{ field.S_LEGEND }}">{{ field.LEGEND }}</a></li>{% endif %}
 		{% endfor %}
 		</ul>
 
@@ -90,19 +90,19 @@
 				</dl>
 				{% INCLUDE 'block_view_settings.html' %}
 
-		{% for options in loops.options %}
-			{% if options.S_LEGEND %}
+		{% for field in cfg_fields %}
+			{% if field.S_LEGEND %}
 			</fieldset>
 		</div>
-		<div id="tab-{{ options.S_LEGEND }}" class="block-settings">
+		<div id="tab-{{ field.S_LEGEND }}" class="block-settings">
 			<fieldset>
-			{% elseif options.TITLE %}
+			{% elseif field.TITLE %}
 				<dl>
-					<dt><label for="{{ options.KEY }}">{{ options.TITLE }}</label>{% if options.S_EXPLAIN %}<br /><span>{{ options.TITLE_EXPLAIN }}</span>{% endif %}</dt>
-					<dd>{{ options.CONTENT }}</dd>
+					<dt><label for="{{ field.KEY }}">{{ field.TITLE }}</label>{% if field.S_EXPLAIN %}<br /><span>{{ field.TITLE_EXPLAIN }}</span>{% endif %}</dt>
+					<dd>{{ field.CONTENT ?: include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) }} {{ field.APPEND }}</dd>
 				</dl>
 			{% else %}
-				{{ options.CONTENT }}
+				{{ field.CONTENT ?: include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) }} {{ field.APPEND }}
 			{% endif %}
 		{% endfor %}
 			</fieldset>

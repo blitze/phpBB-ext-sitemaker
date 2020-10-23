@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -17,18 +18,26 @@ abstract class cfg_field_base implements cfg_field_interface
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
+	/** @var \phpbb\template\template */
+	protected $template;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\language\language				$translator		Language object
-	 * @param \blitze\sitemaker\services\template	$ptemplate		Template object
+	 * @param \phpbb\template\template				$template		Template object
 	 */
-	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\template $ptemplate)
+	public function __construct(\phpbb\language\language $translator, \phpbb\template\template $template)
 	{
 		$this->translator = $translator;
-		$this->ptemplate = $ptemplate;
+		$this->template = $template;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '';
 	}
 }

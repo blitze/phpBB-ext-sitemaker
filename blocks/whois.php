@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -86,17 +87,14 @@ class whois extends block
 
 		$this->template->assign_var('S_DISPLAY_ONLINE_LIST', false);
 
-		$this->ptemplate->assign_vars(array(
-			'TOTAL_USERS_ONLINE'	=> $l_online_users,
-			'LOGGED_IN_USER_LIST'	=> $online_userlist,
-			'RECORD_USERS'			=> $l_online_record,
-			'U_VIEWONLINE'			=> $this->get_viewonline_url(),
-		));
-		unset($data);
-
 		return array(
-			'title'		=> 'WHO_IS_ONLINE',
-			'content'	=> $this->ptemplate->render_view('blitze/sitemaker', 'blocks/whois.html', 'whois_block')
+			'title'	=> 'WHO_IS_ONLINE',
+			'data'	=> array(
+				'TOTAL_USERS_ONLINE'	=> $l_online_users,
+				'LOGGED_IN_USER_LIST'	=> $online_userlist,
+				'RECORD_USERS'			=> $l_online_record,
+				'U_VIEWONLINE'			=> $this->get_viewonline_url(),
+			)
 		);
 	}
 
@@ -106,5 +104,13 @@ class whois extends block
 	private function get_viewonline_url()
 	{
 		return ($this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) ? append_sid("{$this->phpbb_root_path}viewonline." . $this->php_ext) : '';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/whois.html';
 	}
 }

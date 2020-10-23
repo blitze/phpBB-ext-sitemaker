@@ -101,7 +101,6 @@ services:
         class: blitze\sitemaker\services\blocks\factory
         arguments:
             - '@language'
-            - '@blitze.sitemaker.template'
             - '@blitze.sitemaker.block_collection'
 
     blitze.sitemaker.blocks.manager:
@@ -175,7 +174,7 @@ services:
         arguments:
             - '@language'
             - '@blitze.sitemaker.util'
-            - '@blitze.sitemaker.template'
+            - '@template'
             - '%fontawesome.categories%'
 
     blitze.sitemaker.mapper.factory:
@@ -196,7 +195,7 @@ services:
             - '@language'
             - '@user'
             - '@blitze.sitemaker.date_range'
-            - '@blitze.sitemaker.template'
+            - '@template'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -238,46 +237,12 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
 
-    blitze.sitemaker.template:
-        class: blitze\sitemaker\services\template
-        arguments:
-            - '@path_helper'
-            - '@config'
-            - '@blitze.sitemaker.template_context'
-            - '@blitze.sitemaker.template.twig.environment'
-            - '%core.template.cache_path%'
-            - '@user'
-            - '@template.twig.extensions.collection'
-            - '@ext.manager'
-
     blitze.sitemaker.template.extensions.format_date:
         class: blitze\sitemaker\services\template\extensions\format_date
         arguments:
             - '@user'
         tags:
             - { name: twig.extension }
-
-    blitze.sitemaker.template_context:
-        class: phpbb\template\context
-
-    blitze.sitemaker.template.twig.environment:
-        class: phpbb\template\twig\environment
-        arguments:
-            - '@config'
-            - '@filesystem'
-            - '@path_helper'
-            - '%core.template.cache_path%'
-            - '@ext.manager'
-            - '@blitze.sitemaker.template.twig.loader'
-            - '@dispatcher'
-            - []
-        calls:
-            - [setLexer, ['@template.twig.lexer']]
-
-    blitze.sitemaker.template.twig.loader:
-        class: phpbb\template\twig\loader
-        arguments:
-            - '@filesystem'
 
     blitze.sitemaker.url_checker:
         class: blitze\sitemaker\services\url_checker

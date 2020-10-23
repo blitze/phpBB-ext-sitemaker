@@ -1,4 +1,4 @@
-{% if loops.member|length %}
+{% if MEMBERS|length %}
 	<div class="align-center small clearfix"><strong>{{ RANGE }}</strong></div>
 	<p class="sm-polar small">
 		<strong>{{ USER_TITLE }}</strong>
@@ -6,11 +6,11 @@
 	</p>
 	<ul class="sm-list">
 	{% if S_LIST == 'bots' %}
-		{% for member in loops.member %}
+		{% for member in MEMBERS %}
 		<li>{{ member.USERNAME }} - {{ member.USER_INFO }}</li>
 		{% endfor %}
 	{% else %}
-		{% for member in loops.member %}
+		{% for member in MEMBERS %}
 		<li>
 			<div class="sm-polar">
 				<span class="tiny-avatar">{{ member.USER_AVATAR }} {{ member.USERNAME }}</span>

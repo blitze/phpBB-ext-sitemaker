@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -66,9 +67,9 @@ class poll
 
 	/**
 	 * @param array $topic_data
-	 * @param \phpbb\template\twig\twig $template
+	 * @return []
 	 */
-	public function build(array $topic_data, \phpbb\template\twig\twig &$template)
+	public function build(array $topic_data)
 	{
 		$this->translator->add_lang('viewtopic');
 
@@ -83,16 +84,15 @@ class poll
 		$poll_info = $this->get_poll_info($topic_data, $poll_total, $poll_most);
 		$poll_end = $topic_data['poll_length'] + $topic_data['poll_start'];
 
-		$this->build_poll_options($cur_voted_id, $poll_info, $poll_total, $poll_most, $template);
-
-		$template->assign_vars(array(
+		return array(
 			'POLL_QUESTION'		=> $topic_data['poll_title'],
 			'TOTAL_VOTES' 		=> $poll_total,
 			'POLL_LEFT_CAP_IMG'	=> $this->user->img('poll_left'),
-			'POLL_RIGHT_CAP_IMG'=> $this->user->img('poll_right'),
+			'POLL_RIGHT_CAP_IMG' => $this->user->img('poll_right'),
 
 			'MAX_VOTES'			=> $this->translator->lang('MAX_OPTIONS_SELECT', (int) $topic_data['poll_max_options']),
 			'POLL_LENGTH'		=> $this->get_poll_length_lang($topic_data['poll_length'], $poll_end),
+			'POLL_OPTIONS'		=> $this->get_poll_options($cur_voted_id, $poll_info, $poll_total, $poll_most),
 
 			'S_CAN_VOTE'		=> $s_can_vote,
 			'S_DISPLAY_RESULTS'	=> $this->show_results($s_can_vote, $cur_voted_id),
@@ -101,7 +101,7 @@ class poll
 			'S_FORM_TOKEN'		=> $this->sitemaker->get_form_key('posting'),
 
 			'U_VIEW_RESULTS'	=> $viewtopic_url . '&amp;view=viewpoll',
-		));
+		);
 	}
 
 	/**
@@ -112,11 +112,9 @@ class poll
 	 */
 	private function user_can_vote($forum_id, array $topic_data, array $cur_voted_id)
 	{
-		return (
-			$this->user_is_authorized($forum_id, $topic_data, $cur_voted_id) &&
+		return ($this->user_is_authorized($forum_id, $topic_data, $cur_voted_id) &&
 			$this->poll_is_still_open($topic_data) &&
-			$this->is_topic_status_eligible($topic_data)
-		);
+			$this->is_topic_status_eligible($topic_data));
 	}
 
 	/**
@@ -214,16 +212,17 @@ class poll
 	 * @param array $poll_info
 	 * @param int $poll_total
 	 * @param int $poll_most
-	 * @param \phpbb\template\twig\twig $template
+	 * @return []
 	 */
-	private function build_poll_options(array $cur_voted_id, array $poll_info, $poll_total, $poll_most, \phpbb\template\twig\twig &$template)
+	private function get_poll_options(array $cur_voted_id, array $poll_info, $poll_total, $poll_most)
 	{
+		$options = [];
 		foreach ($poll_info as $poll_option)
 		{
 			$option_pct = $this->calculate_option_percent($poll_option['poll_option_total'], $poll_total);
 			$option_pct_rel = $this->calculate_option_percent_rel($poll_option['poll_option_total'], $poll_most);
 
-			$template->assign_block_vars('poll_option', array(
+			$options[] = array(
 				'POLL_OPTION_ID' 			=> $poll_option['poll_option_id'],
 				'POLL_OPTION_CAPTION' 		=> $poll_option['poll_option_text'],
 				'POLL_OPTION_RESULT' 		=> $poll_option['poll_option_total'],
@@ -233,8 +232,10 @@ class poll
 				'POLL_OPTION_WIDTH'     	=> round($option_pct * 250),
 				'POLL_OPTION_VOTED'			=> $this->user_has_voted_option($poll_option['poll_option_id'], $cur_voted_id),
 				'POLL_OPTION_MOST_VOTES'	=> $this->is_most_voted($poll_option['poll_option_total'], $poll_most),
-			));
+			);
 		}
+
+		return $options;
 	}
 
 	/**
