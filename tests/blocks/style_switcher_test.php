@@ -55,10 +55,7 @@ class style_switcher_test extends blocks_base
 			->method('get_style_id')
 			->willReturn(1);
 
-		$block = new style_switcher($block_display);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new style_switcher($block_display);
 	}
 
 	public function test_block_config()
@@ -82,6 +79,6 @@ class style_switcher_test extends blocks_base
 		$block = $this->get_block(1);
 		$result = $block->display(array());
 
-		$this->assertSame($expected, $result['content']);
+		$this->assertSame($expected, $result['data']);
 	}
 }

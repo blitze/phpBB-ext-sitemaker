@@ -34,6 +34,8 @@ class feeds_test extends blocks_base
 	 */
 	protected function get_block($variable_map = array())
 	{
+		global $template;
+
 		$this->request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
@@ -69,26 +71,41 @@ class feeds_test extends blocks_base
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$template_context = new \phpbb\template\context();
 		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
-		$twig = new \phpbb\template\twig\environment(
-			$this->config,
-			$filesystem,
-			$path_helper,
-			$cache_path,
-			null,
-			$template_loader,
-			$phpbb_dispatcher,
-			array(
-				'cache'			=> false,
-				'debug'			=> false,
-				'auto_reload'	=> true,
-				'autoescape'	=> false,
-			)
-		);
 
-		$block = new feeds($this->translator, $this->request, $twig, $this->phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
-		$block->set_template($this->ptemplate);
+		$template_wrapper = $this->getMockBuilder('\stdClass')
+			->setMethods(array('render'))
+			->getMock();
+		$template_wrapper->expects($this->any())
+			->method('render')
+			->will($this->returnCallback(function ($source) {
+				return $source;
+			}));
 
-		return $block;
+		$twig = $this->getMockBuilder('\phpbb\template\twig\environment')
+			->setConstructorArgs(array(
+				$this->config,
+				$filesystem,
+				$path_helper,
+				$cache_path,
+				null,
+				$template_loader,
+				$phpbb_dispatcher,
+				array(
+					'cache'			=> false,
+					'debug'			=> false,
+					'auto_reload'	=> true,
+					'autoescape'	=> false,
+				)
+			))
+			->setMethods(['load'])
+			->getMock();
+
+		$twig->expects($this->any())
+			->method('load')
+			->with('@blitze_sitemaker/cfg_fields/feeds.html')
+			->willReturn($template_wrapper);
+
+		return new feeds($this->translator, $this->request, $twig, $this->phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
 	}
 
 	public function test_block_config()
@@ -234,7 +251,7 @@ class feeds_test extends blocks_base
 	public function test_get_cfg_feeds_template($template, array $expected)
 	{
 		$block = $this->get_block();
-		$result = $block->get_cfg_feeds_template($template);
+		$result = (array) $block->get_cfg_feeds_template($template);
 
 		$this->assertEquals($expected, array_filter($result));
 	}
@@ -542,7 +559,7 @@ class feeds_test extends blocks_base
 	}
 
 	/**
-	 * Test saving custom content
+	 * Test getting feed fields
 	 *
 	 * @dataProvider get_fields_data
 	 * @param array $variable_map

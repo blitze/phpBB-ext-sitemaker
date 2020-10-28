@@ -75,10 +75,10 @@ class whats_new extends block
 		{
 			return array(
 				'title'     => 'WHATS_NEW',
-				'data'	=> array_merge(
-					array('NO_RECORDS' => ($bdata['settings']['topics_only']) ? $this->translator->lang('NO_NEW_TOPICS') : $this->translator->lang('NO_NEW_POSTS')),
-					$this->fetch_new($bdata['settings'])
-				)
+				'data'	=> array(
+					'NO_RECORDS'	=> ($bdata['settings']['topics_only']) ? $this->translator->lang('NO_NEW_TOPICS') : $this->translator->lang('NO_NEW_POSTS'),
+					'TOPICS'		=> $this->fetch_new($bdata['settings']),
+				),
 			);
 		}
 	}

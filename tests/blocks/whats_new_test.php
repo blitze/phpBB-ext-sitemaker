@@ -52,10 +52,7 @@ class whats_new_test extends blocks_base
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new whats_new($this->translator, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new whats_new($this->translator, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -92,7 +89,7 @@ class whats_new_test extends blocks_base
 					'is_registered' => false,
 					'user_lastvisit' => 0,
 				),
-				'',
+				null,
 			),
 			array(
 				array(
@@ -107,15 +104,13 @@ class whats_new_test extends blocks_base
 					'user_lastvisit' => strtotime('24 November 2015'),
 				),
 				array(
-					'topicrow' => array(
-						array(
-							'TOPIC_TITLE' => 'Topic with poll',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
-						),
-						array(
-							'TOPIC_TITLE' => 'Welcome to phpBB3',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
-						),
+					array(
+						'TOPIC_TITLE' => 'Topic with poll',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+					),
+					array(
+						'TOPIC_TITLE' => 'Welcome to phpBB3',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
 					),
 				),
 			),
@@ -132,15 +127,13 @@ class whats_new_test extends blocks_base
 					'user_lastvisit' => strtotime('27 November 2015'),
 				),
 				array(
-					'topicrow' => array(
-						array(
-							'TOPIC_TITLE' => 'Topic with poll',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
-						),
-						array(
-							'TOPIC_TITLE' => 'Welcome to phpBB3',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
-						),
+					array(
+						'TOPIC_TITLE' => 'Topic with poll',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+					),
+					array(
+						'TOPIC_TITLE' => 'Welcome to phpBB3',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
 					),
 				),
 			),
@@ -160,6 +153,6 @@ class whats_new_test extends blocks_base
 		$block = $this->get_block($user_data);
 		$result = $block->display($bdata);
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, $result['data']['TOPICS']);
 	}
 }

@@ -57,11 +57,9 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	/**
 	 * @param array $data
-	 * @param \phpbb\template\twig\twig $template
-	 * @param string $handle
-	 * @return void
+	 * @return []
 	 */
-	public function display_navlist(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_navlist(array $data)
 	{
 		$this->set_current_item($data);
 		$this->prepare_items($data['items']);
@@ -69,18 +67,26 @@ class display extends \blitze\sitemaker\services\tree\display
 		if (sizeof($data['items']))
 		{
 			$this_depth = 0;
+
+			$nodes = [];
 			foreach ($data['items'] as $row)
 			{
 				$prev_depth = $row['prev_depth'];
 				$this_depth = $row['this_depth'];
 				$row['num_kids'] = $this->count_descendants($row);
 
-				$template->assign_block_vars($handle, array_change_key_case($row, CASE_UPPER));
-				$this->close_open_tags($template, $handle . '.close', (int) abs($prev_depth - $this_depth));
+				$nodes[] = array_merge(array_change_key_case($row, CASE_UPPER),
+					array('close' => array_fill(0, abs($prev_depth - $this_depth), ''))
+				);
 			}
 
-			$this->close_open_tags($template, 'close_' . $handle, ($this_depth - $this->min_depth));
+			return array(
+				'tree'	=> $nodes,
+				'close'	=> array_fill(0, abs($this_depth - $this->min_depth), '')
+			);
 		}
+
+		return [];
 	}
 
 	/**
@@ -262,20 +268,6 @@ class display extends \blitze\sitemaker\services\tree\display
 	protected function must_not_expand(array $row, $is_current_items_parent)
 	{
 		return ($row[$this->column_depth] === $this->max_depth || !$is_current_items_parent && !$this->expanded) ? true : false;
-	}
-
-	/**
-	 * @param \phpbb\template\twig\twig $template
-	 * @param string $handle
-	 * @param int $repeat
-	 * @return void
-	 */
-	protected function close_open_tags(\phpbb\template\twig\twig &$template, $handle, $repeat)
-	{
-		for ($i = 0; $i < $repeat; $i++)
-		{
-			$template->assign_block_vars($handle, array());
-		}
 	}
 
 	/**

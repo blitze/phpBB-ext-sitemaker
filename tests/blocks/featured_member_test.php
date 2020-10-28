@@ -62,10 +62,7 @@ class featured_member_test extends blocks_base
 				),
 			));
 
-		$block = new featured_member($this->cache, $this->db, $this->translator, $this->user_data, 'phpbb_sm_blocks', 0);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new featured_member($this->cache, $this->db, $this->translator, $this->user_data, 'phpbb_sm_blocks', 0);
 	}
 
 	public function test_block_config()
@@ -110,20 +107,20 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => 'QTYPE_RECENT',
 					'TITLE_EXPLAIN' => '',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
 						),
 					),
-					'profile_field' => array(),
+					'PROFILE_FIELDS' => array(),
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'USERNAME' => 'demo',
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 					'JOINED' => '25 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '1',
+					'POSTS' => 1,
 					'POSTS_PCT' => '12.50% of all posts',
 					'CONTACT_USER' => 'Contact demo',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=48&amp;sr=posts',
@@ -150,7 +147,7 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => 'QTYPE_POSTS',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'pm' => array(
 							'ID' => 'pm',
 							'NAME' => 'Send private message',
@@ -172,7 +169,7 @@ class featured_member_test extends blocks_base
 							'U_CONTACT' => 'http://www.my-website.com',
 						),
 					),
-					'profile_field' => array(
+					'PROFILE_FIELDS' => array(
 						'phpbb_location' => array(
 							'PROFILE_FIELD_IDENT' => 'phpbb_location',
 							'PROFILE_FIELD_VALUE' => 'testing',
@@ -191,7 +188,7 @@ class featured_member_test extends blocks_base
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 					'JOINED' => '24 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '7',
+					'POSTS' => 7,
 					'POSTS_PCT' => '87.50% of all posts',
 					'CONTACT_USER' => 'Contact admin',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=2&amp;sr=posts',
@@ -218,7 +215,7 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'pm' => array(
 							'ID' => 'pm',
 							'NAME' => 'Send private message',
@@ -235,13 +232,13 @@ class featured_member_test extends blocks_base
 							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
 						),
 					),
-					'profile_field' => array(),
+					'PROFILE_FIELDS' => array(),
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'USERNAME' => 'admin',
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 					'JOINED' => '24 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '7',
+					'POSTS' => 7,
 					'POSTS_PCT' => '87.50% of all posts',
 					'CONTACT_USER' => 'Contact admin',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=2&amp;sr=posts',
@@ -268,7 +265,7 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => '',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'pm' => array(
 							'ID' => 'pm',
 							'NAME' => 'Send private message',
@@ -285,13 +282,13 @@ class featured_member_test extends blocks_base
 							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
 						),
 					),
-					'profile_field' => array(),
+					'PROFILE_FIELDS' => array(),
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'USERNAME' => 'admin',
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 					'JOINED' => '24 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '7',
+					'POSTS' => 7,
 					'POSTS_PCT' => '87.50% of all posts',
 					'CONTACT_USER' => 'Contact admin',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=2&amp;sr=posts',
@@ -318,20 +315,20 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
 							'U_CONTACT' => 'mailto:',
 						),
 					),
-					'profile_field' => array(),
+					'PROFILE_FIELDS' => array(),
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'USERNAME' => 'demo',
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 					'JOINED' => '25 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '1',
+					'POSTS' => 1,
 					'POSTS_PCT' => '12.50% of all posts',
 					'CONTACT_USER' => 'Contact demo',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=48&amp;sr=posts',
@@ -358,7 +355,7 @@ class featured_member_test extends blocks_base
 				array(
 					'QTYPE_EXPLAIN' => '',
 					'TITLE_EXPLAIN' => 'HOURLY_MEMBER',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'pm' => array(
 							'ID' => 'pm',
 							'NAME' => 'Send private message',
@@ -375,13 +372,13 @@ class featured_member_test extends blocks_base
 							'U_CONTACT' => 'phpBB/memberlist.php?mode=contact&amp;action=jabber&amp;u=2',
 						),
 					),
-					'profile_field' => array(),
+					'PROFILE_FIELDS' => array(),
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'USERNAME' => 'admin',
 					'USERNAME_FULL' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 					'JOINED' => '24 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '7',
+					'POSTS' => 7,
 					'POSTS_PCT' => '87.50% of all posts',
 					'CONTACT_USER' => 'Contact admin',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=2&amp;sr=posts',
@@ -412,7 +409,7 @@ class featured_member_test extends blocks_base
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);
-		$this->assertEquals($user_data, $result['content']);
+		$this->assertEquals($user_data, $result['data']);
 
 		$this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
 		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
@@ -446,12 +443,12 @@ class featured_member_test extends blocks_base
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'JOINED' => '25 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '1',
+					'POSTS' => 1,
 					'POSTS_PCT' => '12.50% of all posts',
 					'CONTACT_USER' => 'Contact demo',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=48&amp;sr=posts',
 					'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
@@ -479,12 +476,12 @@ class featured_member_test extends blocks_base
 					'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 					'JOINED' => '25 Nov 2015',
 					'VISITED' => '05 Dec 2015',
-					'POSTS' => '1',
+					'POSTS' => 1,
 					'POSTS_PCT' => '12.50% of all posts',
 					'CONTACT_USER' => 'Contact demo',
 					'U_SEARCH_POSTS' => 'phpBB/search.php?author_id=48&amp;sr=posts',
 					'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',
-					'contact_field' => array(
+					'CONTACT_FIELDS' => array(
 						'email' => array(
 							'ID' => 'email',
 							'NAME' => 'Send email',
@@ -505,7 +502,7 @@ class featured_member_test extends blocks_base
 						'current_user' => 0,
 					),
 				),
-				'',
+				[],
 				'65, 70, 2',
 			),
 		);
@@ -526,8 +523,7 @@ class featured_member_test extends blocks_base
 		$block = $this->get_block();
 		$result = $block->display($bdata);
 
-		$actual = is_array($result['content']) ? array_filter($result['content']) : $result['content'];
-		$this->assertEquals($block_content, $actual);
+		$this->assertEquals($block_content, array_filter($result['data']));
 
 		$this->db->sql_query('SELECT settings FROM phpbb_sm_blocks WHERE bid = 1');
 		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
@@ -543,7 +539,7 @@ class featured_member_test extends blocks_base
 	{
 		$expected = array(
 			'title'		=> 'FEATURED_MEMBER',
-			'content'	=> '',
+			'data'		=> [],
 		);
 
 		$block = $this->get_block();

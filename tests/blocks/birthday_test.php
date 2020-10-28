@@ -41,10 +41,7 @@ class birthday_test extends blocks_base
 				$this->equalTo(false)
 			);
 
-		$block = new birthday($this->cache, $this->db, $template, $this->user, $time);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new birthday($this->cache, $this->db, $template, $this->user, $time);
 	}
 
 	public function test_block_config()
@@ -65,12 +62,12 @@ class birthday_test extends blocks_base
 		return array(
 			array(
 				'10 November 2015',
-				'',
+				[],
 			),
 			array(
 				'7 October 2015',
 				array(
-					'birthday' => array(
+					'birthdays' => array(
 						array(
 							'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 							'USER_AGE' => 20,
@@ -85,7 +82,7 @@ class birthday_test extends blocks_base
 			array(
 				'28 February 2015',
 				array(
-					'birthday' => array(
+					'birthdays' => array(
 						array(
 							'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=6" class="username">demo3</a>',
 							'USER_AGE' => '',
@@ -108,6 +105,6 @@ class birthday_test extends blocks_base
 		$block = $this->get_block($time, 1);
 		$result = $block->display(array());
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, array_filter($result['data']));
 	}
 }

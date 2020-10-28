@@ -72,7 +72,9 @@ class wordgraph extends block
 
 		return array(
 			'title'	=> 'WORDGRAPH',
-			'data'	=> $this->get_wordgraph($words_array, $settings),
+			'data'	=> array(
+				'words'	=> $this->get_wordgraph($words_array, $settings),
+			),
 		);
 	}
 

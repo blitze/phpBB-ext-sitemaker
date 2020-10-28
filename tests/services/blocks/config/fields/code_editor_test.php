@@ -19,7 +19,7 @@ class code_editor_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new code_editor($this->translator, $this->ptemplate);
+		return new code_editor($this->translator);
 	}
 
 	/**
@@ -43,27 +43,28 @@ class code_editor_test extends cfg_test_base
 				'',
 				array(),
 				'',
-				'<textarea id="foo-editor" class="code-editor" name="config[foo]"></textarea>' .
-					'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-redo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="fullscreen" title="FULLSCREEN"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
-					'</div>'
+				array(
+					'key' => 'foo',
+					'value' => '',
+					'label' => '',
+					'explain' => '',
+					'attributes' => '',
+					'fullscreen' => true,
+				),
 			),
 			array(
 				'my awesome code',
 				'FOO_EXPLAIN',
 				array('allow-full-screen' => false, 'line-wrapping' => true),
 				'FOO',
-				'<label for="foo"><strong>FOO</strong></label>' .
-					'<span>FOO_EXPLAIN</span>' .
-					'<textarea id="foo-editor" class="code-editor" name="config[foo]" data-allow-full-screen="0" data-line-wrapping="1">my awesome code</textarea>' .
-					'<div class="align-right">' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-redo" aria-hidden="true"></i></button>' .
-					'<button class="foo-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-					'</div>'
+				array(
+					'key' => 'foo',
+					'value' => 'my awesome code',
+					'label' => 'FOO',
+					'explain' => 'FOO_EXPLAIN',
+					'attributes' => ' data-allow-full-screen="0" data-line-wrapping="1"',
+					'fullscreen' => false,
+				),
 			),
 		);
 	}
@@ -76,13 +77,13 @@ class code_editor_test extends cfg_test_base
 	 * @param string $explain
 	 * @param array $data_props
 	 * @param string $label
-	 * @param string $expected
+	 * @param array $expected
 	 */
-	public function test_build_code_editor($value, $explain, array $data_props, $label, $expected)
+	public function test_build_code_editor($value, $explain, array $data_props, $label, array $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_code_editor('foo', $value, $explain, $data_props, $label);
+		$result = $cfg_fields->build_code_editor('foo', $value, $explain, $data_props, $label);
 
-		$this->assertEquals($expected, $this->clean_output($html));
+		$this->assertEquals($expected, $result);
 	}
 }

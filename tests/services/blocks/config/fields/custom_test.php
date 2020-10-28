@@ -18,7 +18,7 @@ class custom_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new custom($this->translator, $this->ptemplate);
+		return new custom($this->translator);
 	}
 
     /**

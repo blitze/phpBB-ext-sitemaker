@@ -71,38 +71,48 @@ class feeds extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$content = '';
 		$settings = $bdata['settings'];
 		$feed_urls = $this->get_feeds_array($settings['feeds']);
+		$status = 0;
 
-		if (sizeof($feed_urls))
+		try
 		{
-			if ($items = $this->get_feed_items($feed_urls, $content, $settings['max'], $settings['cache']))
-			{
-				// We try to render block with user-provided trig template
-				try
-				{
-					$template = $this->twig->createTemplate($this->get_feed_template($settings['template']));
-
-					$content = $template->render([
-						'items'	=> $items,
-					]);
-				}
-				catch (\Exception $e)
-				{
-					$content = $e->getMessage();
-				}
-			}
+			$content = $this->render_feeds($feed_urls, $settings, $status);
+			$status = 1;
 		}
-		else
+		catch (\Exception $e)
 		{
-			$content = $this->translator->lang('FEED_URL_MISSING');
+			$content = $e->getMessage();
 		}
 
 		return array(
 			'title'		=> 'FEEDS',
-			'content'	=> $content,
+			'content'	=> $status || $edit_mode ? $content : '',
+			'status'	=> $status,
 		);
+	}
+
+	/**
+	 * @param array $feeds_url
+	 * @param array $settings
+	 * @param int $status
+	 * @return string
+	 */
+	protected function render_feeds(array $feed_urls, array $settings, &$status)
+	{
+		$content = '';
+		if ($items = $this->get_feed_items($feed_urls, $content, $settings['max'], $settings['cache']))
+		{
+			// We try to render block with user-provided trig template
+			$template = $this->twig->createTemplate($this->get_feed_template($settings['template']));
+
+			$status = 1;
+			$content = $template->render([
+				'items'	=> $items,
+			]);
+		}
+
+		return $content;
 	}
 
 	/**
@@ -131,7 +141,8 @@ class feeds extends block
 		$message = '';
 		$data = array('items' => []);
 		$fields = array('items' => $this->get_field_defaults('items'));
-		$feed_items = $this->get_feed_items($feeds, $message, 0, 0, 1);
+
+		$feed_items = $this->get_feed_items($feeds, $message, 0, 0, 1, true);
 
 		foreach ($feed_items as $feed)
 		{
@@ -161,45 +172,52 @@ class feeds extends block
 	 * @param string $message
 	 * @param int $max
 	 * @param int $cache
+	 * @param bool $quiet
 	 * @return array
 	 */
-	protected function get_feed_items(array $feed_urls, &$message, $max, $cache = 0, $items_per_feed = 0)
+	protected function get_feed_items(array $feed_urls, &$message, $max, $cache = 0, $items_per_feed = 0, $quiet = false)
 	{
+		if (!sizeof($feed_urls))
+		{
+			if (!$quiet)
+			{
+				throw new \Exception($this->translator->lang('FEED_URL_MISSING'));
+			}
+			return [];
+		}
+
 		$items = [];
 
-		if (sizeof($feed_urls))
+		try
 		{
-			try
+			/**
+			 * The below class cannot be added as a non-shared service using DI
+			 * as it does not follow best practises for class contructs.
+			 * It contains logic and method calls in the contructor for one thing.
+			 * Passing it as a non-shared service does not work
+			 */
+			$feed = new \blitze\sitemaker\services\simplepie\feed;
+			$feed->set_feed_url($feed_urls);
+			$feed->enable_cache((bool) $cache);
+			$feed->set_cache_location($this->cache_dir);
+			$feed->set_cache_duration($cache * 3600);
+
+			if ($items_per_feed)
 			{
-				/**
-				 * The below class cannot be added as a non-shared service using DI
-				 * as it does not follow best practises for class contructs.
-				 * It contains logic and method calls in the contructor for one thing.
-				 * Passing it as a non-shared service does not work
-				 */
-				$feed = new \blitze\sitemaker\services\simplepie\feed;
-				$feed->set_feed_url($feed_urls);
-				$feed->enable_cache((bool) $cache);
-				$feed->set_cache_location($this->cache_dir);
-				$feed->set_cache_duration($cache * 3600);
-
-				if ($items_per_feed)
-				{
-					$feed->set_item_limit($items_per_feed);
-				}
-
-				$feed->init();
-				$feed->handle_content_type();
-
-				if (!($items = $feed->get_items(0, $max)))
-				{
-					$message = $this->translator->lang('FEED_PROBLEMS');
-				}
+				$feed->set_item_limit($items_per_feed);
 			}
-			catch (\Exception $e)
+
+			$feed->init();
+			$feed->handle_content_type();
+
+			if (!($items = $feed->get_items(0, $max)))
 			{
-				$message = $e->getMessage();
+				$message = $this->translator->lang('FEED_PROBLEMS');
 			}
+		}
+		catch (\Exception $e)
+		{
+			$message = $e->getMessage();
 		}
 
 		return array_filter((array) $items);

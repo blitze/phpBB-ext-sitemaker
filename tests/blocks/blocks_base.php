@@ -82,35 +82,6 @@ abstract class blocks_base extends \phpbb_database_test_case
 			->method('acl_get')
 			->willReturn(true);
 
-		$tpl_data = array();
-		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
-				$tpl_data = array_merge($tpl_data, $data);
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
-				$tpl_data[$block][] = $data;
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_block_vars_array')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
-				$tpl_data[$block] = $data;
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('render_view')
-			->will($this->returnCallback(function() use (&$tpl_data) {
-				return $tpl_data;
-			}));
-
 		$temp_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -164,16 +135,16 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$profile_fields = new \phpbb\profilefields\manager(
 			$this->auth,
-			$this->config_text, 
+			$this->config_text,
 			$this->db,
 			$this->db_tools,
-			$phpbb_dispatcher, 
+			$phpbb_dispatcher,
 			$this->translator,
 			$this->log,
-			$this->request, 
-			$template, 
-			$cp_types_collection, 
-			$user, 
+			$this->request,
+			$template,
+			$cp_types_collection,
+			$user,
 			$table_prefix . 'profile_fields',
 			$table_prefix . 'profile_fields_data',
 			$table_prefix . 'profile_fields_lang',

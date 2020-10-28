@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -18,11 +19,11 @@ class radio_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new radio($this->translator, $this->ptemplate);
+		return new radio($this->translator);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
@@ -41,7 +42,11 @@ class radio_test extends cfg_test_base
 				array(),
 				'',
 				'some_var',
-				''
+				array(
+					'field' => 'some_var',
+					'options' => [],
+					'selected' => '',
+				),
 			),
 			array(
 				array(
@@ -51,9 +56,15 @@ class radio_test extends cfg_test_base
 				),
 				'option2',
 				'some_var',
-				'<label><input type="radio" name="config[some_var]" value="option1" class="radio" /> Option #1</label><br />' .
-				'<label><input type="radio" name="config[some_var]" value="option2" checked="checked" class="radio" /> Option #2</label><br />' .
-				'<label><input type="radio" name="config[some_var]" value="option3" class="radio" /> Option #3</label><br />'
+				array(
+					'field' => 'some_var',
+					'options' =>  array(
+						'option1' => 'Option #1',
+						'option2' => 'Option #2',
+						'option3' => 'Option #3',
+					),
+					'selected' => 'option2',
+				)
 			),
 		);
 	}
@@ -65,13 +76,13 @@ class radio_test extends cfg_test_base
 	 * @param array $option_ary
 	 * @param string|array $selected_items
 	 * @param string $key
-	 * @param string $expected
+	 * @param array $expected
 	 */
-	public function test_build_radio(array $option_ary, $selected_items, $key, $expected)
+	public function test_build_radio(array $option_ary, $selected_items, $key, array $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_radio($option_ary, $selected_items, $key);
+		$result = $cfg_fields->build_radio($option_ary, $selected_items, $key);
 
-		$this->assertEquals($expected, $this->clean_output($html));
+		$this->assertEquals($expected, $result);
 	}
 }

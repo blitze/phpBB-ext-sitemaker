@@ -137,10 +137,6 @@ class display_test extends \phpbb_database_test_case
 		$admin_bar->expects($this->exactly((int) $show_admin_bar))
 			->method('show');
 
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
@@ -161,7 +157,7 @@ class display_test extends \phpbb_database_test_case
 		$blocks_collection->add('my.empty.block');
 		$blocks_collection->add('my.foo.block');
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $blocks_collection);
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $phpbb_dispatcher, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
 

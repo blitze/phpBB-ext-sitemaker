@@ -18,19 +18,14 @@ abstract class cfg_field_base implements cfg_field_interface
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \phpbb\template\template */
-	protected $template;
-
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\language\language				$translator		Language object
-	 * @param \phpbb\template\template				$template		Template object
+	 * @param \phpbb\language\language		$translator		Language object
 	 */
-	public function __construct(\phpbb\language\language $translator, \phpbb\template\template $template)
+	public function __construct(\phpbb\language\language $translator)
 	{
 		$this->translator = $translator;
-		$this->template = $template;
 	}
 
 	/**

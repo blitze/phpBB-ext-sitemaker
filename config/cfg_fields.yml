@@ -8,9 +8,9 @@ services:
 
     blitze.sitemaker.cfg_field.base:
         class: blitze\sitemaker\services\blocks\config\fields\cfg_field_base
+        abstract:  true
         arguments:
             - '@language'
-            - '@template'
 
     blitze.sitemaker.cfg_field.checkbox:
         class: blitze\sitemaker\services\blocks\config\fields\checkbox

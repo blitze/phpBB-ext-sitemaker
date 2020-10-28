@@ -37,10 +37,7 @@ class google_maps_test extends blocks_base
 			->with($this->equalTo('S_USER_LANG'))
 			->willReturn('pt-BR');
 
-		$block = new google_maps($template);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new google_maps($template);
 	}
 
 	public function test_block_config()
@@ -104,6 +101,6 @@ class google_maps_test extends blocks_base
 		$block = $this->get_block(1);
 		$result = $block->display(array('settings' => $config));
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, $result['data']);
 	}
 }

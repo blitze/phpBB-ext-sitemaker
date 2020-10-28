@@ -36,10 +36,7 @@ class members_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new members($this->translator, $this->user, $this->members);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new members($this->translator, $this->user, $this->members);
 	}
 
 	public function test_block_config()
@@ -73,7 +70,10 @@ class members_test extends blocks_base
 				),
 				array(
 					'title' => 'LAST_VISITED',
-					'content' => 'visits list',
+					'data' => array(
+						'S_LIST'	=> 'visits',
+						'RANGE'		=> 'ALL_TIME',
+					),
 				),
 			),
 			array(
@@ -84,7 +84,10 @@ class members_test extends blocks_base
 				),
 				array(
 					'title' => 'RECENT_BOTS',
-					'content' => 'bots list',
+					'data' => array(
+						'S_LIST'	=> 'bots',
+						'RANGE'		=> 'ALL_TIME',
+					),
 				),
 			),
 			array(
@@ -95,7 +98,10 @@ class members_test extends blocks_base
 				),
 				array(
 					'title' => 'RECENT_MEMBERS',
-					'content' => 'recent list',
+					'data' => array(
+						'S_LIST'	=> 'recent',
+						'RANGE'		=> 'ALL_TIME',
+					),
 				),
 			),
 			array(
@@ -106,7 +112,10 @@ class members_test extends blocks_base
 				),
 				array(
 					'title' => 'MOST_TENURED',
-					'content' => 'tenured list',
+					'data' => array(
+						'S_LIST'	=> 'tenured',
+						'RANGE'		=> 'ALL_TIME',
+					),
 				),
 			),
 			array(
@@ -117,7 +126,10 @@ class members_test extends blocks_base
 				),
 				array(
 					'title' => 'TOP_POSTERS',
-					'content' => 'posts list',
+					'data' => array(
+						'S_LIST'	=> 'posts',
+						'RANGE'		=> 'ALL_TIME',
+					),
 				),
 			),
 		);
@@ -136,7 +148,7 @@ class members_test extends blocks_base
 		$this->members->expects($this->once())
 			->method('get_list')
 			->will($this->returnCallback(function($data) {
-				return $data['query_type'] . ' list';
+				return ['S_LIST' => $data['query_type']];
 			}));
 
 		$result = $block->display($bdata);

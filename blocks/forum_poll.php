@@ -86,7 +86,7 @@ class forum_poll extends block
 
 		return array(
 			'title'	=> 'POLL',
-			'data'	=> $this->poll->build($topic_data),
+			'data'	=> $topic_data ? $this->poll->build($topic_data) : [],
 		);
 	}
 

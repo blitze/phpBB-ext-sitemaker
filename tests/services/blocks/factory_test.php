@@ -65,10 +65,6 @@ class factory_test extends \phpbb_test_case
 			->willReturnCallback(function () {
 				return ucwords(strtolower(str_replace('_', ' ', implode(' ', func_get_args()))));
 			});
-
-		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
 	}
 
 	/**
@@ -88,7 +84,7 @@ class factory_test extends \phpbb_test_case
 
 		$reflectedClass = new \ReflectionClass($classname);
 		$constructor = $reflectedClass->getConstructor();
-		$constructor->invoke($factory, $this->translator, $this->ptemplate, $this->blocks);
+		$constructor->invoke($factory, $this->translator, $this->blocks);
 	}
 
 	/**
@@ -98,7 +94,7 @@ class factory_test extends \phpbb_test_case
 	{
 		$expected = '\foo\bar\blocks\foo_block';
 
-		$factory = new factory($this->translator, $this->ptemplate, $this->blocks);
+		$factory = new factory($this->translator, $this->blocks);
 
 		$block = $factory->get_block('my.foo.block');
 
@@ -116,7 +112,7 @@ class factory_test extends \phpbb_test_case
 			'my.baz.block'	=> 'My Baz Block',
 		);
 
-		$factory = new factory($this->translator, $this->ptemplate, $this->blocks);
+		$factory = new factory($this->translator, $this->blocks);
 
 		$this->assertEquals($expected, $factory->get_all_blocks());
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -18,11 +19,11 @@ class multi_select_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new multi_select($this->translator, $this->ptemplate);
+		return new multi_select($this->translator);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
@@ -41,7 +42,11 @@ class multi_select_test extends cfg_test_base
 				array(),
 				'',
 				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple"></select>'
+				array(
+					'field' => 'topic_ids',
+					'options' => [],
+					'selected' => [''],
+				)
 			),
 			array(
 				array(
@@ -51,11 +56,18 @@ class multi_select_test extends cfg_test_base
 				),
 				array('option1', 'option2'),
 				'topic_ids',
-				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple">' .
-					'<option value="option1" selected="selected">Option #1</option>' .
-					'<option value="option2" selected="selected">Option #2</option>' .
-					'<option value="option3">Option #3</option>' .
-				'</select>'
+				array(
+					'field' => 'topic_ids',
+					'options' => array(
+						'option1' => 'Option #1',
+						'option2' => 'Option #2',
+						'option3' => 'Option #3',
+					),
+					'selected' => array(
+						0 => 'option1',
+						1 => 'option2',
+					),
+				)
 			),
 		);
 	}
@@ -67,13 +79,13 @@ class multi_select_test extends cfg_test_base
 	 * @param array $option_ary
 	 * @param string|array $selected_items
 	 * @param string $key
-	 * @param string $expected
+	 * @param array $expected
 	 */
-	public function test_build_multi_select(array $option_ary, $selected_items, $key, $expected)
+	public function test_build_multi_select(array $option_ary, $selected_items, $key, array $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_multi_select($option_ary, $selected_items, $key);
+		$result = $cfg_fields->build_multi_select($option_ary, $selected_items, $key);
 
-		$this->assertEquals($expected, $this->clean_output($html));
+		$this->assertEquals($expected, $result);
 	}
 }

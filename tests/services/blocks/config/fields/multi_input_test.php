@@ -19,7 +19,7 @@ class multi_input_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new multi_input($this->translator, $this->ptemplate);
+		return new multi_input($this->translator);
 	}
 
 	/**
@@ -42,41 +42,26 @@ class multi_input_test extends cfg_test_base
 				false,
 				[],
 				'',
-				'<div class="sm-multi-input-ui">' .
-					'<div class="sm-multi-input-list">' .
-					'<div class="sm-multi-input-item">' .
-					'<input type="text" name="config[foo][]" value="" />' .
-					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-					'</div>' .
-					'</div>' .
-					'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
-					'</div>',
+				array(
+					'field' => 'foo',
+					'values' => array(),
+					'sortable' => false,
+					'label' => '',
+				),
 			),
 			array(
 				true,
 				['https://google.com', 'some-site.com'],
 				'MY_FOO_INPUT',
-				'<div class="sm-multi-input-ui">' .
-					'<label><strong>MY_FOO_INPUT</strong></label>' .
-					'<div class="sm-multi-input-list sortable">' .
-					'<div class="sm-multi-input-item">' .
-					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
-					'<input type="text" name="config[foo][]" value="https://google.com" />' .
-					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-					'</div>' .
-					'<div class="sm-multi-input-item">' .
-					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
-					'<input type="text" name="config[foo][]" value="some-site.com" />' .
-					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-					'</div>' .
-					'<div class="sm-multi-input-item">' .
-					'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
-					'<input type="text" name="config[foo][]" value="" />' .
-					'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-					'</div>' .
-					'</div>' .
-					'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
-					'</div>',
+				array(
+					'field' => 'foo',
+					'values' => array(
+						0 => 'https://google.com',
+						1 => 'some-site.com',
+					),
+					'sortable' => true,
+					'label' => 'MY_FOO_INPUT',
+				),
 			),
 		);
 	}
@@ -88,13 +73,13 @@ class multi_input_test extends cfg_test_base
 	 * @param bool $sortable
 	 * @param array $values
 	 * @param string $label
-	 * @param string $expected
+	 * @param array $expected
 	 */
-	public function test_build_multi_input($sortable, array $values, $label, $expected)
+	public function test_build_multi_input($sortable, array $values, $label, array $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_multi_input('foo', $sortable, $values, $label);
+		$result = $cfg_fields->build_multi_input('foo', $sortable, $values, $label);
 
-		$this->assertEquals($expected, preg_replace('/\s{2,}/', '', $html));
+		$this->assertEquals($expected, $result);
 	}
 }

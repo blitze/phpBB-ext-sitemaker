@@ -105,10 +105,7 @@ class forum_topics_test extends blocks_base
 
 		$truncator = new \Urodoz\Truncate\TruncateService();
 
-		$block = new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -420,6 +417,6 @@ class forum_topics_test extends blocks_base
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);
-		$this->assertEquals($topicrow, $result['content']['topicrow']);
+		$this->assertEquals($topicrow, $result['data']['TOPICS']);
 	}
 }

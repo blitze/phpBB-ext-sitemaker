@@ -18,7 +18,7 @@ class hidden_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new hidden($this->translator, $this->ptemplate);
+		return new hidden($this->translator);
 	}
 
     /**

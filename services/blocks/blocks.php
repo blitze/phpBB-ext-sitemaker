@@ -189,15 +189,24 @@ class blocks extends routes
 	 */
 	protected function block_has_content(array &$returned_data, $edit_mode)
 	{
-		if (!empty($returned_data['data']) && !$returned_data['template'])
+		$content = &$returned_data['content'];
+		$data = &$returned_data['data'];
+		$data = array_filter((array) $data);
+
+		if (!empty($data) && !$returned_data['template'])
 		{
 			throw new \Error('Missing block template');
 		}
 
-		if ($edit_mode && !$returned_data['content'] && empty($returned_data['data']))
+		if (!$content && empty($data))
 		{
-			$returned_data['status'] = 0;
-			$returned_data['content'] = $this->translator->lang('BLOCK_NO_DATA');
+			if ($edit_mode)
+			{
+				$returned_data['status'] = 0;
+				$returned_data['content'] = $this->translator->lang('BLOCK_NO_DATA');
+
+				return true;
+			}
 
 			return false;
 		}

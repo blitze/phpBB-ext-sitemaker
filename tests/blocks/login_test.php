@@ -80,10 +80,7 @@ class login_test extends blocks_base
 				return $form . ' token';
 			}));
 
-		$block = new login($this->phpbb_container, $this->template, $this->user, $util, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new login($this->phpbb_container, $this->template, $this->user, $util, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -162,7 +159,7 @@ class login_test extends blocks_base
 				true,
 				'index.php',
 				0,
-				'',
+				[],
 			),
 			array(
 				array(
@@ -194,6 +191,6 @@ class login_test extends blocks_base
 		$block = $this->get_block($user_is_logged_in, $curr_page, $call_count);
 		$result = $block->display($bdata);
 
-		$this->assertSame($expected, $result['content']);
+		$this->assertSame($expected, is_array($expected) ? $result['data'] : $result['content']);
 	}
 }

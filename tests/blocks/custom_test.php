@@ -53,10 +53,7 @@ class custom_test extends blocks_base
 				$assets = array_merge($assets, $data);
 			}));
 
-		$block = new custom($this->cache, $this->db, $this->request, $util, 'phpbb_sm_cblocks');
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new custom($this->cache, $this->db, $this->request, $util, 'phpbb_sm_cblocks');
 	}
 
 	public function test_block_config()

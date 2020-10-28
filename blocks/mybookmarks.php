@@ -71,9 +71,9 @@ class mybookmarks extends block
 
 			return array(
 				'title'	=> 'MY_BOOKMARKS',
-				'data'	=> array_merge(
-					array('NO_RECORDS' => $this->translator->lang('NO_BOOKMARKED_TOPICS')),
-					$this->get_bookmarks($topics_data),
+				'data'	=> array(
+					'NO_RECORDS'	=> $this->translator->lang('NO_BOOKMARKED_TOPICS'),
+					'TOPICS'		=> $this->get_bookmarks($topics_data),
 				),
 			);
 		}

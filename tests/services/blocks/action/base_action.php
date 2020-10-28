@@ -90,10 +90,6 @@ class base_action extends \phpbb_database_test_case
 			->setMethods(null)
 			->getMock();
 
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -156,9 +152,9 @@ class base_action extends \phpbb_database_test_case
 			->getMock();
 		$cfg_factory->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($type) use ($ptemplate) {
+			->will($this->returnCallback(function($type) {
 				return ($type === 'radio')
-					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator, $ptemplate)
+					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator)
 					: false;
 			}));
 
@@ -180,7 +176,7 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $blocks_collection);
 
 		$this->mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 

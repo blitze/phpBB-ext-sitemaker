@@ -164,14 +164,14 @@ abstract class display
 
 	/**
 	 * @param array $data
-	 * @param \phpbb\template\twig\twig $template
-	 * @param string $handle
+	 * @return []
 	 */
-	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_list(array $data)
 	{
 		$prev_depth = 0;
 		$parental_depth = array(0 => -1);
 		$data = array_values($data);
+		$nodes = [];
 
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
@@ -179,33 +179,21 @@ abstract class display
 			$this_depth	= $parental_depth[$row[$this->column_parent_id]] + 1;
 			$repeat		= (int) abs($prev_depth - $this_depth);
 
-			$tpl_data	= array(
+			$nodes[]	= array_merge(array(
 				'PREV_DEPTH'	=> $prev_depth,
 				'THIS_DEPTH'	=> $this_depth,
 				'NUM_KIDS'		=> $this->count_descendants($row),
-			);
-
-			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
-			$this->recursively_close_tags($repeat, $handle . '.close', $template);
+				'CLOSE'			=> array_fill(0, $repeat, ''),
+			), array_change_key_case($row, CASE_UPPER));
 
 			$prev_depth = $this_depth;
 			$parental_depth[$row[$this->pk]] = $this_depth;
 		}
-		$this->recursively_close_tags($prev_depth, 'close_' . $handle, $template);
-	}
 
-	/**
-	 * @param int $repeat
-	 * @param string $handle
-	 * @param \phpbb\template\twig\twig $template
-	 * @return void
-	 */
-	protected function recursively_close_tags($repeat, $handle, \phpbb\template\twig\twig $template)
-	{
-		for ($i = 0; $i < $repeat; $i++)
-		{
-			$template->assign_block_vars($handle, array());
-		}
+		return array(
+			'tree'	=> $nodes,
+			'close'	=> array_fill(0, $prev_depth, ''),
+		);
 	}
 
 	/**

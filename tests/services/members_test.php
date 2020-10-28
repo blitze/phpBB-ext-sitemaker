@@ -123,7 +123,10 @@ class members_test extends \phpbb_database_test_case
 			array(
 				array(),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'recent',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Join Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member5</span>',
 							'USER_AVATAR'	=> '',
@@ -150,9 +153,6 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '30 Jan 2015',
 						),
 					),
-					'S_LIST'		=> 'recent',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Join Date'
 				),
 			),
 			array(
@@ -161,7 +161,10 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 2,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'visits',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member3</span>',
 							'USER_AVATAR'	=> '',
@@ -173,9 +176,6 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '16 Aug 2015',
 						),
 					),
-					'S_LIST'		=> 'visits',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -184,15 +184,15 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'bots',
+					'USER_TITLE'	=> '',
+					'INFO_TITLE'	=> '',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> 'bot2',
 							'USER_INFO'		=> '',
 						),
 					),
-					'S_LIST'		=> 'bots',
-					'USER_TITLE'	=> '',
-					'INFO_TITLE'	=> ''
 				),
 			),
 			array(
@@ -201,16 +201,16 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'tenured',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">founder</span>',
 							'USER_AVATAR'	=> '',
 							'USER_INFO'		=> '05 Jan 2015',
 						),
 					),
-					'S_LIST'		=> 'tenured',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -219,16 +219,16 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'posts',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Posts',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member2</span>',
 							'USER_AVATAR'	=> '',
 							'USER_INFO'		=> '<a href="phpBB/search.php?author_id=7&amp;sr=posts">1</a>',
 						),
 					),
-					'S_LIST'		=> 'posts',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Posts'
 				),
 			),
 			array(
@@ -238,16 +238,16 @@ class members_test extends \phpbb_database_test_case
 					'date_range'	=> 'month',
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'visits',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'	=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member2</span>',
 							'USER_AVATAR'	=> '',
 							'USER_INFO'		=> '15 Feb 2015',
 						),
 					),
-					'S_LIST'	=> 'visits',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 		);

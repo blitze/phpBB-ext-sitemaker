@@ -87,10 +87,7 @@ class whois_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new whois($this->auth, $this->config, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new whois($this->auth, $this->config, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -145,6 +142,6 @@ class whois_test extends blocks_base
 		$block = $this->get_block($authed, $current_page, 1);
 		$result = $block->display(array());
 
-		$this->assertSame($expected, $result['content']);
+		$this->assertSame($expected, $result['data']);
 	}
 }

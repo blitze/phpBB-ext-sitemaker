@@ -1,6 +1,5 @@
 <ul class="sm-list">
-{% for postrow in loops.postrow %}
-	{% for attachment in postrow.attachment %}
+	{% for attachment in attachments %}
 	<li>
 		<div class="sm-inner">
 		{% if attachment.EXTENSION_GROUP == 'IMAGES' %}
@@ -11,5 +10,5 @@
 		</div>
 	</li>
 	{% endfor %}
-{% endfor %}
 </ul>
+

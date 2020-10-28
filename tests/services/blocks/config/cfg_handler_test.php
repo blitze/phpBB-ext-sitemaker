@@ -12,7 +12,6 @@ namespace blitze\sitemaker\tests\services\blocks\config;
 
 use phpbb\request\request_interface;
 use blitze\sitemaker\services\blocks\config\cfg_handler;
-use blitze\sitemaker\services\template;
 
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/foo.php';
 
@@ -38,32 +37,6 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		global $request, $template, $phpbb_container, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
-		$tpl_data = array();
-		$template = $this->getMockBuilder('\phpbb\template\template')
-			->getMock();
-
-		$this->tpl_data = &$tpl_data;
-		$template->expects($this->any())
-			->method('assign_vars')
-			->will($this->returnCallback(function ($data) use (&$tpl_data)
-			{
-				$tpl_data = array_merge($tpl_data, $data);
-			}));
-
-		$template->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
-			{
-				$tpl_data[$key][] = $data;
-			}));
-
-		$template->expects($this->any())
-			->method('assign_display')
-			->will($this->returnCallback(function () use (&$tpl_data)
-			{
-				return $tpl_data;
-			}));
-
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -73,6 +46,8 @@ class cfg_handler_test extends \phpbb_test_case
 			->will($this->returnValueMap($variable_map));
 
 		$phpbb_container = new \phpbb_mock_container_builder();
+
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_extension_manager = new \phpbb_mock_extension_manager(
 			$phpbb_root_path,
@@ -98,44 +73,28 @@ class cfg_handler_test extends \phpbb_test_case
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 
-		$config = new \phpbb\config\config(array());
+		$tpl_data = array();
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
 
-		$filesystem = new \phpbb\filesystem\filesystem();
+		$this->tpl_data = &$tpl_data;
+		$template->expects($this->any())
+			->method('assign_vars')
+			->will($this->returnCallback(function ($data) use (&$tpl_data) {
+				$tpl_data = array_merge($tpl_data, $data);
+			}));
 
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			$filesystem,
-			$request,
-			$phpbb_root_path,
-			$php_ext
-		);
+		$template->expects($this->any())
+			->method('assign_block_vars')
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data) {
+				$tpl_data[$key][] = $data;
+			}));
 
-		$cache_path = $phpbb_root_path . 'cache/twig';
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-		$template_context = new \phpbb\template\context();
-		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
-		$twig = new \phpbb\template\twig\environment(
-			$config,
-			$filesystem,
-			$path_helper,
-			$cache_path,
-			null,
-			$template_loader,
-			$phpbb_dispatcher,
-			array(
-				'cache'			=> false,
-				'debug'			=> false,
-				'auto_reload'	=> true,
-				'autoescape'	=> false,
-			)
-		);
-
-		$ptemplate = new template($path_helper, $config, $template_context, $twig, $cache_path, $user, array(new \phpbb\template\twig\extension($template_context, $twig, $user)));
-		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
-
-		$ptemplate->set_custom_style('all', $phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
+		$template->expects($this->any())
+			->method('assign_display')
+			->will($this->returnCallback(function () use (&$tpl_data) {
+				return $tpl_data;
+			}));
 
 		$cfg_fields_collection = new \phpbb\di\service_collection($phpbb_container);
 
@@ -148,14 +107,14 @@ class cfg_handler_test extends \phpbb_test_case
 		$cfg_fields_collection->add('cfg.radio.field');
 		$cfg_fields_collection->add('cfg.select.field');
 
-		$phpbb_container->set('cfg.checkbox.field', new \blitze\sitemaker\services\blocks\config\fields\checkbox($translator, $ptemplate));
-		$phpbb_container->set('cfg.code_editor.field', new \blitze\sitemaker\services\blocks\config\fields\code_editor($translator, $ptemplate));
-		$phpbb_container->set('cfg.custom.field', new \blitze\sitemaker\services\blocks\config\fields\custom($translator, $ptemplate));
-		$phpbb_container->set('cfg.hidden.field', new \blitze\sitemaker\services\blocks\config\fields\hidden($translator, $ptemplate));
-		$phpbb_container->set('cfg.multi_input.field', new \blitze\sitemaker\services\blocks\config\fields\multi_input($translator, $ptemplate));
-		$phpbb_container->set('cfg.multi_select.field', new \blitze\sitemaker\services\blocks\config\fields\multi_select($translator, $ptemplate));
-		$phpbb_container->set('cfg.radio.field', new \blitze\sitemaker\services\blocks\config\fields\radio($translator, $ptemplate));
-		$phpbb_container->set('cfg.select.field', new \blitze\sitemaker\services\blocks\config\fields\select($translator, $ptemplate));
+		$phpbb_container->set('cfg.checkbox.field', new \blitze\sitemaker\services\blocks\config\fields\checkbox($translator));
+		$phpbb_container->set('cfg.code_editor.field', new \blitze\sitemaker\services\blocks\config\fields\code_editor($translator));
+		$phpbb_container->set('cfg.custom.field', new \blitze\sitemaker\services\blocks\config\fields\custom($translator));
+		$phpbb_container->set('cfg.hidden.field', new \blitze\sitemaker\services\blocks\config\fields\hidden($translator));
+		$phpbb_container->set('cfg.multi_input.field', new \blitze\sitemaker\services\blocks\config\fields\multi_input($translator));
+		$phpbb_container->set('cfg.multi_select.field', new \blitze\sitemaker\services\blocks\config\fields\multi_select($translator));
+		$phpbb_container->set('cfg.radio.field', new \blitze\sitemaker\services\blocks\config\fields\radio($translator));
+		$phpbb_container->set('cfg.select.field', new \blitze\sitemaker\services\blocks\config\fields\select($translator));
 
 		$cfg_factory = new \blitze\sitemaker\services\blocks\config\cfg_factory($cfg_fields_collection);
 
@@ -184,185 +143,258 @@ class cfg_handler_test extends \phpbb_test_case
 				array('option1', 'option3'),
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'explain' => false, 'default' => array()),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<ul class="sm-list my_var-checkbox" id="my_var-col-0">' .
-						'<li><label><input type="checkbox" name="config[my_var][]" value="option1" checked="checked" class="checkbox" /> Option 1</label></li>' .
-						'<li><label><input type="checkbox" name="config[my_var][]" value="option2" class="checkbox" /> Option 2</label></li>' .
-						'<li><label><input type="checkbox" name="config[my_var][]" value="option3" checked="checked" class="checkbox" /> Option 3</label></li>' .
-						'</ul>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/checkbox.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'selected' => ['option1', 'option3'],
+						'columns' => array(
+							array(
+								'option1' => 'Option 1',
+								'option2' => 'Option 2',
+								'option3' => 'Option 3',
+							),
+						),
+						'class' => '',
+						'sortable' => 0,
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => '',
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				array('option1', 'option2'),
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'explain' => true, 'default' => array(), 'append' => 'YEARS'),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> true,
-					'TITLE_EXPLAIN'	=> 'MY_SETTING_EXPLAIN',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-						'<option value="option1" selected="selected">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
-						'</select>YEARS',
+					'APPEND' => 'YEARS',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/multi_select.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'selected' => array(
+							0 => 'option1',
+							1 => 'option2',
+						),
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => true,
+					'TITLE_EXPLAIN' => 'MY_SETTING_EXPLAIN',
 				),
 			),
 			array(
 				'option1',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<label><input type="radio" name="config[my_var]" value="option1" checked="checked" class="radio" /> Option 1</label><br />' .
-						'<label><input type="radio" name="config[my_var]" value="option2" class="radio" /> Option 2</label><br />' .
-						'<label><input type="radio" name="config[my_var]" value="option3" class="radio" /> Option 3</label><br />',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/radio.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'selected' => 'option1',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var]">' .
-						'<option value="option1">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
-						'</select>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/select.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'selected' => array(
+							0 => 'option2',
+						),
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'size' => 1,
+						'multi_select' => false,
+						'togglable_key' => '',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:1', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple">' .
-						'<option value="option1">Option 1</option>' .
-						'<option value="option2" selected="selected">Option 2</option>' .
-						'<option value="option3">Option 3</option>' .
-						'</select>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/select.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'selected' => array(
+							0 => 'option2',
+						),
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'size' => 1,
+						'multi_select' => 'option2',
+						'togglable_key' => '',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:5:0:test', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var]" size="5" data-togglable-settings="true">' .
-						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
-						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
-						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
-						'</select>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/select.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'selected' => array(
+							0 => 'option2',
+						),
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'size' => 5,
+						'multi_select' => false,
+						'togglable_key' => 'test',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				array('option1', 'option2'),
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:1:foo', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var][]" multiple="multiple" data-togglable-settings="true">' .
-						'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option 1</option>' .
-						'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option 2</option>' .
-						'<option value="option3" data-toggle-setting="#foo-option3">Option 3</option>' .
-						'</select>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/select.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'selected' => array(
+							0 => 'option1',
+							1 => 'option2',
+						),
+						'options' => array(
+							'option1' => 'Option 1',
+							'option2' => 'Option 2',
+							'option3' => 'Option 3',
+						),
+						'size' => 1,
+						'multi_select' => array(
+							0 => 'option1',
+							1 => 'option2',
+						),
+						'togglable_key' => 'foo',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				1,
 				array('lang' => 'MY_SETTING', 'validate' => 'int:0:20', 'type' => 'hidden', 'default' => 0),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '',
+					'APPEND' => '',
+					'CONTENT' => '',
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'foo foo',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'custom', 'function' => 'foo', 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<div>Hello foo foo</div>',
+					'APPEND' => '',
+					'CONTENT' => '<div>Hello foo foo</div>',
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'validate' => 'string', 'type' => 'select:1:toggable', 'object' => $this, 'method' => 'create_test_options', 'options' => $options, 'explain' => false, 'default' => ''),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> 'MY_SETTING',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<select id="my_var" name="config[my_var]" data-togglable-settings="true">' .
+					'APPEND' => '',
+					'CONTENT' => '<select id="my_var" name="config[my_var]" data-togglable-settings="true">' .
 						'<option value="option1" data-toggle-setting="#test-option1">Option 1</option>' .
 						'<option value="option2" selected="selected" data-toggle-setting="#test-option2">Option 2</option>' .
 						'<option value="option3" data-toggle-setting="#test-option3">Option 3</option>' .
 						'</select>',
+					'KEY' => 'my_var',
+					'TITLE' => 'MY_SETTING',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => '', 'validate' => 'string', 'type' => 'code_editor', 'params' => [['height' => 200, 'allow-full-screen' => true], 'MY_TITLE'], 'default' => '', 'explain' => true, 'lang_explain' => 'CODE_EDITOR'),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> '',
-					'S_EXPLAIN'		=> true,
-					'TITLE_EXPLAIN'	=> 'CODE_EDITOR',
-					'CONTENT'		=> '<label for="my_var"><strong>MY_TITLE</strong></label>' .
-						'<span>CODE_EDITOR</span>' .
-						'<textarea id="my_var-editor" class="code-editor" name="config[my_var]" data-height="200" data-allow-full-screen="1">option2</textarea>' .
-						'<div class="align-right">' .
-						'<button class="my_var-editor-button CodeMirror-button" data-action="undo" title="UNDO"><i class="fa fa-undo" aria-hidden="true"></i></button>' .
-						'<button class="my_var-editor-button CodeMirror-button" data-action="redo" title="REDO"><i class="fa fa-redo" aria-hidden="true"></i></button>' .
-						'<button class="my_var-editor-button CodeMirror-button" data-action="clear" title="CLEAR"><i class="fa fa-ban" aria-hidden="true"></i></button>' .
-						'<button class="my_var-editor-button CodeMirror-button" data-action="fullscreen" title="Fullscreen"><i class="fa fa-window-restore" aria-hidden="true"></i></button>' .
-						'</div>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/code_editor.html',
+					'TPL_DATA' => array(
+						'key' => 'my_var',
+						'value' => 'option2',
+						'label' => 'MY_TITLE',
+						'explain' => 'CODE_EDITOR',
+						'attributes' => ' data-height="200" data-allow-full-screen="1"',
+						'fullscreen' => true,
+					),
+					'KEY' => 'my_var',
+					'TITLE' => '',
+					'S_EXPLAIN' => true,
+					'TITLE_EXPLAIN' => 'CODE_EDITOR',
 				),
 			),
 			array(
 				'option2',
 				array('lang' => 'MY_SETTING', 'type' => 'multi_input:1:1', 'default' => []),
 				array(
-					'KEY'			=> 'my_var',
-					'TITLE'			=> '',
-					'S_EXPLAIN'		=> false,
-					'TITLE_EXPLAIN'	=> '',
-					'CONTENT'		=> '<div class="sm-multi-input-ui">' .
-						'<label><strong>MY_SETTING</strong></label>' .
-						'<div class="sm-multi-input-list sortable">' .
-						'<div class="sm-multi-input-item">' .
-						'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
-						'<input type="text" name="config[my_var][]" value="option2" />' .
-						'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
-						'<div class="sm-multi-input-item">' .
-						'<span><i class="fa fa-bars" aria-hidden="true"></i></span>' .
-						'<input type="text" name="config[my_var][]" value="" />' .
-						'<button class="sm-multi-input-delete"><i class="fa fa-times" aria-hidden="true"></i></button>' .
-						'</div>' .
-						'</div>' .
-						'<button class="sm-multi-input-add pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>' .
-						'</div>',
+					'APPEND' => '',
+					'TEMPLATE' => '@blitze_sitemaker/cfg_fields/multi_input.html',
+					'TPL_DATA' => array(
+						'field' => 'my_var',
+						'values' => array(
+							0 => 'option2',
+						),
+						'sortable' => '1',
+						'label' => 'MY_SETTING',
+					),
+					'KEY' => 'my_var',
+					'TITLE' => '',
+					'S_EXPLAIN' => false,
+					'TITLE_EXPLAIN' => '',
 				),
 			),
 		);
@@ -400,17 +432,9 @@ class cfg_handler_test extends \phpbb_test_case
 		);
 
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->get_edit_form($block_data, $default_settings);
+		$result = $cfg_fields->get_edit_form($block_data, $default_settings);
 
-		foreach ($html['options'] as &$option)
-		{
-			if (isset($option['CONTENT']))
-			{
-				$option['CONTENT'] = trim(preg_replace('/\s{2,}|\n/', '', $option['CONTENT']));
-			}
-		}
-
-		$this->assertSame($expected, $html['options']);
+		$this->assertEquals($expected, $result['cfg_fields']);
 	}
 
 	/**
@@ -484,20 +508,14 @@ class cfg_handler_test extends \phpbb_test_case
 	{
 		$cfg_fields = $this->get_service($variable_map);
 
-		try
-		{
+		try {
 			$data = $cfg_fields->get_submitted_settings($default_settings);
-			if (is_array($expected))
-			{
+			if (is_array($expected)) {
 				$this->assertSame($expected, $data);
-			}
-			else
-			{
+			} else {
 				$this->fail('no exception thrown');
 			}
-		}
-		catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
 			$this->assertEquals($expected, $e->getMessage());
 		}
 	}
@@ -510,8 +528,7 @@ class cfg_handler_test extends \phpbb_test_case
 	public function create_test_options(array $options, $current)
 	{
 		$html = '';
-		foreach ($options as $value => $title)
-		{
+		foreach ($options as $value => $title) {
 			$selected = ($current == $value) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $selected . ' data-toggle-setting="#test-' . $value . '">' . $title . '</option>';
 		}

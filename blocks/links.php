@@ -65,18 +65,18 @@ class links extends block
 	{
 		$menu_id = $db_data['settings']['menu_id'];
 
-		// if (!$this->navigation->build_menu($this->template, $menu_id, $this->is_navigation, $db_data['settings']))
-		// {
-		// 	return array(
-		// 		'title'		=> $this->title,
-		// 		'content'	=> $this->get_message($menu_id, $editing),
-		// 		'status'	=> (int) !$editing,
-		// 	);
-		// }
+		if ($data = $this->navigation->build_menu($menu_id, $this->is_navigation, $db_data['settings']))
+		{
+			return array(
+				'title'		=> $this->title,
+				'data'		=> $data,
+				'status'	=> (int) !$editing,
+			);
+		}
 
 		return array(
 			'title'     => $this->title,
-			'content'   => [],
+			'content'   => $this->get_message($menu_id, $editing),
 		);
 	}
 

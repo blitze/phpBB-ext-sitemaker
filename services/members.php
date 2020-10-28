@@ -72,7 +72,7 @@ class members
 	/**
 	 * get members
 	 * @param array $get
-	 * @return string
+	 * @return []
 	 */
 	public function get_list(array $get = array())
 	{

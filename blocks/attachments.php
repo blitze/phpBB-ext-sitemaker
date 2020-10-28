@@ -102,7 +102,9 @@ class attachments extends block
 
 		return array(
 			'title'	=> 'ATTACHMENTS',
-			'data'	=> $this->get_attachments_data($attachments, $posts_data, $extensions),
+			'data'	=> array(
+				'attachments'	=> $this->get_attachments_data($attachments, $posts_data, $extensions),
+			)
 		);
 	}
 
@@ -115,7 +117,7 @@ class attachments extends block
 	protected function get_attachments_data(array $attachments_ary, array $posts_data, array $extensions)
 	{
 		$message = '';
-		$data = $update_count = [];
+		$attachments_row = $update_count = [];
 
 		foreach ($attachments_ary as $post_id => $attachments)
 		{
@@ -124,22 +126,21 @@ class attachments extends block
 
 			parse_attachments($post_row['forum_id'], $message, $attachments, $update_count, true);
 
-			$attachment_row = [];
 			foreach ($attachments as $i => $attachment)
 			{
 				$row = $attachments_ary[$post_id][$i];
 				$topic_id = $row['topic_id'];
 				$post_id = $row['post_msg_id'];
 
-				$attachment_row[] = array(
+				$attachments_row[] = array(
 					'DISPLAY_ATTACHMENT'	=> $attachment,
 					'EXTENSION_GROUP'		=> $extensions[$row['extension']]['group_name'],
 					'U_VIEWTOPIC'			=> append_sid("{$this->phpbb_root_path}viewtopic.{$this->php_ext}", "t=$topic_id&amp;p=$post_id") . '#p' . $post_id,
 				);
 			}
-
-			$data[] = $attachment_row;
 		}
+
+		return $attachments_row;
 	}
 
 	/**

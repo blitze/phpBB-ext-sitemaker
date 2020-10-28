@@ -68,10 +68,7 @@ class member_menu_test extends blocks_base
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new member_menu($this->auth, $this->user, $forum_data, $this->util, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new member_menu($this->auth, $this->user, $forum_data, $this->util, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -98,7 +95,7 @@ class member_menu_test extends blocks_base
 					'user_lastvisit' => 0,
 					'user_posts'	=> 0,
 				),
-				'',
+				[],
 			),
 			array(
 				array(
@@ -137,6 +134,6 @@ class member_menu_test extends blocks_base
 		$block = $this->get_block($user_data);
 		$result = $block->display(array());
 
-		$this->assertSame($expected, $result['content']);
+		$this->assertSame($expected, $result['data']);
 	}
 }

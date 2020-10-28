@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -18,11 +19,11 @@ class select_test extends cfg_test_base
 	 */
 	protected function get_service()
 	{
-		return new select($this->translator, $this->ptemplate);
+		return new select($this->translator);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
@@ -44,7 +45,14 @@ class select_test extends cfg_test_base
 				1,
 				false,
 				'',
-				'<select id="topic_ids" name="config[topic_ids]"></select>'
+				array(
+					'field' => 'topic_ids',
+					'selected' => [''],
+					'options' =>  [],
+					'size' => 1,
+					'multi_select' => false,
+					'togglable_key' => '',
+				)
 			),
 			array(
 				array(
@@ -57,11 +65,18 @@ class select_test extends cfg_test_base
 				1,
 				false,
 				'',
-				'<select id="topic_ids" name="config[topic_ids]">' .
-					'<option value="option1">Option #1</option>' .
-					'<option value="option2" selected="selected">Option #2</option>' .
-					'<option value="option3">Option #3</option>' .
-				'</select>'
+				array(
+					'field' => 'topic_ids',
+					'selected' => ['option2'],
+					'options' =>  array(
+						'option1' => 'Option #1',
+						'option2' => 'Option #2',
+						'option3' => 'Option #3',
+					),
+					'size' => 1,
+					'multi_select' => false,
+					'togglable_key' => '',
+				)
 			),
 			array(
 				array(
@@ -74,11 +89,18 @@ class select_test extends cfg_test_base
 				5,
 				true,
 				'foo',
-				'<select id="topic_ids" name="config[topic_ids][]" multiple="multiple" size="5" data-togglable-settings="true">' .
-					'<option value="option1" selected="selected" data-toggle-setting="#foo-option1">Option #1</option>' .
-					'<option value="option2" selected="selected" data-toggle-setting="#foo-option2">Option #2</option>' .
-					'<option value="option3" data-toggle-setting="#foo-option3">Option #3</option>' .
-				'</select>'
+				array(
+					'field' => 'topic_ids',
+					'selected' => ['option1', 'option2'],
+					'options' =>  array(
+						'option1' => 'Option #1',
+						'option2' => 'Option #2',
+						'option3' => 'Option #3',
+					),
+					'size' => 5,
+					'multi_select' => true,
+					'togglable_key' => 'foo',
+				)
 			),
 		);
 	}
@@ -87,12 +109,19 @@ class select_test extends cfg_test_base
 	 * Test the build_select method
 	 *
 	 * @dataProvider build_select_test_data
+	 * @param array $option_ary
+	 * @param string|array $selected_item
+	 * @param string $field
+	 * @param int $size
+	 * @param bool $multi_select
+	 * @param string $toggle_key
+	 * @param array $expected
 	 */
-	public function test_build_select($option_ary, $selected_item, $field, $size, $multi_select, $toggle_key, $expected)
+	public function test_build_select($option_ary, $selected_item, $field, $size, $multi_select, $toggle_key, array $expected)
 	{
 		$cfg_fields = $this->get_service();
-		$html = $cfg_fields->build_select($option_ary, $selected_item, $field, $size, $multi_select, $toggle_key);
+		$result = $cfg_fields->build_select($option_ary, $selected_item, $field, $size, $multi_select, $toggle_key);
 
-		$this->assertEquals($expected, $this->clean_output($html));
+		$this->assertEquals($expected, $result);
 	}
 }

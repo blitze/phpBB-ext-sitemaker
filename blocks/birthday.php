@@ -57,7 +57,7 @@ class birthday extends block
 	{
 		if (($data = $this->cache->get('pt_block_data_' . $bdata['bid'])) === false)
 		{
-			$data = $this->find_birthday_users();
+			$data = ['birthdays' => $this->find_birthday_users()];
 
 			// we only check birthdays every hour, may make this an admin choice
 			$this->cache->put('pt_block_data_' . $bdata['bid'], $data, 3600);
@@ -81,7 +81,7 @@ class birthday extends block
 
 		$leap_year_birthdays = $this->adjust_leap_year($now, $time);
 
-		$sql = 'SELECT u.user_id, u.username, u.user_colour, u.user_birthday 
+		$sql = 'SELECT u.user_id, u.username, u.user_colour, u.user_birthday
 				FROM ' . USERS_TABLE . ' u
 				LEFT JOIN ' . BANLIST_TABLE . ' b ON (u.user_id = b.ban_userid)
 				WHERE (b.ban_id IS NULL

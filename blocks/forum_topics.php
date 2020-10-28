@@ -106,7 +106,7 @@ class forum_topics extends forum_topics_config
 
 	/**
 	 * @param array $topic_data
-	 * @return string
+	 * @return []
 	 */
 	protected function get_block_content(array $topic_data)
 	{
