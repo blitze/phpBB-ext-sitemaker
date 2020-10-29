@@ -70,12 +70,12 @@ class links extends block
 			return array(
 				'title'		=> $this->title,
 				'data'		=> $data,
-				'status'	=> (int) !$editing,
 			);
 		}
 
 		return array(
 			'title'     => $this->title,
+			'status'	=> (int) !$editing,
 			'content'   => $this->get_message($menu_id, $editing),
 		);
 	}

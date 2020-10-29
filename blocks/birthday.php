@@ -67,7 +67,7 @@ class birthday extends block
 
 		return array(
 			'title'	=> 'BIRTHDAYS',
-			'data'	=> $data,
+			'data'	=> array_filter($data),
 		);
 	}
 

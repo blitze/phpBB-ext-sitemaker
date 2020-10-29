@@ -81,7 +81,7 @@ class wordgraph extends block
 	/**
 	 * @param array $words_array
 	 * @param array $settings
-	 * @return []
+	 * @return array
 	 */
 	protected function get_wordgraph(array $words_array, array $settings)
 	{

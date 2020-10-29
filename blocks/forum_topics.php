@@ -106,7 +106,7 @@ class forum_topics extends forum_topics_config
 
 	/**
 	 * @param array $topic_data
-	 * @return []
+	 * @return array
 	 */
 	protected function get_block_content(array $topic_data)
 	{
@@ -128,7 +128,7 @@ class forum_topics extends forum_topics_config
 	/**
 	 * @param array $topic_data
 	 * @param array $post_data
-	 * @return []
+	 * @return array
 	 */
 	protected function get_topics(array &$topic_data, array &$post_data)
 	{
@@ -272,7 +272,7 @@ class forum_topics extends forum_topics_config
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	private function set_display_fields()
 	{

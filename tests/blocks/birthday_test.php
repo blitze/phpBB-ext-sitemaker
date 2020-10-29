@@ -44,12 +44,25 @@ class birthday_test extends blocks_base
 		return new birthday($this->cache, $this->db, $template, $this->user, $time);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function test_block_config()
 	{
 		$block = $this->get_block();
 		$config = $block->get_config(array());
 
 		$this->assertEquals(array(), $config);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/birthday.html', $block->get_template());
 	}
 
 	/**

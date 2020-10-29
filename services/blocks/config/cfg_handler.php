@@ -201,7 +201,7 @@ class cfg_handler
 	 * @param string $field
 	 * @param array $db_settings
 	 * @param array $vars
-	 * @return []
+	 * @return array
 	 */
 	private function get_field_template($field, array &$db_settings, array &$vars)
 	{

@@ -68,6 +68,16 @@ class mybookmarks_test extends blocks_base
 	}
 
 	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/topiclist.html', $block->get_template());
+	}
+
+	/**
 	 * Test that block is not displayed for unregistered user
 	 */
 	public function test_anonymous_user()

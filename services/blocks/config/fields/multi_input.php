@@ -53,7 +53,7 @@ class multi_input extends cfg_field_base
 	 * @param bool $sortable
 	 * @param array $values
 	 * @param string $label
-	 * @return []
+	 * @return array
 	 */
 	public function build_multi_input($field, $sortable, array $values, $label = '')
 	{

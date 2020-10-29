@@ -24,9 +24,6 @@ class members
 	/** @var \blitze\sitemaker\services\date_range */
 	protected $date_range;
 
-	/** @var \phpbb\template\template */
-	protected $template;
-
 	/** @var string */
 	protected $phpbb_root_path;
 
@@ -47,17 +44,15 @@ class members
 	 * @param \phpbb\language\language				$translator			Language Object
 	 * @param \phpbb\user							$user				User object
 	 * @param \blitze\sitemaker\services\date_range	$date_range			Date range object
-	 * @param \phpbb\template\template	$template			Sitemaker template object
 	 * @param string								$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string								$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \phpbb\template\template $template, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, $phpbb_root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->translator = $translator;
 		$this->user = $user;
 		$this->date_range = $date_range;
-		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 
@@ -72,7 +67,7 @@ class members
 	/**
 	 * get members
 	 * @param array $get
-	 * @return []
+	 * @return array
 	 */
 	public function get_list(array $get = array())
 	{
@@ -172,7 +167,7 @@ class members
 		$sql_ary['WHERE'] .= ' AND u.user_lastvisit <> 0 AND u.user_id <> ' . (int) $this->user->data['user_id'];
 		$sql_ary['ORDER_BY'] = 'u.user_lastvisit DESC';
 
-		$this->sql_date_field = 'user_lastvisit';
+        $this->sql_date_field = 'user_lastvisit';
 	}
 
 	/**
@@ -231,9 +226,9 @@ class members
 	 */
 	protected function set_range_sql(array &$sql_ary)
 	{
-		if ($this->settings['date_range'] && $this->sql_date_field)
+		if ($this->settings['range'] && $this->sql_date_field)
 		{
-			$range = $this->date_range->get($this->settings['date_range']);
+			$range = $this->date_range->get($this->settings['range']);
 			$this->explain_range = '&amp;date=' . $range['date'];
 
 			$sql_ary['WHERE'] .= " AND {$this->sql_date_field} BETWEEN {$range['start']} AND {$range['stop']}";

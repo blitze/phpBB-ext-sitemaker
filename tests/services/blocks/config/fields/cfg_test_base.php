@@ -16,9 +16,6 @@ abstract class cfg_test_base extends \phpbb_test_case
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
-
 	/**
 	 * Define the extension to be tested.
 	 *

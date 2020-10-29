@@ -112,7 +112,7 @@ class attachments extends block
 	 * @param array $attachments_ary
 	 * @param array $posts_data
 	 * @param array $extensions
-	 * @return []
+	 * @return array
 	 */
 	protected function get_attachments_data(array $attachments_ary, array $posts_data, array $extensions)
 	{

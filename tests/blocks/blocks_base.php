@@ -21,7 +21,6 @@ abstract class blocks_base extends \phpbb_database_test_case
 	protected $template;
 	protected $translator;
 	protected $user;
-	protected $ptemplate;
 	protected $user_data;
 	protected $util;
 	protected $phpbb_root_path;

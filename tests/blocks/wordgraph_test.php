@@ -69,6 +69,16 @@ class wordgraph_test extends blocks_base
 	}
 
 	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/wordgraph.html', $block->get_template());
+	}
+
+	/**
 	 * Data set for test_block_display
 	 *
 	 * @return array

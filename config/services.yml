@@ -173,8 +173,8 @@ services:
         class: blitze\sitemaker\services\icons\picker
         arguments:
             - '@language'
-            - '@blitze.sitemaker.util'
             - '@template'
+            - '@blitze.sitemaker.util'
             - '%fontawesome.categories%'
 
     blitze.sitemaker.mapper.factory:
@@ -195,7 +195,6 @@ services:
             - '@language'
             - '@user'
             - '@blitze.sitemaker.date_range'
-            - '@template'
             - '%core.root_path%'
             - '%core.php_ext%'
 

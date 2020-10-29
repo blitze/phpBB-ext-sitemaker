@@ -83,7 +83,7 @@ class attachments_test extends blocks_base
 	}
 
 	/**
-	 * @retur void
+	 * @return void
 	 */
 	public function test_block_config()
 	{
@@ -103,6 +103,16 @@ class attachments_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/attachments.html', $block->get_template());
 	}
 
 	/**

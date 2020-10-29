@@ -18,7 +18,6 @@ class factory_test extends \phpbb_test_case
 {
 	protected $user;
 	protected $blocks;
-	protected $ptemplate;
 
 	/**
 	 * Define the extension to be tested.

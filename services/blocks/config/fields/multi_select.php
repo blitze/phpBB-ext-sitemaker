@@ -41,7 +41,7 @@ class multi_select extends cfg_field_base
 	 * @param array $option_ary
 	 * @param mixed $selected_items
 	 * @param string $field
-	 * @return []
+	 * @return array
 	 */
 	public function build_multi_select(array $option_ary, $selected_items, $field)
 	{

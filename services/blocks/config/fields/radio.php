@@ -44,7 +44,7 @@ class radio extends cfg_field_base
 	 * @param array $option_ary
 	 * @param mixed $selected_item
 	 * @param string $field
-	 * @return []
+	 * @return array
 	 */
 	public function build_radio(array $option_ary, $selected_item, $field)
 	{

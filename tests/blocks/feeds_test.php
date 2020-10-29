@@ -125,6 +125,16 @@ class feeds_test extends blocks_base
 	}
 
 	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('', $block->get_template());
+	}
+
+	/**
 	 * Data set for test_block_display
 	 *
 	 * @return array

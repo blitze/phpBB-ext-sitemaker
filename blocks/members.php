@@ -84,9 +84,11 @@ class members extends block
 
 		$data = $this->members->get_list($bdata['settings']);
 
-		if (!empty($data))
+		$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['range']]);
+
+		if (empty($data['MEMBERS']))
 		{
-			$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['range']]);
+			$data = [];
 		}
 
 		return array(

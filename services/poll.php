@@ -67,7 +67,7 @@ class poll
 
 	/**
 	 * @param array $topic_data
-	 * @return []
+	 * @return array
 	 */
 	public function build(array $topic_data)
 	{
@@ -212,7 +212,7 @@ class poll
 	 * @param array $poll_info
 	 * @param int $poll_total
 	 * @param int $poll_most
-	 * @return []
+	 * @return array
 	 */
 	private function get_poll_options(array $cur_voted_id, array $poll_info, $poll_total, $poll_most)
 	{

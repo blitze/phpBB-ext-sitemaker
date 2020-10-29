@@ -164,7 +164,7 @@ abstract class display
 
 	/**
 	 * @param array $data
-	 * @return []
+	 * @return array
 	 */
 	public function display_list(array $data)
 	{

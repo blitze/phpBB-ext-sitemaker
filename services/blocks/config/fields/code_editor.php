@@ -46,7 +46,7 @@ class code_editor extends cfg_field_base
 	 * @param string $explain
 	 * @param array $data_props
 	 * @param string $label
-	 * @return []
+	 * @return array
 	 */
 	public function build_code_editor($key, $value, $explain, array $data_props = array(), $label = '')
 	{

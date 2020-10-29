@@ -72,7 +72,6 @@ class blocks extends routes
 	{
 		$ex_positions = array_flip($route_info['ex_positions']);
 		$users_groups = $this->groups->get_users_groups();
-
 		$route_blocks = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
 
 		$positions = array();
@@ -80,7 +79,6 @@ class blocks extends routes
 		{
 			$positions[$position] = $this->show_position($position, $blocks, $ex_positions, $users_groups, $display_modes, $edit_mode);
 		}
-
 
 		$this->template->assign_vars(array(
 			'positions'		=> $positions,
@@ -120,10 +118,12 @@ class blocks extends routes
 					'title'		=> '',
 					'data'		=> null,
 					'content'	=> null,
-					'template'	=> $block_instance->get_template(),
 				),
 				$block_instance->display($db_data, $edit_mode)
 			);
+
+			// we get the template after running 'display()' above so template can be set dynamically
+			$returned_data['template']	= $block_instance->get_template();
 
 			if ($this->block_has_content($returned_data, $edit_mode))
 			{
@@ -189,30 +189,55 @@ class blocks extends routes
 	 */
 	protected function block_has_content(array &$returned_data, $edit_mode)
 	{
-		$content = &$returned_data['content'];
-		$data = &$returned_data['data'];
-		$data = array_filter((array) $data);
-
-		if (!empty($data) && !$returned_data['template'])
-		{
-			throw new \Error('Missing block template');
+        if ($this->block_returns_nothing($returned_data))
+        {
+            return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_NO_DATA');
 		}
-
-		if (!$content && empty($data))
+		else if ($this->block_is_missing_template($returned_data))
 		{
-			if ($edit_mode)
-			{
-				$returned_data['status'] = 0;
-				$returned_data['content'] = $this->translator->lang('BLOCK_NO_DATA');
-
-				return true;
-			}
-
-			return false;
+			$returned_data['data'] = null;
+			return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_MISSING_TEMPLATE');
 		}
 
 		return true;
 	}
+
+	/**
+	 * @param array $data
+     * @param bool $edit_mode
+     * @param string $lang_key
+	 * @return bool
+	 */
+	protected function set_edit_mode_content(array &$data, $edit_mode, $lang_key)
+	{
+        if ($edit_mode)
+        {
+            $data['status'] = 0;
+            $data['content'] = $this->translator->lang($lang_key);
+
+            return true;
+        }
+
+        return false;
+	}
+
+	/**
+	 * @param array $returned_data
+	 * @return bool
+	 */
+	protected function block_returns_nothing(array $returned_data)
+	{
+		return !$returned_data['content'] && empty($returned_data['data']);
+	}
+
+    /**
+     * @param array $returned_data
+     * @return bool
+     */
+    protected function block_is_missing_template(array $returned_data)
+    {
+        return is_array($returned_data['data']) && !$returned_data['template'];
+    }
 
 	/**
 	 * Should we display this block?

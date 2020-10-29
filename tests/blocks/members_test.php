@@ -55,6 +55,16 @@ class members_test extends blocks_base
 	}
 
 	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/members.html', $block->get_template());
+	}
+
+	/**
 	 * Data set for test_block_display
 	 *
 	 * @return array
@@ -72,6 +82,7 @@ class members_test extends blocks_base
 					'title' => 'LAST_VISITED',
 					'data' => array(
 						'S_LIST'	=> 'visits',
+						'MEMBERS'	=> 'visits list',
 						'RANGE'		=> 'ALL_TIME',
 					),
 				),
@@ -80,13 +91,15 @@ class members_test extends blocks_base
 				array(
 					'settings' => array(
 						'query_type' => 'bots',
+						'date_range' => 'month',
 					),
 				),
 				array(
 					'title' => 'RECENT_BOTS',
 					'data' => array(
 						'S_LIST'	=> 'bots',
-						'RANGE'		=> 'ALL_TIME',
+						'MEMBERS'	=> 'bots list',
+						'RANGE'		=> 'THIS_MONTH',
 					),
 				),
 			),
@@ -94,13 +107,15 @@ class members_test extends blocks_base
 				array(
 					'settings' => array(
 						'query_type' => 'recent',
+						'date_range' => 'today',
 					),
 				),
 				array(
 					'title' => 'RECENT_MEMBERS',
 					'data' => array(
 						'S_LIST'	=> 'recent',
-						'RANGE'		=> 'ALL_TIME',
+						'MEMBERS'	=> 'recent list',
+						'RANGE'		=> 'TODAY',
 					),
 				),
 			),
@@ -108,12 +123,14 @@ class members_test extends blocks_base
 				array(
 					'settings' => array(
 						'query_type' => 'tenured',
+						'date_range' => 'week',
 					),
 				),
 				array(
 					'title' => 'MOST_TENURED',
 					'data' => array(
 						'S_LIST'	=> 'tenured',
+						'MEMBERS'	=> 'tenured list',
 						'RANGE'		=> 'ALL_TIME',
 					),
 				),
@@ -122,13 +139,15 @@ class members_test extends blocks_base
 				array(
 					'settings' => array(
 						'query_type' => 'posts',
+						'date_range' => 'year',
 					),
 				),
 				array(
 					'title' => 'TOP_POSTERS',
 					'data' => array(
 						'S_LIST'	=> 'posts',
-						'RANGE'		=> 'ALL_TIME',
+						'MEMBERS'	=> 'posts list',
+						'RANGE'		=> 'THIS_YEAR',
 					),
 				),
 			),
@@ -148,7 +167,10 @@ class members_test extends blocks_base
 		$this->members->expects($this->once())
 			->method('get_list')
 			->will($this->returnCallback(function($data) {
-				return ['S_LIST' => $data['query_type']];
+				return array(
+					'S_LIST'	=> $data['query_type'],
+					'MEMBERS'	=> $data['query_type'] . ' list',
+				);
 			}));
 
 		$result = $block->display($bdata);

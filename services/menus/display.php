@@ -57,7 +57,7 @@ class display extends \blitze\sitemaker\services\tree\display
 
 	/**
 	 * @param array $data
-	 * @return []
+	 * @return array
 	 */
 	public function display_navlist(array $data)
 	{

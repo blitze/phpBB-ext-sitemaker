@@ -225,7 +225,7 @@ class featured_member extends block
 	}
 
 	/**
-	 * @return []
+	 * @return array
 	 */
 	private function get_view_desc()
 	{

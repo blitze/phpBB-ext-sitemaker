@@ -67,6 +67,16 @@ class style_switcher_test extends blocks_base
 	}
 
 	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/style_switcher.html', $block->get_template());
+	}
+
+	/**
 	 * Test block display
 	 */
 	public function test_block_display()

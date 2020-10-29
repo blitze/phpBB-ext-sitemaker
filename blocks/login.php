@@ -36,6 +36,9 @@ class login extends block
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $block_template = '@blitze_sitemaker/blocks/login.html';
+
 	/**
 	 * Constructor
 	 *
@@ -93,6 +96,7 @@ class login extends block
 		else if ($settings['show_member_menu'])
 		{
 			$block = $this->phpbb_container->get('blitze.sitemaker.block.member_menu');
+			$this->set_template($block->get_template());
 			return $block->display(array(), $edit_mode);
 		}
 
@@ -119,6 +123,14 @@ class login extends block
 	 */
 	public function get_template()
 	{
-		return '@blitze_sitemaker/blocks/login.html';
+		return $this->block_template;
+	}
+
+	/**
+	 * @param string $template
+	 */
+	protected function set_template($template)
+	{
+		$this->block_template = $template;
 	}
 }

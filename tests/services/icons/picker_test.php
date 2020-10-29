@@ -44,11 +44,11 @@ class picker_test extends \phpbb_test_case
 		$util->expects($this->once())
 			->method('add_assets');
 
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
+		$template = $this->getMockBuilder('\phpbb\template\template')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$ptemplate->expects($this->once())
+		$template->expects($this->once())
 			->method('assign_var')
 			->with($this->equalTo('categories'), $this->equalTo(array(
 				'logistics' 	=> array(
@@ -72,24 +72,19 @@ class picker_test extends \phpbb_test_case
 				)
 			)));
 
-		// make sure we've set style path to this extension
-		$ptemplate->expects($this->once())
-			->method('set_style')
-			->with($this->equalTo(array('ext/blitze/sitemaker/styles', 'styles')));
-
 		// make sure we've set template file
-		$ptemplate->expects($this->once())
+		$template->expects($this->once())
 			->method('set_filenames')
 			->with(array(
-				'icons'	=> 'icons/picker.html'
+				'icons'	=> '@blitze_sitemaker/icons/picker.html'
 			));
 
-		$ptemplate->expects($this->once())
+		$template->expects($this->once())
 			->method('assign_display')
 			->with('icons');
 
 		$categories_path = dirname(__FILE__) . '/categories.json';
-		$icon = new picker($translator, $util, $ptemplate, $categories_path);
+		$icon = new picker($translator, $template, $util, $categories_path);
 		$icon->picker();
 	}
 }

@@ -85,7 +85,7 @@ class whats_new extends block
 
 	/**
 	 * @param array $settings
-	 * @return []
+	 * @return array
 	 */
 	private function fetch_new(array $settings)
 	{

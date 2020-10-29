@@ -57,7 +57,7 @@ class checkbox extends cfg_field_base
 	 * @param mixed $selected_items
 	 * @param string $field
 	 * @param bool $sortable
-	 * @return []
+	 * @return array
 	 */
 	public function build_checkbox(array $option_ary, $selected_items, $field, $sortable = false)
 	{
