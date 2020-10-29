@@ -14,7 +14,8 @@ Say we have an extension with vendor/extension as my/example. To create a block 
 
 * Create a "blocks" folder
 * Create my_block.php file in the blocks folder with the following content
-```php
+```
+<?php
 namespace my\example\blocks;
 
 use blitze\sitemaker\services\blocks\driver\block;
@@ -33,7 +34,7 @@ class my_block extends block
 	}
 }
 ```
-Then in your config.yml file, add the following:
+Then in your config.yml file (.../config/default/container/service.yml), add the following:
 ```yml
 services:
 
