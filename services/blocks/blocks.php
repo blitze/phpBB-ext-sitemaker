@@ -148,7 +148,7 @@ class blocks extends routes
 			}
 			catch (\Exception $e)
 			{
-				$returned_data['content'] = $this->set_edit_mode_content($returned_data, $edit_mode, $e->getMessage());
+				$this->set_edit_mode_content($returned_data, $edit_mode, $e->getMessage());
 			}
 
 			// we get the template after running 'display()' above so template can be set dynamically
