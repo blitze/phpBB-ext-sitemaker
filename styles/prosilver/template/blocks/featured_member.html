@@ -13,15 +13,15 @@
 				<dd class="profile-contact align-center">
 					<div class="dropdown-contents contact-icons" style="margin: 1rem 0 0; display: inline-block">
 						{% for contact_field in CONTACT_FIELDS %}
-							{% set REMAINDER = contact_field.S_ROW_COUNT % 4 %}
-							{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (contact_field.S_LAST_ROW and contact_field.S_NUM_ROWS < 4)) %}
+							{% set REMAINDER = loop.index0 % 4 %}
+							{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (loops.last and loop.length < 4)) %}
 							{% if REMAINDER eq 0 %}
 								<div>
 							{% endif %}
 								<a href="{% if contact_field.U_CONTACT %}{{ contact_field.U_CONTACT }}{% else %}{{ U_VIEWPROFILE }}{% endif %}" title="{{ contact_field.NAME }}"{% if definition.S_LAST_CELL %} class="last-cell"{% endif %}{% if contact_field.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
 									<span class="contact-icon {{ contact_field.ID }}-icon">{{ contact_field.NAME }}</span>
 								</a>
-							{% if REMAINDER eq 3 or contact_field.S_LAST_ROW %}
+							{% if REMAINDER eq 3 or loop.last %}
 								</div>
 							{% endif %}
 						{% endfor %}
