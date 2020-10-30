@@ -270,5 +270,5 @@ services:
             - '@template'
             - '@user'
 
-    truncator:
+    blitze.sitemaker.truncator:
         class: Urodoz\Truncate\TruncateService
