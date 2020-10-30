@@ -207,7 +207,7 @@ class featured_member extends block
 				$this->get_view_desc(),
 				array_change_key_case($row, CASE_UPPER),
 				array('CONTACT_FIELDS' => array_intersect_key($row['contact_fields'], $allowed_fields)),
-				array('PROFILE_FIELDS' => array_intersect_key($row['profile_fields'], $allowed_fields)),
+				array('PROFILE_FIELDS' => array_intersect_key($row['profile_fields'], $allowed_fields))
 			);
 		}
 
