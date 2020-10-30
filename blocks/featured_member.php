@@ -191,7 +191,7 @@ class featured_member extends block
 	 * @param int   $block_id
 	 * @param array $row
 	 * @param bool  $change_user
-	 * @return string
+	 * @return array
 	 */
 	private function display_user($block_id, array $row, $change_user)
 	{

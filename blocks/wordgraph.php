@@ -117,11 +117,11 @@ class wordgraph extends block
 	 */
 	protected function get_graph_params(array $words_array, array $settings)
 	{
-		$max_sat = hexdec('f');
-		$min_sat = hexdec(0);
+		$max_sat = (int) hexdec('f');
+		$min_sat = (int) hexdec(0);
 
-		$max_count = max(array_values($words_array));
-		$min_count = min(array_values($words_array));
+		$max_count = (int) max(array_values($words_array));
+		$min_count = (int) min(array_values($words_array));
 
 		$spread = $max_count - $min_count;
 		$spread = ($spread) ? $spread : 1;

@@ -43,7 +43,7 @@ class navigation
 	 * @param int $menu_id
 	 * @param bool $is_navigation
 	 * @param array $settings
-	 * @return array|null
+	 * @return array
 	 */
 	public function build_menu($menu_id, $is_navigation = false, array $settings = array())
 	{
@@ -51,7 +51,7 @@ class navigation
 
 		if (!sizeof($data))
 		{
-			return null;
+			return [];
 		}
 
 		if (!$is_navigation)

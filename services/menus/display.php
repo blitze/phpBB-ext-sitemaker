@@ -28,7 +28,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	private $parental_depth;
 
 	/** @var array */
-	private $current_item;
+	private $current_item = [];
 
 	/**
 	 * Construct
@@ -71,8 +71,8 @@ class display extends \blitze\sitemaker\services\tree\display
 			$nodes = [];
 			foreach ($data['items'] as $row)
 			{
-				$prev_depth = $row['prev_depth'];
-				$this_depth = $row['this_depth'];
+				$prev_depth = (int) $row['prev_depth'];
+				$this_depth = (int) $row['this_depth'];
 				$row['num_kids'] = $this->count_descendants($row);
 
 				$nodes[] = array_merge(array_change_key_case($row, CASE_UPPER),
@@ -220,7 +220,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	{
 		$is_current_item = $is_parent = false;
 
-		if ($this->current_item)
+		if (sizeof($this->current_item))
 		{
 			$is_current_item = $this->is_current_item($row);
 			$is_parent = $this->is_parent_of_current_item($row);

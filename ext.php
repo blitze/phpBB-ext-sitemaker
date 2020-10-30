@@ -17,7 +17,7 @@ class ext extends \phpbb\extension\base
 	/**
 	 * Check whether or not the extension can be enabled.
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public function is_enableable()
 	{

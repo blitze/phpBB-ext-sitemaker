@@ -72,7 +72,7 @@ class birthday extends block
 	}
 
 	/**
-	 * @return bool
+	 * @return array
 	 */
 	private function find_birthday_users()
 	{
@@ -94,7 +94,6 @@ class birthday extends block
 		$birthdays = [];
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$show_birthday = true;
 			$birthdays[] = array(
 				'USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
 				'USER_AGE'		=> $this->get_user_age($row['user_birthday'], $now['year']),
