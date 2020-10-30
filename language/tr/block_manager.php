@@ -1,15 +1,16 @@
 <?php
-/**
-*
-* @package phpBB Sitemaker [English]
-* @copyright (c) 2012 Daniel A. (blitze)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
 
 /**
-* @ignore
-*/
+ *
+ * @package phpBB Sitemaker [English]
+ * @copyright (c) 2012 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+/**
+ * @ignore
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -38,6 +39,7 @@ $lang = array_merge($lang, array(
 	'BLOCK_DISPLAY_TYPE'						=> 'Display',
 	'BLOCK_HIDE_TITLE'							=> 'Hide block title?',
 	'BLOCK_INACTIVE'							=> 'Inactive',
+	'BLOCK_MISSING_TEMPLATE'					=> 'Missing required block template. Please contact developer',
 	'BLOCK_NOT_FOUND'							=> 'Oops! The requested block service was not found',
 	'BLOCK_NO_DATA'								=> 'No data to display',
 	'BLOCK_NO_ID'								=> 'Oops! Missing block id',
