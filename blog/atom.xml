@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blitze.github.io/phpBB-ext-sitemaker/blog</id>
     <title>phpBB SiteMaker Blog</title>
-    <updated>2019-02-24T06:00:00Z</updated>
-    <generator>Feed for Node.js</generator>
+    <updated>2019-02-24T06:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blitze.github.io/phpBB-ext-sitemaker/blog"/>
     <subtitle>The best place to stay up-to-date with the latest phpBB SiteMaker news and events.</subtitle>
     <logo>https://blitze.github.io/phpBB-ext-sitemaker/false</logo>
@@ -11,11 +11,11 @@
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/24/welcome.html</id>
-        <link href="https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/24/welcome.html">
-        </link>
-        <updated>2019-02-24T06:00:00Z</updated>
+        <link href="https://blitze.github.io/phpBB-ext-sitemaker/blog/2019/02/24/welcome.html"/>
+        <updated>2019-02-24T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Welcome to the phpBB SiteMaker documentation site. Previous versions of phpBB SiteMaker shipped with a docs/ directory but it was obvious that no one was using it. Along with this site, a change was made to the upcoming version of phpBB SiteMaker tha...</p>]]></summary>
         <author>
+            <name/>
         </author>
     </entry>
 </feed>
