@@ -236,6 +236,10 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
 
+    blitze.sitemaker.simplepie:
+        class: blitze\sitemaker\services\simplepie\feed
+        shared: false
+
     blitze.sitemaker.template.extensions.format_date:
         class: blitze\sitemaker\services\template\extensions\format_date
         arguments:

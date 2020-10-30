@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -46,12 +47,12 @@ class feeds_test extends blocks_base
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
-		$this->feeds = $this->getMockBuilder('\blitze\sitemaker\services\feeds\Feed')
-			->getMock();
+		$simplepie = new \blitze\sitemaker\services\simplepie\feed();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -77,7 +78,8 @@ class feeds_test extends blocks_base
 			->getMock();
 		$template_wrapper->expects($this->any())
 			->method('render')
-			->will($this->returnCallback(function ($source) {
+			->will($this->returnCallback(function ($source)
+			{
 				return $source;
 			}));
 
@@ -105,7 +107,7 @@ class feeds_test extends blocks_base
 			->with('@blitze_sitemaker/cfg_fields/feeds.html')
 			->willReturn($template_wrapper);
 
-		return new feeds($this->translator, $this->request, $twig, $this->phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
+		return new feeds($this->translator, $this->request, $twig, $simplepie, $this->phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
 	}
 
 	public function test_block_config()
@@ -201,14 +203,14 @@ class feeds_test extends blocks_base
 				),
 				'<ul class="sm-list">' .
 					'<li>' .
-						'Item title 1' .
-						'source: NASA Image of the Day' .
+					'Item title 1' .
+					'source: NASA Image of the Day' .
 					'</li>' .
 					'<li>' .
-						'Item title 2' .
-						'source: NASA Image of the Day' .
+					'Item title 2' .
+					'source: NASA Image of the Day' .
 					'</li>' .
-				'</ul>',
+					'</ul>',
 			),
 		);
 	}

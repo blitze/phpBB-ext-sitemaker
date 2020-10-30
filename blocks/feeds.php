@@ -26,6 +26,9 @@ class feeds extends block
 	/** @var \phpbb\template\twig\environment */
 	protected $twig;
 
+	/** @var \blitze\sitemaker\services\simplepie\feed */
+	protected $simplepie;
+
 	/** @var string */
 	protected $cache_dir;
 
@@ -38,16 +41,18 @@ class feeds extends block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\language\language				$translator			Language object
-	 * @param \phpbb\request\request_interface		$request			Request object
-	 * @param \phpbb\template\twig\environment		$twig				Twig environment
-	 * @param string 								$cache_dir			Path to cache directory
+	 * @param \phpbb\language\language						$translator			Language object
+	 * @param \phpbb\request\request_interface				$request			Request object
+	 * @param \phpbb\template\twig\environment				$twig				Twig environment
+	 * @param \blitze\sitemaker\services\simplepie\feed		$simplepie			An extension of simple pie
+	 * @param string 										$cache_dir			Path to cache directory
 	 */
-	public function __construct(\phpbb\language\language $translator, \phpbb\request\request_interface $request, \phpbb\template\twig\environment $twig, $cache_dir)
+	public function __construct(\phpbb\language\language $translator, \phpbb\request\request_interface $request, \phpbb\template\twig\environment $twig, \blitze\sitemaker\services\simplepie\feed $simplepie, $cache_dir)
 	{
 		$this->translator = $translator;
 		$this->request = $request;
 		$this->twig = $twig;
+		$this->simplepie = $simplepie;
 		$this->cache_dir = $cache_dir;
 	}
 
@@ -190,27 +195,20 @@ class feeds extends block
 
 		try
 		{
-			/**
-			 * The below class cannot be added as a non-shared service using DI
-			 * as it does not follow best practises for class contructs.
-			 * It contains logic and method calls in the contructor for one thing.
-			 * Passing it as a non-shared service does not work
-			 */
-			$feed = new \blitze\sitemaker\services\simplepie\feed;
-			$feed->set_feed_url($feed_urls);
-			$feed->enable_cache((bool) $cache);
-			$feed->set_cache_location($this->cache_dir);
-			$feed->set_cache_duration($cache * 3600);
+			$this->simplepie->set_feed_url($feed_urls);
+			$this->simplepie->enable_cache((bool) $cache);
+			$this->simplepie->set_cache_location($this->cache_dir);
+			$this->simplepie->set_cache_duration($cache * 3600);
 
 			if ($items_per_feed)
 			{
-				$feed->set_item_limit($items_per_feed);
+				$this->simplepie->set_item_limit($items_per_feed);
 			}
 
-			$feed->init();
-			$feed->handle_content_type();
+			$this->simplepie->init();
+			$this->simplepie->handle_content_type();
 
-			if (!($items = $feed->get_items(0, $max)))
+			if (!($items = $this->simplepie->get_items(0, $max)))
 			{
 				$message = $this->translator->lang('FEED_PROBLEMS');
 			}

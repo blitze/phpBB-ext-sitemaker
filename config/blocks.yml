@@ -58,6 +58,7 @@ services:
             - '@language'
             - '@request'
             - '@template.twig.environment'
+            - '@blitze.sitemaker.simplepie'
             - '%core.cache_dir%'
         calls:
             - [set_name, [blitze.sitemaker.block.feeds]]
