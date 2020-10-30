@@ -99,10 +99,10 @@
 			{% elseif field.TITLE %}
 				<dl>
 					<dt><label for="{{ field.KEY }}">{{ field.TITLE }}</label>{% if field.S_EXPLAIN %}<br /><span>{{ field.TITLE_EXPLAIN }}</span>{% endif %}</dt>
-					<dd>{{ field.CONTENT ?: include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) }} {{ field.APPEND }}</dd>
+					<dd>{{ field.TEMPLATE ? include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) : field.CONTENT }} {{ field.APPEND }}</dd>
 				</dl>
 			{% else %}
-				{{ field.CONTENT ?: include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) }} {{ field.APPEND }}
+				{{ field.TEMPLATE ? include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) : field.CONTENT }} {{ field.APPEND }}
 			{% endif %}
 		{% endfor %}
 			</fieldset>
