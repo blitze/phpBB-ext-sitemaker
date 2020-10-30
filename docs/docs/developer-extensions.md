@@ -53,11 +53,11 @@ services:
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has not settings and does not translate the block name. Let's make it more interesting.
+At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
 
 ### Block Settings
 
-Let's modify our blocks/my_block.php file and add a "get_config" method that returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
 
 ```php
 	/**
@@ -113,9 +113,29 @@ Because 'blocks_admin.php' is only loaded when editing blocks, you will need to 
 
 The new block will only be displayed if it is rendering something.
 Your block can return any string as content but in most cases, you need a template to render your content.
-To render your block using templates, the block class inherits a 'template' property. So the display method might look something like this:
+To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
 
 ```php
+	/**
+	 * @inheritdoc
+	 */
+	public function get_config(array $settings)
+	{
+		$options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
+		return array(
+			'legend1'	=> 'TAB1',
+			'some_setting'	=> array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@my_example/my_block.html';
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -126,16 +146,22 @@ To render your block using templates, the block class inherits a 'template' prop
 			// do something only in edit mode
 		}
 
-		$this->template->assign_vars(array(
-			'SOME_VAR'	=> $data['settings']['checkbox'],
-		));
-
 		return array(
 			'title'		=> 'MY_BLOCK_TITLE',
-			'content'	=> $this->template->render_view('my/example', 'my_block.html', 'my_block'),
+			'data'		=> array(
+				'some_var'	=> $data['settings']['some_setting'],
+			),
 		);
 	}
 ```
+
+Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+
+```
+<p>You selected: {{ some_var }}</p>
+```
+
+In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
 ### Block Assets
 

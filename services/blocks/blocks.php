@@ -97,6 +97,29 @@ class blocks extends routes
 	}
 
 	/**
+	 * @param string $position
+	 * @param array $blocks
+	 * @param array $ex_positions
+	 * @param array $users_groups
+	 * @param array $display_modes
+	 * @param bool $edit_mode
+	 * @return array[]
+	 */
+	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
+	{
+		$pos_blocks = array();
+		if (!$this->exclude_position($position, $ex_positions, $edit_mode))
+		{
+			foreach ($blocks as $index => $entity)
+			{
+				$pos_blocks[$index] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $index);
+			}
+		}
+
+		return array_filter($pos_blocks);
+	}
+
+	/**
 	 * Render block
 	 *
 	 * @param array $display_modes
@@ -113,17 +136,23 @@ class blocks extends routes
 		$block = array();
 		if ($this->block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
-			$returned_data = array_merge(
-				array(
-					'title'		=> '',
-					'data'		=> null,
-					'content'	=> null,
-				),
-				$block_instance->display($db_data, $edit_mode)
+			$returned_data =  array(
+				'title'		=> '',
+				'data'		=> null,
+				'content'	=> null,
 			);
 
+			try
+			{
+				$returned_data = array_merge($returned_data, $block_instance->display($db_data, $edit_mode));
+			}
+			catch (\Exception $e)
+			{
+				$returned_data['content'] = $this->set_edit_mode_content($returned_data, $edit_mode, $e->getMessage());
+			}
+
 			// we get the template after running 'display()' above so template can be set dynamically
-			$returned_data['template']	= $block_instance->get_template();
+			$returned_data['template'] = $block_instance->get_template();
 
 			if ($this->block_has_content($returned_data, $edit_mode))
 			{
@@ -150,29 +179,6 @@ class blocks extends routes
 	}
 
 	/**
-	 * @param string $position
-	 * @param array $blocks
-	 * @param array $ex_positions
-	 * @param array $users_groups
-	 * @param array $display_modes
-	 * @param bool $edit_mode
-	 * @return array[]
-	 */
-	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
-	{
-		$pos_blocks = array();
-		if (!$this->exclude_position($position, $ex_positions, $edit_mode))
-		{
-			foreach ($blocks as $index => $entity)
-			{
-				$pos_blocks[$index] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $index);
-			}
-		}
-
-		return array_filter($pos_blocks);
-	}
-
-	/**
 	 * @param string $db_title
 	 * @param string $df_title
 	 * @return string
@@ -189,9 +195,9 @@ class blocks extends routes
 	 */
 	protected function block_has_content(array &$returned_data, $edit_mode)
 	{
-        if ($this->block_returns_nothing($returned_data))
-        {
-            return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_NO_DATA');
+		if ($this->block_returns_nothing($returned_data))
+		{
+			return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_NO_DATA');
 		}
 		else if ($this->block_is_missing_template($returned_data))
 		{
@@ -204,21 +210,21 @@ class blocks extends routes
 
 	/**
 	 * @param array $data
-     * @param bool $edit_mode
-     * @param string $lang_key
+	 * @param bool $edit_mode
+	 * @param string $lang_key
 	 * @return bool
 	 */
 	protected function set_edit_mode_content(array &$data, $edit_mode, $lang_key)
 	{
-        if ($edit_mode)
-        {
-            $data['status'] = 0;
-            $data['content'] = $this->translator->lang($lang_key);
+		if ($edit_mode)
+		{
+			$data['status'] = 0;
+			$data['content'] = $this->translator->lang($lang_key);
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
+		return false;
 	}
 
 	/**
@@ -230,14 +236,14 @@ class blocks extends routes
 		return !$returned_data['content'] && empty($returned_data['data']);
 	}
 
-    /**
-     * @param array $returned_data
-     * @return bool
-     */
-    protected function block_is_missing_template(array $returned_data)
-    {
-        return is_array($returned_data['data']) && !$returned_data['template'];
-    }
+	/**
+	 * @param array $returned_data
+	 * @return bool
+	 */
+	protected function block_is_missing_template(array $returned_data)
+	{
+		return is_array($returned_data['data']) && !$returned_data['template'];
+	}
 
 	/**
 	 * Should we display this block?
