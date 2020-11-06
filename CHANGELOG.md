@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.3.0 - 2020-10-30
+
+-   Rollback support for fontawesome5 since phpbb has rolled back
+-   Better support for other phpBB styles (WIP)
+-   Removed support for Responsive Filemanage as phpBB extension rules prohibit optional dependencies
+-   Removed noreferrer from external links
+-   Improved list display and list modifiers for block content
+-   Use error boundary to prevent block issues from breaking site
+-   Fix compatibility issues with extensions that use autowire for service container
+
 ## 3.2.2 - 2020-09-17
 
 -   Support for fontawesome 5
