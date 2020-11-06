@@ -148,6 +148,7 @@ class blocks extends routes
 			}
 			catch (\Exception $e)
 			{
+				$returned_data['title'] = strtoupper(str_replace(['.', '-'], '_', $service_name));
 				$this->set_edit_mode_content($returned_data, $edit_mode, $e->getMessage());
 			}
 
