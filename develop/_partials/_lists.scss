@@ -187,7 +187,7 @@ ul.sm-list {
 				margin-bottom: -$gutter-width;
 			}
 
-			&.active {
+			&.active > a {
 				font-weight: bolder;
 				color: $nav-list-active-color;
 			}
