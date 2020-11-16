@@ -66,10 +66,6 @@ Encore.setOutputPath(paths.output)
 			from: './node_modules/tinymce/',
 			to: 'tinymce/[path][name].[ext]',
 			pattern: /^(?!composer\.json).*$/,
-		},
-		{
-			from: 'vendor/trippo/responsivefilemanager/responsive_filemanager/tinymce/plugins/',
-			to: 'tinymce/plugins/[path][name].[ext]',
 		}
 	])
 

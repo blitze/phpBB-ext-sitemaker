@@ -63,11 +63,11 @@
 			</then>
 		</if>
 
-		<phingcall target="build-assets">
+		<phingcall target="clean-package">
 			<property name="dir" value="${package-directory}" />
 		</phingcall>
 
-		<phingcall target="clean-package">
+		<phingcall target="copy-assets">
 			<property name="dir" value="${package-directory}" />
 		</phingcall>
 
@@ -86,16 +86,27 @@
 	install node dependencies
 	-->
 	<target name="yarn-install" description="install node modules">
-		<exec command="yarn install" dir="${package-directory}" passthru="true" checkreturn="true" />
+		<exec command="yarn install" passthru="true" checkreturn="true" />
 	</target>
 
 	<!--
 	Run webpack build process
 	-->
 	<target name="build-assets" depends="yarn-install">
-		<exec command="yarn fontawesome" dir="${package-directory}" passthru="true" checkreturn="true" />
-		<exec command="yarn build" dir="${package-directory}" passthru="true" checkreturn="true" />
+		<exec command="yarn fontawesome" passthru="true" checkreturn="true" />
+		<exec command="yarn build" passthru="true" checkreturn="true" />
 	</target>
+
+	<!--
+	Move built assets to correct folder
+	-->
+	<target name="copy-assets" depends="build-assets">
+    <copy todir="${package-directory}/styles/all/theme">
+        <fileset dir="styles/all/theme">
+            <include name="**"></include>
+        </fileset>
+    </copy>
+  </target>
 
 	<!--
 	Checkout a given version and install/clean the dependencies
