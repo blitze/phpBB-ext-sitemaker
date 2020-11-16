@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.3.0 - 2020-10-30
+## 3.3.0 - 2020-11-06
 
 -   Rollback support for fontawesome5 since phpbb has rolled back
 -   Better support for other phpBB styles (WIP)
