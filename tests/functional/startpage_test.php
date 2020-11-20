@@ -16,7 +16,7 @@ class startpage_test extends \phpbb_functional_test_case
 {
 	private static $helper;
 
-	public static function setUpBeforeClass()
+	static public function setUpBeforeClass(): void
 	{
 		global $phpbb_root_path;
 

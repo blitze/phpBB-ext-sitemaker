@@ -27,7 +27,7 @@ class settings_module_test extends \phpbb_database_test_case
 	private static $helper;
 	protected $config_path;
 
-	public static function setUpBeforeClass()
+	static public function setUpBeforeClass(): void
 	{
 		global $phpbb_root_path;
 
@@ -38,7 +38,7 @@ class settings_module_test extends \phpbb_database_test_case
 		self::$helper->copy_dir(dirname(__FILE__) . '/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
-	public static function tearDownAfterClass()
+	static public function tearDownAfterClass(): void
 	{
 		global $phpbb_root_path;
 
