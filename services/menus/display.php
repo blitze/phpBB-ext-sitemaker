@@ -64,29 +64,15 @@ class display extends \blitze\sitemaker\services\tree\display
 		$this->set_current_item($data);
 		$this->prepare_items($data['items']);
 
-		if (sizeof($data['items']))
-		{
-			$this_depth = 0;
+		$data['items'] = array_map(function($row) {
+			$row['num_kids'] = $this->count_descendants($row);
+			return array_change_key_case($row, CASE_UPPER);
+		}, $data['items']);
 
-			$nodes = [];
-			foreach ($data['items'] as $row)
-			{
-				$prev_depth = (int) $row['prev_depth'];
-				$this_depth = (int) $row['this_depth'];
-				$row['num_kids'] = $this->count_descendants($row);
-
-				$nodes[] = array_merge(array_change_key_case($row, CASE_UPPER),
-					array('close' => array_fill(0, abs($prev_depth - $this_depth), ''))
-				);
-			}
-
-			return array(
-				'tree'	=> $nodes,
-				'close'	=> array_fill(0, abs($this_depth - $this->min_depth), '')
-			);
-		}
-
-		return [];
+		return array(
+			'tree'	=> (sizeof($data['items'])) ? $data['items'] : [],
+			'min_depth' => $this->min_depth
+		);
 	}
 
 	/**
@@ -154,42 +140,38 @@ class display extends \blitze\sitemaker\services\tree\display
 	protected function prepare_items(array &$data)
 	{
 		$leaf = array();
-		$prev_depth = $this->min_depth;
 		$this->parental_depth = array(0 => -1);
 
-		foreach ($data as $item_id => $row)
+		foreach ($data as $id => $row)
 		{
 			// Skip branch
 			if ($this->should_skip_branch($row, $leaf))
 			{
-				$this->adjust_right_id($leaf[$this->column_item_id], $data, $leaf);
-				unset($data[$item_id]);
+				$this->adjust_right_id($leaf[$this->column_item_id], $data);
+				unset($data[$id]);
 				continue;
 			}
 
 			[$is_current_item, $is_parent] = $this->get_current_item($row);
-			$this_depth	= $this->get_parental_depth($row) + 1;
+			$depth	= $this->get_parental_depth($row) + 1;
 			$leaf = $this->get_leaf_node($row, $is_current_item, $is_parent);
 
-			$this->parental_depth[$row[$this->pk]] = $this_depth;
+			$this->parental_depth[$row[$this->pk]] = $depth;
 
 			if ($row[$this->column_depth] < $this->min_depth)
 			{
-				unset($data[$item_id]);
+				unset($data[$id]);
 				continue;
 			}
 
-			$data[$item_id] = array_merge($data[$item_id], array(
-				'prev_depth'	=> $prev_depth,
-				'this_depth'	=> $this_depth,
+			$data[$id] = array_merge($row, array(
+				'depth'			=> $depth,
 				'is_current'	=> $is_current_item,
 				'is_parent'		=> $is_parent,
 				'full_url'		=> $this->get_full_url($row),
 			));
-
-			$prev_depth = $this_depth;
 		}
-		unset($this->parental_depth, $data);
+		unset($this->parental_depth);
 	}
 
 	/**
@@ -297,14 +279,13 @@ class display extends \blitze\sitemaker\services\tree\display
 	/**
 	 * @param int $item_id
 	 * @param array $data
-	 * @param array $leaf
 	 * @return void
 	 */
-	protected function adjust_right_id($item_id, array &$data, array $leaf)
+	protected function adjust_right_id($item_id, array &$data)
 	{
 		if (isset($data[$item_id]))
 		{
-			$data[$leaf[$this->column_item_id]][$this->column_right_id] -= 2;
+			$data[$item_id][$this->column_right_id] -= 2;
 		}
 	}
 

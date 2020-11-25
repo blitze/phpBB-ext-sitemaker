@@ -74,7 +74,8 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'expanded'		=> true,
 					'max_depth'		=> 0,
-				), array(
+				),
+				array(
 					1 => array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
@@ -111,7 +112,7 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(
 					'tree' => array(
-						array(
+						1 => array(
 							'ITEM_ID' => 1,
 							'ITEM_TITLE' => 'Item 1',
 							'ITEM_URL' => '/index.php',
@@ -121,15 +122,12 @@ class display_test extends \phpbb_database_test_case
 							'LEFT_ID' => 1,
 							'RIGHT_ID' => 4,
 							'DEPTH' => 0,
-							'PREV_DEPTH' => 0,
-							'THIS_DEPTH' => 0,
 							'IS_CURRENT' => true,
 							'IS_PARENT' => false,
 							'FULL_URL' => NULL,
 							'NUM_KIDS' => 1,
-							'close' => [],
 						),
-						array(
+						2	=> array(
 							'ITEM_ID' => 2,
 							'ITEM_TITLE' => 'Item 2',
 							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
@@ -139,15 +137,12 @@ class display_test extends \phpbb_database_test_case
 							'LEFT_ID' => 2,
 							'RIGHT_ID' => 3,
 							'DEPTH' => 1,
-							'PREV_DEPTH' => 0,
-							'THIS_DEPTH' => 1,
 							'IS_CURRENT' => false,
 							'IS_PARENT' => false,
 							'FULL_URL' => NULL,
 							'NUM_KIDS' => 0,
-							'close' => [''],
 						),
-						array(
+						3	=> array(
 							'ITEM_ID' => 3,
 							'ITEM_TITLE' => 'Item 3',
 							'ITEM_URL' => '/app.php/forum',
@@ -157,35 +152,29 @@ class display_test extends \phpbb_database_test_case
 							'LEFT_ID' => 5,
 							'RIGHT_ID' => 6,
 							'DEPTH' => 0,
-							'PREV_DEPTH' => 1,
-							'THIS_DEPTH' => 0,
 							'IS_CURRENT' => false,
 							'IS_PARENT' => false,
 							'FULL_URL' => NULL,
 							'NUM_KIDS' => 0,
-							'close' => [''],
 						),
 					),
-					'close' => [],
+					'min_depth' => 0,
 				),
 				array(
 					array(
-						'PREV_DEPTH'	=> 0,
-						'THIS_DEPTH'	=> 0,
+						'DEPTH'			=> 0,
 						'NUM_KIDS'		=> 1,
 						'IS_CURRENT'	=> true,
 						'ITEM_ID'		=> 1,
 					),
 					array(
-						'PREV_DEPTH'	=> 0,
-						'THIS_DEPTH'	=> 1,
+						'DEPTH'			=> 1,
 						'NUM_KIDS'		=> 0,
 						'IS_CURRENT'	=> false,
 						'ITEM_ID'		=> 2,
 					),
 					array(
-						'PREV_DEPTH'	=> 1,
-						'THIS_DEPTH'	=> 0,
+						'DEPTH'			=> 0,
 						'NUM_KIDS'		=> 0,
 						'IS_CURRENT'	=> false,
 						'ITEM_ID'		=> 3,
@@ -231,7 +220,7 @@ class display_test extends \phpbb_database_test_case
 						'item_url'		=> '/app.php/forum',
 						'url_path'		=> '/app.php/forum',
 						'url_query'		=> array(),
-						'parent_id'		=> 0,
+						'parent_id'		=> 2,
 						'left_id'		=> 3,
 						'right_id'		=> 4,
 						'depth'			=> 2,
@@ -239,7 +228,7 @@ class display_test extends \phpbb_database_test_case
 				),
 				array(
 					'tree' => array(
-						array(
+						2	=> array(
 							'ITEM_ID' => 2,
 							'ITEM_TITLE' => 'Item 2',
 							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
@@ -249,34 +238,28 @@ class display_test extends \phpbb_database_test_case
 							'LEFT_ID' => 2,
 							'RIGHT_ID' => 5,
 							'DEPTH' => 1,
-							'PREV_DEPTH' => 1,
-							'THIS_DEPTH' => 1,
 							'IS_CURRENT' => false,
 							'IS_PARENT' => true,
 							'FULL_URL' => NULL,
 							'NUM_KIDS' => 1,
-							'close' => [],
 						),
-						array(
+						3	=> array(
 							'ITEM_ID' => 3,
 							'ITEM_TITLE' => 'Item 3',
 							'ITEM_URL' => '/app.php/forum',
 							'URL_PATH' => '/app.php/forum',
 							'URL_QUERY' => [],
-							'PARENT_ID' => 0,
+							'PARENT_ID' => 2,
 							'LEFT_ID' => 3,
 							'RIGHT_ID' => 4,
 							'DEPTH' => 2,
-							'PREV_DEPTH' => 1,
-							'THIS_DEPTH' => 0,
 							'IS_CURRENT' => true,
 							'IS_PARENT' => false,
 							'FULL_URL' => NULL,
 							'NUM_KIDS' => 0,
-							'close' => [''],
 						),
 					),
-					'close' => [''],
+					'min_depth'	=> 1,
 				),
 			),
 		);

@@ -1,32 +1,34 @@
 {% if tree|length %}
 <nav>
 	<ul class="sm-list fa-ul">
+	{%- set prev_depth = min_depth -%}
 	{% for node in tree %}
-		{% if node.THIS_DEPTH > node.PREV_DEPTH %}
+		{% if node.DEPTH > prev_depth %}
 			<ul class="sm-list fa-ul">
 		{% else %}
-		{% for i in node.CLOSE %}
-			</ul>
-		</li>
-		{% endfor %}
+			{% for i in range(1, prev_depth - node.DEPTH) if prev_depth - node.DEPTH > 0 %}
+				</ul>
+			</li>
+			{% endfor %}
 		{% endif %}
 		{% if node.ITEM_URL %}
-		<li{% if node.IS_CURRENT %} class="active"{% endif %}>
-			<a href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener"{% endif %}><i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}</a>
-		{% elseif node.ITEM_TITLE !== '-' %}
-		<li class="sm-nav-header">
-			<i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}
+			<li{% if node.IS_CURRENT %} class="active"{% endif %}>
+				<a href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener"{% endif %}><i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}</a>
+		{% elseif node.item_title != '-' %}
+			<li class="sm-nav-header">
+				<i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}
 		{% else %}
-		<li class="sm-nav-divider"><hr />
+			<li class="sm-nav-divider"><hr />
 		{% endif %}
-		{% if node.NUM_KIDS == 0 %}
-		</li>
-		{% endif %}
+		{%- if node.NUM_KIDS == 0 -%}
+			</li>
+		{%- endif -%}
+		{%- set prev_depth = node.DEPTH -%}
 	{% endfor %}
-		{% for i in close %}
+	{% for i in range(1, prev_depth - min_depth) if prev_depth - min_depth > 0 %}
 	    	</ul>
 	    </li>
-	    {% endfor %}
+	{% endfor %}
 	</ul>
 </nav>
 {% endif %}

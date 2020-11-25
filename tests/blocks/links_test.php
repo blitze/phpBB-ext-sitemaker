@@ -19,6 +19,8 @@ use blitze\sitemaker\blocks\links;
 
 class links_test extends blocks_base
 {
+	protected $twig;
+
 	/**
 	 * Load required fixtures.
 	 *
@@ -37,7 +39,7 @@ class links_test extends blocks_base
 	 */
 	protected function get_block($page_data = array())
 	{
-		global $symfony_request;
+		global $symfony_request, $phpbb_root_path;
 
 		$symfony_request = new Request();
 
@@ -56,6 +58,10 @@ class links_test extends blocks_base
 			'style_name' => 'prosilver',
 			'style_path' => 'prosilver',
 		);
+
+		$loader = new \Twig\Loader\FilesystemLoader($phpbb_root_path . 'styles');
+		$loader->addPath($phpbb_root_path . 'ext/blitze/sitemaker/styles/all/template', 'blitze_sitemaker');
+		$this->twig = new \Twig\Environment($loader, ['debug' => true]);
 
 		$mapper_factory = new mapper_factory($this->config, $this->db, $tables);
 
@@ -143,87 +149,19 @@ class links_test extends blocks_base
 					),
 				),
 				false,
-				array(
-					'tree' => array(
-						array(
-							'PREV_DEPTH' => 0,
-							'THIS_DEPTH' => 0,
-							'NUM_KIDS' => 2,
-							'CLOSE' => array(),
-							'ITEM_ID' => 1,
-							'MENU_ID' => 1,
-							'PARENT_ID' => 0,
-							'ITEM_TITLE' => 'Item 1',
-							'ITEM_URL' => '/app.php/page/item-1',
-							'ITEM_ICON' => '',
-							'ITEM_TARGET' => 0,
-							'LEFT_ID' => 1,
-							'RIGHT_ID' => 6,
-							'ITEM_PARENTS' => '',
-							'DEPTH' => 0,
-							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-1',
-							'BOARD_URL' => 'http://www.example.com/phpBB',
-							'MOD_REWRITE_ENABLED' => '',
-							'HOST' => '',
-							'URL_PATH' => '/app.php/page/item-1',
-							'URL_QUERY' => array(),
-							'IS_NAVIGABLE' => true,
-							'IS_EXPANDABLE' => true,
-						),
-						array(
-							'PREV_DEPTH' => 0,
-							'THIS_DEPTH' => 1,
-							'NUM_KIDS' => 1,
-							'CLOSE' => [''],
-							'ITEM_ID' => 2,
-							'MENU_ID' => 1,
-							'PARENT_ID' => 1,
-							'ITEM_TITLE' => 'Item 2',
-							'ITEM_URL' => '/app.php/page/item-2',
-							'ITEM_ICON' => '',
-							'ITEM_TARGET' => 0,
-							'LEFT_ID' => 2,
-							'RIGHT_ID' => 5,
-							'ITEM_PARENTS' => '',
-							'DEPTH' => 1,
-							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-2',
-							'BOARD_URL' => 'http://www.example.com/phpBB',
-							'MOD_REWRITE_ENABLED' => '',
-							'HOST' => '',
-							'URL_PATH' => '/app.php/page/item-2',
-							'URL_QUERY' => array(),
-							'IS_NAVIGABLE' => true,
-							'IS_EXPANDABLE' => true,
-						),
-						array(
-							'PREV_DEPTH' => 1,
-							'THIS_DEPTH' => 2,
-							'NUM_KIDS' => 0,
-							'CLOSE' => [''],
-							'ITEM_ID' => 3,
-							'MENU_ID' => 1,
-							'PARENT_ID' => 2,
-							'ITEM_TITLE' => 'Item 3',
-							'ITEM_URL' => '/app.php/page/item-3',
-							'ITEM_ICON' => '',
-							'ITEM_TARGET' => 0,
-							'LEFT_ID' => 3,
-							'RIGHT_ID' => 4,
-							'ITEM_PARENTS' => '',
-							'DEPTH' => 2,
-							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-3',
-							'BOARD_URL' => 'http://www.example.com/phpBB',
-							'MOD_REWRITE_ENABLED' => '',
-							'HOST' => '',
-							'URL_PATH' => '/app.php/page/item-3',
-							'URL_QUERY' => array(),
-							'IS_NAVIGABLE' => true,
-							'IS_EXPANDABLE' => true,
-						),
-					),
-					'close' => ['', ''],
-				),
-				'status' => 1,
+				'<ul class="sm-list fa-ul">' .
+					'<li>' .
+						'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+						'<ul class="sm-list fa-ul">' .
+							'<li>' .
+								'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+								'<ul class="sm-list fa-ul">' .
+									'<li><a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw" aria-hidden="true"></i>Item 3</a></li>' .
+								'</ul>' .
+							'</li>' .
+						'</ul>' .
+					'</li>' .
+				'</ul>'
 			),
 		);
 	}
@@ -241,6 +179,16 @@ class links_test extends blocks_base
 		$block = $this->get_block();
 		$result = $block->display($bdata, $editing);
 
-		$this->assertEquals($expected, is_array($expected) ? $result['data'] : $result['content']);
+		if (isset($result['data']))
+		{
+			$html = $this->twig->render($block->get_template(), $result['data']);
+			$content = str_replace(array("\n", "\t", "  "), '', $html);
+		}
+		else
+		{
+			$content = $result['content'];
+		}
+
+		$this->assertEquals($expected, $content);
 	}
 }
