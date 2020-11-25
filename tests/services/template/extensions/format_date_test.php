@@ -75,7 +75,6 @@ class format_date_test extends \phpbb_test_case
 				'autoescape'	=> false,
 			)
 		);
-		$phpbb_extension_manager = new \phpbb_mock_extension_manager($phpbb_root_path, array());
 		$twig_extensions = array(new \blitze\sitemaker\services\template\extensions\format_date($user));
 
 		$template = new \phpbb\template\twig\twig($path_helper, $config, $context, $twig, $cache_path, $user, $twig_extensions);
