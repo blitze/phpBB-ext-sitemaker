@@ -168,31 +168,14 @@ abstract class display
 	 */
 	public function display_list(array $data)
 	{
-		$prev_depth = 0;
-		$parental_depth = array(0 => -1);
-		$data = array_values($data);
-		$nodes = [];
-
-		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
-		{
-			$row 		= $data[$i];
-			$this_depth	= $parental_depth[$row[$this->column_parent_id]] + 1;
-			$repeat		= (int) abs($prev_depth - $this_depth);
-
-			$nodes[]	= array_merge(array(
-				'PREV_DEPTH'	=> $prev_depth,
-				'THIS_DEPTH'	=> $this_depth,
-				'NUM_KIDS'		=> $this->count_descendants($row),
-				'CLOSE'			=> array_fill(0, $repeat, ''),
-			), array_change_key_case($row, CASE_UPPER));
-
-			$prev_depth = $this_depth;
-			$parental_depth[$row[$this->pk]] = $this_depth;
-		}
+		$data = array_map(function($row) {
+			$row['num_kids'] = $this->count_descendants($row);
+			return array_change_key_case($row, CASE_UPPER);
+		}, $data);
 
 		return array(
-			'tree'	=> $nodes,
-			'close'	=> array_fill(0, $prev_depth, ''),
+			'tree'		=> (sizeof($data)) ? $data : [],
+			'min_depth'	=> 0,
 		);
 	}
 

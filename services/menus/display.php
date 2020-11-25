@@ -21,11 +21,11 @@ class display extends \blitze\sitemaker\services\tree\display
 	/** @var integer */
 	private $max_depth = 100;
 
-	/** @var integer */
-	private $min_depth = 0;
-
 	/** @var array */
 	private $parental_depth;
+
+	/** @var integer */
+	private $min_depth = 0;
 
 	/** @var array */
 	private $current_item = [];
@@ -64,15 +64,9 @@ class display extends \blitze\sitemaker\services\tree\display
 		$this->set_current_item($data);
 		$this->prepare_items($data['items']);
 
-		$data['items'] = array_map(function($row) {
-			$row['num_kids'] = $this->count_descendants($row);
-			return array_change_key_case($row, CASE_UPPER);
-		}, $data['items']);
-
-		return array(
-			'tree'	=> (sizeof($data['items'])) ? $data['items'] : [],
-			'min_depth' => $this->min_depth
-		);
+		return array_merge($this->display_list($data['items']), array(
+			'min_depth'	=> $this->min_depth
+		));
 	}
 
 	/**
