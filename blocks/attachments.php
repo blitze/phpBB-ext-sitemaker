@@ -102,9 +102,9 @@ class attachments extends block
 
 		return array(
 			'title'	=> 'ATTACHMENTS',
-			'data'	=> array(
-				'attachments'	=> $this->get_attachments_data($attachments, $posts_data, $extensions),
-			)
+			'data'	=> sizeof($attachments)
+				? $this->get_attachments_data($attachments, $posts_data, $extensions)
+				: [],
 		);
 	}
 
@@ -140,7 +140,7 @@ class attachments extends block
 			}
 		}
 
-		return $attachments_row;
+		return ['attachments' => $attachments_row];
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -37,7 +38,8 @@ class attachments_test extends blocks_base
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
-			->will($this->returnCallback(function($acl, $test) {
+			->will($this->returnCallback(function ($acl, $test)
+			{
 				if ($acl == '!f_read' && $test)
 				{
 					$ids = array(5 => 5);
@@ -64,10 +66,10 @@ class attachments_test extends blocks_base
 					'zip' => 0,
 				),
 				'png' => array(
-            		'group_name' => 'IMAGES',
+					'group_name' => 'IMAGES',
 				),
 				'zip' => array(
-            		'group_name' => 'ARCHIVES',
+					'group_name' => 'ARCHIVES',
 				),
 			));
 
@@ -136,7 +138,7 @@ class attachments_test extends blocks_base
 					),
 				),
 				array(
-					array (
+					array(
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
@@ -187,7 +189,7 @@ class attachments_test extends blocks_base
 					),
 				),
 				array(
-					array (
+					array(
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
@@ -288,7 +290,7 @@ class attachments_test extends blocks_base
 					),
 				),
 				array(
-					array (
+					array(
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
@@ -323,7 +325,7 @@ class attachments_test extends blocks_base
 					),
 				),
 				array(
-					array (
+					array(
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
@@ -356,7 +358,7 @@ class attachments_test extends blocks_base
 					),
 				),
 				array(
-					array (
+					array(
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
