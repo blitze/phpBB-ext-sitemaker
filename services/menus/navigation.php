@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -56,13 +57,17 @@ class navigation
 
 		if (!$is_navigation)
 		{
-			return $this->tree->display_list($data['items']);
+			$list = $this->tree->display_list($data['items']);
 		}
 		else
 		{
 			$this->tree->set_params($settings);
-			return $this->tree->display_navlist($data);
+			$list = $this->tree->display_navlist($data);
 		}
+
+		return array_merge($list, array(
+			'is_nav' => $is_navigation
+		));
 	}
 
 	/**

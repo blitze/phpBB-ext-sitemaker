@@ -94,7 +94,7 @@ class menu_test extends blocks_base
 	{
 		$block = $this->get_block();
 
-		$this->assertEquals('@blitze_sitemaker/blocks/menu.html', $block->get_template());
+		$this->assertEquals('@blitze_sitemaker/blocks/lists.html', $block->get_template());
 	}
 
 	/**

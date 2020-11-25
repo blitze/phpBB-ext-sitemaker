@@ -171,14 +171,19 @@ ul.sm-list {
 	}
 
 	/* Nav lists */
+	aside &,
 	nav & {
 		> li {
 			flex-wrap: wrap;
-			padding-top: 1em;
+			padding: 1rem 0 0;
+			margin: 0;
+
+			&.sm-nav-header {
+				opacity: 0.7;
+			}
 
 			&.sm-nav-header {
 				font-weight: bold;
-				opacity: 0.8;
 				border-bottom: 1px solid $border-color;
 			}
 
@@ -186,7 +191,21 @@ ul.sm-list {
 				padding: 0;
 				margin-bottom: -$gutter-width;
 			}
+		}
+	}
 
+	aside & {
+		> li {
+			padding-top: 0.5rem;
+
+			&.sm-nav-header {
+				border-bottom: 0;
+			}
+		}
+	}
+
+	nav & {
+		> li {
 			&.active > a {
 				font-weight: bolder;
 				color: $nav-list-active-color;

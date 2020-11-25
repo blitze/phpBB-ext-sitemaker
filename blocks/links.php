@@ -27,9 +27,6 @@ class links extends block
 	/** @var string */
 	protected $title = 'LINKS';
 
-	/** @var string */
-	protected $tpl_name = 'links';
-
 	/** @var bool */
 	protected $is_navigation = false;
 
@@ -101,6 +98,6 @@ class links extends block
 	 */
 	public function get_template()
 	{
-		return '@blitze_sitemaker/blocks/' . $this->tpl_name . '.html';
+		return '@blitze_sitemaker/blocks/lists.html';
 	}
 }

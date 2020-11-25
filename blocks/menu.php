@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -10,16 +11,13 @@
 namespace blitze\sitemaker\blocks;
 
 /**
-* Menu Block
-* @package phpBB Sitemaker Main Menu
-*/
+ * Menu Block
+ * @package phpBB Sitemaker Main Menu
+ */
 class menu extends links
 {
 	/** @var string */
 	protected $title = 'MENU';
-
-	/** @var string */
-	protected $tpl_name = 'menu';
 
 	/** @var bool */
 	protected $is_navigation = true;
