@@ -1,6 +1,11 @@
 # Changelog
 
-## 3.3.0 - 2020-11-06
+## 3.3.2 - 2020-11-25
+
+-   Add support for headers and dividers to Links block
+-   Fix display issues for lists as a result of templating change
+
+## 3.3.0 - 2020-11-16
 
 -   Rollback support for fontawesome5 since phpbb has rolled back
 -   Better support for other phpBB styles (WIP)
