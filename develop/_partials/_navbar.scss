@@ -113,6 +113,9 @@
 				color: #ff9;
 			}
 		}
+		.sm-nav-divider {
+			margin: 0;
+		}
 	}
 	label.drop-icon {
 		@extend %extend_3;
@@ -186,3 +189,4 @@
 .sm-tm:checked + .main-menu {
 	display: block;
 }
+

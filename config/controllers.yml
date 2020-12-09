@@ -28,6 +28,14 @@ services:
             - '@language'
             - '@blitze.sitemaker.menus.action_handler'
 
+    blitze.sitemaker.navbar.controller:
+        class: blitze\sitemaker\controller\navbar
+        arguments:
+            - '@auth'
+            - '@config_text'
+            - '@request'
+            - '@language'
+
     blitze.sitemaker.upload.controller:
         class: blitze\sitemaker\controller\upload
         arguments:

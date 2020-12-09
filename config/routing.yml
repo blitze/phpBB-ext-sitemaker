@@ -19,3 +19,13 @@ blitze_sitemaker_image_upload:
     defaults: { _controller: blitze.sitemaker.upload.controller:handle }
     requirements:
         _format: json
+
+blitze_sitemaker_navbar_css:
+    path: /sitemaker/navbar/{style}.css
+    defaults: { _controller: blitze.sitemaker.navbar.controller:css }
+
+blitze_sitemaker_navbar_manager:
+    path: /sitemaker/navbar/{style}/save
+    defaults: { _controller: blitze.sitemaker.navbar.controller:save }
+    requirements:
+        _format: json

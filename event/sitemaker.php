@@ -84,9 +84,17 @@ class sitemaker implements EventSubscriberInterface
 		$this->blocks->show();
 		$this->show_hide_index_blocks();
 
+		[$style_name] = $this->template->get_user_style();
+
 		if ($this->config['sm_navbar_menu'])
 		{
-			$this->template->assign_vars($this->navigation->build_menu((int) $this->config['sm_navbar_menu'], true));
+			$locations = json_decode($this->config['sitemaker_nav_locations'], true);
+			$this->template->assign_vars(array_merge(array(
+					'STYLE_NAME'		=> $style_name,
+					'NAVBAR_LOCATION'	=> $locations[$style_name] ?? '',
+				),
+				$this->navigation->build_menu((int) $this->config['sm_navbar_menu'], true))
+			);
 		}
 
 		$this->set_assets();

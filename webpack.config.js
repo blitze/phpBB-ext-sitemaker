@@ -38,6 +38,12 @@ Encore.setOutputPath(paths.output)
 				chunks: 'all',
 				enforce: true,
 			},
+			colorpicker: {
+				name: 'spectrum/colorpicker',
+				test: /[\\/]spectrum-colorpicker2[\\/]/,
+				chunks: 'all',
+				enforce: true,
+			},
 			twig: {
 				name: 'twig/twig',
 				test: /[\\/]twig[\\/]/,

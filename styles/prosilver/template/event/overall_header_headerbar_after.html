@@ -1,42 +1,8 @@
-{% if tree|length %}
-<nav class="forumbg sm-menu">
-	<label for="sm-tm" class="sm-toggle-menu">{{ lang('SM_NAVIGATION') }} <span class="drop-icon">&#9660;</span></label>
-	<input type="checkbox" class="sm-tm" id="sm-tm">
-	<ul class="main-menu sm-clearfix">
-	{%- set prev_depth = 0 -%}
-	{% for node in tree %}
-		{% if node.DEPTH > prev_depth %}
-			<label title="{{ lang('SM_TOGGLE_DROPDOWN') }}" class="drop-icon" for="{{ 'sm' ~ loop.index }}">&#9660;</label>
-			<input type="checkbox" id="{{ 'sm' ~ loop.index }}">
-			<ul class="sub-menu">
-		{% else %}
-			{% for i in range(1, prev_depth - node.DEPTH) if prev_depth - node.DEPTH > 0 %}
-				</ul>
-			</li>
-			{% endfor %}
-		{% endif %}
-		<li{% if node.IS_CURRENT or node.IS_PARENT %} class="forabg active"{% endif %}>
-			{% if node.FULL_URL %}
-			<a class="sm-nav-item" href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}>
-				<i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>
-				{{ node.ITEM_TITLE }}{% if node.NUM_KIDS %}<span class="drop-icon">{{ node.DEPTH ? '&#9654;' : '&#9660;' }}</span>{% endif %}
-			</a>
-			{% elseif node.ITEM_TITLE !== '-' %}
-				<h5 class="sm-nav-item sm-nav-header">
-					{{ node.ITEM_TITLE }}{% if node.NUM_KIDS %}<span class="drop-icon">{{ node.DEPTH ? '&#9654;' : '&#9660;' }}</span>{% endif %}
-				</h5>
-			{% else %}
-				<hr />
-			{% endif %}
-		{% if node.NUM_KIDS == 0 %}
-		</li>
-		{% endif %}
-		{%- set prev_depth = node.DEPTH -%}
-	{% endfor %}
-	{% for i in range(1, prev_depth) if prev_depth > 0 %}
-			</ul>
-		</li>
-	{% endfor %}
-	</ul>
-</nav>
+{% if S_EDIT_MODE && !NAVBAR_LOCATION %}
+	<button id="sm-navbar-edit-btn" class="pull-right"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
+	{% include('@blitze_sitemaker/navbar/manager.html') %}
+{% endif %}
+
+{% if NAVBAR_LOCATION === 'overall_header_headerbar_after' %}
+	{% include('@blitze_sitemaker/navbar/list.html') %}
 {% endif %}

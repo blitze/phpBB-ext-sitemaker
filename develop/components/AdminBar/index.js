@@ -6,6 +6,7 @@ import LayoutSettings from './Settings';
 import StyleSelector from './StyleSelector';
 import SaveLayout from './SaveLayout';
 import ToggleEdit from './ToggleEdit';
+import NavbarManager from '../Navbar/manager';
 
 import './adminBar.scss';
 
@@ -29,6 +30,7 @@ export default class AdminBar {
 
 		this.bindEvents();
 		this.initAjax();
+		NavbarManager();
 	}
 
 	show() {
