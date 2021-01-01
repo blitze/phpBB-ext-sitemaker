@@ -32,9 +32,9 @@ services:
         class: blitze\sitemaker\controller\navbar
         arguments:
             - '@auth'
-            - '@config_text'
-            - '@request'
+            - '@symfony_request'
             - '@language'
+            - '@blitze.sitemaker.navbar'
 
     blitze.sitemaker.upload.controller:
         class: blitze\sitemaker\controller\upload

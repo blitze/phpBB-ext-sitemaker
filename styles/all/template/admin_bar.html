@@ -129,6 +129,7 @@
 		directionality: '{{ S_CONTENT_DIRECTION|e('js') }}',
 		uploadUrl: '{{ UA_UPLOAD_URL }}',
 		navbarManager: '{{ UA_NAVBAR_MANAGER }}',
+		navbarCSS: '{{ NAVBAR_CSS }}',
 		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
 	};
 	var actions = {{ BLOCK_ACTIONS|e('js')|json_encode(constant('JSON_PRETTY_PRINT')) }};

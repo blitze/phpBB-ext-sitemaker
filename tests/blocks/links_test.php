@@ -67,7 +67,11 @@ class links_test extends blocks_base
 
 		$tree = new display($this->db, $this->user, $tables['mapper_tables']['items'], 'item_id');
 
-		$navigation = new navigation($this->cache, $mapper_factory, $tree, $this->php_ext);
+		$navbar = $this->getMockBuilder('\blitze\sitemaker\services\navbar')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$navigation = new navigation($this->cache, $mapper_factory, $navbar, $tree, $this->php_ext);
 
 		return new links($this->translator, $navigation);
 	}
@@ -151,19 +155,19 @@ class links_test extends blocks_base
 				false,
 				'<aside>' .
 					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li><a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw" aria-hidden="true"></i>Item 3</a></li>' .
-									'</ul>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li>' .
+					'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
+					'<ul class="sm-list fa-ul">' .
+					'<li><a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw" aria-hidden="true"></i>Item 3</a></li>' .
 					'</ul>' .
-				'</aside>'
+					'</li>' .
+					'</ul>' .
+					'</li>' .
+					'</ul>' .
+					'</aside>'
 			),
 		);
 	}

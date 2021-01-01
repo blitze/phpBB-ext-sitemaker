@@ -15,6 +15,7 @@ Encore.setOutputPath(paths.output)
 	.setManifestKeyPrefix('../')
 
 	.addStyleEntry('sitemaker', paths.entry + '/sitemaker.scss')
+	.addStyleEntry('navbar', paths.entry + '/navbar.scss')
 
 	.addEntry('blocks/manager', paths.entry + '/entries/blocks/manager.js')
 	.addEntry('menu/admin', paths.entry + '/entries/menu/')
@@ -27,7 +28,7 @@ Encore.setOutputPath(paths.output)
 
 	.enableSingleRuntimeChunk()
 
-	.configureSplitChunks(splitChunks => {
+	.configureSplitChunks((splitChunks) => {
 		splitChunks.chunks = 'all';
 		splitChunks.cacheGroups = {
 			default: false,
@@ -72,13 +73,13 @@ Encore.setOutputPath(paths.output)
 			from: './node_modules/tinymce/',
 			to: 'tinymce/[path][name].[ext]',
 			pattern: /^(?!composer\.json).*$/,
-		}
+		},
 	])
 
 	.addPlugin(
 		new webpack.NormalModuleReplacementPlugin(
 			/jquery-ui\/themes\/base\/(core|theme).css/,
-			resource => {
+			(resource) => {
 				const filename = path.basename(resource.request, '.css');
 				const type = filename === 'core' ? 'jquery-ui' : 'theme';
 				resource.request = `jquery-ui-themes/themes/${jqueryUITheme}/${type}.css`;

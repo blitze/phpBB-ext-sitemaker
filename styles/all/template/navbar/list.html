@@ -1,12 +1,7 @@
 {% if tree|length %}
-{% INCLUDECSS './sitemaker/navbar/' ~ STYLE_NAME ~ '.css' %}
+{% INCLUDECSS NAVBAR_CSS %}
 
-{% if S_EDIT_MODE %}
-	<button id="sm-navbar-edit-btn" class="pull-right"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
-	{% set navbar_manager = include('@blitze_sitemaker/navbar/manager.html') %}
-{% endif %}
-
-<nav class="sm-menu">
+<nav id="{{ location }}" class="sm-menu">
 	<label for="sm-tm" class="sm-toggle-menu">{{ lang('SM_NAVIGATION') }} <span class="drop-icon">&#9660;</span></label>
 	<input type="checkbox" class="sm-tm" id="sm-tm">
 	<ul class="main-menu sm-clearfix">
@@ -22,9 +17,9 @@
 			</li>
 			{% endfor %}
 		{% endif %}
-		<li{% if node.IS_CURRENT or node.IS_PARENT %} class="active"{% endif %}>
+		<li>
 			{% if node.FULL_URL %}
-			<a class="sm-nav-item" href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}>
+			<a class="sm-nav-item{% if node.IS_CURRENT or node.IS_PARENT %} active{% endif %}" href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}>
 				<i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>
 				{{ node.ITEM_TITLE }}{% if node.NUM_KIDS %}<span class="drop-icon">{{ node.DEPTH ? '&#9654;' : '&#9660;' }}</span>{% endif %}
 			</a>
@@ -46,5 +41,4 @@
 	{% endfor %}
 	</ul>
 </nav>
-{{ navbar_manager }}
 {% endif %}

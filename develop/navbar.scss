@@ -1,6 +1,6 @@
 // credit: http://w3bits.com/css-responsive-nav-menu/
 
-@import 'globals';
+@import './_partials/globals';
 
 //@extend-elements
 //original selectors
@@ -9,9 +9,9 @@
 	position: relative;
 	display: block;
 	color: $navbar_text_color;
+	margin: 0;
+	text-align: left;
 	text-decoration: none;
-	font-size: inherit;
-	font-weight: inherit;
 }
 
 //original selectors
@@ -27,143 +27,161 @@
 %extend_3 {
 	padding: 1em;
 	text-align: center;
-	background-color: $navbar_toggle_menu_color;
-	text-shadow: 0 0 0 transparent;
+	background-color: rgba(0, 0, 0, 0.2);
 	color: $navbar_text_color;
 }
 
 .sm-clearfix {
 	zoom: 1;
+
 	&:before {
 		content: '';
 		display: table;
 	}
+
 	&:after {
 		content: '';
 		display: table;
 		clear: both;
 	}
 }
+
 .sm-menu {
+	position: relative;
 	padding: 0;
-	margin: 4px -5px -5px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+
+	// Reset
+	ul,
+	ul li,
+	ul ul li {
+		margin: 0;
+		padding: 0;
+		text-indent: 0;
+		list-style-type: 0;
+	}
+
 	ul {
 		margin: 0;
 		padding: 0;
+		font-size: 12px;
 		z-index: 3000;
+
 		span.drop-icon {
 			display: none;
 		}
 	}
+
 	.main-menu {
 		display: none;
-		margin: 0;
 	}
+
 	input[type='checkbox'] {
 		display: none;
+
 		&:checked + .sub-menu {
 			display: block;
 		}
 	}
+
 	li {
-		border-style: solid;
-		border-color: $navbar_border_color;
-		border-width: 0 0 1px;
 		@extend %extend_1;
+
 		label.drop-icon {
 			@extend %extend_2;
 		}
-		&.active {
-			margin: -2px 0;
-			padding: 2px 0 0;
-			border-radius: 0;
-			clear: none;
-		}
+
 		.sm-nav-item {
 			@extend %extend_1;
 			padding: 1em 1.5em;
 			transition: all 0.125s ease-in-out;
-			&:hover {
-				background-color: $navbar_text_color;
-				color: $navbar_hover_background_color;
-			}
+		}
+
+		.active,
+		.sm-nav-item:hover {
+			background: rgba(0, 0, 0, 0.2);
 		}
 	}
+
 	.sub-menu {
 		border-style: solid;
 		border-color: $navbar_border_color;
 		background-color: $navbar_sub_menu_background_color;
 		border-width: 1px 1px 0;
-		margin: 0 0 0 1em;
 		display: none;
+
 		li {
 			border: 0;
 		}
-		.sm-nav-item:hover {
-			color: $navbar_sub_menu_background_color;
-		}
-		.sm-nav-header {
-			background-color: #555;
-			color: #ff9;
 
-			&:hover {
-				background-color: #555;
-				color: #ff9;
-			}
-		}
 		.sm-nav-divider {
 			margin: 0;
 		}
 	}
+
 	label.drop-icon {
 		@extend %extend_3;
 	}
+
+	@media screen and (max-width: $breakpoint-medium) {
+		padding: 0 !important;
+		margin-left: -5px !important;
+		margin-right: -5px !important;
+		border-radius: 0 !important;
+
+		li a {
+			border-radius: 0 !important;
+			margin: 0 !important;
+		}
+	}
 }
+
 .sm-toggle-menu {
-	border-style: solid;
-	border-color: $navbar_toggle_menu_color;
-	border-width: 0 0 1px;
 	@extend %extend_1;
 	background: $navbar_toggle_menu_color;
 	padding: 1em 1.5em;
+
 	.drop-icon {
 		@extend %extend_2;
 	}
+
 	span.drop-icon {
 		@extend %extend_3;
 	}
 }
-@media only screen and(min-width: $breakpoint-small) {
+
+@media only screen and (min-width: $breakpoint-small) {
 	.sm-menu {
-		padding-top: 2px;
 		.main-menu {
 			display: block;
-			margin: 0 7px;
 		}
+
 		li {
 			float: left;
 			border-width: 0 1px 0 0;
+
 			&:hover > input[type='checkbox'] + .sub-menu {
 				display: block;
 			}
 		}
+
 		.sub-menu {
 			border-width: 0;
 			margin: 0;
 			position: absolute;
 			top: 100%;
 			left: 0;
-			width: 12em;
+			min-width: 12em;
 			display: none;
+
 			li {
 				float: none;
 			}
+
 			.sub-menu {
 				top: 0;
 				left: 100%;
 			}
+
 			.drop-icon {
 				position: absolute;
 				top: 0;
@@ -171,22 +189,26 @@
 				padding: 1em;
 			}
 		}
+
 		label.drop-icon {
 			display: none;
 		}
+
 		ul span.drop-icon {
 			display: inline-block;
 			margin-left: 5px;
 		}
+
 		input[type='checkbox']:checked + .sub-menu {
 			display: none;
 		}
 	}
+
 	.sm-toggle-menu {
 		display: none;
 	}
 }
+
 .sm-tm:checked + .main-menu {
 	display: block;
 }
-

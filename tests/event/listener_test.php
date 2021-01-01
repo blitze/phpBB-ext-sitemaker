@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -12,9 +13,22 @@ namespace blitze\sitemaker\tests\event;
 use phpbb\event\data;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use phpbb\request\request_interface;
 
-class listener_test extends \phpbb_test_case
+class listener_test extends \phpbb_database_test_case
 {
+	protected $navbar;
+
+	/**
+	 * Load required fixtures.
+	 *
+	 * @return mixed
+	 */
+	public function getDataSet()
+	{
+		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/user.xml');
+	}
+
 	/**
 	 * Create the listener object
 	 *
@@ -33,7 +47,8 @@ class listener_test extends \phpbb_test_case
 
 		$container->expects($this->any())
 			->method('has')
-			->will($this->returnCallback(function($service_name) {
+			->will($this->returnCallback(function ($service_name)
+			{
 				return ($service_name === 'foo.bar.controller') ? true : false;
 			}));
 
@@ -43,25 +58,21 @@ class listener_test extends \phpbb_test_case
 
 		$controller_helper->expects($this->any())
 			->method('route')
-			->willReturnCallback(function ($route, array $params = array()) {
+			->willReturnCallback(function ($route, array $params = array())
+			{
 				return $route . '#' . serialize($params);
 			});
 
-		$container->expects($this->any())
-			->method('get')
-			->will($this->returnCallback(function($service_name) use (&$controller_helper) {
-				if ($service_name === 'controller.helper')
-				{
-					return $controller_helper;
-				}
-			}));
+		$this->navbar = $this->getMockBuilder('\blitze\sitemaker\services\navbar')
+			->disableOriginalConstructor()
+			->getMock();
 
-		return new \blitze\sitemaker\event\listener($container, $language, $phpEx);
+		return new \blitze\sitemaker\event\listener($controller_helper, $language, $this->navbar, $phpEx);
 	}
 
 	/**
-	* Test the event listener is constructed correctly
-	*/
+	 * Test the event listener is constructed correctly
+	 */
 	public function test_construct()
 	{
 		$listener = $this->get_listener();
@@ -69,14 +80,15 @@ class listener_test extends \phpbb_test_case
 	}
 
 	/**
-	* Test the event listener is subscribing events
-	*/
+	 * Test the event listener is subscribing events
+	 */
 	public function test_getSubscribedEvents()
 	{
 		$listeners = array(
 			'core.user_setup',
 			'core.permissions',
 			'core.viewonline_overwrite_location',
+			'core.acp_styles_action_before',
 		);
 
 		$this->assertEquals($listeners, array_keys(\blitze\sitemaker\event\listener::getSubscribedEvents()));
@@ -198,7 +210,7 @@ class listener_test extends \phpbb_test_case
 	}
 
 	/**
-	 * @return null
+	 * @return array
 	 */
 	public function add_viewonline_location_test_data()
 	{
@@ -264,5 +276,94 @@ class listener_test extends \phpbb_test_case
 
 		$this->assertEquals($expected_location_url, $location_url);
 		$this->assertEquals($expected_location, $location);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function remove_navbar_css_test_data()
+	{
+		return array(
+			array(
+				'install',
+				false,
+				0
+			),
+			array(
+				'install',
+				true,
+				0
+			),
+			array(
+				'uninstall',
+				false,
+				0
+			),
+			array(
+				'uninstall',
+				true,
+				1
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider remove_navbar_css_test_data
+	 * @param string $action
+	 * @param boolean $confirmed
+	 * @param int $expected_count
+	 */
+	public function test_remove_navbar_css($action, $confirmed, $expected_count)
+	{
+		global $db, $language, $request, $user;
+
+		$listener = $this->get_listener();
+
+		$user_id = 2;
+		$session_id = 'session_id';
+		$confirm_key = 'confirm_key';
+
+		$variable_map = array(
+			array('confirm', '', true, request_interface::POST, $confirmed ? 'YES' : ''),
+			array('confirm_uid', 0, false, request_interface::REQUEST, $user_id),
+			array('sess', '', false, request_interface::REQUEST, $session_id),
+			array('confirm_key', '', false, request_interface::REQUEST, $confirm_key),
+		);
+
+		$db = $this->new_dbal();
+
+		$language = $this->getMockBuilder('\phpbb\language\language')
+			->disableOriginalConstructor()
+			->getMock();
+		$language->expects($this->any())
+			->method('lang')
+			->willReturnCallback(function ()
+			{
+				return implode('-', func_get_args());
+			});
+
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
+		$request->expects($this->any())
+			->method('variable')
+			->with($this->anything())
+			->will($this->returnValueMap($variable_map));
+
+		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->data['user_id'] = $user_id;
+		$user->data['user_last_confirm_key'] = $confirm_key;
+		$user->session_id = $session_id;
+
+		$this->navbar->expects($this->exactly($expected_count))
+			->method('cleanup')
+			->with($this->isEmpty());
+
+		$dispatcher = new EventDispatcher();
+		$dispatcher->addListener('core.acp_styles_action_before', array($listener, 'remove_navbar_css'));
+
+		$event_data = array('action');
+		$event = new data(compact($event_data));
+		$dispatcher->dispatch('core.acp_styles_action_before', $event);
 	}
 }

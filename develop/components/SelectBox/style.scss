@@ -1,0 +1,43 @@
+.sm-inputbox {
+	padding-right: 20px !important;
+	color: #000;
+	cursor: pointer;
+
+	&::after {
+		content: '\f078';
+		font: normal normal normal 12px/1 FontAwesome;
+		top: 6px;
+		right: 6px;
+		padding-left: 6px;
+		background: #fff;
+		position: absolute;
+		pointer-events: none;
+	}
+}
+
+.inputbox-dropdown {
+	display: none;
+	position: absolute;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: auto;
+	overflow: hidden;
+	z-index: 5000;
+
+	a {
+		display: block;
+		padding: 5px 10px;
+		font-size: 12px;
+		color: #000;
+
+		&:hover {
+			text-decoration: none;
+			opacity: 0.7;
+		}
+	}
+
+	.selected {
+		background: #ddd;
+	}
+}

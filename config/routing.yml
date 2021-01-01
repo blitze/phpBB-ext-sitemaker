@@ -21,7 +21,7 @@ blitze_sitemaker_image_upload:
         _format: json
 
 blitze_sitemaker_navbar_css:
-    path: /sitemaker/navbar/{style}.css
+    path: /sitemaker/navbar/{style}.{hash}.css
     defaults: { _controller: blitze.sitemaker.navbar.controller:css }
 
 blitze_sitemaker_navbar_manager:

@@ -1,10 +1,10 @@
 services:
-
     blitze.sitemaker.event.listener:
         class: blitze\sitemaker\event\listener
         arguments:
-            - '@service_container'
+            - '@controller.helper'
             - '@language'
+            - '@blitze.sitemaker.navbar'
             - '%core.php_ext%'
         tags:
             - { name: event.listener }
@@ -14,6 +14,7 @@ services:
         arguments:
             - '@cache.driver'
             - '@config'
+            - '@controller.helper'
             - '@template'
             - '@language'
             - '@user'

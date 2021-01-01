@@ -79,7 +79,7 @@ class admin_bar
 	 */
 	public function show(array $route_info)
 	{
-		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
+		$this->translator->add_lang(['block_manager', 'navbar_manager'], 'blitze/sitemaker');
 
 		$this->phpbb_container->get('blitze.sitemaker.auto_lang')->add('blocks_admin');
 

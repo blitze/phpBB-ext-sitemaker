@@ -1,37 +1,46 @@
+{%- set navbar_locations = [
+	'overall_header_body_before',
+	'overall_header_headerbar_before',
+	'overall_header_headerbar_after',
+	'overall_header_navbar_before',
+	''
+] -%}
+
+{% macro makeNumberInput(name, element, prop, min, isPrimary) %}
+	<input type="number" class="navbar-prop" id="{{ name }}" name="{{ name }}" data-element="{{ element }}" data-prop="{{ prop }}" data-unit="px"{% if min is defined %} min="{{ min }}"{% endif %}{% if isPrimary %} data-primary="{{ isPrimary }}"{% endif %} />
+{% endmacro %}
+
 {% macro makeSize(name, element, prop, min) %}
-    {% if min is defined %}
-        {% set min_prop = ' min="' ~ min ~ '"' %}
-    {% endif %}
-	<div class="grid-noGutter">
+	<div class="grid-noBottom">
 		<div class="col-4">
-			<input type="number" id="{{ name }}" name="{{ name }}" class="navbar-prop number" value="0" data-element="{{ element }}" data-prop="{{ prop.default|default(prop) }}" data-unit="px" />
+			{{ _self.makeNumberInput(name, element, prop.default|default(prop), min, true) }}
 		</div>
 		{% if attribute(prop, 'top_left') is not defined %}
-		<div class="col grid-3-middle-noGutter">
+		<div class="col grid-3-middle-noGutter-noBottom">
 			<div class="col-4" title="{{ lang('LEFT') }}">
-				<input type="number" name="{{ name }}_left" class="navbar-prop" value="0"{{ min_prop }} data-element="{{ element }}" data-prop="{{ attribute(prop, 'left') is defined ? attribute(prop, 'left') : prop ~ '-left' }}" data-unit="px" />
+				{{ _self.makeNumberInput(name ~ '_left', element, attribute(prop, 'left') is defined ? attribute(prop, 'left') : prop ~ '-left', min) }}
 			</div>
-			<div class="col grid-column-middle-noGutter">
+			<div class="col grid-column-noGutter-noBottom">
 				<div class="col" title="{{ lang('TOP') }}">
-					<input type="number" name="{{ name }}_top" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'top') is defined ? attribute(prop, 'top') : prop ~ '-top' }}" data-unit="px" />
+					{{ _self.makeNumberInput(name ~ '_top', element, attribute(prop, 'top') is defined ? attribute(prop, 'top') : prop ~ '-top', min) }}
 				</div>
 				<div class="col" title="{{ lang('BOTTOM') }}">
-					<input type="number" name="{{ name }}_bottom" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'bottom') is defined ? attribute(prop, 'bottom') : prop ~ '-bottom' }}" data-unit="px" />
+					{{ _self.makeNumberInput(name ~ '_bottom', element, attribute(prop, 'bottom') is defined ? attribute(prop, 'bottom') : prop ~ '-bottom', min) }}
 				</div>
 			</div>
 			<div class="col" title="{{ lang('RIGHT') }}">
-				<input type="number" name="{{ name }}_right" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'right') is defined ? attribute(prop, 'right') : prop ~ '-right' }}" data-unit="px" />
+				{{ _self.makeNumberInput(name ~ '_right', element, attribute(prop, 'right') is defined ? attribute(prop, 'right') : prop ~ '-right', min) }}
 			</div>
 		</div>
 		{% else %}
 		<div class="col" data-push-left="off-2">
-			<div>
-				<input type="number" name="{{ name }}_tl" title="{{ lang('TOP_LEFT') }}" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'top_left') is defined ? attribute(prop, 'top_left') : prop ~ '-top-left' }}" data-unit="px" />
-				<input type="number" name="{{ name }}_tr" title="{{ lang('TOP_RIGHT') }}" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'top_right') is defined ? attribute(prop, 'top_right') : prop ~ '-top-right' }}" data-unit="px" />
+			<div class="grid-2-noGutter-noBottom">
+				<div class="col" title="{{ lang('TOP_LEFT') }}">{{ _self.makeNumberInput(name ~ '_tl', element, attribute(prop, 'top_left') is defined ? attribute(prop, 'top_left') : prop ~ '-top-left', min) }}</div>
+				<div class="col" title="{{ lang('TOP_RIGHT') }}">{{ _self.makeNumberInput(name ~ '_tr', element, attribute(prop, 'top_right') is defined ? attribute(prop, 'top_right') : prop ~ '-top-right', min) }}</div>
 			</div>
-			<div>
-				<input type="number" name="{{ name }}_bl" title="{{ lang('BOTTOM_LEFT') }}" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'bottom_left') is defined ? attribute(prop, 'bottom_left') : prop ~ '-bottom-left' }}" data-unit="px" />
-				<input type="number" name="{{ name }}_br" title="{{ lang('BOTTOM_RIGHT') }}" class="navbar-prop" value="0"{{ min_prop}} data-element="{{ element }}" data-prop="{{ attribute(prop, 'bottom_right') is defined ? attribute(prop, 'bottom_right') : prop ~ '-bottom-right' }}" data-unit="px" />
+			<div class="grid-2-noGutter-noBottom">
+				<div class="col" title="{{ lang('BOTTOM_LEFT') }}">{{ _self.makeNumberInput(name ~ '_bl', element, attribute(prop, 'bottom_left') is defined ? attribute(prop, 'bottom_left') : prop ~ '-bottom-left', min) }}</div>
+				<div class="col" title="{{ lang('BOTTOM_RIGHT') }}">{{ _self.makeNumberInput(name ~ '_br', element, attribute(prop, 'bottom_right') is defined ? attribute(prop, 'bottom_right') : prop ~ '-bottom-right', min) }}</div>
 			</div>
 		</div>
 		{% endif %}
@@ -42,229 +51,253 @@
 	<input type="text" id="{{ name }}" name="{{ name }}" class="navbar-prop colorpicker" value="" data-element="{{ element }}" data-prop="{{ prop }}"{% if group %} data-group="{{ group }}"{% endif %} />
 {% endmacro %}
 
-{% macro makeBorderOptions(name, element) %}
-    <dd>
-        <label>{{ lang('COLOUR') }}: {{ _self.makeColorPicker(name ~ 'border_color', element, 'border-color') }}</label>
-    </dd>
-    <dd>
-        {% set props = {
-            default: 'border-width',
-            top: 'border-top-width',
-            right: 'border-right-width',
-            bottom: 'border-bottom-width',
-            left: 'border-left-width'
-        } %}
-        <div class="sub-title">{{ lang('BORDER_WIDTH') }}</div>
-        {{ _self.makeSize(name ~ 'border_width', element, props, 0) }}
-    </dd>
-    <dd>
-        {% set props = {
-            default: 'border-radius',
-            top_left: 'border-top-left-radius',
-            top_right: 'border-top-right-radius',
-            bottom_left: 'border-bottom-left-radius',
-            bottom_right: 'border-bottom-right-radius',
-        } %}
-        <div class="sub-title">{{ lang('BORDER_RADIUS') }}</title>
-        {{ _self.makeSize(name ~ 'border_radius', element, props, 0) }}
-    </dd>
+{% macro makeBorderOptions(name, element, hideRadius, borderColorTitle) %}
+	<dd>
+		<div class="grid-2-middle-noBottom">
+			<div class="col">{{ lang(borderColorTitle|default('COLOR')) }}:</div>
+			<div class="col">
+				{{ _self.makeColorPicker(name ~ 'border_color', element, 'border-color') }}
+			</div>
+		</div>
+	</dd>
+	<dd>
+		{% set props = {
+			default: 'border-width',
+			top: 'border-top-width',
+			right: 'border-right-width',
+			bottom: 'border-bottom-width',
+			left: 'border-left-width'
+		} %}
+		<div class="sub-title">{{ lang('BORDER_WIDTH') }}</div>
+		{{ _self.makeSize(name ~ 'border_width', element, props, 0) }}
+	</dd>
+	{% if not hideRadius %}
+	<dd>
+		{% set props = {
+			default: 'border-radius',
+			top_left: 'border-top-left-radius',
+			top_right: 'border-top-right-radius',
+			bottom_left: 'border-bottom-left-radius',
+			bottom_right: 'border-bottom-right-radius',
+		} %}
+		<div class="sub-title">{{ lang('BORDER_RADIUS') }}</title>
+		{{ _self.makeSize(name ~ 'border_radius', element, props, 0) }}
+	</dd>
+	{% endif %}
 {% endmacro %}
 
 {% macro makeBgColorOptions(name, element, title) %}
-    <dd>
-        {% if title %}<div class="sub-title">{{ lang(title) }}</div>{% endif %}
-        <div class="grid-2-middle-noBottom">
-            <div class="col">
-                <label>{{ lang('BACKGROUND') }}:</label>
-            </div>
-            <div class="col">
+	<dd>
+		{% if title %}<div class="sub-title">{{ lang(title) }}</div>{% endif %}
+		<div class="grid-2-middle-noBottom">
+			<div class="col">{{ lang('BACKGROUND') }}:</div>
+			<div class="col">
 				{{ _self.makeColorPicker(name ~ '_bg_color', element, 'background-color') }}
-            </div>
-        </div>
-        <div class="grid-2-middle-noBottom">
-            <div class="col">
-                <label>{{ lang('COLOUR') }}:</label>
-            </div>
-            <div class="col">
+			</div>
+		</div>
+		<div class="grid-2-middle-noBottom">
+			<div class="col">{{ lang('COLOR') }}:</div>
+			<div class="col">
 				{{ _self.makeColorPicker(name ~ '_txt_color', element, 'color') }}
-            </div>
-        </div>
-    </dd>
+			</div>
+		</div>
+	</dd>
 {% endmacro %}
 
 {% macro makeTextOptions(name, element) %}
-    <dd>
-        <label>{{ lang('SIZE') }}: <input type="number" min="10" id="{{ name ~ 'txt_size' }}" name="{{ name ~ 'txt_size' }}" class="navbar-prop" value="0" data-element=".sm-menu > ul > li > a" data-prop="font-size" data-unit="rem" /></label>
-        <label>{{ lang('COLOUR') }}: {{ _self.makeColorPicker(name ~ 'txt_color', element ~ ' > a', 'color') }}</label>
-    </dd>
-	{{ _self.makeBgColorOptions(name ~ 'hover', element ~ ' > a:hover', 'HOVER') }}
+	<dd>
+		<div class="grid-2-middle-noBottom">
+			<div class="col">{{ lang('BACKGROUND') }}:</div>
+			<div class="col">
+				{{ _self.makeColorPicker(name ~ '_bg_color', element, 'background-color') }}
+			</div>
+			<div class="col">{{ lang('COLOR') }}:</div>
+			<div class="col">
+				{{ _self.makeColorPicker(name ~ 'txt_color', element, 'color') }}
+			</div>
+			<div class="col">{{ lang('SIZE') }}:</div>
+			<div class="col">
+				{{ _self.makeNumberInput(name ~ 'txt_size', element, 'font-size', 10) }}
+			</div>
+		</div>
+	</dd>
+	{{ _self.makeBgColorOptions(name ~ 'hover', element ~ ':hover', 'HOVER') }}
 {% endmacro %}
 
 {% macro makeActiveElement(name, element) %}
-	{{ _self.makeBgColorOptions(name ~ 'active', element ~ ' > .active') }}
-    <dd>
-        {% set props = {
-            default: 'border-width',
-            top: 'border-top-width',
-            right: 'border-right-width',
-            bottom: 'border-bottom-width',
-            left: 'border-left-width'
-        } %}
-        <div>{{ lang('BORDER_WIDTH') }}</div>
-        {{ _self.makeSize(name ~ 'border_width', element, props, 0) }}
-    </dd>
+	{{ _self.makeBgColorOptions(name, element) }}
+	{{ _self.makeBorderOptions(name, element, true, 'BORDER_COLOR') }}
 {% endmacro %}
 
-{%- set navbar_locations = [
-	'overall_header_body_before',
-	'overall_header_headerbar_before',
-	'overall_header_headerbar_after',
-	'overall_header_navbar_before',
-	''
-] -%}
-
-<div id="sm-navbar-manager">
-		<div id="sm-navbar-accordion">
-			<h3>{{ lang('NAVBAR') }}</h3>
-			<div>
-				<fieldset>
-					<dl>
-						<dt>
-							<label for="navbar_location">{{ lang('NAVBAR_LOCATION') }}</label>
-						</dt>
-						<dd>
-							<select id="navbar_location">
-								{% for location in navbar_locations %}
-									<option value="{{ location }}"{{ location === NAVBAR_LOCATION ? ' selected="selected"' : '' }}>{{ lang(location|upper|default('NONE')) }}</option>
-								{% endfor %}
-								</select>
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="nav_bg_color">{{ lang('BACKGROUND') }}</label>
-						</dt>
-						<dd>
-							<span>{{ lang('COLOUR') }}</span>
-							{{ _self.makeColorPicker('nav_bg_color', '.sm-menu', 'background-color') }}
-						</dd>
-						<dd>
-							<div class="sub-title">{{ lang('GRADIENT') }}</div>
-							<label>{{ lang('START') }}: {{ _self.makeColorPicker('nav_grad_color_start', '.sm-menu', 'background-image', 'bg-gradient') }}</label>
-							<label>{{ lang('END') }}: {{ _self.makeColorPicker('nav_grad_color_end', '.sm-menu', 'background-image', 'bg-gradient') }}</label>
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="nav_margin">{{ lang('MARGIN') }}</label>
-						</dt>
-						<dd>
-							{{ _self.makeSize('nav_margin', '.sm-menu', 'margin') }}
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="nav_border_color">{{ lang('BORDER') }}</label>
-						</dt>
-                        {{ _self.makeBorderOptions('nav_', '.sm-menu')}}
-					</dl>
-				</fieldset>
-			</div>
-
-			<h3>{{ lang('NAVBAR_TOP_MENU') }}</h3>
-			<div>
-				<fieldset>
-					<dl>
-						<dt>
-							<label for="tm_transform">{{ lang('TRANSFORM') }}</label>
-						</dt>
-						<dd>
-							<select id="tm_transform" name="tm_transform"  class="navbar-prop" data-element=".sm-menu > ul > li > a" data-prop="text-transform">
-								<option value="none">{{ lang('NONE') }}</option>
-								<option value="capitalize">{{ lang('CAPITALIZE') }}</option>
-								<option value="uppercase">{{ lang('UPPERCASE') }}</option>
-								<option value="lowercase">{{ lang('LOWERCASE') }}</option>
-							</select>
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="tm_txt_size">{{ lang('TEXT') }}</label>
-						</dt>
-                        {{ _self.makeTextOptions('tm_', '.sm-menu > ul > li') }}
-					</dl>
-                    <dl>
-                        <dt>
-                            <label for="tm_active_bg_color">{{ lang('ACTIVE_ELEMENT') }}</label>
-                        </dt>
-                        {{ _self.makeActiveElement('tm_', '.sm-menu > ul > li') }}
-                    </dl>
-					<dl>
-						<dt>
-							<label for="tm_padding">{{ lang('PADDING') }}</label>
-						</dt>
-						<dd>
-							{{ _self.makeSize('tm_padding', '.sm-menu > ul > li > a', 'padding', true, 0) }}
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="tm_margin">{{ lang('MARGIN') }}</label>
-						</dt>
-						<dd>
-							{{ _self.makeSize('tm_margin', '.sm-menu > ul > li', 'margin', true, 0) }}
-						</dd>
-					</dl>
-					<dl>
-						<dt>
-							<label for="tm_border_color">{{ lang('BORDER') }}</label>
-						</dt>
-                        {{ _self.makeBorderOptions('tm_', '.sm-menu > ul > li')}}
-					</dl>
-				</fieldset>
-			</div>
-
-			<h3>{{ lang('NAVBAR_DROPDOWN_ITEMS') }}</h3>
-			<div>
-				<fieldset>
-                    <dl>
-						<dt>
-							<label for="drop_bg_color">{{ lang('BACKGROUND') }}</label>
-						</dt>
-                        <dd>
-                            {{ _self.makeColorPicker('drop_bg_color', '.sm-menu > ul > li .sub-menu li', 'background-color') }}</label>
-                        </dd>
-                    </dl>
-					<dl>
-						<dt>
-							<label for="drop_txt_size">{{ lang('TEXT') }}</label>
-						</dt>
-                        {{ _self.makeTextOptions('drop_', '.sm-menu > ul > li .sub-menu > li') }}
-					</dl>
-                    <dl>
-						<dt>
-							<label for="header_bg_color">{{ lang('HEADERS') }}</label>
-						</dt>
-						{{ _self.makeBgColorOptions('header', '.sm-menu > ul > li > .sub-menu li .sm-nav-header')}}
-                    </dl>
-					<dl>
-						<dt>
-							<label for="divider_color">{{ lang('DIVIDER') }}</label>
-						</dt>
-                        <dd>
-                            {{ _self.makeColorPicker('divider_color', '.sm-menu > ul > li > .sub-menu li .sm-nav-divider', 'border-color') }}
-                        </dd>
-					</dl>
-				</fieldset>
-			</div>
+<div id="sm-navbar-manager" class="sm-reset sm-responsive-full-width">
+	<div id="sm-navbar-accordion">
+		<h3>{{ lang('NAVBAR') }}</h3>
+		<div>
+			<fieldset>
+				<dl>
+					<dt>
+						<label for="navbar_location">{{ lang('NAVBAR_LOCATION') }}</label>
+					</dt>
+					<dd>
+						<select id="navbar_location">
+						{% for location in navbar_locations %}
+							<option value="{{ location }}"{{ location === NAVBAR_LOCATION|default('') ? ' selected="selected"' : '' }}>{{ lang(location ? 'NAVBAR_LOCATION_OPTION' : 'NONE', loop.index) }}</option>
+						{% endfor %}
+						</select>
+					</dd>
+				</dl>
+				{% if NAVBAR_LOCATION %}
+				<dl>
+					<dt>
+						<label for="nav_resp_toggle">{{ lang('RESPONSIVE_TOGGLE') }} <i class="fa fa-question-circle fa-orange" title="{{ lang('RESPONSIVE_TOGGLE_EXPLAIN') }}"></i></label>
+					</dt>
+					<dd>
+						{{ _self.makeBgColorOptions('nav_resp_toggle', '.sm-menu label') }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="nav_bg_color">{{ lang('BACKGROUND') }}</label>
+					</dt>
+					<dd>
+						<div class="grid-2-middle-noBottom">
+							<div class="col">{{ lang('COLOR') }}:</div>
+							<div class="col">
+								{{ _self.makeColorPicker('nav_bg_color', '.sm-menu', 'background-color') }}
+							</div>
+						</div>
+					</dd>
+					<dd>
+						<div class="sub-title">{{ lang('GRADIENT') }}</div>
+						<div class="grid-2-middle-noBottom">
+							<div class="col">{{ lang('START') }}:</div>
+							<div class="col">
+								{{ _self.makeColorPicker('nav_grad_color_start', '.sm-menu', 'background-image', 'bg-gradient') }}
+							</div>
+							<div class="col">{{ lang('END') }}:</div>
+							<div class="col">
+								{{ _self.makeColorPicker('nav_grad_color_end', '.sm-menu', 'background-image', 'bg-gradient') }}
+							</div>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="nav_margin">{{ lang('MARGIN') }}</label>
+					</dt>
+					<dd>
+						{{ _self.makeSize('nav_margin', '.sm-menu', 'margin', false, sizeInputOptions) }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="nav_padding">{{ lang('PADDING') }}</label>
+					</dt>
+					<dd>
+						{{ _self.makeSize('nav_padding', '.sm-menu', 'padding', 0, sizeInputOptions) }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="nav_border_color">{{ lang('BORDER') }}</label>
+					</dt>
+					{{ _self.makeBorderOptions('nav_', '.sm-menu')}}
+				</dl>
+				{% endif %}
+			</fieldset>
 		</div>
-		<p>&nbsp;</p>
-		<fieldset>
-			<p class="submit-buttons text-center">
-				<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
-				<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
-			</p>
 
-			{{ S_FORM_TOKEN }}
-		</fieldset>
+		{% if NAVBAR_LOCATION %}
+		<h3>{{ lang('NAVBAR_TOP_MENU') }}</h3>
+		<div>
+			<fieldset>
+				<dl>
+					<dt>
+						<label for="tm_transform">{{ lang('TEXT') }}</label>
+					</dt>
+					<dd>
+						<div class="grid-2-middle-noBottom">
+							<div class="col">{{ lang('TRANSFORM') }}:</div>
+							<div class="col">
+								<select id="tm_transform" name="tm_transform"  class="navbar-prop" data-element=".sm-menu > ul > li > a" data-prop="text-transform">
+									<option value="none">{{ lang('NONE') }}</option>
+									<option value="capitalize">{{ lang('CAPITALIZE') }}</option>
+									<option value="uppercase">{{ lang('UPPERCASE') }}</option>
+									<option value="lowercase">{{ lang('LOWERCASE') }}</option>
+								</select>
+							</div>
+						</div>
+					</dd>
+					{{ _self.makeTextOptions('tm', '.sm-menu > ul > li > .sm-nav-item') }}
+				</dl>
+				<dl>
+					<dt>
+						<label for="tm_margin">{{ lang('MARGIN') }}</label>
+					</dt>
+					<dd>
+						{{ _self.makeSize('tm_margin', '.sm-menu > ul > li > .sm-nav-item', 'margin', false, sizeInputOptions) }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="tm_padding">{{ lang('PADDING') }}</label>
+					</dt>
+					<dd>
+						{{ _self.makeSize('tm_padding', '.sm-menu > ul > li > .sm-nav-item', 'padding', 5, sizeInputOptions) }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="tm_border_color">{{ lang('BORDER') }}</label>
+					</dt>
+					{{ _self.makeBorderOptions('tm_', '.sm-menu > ul > li > a') }}
+				</dl>
+				<dl>
+					<dt>
+						<label for="tm_active_bg_color">{{ lang('ACTIVE_ELEMENT') }}</label>
+					</dt>
+					{{ _self.makeActiveElement('tm_active', '.sm-menu > ul > li > a.active', sizeInputOptions) }}
+				</dl>
+			</fieldset>
+		</div>
+
+		<h3>{{ lang('NAVBAR_DROPDOWN') }}</h3>
+		<div>
+			<fieldset>
+				<dl>
+					<dt>
+						<label for="drop_bg_color">{{ lang('TEXT') }}</label>
+					</dt>
+					{{ _self.makeTextOptions('drop', '.sm-menu > ul > li > .sub-menu li .sm-nav-item') }}
+				</dl>
+				<dl>
+					<dt>
+						<label for="tm_border_color">{{ lang('BORDER') }}</label>
+					</dt>
+					{{ _self.makeBorderOptions('drop', '.sm-menu > ul > li .sub-menu') }}
+				</dl>
+				<dl>
+					<dt>
+						<label for="header_bg_color">{{ lang('HEADERS') }}</label>
+					</dt>
+					{{ _self.makeBgColorOptions('header', '.sm-menu > ul > li > .sub-menu li .sm-nav-header')}}
+				</dl>
+				<dl>
+					<dt>
+						<label for="divider_color">{{ lang('DIVIDERS') }}</label>
+					</dt>
+					<dd>
+						{{ _self.makeColorPicker('divider_color', '.sm-menu > ul > li > .sub-menu li .sm-nav-divider', 'border-color') }}
+					</dd>
+				</dl>
+			</fieldset>
+		</div>
+		{% endif %}
+	</div><br />
+	<fieldset>
+		<p class="submit-buttons align-center">
+			<input type="submit" name="submit" value="{{ lang('SAVE') }}" />&nbsp;
+			<input type="reset" name="reset" value="{{ lang('RESET') }}" />
+		</p>
+	</fieldset>
 </div>

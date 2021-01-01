@@ -192,6 +192,10 @@ class admin_bar_test extends \phpbb_database_test_case
 				$tpl_data[$key][] = $data;
 			}));
 
+		$template->expects($this->any())
+			->method('get_user_style')
+			->willReturn(['prosilver']);
+
 		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $icons, $this->util, $lang_mapping);
 	}
 
@@ -327,6 +331,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_MODREWRITE' => false,
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
+					'UA_NAVBAR_MANAGER' => 'blitze_sitemaker_navbar_manager-prosilver',
 					'U_VIEW_DEFAULT' => false,
 				),
 			),
@@ -365,6 +370,7 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_MODREWRITE' => true,
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
+					'UA_NAVBAR_MANAGER' => 'blitze_sitemaker_navbar_manager-prosilver',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
 			)

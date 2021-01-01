@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -16,44 +17,29 @@ class navbar
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\config\db_text */
-	protected $config_text;
-
-	/** @var \phpbb\request\request_interface */
-	protected $request;
-
-	/* @var symfony_request */
+	/** @var \phpbb\symfony_request */
 	protected $symfony_request;
 
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \blitze\sitemaker\services\navbar */
+	protected $navbar;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\auth\auth							$auth					Auth object
-	 * @param \phpbb\config\config						$config					Config object
-	 * @param \phpbb\config\db_text						$config_text			Config text object
-	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\symfony_request					$symfony_request		Symfony Request object
 	 * @param \phpbb\language\language					$translator				Language object
-	 * @param \phpbb\user								$user					User object
+	 * @param \blitze\sitemaker\services\navbar			$navbar					Navbar object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\request\request_interface $request, \phpbb\symfony_request $symfony_request, \phpbb\language\language $translator, \phpbb\user $user)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\symfony_request $symfony_request, \phpbb\language\language $translator, \blitze\sitemaker\services\navbar $navbar)
 	{
 		$this->auth = $auth;
-		$this->config = $config;
-		$this->config_text = $config_text;
-		$this->request = $request;
 		$this->symfony_request = $symfony_request;
 		$this->translator = $translator;
-		$this->user = $user;
+		$this->navbar = $navbar;
 	}
 
 	/**
@@ -61,20 +47,19 @@ class navbar
 	 */
 	public function css($style)
 	{
-		$css = html_entity_decode($this->config_text->get('sitemaker_navbar_' . $style));
-
-		$response = new Response($css);
+		$response = new Response();
 		$response->headers->set('Content-Type', 'text/css');
 
 		$response->setPublic();
-		$response->setSharedMaxAge(3600);
-		$response->setETag(md5($response->getContent()));
-		$response->setLastModified(new \DateTime($this->config['sitemaker_nav_last_modified']));
+		$response->setETag($style . '-' . $this->navbar->get_last_modified());
+		$response->setLastModified(new \DateTime('@' . $this->navbar->get_last_modified() ?? null));
 
 		if ($response->isNotModified($this->symfony_request))
 		{
 			return $response;
-		};
+		}
+
+		$response->setContent($this->navbar->get_css($style));
 
 		return $response;
 	}
@@ -86,31 +71,20 @@ class navbar
 	{
 		$data = array('message' => '');
 
-		if (!$this->request->is_ajax() || !$this->auth->acl_get('a_sm_manage_blocks'))
+		if (!$this->symfony_request->isXmlHttpRequest() || !$this->auth->acl_get('a_sm_manage_blocks'))
 		{
 			$data['message'] = $this->translator->lang('NOT_AUTHORISED');
 			$status = 401;
 		}
 		else
 		{
-			$css = $this->request->variable('css', '');
-			$location = $this->request->variable('location', '');
-
-			$locations = (array) json_decode($this->config['sitemaker_nav_locations'], true);
-
-			$this->config_text->set('sitemaker_navbar_' . $style, $css);
-
-			$this->config->set('sitemaker_nav_last_modified', new \phpbb\datetime($this->user));
-			$this->config->set('sitemaker_nav_locations', json_encode(array_filter(array_merge($locations, [$style => $location]))));
-
-			$data['message'] = '';
-			$data['location'] = $locations[$style] ?? '';
+			$this->navbar->save($style);
 			$status = 200;
 		}
 
 		$response = new Response(json_encode($data), $status);
 		$response->headers->set('Content-Type', 'application/json');
 
-        return $response;
+		return $response;
 	}
 }

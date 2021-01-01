@@ -1,0 +1,27 @@
+{% set location = block('location') %}
+{% set navbar = '' %}
+{% if NAVBAR_LOCATION === location %}
+	{% set navbar = include('@blitze_sitemaker/navbar/list.html') %}
+{% endif %}
+
+{% if S_EDIT_MODE %}
+	{% set navbar_manager = '' %}
+	{% set default_location = 'overall_header_headerbar_after' %}
+	{% set location_class = 'sm-navbar-location' %}
+	{% if location === NAVBAR_LOCATION|default(default_location) %}
+		{% set navbar_manager %}
+			<button id="sm-navbar-edit-btn"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
+			{% include('@blitze_sitemaker/navbar/manager.html') %}
+		{% endset %}
+		{% set location_class = !NAVBAR_LOCATION ? 'sm-navbar-default' : 'sm-navbar-current' %}
+	{% else %}
+		{% set location_class = 'sm-navbar-location' %}
+	{% endif %}
+
+	<div id="{{ location }}" class="{{ location_class }}">
+		{{ navbar }}
+		{{ navbar_manager }}
+	</div>	
+{% else %}
+	{{ navbar }}
+{% endif %}

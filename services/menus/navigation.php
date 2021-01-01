@@ -18,6 +18,9 @@ class navigation
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
+	/** @var \blitze\sitemaker\services\navbar */
+	protected $navbar;
+
 	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
 
@@ -29,15 +32,26 @@ class navigation
 	 *
 	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
+	 * @param \blitze\sitemaker\services\navbar			$navbar				Navbar object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\menus\display $tree, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\navbar $navbar, \blitze\sitemaker\services\menus\display $tree, $php_ext)
 	{
 		$this->cache = $cache;
 		$this->mapper_factory = $mapper_factory;
+		$this->navbar = $navbar;
 		$this->tree = $tree;
 		$this->php_ext = $php_ext;
+	}
+
+	/**
+	 * @param string $style
+	 * @return array
+	 */
+	public function get_settings($style)
+	{
+		return $this->navbar->get_settings($style);
 	}
 
 	/**

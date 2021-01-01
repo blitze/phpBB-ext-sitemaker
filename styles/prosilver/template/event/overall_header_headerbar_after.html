@@ -1,8 +1,0 @@
-{% if S_EDIT_MODE && !NAVBAR_LOCATION %}
-	<button id="sm-navbar-edit-btn" class="pull-right"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
-	{% include('@blitze_sitemaker/navbar/manager.html') %}
-{% endif %}
-
-{% if NAVBAR_LOCATION === 'overall_header_headerbar_after' %}
-	{% include('@blitze_sitemaker/navbar/list.html') %}
-{% endif %}
