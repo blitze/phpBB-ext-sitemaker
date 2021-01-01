@@ -67,16 +67,16 @@ class navbar
 	/**
 	 * @return int
 	 */
-	function get_last_modified()
+	public function get_last_modified()
 	{
-		return $this->config['sm_navbar_last_modified'];
+		return (int) $this->config['sm_navbar_last_modified'];
 	}
 
 	/**
 	 * @param string $style
 	 * @return string
 	 */
-	function get_css($style)
+	public function get_css($style)
 	{
 		$board_url = generate_board_url();
 
@@ -91,7 +91,7 @@ class navbar
 	 * @param string $time
 	 * @return void
 	 */
-	function save($style, $time = 'now')
+	public function save($style, $time = 'now')
 	{
 		$location = $this->request->variable('location', '');
 		$css = $this->request->variable('css', '');
