@@ -79,7 +79,7 @@ class admin_bar
 	 */
 	public function show(array $route_info)
 	{
-		$this->translator->add_lang('block_manager', 'blitze/sitemaker');
+		$this->translator->add_lang(['block_manager', 'navbar_manager'], 'blitze/sitemaker');
 
 		$this->phpbb_container->get('blitze.sitemaker.auto_lang')->add('blocks_admin');
 
@@ -134,6 +134,9 @@ class admin_bar
 			'UA_MODREWRITE'		=> $this->config['enable_mod_rewrite'],
 			'UA_WEB_ROOT_PATH'	=> $this->util->get_web_path(),
 			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_image_upload'),
+			'UA_NAVBAR_MANAGER'	=> $this->controller_helper->route('blitze_sitemaker_navbar_manager', array(
+				'style'	=> $this->template->get_user_style()[0]
+			)),
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));

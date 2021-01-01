@@ -220,8 +220,17 @@ services:
         arguments:
             - '@cache.driver'
             - '@blitze.sitemaker.mapper.factory'
+            - '@blitze.sitemaker.navbar'
             - '@blitze.sitemaker.menus.display'
             - '%core.php_ext%'
+
+    blitze.sitemaker.navbar:
+        class: blitze\sitemaker\services\navbar
+        arguments:
+            - '@config'
+            - '@config_text'
+            - '@dbal.conn'
+            - '@request'
 
     blitze.sitemaker.poll:
         class: blitze\sitemaker\services\poll

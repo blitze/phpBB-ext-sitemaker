@@ -11,18 +11,21 @@
 
 /* Lists
 ----------*/
+
 ul.sm-list {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
+	position: relative;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 
 	> li {
 		position: relative;
-		font-size: 12px;
+		background-color: inherit;
+		font-size: 11px;
 		line-height: 1.5;
 		padding: $gutter-width / 2 0;
 
@@ -180,9 +183,6 @@ ul.sm-list {
 
 			&.sm-nav-header {
 				opacity: 0.7;
-			}
-
-			&.sm-nav-header {
 				font-weight: bold;
 				border-bottom: 1px solid $border-color;
 			}
@@ -194,7 +194,9 @@ ul.sm-list {
 		}
 	}
 
-	aside & {
+	aside > & {
+		margin-top: -0.5em;
+
 		> li {
 			padding-top: 0.5rem;
 
@@ -204,17 +206,21 @@ ul.sm-list {
 		}
 	}
 
-	nav & {
+	nav > & {
+		margin-top: -$gutter-width;
+
 		> li {
-			&.active > a {
-				font-weight: bolder;
-				color: $nav-list-active-color;
+			a {
+				text-align: left;
+
+				&:hover {
+					font-weight: bold;
+					text-decoration: none;
+				}
 			}
 
-			> a:hover {
-				font-weight: bold;
-				color: $nav-list-active-color;
-				text-decoration: none;
+			&.active > a {
+				font-weight: bolder;
 			}
 		}
 	}

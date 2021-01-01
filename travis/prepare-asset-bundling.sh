@@ -16,6 +16,9 @@ EXTNAME=$1
 # Move eslint config back in place
 cp ../tmp/.eslintrc phpBB/ext/$EXTNAME
 
+# Move babel config back in place
+cp ../tmp/.babelrc phpBB/ext/$EXTNAME
+
 # Move yarn lock file back in place
 cp ../tmp/yarn.lock phpBB/ext/$EXTNAME
 

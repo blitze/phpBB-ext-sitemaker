@@ -88,14 +88,14 @@
 
 @media screen and (max-width: $breakpoint-medium) {
 	.sm-responsive-show {
-		display: block;
+		display: block !important;
 	}
 
 	.sm-responsive-hide {
-		display: none;
+		display: none !important;
 	}
 
 	.sm-responsive-full-width {
-		width: 100%;
+		width: 100% !important;
 	}
 }

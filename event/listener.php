@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -9,16 +10,18 @@
 
 namespace blitze\sitemaker\event;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var ContainerInterface */
-	protected $phpbb_container;
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
 
 	/** @var \phpbb\language\language */
 	protected $translator;
+
+	/** @var \blitze\sitemaker\services\navbar */
+	protected $navbar;
 
 	/** @var string */
 	protected $php_ext;
@@ -26,14 +29,16 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface			$phpbb_container		Service container
-	 * @param \phpbb\language\language		$translator				Language object
-	 * @param string						$php_ext				php file extension
+	 * @param \phpbb\controller\helper				$controller_helper		Controller Helper object
+	 * @param \phpbb\language\language				$translator				Language object
+	 * @param \blitze\sitemaker\services\navbar		$navbar					Navbar object
+	 * @param string								$php_ext				php file extension
 	 */
-	public function __construct(ContainerInterface $phpbb_container, \phpbb\language\language $translator, $php_ext)
+	public function __construct(\phpbb\controller\helper $controller_helper, \phpbb\language\language $translator, \blitze\sitemaker\services\navbar $navbar, $php_ext)
 	{
-		$this->phpbb_container = $phpbb_container;
+		$this->controller_helper = $controller_helper;
 		$this->translator = $translator;
+		$this->navbar = $navbar;
 		$this->php_ext = $php_ext;
 	}
 
@@ -43,9 +48,10 @@ class listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'			=> 'load_common_language',
-			'core.permissions'			=> 'load_permission_language',
+			'core.user_setup'						=> 'load_common_language',
+			'core.permissions'						=> 'load_permission_language',
 			'core.viewonline_overwrite_location'	=> 'add_viewonline_location',
+			'core.acp_styles_action_before'			=> 'remove_navbar_css',
 		);
 	}
 
@@ -84,7 +90,19 @@ class listener implements EventSubscriberInterface
 		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
 			$event['location'] = $this->translator->lang('FORUM_INDEX');
-			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('blitze_sitemaker_forum');
+			$event['location_url'] = $this->controller_helper->route('blitze_sitemaker_forum');
+		}
+	}
+
+	/**
+	 * Removes css from config_text for any styles that are confirmed to be uninstalled
+	 * @param \phpbb\event\data $event
+	 */
+	public function remove_navbar_css(\phpbb\event\data $event)
+	{
+		if ($event['action'] === 'uninstall' && confirm_box(true))
+		{
+			$this->navbar->cleanup();
 		}
 	}
 }

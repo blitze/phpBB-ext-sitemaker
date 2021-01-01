@@ -199,7 +199,8 @@ body {
 	}
 
 	input,
-	select {
+	select,
+	.sm-inputbox {
 		padding: 3px;
 		font-size: 12px !important;
 		color: #333 !important;

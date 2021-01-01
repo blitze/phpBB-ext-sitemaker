@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -25,10 +26,10 @@ class sitemaker_test extends \phpbb_database_test_case
 	protected $navigation;
 
 	/**
-	* Define the extensions to be tested
-	*
-	* @return array vendor/name of extension(s) to test
-	*/
+	 * Define the extensions to be tested
+	 *
+	 * @return array vendor/name of extension(s) to test
+	 */
 	static protected function setup_extensions()
 	{
 		return array('blitze/sitemaker');
@@ -61,7 +62,8 @@ class sitemaker_test extends \phpbb_database_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -82,12 +84,23 @@ class sitemaker_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		return new \blitze\sitemaker\event\sitemaker($this->cache, $this->config, $this->template, $this->translator, $this->user, $this->util, $this->blocks, $this->navigation);
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$controller_helper->expects($this->any())
+			->method('route')
+			->willReturnCallback(function ($route, array $params = array())
+			{
+				return $route . '/' . implode('.', $params) . '.css';
+			});
+
+		return new \blitze\sitemaker\event\sitemaker($this->cache, $this->config, $controller_helper, $this->template, $this->translator, $this->user, $this->util, $this->blocks, $this->navigation);
 	}
 
 	/**
-	* Test the event listener is constructed correctly
-	*/
+	 * Test the event listener is constructed correctly
+	 */
 	public function test_construct()
 	{
 		$listener = $this->get_listener();
@@ -95,8 +108,8 @@ class sitemaker_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Test the event listener is subscribing events
-	*/
+	 * Test the event listener is subscribing events
+	 */
 	public function test_getSubscribedEvents()
 	{
 		$listeners = array(
@@ -111,8 +124,8 @@ class sitemaker_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Test the event listener is constructed correctly
-	*/
+	 * Test the event listener is constructed correctly
+	 */
 	public function test_clear_cached_queries()
 	{
 		$listener = $this->get_listener();
@@ -140,10 +153,16 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sitemaker_startpage_controller' => '',
 				),
 				array(
+					'menu_id'		=> 0,
+					'location'		=> '',
+					'last_modified'	=> 0,
+				),
+				array(
 					'S_USER_LOGGED_IN'			=> true,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 				),
+				false
 			),
 			array(
 				true,
@@ -152,14 +171,19 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sm_hide_login' => true,
 					'sm_hide_online' => true,
 					'sm_show_forum_nav' => true,
-					'sm_navbar_menu' => 2,
 					'sitemaker_startpage_controller' => '',
+				),
+				array(
+					'menu_id'		=> 2,
+					'location'		=> '',
+					'last_modified'	=> 0,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> true,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 				),
+				false,
 			),
 			array(
 				false,
@@ -168,15 +192,23 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sm_hide_login' => false,
 					'sm_hide_online' => false,
 					'sm_show_forum_nav' => false,
-					'sm_navbar_menu' => 2,
 					'sitemaker_startpage_controller' => 'some_controller',
+				),
+				array(
+					'menu_id'		=> 2,
+					'location'		=> 'some location',
+					'last_modified'	=> 123456789,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> false,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 					'L_INDEX'					=> 'HOME',
+					'STYLE_NAME'				=> 'prosilver',
+					'NAVBAR_LOCATION'			=> 'some location',
+					'NAVBAR_CSS'				=> 'blitze_sitemaker_navbar_css/prosilver.123456789.css',
 				),
+				true,
 			),
 			array(
 				true,
@@ -185,15 +217,23 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sm_hide_login' => false,
 					'sm_hide_online' => true,
 					'sm_show_forum_nav' => true,
-					'sm_navbar_menu' => 0,
 					'sitemaker_startpage_controller' => 'some_controller',
+				),
+				array(
+					'menu_id'		=> 3,
+					'location'		=> 'other location',
+					'last_modified'	=> 213564546,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> true,
 					'S_DISPLAY_ONLINE_LIST'		=> false,
 					'S_DISPLAY_BIRTHDAY_LIST'	=> false,
 					'L_INDEX'					=> 'HOME',
+					'STYLE_NAME'				=> 'prosilver',
+					'NAVBAR_LOCATION'			=> 'other location',
+					'NAVBAR_CSS'				=> 'blitze_sitemaker_navbar_css/prosilver.213564546.css',
 				),
+				true,
 			),
 		);
 	}
@@ -202,9 +242,11 @@ class sitemaker_test extends \phpbb_database_test_case
 	 * @dataProvider show_sitemaker_test_data
 	 * @param bool $user_is_logged_in
 	 * @param array $config_data
+	 * @param array $navbar_settings
 	 * @param array $expected
+	 * @param bool $build_menu
 	 */
-	public function test_show_sitemaker($user_is_logged_in, array $config_data, array $expected)
+	public function test_show_sitemaker($user_is_logged_in, array $config_data, array $navbar_settings, array $expected, $build_menu)
 	{
 		$listener = $this->get_listener();
 
@@ -221,28 +263,40 @@ class sitemaker_test extends \phpbb_database_test_case
 
 		$this->user->data['is_registered'] = $user_is_logged_in;
 
-		$this->navigation->expects($this->exactly($config_data['sm_navbar_menu'] ? 1 : 0))
-			->method('build_menu')
-			->willReturn([]);
-
 		$tpl_data = array();
 		$this->template->expects($this->exactly($config_data['sitemaker_startpage_controller'] ? 1 : 0))
 			->method('assign_var')
-			->will($this->returnCallback(function($key, $value) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $value) use (&$tpl_data)
+			{
 				$tpl_data[$key] = $value;
 			}));
 
 		$this->template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$this->template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
+
+		$this->template->expects($this->exactly(1))
+			->method('get_user_style')
+			->willReturn(['prosilver']);
+
+		$this->navigation->expects($this->once())
+			->method('get_settings')
+			->with('prosilver')
+			->willReturn($navbar_settings);
+
+		$this->navigation->expects($this->exactly((int) $build_menu))
+			->method('build_menu')
+			->willReturn([]);
 
 		$dispatcher = new EventDispatcher();
 		$dispatcher->addListener('core.page_footer', array($listener, 'show_sitemaker'));
@@ -270,9 +324,9 @@ class sitemaker_test extends \phpbb_database_test_case
 	 */
 	public function test_hide_hidden_forums($sql_where, $expected_sql_where)
 	{
-		$sql_ary = array (
+		$sql_ary = array(
 			'SELECT'	=> 'f.*',
-			'FROM'		=> array (
+			'FROM'		=> array(
 				'phpbb_forums' => 'f',
 			),
 			'LEFT_JOIN'	=> array(),

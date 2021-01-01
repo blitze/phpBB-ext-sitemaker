@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -18,6 +19,9 @@ class sitemaker implements EventSubscriberInterface
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -42,6 +46,7 @@ class sitemaker implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache				Cache driver interface
 	 * @param \phpbb\config\config							$config				Config object
+	 * @param \phpbb\controller\helper						$controller_helper	Controller Helper object
 	 * @param \phpbb\template\template						$template			Template object
 	 * @param \phpbb\language\language						$translator			Language object
 	 * @param \phpbb\user									$user				User object
@@ -49,10 +54,11 @@ class sitemaker implements EventSubscriberInterface
 	 * @param \blitze\sitemaker\services\blocks\display		$blocks				Blocks display object
 	 * @param \blitze\sitemaker\services\menus\navigation	$navigation			Sitemaker navigation object
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\blocks\display $blocks, \blitze\sitemaker\services\menus\navigation $navigation)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\controller\helper $controller_helper, \phpbb\template\template $template, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\util $util, \blitze\sitemaker\services\blocks\display $blocks, \blitze\sitemaker\services\menus\navigation $navigation)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->controller_helper = $controller_helper;
 		$this->template = $template;
 		$this->translator = $translator;
 		$this->user = $user;
@@ -84,9 +90,22 @@ class sitemaker implements EventSubscriberInterface
 		$this->blocks->show();
 		$this->show_hide_index_blocks();
 
-		if ($this->config['sm_navbar_menu'])
+		[$style_name] = $this->template->get_user_style();
+		$navbar = $this->navigation->get_settings($style_name);
+
+		if ($navbar['location'])
 		{
-			$this->template->assign_vars($this->navigation->build_menu((int) $this->config['sm_navbar_menu'], true));
+			$this->template->assign_vars(array_merge(
+				array(
+					'STYLE_NAME'		=> $style_name,
+					'NAVBAR_LOCATION'	=> $navbar['location'],
+					'NAVBAR_CSS'		=> $this->controller_helper->route('blitze_sitemaker_navbar_css', array(
+						'style'	=> $style_name,
+						'hash'	=> $navbar['last_modified']
+					)),
+				),
+				$this->navigation->build_menu($navbar['menu_id'], true)
+			));
 		}
 
 		$this->set_assets();
