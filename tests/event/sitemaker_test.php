@@ -146,6 +146,7 @@ class sitemaker_test extends \phpbb_database_test_case
 			array(
 				false,
 				array(
+					'sm_navbar_menu' => 0,
 					'sm_hide_birthday' => true,
 					'sm_hide_login' => true,
 					'sm_hide_online' => true,
@@ -153,9 +154,8 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sitemaker_startpage_controller' => '',
 				),
 				array(
-					'menu_id'		=> 0,
-					'location'		=> '',
-					'last_modified'	=> 0,
+					'location'	=> '',
+					'modified'	=> 0,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> true,
@@ -167,6 +167,7 @@ class sitemaker_test extends \phpbb_database_test_case
 			array(
 				true,
 				array(
+					'sm_navbar_menu' => 2,
 					'sm_hide_birthday' => true,
 					'sm_hide_login' => true,
 					'sm_hide_online' => true,
@@ -174,9 +175,8 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sitemaker_startpage_controller' => '',
 				),
 				array(
-					'menu_id'		=> 2,
-					'location'		=> '',
-					'last_modified'	=> 0,
+					'location'	=> '',
+					'modified'	=> 0,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> true,
@@ -188,6 +188,7 @@ class sitemaker_test extends \phpbb_database_test_case
 			array(
 				false,
 				array(
+					'sm_navbar_menu' => 2,
 					'sm_hide_birthday' => false,
 					'sm_hide_login' => false,
 					'sm_hide_online' => false,
@@ -195,9 +196,8 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sitemaker_startpage_controller' => 'some_controller',
 				),
 				array(
-					'menu_id'		=> 2,
-					'location'		=> 'some location',
-					'last_modified'	=> 123456789,
+					'location'	=> 'some location',
+					'modified'	=> 123456789,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> false,
@@ -213,6 +213,7 @@ class sitemaker_test extends \phpbb_database_test_case
 			array(
 				true,
 				array(
+					'sm_navbar_menu' => 3,
 					'sm_hide_birthday' => true,
 					'sm_hide_login' => false,
 					'sm_hide_online' => true,
@@ -220,9 +221,8 @@ class sitemaker_test extends \phpbb_database_test_case
 					'sitemaker_startpage_controller' => 'some_controller',
 				),
 				array(
-					'menu_id'		=> 3,
-					'location'		=> 'other location',
-					'last_modified'	=> 213564546,
+					'location'	=> 'other location',
+					'modified'	=> 213564546,
 				),
 				array(
 					'S_USER_LOGGED_IN'			=> true,
@@ -289,7 +289,7 @@ class sitemaker_test extends \phpbb_database_test_case
 			->method('get_user_style')
 			->willReturn(['prosilver']);
 
-		$this->navigation->expects($this->once())
+		$this->navigation->expects($this->exactly(1))
 			->method('get_settings')
 			->with('prosilver')
 			->willReturn($navbar_settings);

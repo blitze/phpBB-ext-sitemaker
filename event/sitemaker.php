@@ -93,7 +93,7 @@ class sitemaker implements EventSubscriberInterface
 		[$style_name] = $this->template->get_user_style();
 		$navbar = $this->navigation->get_settings($style_name);
 
-		if ($navbar['location'])
+		if ($this->config['sm_navbar_menu'] && $navbar['location'])
 		{
 			$this->template->assign_vars(array_merge(
 				array(
@@ -101,10 +101,10 @@ class sitemaker implements EventSubscriberInterface
 					'NAVBAR_LOCATION'	=> $navbar['location'],
 					'NAVBAR_CSS'		=> $this->controller_helper->route('blitze_sitemaker_navbar_css', array(
 						'style'	=> $style_name,
-						'hash'	=> $navbar['last_modified']
+						'hash'	=> $navbar['modified']
 					)),
 				),
-				$this->navigation->build_menu($navbar['menu_id'], true)
+				$this->navigation->build_menu($this->config['sm_navbar_menu'], true)
 			));
 		}
 

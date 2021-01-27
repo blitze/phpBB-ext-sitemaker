@@ -46,21 +46,9 @@ class navbar
 	 */
 	public function get_settings($style)
 	{
-		if (!$menu_id = $this->config['sm_navbar_menu'])
-		{
-			return [
-				'menu_id'	=> 0,
-				'location'	=> '',
-				'last_modified'	=> 0
-			];
-		}
-
-		$locations = $this->get_locations();
-
 		return [
-			'menu_id'	=> $menu_id,
-			'location'	=> &$locations[$style],
-			'last_modified'	=> $this->get_last_modified(),
+			'location'	=> &$this->get_locations()[$style],
+			'modified'	=> $this->get_last_modified(),
 		];
 	}
 
