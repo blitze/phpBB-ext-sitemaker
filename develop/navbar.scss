@@ -48,7 +48,7 @@
 
 .sm-menu {
 	position: relative;
-	padding: 0;
+	padding: 0 0 0 5px;
 
 	// Reset
 	ul,
@@ -63,7 +63,7 @@
 	ul {
 		margin: 0;
 		padding: 0;
-		font-size: 12px;
+		font-size: 11px;
 		z-index: 3000;
 
 		span.drop-icon {
