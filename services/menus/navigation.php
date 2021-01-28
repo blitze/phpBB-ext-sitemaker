@@ -27,6 +27,9 @@ class navigation
 	/** @var string */
 	protected $php_ext;
 
+	/** @var string */
+	protected $menus_cache;
+
 	/**
 	 * Constructor
 	 *
@@ -89,15 +92,18 @@ class navigation
 	 */
 	public function get_menu_options()
 	{
-		$collection = $this->mapper_factory->create('menus')->find();
-
-		$options = array();
-		foreach ($collection as $entity)
+		if (!$this->menus_cache)
 		{
-			$options[$entity->get_menu_id()] = $entity->get_menu_name();
+			$collection = $this->mapper_factory->create('menus')->find();
+
+			$this->menus_cache = array();
+			foreach ($collection as $entity)
+			{
+				$this->menus_cache[$entity->get_menu_id()] = $entity->get_menu_name();
+			}
 		}
 
-		return $options;
+		return $this->menus_cache;
 	}
 
 	/**

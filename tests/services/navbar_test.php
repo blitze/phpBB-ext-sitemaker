@@ -83,53 +83,45 @@ class navbar_test extends \phpbb_database_test_case
 			array(
 				'prosilver',
 				array(
-					'sm_navbar_menu'		=> 0,
 					'sm_navbar_locations'	=> '',
 					'sm_last_modified'		=> 0,
 				),
 				array(
-					'menu_id'	=> 0,
 					'location'	=> '',
-					'last_modified'	=> 0
+					'modified'	=> 0
 				),
 			),
 			array(
 				'prosilver',
 				array(
-					'sm_navbar_menu'		=> 0,
 					'sm_navbar_locations'	=> json_encode(['prosilver' => 'location1']),
 					'sm_last_modified'		=> strtotime('12/31/2020'),
 				),
 				array(
-					'menu_id'	=> 0,
-					'location'	=> '',
-					'last_modified'	=> 0
+					'location'	=> 'location1',
+					'modified'	=> 0
 				),
 			),
 			array(
 				'silverlight',
 				array(
-					'sm_navbar_menu'		=> 1,
 					'sm_navbar_locations'	=> json_encode(['prosilver' => 'location1']),
 					'sm_last_modified'		=> strtotime('31/12/2020'),
 				),
 				array(
-					'menu_id'	=> 1,
 					'location'	=> null,
-					'last_modified'	=> strtotime('31/12/2020')
+					'modified'	=> strtotime('31/12/2020')
 				),
 			),
 			array(
 				'silverlight',
 				array(
-					'sm_navbar_menu'		=> 1,
 					'sm_navbar_locations'	=> json_encode(['prosilver' => 'location1', 'silverlight' => 'location2']),
 					'sm_last_modified'		=> strtotime('31/12/2020'),
 				),
 				array(
-					'menu_id'	=> 1,
 					'location'	=> 'location2',
-					'last_modified'	=> strtotime('31/12/2020')
+					'modified'	=> strtotime('31/12/2020')
 				),
 			),
 		);
