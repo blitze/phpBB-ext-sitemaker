@@ -17,7 +17,7 @@ class items extends base_mapper
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \blitze\sitemaker\services\menus\nestedset */
+	/** @var nestedset */
 	protected $tree;
 
 	/** @var string */

@@ -43,7 +43,7 @@ class navbar
 	}
 
 	/**
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return Response
 	 */
 	public function css($style)
 	{
@@ -65,7 +65,7 @@ class navbar
 	}
 
 	/**
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return Response
 	 */
 	public function save($style)
 	{
