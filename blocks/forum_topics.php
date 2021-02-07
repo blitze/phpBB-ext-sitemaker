@@ -150,6 +150,7 @@ class forum_topics extends forum_topics_config
 				'LAST_AVATAR'		=> $last_poster['avatar'],
 
 				'FORUM_TITLE'		=> $row['forum_name'],
+				'FORUM_IMAGE'		=> $this->get_forum_image($row['forum_image']),
 				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
 				'TOPIC_PREVIEW'		=> $this->get_post_preview(array_pop($post_data[$topic_id])),
 				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
@@ -316,5 +317,14 @@ class forum_topics extends forum_topics_config
 	private function is_unread_topic($forum_id, $topic_id, $topic_last_post_time)
 	{
 		return (isset($this->topic_tracking_info[$forum_id][$topic_id]) && $topic_last_post_time > $this->topic_tracking_info[$forum_id][$topic_id]) ? true : false;
+	}
+
+	/**
+	 * @param string $forum_image
+	 * @return string
+	 */
+	private function get_forum_image($forum_image)
+	{
+		return $forum_image ? '<img src="' . $this->phpbb_root_path . $forum_image . '" alt="' . $this->translator->lang('FORUM_CAT') . '" />' : '';
 	}
 }
