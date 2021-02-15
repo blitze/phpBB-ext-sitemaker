@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -97,19 +98,22 @@ class blocks_test extends \phpbb_database_test_case
 
 		$this->template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$this->template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($block, $data) use (&$tpl_data)
+			{
 				$tpl_data['blocks'][$block][] = $data;
 			}));
 
 		$this->template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
 
@@ -129,7 +133,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				false,
 				'',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => false,
@@ -161,7 +165,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				true,
 				'',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => true,
@@ -204,7 +208,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				false,
 				'',
-				array (
+				array(
 					0 => true,
 					1 => false,
 					2 => true,
@@ -226,7 +230,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				true,
 				'',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => true,
@@ -260,7 +264,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				false,
 				'',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => false,
@@ -283,7 +287,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				false,
 				'index.php',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => false,
@@ -317,7 +321,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				false,
 				'faq.php',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => false,
@@ -340,7 +344,7 @@ class blocks_test extends \phpbb_database_test_case
 				'',
 				true,
 				'index.php',
-				array (
+				array(
 					0 => true,
 					1 => true,
 					2 => true,
@@ -383,6 +387,102 @@ class blocks_test extends \phpbb_database_test_case
 		unset($route_info['blocks']);
 		$this->assertEquals($expected_route_info, $route_info);
 		$this->assertArrayContainsArray($expected_data, $result);
+	}
+
+
+	/**
+	 * Data set for test_user_is_permitted
+	 *
+	 * @return array
+	 */
+	public function user_is_permitted_test_data()
+	{
+		return array(
+			array(
+				array(
+					'type' => 0,
+					'groups' => [],
+				),
+				[],
+				true,
+			),
+			array(
+				array(
+					'type' => 0,
+					'groups' => [],
+				),
+				[1, 2, 3],
+				true,
+			),
+			array(
+				array(
+					'type' => 1,
+					'groups' => [1, 5],
+				),
+				[1, 2, 3],
+				true,
+			),
+			array(
+				array(
+					'type' => 0,
+					'groups' => [1, 5],
+				),
+				[1, 2, 3],
+				false,
+			),
+			array(
+				array(
+					'type' => 1,
+					'groups' => [1, 5],
+				),
+				[2, 3],
+				false,
+			),
+			array(
+				array(
+					'type' => 0,
+					'groups' => [1, 5],
+				),
+				[2, 3],
+				true,
+			),
+			array(
+				array(
+					'type' => 1,
+					'groups' => [1, 5],
+				),
+				[],
+				false,
+			),
+			array(
+				array(
+					'type' => 0,
+					'groups' => [1, 5],
+				),
+				[],
+				true,
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider user_is_permitted_test_data
+	 * @param array $permission
+	 * @param array $user_groups
+	 * @param bool $expected
+	 */
+	public function test_user_is_permitted(array $permission, array $user_groups, $expected)
+	{
+		$object = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
+			->disableOriginalConstructor()
+			->setMethodsExcept(['user_is_permitted'])
+			->getMock();
+		$reflection = new \ReflectionClass(get_class($object));
+		$method = $reflection->getMethod('user_is_permitted');
+		$method->setAccessible(true);
+
+		$result = $method->invokeArgs($object, [$permission, $user_groups]);
+		$this->assertEquals($expected, $result);
 	}
 
 	protected function assertArrayContainsArray($needle, $haystack)

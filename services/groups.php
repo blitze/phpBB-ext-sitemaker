@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -63,7 +64,7 @@ class groups
 		$sql = $this->_get_group_sql($mode);
 		$result = $this->db->sql_query($sql);
 
-		$group_data = array('' => 'ALL_GROUPS');
+		$group_data = array(0 => $this->translator->lang('ALL_GROUPS'));
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$group_data[$row['group_id']] = $this->_get_group_name($row);

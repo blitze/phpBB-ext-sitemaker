@@ -258,19 +258,20 @@ class blocks extends routes
 	protected function block_is_viewable(array $data, array $display_modes, array $users_groups, $edit_mode)
 	{
 		$type = $data['type'];
-		$allowed_groups = $data['permission'];
-
-		return ($display_modes[$type] && ($edit_mode || $this->user_is_permitted($allowed_groups, $users_groups))) ? true : false;
+		return ($display_modes[$type] && ($edit_mode || $this->user_is_permitted($data['permission'], $users_groups)));
 	}
 
 	/**
-	 * @param mixed $allowed_groups
+	 * @param array $permission
 	 * @param array $users_groups
 	 * @return bool
 	 */
-	protected function user_is_permitted($allowed_groups, array $users_groups)
+	protected function user_is_permitted(array $permission, array $users_groups)
 	{
-		return (empty($allowed_groups) || sizeof(array_intersect($allowed_groups, $users_groups))) ? true : false;
+		$in_group = (bool) array_intersect($permission['groups'], $users_groups);
+
+		// permission type: 0 = exclude, 1 = include
+		return $permission['type'] === 1 ? $in_group : !$in_group;
 	}
 
 	/**

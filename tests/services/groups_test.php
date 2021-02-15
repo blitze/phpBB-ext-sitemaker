@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -42,7 +43,8 @@ class groups_test extends \phpbb_database_test_case
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -108,7 +110,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'all',
 				array(
-					'' => 'ALL_GROUPS',
+					0 => 'ALL_GROUPS',
 					1 => 'G_GUESTS',
 					2 => 'G_REGISTERED',
 					3 => 'Some Group',
@@ -117,7 +119,7 @@ class groups_test extends \phpbb_database_test_case
 			array(
 				'special',
 				array(
-					'' => 'ALL_GROUPS',
+					0 => 'ALL_GROUPS',
 					1 => 'G_GUESTS',
 					2 => 'G_REGISTERED',
 				),
@@ -152,24 +154,24 @@ class groups_test extends \phpbb_database_test_case
 				'all',
 				array(),
 				'<option value="0">ALL_GROUPS</option>' .
-				'<option class="sep" value="1">G_GUESTS</option>' .
-				'<option class="sep" value="2">G_REGISTERED</option>' .
-				'<option value="3">Some Group</option>',
+					'<option class="sep" value="1">G_GUESTS</option>' .
+					'<option class="sep" value="2">G_REGISTERED</option>' .
+					'<option value="3">Some Group</option>',
 			),
 			array(
 				'all',
 				array(1, 3),
 				'<option value="0">ALL_GROUPS</option>' .
-				'<option class="sep" value="1" selected="selected">G_GUESTS</option>' .
-				'<option class="sep" value="2">G_REGISTERED</option>' .
-				'<option value="3" selected="selected">Some Group</option>',
+					'<option class="sep" value="1" selected="selected">G_GUESTS</option>' .
+					'<option class="sep" value="2">G_REGISTERED</option>' .
+					'<option value="3" selected="selected">Some Group</option>',
 			),
 			array(
 				'special',
 				array(2),
 				'<option value="0">ALL_GROUPS</option>' .
-				'<option class="sep" value="1">G_GUESTS</option>' .
-				'<option class="sep" value="2" selected="selected">G_REGISTERED</option>',
+					'<option class="sep" value="1">G_GUESTS</option>' .
+					'<option class="sep" value="2" selected="selected">G_REGISTERED</option>',
 			),
 		);
 	}

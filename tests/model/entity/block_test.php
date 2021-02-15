@@ -40,7 +40,8 @@ class block_test extends \phpbb_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 	}
@@ -58,16 +59,20 @@ class block_test extends \phpbb_test_case
 			'style'		=> 1,
 		);
 
-		foreach ($required_fields as $field) {
+		foreach ($required_fields as $field)
+		{
 			$test_data = $data;
 			unset($test_data[$field]);
 
 			$entity = new block($test_data);
 
-			try {
+			try
+			{
 				$entity->to_db();
 				$this->fail('no exception thrown');
-			} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
 				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT-{$field}-FIELD_MISSING", $e->get_message($this->translator));
 			}
 		}
@@ -103,7 +108,7 @@ class block_test extends \phpbb_test_case
 			array('position', '', 'sidebar', 'sidebar', 'bottom', 'bottom'),
 			array('weight', 0, 1, 1, 2, 2),
 			array('style', 0, 1, 1, 2, 2),
-			array('permission', array(), '', array(), array(1, 4), array(1, 4)),
+			array('permission', array('type' => 0, 'groups' => []), '3,4:1', array('type' => 1, 'groups' => [3, 4]), '1,2,3', array('type' => 0, 'groups' => [1, 2, 3])),
 			array('class', '', '', '', 'bg1', ' bg1'),
 			array('status', true, 0, false, true, true),
 			array('type', 0, 1, 1, 2, 2),
@@ -150,17 +155,23 @@ class block_test extends \phpbb_test_case
 	{
 		$block = new block(array());
 
-		try {
+		try
+		{
 			$this->assertNull($block->get_foo());
 			$this->fail('no exception thrown');
-		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+		}
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
+		{
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 
-		try {
+		try
+		{
 			$this->assertNull($block->set_foo('bar'));
 			$this->fail('no exception thrown');
-		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+		}
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
+		{
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 	}
@@ -192,7 +203,7 @@ class block_test extends \phpbb_test_case
 			'name'		=> 'blitze.sitemaker.block.birthday',
 			'title'		=> 'my block',
 			'position'	=> 'sidebar',
-			'permission'	=> array(1, 4),
+			'permission'	=> array('type' => 1, 'groups' => [1, 4]),
 			'settings'		=> array('my_setting' => 2),
 		));
 
@@ -205,7 +216,7 @@ class block_test extends \phpbb_test_case
 			'position'		=> 'sidebar',
 			'weight'		=> 0,
 			'style'			=> 1,
-			'permission'	=> array(1, 4),
+			'permission'	=> array('type' => 1, 'groups' => [1, 4]),
 			'class'			=> '',
 			'status'		=> true,
 			'type'			=> 0,
@@ -223,7 +234,7 @@ class block_test extends \phpbb_test_case
 			'position'		=> 'sidebar',
 			'weight'		=> 0,
 			'style'			=> 1,
-			'permission'	=> '1,4',
+			'permission'	=> '1,4:1',
 			'class'			=> '',
 			'status'		=> true,
 			'type'			=> 0,

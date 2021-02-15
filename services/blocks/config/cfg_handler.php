@@ -140,8 +140,6 @@ class cfg_handler
 	 */
 	private function get_form(array $block_data)
 	{
-		$selected_groups = cfg_utils::ensure_array($block_data['permission']);
-
 		$this->template->assign_vars(array(
 			'S_BLOCK_ID'	=> $block_data['bid'],
 			'S_ACTIVE'		=> $block_data['status'],
@@ -149,7 +147,8 @@ class cfg_handler
 			'S_VIEW'		=> $block_data['view'],
 			'S_HIDE_TITLE'	=> $block_data['hide_title'],
 			'S_BLOCK_CLASS'	=> trim($block_data['class']),
-			'S_GROUP_OPS'	=> $this->groups->get_options('all', $selected_groups),
+			'S_PERMISSION'	=> $block_data['permission'],
+			'S_GROUPS'		=> $this->groups->get_data('all'),
 		));
 
 		$this->template->set_filenames(array(

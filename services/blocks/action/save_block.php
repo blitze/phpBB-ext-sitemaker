@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -65,13 +66,35 @@ class save_block extends base_action
 
 		$this->set_hidden_fields($submitted_settings, $default_config, $entity->get_settings());
 
-		return $entity->set_permission($this->request->variable('permission', array(0)))
+		return $entity->set_permission($this->get_block_permissions())
 			->set_class($this->request->variable('class', ''))
 			->set_hide_title($this->request->variable('hide_title', 0))
 			->set_status($this->request->variable('status', 0))
 			->set_type($this->request->variable('type', 0))
 			->set_view($this->request->variable('view', ''))
 			->set_settings($submitted_settings);
+	}
+
+	/**
+	 * Get submitted block permissions
+	 * @return []
+	 */
+	private function get_block_permissions()
+	{
+		$groups = $this->request->variable('perm_groups', array(0));
+
+		$permission = [];
+		$groups = array_filter($groups);
+
+		if (!empty($groups))
+		{
+			$permission =  array(
+				'type'		=> $this->request->variable('perm_type', 0),
+				'groups'	=> $groups,
+			);
+		}
+
+		return $permission;
 	}
 
 	/**

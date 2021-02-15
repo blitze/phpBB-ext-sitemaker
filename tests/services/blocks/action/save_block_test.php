@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -28,7 +29,8 @@ class save_block_test extends base_action
 					array('status', 0, false, request_interface::REQUEST, 1),
 					array('class', '', false, request_interface::REQUEST, 'bg3'),
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
-					array('permission', array(0), false, request_interface::REQUEST, array(1, 4)),
+					array('perm_type', 0, false, request_interface::REQUEST, 0),
+					array('perm_groups', array(0), false, request_interface::REQUEST, array(1, 4)),
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
 						'my_setting'	=> 0,
@@ -38,7 +40,7 @@ class save_block_test extends base_action
 				array(
 					'bid'			=> 1,
 					'title'			=> 'I am baz block',
-					'permission'	=> array(1, 4),
+					'permission'	=> array('type' => 0, 'groups' => [1, 4]),
 					'class'			=> ' bg3',
 					'status'		=> true,
 					'hide_title'	=> true,
@@ -59,7 +61,8 @@ class save_block_test extends base_action
 					array('hide_title', 0, false, request_interface::REQUEST, 1),
 					array('view', '', false, request_interface::REQUEST, 'simple'),
 					array('status', 0, false, request_interface::REQUEST, 0),
-					array('permission', array(0), false, request_interface::REQUEST, array()),
+					array('perm_type', 0, false, request_interface::REQUEST, 0),
+					array('perm_groups', array(0), false, request_interface::REQUEST, array(3)),
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array(
 						'my_setting'	=> 1,
@@ -69,7 +72,7 @@ class save_block_test extends base_action
 				array(
 					'bid'			=> 6,
 					'title'			=> 'I am baz block',
-					'permission'	=> array(),
+					'permission'	=> array('type' => 0, 'groups' => [3]),
 					'class'			=> ' sm-inactive',
 					'status'		=> false,
 					'hide_title'	=> true,
@@ -90,13 +93,15 @@ class save_block_test extends base_action
 					array('status', 0, false, request_interface::REQUEST, 1),
 					array('type', 0, false, request_interface::REQUEST, 2),
 					array('view', '', false, request_interface::REQUEST, 'basic'),
-					array('permission', array(0), false, request_interface::REQUEST, array()),
+					array('perm_type', 0, false, request_interface::REQUEST, 1),
+					array('perm_groups', array(0), false, request_interface::REQUEST, array(3, 4)),
 					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
 					array('config', array('' => ''), true, request_interface::REQUEST, array()),
 				),
 				array(
 					'bid'			=> 2,
 					'title'			=> 'I am foo block',
+					'permission'	=> array('type' => 1, 'groups' => [3, 4]),
 					'class'			=> '',
 					'status'		=> true,
 					'type'			=> 2,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -147,22 +148,34 @@ final class block extends base_entity
 
 	/**
 	 * Set permissions
+	 * Going from ['type' => 1, 'groups' => [1,2,3]] to 1,2,3:1
 	 * @param array|string $permission
 	 * @return $this
 	 */
 	public function set_permission($permission)
 	{
-		$this->permission = is_array($permission) ? join(',', array_filter($permission)) : $permission;
+		$this->permission = $permission;
+		if (is_array($permission))
+		{
+			$permission = array_merge(['groups' => [], 'type' => 1], $permission);
+			$permission['groups'] = join(',', array_filter($permission['groups']));
+			$this->permission = join(':', $permission);
+		}
 		return $this;
 	}
 
 	/**
 	 * Get permissions
+	 * Going from 1,2,3:0 to ['type' => 0, 'groups' => [1,2,3]] or 1,2,3 to ['type' => 1, 'groups' => [1,2,3]]
 	 * @return array
 	 */
 	public function get_permission()
 	{
-		return array_map('intval', array_filter(explode(',', $this->permission)));
+		[$groups, $type] = array_pad(explode(':', $this->permission), 2, 0);
+		return [
+			'type'		=> (int) $type,
+			'groups'	=> array_map('intval', array_filter(explode(',', $groups))),
+		];
 	}
 
 	/**
