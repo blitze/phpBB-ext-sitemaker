@@ -118,6 +118,7 @@ abstract class forum_topics_config extends block
 			'titles'    => 'TITLES',
 			'mini'      => 'MINI',
 			'context'   => 'CONTEXT',
+			'forum'		=> 'FORUM',
 		);
 	}
 }
