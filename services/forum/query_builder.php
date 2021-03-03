@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -212,6 +213,22 @@ class query_builder
 				'FROM'	=> array(FORUMS_TRACK_TABLE => 'ft'),
 				'ON'	=> 'ft.user_id = ' . (int) $this->user->data['user_id'] . ' AND t.forum_id = ft.forum_id'
 			);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Fetch Topics posted Info
+	 *
+	 * @return $this
+	 */
+	public function fetch_db_track()
+	{
+		if ($this->user->data['is_registered'] && $this->config['load_db_track'])
+		{
+			$this->store['sql_array']['SELECT'][] = 'tp.topic_posted';
+			$this->store['sql_array']['LEFT_JOIN'][] = array('FROM' => array(TOPICS_POSTED_TABLE => 'tp'), 'ON' => 'tp.topic_id = t.topic_id AND tp.user_id = ' . $this->user->data['user_id']);
 		}
 
 		return $this;

@@ -1,0 +1,117 @@
+<ul id="{BLOCK_ID}" class="topiclist sm-topiclist">
+	{% for topicrow in TOPICS %}
+		<li class="row<!-- IF loop.index is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->{topicrow.TOPIC_TYPE_CLASS}<!-- IF topicrow.S_TOPIC_REPORTED --> reported<!-- ENDIF -->">
+			<dl class="row-item {topicrow.TOPIC_IMG_STYLE}">
+				<dt class="sm-topic-icon"<!-- IF topicrow.TOPIC_ICON_IMG and topicrow.S_TOPIC_ICONS --> style="background-image: url('{T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}'); background-repeat: no-repeat;"<!-- ENDIF --> title="{topicrow.TOPIC_FOLDER_IMG_ALT}">
+					<!-- IF topicrow.S_UNREAD_TOPIC and not S_IS_BOT --><a href="{topicrow.U_NEW_POST}" class="row-item-link"></a><!-- ENDIF -->
+					<div class="list-inner">
+						<!-- IF topicrow.S_UNREAD_TOPIC and not S_IS_BOT -->
+							<a class="unread" href="{topicrow.U_NEW_POST}">
+								<i class="icon fa-file fa-fw icon-red icon-md" aria-hidden="true"></i><span class="sr-only">{NEW_POST}</span>
+							</a>
+						<!-- ENDIF -->
+						<!-- IF topicrow.U_VIEWTOPIC --><a href="{topicrow.U_VIEWTOPIC}" class="topictitle">{topicrow.TOPIC_TITLE}</a><!-- ELSE -->{topicrow.TOPIC_TITLE}<!-- ENDIF -->
+						
+						{# <!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED -->
+							<a href="{topicrow.U_MCP_QUEUE}" title="<!-- IF topicrow.S_TOPIC_UNAPPROVED -->{L_TOPIC_UNAPPROVED}<!-- ELSE -->{L_POSTS_UNAPPROVED}<!-- ENDIF -->">
+								<i class="icon fa-question fa-fw icon-blue" aria-hidden="true"></i><span class="sr-only"><!-- IF topicrow.S_TOPIC_UNAPPROVED -->{L_TOPIC_UNAPPROVED}<!-- ELSE -->{L_POSTS_UNAPPROVED}<!-- ENDIF --></span>
+							</a>
+						<!-- ENDIF -->
+						<!-- IF topicrow.S_TOPIC_DELETED -->
+							<a href="{topicrow.U_MCP_QUEUE}" title="{L_TOPIC_DELETED}">
+								<i class="icon fa-recycle fa-fw icon-green" aria-hidden="true"></i><span class="sr-only">{L_TOPIC_DELETED}</span>
+							</a>
+						<!-- ENDIF -->
+						<!-- IF topicrow.S_TOPIC_REPORTED -->
+							<a href="{topicrow.U_MCP_REPORT}" title="{L_TOPIC_REPORTED}">
+								<i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i><span class="sr-only">{L_TOPIC_REPORTED}</span>
+							</a>
+						<!-- ENDIF --> #}
+						<br />
+
+						<!-- IF not S_IS_BOT -->
+						<div class="responsive-show" style="display: none;">
+							{L_LAST_POST} {L_POST_BY_AUTHOR} {topicrow.LAST_POSTER} &laquo; <a href="{topicrow.U_LAST_POST}" title="{L_GOTO_LAST_POST}"><time datetime="{topicrow.LAST_POST_TIME_RFC3339}">{topicrow.LAST_POST_TIME}</time></a>
+							<br />{L_POSTED} {L_IN} <a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>
+						</div>
+							<!-- IF topicrow.REPLIES -->
+							<span class="responsive-show left-box" style="display: none;">{L_REPLIES}{L_COLON} <strong>{topicrow.REPLIES}</strong></span>
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+
+						<div class="topic-poster responsive-hide left-box">
+							<!-- IF topicrow.S_HAS_POLL --><i class="icon fa-bar-chart fa-fw" aria-hidden="true"></i><!-- ENDIF -->
+							<!-- IF topicrow.ATTACH_ICON_IMG --><i class="icon fa-paperclip fa-fw" aria-hidden="true"></i><!-- ENDIF -->
+							{L_POST_BY_AUTHOR} {topicrow.USERNAME} &raquo; <time datetime="{topicrow.TOPIC_TIME_RFC3339}">{topicrow.TOPIC_POST_TIME}</time>
+							<br /><a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>&nbsp;<i class="icon <!-- IF topicrow.REPLIES -->fa-comment<!-- ELSE -->fa-comment-o<!-- ENDIF --> fa-fw" aria-hidden="true"></i>{topicrow.REPLIES}
+						</div>
+					</div>
+				</dt>
+				<!-- IF not S_IS_BOT and S_LAST_POST -->
+				<dd class="lastpost responsive-hide pull-right">
+					<span>
+							<span class="tiny-avatar">{topicrow.LAST_AVATAR}</span> {topicrow.LAST_POSTER}
+							<a href="{topicrow.U_LAST_POST}" title="{L_GOTO_LAST_POST}">
+								<i class="icon fa-external-link-square fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{VIEW_LATEST_POST}</span>
+							</a>
+						<br /><time datetime="{topicrow.LAST_POST_TIME_RFC3339}">{topicrow.LAST_POST_TIME}</time>{topicrow.TOPIC_PREVIEW}
+					</span>
+				</dd>
+				<!-- ENDIF -->
+			</dl>
+		</li>
+	{% endfor %}
+	</ul>
+
+	{% if TOTAL_PAGES > 1 %}
+	<br clear="both" />
+	<div class="row">
+		<div class="pagination">
+			<ul>
+				{% set nearbyPagesLimit = 4 %}
+				{% if CURRENT_PAGE > 1 %}
+				<li class="arrow previous">
+					<a class="button button-icon-only" href="{{ (PAGE_URL|format(CURRENT_PAGE-1))|e }}" rel="prev" role="button">
+						<<span class="sr-only">{L_PREVIOUS}</span>
+					</a>
+				</li>
+				{% endif %}
+
+				{% for i in 1..TOTAL_PAGES %}
+					{% if 0 == (CURRENT_PAGE - nearbyPagesLimit) - loop.index %}
+						<li><a class="button" href="{{ BASE_URL|e }}" role="button">1</a></li>
+						{% if 1 != loop.index %}
+							<li class="ellipsis" role="separator"><span>...</span></li>
+						{% endif %}
+					{% elseif 0 == (CURRENT_PAGE + nearbyPagesLimit) - loop.index  and (CURRENT_PAGE + nearbyPagesLimit) < TOTAL_PAGES %}
+						<li class="ellipsis" role="separator"><span>...</span></li>
+					{% elseif 0 < (CURRENT_PAGE - nearbyPagesLimit) - loop.index %}
+						<!-- #1 -->
+					{% elseif 0 > (CURRENT_PAGE + nearbyPagesLimit) - loop.index %}
+						<!-- #2 -->
+					{% else %}
+							{% if CURRENT_PAGE == loop.index  %}
+								<li class="active"><span>{{ loop.index }}</span></li>
+							{% else %}
+								{% if loop.index == 1 %}
+									<li><a class="button" href="{{ BASE_URL }}">{{ loop.index }}</a></li>
+								{% else %}
+									<li><a class="button" href="{{ PAGE_URL|format(loop.index) }}">{{ loop.index }}</a></li>
+								{% endif %}
+							{% endif %}
+					{% endif %}
+				{% endfor %}
+				{% if CURRENT_PAGE != TOTAL_PAGES and (CURRENT_PAGE + nearbyPagesLimit) < TOTAL_PAGES %}
+					<li><a class="button" href="{{ PAGE_URL|format(TOTAL_PAGES)|e }}">{{ TOTAL_PAGES }}</a></li>
+				{% endif %}
+				{% if CURRENT_PAGE < TOTAL_PAGES %}
+					<li class="arrow next">
+						<a class="button button-icon-only" href="{{ (PAGE_URL|format(CURRENT_PAGE + 1))|e }}" rel="next" role="button">
+							><span class="sr-only">{L_NEXT}</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+	{% endif %}

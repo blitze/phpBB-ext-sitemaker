@@ -46,13 +46,20 @@ class forum_topics extends forum_topics_config
 	protected $php_ext;
 
 	/** @var array */
+	protected $settings = array();
+
+	/** @var array */
 	private $fields = array();
 
 	/** @var array */
-	private $settings = array();
+	private $topic_tracking_info = array();
 
 	/** @var array */
-	private $topic_tracking_info = array();
+	protected $sort_order = array(
+		self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
+		self::FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
+		self::FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
+	);
 
 	/**
 	 * Constructor
@@ -90,11 +97,15 @@ class forum_topics extends forum_topics_config
 	{
 		$this->settings = $bdata['settings'];
 
+		$this->build_query();
+		$this->forum_data->build();
+
 		$topic_data = $this->get_topic_data();
 
 		$data = null;
 		if (sizeof($topic_data))
 		{
+			$this->topic_tracking_info = $this->forum_data->get_topic_tracking_info();
 			$data = $this->get_block_content($topic_data);
 		}
 
@@ -137,37 +148,51 @@ class forum_topics extends forum_topics_config
 		$topics = [];
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
-			$row = $topic_data[$i];
-			$forum_id = $row['forum_id'];
+			$row = &$topic_data[$i];
 			$topic_id = $row['topic_id'];
-			$author = $user_data[$row[$this->fields['user_id']]];
-			$last_poster = $user_data[$row['topic_last_poster_id']];
-
-			$topics[] = array(
-				'USERNAME'			=> $author['username_full'],
-				'AVATAR'			=> $author['avatar'],
-				'LAST_POSTER'		=> $last_poster['username_full'],
-				'LAST_AVATAR'		=> $last_poster['avatar'],
-
-				'FORUM_TITLE'		=> $row['forum_name'],
-				'TOPIC_TITLE'		=> truncate_string(censor_text($row['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
-				'TOPIC_PREVIEW'		=> $this->get_post_preview(array_pop($post_data[$topic_id])),
-				'TOPIC_POST_TIME'	=> $this->user->format_date($row[$this->fields['time']]),
-				'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $row['topic_attachment']),
-				'REPLIES'			=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
-				'VIEWS'				=> (int) $row['topic_views'],
-				'S_UNREAD_TOPIC'	=> $this->is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
-
-				'U_VIEWPROFILE'		=> $author['u_viewprofile'],
-				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
-				'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
-				'U_LAST_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;p=" . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
-			);
+			$topics[] = $this->get_topics_template_data($row, $post_data[$topic_id], $user_data);
 			unset($topic_data[$i], $post_data[$topic_id]);
 		}
 
 		return $topics;
+	}
+
+	/**
+	 * @param array $topic_data
+	 * @param array $post_data
+	 * @param array $user_data
+	 * return array
+	 */
+	protected function get_topics_template_data(array &$topic_data, array &$post_data, array $user_data)
+	{
+		$forum_id = $topic_data['forum_id'];
+		$topic_id = $topic_data['topic_id'];
+		$author = $user_data[$topic_data[$this->fields['user_id']]];
+		$last_poster = $user_data[$topic_data['topic_last_poster_id']];
+		$replies = $this->content_visibility->get_count('topic_posts', $topic_data, $forum_id) - 1;
+		$unread_topic = $this->is_unread_topic($forum_id, $topic_id, $topic_data['topic_last_post_time']);
+
+		return array(
+			'USERNAME'			=> $author['username_full'],
+			'AVATAR'			=> $author['avatar'],
+			'LAST_POSTER'		=> $last_poster['username_full'],
+			'LAST_AVATAR'		=> $last_poster['avatar'],
+
+			'FORUM_TITLE'		=> $topic_data['forum_name'],
+			'TOPIC_TITLE'		=> truncate_string(censor_text($topic_data['topic_title']), $this->settings['topic_title_limit'], 255, false, '...'),
+			'TOPIC_PREVIEW'		=> $this->get_post_preview(array_pop($post_data)),
+			'TOPIC_POST_TIME'	=> $this->user->format_date($topic_data[$this->fields['time']]),
+			'ATTACH_ICON_IMG'	=> $this->get_attachment_icon($forum_id, $topic_data['topic_attachment']),
+			'REPLIES'			=> $replies,
+			'VIEWS'				=> (int) $topic_data['topic_views'],
+			'S_UNREAD_TOPIC'	=> $unread_topic,
+
+			'U_VIEWPROFILE'		=> $author['u_viewprofile'],
+			'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
+			'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
+			'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
+			'U_LAST_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;p=" . $topic_data['topic_last_post_id']) . '#p' . $topic_data['topic_last_post_id'],
+		);
 	}
 
 	/**
@@ -223,34 +248,31 @@ class forum_topics extends forum_topics_config
 	{
 		strip_bbcode($row['post_text'], $row['bbcode_uid']);
 
-		$row['post_text'] = truncate_string($row['post_text'], $this->settings['preview_chars']);
+		$row['post_text'] = truncate_string($row['post_text'], $this->settings['preview_chars'], 255, false, '...');
 		return wordwrap($row['post_text'], 40, "\n");
 	}
 
 	/**
 	 * @return array
 	 */
-	private function get_topic_data()
+	protected function get_topic_data()
 	{
-		$sort_order = array(
-			self::FORUMS_ORDER_FIRST_POST		=> 't.topic_time',
-			self::FORUMS_ORDER_LAST_POST		=> 't.topic_last_post_time',
-			self::FORUMS_ORDER_LAST_READ		=> 't.topic_last_view_time'
-		);
+		return $this->forum_data->get_topic_data($this->settings['max_topics']);
+	}
 
+	/**
+	 * @return []
+	 */
+	protected function build_query()
+	{
 		$range_info = $this->date_range->get($this->settings['date_range']);
+		$topic_types = isset($this->settings['topic_type']) ? $this->settings['topic_type'] : [];
 
 		$this->forum_data->query($this->settings['enable_tracking'])
 			->fetch_forum($this->settings['forum_ids'])
-			->fetch_topic_type($this->settings['topic_type'])
+			->fetch_topic_type($topic_types)
 			->fetch_date_range($range_info['start'], $range_info['stop'])
-			->set_sorting($sort_order[$this->settings['order_by']])
-			->build();
-
-		$topic_data = $this->forum_data->get_topic_data($this->settings['max_topics']);
-		$this->topic_tracking_info = $this->forum_data->get_topic_tracking_info();
-
-		return $topic_data;
+			->set_sorting($this->sort_order[$this->settings['order_by']]);
 	}
 
 	/**

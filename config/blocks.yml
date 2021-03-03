@@ -175,6 +175,19 @@ services:
         tags:
             - { name: sitemaker.block }
 
+    blitze.sitemaker.block.recent_topics:
+        class: blitze\sitemaker\blocks\recent_topics
+        parent: blitze.sitemaker.block.forum_topics
+        arguments:
+            - '@cache'
+            - '@request'
+            - '@pagination'
+            - '@template'
+        calls:
+            - [set_name, [blitze.sitemaker.block.recent_topics]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.stats:
         class: blitze\sitemaker\blocks\stats
         arguments:

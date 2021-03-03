@@ -53,7 +53,6 @@
 .sm-block-content {
 	display: block;
 	clear: both;
-	overflow: hidden;
 	word-wrap: break-word;
 
 	.forabg & {
@@ -75,6 +74,8 @@
 }
 
 .sm-block-container {
+	overflow: hidden;
+
 	.postbody {
 		@extend .sm-full-width;
 
@@ -92,10 +93,25 @@
 		padding-top: 0.3rem;
 	}
 
-	.list-inner {
+	.sm-list-inner {
 		display: flex;
 		align-items: center;
 		width: 100%;
+	}
+
+	.forums .sm-topiclist {
+		margin: -1em !important;
+	}
+
+	.sm-topiclist {
+		.list-inner {
+			margin-right: auto;
+			overflow: hidden;
+		}
+
+		.row-item .sm-topic-icon {
+			background-position-y: 70%;
+		}
 	}
 }
 
