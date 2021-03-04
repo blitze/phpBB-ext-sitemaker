@@ -157,9 +157,13 @@ final class block extends base_entity
 		$this->permission = $permission;
 		if (is_array($permission))
 		{
-			$permission = array_merge(['groups' => [], 'type' => 1], $permission);
-			$permission['groups'] = join(',', array_filter($permission['groups']));
-			$this->permission = join(':', $permission);
+			if (sizeof($permission))
+			{
+				$permission = array_merge(['groups' => [], 'type' => 1], $permission);
+				$permission['groups'] = join(',', array_filter($permission['groups']));
+			}
+
+			$this->permission = join(':', array_filter($permission));
 		}
 		return $this;
 	}
