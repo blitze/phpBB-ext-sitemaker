@@ -106,7 +106,6 @@ $lang = array_merge($lang, array(
 
 	'HTML'										=> 'HTML',
 	'HTML_EXPLAIN'								=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
-	'HOT_TOPICS'								=> 'Hot Topics',
 	'HOURS_SHORT'								=> 'hrs',
 
 	'JS_SCRIPTS'								=> 'JS Scripts',
