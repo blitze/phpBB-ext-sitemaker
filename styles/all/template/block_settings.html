@@ -54,7 +54,6 @@
 						</tbody>
 					</table>
 				</div>
-				{% set groups = S_GROUPS[1:] %}
 				<dl>
 					<dt><label for="permission">{{ lang('BLOCK_PERMISSION') }}</label><br /><span>{{ lang('BLOCK_PERMISSION_EXPLAIN') }}</span></dt>
 					<dd>
@@ -63,9 +62,9 @@
 					</dd>
 					<dd>
 						<select class="sm-scrollbars" name="perm_groups[]" multiple="multiple" size="3">
-						{% for group_id, group_name in groups %}
-							<option value="{{ group_id }}"{% if group_id in S_PERMISSION.groups %} selected="selected"{% endif %}>{{ group_name }}</option>
-						{% endfor %}
+							{% for group_id, group_name in S_GROUPS|slice(1, S_GROUPS|length, true) %}
+								<option value="{{ group_id }}"{% if group_id in S_PERMISSION.groups %} selected="selected"{% endif %}>{{ group_name }}</option>
+							{% endfor %}
 						</select>
 					</dd>
 				</dl>
