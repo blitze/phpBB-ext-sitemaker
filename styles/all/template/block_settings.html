@@ -62,8 +62,15 @@
 					</dd>
 					<dd>
 						<select class="sm-scrollbars" name="perm_groups[]" multiple="multiple" size="3">
+							{% for group_id, group_name in S_GROUPS %}
+								{% if group_id in S_PERMISSION.groups %}
+								<option value="{{ group_id }}" selected="selected">{{ group_name }}</option>
+								{% endif %}
+							{% endfor %}
 							{% for group_id, group_name in S_GROUPS|slice(1, S_GROUPS|length, true) %}
-								<option value="{{ group_id }}"{% if group_id in S_PERMISSION.groups %} selected="selected"{% endif %}>{{ group_name }}</option>
+								{% if group_id not in S_PERMISSION.groups %}
+								<option value="{{ group_id }}">{{ group_name }}</option>
+								{% endif %}
 							{% endfor %}
 						</select>
 					</dd>
