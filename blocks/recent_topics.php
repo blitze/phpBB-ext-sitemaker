@@ -210,6 +210,7 @@ class recent_topics extends forum_topics
 		$template_data['TOPIC_TYPE_CLASS']		= $this->topic_type_class[$topic_data['topic_type']];
 		$template_data['TOPIC_TIME_RFC3339']	= gmdate(DATE_RFC3339, $topic_data['topic_time']);
 		$template_data['LAST_POST_TIME_RFC3339'] = gmdate(DATE_RFC3339, $topic_data['topic_last_post_time']);
+		$template_data['LAST_POST_TIME']		= $this->user->format_date($topic_data['topic_last_post_time']);
 
 		if (!empty($this->icons[$topic_data['icon_id']]))
 		{

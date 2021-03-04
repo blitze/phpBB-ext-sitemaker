@@ -43,18 +43,18 @@
 							<!-- IF topicrow.S_HAS_POLL --><i class="icon fa-bar-chart fa-fw" aria-hidden="true"></i><!-- ENDIF -->
 							<!-- IF topicrow.ATTACH_ICON_IMG --><i class="icon fa-paperclip fa-fw" aria-hidden="true"></i><!-- ENDIF -->
 							{L_POST_BY_AUTHOR} {topicrow.USERNAME} &raquo; <time datetime="{topicrow.TOPIC_TIME_RFC3339}">{topicrow.TOPIC_POST_TIME}</time>
-							<br /><a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>&nbsp;<i class="icon <!-- IF topicrow.REPLIES -->fa-comment<!-- ELSE -->fa-comment-o<!-- ENDIF --> fa-fw" aria-hidden="true"></i>{topicrow.REPLIES}
+							<br /><a href="{topicrow.U_VIEWFORUM}">{topicrow.FORUM_TITLE}</a>&nbsp;<i class="icon <!-- IF topicrow.REPLIES -->fa-comment<!-- ELSE -->fa-comment-o<!-- ENDIF --> fa-fw icon-md" aria-hidden="true"></i>{topicrow.REPLIES}
 						</div>
 					</div>
 				</dt>
 				<!-- IF not S_IS_BOT and S_LAST_POST -->
 				<dd class="lastpost responsive-hide pull-right">
 					<span>
-							<span class="tiny-avatar">{topicrow.LAST_AVATAR}</span> {topicrow.LAST_POSTER}
-							<a href="{topicrow.U_LAST_POST}" title="{L_GOTO_LAST_POST}">
-								<i class="icon fa-external-link-square fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{VIEW_LATEST_POST}</span>
-							</a>
-						<br /><time datetime="{topicrow.LAST_POST_TIME_RFC3339}">{topicrow.LAST_POST_TIME}</time>{topicrow.TOPIC_PREVIEW}
+						{L_LAST_POST}{L_COLON} <time datetime="{topicrow.LAST_POST_TIME_RFC3339}">{topicrow.LAST_POST_TIME}</time><br />
+						{{ lang('POST_BY_AUTHOR')|title }} <span class="tiny-avatar">{topicrow.LAST_AVATAR}</span> {topicrow.LAST_POSTER}<br />
+						<a href="{topicrow.U_LAST_POST}" title="{L_GOTO_LAST_POST}">
+							<i class="icon fa-external-link-square fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">{VIEW_LATEST_POST}</span>
+						</a> {topicrow.TOPIC_PREVIEW}
 					</span>
 				</dd>
 				<!-- ENDIF -->
