@@ -72,7 +72,8 @@
 				{% if CURRENT_PAGE > 1 %}
 				<li class="arrow previous">
 					<a class="button button-icon-only" href="{{ (PAGE_URL|format(CURRENT_PAGE-1))|e }}" rel="prev" role="button">
-						<<span class="sr-only">{L_PREVIOUS}</span>
+						<i class="icon fa-chevron-left fa-fw icon-sm" aria-hidden="true"></i>
+						<span class="sr-only">{L_PREVIOUS}</span>
 					</a>
 				</li>
 				{% endif %}
@@ -107,7 +108,8 @@
 				{% if CURRENT_PAGE < TOTAL_PAGES %}
 					<li class="arrow next">
 						<a class="button button-icon-only" href="{{ (PAGE_URL|format(CURRENT_PAGE + 1))|e }}" rel="next" role="button">
-							><span class="sr-only">{L_NEXT}</span>
+							<i class="icon fa-chevron-right fa-fw icon-sm" aria-hidden="true"></i>
+							<span class="sr-only">{L_NEXT}</span>
 						</a>
 					</li>
 				{% endif %}
