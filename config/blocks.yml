@@ -105,6 +105,16 @@ services:
         tags:
             - { name: sitemaker.block }
 
+    blitze.sitemaker.block.hot_topics:
+        class: blitze\sitemaker\blocks\hot_topics
+        parent: blitze.sitemaker.block.forum_topics
+        arguments:
+            - '@config'
+        calls:
+            - [set_name, [blitze.sitemaker.block.hot_topics]]
+        tags:
+            - { name: sitemaker.block }
+
     blitze.sitemaker.block.links:
         class: blitze\sitemaker\blocks\links
         arguments:
