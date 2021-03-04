@@ -64,7 +64,7 @@ abstract class forum_topics_config extends block
 			'order_by'			=> array('lang' => 'ORDER_BY', 'validate' => 'string', 'type' => 'select', 'options' => $sort_options, 'default' => self::FORUMS_ORDER_LAST_POST),
 
 			'legend2'		=> 'DISPLAY',
-			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'default' => false),
+			'enable_tracking'	=> array('lang' => 'ENABLE_TOPIC_TRACKING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'default' => true),
 			'topic_title_limit'	=> array('lang' => 'TOPIC_TITLE_LIMIT', 'validate' => 'int:0:255', 'type' => 'number:0:255', 'maxlength' => 3, 'default' => 25),
 			'template'			=> array('lang' => 'TEMPLATE', 'validate' => 'string', 'type' => 'select', 'options' => $template_options, 'default' => 'titles'),
 			'context'			=> array('lang' => 'CONTEXT', 'validate' => 'string', 'type' => 'select', 'options' => $preview_options, 'default' => 'last'),
