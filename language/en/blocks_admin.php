@@ -1,15 +1,16 @@
 <?php
-/**
-*
-* @package phpBB Sitemaker [English]
-* @copyright (c) 2012 Daniel A. (blitze)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
 
 /**
-* @ignore
-*/
+ *
+ * @package phpBB Sitemaker [English]
+ * @copyright (c) 2012 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+/**
+ * @ignore
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -39,12 +40,14 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_FORUM_POLL'			=> 'Forum Poll',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_TOPICS'		=> 'Forum Topics',
 	'BLITZE_SITEMAKER_BLOCK_GOOGLE_MAPS'		=> 'Google Maps',
+	'BLITZE_SITEMAKER_BLOCK_HOT_TOPICS'			=> 'Hot Topics',
 	'BLITZE_SITEMAKER_BLOCK_LINKS'				=> 'Links',
 	'BLITZE_SITEMAKER_BLOCK_LOGIN'				=> 'Login Box',
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Members',
 	'BLITZE_SITEMAKER_BLOCK_MEMBER_MENU'		=> 'Member Menu',
 	'BLITZE_SITEMAKER_BLOCK_MENU'				=> 'Menu',
 	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'My Bookmarks',
+	'BLITZE_SITEMAKER_BLOCK_RECENT_TOPICS'		=> 'Recent Topics',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistics',
 	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Style Switcher',
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'What’s New?',
@@ -103,6 +106,7 @@ $lang = array_merge($lang, array(
 
 	'HTML'										=> 'HTML',
 	'HTML_EXPLAIN'								=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
+	'HOT_TOPICS'								=> 'Hot Topics',
 	'HOURS_SHORT'								=> 'hrs',
 
 	'JS_SCRIPTS'								=> 'JS Scripts',
@@ -173,10 +177,12 @@ $lang = array_merge($lang, array(
 	'SHOW_WORD_COUNT'							=> 'Show word count?',
 
 	'TEMPLATE'									=> 'Template',
-	'TOPICS_ONLY'								=> 'Topics only?',
 	'TOPIC_TITLE_LIMIT'							=> 'Maximum # of characters for topic title',
 	'TOPIC_TYPE'								=> 'Topic Type',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Select the topic types you’d like to display. Leave the boxes unchecked to select from all topic types',
+	'TOPICS_LOOK_BACK'							=> 'Look back',
+	'TOPICS_ONLY'								=> 'Topics only?',
+	'TOPICS_PER_PAGE'							=> 'Per page',
 
 	'WORD_MAX_SIZE'								=> 'Maximum font size',
 	'WORD_MIN_SIZE'								=> 'Minimum font size',
