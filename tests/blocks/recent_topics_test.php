@@ -74,9 +74,20 @@ class recent_topics_test extends blocks_base
 				),
 			));
 
-		$phpbb_path_helper = $this->getMockBuilder('\phpbb\path_helper')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->user->page = array(
+			'page_name'	=> 'index.php',
+			'page'		=> 'index.php',
+		);
+
+		$phpbb_path_helper =  new \phpbb\path_helper(
+			new \phpbb\symfony_request(
+				new \phpbb_mock_request()
+			),
+			new \phpbb\filesystem(),
+			$this->request,
+			$this->phpbb_root_path,
+			$this->php
+		);
 
 		$this->config['load_db_lastread'] = true;
 		$this->config['load_anon_lastread'] = true;
@@ -221,9 +232,9 @@ class recent_topics_test extends blocks_base
 				true,
 				array(
 					array(
-						'USERNAME' => '<a href="?mode=viewprofile&amp;u=48" class="username">demo</a>',
+						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 						'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
-						'LAST_POSTER' => '<a href="?mode=viewprofile&amp;u=48" class="username">demo</a>',
+						'LAST_POSTER' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 						'LAST_AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
@@ -233,11 +244,11 @@ class recent_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
-						'U_VIEWPROFILE' => '?mode=viewprofile&amp;u=48',
-						'U_VIEWTOPIC' => '?f=4&amp;t=9',
-						'U_VIEWFORUM' => '?f=4',
-						'U_NEW_POST' => '?f=4&amp;t=9&amp;view=unread#unread',
-						'U_LAST_POST' => '?f=4&amp;t=9&amp;p=12#p12',
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
+						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;p=12#p12',
 						'S_HAS_POLL' => true,
 						'S_TOPIC_ICONS' => true,
 						'TOPIC_IMG_STYLE' => 'topic_unread_hot',
@@ -267,9 +278,9 @@ class recent_topics_test extends blocks_base
 				false,
 				array(
 					array(
-						'USERNAME' => '<a href="?mode=viewprofile&amp;u=48" class="username">demo</a>',
+						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 						'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
-						'LAST_POSTER' => '<a href="?mode=viewprofile&amp;u=48" class="username">demo</a>',
+						'LAST_POSTER' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=48" class="username">demo</a>',
 						'LAST_AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
@@ -279,11 +290,11 @@ class recent_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
-						'U_VIEWPROFILE' => '?mode=viewprofile&amp;u=48',
-						'U_VIEWTOPIC' => '?f=4&amp;t=9',
-						'U_VIEWFORUM' => '?f=4',
-						'U_NEW_POST' => '?f=4&amp;t=9&amp;view=unread#unread',
-						'U_LAST_POST' => '?f=4&amp;t=9&amp;p=12#p12',
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
+						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;p=12#p12',
 						'S_HAS_POLL' => true,
 						'S_TOPIC_ICONS' => true,
 						'TOPIC_IMG_STYLE' => 'topic_unread_hot',
@@ -295,9 +306,9 @@ class recent_topics_test extends blocks_base
 						'LAST_POST_TIME' => '',
 					),
 					array(
-						'USERNAME' => '<a href="?mode=viewprofile&amp;u=2" class="username">admin</a>',
+						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
-						'LAST_POSTER' => '<a href="?mode=viewprofile&amp;u=2" class="username">admin</a>',
+						'LAST_POSTER' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
 						'LAST_AVATAR' => '<img src="./styles/prosilver/theme/images/no_avatar.gif" alt="" />',
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
@@ -307,11 +318,11 @@ class recent_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
-						'U_VIEWPROFILE' => '?mode=viewprofile&amp;u=2',
-						'U_VIEWTOPIC' => '?f=4&amp;t=4',
-						'U_VIEWFORUM' => '?f=4',
-						'U_NEW_POST' => '?f=4&amp;t=4&amp;view=unread#unread',
-						'U_LAST_POST' => '?f=4&amp;t=4&amp;p=4#p4',
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
+						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
+						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;view=unread#unread',
+						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;p=4#p4',
 						'S_HAS_POLL' => false,
 						'S_TOPIC_ICONS' => true,
 						'TOPIC_IMG_STYLE' => 'global_unread',
