@@ -77,7 +77,7 @@ class save_block extends base_action
 
 	/**
 	 * Get submitted block permissions
-	 * @return []
+	 * @return array
 	 */
 	private function get_block_permissions()
 	{

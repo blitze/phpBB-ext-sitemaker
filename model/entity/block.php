@@ -154,7 +154,6 @@ final class block extends base_entity
 	 */
 	public function set_permission($permission)
 	{
-		$this->permission = $permission;
 		if (is_array($permission))
 		{
 			if (sizeof($permission))
@@ -164,6 +163,10 @@ final class block extends base_entity
 			}
 
 			$this->permission = join(':', array_filter($permission));
+		}
+		else
+		{
+			$this->permission = $permission;
 		}
 		return $this;
 	}

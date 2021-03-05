@@ -27,7 +27,7 @@ class navigation
 	/** @var string */
 	protected $php_ext;
 
-	/** @var string */
+	/** @var array */
 	protected $menus_cache;
 
 	/**

@@ -10,8 +10,6 @@
 
 namespace blitze\sitemaker\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
-
 /**
  * Recent Topics Block
  */
@@ -40,6 +38,9 @@ class recent_topics extends forum_topics
 
 	/** @var string */
 	protected $block;
+
+	/** @var array */
+	protected $icons;
 
 	/** @var array */
 	protected $topic_type_class = [

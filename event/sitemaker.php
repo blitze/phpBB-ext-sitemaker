@@ -104,7 +104,7 @@ class sitemaker implements EventSubscriberInterface
 						'hash'	=> $navbar['modified']
 					)),
 				),
-				$this->navigation->build_menu($this->config['sm_navbar_menu'], true)
+				$this->navigation->build_menu((int) $this->config['sm_navbar_menu'], true)
 			));
 		}
 

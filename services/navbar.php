@@ -69,7 +69,7 @@ class navbar
 		$board_url = generate_board_url();
 
 		$css = "@import url('{$board_url}/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');";
-		$css .= html_entity_decode($this->config_text->get('sm_navbar_' . $style));
+		$css .= html_entity_decode((string) $this->config_text->get('sm_navbar_' . $style));
 
 		return $css;
 	}

@@ -261,7 +261,7 @@ class forum_topics extends forum_topics_config
 	}
 
 	/**
-	 * @return []
+	 * @return array
 	 */
 	protected function build_query()
 	{

@@ -178,7 +178,7 @@ class display
 	 */
 	protected function get_layout($style_id)
 	{
-		$style_prefs = array_filter((array) json_decode($this->config_text->get('sm_layout_prefs'), true));
+		$style_prefs = array_filter((array) json_decode((string) $this->config_text->get('sm_layout_prefs'), true));
 
 		return (isset($style_prefs[$style_id])) ? basename($style_prefs[$style_id]['layout']) : 'portal';
 	}
