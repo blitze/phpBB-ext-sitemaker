@@ -162,9 +162,17 @@ class recent_topics extends forum_topics
 	{
 		parent::build_query();
 		$this->forum_data->fetch_custom(array(
-			'WHERE' => array($this->sort_order[$this->settings['order_by']] . ' > ' . (time() - ($this->settings['look_back'] * 24 * 3600))),
+			'WHERE' => array($this->sort_order[$this->settings['order_by']] . ' > ' . $this->get_time_limit()),
 		));
 		$this->forum_data->fetch_db_track();
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function get_time_limit()
+	{
+		return time() - ($this->settings['look_back'] * 24 * 3600);
 	}
 
 	/**
