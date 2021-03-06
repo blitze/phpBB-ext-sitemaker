@@ -93,6 +93,7 @@ jobs:
   tests:
     runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php: "7.1"
