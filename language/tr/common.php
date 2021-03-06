@@ -40,7 +40,6 @@ $lang = array_merge($lang, array(
 	'FORUM_STICKY_POSTS'			=> 'Recent Sticky Posts',
 
 	'HELP'							=> 'Help',
-	'HOT_TOPICS'					=> 'Hot Topics',
 	'HOURLY_MEMBER'					=> 'Member of the hour',
 
 	'GOOGLE_MAP'					=> 'Google Map',
@@ -62,6 +61,7 @@ $lang = array_merge($lang, array(
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 
 	'POLL'							=> 'Poll',
+	'POPULAR_TOPICS'				=> 'Popular Topics',
 	'POSTS_MEMBER'					=> 'Top Poster',
 	'PROCESSING'					=> 'processing...',
 
