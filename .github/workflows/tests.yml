@@ -2,7 +2,6 @@ name: Tests
 
 env:
   EXTNAME: blitze/sitemaker # Your extension vendor/package name
-  GITREPO: blitze/phpBB-ext-sitemaker # CHANGE name of the repository HERE
   SNIFF: 1 # Run code sniffer on your code? 1 or 0
   IMAGE_ICC: 1 # Run icc profile sniffer on your images? 1 or 0
   EPV: 1 # Run EPV (Extension Pre Validator) on your code? 1 or 0
@@ -10,7 +9,6 @@ env:
   PHPBB_BRANCH: 3.3.x # The phpBB branch to run tests on
   EXTDEPS: 1
   BUNDLE_SCRIPTS: 1
-  COVERAGE: 1
 
 on:
   push:
@@ -46,7 +44,6 @@ jobs:
       - name: Checkout extension
         uses: actions/checkout@v2
         with:
-          repository: ${{ env.GITREPO }}
           path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
 
       - name: Setup PHP
@@ -138,6 +135,8 @@ jobs:
             db: "mysql:5.7"
           - php: "7.2"
             db: "mysql:5.7"
+            COVERAGE: 1
+            db_alias: "mysql:5.7 with Coverage"
           - php: "7.3"
             db: "mysql:5.7"
           - php: "7.4"
@@ -255,7 +254,7 @@ jobs:
       - name: Cache composer dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ steps.setup-composer.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
