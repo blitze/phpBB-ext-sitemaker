@@ -11,9 +11,9 @@
 namespace blitze\sitemaker\blocks;
 
 /**
- * Hot Topics Block
+ * Popular Topics Block
  */
-class hot_topics extends forum_topics
+class popular_topics extends forum_topics
 {
 	/** @var \phpbb\config\config */
 	protected $config;
@@ -56,7 +56,7 @@ class hot_topics extends forum_topics
 	 */
 	protected function get_block_title()
 	{
-		return 'HOT_TOPICS';
+		return 'POPULAR_TOPICS';
 	}
 
 	/**

@@ -105,13 +105,13 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    blitze.sitemaker.block.hot_topics:
-        class: blitze\sitemaker\blocks\hot_topics
+    blitze.sitemaker.block.popular_topics:
+        class: blitze\sitemaker\blocks\popular_topics
         parent: blitze.sitemaker.block.forum_topics
         arguments:
             - '@config'
         calls:
-            - [set_name, [blitze.sitemaker.block.hot_topics]]
+            - [set_name, [blitze.sitemaker.block.popular_topics]]
         tags:
             - { name: sitemaker.block }
 

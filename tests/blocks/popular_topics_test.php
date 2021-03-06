@@ -13,9 +13,9 @@ namespace blitze\sitemaker\tests\blocks;
 use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\forum\data;
-use blitze\sitemaker\blocks\hot_topics;
+use blitze\sitemaker\blocks\popular_topics;
 
-class hot_topics_test extends blocks_base
+class popular_topics_test extends blocks_base
 {
 	/**
 	 * Configure the test environment.
@@ -41,10 +41,10 @@ class hot_topics_test extends blocks_base
 	}
 
 	/**
-	 * Create the hot topics block
+	 * Create the popular topics block
 	 *
 	 * @param bool $registered_user
-	 * @return \blitze\sitemaker\blocks\hot_topics
+	 * @return \blitze\sitemaker\blocks\popular_topics
 	 */
 	protected function get_block($registered_user = true)
 	{
@@ -108,7 +108,7 @@ class hot_topics_test extends blocks_base
 
 		$truncator = new \Urodoz\Truncate\TruncateService();
 
-		return new hot_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext, $this->config);
+		return new popular_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext, $this->config);
 	}
 
 	public function test_block_config()
@@ -167,7 +167,7 @@ class hot_topics_test extends blocks_base
 					),
 				),
 				true,
-				'HOT_TOPICS',
+				'POPULAR_TOPICS',
 				array(
 					array(
 						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
