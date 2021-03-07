@@ -68,6 +68,15 @@
 		list-style-type: inherit;
 	}
 
+	audio,
+	canvas,
+	iframe,
+	object,
+	svg,
+	video {
+		max-width: 100%;
+	}
+
 	p:last-of-type {
 		margin-bottom: 0;
 	}
