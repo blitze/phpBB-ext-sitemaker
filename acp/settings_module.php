@@ -198,7 +198,7 @@ class settings_module
 	 */
 	protected function get_styles_data(array $layouts)
 	{
-		$style_prefs = (array) json_decode($this->config_text->get('sm_layout_prefs'), true);
+		$style_prefs = (array) json_decode((string) $this->config_text->get('sm_layout_prefs'), true);
 
 		$result = $this->db->sql_query('SELECT style_id, style_name FROM ' . STYLES_TABLE);
 

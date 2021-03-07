@@ -92,7 +92,7 @@ class navigation
 	 */
 	public function get_menu_options()
 	{
-		if (!$this->menus_cache)
+		if (empty($this->menus_cache))
 		{
 			$collection = $this->mapper_factory->create('menus')->find();
 
