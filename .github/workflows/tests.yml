@@ -8,7 +8,7 @@ env:
   EXECUTABLE_FILES: 1 # Run check for executable files? 1 or 0
   PHPBB_BRANCH: 3.3.x # The phpBB branch to run tests on
   EXTDEPS: 1
-  BUNDLE_SCRIPTS: 1
+  BUNDLE_ASSETS: 1
 
 on:
   push:
@@ -89,8 +89,8 @@ jobs:
         working-directory: ./phpBB3
   # END Basic Checks Job
 
-  # Run tests
-  tests:
+  # START MySQL and MariaDB Job
+  mysql-tests:
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -106,26 +106,6 @@ jobs:
             db: "mariadb:10.4"
           - php: "7.1"
             db: "mariadb:10.5"
-          - php: "7.1"
-            db: "postgres:9.5"
-          - php: "7.1"
-            db: "postgres:9.6"
-          - php: "7.1"
-            db: "postgres:10"
-          - php: "7.1"
-            db: "postgres:11"
-          - php: "7.1"
-            db: "postgres:12"
-          - php: "7.1"
-            db: "postgres:13"
-          - php: "7.1"
-            db: "sqlite3"
-          - php: "7.2"
-            db: "mcr.microsoft.com/mssql/server:2017-latest"
-            db_alias: "MSSQL 2017"
-          - php: "7.2"
-            db: "mcr.microsoft.com/mssql/server:2019-latest"
-            db_alias: "MSSQL 2019"
           - php: "7.1"
             db: "mysql:5.6"
             db_alias: "MyISAM Tests"
@@ -165,6 +145,160 @@ jobs:
           --health-timeout=5s
           --health-retries=3
 
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout phpBB
+        uses: actions/checkout@v2
+        with:
+          repository: phpbb/phpbb
+          ref: ${{ env.PHPBB_BRANCH }}
+          path: phpBB3
+
+      - name: Checkout extension
+        uses: actions/checkout@v2
+        with:
+          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+
+      - id: database-type
+        env:
+          MATRIX_DB: ${{ matrix.db }}
+        run: |
+          db=$(echo "${MATRIX_DB%%:*}")
+          echo "::set-output name=db::$db"
+
+      - name: Setup PHP
+        if: ${{ matrix.COVERAGE != 1 }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap
+          coverage: none
+
+      - name: Setup PHP with Coverage
+        if: ${{ matrix.COVERAGE == 1 }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap
+          coverage: xdebug
+
+      - name: Setup composer
+        id: setup-composer
+        working-directory: phpBB3/phpBB
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer update --no-install --prefer-dist
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.setup-composer.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Get node.js cache directory
+        id: node-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.node-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install composer dependencies
+        if: ${{ env.EXTDEPS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+
+      - name: Bundle Assets
+        if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          yarn install
+          yarn build
+
+      - name: Setup environment for phpBB
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          PHP_VERSION: ${{ matrix.php }}
+          NOTESTS: "0"
+        run: .github/setup-phpbb.sh $DB $PHP_VERSION ${NOTESTS:-0}
+        working-directory: ./phpBB3
+
+      - name: Setup database
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          MYISAM: ${{ matrix.MYISAM != 1 && '0' || '1' }}
+        run: .github/setup-database.sh $DB $MYISAM
+        working-directory: ./phpBB3
+
+      - name: Setup PHPUnit files
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          COVERAGE: ${{ matrix.COVERAGE != 1 && '0' || '1' }}
+        run: |
+          if [ $COVERAGE == '1' ]
+          then
+              sed -n '1h;1!H;${;g;s/<\/php>/<\/php>\n\t<filter>\n\t\t<whitelist>\n\t\t\t<directory>..\/<\/directory>\n\t\t\t<exclude>\n\t\t\t\t<directory>..\/tests\/<\/directory>\n\t\t\t\t<directory>..\/language\/<\/directory>\n\t\t\t\t<directory>..\/migrations\/<\/directory>\n\t\t\t<\/exclude>\n\t\t<\/whitelist>\n\t<\/filter>/g;p;}' .github/phpunit-$DB-github.xml &> phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml
+          else
+              mkdir -p phpBB/ext/$EXTNAME/.github && cp .github/phpunit* $_
+          fi
+        working-directory: ./phpBB3
+
+      - name: Run unit tests
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          COVERAGE: ${{ matrix.COVERAGE != 1 && '0' || '1' }}
+        run: |
+          if [ $COVERAGE == '1' ]
+          then
+              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml
+          else
+              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
+          fi
+        working-directory: ./phpBB3
+
+      - name: Send code coverage
+        if: ${{ matrix.COVERAGE == 1 }}
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./phpBB3/build/logs/clover.xml
+  # END MySQL and MariaDB Job
+
+  # START PostgreSQL Job
+  postgres-tests:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        include:
+          - php: "7.1"
+            db: "postgres:9.5"
+          - php: "7.1"
+            db: "postgres:9.6"
+          - php: "7.1"
+            db: "postgres:10"
+          - php: "7.1"
+            db: "postgres:11"
+          - php: "7.1"
+            db: "postgres:12"
+          - php: "7.1"
+            db: "postgres:13"
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.db }}
+
+    services:
       postgres:
         image: ${{ matrix.db != 'postgres:9.5' && matrix.db != 'postgres:9.6' && matrix.db != 'postgres:10' && matrix.db != 'postgres:11' && matrix.db != 'postgres:12' && matrix.db != 'postgres:13' && 'postgres:10' || matrix.db }}
         env:
@@ -180,6 +314,125 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout phpBB
+        uses: actions/checkout@v2
+        with:
+          repository: phpbb/phpbb
+          ref: ${{ env.PHPBB_BRANCH }}
+          path: phpBB3
+
+      - name: Checkout extension
+        uses: actions/checkout@v2
+        with:
+          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+
+      - id: database-type
+        env:
+          MATRIX_DB: ${{ matrix.db }}
+        run: |
+          db=$(echo "${MATRIX_DB%%:*}")
+          echo "::set-output name=db::$db"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap
+          coverage: none
+
+      - name: Setup composer
+        id: setup-composer
+        working-directory: phpBB3/phpBB
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer update --no-install --prefer-dist
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.setup-composer.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Get node.js cache directory
+        id: node-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.node-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install composer dependencies
+        if: ${{ env.EXTDEPS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+
+      - name: Bundle Assets
+        if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          yarn install
+          yarn build
+
+      - name: Setup environment for phpBB
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          PHP_VERSION: ${{ matrix.php }}
+          NOTESTS: "0"
+        run: .github/setup-phpbb.sh $DB $PHP_VERSION ${NOTESTS:-0}
+        working-directory: ./phpBB3
+
+      - name: Setup database
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          MYISAM: "0"
+        run: .github/setup-database.sh $DB $MYISAM
+        working-directory: ./phpBB3
+
+      - name: Setup PHPUnit files
+        run: mkdir -p phpBB/ext/$EXTNAME/.github && cp .github/phpunit* $_
+        working-directory: ./phpBB3
+
+      - name: Run unit tests
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+        run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
+        working-directory: ./phpBB3
+  # END PostgreSQL Job
+
+  # START Other Tests Job (SQLite 3 and mssql)
+  other-tests:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        include:
+          - php: "7.1"
+            db: "sqlite3"
+          - php: "7.2"
+            db: "mcr.microsoft.com/mssql/server:2017-latest"
+            db_alias: "MSSQL 2017"
+          - php: "7.2"
+            db: "mcr.microsoft.com/mssql/server:2019-latest"
+            db_alias: "MSSQL 2019"
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
+
+    services:
       mssql:
         image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
         env:
@@ -230,20 +483,11 @@ jobs:
           echo "::set-output name=db::$db"
 
       - name: Setup PHP
-        if: ${{ matrix.COVERAGE != 1 }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap
           coverage: none
-
-      - name: Setup PHP with Coverage
-        if: ${{ matrix.COVERAGE == 1 }}
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, sqlsrv, pdo_sqlsrv, ldap
-          coverage: xdebug
 
       - name: Setup composer
         id: setup-composer
@@ -259,20 +503,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Setup environment for phpBB
-        env:
-          DB: ${{steps.database-type.outputs.db}}
-          PHP_VERSION: ${{ matrix.php }}
-          NOTESTS: "0"
-        run: .github/setup-phpbb.sh $DB $PHP_VERSION ${NOTESTS:-0}
-        working-directory: ./phpBB3
-
-      - name: Install composer dependencies
-        if: ${{ env.EXTDEPS == 1 }}
-        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
-        run: |
-          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
-
       - name: Get node.js cache directory
         id: node-cache-dir
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -284,48 +514,41 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-node-
 
-      - name: Bundle Scripts
-        if: ${{ env.NOTESTS != 1 && env.BUNDLE_SCRIPTS == 1 }}
+      - name: Install composer dependencies
+        if: ${{ env.EXTDEPS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+
+      - name: Bundle Assets
+        if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
           yarn install
           yarn build
 
+      - name: Setup environment for phpBB
+        env:
+          DB: ${{steps.database-type.outputs.db}}
+          PHP_VERSION: ${{ matrix.php }}
+          NOTESTS: "0"
+        run: .github/setup-phpbb.sh $DB $PHP_VERSION ${NOTESTS:-0}
+        working-directory: ./phpBB3
+
       - name: Setup database
         env:
           DB: ${{steps.database-type.outputs.db}}
-          MYISAM: ${{ matrix.MYISAM != 1 && '0' || '1' }}
+          MYISAM: "0"
         run: .github/setup-database.sh $DB $MYISAM
         working-directory: ./phpBB3
 
       - name: Setup PHPUnit files
-        env:
-          DB: ${{steps.database-type.outputs.db}}
-          COVERAGE: ${{ matrix.COVERAGE != 1 && '0' || '1' }}
-        run: |
-          if [ $COVERAGE == '1' ]
-          then
-            sed -n '1h;1!H;${;g;s/<\/php>/<\/php>\n\t<filter>\n\t\t<whitelist>\n\t\t\t<directory>..\/<\/directory>\n\t\t\t<exclude>\n\t\t\t\t<directory>..\/tests\/<\/directory>\n\t\t\t\t<directory>..\/language\/<\/directory>\n\t\t\t\t<directory>..\/migrations\/<\/directory>\n\t\t\t<\/exclude>\n\t\t<\/whitelist>\n\t<\/filter>/g;p;}' .github/phpunit-$DB-github.xml &> phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml
-          else
-            mkdir -p phpBB/ext/$EXTNAME/.github && cp .github/phpunit* $_
-          fi
+        run: mkdir -p phpBB/ext/$EXTNAME/.github && cp .github/phpunit* $_
         working-directory: ./phpBB3
 
       - name: Run unit tests
         env:
           DB: ${{steps.database-type.outputs.db}}
-          COVERAGE: ${{ matrix.COVERAGE != 1 && '0' || '1' }}
-        run: |
-          if [ $COVERAGE == '1' ]
-          then
-              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml
-          else
-              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
-          fi
+        run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
         working-directory: ./phpBB3
-
-      - name: Send code coverage
-        if: ${{ matrix.COVERAGE == 1 }}
-        uses: codecov/codecov-action@v1
-        with:
-          file: ./phpBB3/build/logs/clover.xml
+  # END Other Tests Job
