@@ -93,7 +93,6 @@ jobs:
   mysql-tests:
     runs-on: ubuntu-18.04
     strategy:
-      fail-fast: false
       matrix:
         include:
           - php: "7.1"
@@ -196,7 +195,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -220,12 +218,13 @@ jobs:
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+          composer install --ignore-platform-reqs --no-dev --prefer-dist --no-progress
 
       - name: Bundle Assets
         if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
+          ls -a
           yarn install
           yarn build
 
@@ -266,7 +265,7 @@ jobs:
           then
               phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml
           else
-              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
+              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --verbose --debug
           fi
         working-directory: ./phpBB3
 
@@ -356,7 +355,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -380,7 +378,7 @@ jobs:
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+          composer install --ignore-platform-reqs --no-dev --prefer-dist --no-progress
 
       - name: Bundle Assets
         if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
@@ -494,7 +492,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -518,7 +515,7 @@ jobs:
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+          composer install --ignore-platform-reqs --no-dev --prefer-dist --no-progress
 
       - name: Bundle Assets
         if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
