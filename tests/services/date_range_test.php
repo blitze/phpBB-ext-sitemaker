@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -34,7 +35,7 @@ class date_range_test extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 

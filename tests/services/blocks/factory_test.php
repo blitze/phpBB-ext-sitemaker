@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -34,7 +35,7 @@ class factory_test extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $phpbb_container;
 
@@ -61,7 +62,8 @@ class factory_test extends \phpbb_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return ucwords(strtolower(str_replace('_', ' ', implode(' ', func_get_args()))));
 			});
 	}

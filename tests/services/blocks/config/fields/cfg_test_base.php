@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -31,7 +32,7 @@ abstract class cfg_test_base extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $request, $phpbb_container, $phpbb_dispatcher, $user;
 
@@ -48,7 +49,8 @@ abstract class cfg_test_base extends \phpbb_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 

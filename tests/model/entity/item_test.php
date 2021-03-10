@@ -32,7 +32,7 @@ class item_test extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $config, $request, $symfony_request, $user;
 
@@ -59,7 +59,8 @@ class item_test extends \phpbb_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 	}
@@ -75,16 +76,20 @@ class item_test extends \phpbb_test_case
 			'item_title'	=> 'item 1',
 		);
 
-		foreach ($required_fields as $field) {
+		foreach ($required_fields as $field)
+		{
 			$test_data = $data;
 			unset($test_data[$field]);
 
 			$entity = new item($test_data);
 
-			try {
+			try
+			{
 				$entity->to_db();
 				$this->fail('no exception thrown');
-			} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+			}
+			catch (\blitze\sitemaker\exception\invalid_argument $e)
+			{
 				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT-{$field}-FIELD_MISSING", $e->get_message($this->translator));
 			}
 		}
@@ -159,17 +164,23 @@ class item_test extends \phpbb_test_case
 	{
 		$item = new item(array());
 
-		try {
+		try
+		{
 			$this->assertNull($item->get_foo());
 			$this->fail('no exception thrown');
-		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+		}
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
+		{
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 
-		try {
+		try
+		{
 			$this->assertNull($item->set_foo('bar'));
 			$this->fail('no exception thrown');
-		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
+		}
+		catch (\blitze\sitemaker\exception\invalid_argument $e)
+		{
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -30,7 +31,7 @@ class cfg_factory_test extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $phpbb_container;
 
@@ -55,12 +56,12 @@ class cfg_factory_test extends \phpbb_test_case
 	public function test_constructor_calls_register_field()
 	{
 		$cfg_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\config\cfg_factory')
-			 ->setMethods(array('register_fields'))
-			 ->disableOriginalConstructor()
-			 ->getMock();
+			->setMethods(array('register_fields'))
+			->disableOriginalConstructor()
+			->getMock();
 		$cfg_factory->expects($this->once())
-			 ->method('register_fields')
-			 ->with($this->cfg_fields);
+			->method('register_fields')
+			->with($this->cfg_fields);
 
 		$cfg_factory->__construct($this->cfg_fields);
 	}

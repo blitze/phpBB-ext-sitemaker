@@ -93,7 +93,6 @@ jobs:
   mysql-tests:
     runs-on: ubuntu-18.04
     strategy:
-      fail-fast: false
       matrix:
         include:
           - php: "7.1"
@@ -356,6 +355,7 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -493,6 +493,7 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2

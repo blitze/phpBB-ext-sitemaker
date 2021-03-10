@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -32,7 +33,7 @@ class util_test extends \phpbb_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		global $phpbb_dispatcher, $request, $template, $user;
 
@@ -57,22 +58,26 @@ class util_test extends \phpbb_test_case
 			->getMock();
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$temp_data)
+			{
 				$temp_data[$key][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$temp_data) {
+			->will($this->returnCallback(function ($data) use (&$temp_data)
+			{
 				$temp_data['.'][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_var')
-			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$temp_data)
+			{
 				$temp_data[$key] = $data;
 			}));
 		$template->expects($this->any())
 			->method('retrieve_var')
-			->will($this->returnCallback(function() {
+			->will($this->returnCallback(function ()
+			{
 				return '12345';
 			}));
 
@@ -81,7 +86,8 @@ class util_test extends \phpbb_test_case
 			->getMock();
 		$path_helper->expects($this->any())
 			->method('get_web_root_path')
-			->will($this->returnCallback(function() {
+			->will($this->returnCallback(function ()
+			{
 				return './';
 			}));
 
