@@ -60,6 +60,7 @@ branches:
 
 before_install:
     - nvm install node
+    - composer self-update --1
 
 install:
     - travis_retry composer install --ignore-platform-reqs --no-interaction --prefer-source
