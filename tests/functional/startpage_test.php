@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -27,7 +28,7 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$helper->copy_dir($phpbb_root_path . '../tests/functional/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
-	public static function tearDownAfterClass()
+	static public function tearDownAfterClass(): void
 	{
 		global $phpbb_root_path;
 
