@@ -195,6 +195,7 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -226,8 +227,6 @@ jobs:
         run: |
           yarn install
           yarn build
-          cd styles/all/theme/assets
-          ls -a
 
       - name: Setup environment for phpBB
         env:
