@@ -224,9 +224,10 @@ jobs:
         if: ${{ env.NOTESTS != 1 && env.BUNDLE_ASSETS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          ls -a
           yarn install
           yarn build
+          cd styles/all/theme/assets
+          ls -a
 
       - name: Setup environment for phpBB
         env:
@@ -265,7 +266,7 @@ jobs:
           then
               phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --coverage-clover build/logs/clover.xml
           else
-              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php --verbose --debug
+              phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/.github/phpunit-$DB-github.xml --bootstrap ./tests/bootstrap.php
           fi
         working-directory: ./phpBB3
 
