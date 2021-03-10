@@ -93,6 +93,7 @@ jobs:
   mysql-tests:
     runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php: "7.1"
@@ -197,12 +198,12 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
           composer self-update --1
 
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.setup-composer.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
+      # - name: Cache composer dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{ steps.setup-composer.outputs.dir }}
+      #     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
+      #     restore-keys: ${{ runner.os }}-composer-
 
       - name: Get node.js cache directory
         id: node-cache-dir
