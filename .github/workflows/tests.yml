@@ -83,10 +83,10 @@ jobs:
         run: .github/ext-check-executable-files.sh ./ $EXTNAME
         working-directory: ./phpBB3
 
-      - name: Check file structure
+      - name: Prep for EPV # the below directories may have a composer.json file which causes EPV to fail
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          ls -a
+          rm -rf docs tests
 
       - name: Run EPV
         if: ${{ env.EPV != 0 }}
