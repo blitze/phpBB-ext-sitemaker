@@ -83,6 +83,11 @@ jobs:
         run: .github/ext-check-executable-files.sh ./ $EXTNAME
         working-directory: ./phpBB3
 
+      - name: Check file structure
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: |
+          ls -a
+
       - name: Run EPV
         if: ${{ env.EPV != 0 }}
         run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/$EXTNAME/"
