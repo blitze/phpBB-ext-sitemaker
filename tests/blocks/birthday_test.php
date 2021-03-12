@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -116,7 +117,7 @@ class birthday_test extends blocks_base
 	public function test_block_display($time, $expected)
 	{
 		$block = $this->get_block($time, 1);
-		$result = $block->display(array());
+		$result = $block->display(array('bid' => 1));
 
 		$this->assertEquals($expected, array_filter($result['data']));
 	}

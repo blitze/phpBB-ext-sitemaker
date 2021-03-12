@@ -49,6 +49,8 @@ class util_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 		$user->host = 'www.example.com';
+		$user->data['user_id'] = 2;
+		$user->data['user_form_salt'] = 'salt';
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style['style_path'] = 'prosilver';
 

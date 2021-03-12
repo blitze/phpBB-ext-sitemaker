@@ -78,9 +78,7 @@ class popular_topics_test extends blocks_base
 		$this->config['load_anon_lastread'] = true;
 		$this->config['hot_threshold'] = 1;
 
-		$this->user->data['user_id'] = 48;
 		$this->user->data['user_lastmark'] = strtotime('25 Nov 2015');
-		$this->user->data['user_lang'] = 'en';
 		$this->user->data['is_registered'] = $registered_user;
 
 		$this->auth->expects($this->any())

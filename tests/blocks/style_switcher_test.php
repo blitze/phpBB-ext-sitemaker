@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -45,7 +46,7 @@ class style_switcher_test extends blocks_base
 			new \phpbb\filesystem(),
 			$this->request,
 			$this->phpbb_root_path,
-			$this->php
+			$this->php_ext
 		);
 
 		$block_display = $this->getMockBuilder('\blitze\sitemaker\services\blocks\display')

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -21,6 +22,6 @@ class add_menu_test extends base_action
 		$result = $command->execute();
 
 		$this->assertEquals(4, $result['id']);
-		$this->assertContains('MENU', $result['title']);
+		$this->assertStringContainsString('MENU', $result['title']);
 	}
 }

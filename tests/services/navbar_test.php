@@ -10,6 +10,7 @@
 
 namespace blitze\sitemaker\tests\services;
 
+use Symfony\Component\HttpFoundation\Request;
 use phpbb\request\request_interface;
 
 class navbar_test extends \phpbb_database_test_case
@@ -46,11 +47,18 @@ class navbar_test extends \phpbb_database_test_case
 	 */
 	protected function get_service(array $config_data = [], array $variable_map = [])
 	{
-		global $db, $request, $phpbb_dispatcher;
+		global $config, $db, $request, $symfony_request, $phpbb_dispatcher, $user;
 
 		$db = $this->new_dbal();
 
-		$this->config = new \phpbb\config\config($config_data);
+		$symfony_request = new Request();
+
+		$user = $this->createMock('\phpbb\user');
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
+
+		$config_data['force_server_vars'] = false;
+		$this->config = $config = new \phpbb\config\config($config_data);
 
 		$this->config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
 
@@ -150,15 +158,15 @@ class navbar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'xmas',
-				"@import url('http://ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');",
+				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');",
 			),
 			array(
 				'silverlight',
-				"@import url('http://ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{background-color: #123456;}",
+				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{background-color: #123456;}",
 			),
 			array(
 				'prosilver',
-				"@import url('http://ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{font-size:11px;}",
+				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{font-size:11px;}",
 			),
 		);
 	}

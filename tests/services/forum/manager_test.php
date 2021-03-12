@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -45,7 +46,7 @@ class manager_test extends \phpbb_database_test_case
 	 */
 	public function setUp(): void
 	{
-		global $auth, $cache, $config, $db, $phpbb_dispatcher, $phpbb_container, $phpbb_log, $phpbb_root_path, $phpEx;
+		global $auth, $cache, $config, $db, $phpbb_dispatcher, $phpbb_container, $phpbb_log, $user, $phpbb_root_path, $phpEx;
 
 		parent::setUp();
 
@@ -66,6 +67,7 @@ class manager_test extends \phpbb_database_test_case
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->data['user_id'] = 2;
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 

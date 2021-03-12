@@ -46,16 +46,16 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Create the admin_bar service
 	 *
 	 * @param array $auth_map
-	 * @param array $config
+	 * @param array $config_data
 	 * @param string $page
 	 * @param string $user_lang
 	 * @param string $controller
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
+	protected function get_service(array $auth_map = array(), array $config_data = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
 	{
-		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
+		global $config, $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -78,7 +78,10 @@ class admin_bar_test extends \phpbb_database_test_case
 			->will($this->returnValueMap($auth_map));
 
 		$db = $this->new_dbal();
-		$config = new \phpbb\config\config($config);
+
+		$config_data['force_server_vars'] = false;
+		$config = new \phpbb\config\config($config_data);
+
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -436,6 +439,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'default_lang'						=> 'en',
 					'sitemaker_startpage_controller'	=> '',
+					'sitemaker_startpage_method'		=> '',
 					'sitemaker_startpage_params'		=> ''
 				),
 				array()
@@ -447,6 +451,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'default_lang'						=> 'en',
 					'sitemaker_startpage_controller'	=> '',
+					'sitemaker_startpage_method'		=> '',
 					'sitemaker_startpage_params'		=> ''
 				),
 				array(
@@ -464,6 +469,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'default_lang'						=> 'en',
 					'sitemaker_startpage_controller'	=> 'foo.bar.controller',
+					'sitemaker_startpage_method'		=> 'handle',
 					'sitemaker_startpage_params'		=> 'test'
 				),
 				array(

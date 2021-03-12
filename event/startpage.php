@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -122,14 +123,11 @@ class startpage implements EventSubscriberInterface
 	{
 		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && ($controller_object = $this->get_startpage_controller()) !== false)
 		{
-			$method = $this->config['sitemaker_startpage_method'];
 			$this->is_startpage = true;
-
-			$controller_dir = explode('\\', get_class($controller_object));
-			$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
-			$this->template->set_style(array($controller_style_dir, 'styles'));
+			$this->template->set_style(array($this->get_extension_styles_path(get_class($controller_object)), 'styles'));
 
 			$arguments = explode('/', $this->config['sitemaker_startpage_params']);
+			$method = $this->config['sitemaker_startpage_method'];
 
 			/** @type \Symfony\Component\HttpFoundation\Response $response */
 			$response = call_user_func_array(array($controller_object, $method), $arguments);
@@ -173,5 +171,15 @@ class startpage implements EventSubscriberInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $controller
+	 * @return string
+	 */
+	protected function get_extension_styles_path($controller)
+	{
+		$parts = explode('\\', $controller);
+		return 'ext/' . $parts[0] . '/' . $parts[1] . '/styles';
 	}
 }

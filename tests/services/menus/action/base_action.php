@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -8,6 +9,8 @@
  */
 
 namespace blitze\sitemaker\tests\services\menus\action;
+
+use Symfony\Component\HttpFoundation\Request;
 
 class base_action extends \phpbb_database_test_case
 {
@@ -43,7 +46,7 @@ class base_action extends \phpbb_database_test_case
 	 */
 	protected function get_command($action, array $variable_map)
 	{
-		global $config, $db, $request, $phpbb_dispatcher;
+		global $config, $db, $request, $phpbb_dispatcher, $symfony_request, $user;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -53,11 +56,17 @@ class base_action extends \phpbb_database_test_case
 			)
 		);
 
+		$symfony_request = new Request();
+
 		$db = $this->new_dbal();
 
 		$config = new \phpbb\config\config(array());
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
+		$user = $this->createMock('\phpbb\user');
+		$user->host = 'www.example.com/';
+		$user->page['root_script_path'] = '/phpBB/';
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
@@ -72,7 +81,8 @@ class base_action extends \phpbb_database_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -80,7 +90,7 @@ class base_action extends \phpbb_database_test_case
 
 		$action_class = '\\blitze\\sitemaker\\services\\menus\\action\\' . $action;
 
-        return new $action_class($request, $this->translator, $this->mapper_factory);
+		return new $action_class($request, $this->translator, $this->mapper_factory);
 	}
 
 	protected function get_matching_fields($items, $allowed_fields)

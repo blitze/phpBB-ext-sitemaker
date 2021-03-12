@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -53,7 +54,7 @@ class display_test extends \phpbb_database_test_case
 	 */
 	protected function get_service(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar)
 	{
-		global $db, $request, $phpbb_path_helper, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $config, $db, $request, $phpbb_path_helper, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -79,6 +80,7 @@ class display_test extends \phpbb_database_test_case
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->data['user_style'] = 1;
 		$user->page = $page_data;
+		$user->page['page'] = $page_data['page_name'];
 
 		$cache = new \phpbb_mock_cache();
 		$db = $this->new_dbal();
@@ -86,8 +88,10 @@ class display_test extends \phpbb_database_test_case
 		$config = new \phpbb\config\config(array(
 			'default_style' => 1,
 			'cookie_name' => 'test',
+			'force_server_vars' => false,
+			'enable_mod_rewrite' => false,
 			'override_user_style' => true,
-		    'sitemaker_default_layout' => 'index.php',
+			'sitemaker_default_layout' => 'index.php',
 		));
 
 		$config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
@@ -101,7 +105,8 @@ class display_test extends \phpbb_database_test_case
 			->getMock();
 		$request->expects($this->any())
 			->method('is_set')
-			->will($this->returnCallback(function($var) use ($variable_map) {
+			->will($this->returnCallback(function ($var) use ($variable_map)
+			{
 				return (!empty($variable_map[0]) && $variable_map[0][0] === $var) ? true : false;
 			}));
 		$request->expects($this->any())
@@ -117,17 +122,20 @@ class display_test extends \phpbb_database_test_case
 			->getMock();
 		$this->template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 		$this->template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($block, $data) use (&$tpl_data)
+			{
 				$tpl_data['blocks'][$block][] = $data;
 			}));
 		$this->template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
 
@@ -258,7 +266,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal_alt',
-					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=1',
+					'U_EDIT_MODE' => 'http://phpBB/index.php?edit_mode=1',
 				),
 				array(1),
 			),
@@ -282,7 +290,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+					'U_EDIT_MODE' => 'http://phpBB/index.php?edit_mode=0',
 				),
 				array(1),
 			),
@@ -305,7 +313,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+					'U_EDIT_MODE' => 'http://phpBB/faq.php?edit_mode=0',
 				),
 				array(),
 			),
@@ -398,7 +406,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+					'U_EDIT_MODE' => 'http://phpBB/app.php/articles/1234/my-first-post?edit_mode=0',
 				),
 				array(),
 			),
@@ -596,7 +604,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => 'http://phpBB/?edit_mode=0',
+					'U_EDIT_MODE' => 'http://phpBB/baz.php?edit_mode=0',
 				),
 				array(10),
 			),

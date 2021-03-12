@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -38,7 +39,8 @@ class whats_new_test extends blocks_base
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
-			->will($this->returnCallback(function($acl, $test) {
+			->will($this->returnCallback(function ($acl, $test)
+			{
 				$ids = array();
 				if ($acl == '!f_read' && $test)
 				{
@@ -48,7 +50,7 @@ class whats_new_test extends blocks_base
 				return $ids;
 			}));
 
-		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
+		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
@@ -163,6 +165,6 @@ class whats_new_test extends blocks_base
 		$block = $this->get_block($user_data);
 		$result = $block->display($bdata);
 
-		$this->assertEquals($expected, $result['data']['TOPICS']);
+		$this->assertEquals($expected, $result ? $result['data']['TOPICS'] : null);
 	}
 }

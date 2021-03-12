@@ -65,14 +65,14 @@ class members
 	}
 
 	/**
-	 * get members
-	 * @param array $get
+	 * Get members
+	 * @param array $settings
 	 * @return array
 	 */
-	public function get_list(array $get = array())
+	public function get_list(array $settings = array())
 	{
 		$this->view_mode = 'member_date';
-		$this->settings = $get + array(
+		$this->settings = $settings + array(	// setting defaults
 			'query_type'	=> 'recent',
 			'date_range'	=> '',
 			'max_members'	=> 5,
@@ -226,9 +226,9 @@ class members
 	 */
 	protected function set_range_sql(array &$sql_ary)
 	{
-		if ($this->settings['range'] && $this->sql_date_field)
+		if ($this->settings['date_range'] && $this->sql_date_field)
 		{
-			$range = $this->date_range->get($this->settings['range']);
+			$range = $this->date_range->get($this->settings['date_range']);
 			$this->explain_range = '&amp;date=' . $range['date'];
 
 			$sql_ary['WHERE'] .= " AND {$this->sql_date_field} BETWEEN {$range['start']} AND {$range['stop']}";

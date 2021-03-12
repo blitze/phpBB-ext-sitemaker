@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -414,6 +415,7 @@ class featured_member_test extends blocks_base
 	public function test_block_display(array $bdata, $title, array $user_data, $current_user)
 	{
 		$bdata['bid'] = 1;
+		$bdata['hash'] = '123ef';
 
 		$block = $this->get_block();
 		$result = $block->display($bdata);
@@ -425,7 +427,7 @@ class featured_member_test extends blocks_base
 		$settings = json_decode($this->db->sql_fetchfield('settings'), true);
 		$this->db->sql_freeresult();
 
-		$this->assertEquals($current_user, $settings['current_user']);
+		$this->assertEquals($current_user, $settings ? $settings['current_user'] : 0);
 	}
 
 	/**
@@ -529,6 +531,7 @@ class featured_member_test extends blocks_base
 	public function test_invalid_user_in_userlist(array $bdata, $block_content, $userlist)
 	{
 		$bdata['bid'] = 1;
+		$bdata['hash'] = 'hash';
 
 		$block = $this->get_block();
 		$result = $block->display($bdata);
@@ -554,15 +557,15 @@ class featured_member_test extends blocks_base
 
 		$block = $this->get_block();
 		$result = $block->display(array(
-			array(
-				'settings' => array(
-					'qtype' => 'invalid',
-					'rotation' => 'pageload',
-					'userlist' => '',
-					'show_cpf' => array(),
-					'last_changed' => 0,
-					'current_user' => 0,
-				),
+			'bid' => 1,
+			'hash' => 'hash',
+			'settings' => array(
+				'qtype' => 'invalid',
+				'rotation' => 'pageload',
+				'userlist' => '',
+				'show_cpf' => array(),
+				'last_changed' => 0,
+				'current_user' => 0,
 			),
 		));
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -9,6 +10,7 @@
 
 namespace blitze\sitemaker\tests\controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\controller\forum;
 
 class forum_test extends \phpbb_database_test_case
@@ -43,11 +45,15 @@ class forum_test extends \phpbb_database_test_case
 	 */
 	protected function get_controller(array $auth_map = array())
 	{
-		global $phpbb_dispatcher, $phpbb_container, $auth, $db, $request, $template, $user, $phpbb_root_path, $phpEx;
+		global $phpbb_dispatcher, $phpbb_container, $auth, $config, $db, $request, $symfony_request, $template, $user, $phpbb_root_path, $phpEx;
+
+		$symfony_request = new Request();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$db = $this->new_dbal();
-		$config = new \phpbb\config\config(array());
+		$config = new \phpbb\config\config(array(
+			'force_server_vars' => false,
+		));
 
 		$auth = $this->getMockBuilder('\phpbb\auth\auth')
 			->disableOriginalConstructor()
@@ -61,6 +67,10 @@ class forum_test extends \phpbb_database_test_case
 		$translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
+		$user->host = 'www.example.com/';
+		$user->page['root_script_path'] = '/phpBB/';
+		$user->data['is_registered'] = true;
+		$user->data['user_form_salt'] = 'salt';
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
@@ -68,6 +78,8 @@ class forum_test extends \phpbb_database_test_case
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
+		$template->expects($this->any())
+			->method('assign_var');
 		$this->template = &$template;
 
 		$phpbb_container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
@@ -76,7 +88,8 @@ class forum_test extends \phpbb_database_test_case
 		$phpbb_container->expects($this->any())
 			->method('get')
 			->with('content.visibility')
-			->will($this->returnCallback(function() use ($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx) {
+			->will($this->returnCallback(function () use ($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx)
+			{
 				return new \phpbb\content_visibility($auth, $config, $phpbb_dispatcher, $db, $user, $phpbb_root_path, $phpEx, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 			}));
 
@@ -87,7 +100,8 @@ class forum_test extends \phpbb_database_test_case
 			->getMock();
 		$controller_helper->expects($this->any())
 			->method('render')
-			->willReturnCallback(function($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
+			->willReturnCallback(function ($template_file, $page_title = '', $status_code = 200, $display_online_list = false)
+			{
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 			});
 
@@ -116,13 +130,13 @@ class forum_test extends \phpbb_database_test_case
 				array(
 					array('m_', 0, false),
 				),
-				0
+				array('U_MARK_FORUMS'),
 			),
 			array(
 				array(
 					array('m_', 0, true),
 				),
-				1
+				array('U_MCP', 'U_MARK_FORUMS'),
 			),
 		);
 	}
@@ -131,16 +145,23 @@ class forum_test extends \phpbb_database_test_case
 	 * @dataProvider sample_data
 	 *
 	 * @param array $auth_map
-	 * @param int $expected_call_count
+	 * @param array $expected
 	 */
-	public function test_mcp_link_is_set(array $auth_map, $expected_call_count)
+	public function test_mcp_link_is_set(array $auth_map, array $expected)
 	{
 		$controller = $this->get_controller($auth_map);
 
-		$this->template->expects($this->exactly($expected_call_count))
+		$temp_keys = [];
+		$this->template->expects($this->any())
 			->method('assign_var')
-			->with('U_MCP', $this->anything());
+			->with($this->isType('string'), $this->anything())
+			->willReturnCallback(function ($key) use (&$temp_keys)
+			{
+				$temp_keys[] = $key;
+			});
 
 		$controller->handle();
+
+		$this->assertSame($expected, $temp_keys);
 	}
 }

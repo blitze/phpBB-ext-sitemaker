@@ -67,17 +67,14 @@ class whois extends block
 	{
 		$data = $this->template->retrieve_vars(array('TOTAL_USERS_ONLINE', 'LOGGED_IN_USER_LIST', 'RECORD_USERS'));
 
-		if ($data['TOTAL_USERS_ONLINE'])
+		if (!empty($data['TOTAL_USERS_ONLINE']))
 		{
 			list($l_online_users, $online_userlist, $l_online_record) = array_values($data);
 		}
 		else
 		{
-			$item_id = 0;
-			$item = 'forum';
-
-			$online_users = obtain_users_online($item_id, $item);
-			$user_online_strings = obtain_users_online_string($online_users, $item_id, $item);
+			$online_users = obtain_users_online();
+			$user_online_strings = obtain_users_online_string($online_users);
 
 			$l_online_users = $user_online_strings['l_online_users'];
 			$online_userlist = $user_online_strings['online_userlist'];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -41,11 +42,15 @@ class members_test extends \phpbb_database_test_case
 	 */
 	protected function get_service()
 	{
-		global $auth, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $auth, $config, $phpbb_dispatcher, $user, $phpbb_root_path, $phpEx;
 
 		$auth = $this->getMockBuilder('\phpbb\auth\auth')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$config = new \phpbb\config\config(array(
+			'allow_avatar' => false,
+		));
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -59,7 +64,8 @@ class members_test extends \phpbb_database_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/',
 				),
 			),
-			$container);
+			$container
+		);
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang_loader->set_extension_manager($phpbb_extension_manager);
@@ -169,6 +175,7 @@ class members_test extends \phpbb_database_test_case
 				array(
 					'query_type'	=> 'tenured',
 					'max_members'	=> 1,
+					'date_range'	=> 'month',
 				),
 				array(
 					'S_LIST'		=> 'tenured',
@@ -213,14 +220,9 @@ class members_test extends \phpbb_database_test_case
 					'INFO_TITLE'	=> 'Date',
 					'MEMBERS'	=> array(
 						array(
-							'USERNAME'		=> '<span class="username">member3</span>',
+							'USERNAME'		=> '<span class="username">member2</span>',
 							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '20 Aug 2015',
-						),
-						array(
-							'USERNAME'		=> '<span class="username">member1</span>',
-							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '16 Aug 2015',
+							'USER_INFO'		=> '15 Feb 2015',
 						),
 					),
 				),

@@ -67,9 +67,13 @@ class attachments_test extends blocks_base
 				),
 				'png' => array(
 					'group_name' => 'IMAGES',
+					'upload_icon' => 'upload-icon',
+					'display_cat' => ATTACHMENT_CATEGORY_THUMB,
 				),
 				'zip' => array(
 					'group_name' => 'ARCHIVES',
+					'upload_icon' => '',
+					'display_cat' => ATTACHMENT_CATEGORY_NONE,
 				),
 			));
 
@@ -131,6 +135,8 @@ class attachments_test extends blocks_base
 						'forum_ids'			=> array(),
 						'topic_type'		=> array(),
 						'first_only'		=> 0,
+						'ids_type'			=> 'topic',
+						'ids'				=> '',
 						'date_range'		=> '',
 						'limit'				=> 5,
 						'ext_type'			=> '',
@@ -160,14 +166,15 @@ class attachments_test extends blocks_base
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
-									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
+									'UPLOAD_ICON' => '<img src="phpBB//upload-icon" alt="" />',
 									'FILESIZE' => 31.09,
 									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
-									'S_FILE' => true,
-									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
+									'S_THUMBNAIL' => true,
+									'THUMB_IMAGE' => 'phpBB/download/file.php?id=1&amp;t=1',
+									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1&amp;mode=view',
+									'L_DOWNLOAD_COUNT' => 'Viewed 1 time',
 								),
 							),
 						),
@@ -182,6 +189,8 @@ class attachments_test extends blocks_base
 						'forum_ids'			=> array(),
 						'topic_type'		=> array(),
 						'first_only'		=> 0,
+						'ids_type'			=> 'topic',
+						'ids'				=> '',
 						'date_range'		=> '',
 						'limit'				=> 5,
 						'ext_type'			=> 'ARCHIVES',
@@ -215,6 +224,8 @@ class attachments_test extends blocks_base
 						'forum_ids'			=> array(),
 						'topic_type'		=> array(),
 						'first_only'		=> 0,
+						'ids_type'			=> 'topic',
+						'ids'				=> '',
 						'date_range'		=> '',
 						'limit'				=> 5,
 						'ext_type'			=> 'IMAGES',
@@ -226,14 +237,15 @@ class attachments_test extends blocks_base
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
-									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
+									'UPLOAD_ICON' => '<img src="phpBB//upload-icon" alt="" />',
 									'FILESIZE' => 31.09,
 									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
-									'S_FILE' => true,
-									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
+									'S_THUMBNAIL' => true,
+									'THUMB_IMAGE' => 'phpBB/download/file.php?id=1&amp;t=1',
+									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1&amp;mode=view',
+									'L_DOWNLOAD_COUNT' => 'Viewed 1 time',
 								),
 							),
 						),
@@ -248,6 +260,8 @@ class attachments_test extends blocks_base
 						'forum_ids'			=> array(),
 						'topic_type'		=> array(),
 						'first_only'		=> 1,
+						'ids_type'			=> 'topic',
+						'ids'				=> '',
 						'date_range'		=> '',
 						'limit'				=> 5,
 						'ext_type'			=> '',
@@ -259,14 +273,15 @@ class attachments_test extends blocks_base
 						'DISPLAY_ATTACHMENT' => array(
 							'_file' => array(
 								array(
-									'UPLOAD_ICON' => '<span class="imageset icon_topic_attach"></span>',
+									'UPLOAD_ICON' => '<img src="phpBB//upload-icon" alt="" />',
 									'FILESIZE' => 31.09,
 									'SIZE_LANG' => 'KiB',
 									'DOWNLOAD_NAME' => 'Some_image.png',
 									'COMMENT' => '',
-									'S_FILE' => true,
-									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1',
-									'L_DOWNLOAD_COUNT' => 'Downloaded 1 time',
+									'S_THUMBNAIL' => true,
+									'THUMB_IMAGE' => 'phpBB/download/file.php?id=1&amp;t=1',
+									'U_DOWNLOAD_LINK' => 'phpBB/download/file.php?id=1&amp;mode=view',
+									'L_DOWNLOAD_COUNT' => 'Viewed 1 time',
 								),
 							),
 						),
@@ -351,6 +366,8 @@ class attachments_test extends blocks_base
 						'forum_ids'			=> array(4),
 						'topic_type'		=> array(),
 						'first_only'		=> 0,
+						'ids_type'			=> 'topic',
+						'ids'				=> '',
 						'date_range'		=> '',
 						'limit'				=> 5,
 						'ext_type'			=> '',
@@ -410,6 +427,6 @@ class attachments_test extends blocks_base
 		$result = $block->display($bdata);
 		$data = array_filter($result['data']);
 
-		$this->assertEquals($expected, !empty($expected) ? $data['attachments'] : $data);
+		$this->assertSame($expected, !empty($expected) ? $data['attachments'] : $data);
 	}
 }

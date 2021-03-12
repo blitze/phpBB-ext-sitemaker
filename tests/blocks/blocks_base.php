@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -62,13 +63,25 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$this->translator = new \phpbb\language\language($lang_loader);
 
 		$user = new \phpbb\user($this->translator, '\phpbb\datetime');
-		$user->optionset('viewavatars', true);
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->lang['datetime'] = array();
 		$user->lang_id = 1;
 		$user->host = 'www.example.com';
 		$user->page['root_script_path'] = '/phpBB/';
-		$user->style['style_path'] = 'prosilver';
+		$user->style = array(
+			'style_name' => 'prosilver',
+			'style_path' => 'prosilver',
+		);
+		$user->data = array(
+			'is_bot' => false,
+			'user_id' => 48,
+			'user_lang' => 'en',
+			'user_options' => 230271,
+			'user_avatar' => '',
+			'user_colour' => '',
+		);
+
+		$user->optionset('viewavatars', true);
 
 		$request = $this->getMockBuilder('\phpbb\request\request')
 			->disableOriginalConstructor()
@@ -86,33 +99,37 @@ abstract class blocks_base extends \phpbb_database_test_case
 			->getMock();
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$temp_data) {
+			->will($this->returnCallback(function ($block, $data) use (&$temp_data)
+			{
 				$temp_data[$block][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('destroy_block_vars')
-			->will($this->returnCallback(function() use (&$temp_data) {
+			->will($this->returnCallback(function () use (&$temp_data)
+			{
 				$temp_data = array();
 			}));
 		$template->expects($this->any())
 			->method('alter_block_array')
-			->will($this->returnCallback(function($key, $data) use (&$temp_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$temp_data)
+			{
 				$temp_data[$key][] = $data;
 			}));
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$temp_data) {
+			->will($this->returnCallback(function () use (&$temp_data)
+			{
 				return $temp_data;
 			}));
 
-		$this->auth =& $auth;
+		$this->auth = &$auth;
 		$this->cache = $cache;
-		$this->config =& $config;
-		$this->db =& $db;
-		$this->phpbb_dispatcher =& $phpbb_dispatcher;
-		$this->request =& $request;
-		$this->template =& $template;
-		$this->user =& $user;
+		$this->config = &$config;
+		$this->db = &$db;
+		$this->phpbb_dispatcher = &$phpbb_dispatcher;
+		$this->request = &$request;
+		$this->template = &$template;
+		$this->user = &$user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 		$this->config_text	= new \phpbb\config\db_text($this->db, $table_prefix . 'config_text');
@@ -155,7 +172,8 @@ abstract class blocks_base extends \phpbb_database_test_case
 			->getMock();
 		$path_helper->expects($this->any())
 			->method('get_web_root_path')
-			->will($this->returnCallback(function() {
+			->will($this->returnCallback(function ()
+			{
 				return './';
 			}));
 

@@ -39,7 +39,7 @@ class menu_test extends blocks_base
 	 */
 	protected function get_block($page_data = array())
 	{
-		global $symfony_request, $phpbb_root_path;
+		global $symfony_request, $user, $phpbb_root_path;
 
 		$symfony_request = new Request();
 
@@ -51,9 +51,7 @@ class menu_test extends blocks_base
 			)
 		);
 
-		$this->user->host = 'www.example.com';
-		$this->user->page = $page_data;
-		$this->user->page['root_script_path'] = '/phpBB/';
+		$this->user->page = array_merge($this->user->page, $page_data);
 		$this->user->style = array(
 			'style_name' => 'all',
 			'style_path' => 'all',

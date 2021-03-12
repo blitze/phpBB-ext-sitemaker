@@ -14,6 +14,16 @@ use phpbb\request\request_interface;
 
 class edit_block_test extends base_action
 {
+	protected function get_command($action, array $variable_map)
+	{
+		global $user;
+
+		$command = parent::get_command($action, $variable_map);
+
+		$user->lang = array('NO' => 'NO', 'YES' => 'YES');
+
+		return $command;
+	}
 	/**
 	 * Data set for test_edit_block
 	 * @return array
@@ -43,7 +53,7 @@ class edit_block_test extends base_action
 						'S_EXPLAIN'		=> false,
 						'TITLE_EXPLAIN'	=> '',
 						'APPEND'		=> '',
-						'CONTENT'		=> '<label><input type="radio" id="my_setting" name="config[my_setting]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_setting]" value="0" class="radio" /> </label>',
+						'CONTENT'		=> '<label><input type="radio" id="my_setting" name="config[my_setting]" value="1" checked="checked" class="radio" /> YES</label><label><input type="radio" name="config[my_setting]" value="0" class="radio" /> NO</label>',
 					),
 					array(
 						'KEY'			=> 'other_setting',
@@ -87,7 +97,7 @@ class edit_block_test extends base_action
 		$result = $command->execute(1);
 
 		$this->assertEquals($expected_block, array_intersect_key($result, $expected_block));
-		$this->assertEquals($expected_form, $result['form']['cfg_fields']);
+		$this->assertEquals($expected_form, isset($result['form']['cfg_fields']) ? $result['form']['cfg_fields'] : null);
 	}
 
 	/**

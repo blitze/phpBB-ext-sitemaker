@@ -10,6 +10,8 @@
 
 namespace blitze\sitemaker\tests\model\collections;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class items_test extends \phpbb_test_case
 {
 	protected $translator;
@@ -31,9 +33,25 @@ class items_test extends \phpbb_test_case
 	 */
 	public function setUp(): void
 	{
-		global $request;
+		global $config, $request, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
 		parent::setUp();
+
+		$symfony_request = new Request();
+
+		$config = new \phpbb\config\config(array(
+			'force_server_vars' => false,
+		));
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$language = new \phpbb\language\language($lang_loader);
+
+		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->timezone = new \DateTimeZone('UTC');
+		$user->lang['datetime'] = array();
+		$user->lang_id = 1;
+		$user->host = 'www.example.com';
+		$user->page['root_script_path'] = '/phpBB/';
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()

@@ -75,7 +75,7 @@ class display extends \blitze\sitemaker\services\tree\display
 	 */
 	protected function set_current_item(array $data)
 	{
-		$paths = (array) $data['paths'];
+		$paths = !empty($data['paths']) ? $data['paths'] : [];
 		$this->min_depth = 0;
 
 		arsort($paths);

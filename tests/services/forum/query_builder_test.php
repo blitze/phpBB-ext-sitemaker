@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -66,6 +67,7 @@ class query_builder_test extends \phpbb_database_test_case
 		$language = new \phpbb\language\language($lang_loader);
 
 		$this->user = new \phpbb\user($language, '\phpbb\datetime');
+		$this->user->data['user_id'] = 2;
 		$this->user->data['is_registered'] = true;
 		$this->user->timezone = new \DateTimeZone('UTC');
 
@@ -97,13 +99,13 @@ class query_builder_test extends \phpbb_database_test_case
 							'FROM' => array(
 								'phpbb_topics_track' => 'tt',
 							),
-							'ON' => 'tt.user_id = 0 AND t.topic_id = tt.topic_id',
+							'ON' => 'tt.user_id = 2 AND t.topic_id = tt.topic_id',
 						),
 						array(
 							'FROM' => array(
 								'phpbb_forums_track' => 'ft',
 							),
-							'ON' => 'ft.user_id = 0 AND t.forum_id = ft.forum_id',
+							'ON' => 'ft.user_id = 2 AND t.forum_id = ft.forum_id',
 						),
 					),
 					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
@@ -126,13 +128,13 @@ class query_builder_test extends \phpbb_database_test_case
 							'FROM' => array(
 								'phpbb_topics_track' => 'tt',
 							),
-							'ON' => 'tt.user_id = 0 AND t.topic_id = tt.topic_id',
+							'ON' => 'tt.user_id = 2 AND t.topic_id = tt.topic_id',
 						),
 						array(
 							'FROM' => array(
 								'phpbb_forums_track' => 'ft',
 							),
-							'ON' => 'ft.user_id = 0 AND t.forum_id = ft.forum_id',
+							'ON' => 'ft.user_id = 2 AND t.forum_id = ft.forum_id',
 						),
 					),
 					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',
@@ -231,7 +233,7 @@ class query_builder_test extends \phpbb_database_test_case
 							'FROM' => array(
 								'phpbb_topics_watch' => 'ws',
 							),
-							'ON' => 'ws.topic_id = t.topic_id AND ws.user_id = 0',
+							'ON' => 'ws.topic_id = t.topic_id AND ws.user_id = 2',
 						),
 					),
 					'WHERE' => '((t.forum_id <> 4 AND t.topic_visibility = 1)) AND f.hidden_forum = 0 AND f.forum_id = t.forum_id AND t.topic_moved_id = 0',

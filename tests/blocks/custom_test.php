@@ -33,6 +33,8 @@ class custom_test extends blocks_base
 	 */
 	protected function get_block($variable_map = array())
 	{
+		global $user;
+
 		$this->request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
@@ -52,6 +54,9 @@ class custom_test extends blocks_base
 			{
 				$assets = array_merge($assets, $data);
 			}));
+
+		$lang_keys = ['TOO_FEW_CHARS'];
+		$user->lang = array_combine($lang_keys, $lang_keys);
 
 		return new custom($this->cache, $this->db, $this->request, $util, 'phpbb_sm_cblocks');
 	}
@@ -182,6 +187,11 @@ class custom_test extends blocks_base
 	 */
 	public function test_block_display(array $bdata, $edit_mode, $expected_assets, $expected_content)
 	{
+		$bdata['settings'] += array(
+			'css_scripts' => '',
+			'js_scripts' => '',
+		);
+
 		$block = $this->get_block();
 		$result = $block->display($bdata, $edit_mode);
 

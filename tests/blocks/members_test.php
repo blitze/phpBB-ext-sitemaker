@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -76,6 +77,7 @@ class members_test extends blocks_base
 				array(
 					'settings' => array(
 						'query_type' => 'visits',
+						'date_range' => '',
 					),
 				),
 				array(
@@ -166,7 +168,8 @@ class members_test extends blocks_base
 
 		$this->members->expects($this->once())
 			->method('get_list')
-			->will($this->returnCallback(function($data) {
+			->will($this->returnCallback(function ($data)
+			{
 				return array(
 					'S_LIST'	=> $data['query_type'],
 					'MEMBERS'	=> $data['query_type'] . ' list',

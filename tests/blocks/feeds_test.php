@@ -225,9 +225,11 @@ class feeds_test extends blocks_base
 	 */
 	public function test_block_display($edit_mode, array $config, $expected)
 	{
-		$block = $this->get_block();
+		$config['cache'] = 0;
+		$bdata = array('settings' => $config);
 
-		$result = $block->display(array('settings' => $config), $edit_mode);
+		$block = $this->get_block();
+		$result = $block->display($bdata, $edit_mode);
 
 		$this->assertEquals($expected, str_replace(array("\n", "\t", "  "), '', $result['content']));
 	}

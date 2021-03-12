@@ -132,6 +132,9 @@ class settings_module_test extends \phpbb_database_test_case
 		$user->data['user_id'] = 2;
 		$user->data['user_lang'] = 'en';
 		$user->data['user_form_salt'] = '';
+		$user->lang = array(
+			'BACK_TO_PREV' => 'BACK_TO_PREV',
+		);
 
 		$tpl_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')

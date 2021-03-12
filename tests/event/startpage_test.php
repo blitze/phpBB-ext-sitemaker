@@ -63,7 +63,8 @@ class startpage_test extends \phpbb_database_test_case
 			->getMock();
 		$language->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -75,17 +76,20 @@ class startpage_test extends \phpbb_database_test_case
 
 		$container->expects($this->any())
 			->method('has')
-			->will($this->returnCallback(function ($service_name) {
+			->will($this->returnCallback(function ($service_name)
+			{
 				return ($service_name === 'foo.bar.controller') ? true : false;
 			}));
 
-		$dummy_extension = $this->getMockBuilder('stdClass')
+		$dummy_extension = $this->getMockBuilder(\stdclass::class)
 			->setMockClassName('foo_bar_controller')
 			->setMethods(array('handle'))
 			->getMock();
+
 		$dummy_extension->expects($this->any())
 			->method('handle')
-			->willReturnCallback(function ($page) {
+			->willReturnCallback(function ($page)
+			{
 				return new Response('Viewing page: ' . $page);
 			});
 
@@ -95,14 +99,17 @@ class startpage_test extends \phpbb_database_test_case
 
 		$controller_helper->expects($this->any())
 			->method('route')
-			->willReturnCallback(function ($route, array $params = array()) {
+			->willReturnCallback(function ($route, array $params = array())
+			{
 				return $route . '#' . serialize($params);
 			});
 
 		$container->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function ($service_name) use (&$controller_helper, &$dummy_extension) {
-				switch ($service_name) {
+			->will($this->returnCallback(function ($service_name) use (&$controller_helper, &$dummy_extension)
+			{
+				switch ($service_name)
+				{
 					case 'controller.helper':
 						return $controller_helper;
 
@@ -111,10 +118,20 @@ class startpage_test extends \phpbb_database_test_case
 				}
 			}));
 
-		return $this->getMockBuilder('\blitze\sitemaker\event\startpage')
+		$startpage = $this->getMockBuilder('\blitze\sitemaker\event\startpage')
 			->setConstructorArgs(array($this->config, $container, $this->request, $this->template, $language, $this->user, $phpEx))
-			->setMethods(array('exit_handler'))
+			->setMethods(array('exit_handler', 'get_extension_styles_path'))
 			->getMock();
+		$startpage->expects($this->any())
+			->method('get_extension_styles_path')
+			->willReturnCallback(function ($class_name)
+			{
+				return ($class_name === 'foo_bar_controller')
+					? 'foo\bar\controller'
+					: '';
+			});
+
+		return $startpage;
 	}
 
 	/**
@@ -278,14 +295,16 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user->page['page'] = $current_page;
 
-		foreach ($config_data as $key => $value) {
+		foreach ($config_data as $key => $value)
+		{
 			$this->config->set($key, $value);
 		}
 
 		$this->request->expects($this->any())
 			->method('is_set')
 			->with('f')
-			->will($this->returnCallback(function () use ($current_page) {
+			->will($this->returnCallback(function () use ($current_page)
+			{
 				return (strpos($current_page, 'f=') !== false) ? true : false;
 			}));
 
@@ -340,7 +359,8 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user->page['page_name'] = $current_page;
 
-		if ($expected_contents) {
+		if ($expected_contents)
+		{
 			$listener->expects($this->once())
 				->method('exit_handler');
 		}
@@ -351,7 +371,8 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->expectOutputString($expected_contents);
 
-		if ($controller_method == 'no_exists') {
+		if ($controller_method == 'no_exists')
+		{
 			$this->assertEquals('', $this->config['sitemaker_startpage_controller']);
 			$this->assertEquals('', $this->config['sitemaker_startpage_method']);
 			$this->assertEquals('', $this->config['sitemaker_startpage_params']);

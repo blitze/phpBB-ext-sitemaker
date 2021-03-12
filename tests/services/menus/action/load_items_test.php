@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -76,7 +77,7 @@ class load_items_test extends base_action
 
 		$result = $command->execute();
 
-		$this->assertSame($expected, $this->get_matching_fields($result['items'], $expected[0]));
+		$this->assertSame($expected, $this->get_matching_fields($result['items'], !empty($expected) ? $expected[0] : []));
 	}
 
 

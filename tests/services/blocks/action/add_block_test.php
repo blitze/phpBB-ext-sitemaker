@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -35,7 +36,7 @@ class add_block_test extends base_action
 					'content'	=> 'foo block content',
 					'class'		=> '',
 					'settings'	=> array(),
-					'view'		=> '',
+					'view'		=> 'boxed',
 				),
 				array(
 					'route_id'		=> 1,
@@ -179,8 +180,12 @@ class add_block_test extends base_action
 		$command = $this->get_command('add_block', $variable_map);
 
 		$style_id = 1;
-		$data[$style_id] = $config_text;
-		$this->config_text->set('sm_layout_prefs', json_encode($data));
+
+		if (!empty($config_text))
+		{
+			$data[$style_id] = $config_text;
+			$this->config_text->set('sm_layout_prefs', json_encode($data));
+		}
 
 		$result = $command->execute($style_id);
 

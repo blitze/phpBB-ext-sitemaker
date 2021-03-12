@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -76,14 +77,13 @@ class forum_topics_test extends blocks_base
 		$this->config['load_db_lastread'] = true;
 		$this->config['load_anon_lastread'] = true;
 
-		$this->user->data['user_id'] = 48;
 		$this->user->data['user_lastmark'] = strtotime('25 Nov 2015');
-		$this->user->data['user_lang'] = 'en';
 		$this->user->data['is_registered'] = $registered_user;
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
-			->will($this->returnCallback(function($acl, $test) {
+			->will($this->returnCallback(function ($acl, $test)
+			{
 				$ids = array();
 				if ($acl == '!f_read' && $test)
 				{

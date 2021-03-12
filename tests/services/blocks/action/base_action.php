@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -50,7 +51,7 @@ class base_action extends \phpbb_database_test_case
 	 */
 	protected function get_command($action, array $variable_map)
 	{
-		global $db, $request, $template, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
+		global $db, $request, $template, $user, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -81,9 +82,12 @@ class base_action extends \phpbb_database_test_case
 			->getMock();
 		$this->translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
+
+		$user = $this->createMock('\phpbb\user');
 
 		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
@@ -94,22 +98,25 @@ class base_action extends \phpbb_database_test_case
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->tpl_data =& $tpl_data;
+		$this->tpl_data = &$tpl_data;
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = array_merge($tpl_data, $data);
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
+			{
 				$tpl_data[$key][] = $data;
 			}));
 
 		$template->expects($this->any())
 			->method('assign_display')
-			->will($this->returnCallback(function() use (&$tpl_data) {
+			->will($this->returnCallback(function () use (&$tpl_data)
+			{
 				return $tpl_data;
 			}));
 
@@ -119,7 +126,8 @@ class base_action extends \phpbb_database_test_case
 
 		$dummy_object->expects($this->any())
 			->method('display')
-			->will($this->returnCallback(function($id) {
+			->will($this->returnCallback(function ($id)
+			{
 				return array(
 					'title'		=> 'Custom Block',
 					'content'	=> 'Custom content id: ' . $id,
@@ -135,13 +143,10 @@ class base_action extends \phpbb_database_test_case
 			->getMock();
 		$path_helper->expects($this->any())
 			->method('get_web_root_path')
-			->will($this->returnCallback(function() {
+			->will($this->returnCallback(function ()
+			{
 				return './';
 			}));
-
-		$user = $this->getMockBuilder('\phpbb\user')
-			->disableOriginalConstructor()
-			->getMock();
 
 		$util = new \blitze\sitemaker\services\util($path_helper, $template, $user);
 
@@ -152,7 +157,8 @@ class base_action extends \phpbb_database_test_case
 			->getMock();
 		$cfg_factory->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($type) {
+			->will($this->returnCallback(function ($type)
+			{
 				return ($type === 'radio')
 					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator)
 					: false;
@@ -182,6 +188,6 @@ class base_action extends \phpbb_database_test_case
 
 		$action_class = '\\blitze\\sitemaker\\services\\blocks\\action\\' . $action;
 
-        return new $action_class($this->config, $phpbb_container, $request, $this->translator, $blocks_service, $block_factory, $this->mapper_factory);
+		return new $action_class($this->config, $phpbb_container, $request, $this->translator, $blocks_service, $block_factory, $this->mapper_factory);
 	}
 }

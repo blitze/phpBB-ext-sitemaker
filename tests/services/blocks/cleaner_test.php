@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -43,7 +44,7 @@ class cleaner_test extends \phpbb_database_test_case
 	 */
 	protected function get_service()
 	{
-		global $cache, $request, $symfony_request, $user;
+		global $cache, $config, $request, $symfony_request, $user;
 
 		$blocks_table = 'phpbb_sm_blocks';
 		$block_routes_table = 'phpbb_sm_block_routes';
@@ -58,7 +59,8 @@ class cleaner_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->config = new \phpbb\config\config(array(
+		$this->config = $config = new \phpbb\config\config(array(
+			'force_server_vars'			=> false,
 			'sitemaker_column_widths'	=> json_encode(array(
 				1	=> array(
 					'sidebar'		=> '200px',
@@ -78,7 +80,8 @@ class cleaner_test extends \phpbb_database_test_case
 
 		$blocks_factory->expects($this->any())
 			->method('get_block')
-			->will($this->returnCallback(function($service_name) {
+			->will($this->returnCallback(function ($service_name)
+			{
 				return ($service_name === 'blitze.sitemaker.blocks.stats') ? true : false;
 			}));
 
@@ -101,6 +104,7 @@ class cleaner_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 		$user->host = 'www.example.com';
+		$user->data['user_id'] = 2;
 		$user->page['root_script_path'] = '/phpBB/';
 
 		$blocks_manager = new \blitze\sitemaker\services\blocks\manager($cache, $log, $user, $blocks_factory, $mapper_factory);
@@ -110,7 +114,8 @@ class cleaner_test extends \phpbb_database_test_case
 
 		$url_checker->expects($this->any())
 			->method('exists')
-			->will($this->returnCallback(function($url) {
+			->will($this->returnCallback(function ($url)
+			{
 				$valid_urls = [
 					'http://www.example.com/phpBB/index.php',
 					'http://www.example.com/phpBB/app.php/foo/test',
@@ -170,11 +175,13 @@ class cleaner_test extends \phpbb_database_test_case
 		$this->assertEquals(array(1, 2), array_keys($blocks->get_entities()));
 
 		// column widths for non-existing style should be gone
-		$this->assertEquals(array(
-			1 => array(
-				'sidebar'		=> '200px',
-				'subcontent'	=> '20%',
-			)),
+		$this->assertEquals(
+			array(
+				1 => array(
+					'sidebar'		=> '200px',
+					'subcontent'	=> '20%',
+				)
+			),
 			json_decode($this->config['sitemaker_column_widths'], true)
 		);
 	}

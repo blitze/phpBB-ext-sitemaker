@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -35,14 +36,13 @@ class forum_poll_test extends blocks_base
 	{
 		$this->config['cookie_name'] = 'phpbb';
 
-		$this->user->data = array(
-			'user_id'		=> 2,
-			'is_registered'	=> $is_registered,
-		);
+		$this->user->data['user_id'] = 2;
+		$this->user->data['is_registered'] = $is_registered;
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
-			->will($this->returnCallback(function($acl, $test) {
+			->will($this->returnCallback(function ($acl, $test)
+			{
 				$ids = array();
 				if ($acl == '!f_read' && $test)
 				{
@@ -55,13 +55,15 @@ class forum_poll_test extends blocks_base
 		$this->request->expects($this->any())
 			->method('is_set')
 			->with($this->anything())
-			->will($this->returnCallback(function($cookie) {
+			->will($this->returnCallback(function ($cookie)
+			{
 				return ($cookie === 'phpbb_poll_1') ? true : false;
 			}));
 		$this->request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
-			->will($this->returnCallback(function($cookie) {
+			->will($this->returnCallback(function ($cookie)
+			{
 				return ($cookie === 'phpbb_poll_1') ? '1,2' : '';
 			}));
 
@@ -70,7 +72,8 @@ class forum_poll_test extends blocks_base
 			->getMock();
 		$sitemaker->expects($this->any())
 			->method('get_form_key')
-			->will($this->returnCallback(function($form) {
+			->will($this->returnCallback(function ($form)
+			{
 				return $form . ' token';
 			}));
 

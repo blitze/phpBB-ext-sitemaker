@@ -74,10 +74,8 @@ class recent_topics_test extends blocks_base
 				),
 			));
 
-		$this->user->page = array(
-			'page_name'	=> 'index.php',
-			'page'		=> 'index.php',
-		);
+		$this->user->page['page'] = 'index.php';
+		$this->user->page['page_name'] = 'index.php';
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -86,16 +84,14 @@ class recent_topics_test extends blocks_base
 			new \phpbb\filesystem(),
 			$this->request,
 			$this->phpbb_root_path,
-			$this->php
+			$this->php_ext
 		);
 
 		$this->config['load_db_lastread'] = true;
 		$this->config['load_anon_lastread'] = true;
 		$this->config['hot_threshold'] = 1;
 
-		$this->user->data['user_id'] = 48;
 		$this->user->data['user_lastmark'] = strtotime('25 Nov 2015');
-		$this->user->data['user_lang'] = 'en';
 		$this->user->data['is_registered'] = $registered_user;
 
 		$this->auth->expects($this->any())
@@ -348,9 +344,10 @@ class recent_topics_test extends blocks_base
 	 */
 	public function test_block_display(array $bdata, $registered_user, $topicrow)
 	{
+		$bdata['bid'] = 2;
 		$block = $this->get_block($registered_user, $bdata['settings']['look_back']);
 		$result = $block->display($bdata);
 
-		$this->assertEquals($topicrow, $result['data']['TOPICS']);
+		$this->assertEquals($topicrow, $result['data'] ? $result['data']['TOPICS'] : null);
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -40,11 +41,12 @@ class member_menu_test extends blocks_base
 		$this->config['load_db_lastread'] = true;
 
 		$this->user->session_id = 0;
-		$this->user->data = $user_data;
+		$this->user->data = array_merge($this->user->data, $user_data);
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
-			->will($this->returnCallback(function($acl, $test) {
+			->will($this->returnCallback(function ($acl, $test)
+			{
 				$ids = array();
 				if ($acl == '!f_read' && $test)
 				{

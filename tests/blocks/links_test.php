@@ -32,12 +32,11 @@ class links_test extends blocks_base
 	}
 
 	/**
-	 * Create the menu block
+	 * Create the links block
 	 *
-	 * @param array $page_data
 	 * @return \blitze\sitemaker\blocks\menu
 	 */
-	protected function get_block($page_data = array())
+	protected function get_block()
 	{
 		global $symfony_request, $phpbb_root_path;
 
@@ -49,14 +48,6 @@ class links_test extends blocks_base
 				'menus'	=> $table_prefix . 'sm_menus',
 				'items'	=> $table_prefix . 'sm_menu_items'
 			)
-		);
-
-		$this->user->host = 'www.example.com';
-		$this->user->page = $page_data;
-		$this->user->page['root_script_path'] = '/phpBB/';
-		$this->user->style = array(
-			'style_name' => 'prosilver',
-			'style_path' => 'prosilver',
 		);
 
 		$loader = new \Twig\Loader\FilesystemLoader($phpbb_root_path . 'styles');

@@ -80,11 +80,14 @@ class members extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$bdata['settings']['range'] = ($bdata['settings']['query_type'] != 'tenured') ? $bdata['settings']['date_range'] : '';
+		if ($bdata['settings']['query_type'] === 'tenured')
+		{
+			$bdata['settings']['date_range']  = '';
+		}
 
 		$data = $this->members->get_list($bdata['settings']);
 
-		$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['range']]);
+		$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['date_range']]);
 
 		if (empty($data['MEMBERS']))
 		{

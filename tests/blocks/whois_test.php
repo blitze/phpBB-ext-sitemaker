@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -38,7 +39,8 @@ class whois_test extends blocks_base
 		$this->auth->expects($this->any())
 			->method('acl_gets')
 			->with($this->stringContains('_'), $this->anything())
-			->willReturnCallback(function () use ($authed) {
+			->willReturnCallback(function () use ($authed)
+			{
 				return ($authed) ? true : false;
 			});
 
@@ -50,7 +52,8 @@ class whois_test extends blocks_base
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function ($key, $value) {
+			->willReturnCallback(function ($key, $value)
+			{
 				return $key . ': ' . $value;
 			});
 
@@ -65,7 +68,8 @@ class whois_test extends blocks_base
 		$template->expects($this->any())
 			->method('retrieve_vars')
 			->with(array('TOTAL_USERS_ONLINE', 'LOGGED_IN_USER_LIST', 'RECORD_USERS'))
-			->willReturnCallback(function () use ($current_page) {
+			->willReturnCallback(function () use ($current_page)
+			{
 				if (strpos($current_page, 'f=') !== false)
 				{
 					return array(
@@ -74,7 +78,7 @@ class whois_test extends blocks_base
 						'RECORD_USERS' => 'Most users ever online was 2 on Tue Nov 24, 2015 4:49 pm',
 					);
 				}
-				return null;
+				return [];
 			});
 
 		$user = $this->getMockBuilder('\phpbb\user', array(), array($translator, '\phpbb\datetime'))
@@ -83,9 +87,14 @@ class whois_test extends blocks_base
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function ($key, $value) {
+			->willReturnCallback(function ($key, $value)
+			{
 				return $key . ': ' . $value;
 			});
+		$user->lang = array(
+			'NO_ONLINE_USERS' => 'NO_ONLINE_USERS',
+			'REGISTERED_USERS' => 'REGISTERED_USERS',
+		);
 
 		return new whois($this->auth, $this->config, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
 	}
@@ -121,7 +130,7 @@ class whois_test extends blocks_base
 				'index.php',
 				array(
 					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
-					'LOGGED_IN_USER_LIST' => ' ',
+					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
 					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
 					'U_VIEWONLINE' => '',
 				),
