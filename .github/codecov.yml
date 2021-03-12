@@ -1,4 +1,4 @@
 fixes:
    - "phpBB3/phpBB/ext/blitze/sitemaker::"
 ignore:
-  - "phpBB3/phpBB/ext/blitze/sitemaker/node_modules"
+  - "node_modules/"
