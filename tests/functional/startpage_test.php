@@ -67,7 +67,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		// Confirm foo/bar path exists and displays content
 		$crawler = self::request('GET', 'app.php/foo/template?sid=' . $this->sid, array(), false);
-		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
+		$this->assertStringContainsString("I am a variable", $crawler->filter('#content')->text());
 
 		// switch to edit mode and confirm we have option to set start page
 		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1&sid=' . $this->sid, array(), false);
@@ -81,7 +81,7 @@ class startpage_test extends \phpbb_functional_test_case
 
 		// Go to index.php and Confirm it now displays the contents of foo/bar controller
 		$crawler = self::request('GET', 'index.php?edit_mode=1&sid=' . $this->sid, array(), false);
-		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
+		$this->assertStringContainsString("I am a variable", $crawler->filter('#content')->text());
 
 		// Confirm Remove Start Page is now available to us
 		$this->assertContainsLang('REMOVE_STARTPAGE', $crawler->filter('#startpage-toggler')->text());
