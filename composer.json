@@ -27,7 +27,7 @@
 		"simplepie/simplepie": "^1.5"
 	},
 	"require-dev": {
-		"phing/phing": "2.4.*"
+		"phing/phing": "^2.16"
 	},
 	"extra": {
 		"display-name": "phpBB SiteMaker",
@@ -39,5 +39,8 @@
 			"directory": "/customise/db/extension/phpbb_sitemaker_2",
 			"filename": "version_check"
 		}
+	},
+	"config": {
+		"prepend-autoloader": false
 	}
 }

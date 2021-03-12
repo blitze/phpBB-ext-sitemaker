@@ -1,0 +1,4 @@
+fixes:
+   - "phpBB3/phpBB/ext/::"
+ignore:
+  - "node_modules"

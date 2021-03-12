@@ -195,7 +195,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -355,7 +354,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
@@ -422,39 +420,39 @@ jobs:
         include:
           - php: "7.1"
             db: "sqlite3"
-          - php: "7.2"
-            db: "mcr.microsoft.com/mssql/server:2017-latest"
-            db_alias: "MSSQL 2017"
-          - php: "7.2"
-            db: "mcr.microsoft.com/mssql/server:2019-latest"
-            db_alias: "MSSQL 2019"
+          # - php: "7.2"
+          #   db: "mcr.microsoft.com/mssql/server:2017-latest"
+          #   db_alias: "MSSQL 2017"
+          # - php: "7.2"
+          #   db: "mcr.microsoft.com/mssql/server:2019-latest"
+          #   db_alias: "MSSQL 2019"
 
     name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
 
-    services:
-      mssql:
-        image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
-        env:
-          SA_PASSWORD: "Pssw0rd_12"
-          ACCEPT_EULA: "y"
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Pssw0rd_12' -Q \"Use [master]; CREATE DATABASE [phpbb_tests] COLLATE Latin1_General_CI_AS\" || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --health-start-period 10s
+    # services:
+      # mssql:
+      #   image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
+      #   env:
+      #     SA_PASSWORD: "Pssw0rd_12"
+      #     ACCEPT_EULA: "y"
+      #   ports:
+      #     - 1433:1433
+      #   options: >-
+      #     --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Pssw0rd_12' -Q \"Use [master]; CREATE DATABASE [phpbb_tests] COLLATE Latin1_General_CI_AS\" || exit 1"
+      #     --health-interval 10s
+      #     --health-timeout 5s
+      #     --health-retries 5
+      #     --health-start-period 10s
 
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
+      # redis:
+      #   image: redis
+      #   options: >-
+      #     --health-cmd "redis-cli ping"
+      #     --health-interval 10s
+      #     --health-timeout 5s
+      #     --health-retries 5
+      #   ports:
+      #     - 6379:6379
 
     steps:
       - name: Checkout phpBB
@@ -493,7 +491,6 @@ jobs:
         working-directory: phpBB3/phpBB
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer self-update --1
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
