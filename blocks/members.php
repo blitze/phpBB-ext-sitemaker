@@ -87,11 +87,9 @@ class members extends block
 
 		$data = $this->members->get_list($bdata['settings']);
 
-		$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['date_range']]);
-
-		if (empty($data['MEMBERS']))
+		if (!empty($data['MEMBERS']))
 		{
-			$data = [];
+			$data['RANGE'] = $this->translator->lang($this->range_options[$bdata['settings']['date_range']]);
 		}
 
 		return array(

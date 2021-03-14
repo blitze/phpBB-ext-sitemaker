@@ -36,7 +36,7 @@ class add_block_test extends base_action
 					'content'	=> 'foo block content',
 					'class'		=> '',
 					'settings'	=> array(),
-					'view'		=> 'boxed',
+					'view'		=> '',
 				),
 				array(
 					'route_id'		=> 1,

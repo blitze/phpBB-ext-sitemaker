@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -110,12 +111,12 @@ class items extends base_mapper
 	 *
 	 * @param int $menu_id
 	 * @param int $parent_id
-	 * @param $string
+	 * @param string $tree_structure
 	 * @return \blitze\sitemaker\model\base_collection
 	 */
-	public function add_items($menu_id, $parent_id, $string)
+	public function add_items($menu_id, $parent_id, $tree_structure)
 	{
-		$items = $this->tree->string_to_nestedset($string, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
+		$items = $this->tree->string_to_nestedset($tree_structure, array('item_title' => '', 'item_url' => ''), array('menu_id' => $menu_id));
 
 		$new_item_ids = array();
 		if (sizeof($items))

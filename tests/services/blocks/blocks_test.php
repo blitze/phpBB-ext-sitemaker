@@ -15,6 +15,7 @@ use blitze\sitemaker\services\blocks\blocks;
 
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/empty_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/error_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
 
 class blocks_test extends \phpbb_database_test_case
@@ -47,7 +48,7 @@ class blocks_test extends \phpbb_database_test_case
 	 * @param string $default_layout
 	 * @return \blitze\sitemaker\services\blocks\blocks
 	 */
-	protected function get_service($default_layout)
+	protected function get_service($default_layout = '')
 	{
 		global $phpbb_root_path, $phpEx;
 
@@ -75,10 +76,12 @@ class blocks_test extends \phpbb_database_test_case
 
 		$blocks_collection->add('my.baz.block');
 		$blocks_collection->add('my.empty.block');
+		$blocks_collection->add('my.error.block');
 		$blocks_collection->add('my.foo.block');
 
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
+		$phpbb_container->set('my.error.block', new \foo\bar\blocks\error_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $blocks_collection);
@@ -86,7 +89,7 @@ class blocks_test extends \phpbb_database_test_case
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
-		$groups->expects($this->once())
+		$groups->expects($this->any())
 			->method('get_users_groups')
 			->willReturn(array(2, 3));
 
@@ -483,6 +486,40 @@ class blocks_test extends \phpbb_database_test_case
 
 		$result = $method->invokeArgs($object, [$permission, $user_groups]);
 		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * return array
+	 */
+	public function render_block_with_exception_test_data()
+	{
+		return array(
+			array(false, ''),
+			array(true, 'Something went wrong'),
+		);
+	}
+
+	/**
+	 * @dataProvider render_block_with_exception_test_data
+	 * @param bool $edit_mode
+	 * @param string $expected
+	 */
+	public function test_render_block_with_exception($edit_mode, $expected)
+	{
+		$display_modes = [true, true, true];
+		$db_data = [
+			'bid' => 1,
+			'type' => 0,
+			'name' => 'my.error.block',
+			'title' => 'error title',
+			'class' => '',
+			'permission' => ['type' => 1, 'groups' => []]
+		];
+
+		$block = $this->get_service();
+		$result = $block->render($display_modes, $edit_mode, $db_data, [], 0);
+
+		$this->assertEquals($expected, !empty($result) ? $result['content'] : '');
 	}
 
 	protected function assertArrayContainsArray($needle, $haystack)

@@ -47,14 +47,6 @@ class filemanager
 	/**
 	 * @return string
 	 */
-	public function get_upload_dir()
-	{
-		return $this->upload_dir;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function get_upload_destination()
 	{
 		return $this->upload_dir . $this->get_user_dir();

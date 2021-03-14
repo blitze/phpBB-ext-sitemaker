@@ -8,13 +8,13 @@
  *
  */
 
-namespace blitze\sitemaker\tests\blocks;
+namespace blitze\sitemaker\blocks;
 
 use Symfony\Component\HttpFoundation\Request;
 use blitze\sitemaker\services\date_range;
 use blitze\sitemaker\services\forum\data;
 
-class recent_topics_test extends blocks_base
+class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 {
 	/**
 	 * Configure the test environment.
@@ -128,30 +128,22 @@ class recent_topics_test extends blocks_base
 			->with('T_ICONS_PATH')
 			->willReturn('icon_path');
 
-		$recent_topics = $this->getMockBuilder('\blitze\sitemaker\blocks\recent_topics')
-			->setConstructorArgs([
-				$this->auth,
-				$content_visibility,
-				$this->translator,
-				$this->user,
-				$truncator,
-				$date_range,
-				$forum_data,
-				$forum_options,
-				$this->phpbb_root_path,
-				$this->php_ext,
-				$cache,
-				$this->request,
-				$pagination,
-				$this->template
-			])
-			->setMethods(['get_time_limit'])
-			->getMock();
-		$recent_topics->expects($this->any())
-			->method('get_time_limit')
-			->willReturn(strtotime('5 December 2015') - ($look_back * 24 * 3600));
-
-		return $recent_topics;
+		return new \blitze\sitemaker\blocks\recent_topics(
+			$this->auth,
+			$content_visibility,
+			$this->translator,
+			$this->user,
+			$truncator,
+			$date_range,
+			$forum_data,
+			$forum_options,
+			$this->phpbb_root_path,
+			$this->php_ext,
+			$cache,
+			$this->request,
+			$pagination,
+			$this->template
+		);
 	}
 
 	public function test_block_config()
@@ -350,4 +342,9 @@ class recent_topics_test extends blocks_base
 
 		$this->assertEquals($topicrow, $result['data'] ? $result['data']['TOPICS'] : null);
 	}
+}
+
+function time()
+{
+	return strtotime('5 December 2015');
 }

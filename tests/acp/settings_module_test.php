@@ -8,7 +8,7 @@
  *
  */
 
-namespace blitze\sitemaker\tests\acp;
+namespace blitze\sitemaker\acp;
 
 use phpbb\request\request_interface;
 use blitze\sitemaker\acp\settings_module;
@@ -24,8 +24,9 @@ class settings_module_test extends \phpbb_database_test_case
 	protected $util;
 	protected $php_ext;
 
-	private static $helper;
 	protected $config_path;
+	private static $helper;
+	public static $valid_form = false;
 
 	static public function setUpBeforeClass(): void
 	{
@@ -77,7 +78,7 @@ class settings_module_test extends \phpbb_database_test_case
 	 * @param string $submit_var
 	 * @return \blitze\sitemaker\acp\settings_module
 	 */
-	public function get_module(array $variable_map, array $layout_prefs = array(), array $orphaned_blocks = array(), $submit_var = '')
+	public function get_module(array $variable_map = array(), array $layout_prefs = array(), array $orphaned_blocks = array(), $submit_var = '')
 	{
 		global $phpbb_container, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
 
@@ -216,14 +217,7 @@ class settings_module_test extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('blitze.sitemaker.blocks.cleaner', $this->blocks_cleaner);
 
-		$module_service = $this->getMockBuilder('\blitze\sitemaker\acp\settings_module')
-			->setMethods(['check_form_key'])
-			->getMock();
-		$module_service->expects($this->any())
-			->method('check_form_key')
-			->willReturn(true);
-
-		return $module_service;
+		return new \blitze\sitemaker\acp\settings_module;
 	}
 
 	/**
@@ -564,14 +558,15 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$module = $this->get_module($variable_map, $layout_prefs, $orphaned_blocks, $submit_var);
 
+		self::$valid_form = true;
+
 		try
 		{
 			$module->main();
 		}
 		catch (\Exception $e)
 		{
-			preg_match('/\w+/i', $e->getMessage(), $matches);
-			$this->assertEquals(!empty($matches[0]) ? $matches[0] : '', $message);
+			$this->assertEquals($message, $this->get_error_msg($e->getMessage()));
 		}
 
 		$result = array(
@@ -587,4 +582,48 @@ class settings_module_test extends \phpbb_database_test_case
 
 		$this->assertEquals($expected, $result);
 	}
+
+	public function test_save_settings_invalid_form()
+	{
+		$module = $this->get_module(array(), array(), array(), 'submit');
+		self::$valid_form = false;
+
+		try
+		{
+			$module->main();
+		}
+		catch (\Exception $e)
+		{
+			$this->assertEquals('FORM_INVALID', $this->get_error_msg($e->getMessage()));
+		}
+	}
+
+	/**
+	 * @param string $msg
+	 * @return string
+	 */
+	protected function get_error_msg($msg)
+	{
+		preg_match('/\w+/i', $msg, $matches);
+		return !empty($matches[0]) ? $matches[0] : '';
+	}
+}
+
+/**
+ * Mock check_form_key()
+ * Note: use the same namespace as the admin_input
+ *
+ * @return bool
+ */
+function check_form_key()
+{
+	return \blitze\sitemaker\acp\settings_module_test::$valid_form;
+}
+
+/**
+ * Mock add_form_key()
+ * Note: use the same namespace as the admin_input
+ */
+function add_form_key()
+{
 }
