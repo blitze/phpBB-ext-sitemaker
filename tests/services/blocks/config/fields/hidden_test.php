@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -21,11 +22,19 @@ class hidden_test extends cfg_test_base
 		return new hidden($this->translator);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
 		$this->assertEquals('hidden', $cfg_fields->get_name());
+	}
+
+	/**
+	 */
+	public function test_template()
+	{
+		$cfg_fields = $this->get_service();
+		$this->assertEquals('', $cfg_fields->get_template());
 	}
 }

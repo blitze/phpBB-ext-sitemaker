@@ -17,6 +17,8 @@ require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php'
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/empty_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/error_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/raz_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/no_template_block.php';
 
 class blocks_test extends \phpbb_database_test_case
 {
@@ -78,11 +80,15 @@ class blocks_test extends \phpbb_database_test_case
 		$blocks_collection->add('my.empty.block');
 		$blocks_collection->add('my.error.block');
 		$blocks_collection->add('my.foo.block');
+		$blocks_collection->add('my.raz.block');
+		$blocks_collection->add('my.no_template.block');
 
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
 		$phpbb_container->set('my.error.block', new \foo\bar\blocks\error_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
+		$phpbb_container->set('my.raz.block', new \foo\bar\blocks\raz_block);
+		$phpbb_container->set('my.no_template.block', new \foo\bar\blocks\no_template_block);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $blocks_collection);
 
@@ -491,6 +497,151 @@ class blocks_test extends \phpbb_database_test_case
 	/**
 	 * return array
 	 */
+	public function render_block_test_data()
+	{
+		return array(
+			array(
+				false,
+				array(
+					'name' => 'my.empty.block',
+				),
+				[],
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.empty.block',
+				),
+				array(
+					'title' => 'I am an empty block',
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_NO_DATA',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.foo.block',
+				),
+				array(
+					'title' => 'I am foo block',
+					'class' => '',
+					'content' => 'foo block content',
+				),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.foo.block',
+					'title' => 'my custom title',
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => '',
+					'content' => 'foo block content',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'settings' => ['show' => true],
+				),
+				array(
+					'title' => 'I am raz block',
+					'class' => '',
+					'data' => array('loop' => ['row1', 'row2']),
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => true],
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => '',
+					'data' => array('loop' => ['row1', 'row2']),
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => false],
+				),
+				array(),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => false],
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_NO_DATA',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.no_template.block',
+				),
+				array(),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.no_template.block',
+				),
+				array(
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_MISSING_TEMPLATE',
+				),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider render_block_test_data
+	 * @param bool $edit_mode
+	 * @param string $expected
+	 */
+	public function test_render_block($edit_mode, $bdata, $expected)
+	{
+		$display_modes = [true, true, true];
+		$db_data = $bdata + [
+			'bid' => 1,
+			'type' => 0,
+			'title' => '',
+			'class' => '',
+			'status' => 1,
+			'settings' => [],
+			'permission' => ['type' => 0, 'groups' => []],
+		];
+
+		$block = $this->get_service();
+		$result = $block->render($display_modes, $edit_mode, $db_data, [], 0);
+
+		if (!empty($result))
+		{
+			$this->assertArrayContainsArray($expected, $result);
+		}
+		else
+		{
+			$this->assertEquals($expected, $result);
+		}
+	}
+
+	/**
+	 * return array
+	 */
 	public function render_block_with_exception_test_data()
 	{
 		return array(
@@ -513,7 +664,7 @@ class blocks_test extends \phpbb_database_test_case
 			'name' => 'my.error.block',
 			'title' => 'error title',
 			'class' => '',
-			'permission' => ['type' => 1, 'groups' => []]
+			'permission' => ['type' => 0, 'groups' => []]
 		];
 
 		$block = $this->get_service();
