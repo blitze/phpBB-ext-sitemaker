@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -32,7 +33,7 @@ class routes_test extends \phpbb_test_case
 
 		for ($i = 0; $i < 3; $i++)
 		{
-			$collection[$i] = new \blitze\sitemaker\model\entity\route(array('route_id' => $i + 1));
+			$collection[] = new \blitze\sitemaker\model\entity\route(array('route_id' => $i + 1));
 		}
 
 		$this->assertTrue($collection->valid());
@@ -73,7 +74,8 @@ class routes_test extends \phpbb_test_case
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 

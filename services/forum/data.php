@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -92,7 +93,7 @@ class data extends query_builder
 			$this->store['topic'][$row['topic_id']] = $row;
 
 			$this->store['tracking'][$row['forum_id']]['topic_list'][] = $row['topic_id'];
-			$this->store['tracking'][$row['forum_id']]['mark_time'] =& $row['forum_mark_time'];
+			$this->store['tracking'][$row['forum_id']]['mark_time'] = &$row['forum_mark_time'];
 			$this->store['post_ids']['first'][] = $row['topic_first_post_id'];
 			$this->store['post_ids']['last'][] = $row['topic_last_post_id'];
 			$this->store['poster_ids'][] = $row['topic_poster'];
@@ -115,16 +116,16 @@ class data extends query_builder
 	 */
 	public function get_post_data($topic_first_or_last_post = false, $post_ids = array(), $limit = 0, $start = 0, $sql_array = array())
 	{
-		$post_data = array();
 		if ($topic_first_or_last_post && !sizeof($this->store['topic']))
 		{
-			return $post_data;
+			return [];
 		}
 
 		$sql_array = $this->_get_posts_sql_array($topic_first_or_last_post, $post_ids, $sql_array);
 		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
 		$result = $this->db->sql_query_limit($sql, $limit, $start, $this->cache_time);
 
+		$post_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$post_data[$row['topic_id']][$row['post_id']] = $row;

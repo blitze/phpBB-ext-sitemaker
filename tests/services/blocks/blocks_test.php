@@ -15,7 +15,10 @@ use blitze\sitemaker\services\blocks\blocks;
 
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/baz_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/empty_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/error_block.php';
 require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/foo_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/raz_block.php';
+require_once dirname(__FILE__) . '/../fixtures/ext/foo/bar/blocks/no_template_block.php';
 
 class blocks_test extends \phpbb_database_test_case
 {
@@ -47,7 +50,7 @@ class blocks_test extends \phpbb_database_test_case
 	 * @param string $default_layout
 	 * @return \blitze\sitemaker\services\blocks\blocks
 	 */
-	protected function get_service($default_layout)
+	protected function get_service($default_layout = '')
 	{
 		global $phpbb_root_path, $phpEx;
 
@@ -75,18 +78,24 @@ class blocks_test extends \phpbb_database_test_case
 
 		$blocks_collection->add('my.baz.block');
 		$blocks_collection->add('my.empty.block');
+		$blocks_collection->add('my.error.block');
 		$blocks_collection->add('my.foo.block');
+		$blocks_collection->add('my.raz.block');
+		$blocks_collection->add('my.no_template.block');
 
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
+		$phpbb_container->set('my.error.block', new \foo\bar\blocks\error_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
+		$phpbb_container->set('my.raz.block', new \foo\bar\blocks\raz_block);
+		$phpbb_container->set('my.no_template.block', new \foo\bar\blocks\no_template_block);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $blocks_collection);
 
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
-		$groups->expects($this->once())
+		$groups->expects($this->any())
 			->method('get_users_groups')
 			->willReturn(array(2, 3));
 
@@ -483,6 +492,185 @@ class blocks_test extends \phpbb_database_test_case
 
 		$result = $method->invokeArgs($object, [$permission, $user_groups]);
 		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * return array
+	 */
+	public function render_block_test_data()
+	{
+		return array(
+			array(
+				false,
+				array(
+					'name' => 'my.empty.block',
+				),
+				[],
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.empty.block',
+				),
+				array(
+					'title' => 'I am an empty block',
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_NO_DATA',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.foo.block',
+				),
+				array(
+					'title' => 'I am foo block',
+					'class' => '',
+					'content' => 'foo block content',
+				),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.foo.block',
+					'title' => 'my custom title',
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => '',
+					'content' => 'foo block content',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'settings' => ['show' => true],
+				),
+				array(
+					'title' => 'I am raz block',
+					'class' => '',
+					'data' => array('loop' => ['row1', 'row2']),
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => true],
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => '',
+					'data' => array('loop' => ['row1', 'row2']),
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => false],
+				),
+				array(),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.raz.block',
+					'title' => 'my custom title',
+					'settings' => ['show' => false],
+				),
+				array(
+					'title' => 'my custom title',
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_NO_DATA',
+				),
+			),
+			array(
+				false,
+				array(
+					'name' => 'my.no_template.block',
+				),
+				array(),
+			),
+			array(
+				true,
+				array(
+					'name' => 'my.no_template.block',
+				),
+				array(
+					'class' => ' sm-inactive',
+					'content' => 'BLOCK_MISSING_TEMPLATE',
+				),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider render_block_test_data
+	 * @param bool $edit_mode
+	 * @param string $expected
+	 */
+	public function test_render_block($edit_mode, $bdata, $expected)
+	{
+		$display_modes = [true, true, true];
+		$db_data = $bdata + [
+			'bid' => 1,
+			'type' => 0,
+			'title' => '',
+			'class' => '',
+			'status' => 1,
+			'settings' => [],
+			'permission' => ['type' => 0, 'groups' => []],
+		];
+
+		$block = $this->get_service();
+		$result = $block->render($display_modes, $edit_mode, $db_data, [], 0);
+
+		if (!empty($result))
+		{
+			$this->assertArrayContainsArray($expected, $result);
+		}
+		else
+		{
+			$this->assertEquals($expected, $result);
+		}
+	}
+
+	/**
+	 * return array
+	 */
+	public function render_block_with_exception_test_data()
+	{
+		return array(
+			array(false, ''),
+			array(true, 'Something went wrong'),
+		);
+	}
+
+	/**
+	 * @dataProvider render_block_with_exception_test_data
+	 * @param bool $edit_mode
+	 * @param string $expected
+	 */
+	public function test_render_block_with_exception($edit_mode, $expected)
+	{
+		$display_modes = [true, true, true];
+		$db_data = [
+			'bid' => 1,
+			'type' => 0,
+			'name' => 'my.error.block',
+			'title' => 'error title',
+			'class' => '',
+			'permission' => ['type' => 0, 'groups' => []]
+		];
+
+		$block = $this->get_service();
+		$result = $block->render($display_modes, $edit_mode, $db_data, [], 0);
+
+		$this->assertEquals($expected, !empty($result) ? $result['content'] : '');
 	}
 
 	protected function assertArrayContainsArray($needle, $haystack)

@@ -116,6 +116,13 @@ class upload_test extends \phpbb_test_case
 			array(
 				true,
 				USER_NORMAL,
+				'test.tif',
+				'images/sitemaker_uploads/source/users/demo',
+				'{"location":"","message":"ERROR_MESSAGE"}',
+			),
+			array(
+				true,
+				USER_NORMAL,
 				'test.jpg',
 				'images/sitemaker_uploads/source/users/demo',
 				'{"location":"users\/demo\/test.jpg","message":""}',

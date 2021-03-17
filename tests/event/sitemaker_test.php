@@ -23,6 +23,7 @@ class sitemaker_test extends \phpbb_database_test_case
 	protected $user;
 	protected $util;
 	protected $blocks;
+	protected $navbar;
 	protected $navigation;
 
 	/**
@@ -80,9 +81,18 @@ class sitemaker_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+		$mapper_factory = $this->createMock('\blitze\sitemaker\model\mapper_factory');
+		$tree = $this->createMock('\blitze\sitemaker\services\menus\display');
+
+		$this->navbar = $this->createMock('\blitze\sitemaker\services\navbar');
+
 		$this->navigation = $this->getMockBuilder('\blitze\sitemaker\services\menus\navigation')
-			->disableOriginalConstructor()
+			->setConstructorArgs([$cache, $mapper_factory, $this->navbar, $tree, $phpEx])
+			->setMethodsExcept(['get_settings'])
 			->getMock();
+		$this->navigation->expects($this->any())
+			->method('build_menu')
+			->willReturn([]);
 
 		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
@@ -263,6 +273,10 @@ class sitemaker_test extends \phpbb_database_test_case
 
 		$this->user->data['is_registered'] = $user_is_logged_in;
 
+		$this->navbar->expects($this->any())
+			->method('get_settings')
+			->willReturn($navbar_settings);
+
 		$tpl_data = array();
 		$this->template->expects($this->exactly($config_data['sitemaker_startpage_controller'] ? 1 : 0))
 			->method('assign_var')
@@ -288,15 +302,6 @@ class sitemaker_test extends \phpbb_database_test_case
 		$this->template->expects($this->exactly(1))
 			->method('get_user_style')
 			->willReturn(['prosilver']);
-
-		$this->navigation->expects($this->exactly(1))
-			->method('get_settings')
-			->with('prosilver')
-			->willReturn($navbar_settings);
-
-		$this->navigation->expects($this->exactly((int) $build_menu))
-			->method('build_menu')
-			->willReturn([]);
 
 		$dispatcher = new EventDispatcher();
 		$dispatcher->addListener('core.page_footer', array($listener, 'show_sitemaker'));

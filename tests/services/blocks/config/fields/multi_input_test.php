@@ -31,6 +31,14 @@ class multi_input_test extends cfg_test_base
 	}
 
 	/**
+	 */
+	public function test_template()
+	{
+		$cfg_fields = $this->get_service();
+		$this->assertEquals('@blitze_sitemaker/cfg_fields/multi_input.html', $cfg_fields->get_template());
+	}
+
+	/**
 	 * Data set for test_build_multi_select
 	 *
 	 * @return array

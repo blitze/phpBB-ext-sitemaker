@@ -169,6 +169,34 @@
 			<value></value>
 			<value>1</value>
 		</row>
+		<row>
+			<value>8</value>
+			<value>my.custom.block</value>
+			<value>6</value>
+			<value>2</value>
+			<value>sidebar</value>
+			<value>0</value>
+			<value>{"secret":"I like to hide"}</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value>my.custom.block</value>
+			<value>6</value>
+			<value>2</value>
+			<value>sidebar</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_cblocks">
 		<column>block_id</column>

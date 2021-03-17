@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -23,12 +24,12 @@ class handle_custom_action_test extends base_action
 			array(
 				array(
 					array('id', 0, false, request_interface::REQUEST, 10),
-					array('service', '', false, request_interface::REQUEST, 'custom.block.service'),
-					array('method', '', false, request_interface::REQUEST, 'display'),
+					array('service', '', false, request_interface::REQUEST, 'my.custom.block'),
+					array('method', '', false, request_interface::REQUEST, 'edit'),
 				),
 				array(
-					'title'		=> 'Custom Block',
-					'content'	=> 'Custom content id: 10',
+					'id'		=> 10,
+					'content'	=> 'Edited custom content',
 				),
 			),
 		);

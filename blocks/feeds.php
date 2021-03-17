@@ -83,7 +83,6 @@ class feeds extends block
 		try
 		{
 			$content = $this->render_feeds($feed_urls, $settings, $status);
-			$status = 1;
 		}
 		catch (\Exception $e)
 		{

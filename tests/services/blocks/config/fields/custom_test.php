@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -21,11 +22,19 @@ class custom_test extends cfg_test_base
 		return new custom($this->translator);
 	}
 
-    /**
-     */
+	/**
+	 */
 	public function test_name()
 	{
 		$cfg_fields = $this->get_service();
 		$this->assertEquals('custom', $cfg_fields->get_name());
+	}
+
+	/**
+	 */
+	public function test_template()
+	{
+		$cfg_fields = $this->get_service();
+		$this->assertEquals('', $cfg_fields->get_template());
 	}
 }

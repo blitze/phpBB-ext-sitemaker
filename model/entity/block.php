@@ -205,7 +205,7 @@ final class block extends base_entity
 	 */
 	public function get_settings()
 	{
-		return ($this->settings) ? json_decode($this->settings, true) : array();
+		return $this->get_array_field('settings');
 	}
 
 	/**

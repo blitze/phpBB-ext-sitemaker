@@ -30,32 +30,37 @@ class add_block_test extends base_action
 				),
 				array(),
 				array(
-					'id'		=> 8,
+					'id'		=> 10,
 					'route_id'	=> 1,
+					'style'		=> 1,
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
 					'class'		=> '',
 					'settings'	=> array(),
-					'view'		=> 'boxed',
+					'view'		=> '',
 				),
 				array(
 					'route_id'		=> 1,
 					'route'			=> 'index.php',
 					'has_blocks'	=> true,
+					'style'			=> 1,
 					'blocks'		=> array(
-						8 => array(
+						10 => array(
 							'name'		=> 'my.foo.block',
 							'position'	=> 'sidebar',
+							'style'		=> 1,
 							'weight'	=> 0,
 						),
 						1 => array(
 							'name'		=> 'my.baz.block',
 							'position'	=> 'sidebar',
+							'style'		=> 1,
 							'weight'	=> 1,
 						),
 						4 => array(
 							'name'		=> 'my.empty.block',
 							'position'	=> 'top',
+							'style'		=> 1,
 							'weight'	=> 0,
 						),
 					),
@@ -72,8 +77,9 @@ class add_block_test extends base_action
 					'view' => 'simple',
 				),
 				array(
-					'id'		=> 8,
+					'id'		=> 10,
 					'route_id'	=> 6,
+					'style'		=> 1,
 					'title'		=> 'I am baz block',
 					'content'	=> 'I love myself',
 					'class'		=> '',
@@ -87,10 +93,12 @@ class add_block_test extends base_action
 					'route_id'		=> 6,
 					'route'			=> 'viewforum.php?f=1',
 					'has_blocks'	=> true,
+					'style'			=> 1,
 					'blocks'		=> array(
-						8 => array(
+						10 => array(
 							'name'		=> 'my.baz.block',
 							'position'	=> 'sidebar',
+							'style'		=> 1,
 							'weight'	=> 0,
 						),
 					),
@@ -107,8 +115,9 @@ class add_block_test extends base_action
 					'view' => 'basic',
 				),
 				array(
-					'id'		=> 8,
+					'id'		=> 10,
 					'route_id'	=> 6,
+					'style'		=> 1,
 					'title'		=> 'I am an empty block',
 					'content'	=> 'BLOCK_NO_DATA',
 					'class'		=> ' sm-inactive',
@@ -119,10 +128,12 @@ class add_block_test extends base_action
 					'route_id'		=> 6,
 					'route'			=> 'app.php/foo/foo',
 					'has_blocks'	=> true,
+					'style'			=> 1,
 					'blocks'		=> array(
-						8 => array(
+						10 => array(
 							'name'		=> 'my.empty.block',
 							'position'	=> 'sidebar',
+							'style'		=> 1,
 							'weight'	=> 0,
 						),
 					),
@@ -139,8 +150,9 @@ class add_block_test extends base_action
 					'view' => 'basic',
 				),
 				array(
-					'id'		=> 8,
+					'id'		=> 10,
 					'route_id'	=> 4,
+					'style'		=> 1,
 					'title'		=> 'I am foo block',
 					'content'	=> 'foo block content',
 					'class'		=> '',
@@ -151,10 +163,59 @@ class add_block_test extends base_action
 					'route_id'		=> 4,
 					'route'			=> 'search.php',
 					'has_blocks'	=> true,
+					'style'			=> 1,
 					'blocks'		=> array(
-						8 => array(
+						10 => array(
 							'name'		=> 'my.foo.block',
 							'position'	=> 'top',
+							'style'		=> 1,
+							'weight'	=> 0,
+						),
+					),
+				),
+			),
+			array(
+				'index.php',
+				array(
+					array('block', '', false, request_interface::REQUEST, 'my.raz.block'),
+					array('position', '', false, request_interface::REQUEST, 'sidebar'),
+					array('weight', 0, false, request_interface::REQUEST, 1),
+				),
+				array(
+					'view' => 'boxed',
+				),
+				array(
+					'id'		=> 10,
+					'route_id'	=> 1,
+					'style'		=> 1,
+					'title'		=> 'I am raz block',
+					'content'	=> ['loop' => ['row1', 'row2']],
+					'class'		=> '',
+					'settings'	=> array('show' => true),
+					'view'		=> 'boxed'
+				),
+				array(
+					'route_id'		=> 1,
+					'route'			=> 'index.php',
+					'has_blocks'	=> true,
+					'style'			=> 1,
+					'blocks'		=> array(
+						1 => array(
+							'name'		=> 'my.baz.block',
+							'position'	=> 'sidebar',
+							'style'		=> 1,
+							'weight'	=> 0,
+						),
+						10 => array(
+							'name'		=> 'my.raz.block',
+							'position'	=> 'sidebar',
+							'style'		=> 1,
+							'weight'	=> 1,
+						),
+						4 => array(
+							'name'		=> 'my.empty.block',
+							'position'	=> 'top',
+							'style'		=> 1,
 							'weight'	=> 0,
 						),
 					),
@@ -192,6 +253,7 @@ class add_block_test extends base_action
 		$this->assertEquals($expected_return, array(
 			'id'		=> $result['bid'],
 			'route_id'	=> $result['route_id'],
+			'style'		=> $result['style'],
 			'title'		=> $result['title'],
 			'content'	=> $result['content'],
 			'class'		=> $result['class'],
@@ -208,6 +270,7 @@ class add_block_test extends base_action
 				'route_id'		=> $entity->get_route_id(),
 				'route'			=> $entity->get_route(),
 				'has_blocks'	=> $entity->get_has_blocks(),
+				'style'			=> $entity->get_style(),
 				'blocks'		=> [],
 			);
 
@@ -217,12 +280,13 @@ class add_block_test extends base_action
 				$actual_route_info['blocks'][$entity->get_bid()] = array(
 					'name'		=> $entity->get_name(),
 					'position'	=> $entity->get_position(),
+					'style'		=> $entity->get_style(),
 					'weight'	=> $entity->get_weight(),
 				);
 			}
 		}
 
-		$this->assertEquals($expected_route_info, $actual_route_info);
+		$this->assertSame($expected_route_info, $actual_route_info);
 	}
 
 	/**

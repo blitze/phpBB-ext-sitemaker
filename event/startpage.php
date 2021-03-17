@@ -133,16 +133,8 @@ class startpage implements EventSubscriberInterface
 			$response = call_user_func_array(array($controller_object, $method), $arguments);
 			$response->send();
 
-			$this->exit_handler();
+			exit_handler();
 		}
-	}
-
-	/**
-	 * @codeCoverageIgnore
-	 */
-	protected function exit_handler()
-	{
-		exit_handler();
 	}
 
 	/**

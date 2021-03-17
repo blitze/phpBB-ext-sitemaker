@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -16,10 +17,10 @@ use blitze\sitemaker\controller\blocks_admin;
 class blocks_admin_test extends \phpbb_database_test_case
 {
 	/**
-	* Define the extensions to be tested
-	*
-	* @return array vendor/name of extension(s) to test
-	*/
+	 * Define the extensions to be tested
+	 *
+	 * @return array vendor/name of extension(s) to test
+	 */
 	static protected function setup_extensions()
 	{
 		return array('blitze/sitemaker');
@@ -85,8 +86,9 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
-				return implode('-', func_get_args());
+			->willReturnCallback(function ()
+			{
+				return ucwords(strtolower(implode('-', func_get_args())), '_');
 			});
 
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
@@ -151,7 +153,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 				'set_startpage',
 				0,
 				401,
-				'{"id":"","title":"","content":"","message":"NOT_AUTHORISED"}'
+				'{"id":"","title":"","content":"","message":"Not_Authorised"}'
 			),
 
 			// Authorized, action requested
@@ -176,10 +178,10 @@ class blocks_admin_test extends \phpbb_database_test_case
 				array(
 					array('style', 0, false, request_interface::REQUEST, 1),
 				),
-				'invalid_action',
+				'non_existent_action',
 				1,
 				200,
-					'{"id":"","title":"","content":"","message":"EXCEPTION_UNEXPECTED_VALUE-invalid_action-INVALID_ACTION"}'
+				'{"id":"","title":"","content":"","message":"Exception_Unexpected_Value-exception_Non_Existent_Action-exception_Invalid_Action"}'
 			),
 		);
 	}
@@ -222,6 +224,6 @@ class blocks_admin_test extends \phpbb_database_test_case
 		$response = $controller->handle($action);
 
 		$this->assertEquals(401, $response->getStatusCode());
-		$this->assertSame('{"id":"","title":"","content":"","message":"NOT_AUTHORISED"}', $response->getContent());
+		$this->assertSame('{"id":"","title":"","content":"","message":"Not_Authorised"}', $response->getContent());
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -39,16 +40,5 @@ class cfg_utils
 		}
 
 		return array_map('array_filter', $options);
-	}
-
-	/**
-	 * @param string $needle
-	 * @param array $haystack
-	 * @param string $type selected|checked
-	 * @return string
-	 */
-	public static function get_selected_option($needle, array $haystack, $type = 'selected')
-	{
-		return (in_array($needle, $haystack)) ? ' ' . $type . '="' . $type . '"' : '';
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -56,8 +57,8 @@ abstract class base_entity implements entity_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function to_array()
 	{
 		$attributes = $this->get_attributes();
@@ -74,8 +75,8 @@ abstract class base_entity implements entity_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function to_db()
 	{
 		$this->check_required();

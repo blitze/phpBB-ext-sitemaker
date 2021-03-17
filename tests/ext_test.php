@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -27,7 +28,8 @@ class ext_test extends \phpbb_test_case
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function () {
+			->willReturnCallback(function ()
+			{
 				return implode('-', func_get_args());
 			});
 
@@ -41,7 +43,8 @@ class ext_test extends \phpbb_test_case
 			->getMock();
 		$ext_manager->expects($this->any())
 			->method('create_extension_metadata_manager')
-			->willReturnCallback(function($name) use ($required_phpbb_version) {
+			->willReturnCallback(function ($name) use ($required_phpbb_version)
+			{
 				$metadata_manager = new \phpbb_mock_metadata_manager($name, '');
 				$metadata = [
 					'name'		=> $name,
@@ -129,6 +132,14 @@ class ext_test extends \phpbb_test_case
 				'>=3.2.7,<3.3.0@dev',
 				true,
 				true
+			),
+			array(
+				'>=3.2.0,<3.2.6',
+				true,
+				array(
+					'EXTENSION_NOT_ENABLEABLE-',
+					'PHPBB_VERSION_UNMET->=3.2.0,<3.2.6',
+				),
 			),
 		);
 	}

@@ -176,7 +176,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
 						'TOPIC_PREVIEW' => 'This topic has a poll',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -196,7 +196,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
 						'TOPIC_PREVIEW' => 'This is a global topic',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Tue Nov 24, 2015 11:07 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -236,7 +236,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic w...',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -276,7 +276,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Announcement Topic',
 						'TOPIC_PREVIEW' => 'This is an announcement',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Tue Nov 24, 2015 11:06 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -316,7 +316,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
 						'TOPIC_PREVIEW' => 'This...',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -356,7 +356,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Tue Nov 24, 2015 11:07 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -396,7 +396,7 @@ class forum_topics_test extends blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Tue Nov 24, 2015 11:07 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -408,6 +408,25 @@ class forum_topics_test extends blocks_base
 						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;p=4#p4',
 					),
 				),
+			),
+			array(
+				array(
+					'settings' => array(
+						'forum_ids'			=> array(20),
+						'topic_type'		=> array(),
+						'max_topics'		=> 1,
+						'date_range'		=> 'today',
+						'order_by'			=> 0,
+						'enable_tracking'	=> 1,
+						'topic_title_limit'	=> 25,
+						'template'			=> 'titles',
+						'context'			=> 'last',
+						'preview_chars'		=> 30,
+					),
+				),
+				false,
+				'FORUM_RECENT_TOPICS',
+				null,
 			),
 		);
 	}
@@ -427,6 +446,6 @@ class forum_topics_test extends blocks_base
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);
-		$this->assertEquals($topicrow, $result['data']['TOPICS']);
+		$this->assertEquals($topicrow, $result['data'] ? $result['data']['TOPICS'] : null);
 	}
 }

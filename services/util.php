@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -128,11 +129,6 @@ class util
 	 */
 	protected function sort_assets($a, $b)
 	{
-		if ($a == $b)
-		{
-			return 0;
-		}
-
 		return ($a < $b) ? -1 : 1;
 	}
 

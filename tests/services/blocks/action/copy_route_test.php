@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -43,7 +44,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 10,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -54,7 +55,7 @@ class copy_route_test extends base_action
 							'position' => 'top',
 							'style' => 1,
 							'settings' => array(),
-							'id' => 9,
+							'id' => 11,
 							'content' => 'BLOCK_NO_DATA',
 						),
 					),
@@ -80,7 +81,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 8,
+							'id'		=> 10,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -94,7 +95,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 9,
+							'id'		=> 11,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -120,7 +121,7 @@ class copy_route_test extends base_action
 							'position'	=> 'bottom',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 8,
+							'id'		=> 10,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -134,7 +135,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 9,
+							'id'		=> 11,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -163,7 +164,7 @@ class copy_route_test extends base_action
 								'my_setting'	=> 1,
 								'other_setting'	=> 0,
 							),
-							'id'		=> 8,
+							'id'		=> 10,
 							'content'	=> 'I love myself',
 						),
 					),
@@ -174,7 +175,7 @@ class copy_route_test extends base_action
 							'position'	=> 'subcontent',
 							'style'		=> 1,
 							'settings'	=> array(),
-							'id'		=> 9,
+							'id'		=> 11,
 							'content'	=> 'foo block content',
 						),
 					),
@@ -273,7 +274,7 @@ class copy_route_test extends base_action
 				'block_content' => 'some content',
 			),
 			array(
-				'block_id' => 8,
+				'block_id' => 10,
 				'block_content' => 'some content',
 			),
 		);

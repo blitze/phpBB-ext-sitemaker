@@ -31,6 +31,14 @@ class code_editor_test extends cfg_test_base
 	}
 
 	/**
+	 */
+	public function test_template()
+	{
+		$cfg_fields = $this->get_service();
+		$this->assertEquals('@blitze_sitemaker/cfg_fields/code_editor.html', $cfg_fields->get_template());
+	}
+
+	/**
 	 * Data set for test_build_radio
 	 *
 	 * @return array
