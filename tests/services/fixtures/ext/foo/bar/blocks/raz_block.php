@@ -8,7 +8,7 @@ namespace foo\bar\blocks;
 
 class raz_block extends \blitze\sitemaker\services\blocks\driver\block
 {
-	public function get_config($settings)
+	public function get_config(array $data)
 	{
 		return array(
 			'legend1' => 'LEGEND',
