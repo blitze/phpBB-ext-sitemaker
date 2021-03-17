@@ -87,6 +87,7 @@
 	<table name="phpbb_topics">
 		<column>topic_id</column>
 		<column>forum_id</column>
+		<column>icon_id</column>
 		<column>topic_attachment</column>
 		<column>topic_title</column>
 		<column>topic_poster</column>
@@ -112,6 +113,7 @@
 		<row>
 			<value>1</value>
 			<value>2</value>
+			<value>0</value>
 			<value>1</value>
 			<value>Welcome to phpBB3</value>
 			<value>2</value>
@@ -138,6 +140,7 @@
 		<row>
 			<value>2</value>
 			<value>4</value>
+			<value>0</value>
 			<value>1</value>
 			<value>Sticky Topic</value>
 			<value>2</value>
@@ -165,6 +168,7 @@
 			<value>3</value>
 			<value>4</value>
 			<value>0</value>
+			<value>0</value>
 			<value>Announcement Topic</value>
 			<value>2</value>
 			<value>1448406390</value>
@@ -190,6 +194,7 @@
 		<row>
 			<value>4</value>
 			<value>4</value>
+			<value>0</value>
 			<value>0</value>
 			<value>Global Topic</value>
 			<value>2</value>
@@ -217,6 +222,7 @@
 			<value>5</value>
 			<value>5</value>
 			<value>0</value>
+			<value>0</value>
 			<value>Normal Topic</value>
 			<value>2</value>
 			<value>1448406650</value>
@@ -243,6 +249,7 @@
 			<value>7</value>
 			<value>2</value>
 			<value>0</value>
+			<value>0</value>
 			<value>Unapproved Topic</value>
 			<value>48</value>
 			<value>1448416707</value>
@@ -268,6 +275,7 @@
 		<row>
 			<value>9</value>
 			<value>4</value>
+			<value>1</value>
 			<value>0</value>
 			<value>Topic with poll</value>
 			<value>2</value>
@@ -294,6 +302,7 @@
 		<row>
 			<value>10</value>
 			<value>6</value>
+			<value>0</value>
 			<value>0</value>
 			<value>Topic from undisplayed forum</value>
 			<value>2</value>
@@ -630,6 +639,21 @@
 			<value>4</value>
 			<value>2</value>
 			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_topics_posted">
+		<column>user_id</column>
+		<column>topic_id</column>
+		<column>topic_posted</column>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>48</value>
+			<value>9</value>
+			<value>1</value>
 		</row>
 	</table>
 	<table name="phpbb_users">

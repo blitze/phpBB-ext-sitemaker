@@ -85,6 +85,58 @@ class save_block_test extends base_action
 				),
 				3,
 			),
+			// block has hidden settings with existing value in db, update similar is set to false
+			array(
+				array(
+					array('similar', false, false, request_interface::REQUEST, false),
+					array('id', 0, false, request_interface::REQUEST, 8),
+					array('status', 0, false, request_interface::REQUEST, 1),
+					array('type', 0, false, request_interface::REQUEST, 2),
+					array('view', '', false, request_interface::REQUEST, 'basic'),
+					array('perm_type', 0, false, request_interface::REQUEST, 0),
+					array('perm_groups', array(0), false, request_interface::REQUEST, array(3, 4)),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => ''), true, request_interface::REQUEST, array()),
+				),
+				array(
+					'bid'			=> 8,
+					'title'			=> 'Custom Block',
+					'permission'	=> array('type' => 0, 'groups' => [3, 4]),
+					'class'			=> '',
+					'status'		=> true,
+					'type'			=> 2,
+					'settings'		=> array('secret' => 'I like to hide'),
+					'content'		=> 'Custom content id: 8',
+					'view'			=> 'basic',
+				),
+				1,
+			),
+			// block has hidden settings but no existing value in db, update similar is set to false
+			array(
+				array(
+					array('similar', false, false, request_interface::REQUEST, false),
+					array('id', 0, false, request_interface::REQUEST, 9),
+					array('status', 0, false, request_interface::REQUEST, 1),
+					array('type', 0, false, request_interface::REQUEST, 2),
+					array('view', '', false, request_interface::REQUEST, 'basic'),
+					array('perm_type', 0, false, request_interface::REQUEST, 0),
+					array('perm_groups', array(0), false, request_interface::REQUEST, array(3, 4)),
+					array('config', array('' => array(0 => '')), true, request_interface::REQUEST, array()),
+					array('config', array('' => ''), true, request_interface::REQUEST, array()),
+				),
+				array(
+					'bid'			=> 9,
+					'title'			=> 'Custom Block',
+					'permission'	=> array('type' => 0, 'groups' => [3, 4]),
+					'class'			=> '',
+					'status'		=> true,
+					'type'			=> 2,
+					'settings'		=> array('secret' => 'I like to hide'),
+					'content'		=> 'Custom content id: 9',
+					'view'			=> 'basic',
+				),
+				1,
+			),
 			// block has no settings, update similar is set to true
 			array(
 				array(
@@ -145,7 +197,7 @@ class save_block_test extends base_action
 	function test_invalid_block_exceptions()
 	{
 		$command = $this->get_command('save_block', array(
-			array('id', 0, false, request_interface::REQUEST, 9),
+			array('id', 0, false, request_interface::REQUEST, 10),
 		));
 
 		try

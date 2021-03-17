@@ -8,7 +8,7 @@
  *
  */
 
-namespace blitze\sitemaker\tests\event;
+namespace blitze\sitemaker\event;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -118,20 +118,7 @@ class startpage_test extends \phpbb_database_test_case
 				}
 			}));
 
-		$startpage = $this->getMockBuilder('\blitze\sitemaker\event\startpage')
-			->setConstructorArgs(array($this->config, $container, $this->request, $this->template, $language, $this->user, $phpEx))
-			->setMethods(array('exit_handler', 'get_extension_styles_path'))
-			->getMock();
-		$startpage->expects($this->any())
-			->method('get_extension_styles_path')
-			->willReturnCallback(function ($class_name)
-			{
-				return ($class_name === 'foo_bar_controller')
-					? 'foo\bar\controller'
-					: '';
-			});
-
-		return $startpage;
+		return new \blitze\sitemaker\event\startpage($this->config, $container, $this->request, $this->template, $language, $this->user, $phpEx);
 	}
 
 	/**
@@ -359,12 +346,6 @@ class startpage_test extends \phpbb_database_test_case
 
 		$this->user->page['page_name'] = $current_page;
 
-		if ($expected_contents)
-		{
-			$listener->expects($this->once())
-				->method('exit_handler');
-		}
-
 		$dispatcher = new EventDispatcher();
 		$dispatcher->addListener('core.display_forums_modify_sql', array($listener, 'set_startpage'));
 		$dispatcher->dispatch('core.display_forums_modify_sql');
@@ -412,4 +393,20 @@ class startpage_test extends \phpbb_database_test_case
 		$dispatcher->addListener('core.page_footer', array($listener, 'cleanup_breadcrumbs'));
 		$dispatcher->dispatch('core.page_footer');
 	}
+}
+
+/**
+ * @return bool
+ */
+function exit_handler()
+{
+	return false;
+}
+
+/**
+ * @return bool
+ */
+function get_class()
+{
+	return 'foo\bar\controller';
 }

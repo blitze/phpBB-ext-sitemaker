@@ -64,6 +64,7 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$user = new \phpbb\user($this->translator, '\phpbb\datetime');
 		$user->timezone = new \DateTimeZone('UTC');
+		$user->date_format = 'D M d, Y g:i a';
 		$user->lang['datetime'] = array();
 		$user->lang_id = 1;
 		$user->host = 'www.example.com';

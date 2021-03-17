@@ -13,6 +13,8 @@ namespace blitze\sitemaker\tests\services\blocks\action;
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/foo_block.php';
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/empty_block.php';
 require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/baz_block.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/custom_block.php';
+require_once dirname(__FILE__) . '/../../fixtures/ext/foo/bar/blocks/raz_block.php';
 
 class base_action extends \phpbb_database_test_case
 {
@@ -120,20 +122,6 @@ class base_action extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		$dummy_object = $this->getMockBuilder('\stdClass')
-			->setMethods(array('display'))
-			->getMock();
-
-		$dummy_object->expects($this->any())
-			->method('display')
-			->will($this->returnCallback(function ($id)
-			{
-				return array(
-					'title'		=> 'Custom Block',
-					'content'	=> 'Custom content id: ' . $id,
-				);
-			}));
-
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
 			->getMock();
@@ -173,14 +161,18 @@ class base_action extends \phpbb_database_test_case
 		$blocks_collection->add('my.foo.block');
 		$blocks_collection->add('my.baz.block');
 		$blocks_collection->add('my.empty.block');
+		$blocks_collection->add('my.custom.block');
+		$blocks_collection->add('my.raz.block');
 
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 		$phpbb_container->set('my.baz.block', new \foo\bar\blocks\baz_block);
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
-		$phpbb_container->set('config_text', $this->config_text);
-		$phpbb_container->set('custom.block.service', $dummy_object);
+		$phpbb_container->set('my.custom.block', new \foo\bar\blocks\custom_block);
+		$phpbb_container->set('my.raz.block', new \foo\bar\blocks\raz_block);
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
+		$phpbb_container->set('config_text', $this->config_text);
+		$phpbb_container->set('template', $template);
 
 		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $blocks_collection);
 

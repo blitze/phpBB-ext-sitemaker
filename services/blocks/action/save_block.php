@@ -98,6 +98,7 @@ class save_block extends base_action
 	}
 
 	/**
+	 * Hidden/static fields are not generated when editing block, so we add them manually
 	 * @param array $submitted_settings
 	 * @param array $default_settings
 	 * @param array $db_settings
@@ -105,16 +106,35 @@ class save_block extends base_action
 	 */
 	private function set_hidden_fields(array &$submitted_settings, array $default_settings, array $db_settings)
 	{
-		$not_submitted = array_diff_key($default_settings, $submitted_settings);
-		$hidden_settings = array_intersect_key($db_settings, $not_submitted);
+		$hidden_settings = array_diff_key($default_settings, $submitted_settings);
 
-		foreach ($hidden_settings as $field => $value)
+		foreach ($hidden_settings as $field => $props)
 		{
-			if ($default_settings[$field]['type'] === 'hidden')
+			// make sure we have required props
+			$props = ((array) $props) + array('type' => '', 'default' => '');
+
+			if ($props['type'] === 'hidden')
 			{
-				$submitted_settings[$field] = $value;
+				if (!empty($db_settings[$field]))
+				{
+					$submitted_settings[$field] = $db_settings[$field];
+				}
+				else if (!empty($props['default']))
+				{
+					$submitted_settings[$field] = $props['default'];
+				}
 			}
 		}
+	}
+
+	/**
+	 * @param string $field
+	 * @param array $settings
+	 * @return bool
+	 */
+	private function is_hidden_field($field, array $settings)
+	{
+		return $settings[$field] && $settings[$field]['type'] === 'hidden';
 	}
 
 	/**

@@ -1,18 +1,19 @@
 <?php
+
 /**
-*
-* Pages extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Pages extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace blitze\sitemaker\exception;
 
 /**
-* Base exception
-*/
+ * Base exception
+ */
 class base extends \Exception
 {
 	/**
@@ -108,17 +109,11 @@ class base extends \Exception
 		// Always unset a variable passed by reference in a foreach loop
 		unset($message);
 
-		if ($this->parent_message !== null)
-		{
-			// Prepend the parent message to the message portions
-			array_unshift($this->message_full, (string) $this->parent_message);
+		// Prepend the parent message to the message portions
+		array_unshift($this->message_full, (string) $this->parent_message);
 
-			// We return a string
-			return call_user_func_array(array($translator, 'lang'), $this->message_full);
-		}
-
-		// We return an array
-		return $this->message_full;
+		// We return a string
+		return call_user_func_array(array($translator, 'lang'), $this->message_full);
 	}
 
 	/**

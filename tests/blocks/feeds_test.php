@@ -52,7 +52,19 @@ class feeds_test extends blocks_base
 				return implode('-', func_get_args());
 			});
 
-		$simplepie = new \blitze\sitemaker\services\simplepie\feed();
+		$simplepie = $this->getMockBuilder('\blitze\sitemaker\services\simplepie\feed')
+			->setMethods(['set_cache_duration'])
+			->getMock();
+		$simplepie->expects($this->any())
+			->method('set_cache_duration')
+			->willReturnCallback(function ()
+			{
+				[$cache] = func_get_args();
+				if ($cache)
+				{
+					throw new \Exception('Whoops!');
+				}
+			});
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -232,6 +244,47 @@ class feeds_test extends blocks_base
 		$result = $block->display($bdata, $edit_mode);
 
 		$this->assertEquals($expected, str_replace(array("\n", "\t", "  "), '', $result['content']));
+	}
+
+	/**
+	 * @return array()
+	 */
+	public function block_display_with_error_test_data()
+	{
+		return array(
+			array(false, array(
+				'title' => 'FEEDS',
+				'content' => '',
+				'status' => 0,
+			)),
+			array(true, array(
+				'title' => 'FEEDS',
+				'content' => 'Whoops!',
+				'status' => 0,
+			)),
+		);
+	}
+
+	/**
+	 * Test block display with execption
+	 *
+	 * @dataProvider block_display_with_error_test_data
+	 * @param bool $edit_mode
+	 * @param array $expected
+	 */
+	public function test_block_display_with_error($edit_mode, array $expected)
+	{
+		$bdata = array('settings' => array(
+			'feeds'		=> ['www.example.com/rss'],
+			'max'		=> 3,
+			'template'	=> '',
+			'cache'		=> 1,
+		));
+
+		$block = $this->get_block();
+		$result = $block->display($bdata, $edit_mode);
+
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -585,5 +638,20 @@ class feeds_test extends blocks_base
 		$result = $block->get_fields();
 
 		$this->assertSame($expected['fields'], $result['fields']);
+	}
+
+	/**
+	 */
+	public function test_invalid_link_key()
+	{
+		$simplepie = new \blitze\sitemaker\services\simplepie\feed;
+		$simplepie->set_feed_url('https://www.phpbb.com/community/feed');
+		$simplepie->enable_cache(false);
+		$simplepie->set_item_limit(1);
+		$simplepie->init();
+		$simplepie->handle_content_type();
+
+		$items = $simplepie->get_items();
+		$this->assertNull($items[0]->get_link(3));
 	}
 }

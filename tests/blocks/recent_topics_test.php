@@ -74,8 +74,23 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 				),
 			));
 
+		$cache->expects($this->any())
+			->method('obtain_icons')
+			->willReturn(array(
+				1 => array(
+					'img'		=> "misc/fire.gif",
+					'width'		=> 16,
+					'height'	=> 16,
+					'alt'		=> "",
+					'display'	=> true,
+				),
+			));
+
 		$this->user->page['page'] = 'index.php';
 		$this->user->page['page_name'] = 'index.php';
+
+		$this->user->data['user_lastmark'] = strtotime('25 Nov 2015');
+		$this->user->data['is_registered'] = $registered_user;
 
 		$phpbb_path_helper =  new \phpbb\path_helper(
 			new \phpbb\symfony_request(
@@ -87,12 +102,10 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 			$this->php_ext
 		);
 
-		$this->config['load_db_lastread'] = true;
 		$this->config['load_anon_lastread'] = true;
-		$this->config['hot_threshold'] = 1;
-
-		$this->user->data['user_lastmark'] = strtotime('25 Nov 2015');
-		$this->user->data['is_registered'] = $registered_user;
+		$this->config['load_db_lastread'] = true;
+		$this->config['load_db_track'] = true;
+		$this->config['hot_threshold'] = true;
 
 		$this->auth->expects($this->any())
 			->method('acl_getf')
@@ -227,7 +240,7 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -239,13 +252,16 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'U_LAST_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;p=12#p12',
 						'S_HAS_POLL' => true,
 						'S_TOPIC_ICONS' => true,
-						'TOPIC_IMG_STYLE' => 'topic_unread_hot',
-						'TOPIC_FOLDER_IMG' => '<span class="imageset topic_unread_hot" title="Unread posts">Unread posts</span>',
+						'TOPIC_IMG_STYLE' => 'topic_unread_hot_mine',
+						'TOPIC_FOLDER_IMG' => '<span class="imageset topic_unread_hot_mine" title="Unread posts">Unread posts</span>',
 						'TOPIC_FOLDER_IMG_ALT' => 'Unread posts',
 						'TOPIC_TYPE_CLASS' => '',
 						'TOPIC_TIME_RFC3339' => '2015-11-29T20:18:19+00:00',
 						'LAST_POST_TIME_RFC3339' => '2015-11-29T20:18:19+00:00',
-						'LAST_POST_TIME' => '',
+						'LAST_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
+						'TOPIC_ICON_IMG' => 'misc/fire.gif',
+						'TOPIC_ICON_IMG_WIDTH' => 16,
+						'TOPIC_ICON_IMG_HEIGHT' => 16,
 					),
 				),
 			),
@@ -273,7 +289,7 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Topic with poll',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -291,7 +307,10 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'TOPIC_TYPE_CLASS' => '',
 						'TOPIC_TIME_RFC3339' => '2015-11-29T20:18:19+00:00',
 						'LAST_POST_TIME_RFC3339' => '2015-11-29T20:18:19+00:00',
-						'LAST_POST_TIME' => '',
+						'LAST_POST_TIME' => 'Sun Nov 29, 2015 8:18 pm',
+						'TOPIC_ICON_IMG' => 'misc/fire.gif',
+						'TOPIC_ICON_IMG_WIDTH' => 16,
+						'TOPIC_ICON_IMG_HEIGHT' => 16,
 					),
 					array(
 						'USERNAME' => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username">admin</a>',
@@ -301,7 +320,7 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'FORUM_TITLE' => 'Second Forum',
 						'TOPIC_TITLE' => 'Global Topic',
 						'TOPIC_PREVIEW' => '',
-						'TOPIC_POST_TIME' => '',
+						'TOPIC_POST_TIME' => 'Tue Nov 24, 2015 11:07 pm',
 						'ATTACH_ICON_IMG' => '',
 						'REPLIES' => 0,
 						'VIEWS' => 0,
@@ -319,7 +338,7 @@ class recent_topics_test extends \blitze\sitemaker\tests\blocks\blocks_base
 						'TOPIC_TYPE_CLASS' => ' global-announce',
 						'TOPIC_TIME_RFC3339' => '2015-11-24T23:07:04+00:00',
 						'LAST_POST_TIME_RFC3339' => '2015-11-24T23:07:04+00:00',
-						'LAST_POST_TIME' => '',
+						'LAST_POST_TIME' => 'Tue Nov 24, 2015 11:07 pm',
 					),
 				),
 			),

@@ -206,6 +206,8 @@ class recent_topics extends forum_topics
 
 		$replies = $template_data['REPLIES'];
 		$unread_topic = $template_data['S_UNREAD_TOPIC'];
+		$icon_id = $topic_data['icon_id'];
+		$last_post_time = $topic_data['topic_last_post_time'];
 
 		// Get folder img, topic status/type related information
 		$folder_img = $folder_alt = $topic_type = '';
