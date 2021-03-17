@@ -128,16 +128,6 @@ class save_block extends base_action
 	}
 
 	/**
-	 * @param string $field
-	 * @param array $settings
-	 * @return bool
-	 */
-	private function is_hidden_field($field, array $settings)
-	{
-		return $settings[$field] && $settings[$field]['type'] === 'hidden';
-	}
-
-	/**
 	 * @param string $old_hash
 	 * @param string $new_hash
 	 * @param array  $settings
