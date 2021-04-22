@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -217,9 +218,8 @@ class routes
 			{
 				$this->is_sub_route = true;
 				$parent_route = $routes[$route];
-			} 
-		}
-		while ($forum_id && !$this->is_sub_route);
+			}
+		} while ($forum_id && !$this->is_sub_route);
 
 		return $parent_route;
 	}
