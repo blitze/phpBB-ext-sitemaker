@@ -10,6 +10,42 @@
 			<value></value>
 		</row>
 	</table>
+	<table name="phpbb_forums">
+		<column>forum_id</column>
+		<column>parent_id</column>
+		<column>left_id</column>
+		<column>right_id</column>
+		<column>forum_parents</column>
+		<column>forum_desc</column>
+		<column>forum_rules</column>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>6</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>2</value>
+			<value>5</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>2</value>
+			<value>3</value>
+			<value>4</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
 	<table name="phpbb_sm_block_routes">
 		<column>route_id</column>
 		<column>ext_name</column>
@@ -37,6 +73,18 @@
 			<value>4</value>
 			<value></value>
 			<value>noexist.php</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value></value>
+			<value>viewforum.php?f=1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value></value>
+			<value>viewforum.php?f=404</value>
 			<value>1</value>
 		</row>
 	</table>
@@ -78,6 +126,20 @@
 			<value>5</value>
 			<value>blitze.sitemaker.blocks.stats</value>
 			<value>4</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>blitze.sitemaker.blocks.stats</value>
+			<value>5</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>7</value>
+			<value>blitze.sitemaker.blocks.stats</value>
+			<value>6</value>
 			<value>1</value>
 			<value></value>
 		</row>

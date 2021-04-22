@@ -70,10 +70,18 @@ class display
 		{
 			$edit_mode = $this->toggle_edit_mode();
 			$style_id = $this->get_style_id();
-			$current_route = ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './');
+			$current_route = $this->get_current_route();
 
 			$this->show_sitemaker($current_route, $this->user->page['page_dir'], $style_id, $edit_mode);
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_current_route()
+	{
+		return ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './') . ($this->user->page['forum'] ? '?f=' . $this->user->page['forum'] : '');
 	}
 
 	/**

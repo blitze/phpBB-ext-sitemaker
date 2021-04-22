@@ -199,7 +199,12 @@ class settings_module_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->blocks_cleaner = new \blitze\sitemaker\services\blocks\cleaner($this->config, $db, $blocks_manager, $url_checker, '', '');
+		$routes = $this->getMockBuilder('\blitze\sitemaker\services\blocks\routes')
+			->disableOriginalConstructor()
+			->setMethods(null)
+			->getMock();
+
+		$this->blocks_cleaner = new \blitze\sitemaker\services\blocks\cleaner($this->config, $db, $blocks_manager, $routes, $url_checker, '', '');
 
 		$table_prefix = 'phpbb_';
 		$tables = array(

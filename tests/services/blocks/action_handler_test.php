@@ -67,7 +67,7 @@ class action_handler_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $phpbb_dispatcher, $template, $this->translator, $block_factory, $groups, $mapper, $phpEx);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $block_factory, $mapper, $phpEx, $phpbb_dispatcher, $template, $this->translator, $groups);
 
 		return new action_handler($config, $phpbb_container, $request, $this->translator, $blocks, $block_factory, $mapper);
 	}

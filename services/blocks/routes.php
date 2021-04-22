@@ -57,6 +57,7 @@ class routes
 	public function get_route_info($current_route, $page_dir, $style_id, $edit_mode = false)
 	{
 		$routes = $this->get_routes_for_style($style_id);
+		$current_route = str_replace('viewtopic.' . $this->php_ext, 'viewforum.' . $this->php_ext, $current_route);
 		$route_info = array();
 
 		// does route have own settings?
@@ -148,6 +149,15 @@ class routes
 	}
 
 	/**
+	 * @param string $route
+	 * @return bool
+	 */
+	public function is_forum_route($route)
+	{
+		return (strpos($route, 'viewforum.' . $this->php_ext) !== false || strpos($route, 'viewtopic.' . $this->php_ext) !== false);
+	}
+
+	/**
 	 * @param string $current_route
 	 * @param int $style_id
 	 * @return array
@@ -156,6 +166,7 @@ class routes
 	{
 		return array(
 			'route_id'		=> 0,
+			'ext_name'		=> '',
 			'route'			=> $current_route,
 			'style'			=> $style_id,
 			'hide_blocks'	=> false,
@@ -176,17 +187,39 @@ class routes
 		if ($page_dir)
 		{
 			$route = ltrim(dirname($page_dir) . '/index.php', './');
-			$parent_route = $this->get_parent_route_info($routes, $route);
+			return $this->get_parent_route_info($routes, $route);
 		}
-		else if ($current_route === 'viewtopic.' . $this->php_ext)
+		else if ($this->is_forum_route($current_route))
 		{
-			$route = 'viewforum.' . $this->php_ext;
-			$parent_route = $this->get_parent_route_info($routes, $route);
+			$forum_id = explode('?f=', $current_route)[1];
+			return $this->get_parent_forum_route($forum_id, $routes);
 		}
-		else
+
+		return $this->get_virtual_parent($routes, $current_route);
+	}
+
+	/**
+	 * @param int $forum_id
+	 * @param array $routes
+	 * @return array
+	 */
+	protected function get_parent_forum_route($forum_id, array $routes)
+	{
+		$parent_route = [];
+		$forumslist = (array) make_forum_select(false, false, true, false, false, false, true);
+
+		do
 		{
-			$parent_route = $this->get_virtual_parent($routes, $current_route);
+			$forum_id = &$forumslist[$forum_id]['parent_id'];
+			$route = "viewforum.{$this->php_ext}?f={$forum_id}";
+
+			if (isset($routes[$route]) && $routes[$route]['has_blocks'])
+			{
+				$this->is_sub_route = true;
+				$parent_route = $routes[$route];
+			} 
 		}
+		while ($forum_id && !$this->is_sub_route);
 
 		return $parent_route;
 	}

@@ -20,6 +20,9 @@ class cleaner implements cleaner_interface
 	/** @var \blitze\sitemaker\services\blocks\manager */
 	protected $manager;
 
+	/** @var \blitze\sitemaker\services\blocks\routes */
+	protected $routes;
+
 	/** @var \blitze\sitemaker\services\url_checker */
 	protected $url_checker;
 
@@ -41,15 +44,17 @@ class cleaner implements cleaner_interface
 	 * @param \phpbb\config\config							$config				Config object
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\services\blocks\manager		$manager			Blocks manager object
+	 * @param \blitze\sitemaker\services\blocks\routes		$routes				Blocks routes object
 	 * @param \blitze\sitemaker\services\url_checker		$url_checker		Url checker object
 	 * @param string										$blocks_table		Name of blocks database table
 	 * @param string										$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, \blitze\sitemaker\services\url_checker $url_checker, $blocks_table, $cblocks_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, \blitze\sitemaker\services\blocks\routes $routes, \blitze\sitemaker\services\url_checker $url_checker, $blocks_table, $cblocks_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->manager = $manager;
+		$this->routes = $routes;
 		$this->url_checker = $url_checker;
 		$this->blocks_table = $blocks_table;
 		$this->cblocks_table = $cblocks_table;
@@ -131,17 +136,14 @@ class cleaner implements cleaner_interface
 	protected function clean_routes()
 	{
 		$board_url = generate_board_url();
-		$routes	= $this->manager->get_routes('route');
+		$routes	= array_keys($this->manager->get_routes('route'));
+		$forumslist = (array) make_forum_select(false, false, true, false, false, false, true);
 
-		foreach ($routes as $route => $row)
+		foreach ($routes as $route)
 		{
-			$url = $board_url . '/' . $row['route'];
-
 			// Route no longer exists => remove all blocks for route
-			if (!$this->url_checker->exists($url))
+			if (!$this->route_exists($route, $board_url, $forumslist))
 			{
-				$this->orphaned['routes'][] = $url;
-
 				// we dry_run this via cron because routes may be temporarily unreachable for any number of reasons
 				if (!$this->is_dry_run)
 				{
@@ -231,5 +233,57 @@ class cleaner implements cleaner_interface
 		$this->db->sql_freeresult($result);
 
 		return $style_ids;
+	}
+
+	/**
+	 * @param string $route
+	 * @param string $board_url
+	 * @param array $forumslist
+	 * @return bool
+	 */
+	protected function route_exists($route, $board_url, array $forumslist)
+	{
+		if (!$this->routes->is_forum_route($route))
+		{
+			return $this->url_exists($route, $board_url);
+		}
+
+		return $this->forum_exists($route, $board_url, $forumslist);
+	}
+
+	/**
+	 * @param string $route
+	 * @param string $board_url
+	 * @return bool
+	 */
+	protected function url_exists($route, $board_url)
+	{
+		$url = $board_url . '/' . $route;
+		if (!$this->url_checker->exists($url))
+		{
+			$this->orphaned['routes'][] = $url;
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $route
+	 * @param string $board_url
+	 * @param array $forumslist
+	 * @return bool
+	 */
+	protected function forum_exists($route, $board_url, array $forumslist)
+	{
+		[$file, $forum_id] = explode('?f=', $route);
+		
+		if (!isset($forumslist[$forum_id]))
+		{
+			$this->orphaned['routes'][] = $board_url . '/' . $file . '?f=' . $forum_id;
+			return false;
+		}
+
+		return true;
 	}
 }
