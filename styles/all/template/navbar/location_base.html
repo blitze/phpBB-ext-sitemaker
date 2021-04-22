@@ -8,7 +8,7 @@
 	{% set navbar_manager = '' %}
 	{% set default_location = 'overall_header_headerbar_after' %}
 	{% set location_class = 'sm-navbar-location' %}
-	{% if location === NAVBAR_LOCATION || (NAVBAR_LOCATION is defined && location === default_location) %}
+	{% if location === NAVBAR_LOCATION || (NAVBAR_LOCATION is not defined && location === default_location) %}
 		{% set navbar_manager %}
 			<button id="sm-navbar-edit-btn"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
 			{% include('@blitze_sitemaker/navbar/manager.html') %}
