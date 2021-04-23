@@ -106,7 +106,7 @@ abstract class base_action implements action_interface
 	protected function render_block(\blitze\sitemaker\model\entity_interface $entity)
 	{
 		$block = array();
-		/** @type \blitze\sitemaker\model\entity\block $entity */
+		/** @var \blitze\sitemaker\model\entity\block $entity */
 		if ($block_instance = $this->block_factory->get_block($entity->get_name()))
 		{
 			$default_settings = $block_instance->get_config(array());

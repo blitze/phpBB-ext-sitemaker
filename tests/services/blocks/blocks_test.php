@@ -140,6 +140,7 @@ class blocks_test extends \phpbb_database_test_case
 	{
 		return array(
 			array(
+				1,
 				'index.php',
 				'',
 				false,
@@ -172,6 +173,7 @@ class blocks_test extends \phpbb_database_test_case
 				),
 			),
 			array(
+				1,
 				'index.php',
 				'',
 				true,
@@ -215,6 +217,7 @@ class blocks_test extends \phpbb_database_test_case
 				),
 			),
 			array(
+				1,
 				'app.php/foo/test/',
 				'',
 				false,
@@ -237,6 +240,7 @@ class blocks_test extends \phpbb_database_test_case
 				array(),
 			),
 			array(
+				1,
 				'app.php/foo/test/',
 				'',
 				true,
@@ -271,6 +275,7 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			// route has no blocks and hiding blocks for bottom position, no default layout, not in edit_mode
 			array(
+				1,
 				'search.php',
 				'',
 				false,
@@ -294,10 +299,11 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			// route has no blocks, and hiding blocks for bottom position, default route set with blocks on other positions
 			array(
+				1,
 				'search.php',
 				'',
 				false,
-				'index.php',
+				'index.php', // no style id specified, so we use current style. In this case '1'
 				array(
 					0 => true,
 					1 => true,
@@ -328,17 +334,77 @@ class blocks_test extends \phpbb_database_test_case
 			),
 			// route has no blocks, and hiding blocks for bottom position, default route is set with blocks on bottom position
 			array(
+				1,
 				'search.php',
 				'',
 				false,
-				'faq.php',
+				'faq.php:3', // style id specified
 				array(
 					0 => true,
 					1 => true,
 					2 => false,
 				),
 				array(
-					'route_id' => 4,
+					'route_id' => 8,
+					'ext_name' => '',
+					'route' => 'search.php',
+					'style' => 3,
+					'hide_blocks' => false,
+					'has_blocks' => false,
+					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
+				),
+				array(),
+			),
+			// #7: route has no blocks, and hiding blocks for bottom position, default route is set with blocks on top position
+			array(
+				1,
+				'search.php',
+				'',
+				false,
+				'faq.php:2', // default route has style id that is different from current style
+				array(
+					0 => true,
+					1 => true,
+					2 => false,
+				),
+				array(
+					'route_id' => 3,
+					'ext_name' => '',
+					'route' => 'search.php',
+					'style' => 2,
+					'hide_blocks' => false,
+					'has_blocks' => false,
+					'ex_positions' => array('bottom'),
+					'is_sub_route' => false,
+				),
+				array(
+					'positions' => array(
+						'top' => array(
+							array(
+								'bid' => 3,
+								'name' => 'my.foo.block',
+								'view' => '',
+								'class' => ''
+							),
+						),
+					),
+				),
+			),
+			// route has no blocks, and hiding blocks for bottom position, default route is set with blocks on sidebar position
+			array(
+				1,
+				'search.php',
+				'',
+				false,
+				'faq.php:1', // style id specified
+				array(
+					0 => true,
+					1 => true,
+					2 => false,
+				),
+				array(
+					'route_id' => 7,
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -347,10 +413,22 @@ class blocks_test extends \phpbb_database_test_case
 					'ex_positions' => array('bottom'),
 					'is_sub_route' => false,
 				),
-				array(),
+				array(
+					'positions' => array(
+						'sidebar' => array(
+							array(
+								'bid' => 11,
+								'name' => 'my.foo.block',
+								'view' => '',
+								'class' => ''
+							),
+						),
+					),
+				),
 			),
 			// route has no blocks, and hiding blocks for bottom position, we are in edit mode
 			array(
+				1,
 				'search.php',
 				'',
 				true,
@@ -372,7 +450,9 @@ class blocks_test extends \phpbb_database_test_case
 				),
 				array(),
 			),
+			// route has own blocks, default route provided. We are on viewforum page - so forum id is present
 			array(
+				3,
 				'viewforum.php?f=1',
 				'',
 				false,
@@ -405,7 +485,9 @@ class blocks_test extends \phpbb_database_test_case
 					),
 				),
 			),
+			// route has no blocks, default route is provided but this is a forum page and has a parent forum that has blocks
 			array(
+				3,
 				'viewforum.php?f=3',
 				'',
 				false,
@@ -438,6 +520,65 @@ class blocks_test extends \phpbb_database_test_case
 					),
 				),
 			),
+			// route has no blocks, default route is not provided but this is a forum page and has a parent forum of same style that has blocks
+			array(
+				5,
+				'viewforum.php?f=3',
+				'',
+				false,
+				'',
+				array(
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 9,
+					'ext_name' => '',
+					'route' => 'viewforum.php?f=3',
+					'style' => 5,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => true,
+				),
+				array(
+					'positions' => array(
+						'sidebar' => array(
+							array(
+								'bid' => 13,
+								'name' => 'my.foo.block',
+								'view' => '',
+								'class' => ''
+							),
+						),
+					),
+				),
+			),
+			// route has no blocks, default route is not provided but this is a forum page and has no parent forum of same style that has blocks
+			array(
+				2,
+				'viewforum.php?f=3',
+				'',
+				false,
+				'',
+				array(
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 0,
+					'ext_name' => '',
+					'route' => 'viewforum.php?f=3',
+					'style' => 2,
+					'hide_blocks' => false,
+					'has_blocks' => false,
+					'ex_positions' => array(),
+					'is_sub_route' => false,
+				),
+				array(),
+			),
 		);
 	}
 
@@ -445,6 +586,7 @@ class blocks_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider blocks_display_test_data
+	 * @param int $style_id
 	 * @param string $current_page
 	 * @param string $page_dir
 	 * @param bool $edit_mode
@@ -453,13 +595,12 @@ class blocks_test extends \phpbb_database_test_case
 	 * @param array $expected_route_info
 	 * @param array $expected_data
 	 */
-	public function test_blocks_display($current_page, $page_dir, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
+	public function test_blocks_display($style_id, $current_page, $page_dir, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
 	{
 		$block = $this->get_service($default_layout);
 
-		$style_id = $expected_route_info['style'];
 		$route_info = $block->get_route_info($current_page, $page_dir, $style_id, $edit_mode);
-		$block->display($edit_mode, $route_info, $style_id, $display_modes);
+		$block->display($edit_mode, $route_info, $display_modes);
 		$result = $this->template->assign_display('blocks');
 
 		unset($route_info['blocks']);

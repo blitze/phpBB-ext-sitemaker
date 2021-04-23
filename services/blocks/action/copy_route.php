@@ -48,10 +48,10 @@ class copy_route extends base_action
 		// delete the current route and all it's blocks
 		$this->delete_route($route, $style_id);
 
-		/** @type \blitze\sitemaker\model\entity\route $from_entity */
+		/** @var \blitze\sitemaker\model\entity\route $from_entity */
 		$copied_route = $this->duplicate_route($from_entity, $route, $ext_name, $style_id);
 
-		/** @type \blitze\sitemaker\model\entity\route $copied_route */
+		/** @var \blitze\sitemaker\model\entity\route $copied_route */
 		$copied_blocks = $this->duplicate_blocks($from_entity->get_blocks(), $copied_route->get_route_id(), $copied_route->get_style());
 
 		$route_data['config'] = $copied_route->to_array();
@@ -113,7 +113,7 @@ class copy_route extends base_action
 			$copy->set_style($style_id)
 				->set_route_id($route_id);
 
-			/** @type \blitze\sitemaker\model\entity\block $copied */
+			/** @var \blitze\sitemaker\model\entity\block $copied */
 			$copied = $this->block_mapper->save($copy);
 			$position = $copied->get_position();
 

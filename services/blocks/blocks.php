@@ -62,14 +62,13 @@ class blocks extends routes
 	 *
 	 * @param bool $edit_mode
 	 * @param array $route_info
-	 * @param int $style_id
 	 * @param array $display_modes
 	 */
-	public function display($edit_mode, array $route_info, $style_id, array $display_modes)
+	public function display($edit_mode, array $route_info, array $display_modes)
 	{
 		$ex_positions = array_flip($route_info['ex_positions']);
 		$users_groups = $this->groups->get_users_groups();
-		$route_blocks = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
+		$route_blocks = $this->get_blocks_for_route($route_info, $edit_mode);
 
 		$positions = array();
 		foreach ($route_blocks as $position => $blocks)
@@ -78,7 +77,7 @@ class blocks extends routes
 		}
 
 		$this->template->assign_vars(array(
-			'positions'		=> $positions,
+			'positions'		=> array_filter($positions),
 			'S_HAS_BLOCKS'	=> sizeof($positions),
 		));
 

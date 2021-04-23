@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -16,7 +17,8 @@ class set_default_route extends base_action
 	 */
 	public function execute($style_id)
 	{
-		$this->config->set('sitemaker_default_layout', $this->request->variable('route', ''));
+		$route = $this->request->variable('route', '');
+		$this->config->set('sitemaker_default_layout', join(':', [$route, $style_id]));
 
 		return array();
 	}
