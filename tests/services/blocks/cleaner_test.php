@@ -44,7 +44,7 @@ class cleaner_test extends \phpbb_database_test_case
 	 */
 	protected function get_service()
 	{
-		global $cache, $config, $db, $phpbb_dispatcher, $request, $symfony_request, $user;
+		global $config, $db, $phpbb_dispatcher, $request, $symfony_request, $user;
 
 		$blocks_table = 'phpbb_sm_blocks';
 		$block_routes_table = 'phpbb_sm_block_routes';
@@ -55,7 +55,7 @@ class cleaner_test extends \phpbb_database_test_case
 		$symfony_request = new Request();
 
 		$db = $this->new_dbal();
-		// $this->db = &$db;
+		$this->db = &$db;
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
@@ -73,8 +73,6 @@ class cleaner_test extends \phpbb_database_test_case
 				),
 			)),
 		));
-
-		$cache = new \phpbb_mock_cache();
 
 		$blocks_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
 			->disableOriginalConstructor()
@@ -199,17 +197,9 @@ class cleaner_test extends \phpbb_database_test_case
 	 */
 	protected function get_custom_blocks_count()
 	{
-		global $db;
 		$sql = 'SELECT COUNT(block_id) AS count FROM phpbb_sm_cblocks';
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-		return (int) $db->sql_fetchfield('count');
+		return (int) $this->db->sql_fetchfield('count');
 	}
 }
-
-// function make_forum_select()
-// {
-// 	return [
-// 		1	=> 'forum_data'
-// 	];
-// }

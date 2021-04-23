@@ -277,11 +277,11 @@ class cleaner implements cleaner_interface
 	 */
 	protected function forum_exists($route, $board_url, array $forumslist)
 	{
-		$forum_id = explode('?f=', $route)[1];
+		[$file, $forum_id] = explode('?f=', $route);
 
 		if (!isset($forumslist[$forum_id]))
 		{
-			$this->orphaned['routes'][] = $board_url . '/viewforum?f=' . $forum_id;
+			$this->orphaned['routes'][] = $board_url . '/' . $file . '?f=' . $forum_id;
 			return false;
 		}
 

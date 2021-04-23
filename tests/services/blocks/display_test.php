@@ -77,10 +77,11 @@ class display_test extends \phpbb_database_test_case
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
 
+		$page_data['page'] = join('?', [$page_data['page_name'], $page_data['query_string']]);
+
 		$user = new \phpbb\user($translator, '\phpbb\datetime');
 		$user->data['user_style'] = 1;
 		$user->page = $page_data;
-		$user->page['page'] = $page_data['page_name'];
 
 		$cache = new \phpbb_mock_cache();
 		$db = $this->new_dbal();
@@ -143,7 +144,11 @@ class display_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 		$admin_bar->expects($this->exactly((int) $show_admin_bar))
-			->method('show');
+			->method('show')
+			->will($this->returnCallback(function ($route_info) use (&$tpl_data)
+			{
+				$tpl_data['UA_ROUTE'] = $route_info['route'];
+			}));
 
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
@@ -291,6 +296,7 @@ class display_test extends \phpbb_database_test_case
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/index.php?edit_mode=0',
+					'UA_ROUTE' => 'index.php',
 				),
 				array(1),
 			),
@@ -314,6 +320,7 @@ class display_test extends \phpbb_database_test_case
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/faq.php?edit_mode=0',
+					'UA_ROUTE' => 'faq.php',
 				),
 				array(),
 			),
@@ -407,6 +414,7 @@ class display_test extends \phpbb_database_test_case
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/app.php/articles/1234/my-first-post?edit_mode=0',
+					'UA_ROUTE' => 'app.php/articles/1234/my-first-post',
 				),
 				array(),
 			),
@@ -500,45 +508,49 @@ class display_test extends \phpbb_database_test_case
 			),
 			array(
 				array(
-					array('a_sm_manage_blocks', 0, false),
+					array('a_sm_manage_blocks', 0, true),
 				),
 				array(
-					array('edit_mode', false, false, request_interface::REQUEST, false),
+					array('edit_mode', false, false, request_interface::REQUEST, true),
 				),
 				array(
 					'page_dir' => '',
 					'page_name' => 'viewforum.php',
 					'query_string' => 'f=2',
+					'forum' => 2,
 				),
 				'',
-				false,
+				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => '',
+					'U_EDIT_MODE' => 'http://phpBB/viewforum.php?f=2&amp;edit_mode=0',
+					'UA_ROUTE' => 'viewforum.php?f=2',
 				),
 				array(),
 			),
 			array(
 				array(
-					array('a_sm_manage_blocks', 0, false),
+					array('a_sm_manage_blocks', 0, true),
 				),
 				array(
-					array('edit_mode', false, false, request_interface::REQUEST, false),
+					array('edit_mode', false, false, request_interface::REQUEST, true),
 				),
 				array(
 					'page_dir' => '',
 					'page_name' => 'viewtopic.php',
 					'query_string' => 'f=2&t=1',
+					'forum' => 2,
 				),
 				'',
-				false,
+				true,
 				array(
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
-					'U_EDIT_MODE' => '',
+					'U_EDIT_MODE' => 'http://phpBB/viewtopic.php?f=2&amp;t=1&amp;edit_mode=0',
+					'UA_ROUTE' => 'viewforum.php?f=2',
 				),
-				array(9),
+				array(),
 			),
 			// sub-directory with no blocks should inherit from parent directory/index.php if it (parent) has own blocks
 			// in this case, parent directory is test-dir and has blocks, but this route is set to not display any blocks
@@ -605,6 +617,7 @@ class display_test extends \phpbb_database_test_case
 					'S_SITEMAKER' => true,
 					'S_LAYOUT' => 'portal',
 					'U_EDIT_MODE' => 'http://phpBB/baz.php?edit_mode=0',
+					'UA_ROUTE' => 'baz.php',
 				),
 				array(10),
 			),
@@ -625,6 +638,8 @@ class display_test extends \phpbb_database_test_case
 	 */
 	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, array $expected_vars, array $expected_block_ids)
 	{
+		$page_data['forum'] = isset($page_data['forum']) ? $page_data['forum'] : '';
+
 		$display = $this->get_service($auth_map, $variable_map, $page_data, $config_text_data, $show_admin_bar);
 		$display->show();
 
@@ -647,6 +662,7 @@ class display_test extends \phpbb_database_test_case
 				'S_SITEMAKER'	=> '',
 				'S_LAYOUT'		=> '',
 				'U_EDIT_MODE'	=> '',
+				'UA_ROUTE'		=> '',
 			));
 		}
 		return $vars;
