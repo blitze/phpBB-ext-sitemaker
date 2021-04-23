@@ -17,16 +17,12 @@ services:
 
     blitze.sitemaker.blocks:
         class: blitze\sitemaker\services\blocks\blocks
+        parent: blitze.sitemaker.blocks.routes
         arguments:
-            - '@cache.driver'
-            - '@config'
             - '@dispatcher'
             - '@template'
             - '@language'
-            - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.groups'
-            - '@blitze.sitemaker.mapper.factory'
-            - '%core.php_ext%'
 
     blitze.sitemaker.blocks.action_handler:
         class: blitze\sitemaker\services\blocks\action_handler
@@ -75,6 +71,7 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@blitze.sitemaker.blocks.manager'
+            - '@blitze.sitemaker.blocks.routes'
             - '@blitze.sitemaker.url_checker'
             - '%tables.sitemaker.blocks%'
             - '%tables.sitemaker.cblocks%'
@@ -111,6 +108,15 @@ services:
             - '@user'
             - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.mapper.factory'
+
+    blitze.sitemaker.blocks.routes:
+        class: blitze\sitemaker\services\blocks\routes
+        arguments:
+            - '@cache.driver'
+            - '@config'
+            - '@blitze.sitemaker.blocks.factory'
+            - '@blitze.sitemaker.mapper.factory'
+            - '%core.php_ext%'
 
     blitze.sitemaker.cron.blocks_cleanup:
         class: blitze\sitemaker\cron\blocks_cleanup

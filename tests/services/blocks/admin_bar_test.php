@@ -228,7 +228,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option><option value="viewforum.php?f=1">viewforum.php?f=1</option>',
 					'S_HIDE_BLOCKS' => 0,
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
@@ -256,7 +256,7 @@ class admin_bar_test extends \phpbb_database_test_case
 				),
 				array(
 					'S_EDIT_MODE' => true,
-					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option><option value="viewforum.php?f=1">viewforum.php?f=1</option>',
 					'S_HIDE_BLOCKS' => 0,
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
@@ -512,11 +512,11 @@ class admin_bar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'index.php',
-				'<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option><option value="viewforum.php?f=1">viewforum.php?f=1</option>',
 			),
 			array(
 				'app.php/foo/test/',
-				'<option value="">Select</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option>',
+				'<option value="">Select</option><option value="app.php/foo/test/" selected="selected">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php">index.php</option><option value="search.php">search.php</option><option value="viewforum.php?f=1">viewforum.php?f=1</option>',
 			),
 		);
 	}

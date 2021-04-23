@@ -128,7 +128,7 @@ class blocks_admin_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $phpbb_dispatcher, $template, $translator, $block_factory, $groups, $mapper, $phpEx);
+		$blocks = new \blitze\sitemaker\services\blocks\blocks($cache, $config, $block_factory, $mapper, $phpEx, $phpbb_dispatcher, $template, $translator, $groups);
 
 		$action_handler = new \blitze\sitemaker\services\blocks\action_handler($config, $phpbb_container, $request, $translator, $blocks, $block_factory, $mapper);
 

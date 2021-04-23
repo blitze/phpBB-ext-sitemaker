@@ -12,9 +12,6 @@ namespace blitze\sitemaker\services\blocks;
 
 class blocks extends routes
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $phpbb_dispatcher;
 
@@ -41,15 +38,15 @@ class blocks extends routes
 	 *
 	 * @param \phpbb\cache\driver\driver_interface			$cache					Cache driver interface
 	 * @param \phpbb\config\config							$config					Config object
+	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
+	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
+	 * @param string										$php_ext				phpEx
 	 * @param \phpbb\event\dispatcher_interface				$phpbb_dispatcher		Event dispatcher
 	 * @param \phpbb\template\template						$template				Template object
 	 * @param \phpbb\language\language						$translator				Language object
-	 * @param \blitze\sitemaker\services\blocks\factory		$block_factory			Blocks factory object
 	 * @param \blitze\sitemaker\services\groups				$groups					Groups Object
-	 * @param \blitze\sitemaker\model\mapper_factory		$mapper_factory			Mapper factory object
-	 * @param string										$php_ext				phpEx
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\services\groups $groups, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, \blitze\sitemaker\services\blocks\factory $block_factory, \blitze\sitemaker\model\mapper_factory $mapper_factory, $php_ext, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\template\template $template, \phpbb\language\language $translator, \blitze\sitemaker\services\groups $groups)
 	{
 		parent::__construct($cache, $config, $block_factory, $mapper_factory, $php_ext);
 

@@ -44,16 +44,18 @@ class cleaner_test extends \phpbb_database_test_case
 	 */
 	protected function get_service()
 	{
-		global $cache, $config, $request, $symfony_request, $user;
+		global $config, $db, $phpbb_dispatcher, $request, $symfony_request, $user;
 
 		$blocks_table = 'phpbb_sm_blocks';
 		$block_routes_table = 'phpbb_sm_block_routes';
 		$custom_blocks_table = 'phpbb_sm_cblocks';
 
 		$cache = new \phpbb_mock_cache();
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$symfony_request = new Request();
 
-		$this->db = $this->new_dbal();
+		$db = $this->new_dbal();
+		$this->db = &$db;
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
@@ -71,8 +73,6 @@ class cleaner_test extends \phpbb_database_test_case
 				),
 			)),
 		));
-
-		$cache = new \phpbb_mock_cache();
 
 		$blocks_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\factory')
 			->disableOriginalConstructor()
@@ -92,7 +92,7 @@ class cleaner_test extends \phpbb_database_test_case
 			)
 		);
 
-		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $this->db, $tables);
+		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 
 		$this->block_mapper = $mapper_factory->create('blocks');
 
@@ -118,16 +118,22 @@ class cleaner_test extends \phpbb_database_test_case
 			{
 				$valid_urls = [
 					'http://www.example.com/phpBB/index.php',
+					'http://www.example.com/phpBB/faq.php',
 					'http://www.example.com/phpBB/app.php/foo/test',
 				];
 				return in_array($url, $valid_urls) ? true : false;
 			}));
 
-		return new \blitze\sitemaker\services\blocks\cleaner($this->config, $this->db, $blocks_manager, $url_checker, $blocks_table, $custom_blocks_table);
+		$routes = $this->getMockBuilder('\blitze\sitemaker\services\blocks\routes')
+			->disableOriginalConstructor()
+			->setMethods(null)
+			->getMock();
+
+		return new \blitze\sitemaker\services\blocks\cleaner($this->config, $db, $blocks_manager, $routes, $url_checker, $blocks_table, $custom_blocks_table);
 	}
 
 	/**
-	 * Test the run method
+	 * Test the test method
 	 */
 	public function test_test()
 	{
@@ -144,8 +150,8 @@ class cleaner_test extends \phpbb_database_test_case
 		$this->assertEquals([
 			'styles' => [2],
 			'routes' => [
-				'http://www.example.com/phpBB/faq.php',
 				'http://www.example.com/phpBB/noexist.php',
+				'http://www.example.com/phpBB/viewforum.php?f=404',
 			],
 			'blocks' => ['foo.bar.blocks.noexist'],
 		], $cleaner->get_orphans());
@@ -158,21 +164,21 @@ class cleaner_test extends \phpbb_database_test_case
 	{
 		$cleaner = $this->get_service();
 
-		// We start out with 5 blocks (see fixtures)
-		// 4 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
+		// We start out with 7 blocks (see fixtures)
+		// 6 blocks with style_id = 1 and the other block is of style_id = 2, which does not exist
 		$blocks = $this->block_mapper->find();
-		$this->assertEquals(5, count($blocks));
+		$this->assertEquals(7, count($blocks));
 
 		$cleaner->run(['styles', 'routes', 'blocks']);
 
 		$this->assertEquals('', $cleaner->get_orphans());
 
-		// After run cron trask, we should end up with just 2 blocks
+		// After run cron trask, we should end up with just 3 blocks
 		$blocks = $this->block_mapper->find();
-		$this->assertEquals(2, count($blocks));
+		$this->assertEquals(3, count($blocks));
 
 		// confirm we have the expected blocks ids
-		$this->assertEquals(array(1, 2), array_keys($blocks->get_entities()));
+		$this->assertEquals(array(1, 2, 6), array_keys($blocks->get_entities()));
 
 		// column widths for non-existing style should be gone
 		$this->assertEquals(

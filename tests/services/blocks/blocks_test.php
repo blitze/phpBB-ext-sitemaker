@@ -52,7 +52,7 @@ class blocks_test extends \phpbb_database_test_case
 	 */
 	protected function get_service($default_layout = '')
 	{
-		global $phpbb_root_path, $phpEx;
+		global $db, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -67,6 +67,8 @@ class blocks_test extends \phpbb_database_test_case
 		$config = new \phpbb\config\config(array(
 			'sitemaker_default_layout'	=> $default_layout,
 		));
+
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$translator = new \phpbb\language\language($lang_loader);
@@ -126,7 +128,7 @@ class blocks_test extends \phpbb_database_test_case
 				return $tpl_data;
 			}));
 
-		return new blocks($cache, $config, $phpbb_dispatcher, $this->template, $translator, $block_factory, $groups, $mapper_factory, $phpEx);
+		return new blocks($cache, $config, $block_factory, $mapper_factory, $phpEx, $phpbb_dispatcher, $this->template, $translator, $groups);
 	}
 
 	/**
@@ -370,6 +372,72 @@ class blocks_test extends \phpbb_database_test_case
 				),
 				array(),
 			),
+			array(
+				'viewforum.php?f=1',
+				'',
+				false,
+				'index.php',
+				array(
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 6,
+					'ext_name' => '',
+					'route' => 'viewforum.php?f=1',
+					'style' => 3,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => false,
+				),
+				array(
+					'positions' => array(
+						'subcontent' => array(
+							array(
+								'bid' => 10,
+								'name' => 'my.foo.block',
+								'view' => '',
+								'class' => ''
+							),
+						),
+					),
+				),
+			),
+			array(
+				'viewforum.php?f=3',
+				'',
+				false,
+				'index.php',
+				array(
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 6,
+					'ext_name' => '',
+					'route' => 'viewforum.php?f=3',
+					'style' => 3,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => true,
+				),
+				array(
+					'positions' => array(
+						'subcontent' => array(
+							array(
+								'bid' => 10,
+								'name' => 'my.foo.block',
+								'view' => '',
+								'class' => ''
+							),
+						),
+					),
+				),
+			),
 		);
 	}
 
@@ -389,8 +457,9 @@ class blocks_test extends \phpbb_database_test_case
 	{
 		$block = $this->get_service($default_layout);
 
-		$route_info = $block->get_route_info($current_page, $page_dir, 1, $edit_mode);
-		$block->display($edit_mode, $route_info, 1, $display_modes);
+		$style_id = $expected_route_info['style'];
+		$route_info = $block->get_route_info($current_page, $page_dir, $style_id, $edit_mode);
+		$block->display($edit_mode, $route_info, $style_id, $display_modes);
 		$result = $this->template->assign_display('blocks');
 
 		unset($route_info['blocks']);
