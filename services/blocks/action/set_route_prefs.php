@@ -39,7 +39,7 @@ class set_route_prefs extends base_action
 		if ($this->route_is_customized($route_prefs))
 		{
 			// create/update route regardless of whether it has blocks or not
-			/** @type \blitze\sitemaker\model\entity\route $entity */
+			/** @var \blitze\sitemaker\model\entity\route $entity */
 			$entity = $this->force_get_route($route_data);
 			$this->update_route($entity, $route_prefs);
 
@@ -49,7 +49,7 @@ class set_route_prefs extends base_action
 		// user has made choices that match defaults, and route prefs exist in db
 		else if ($entity = $this->route_mapper->load($this->get_condition($route_data)))
 		{
-			/** @type \blitze\sitemaker\model\entity\route $entity */
+			/** @var \blitze\sitemaker\model\entity\route $entity */
 			$this->update_or_remove($entity, $route_prefs);
 		}
 
