@@ -116,9 +116,7 @@ class admin_bar
 		$is_default_route = $u_default_route = false;
 		if ($this->config['sitemaker_default_layout'])
 		{
-			$is_default_route = ($this->config['sitemaker_default_layout'] === $route) ? true : false;
-			$u_default_route .= $board_url . '/' . $this->config['sitemaker_default_layout'];
-			$u_default_route = reapply_sid($u_default_route);
+			$u_default_route = $this->get_default_route_url($is_default_route, $style_id, $route, $board_url);
 		}
 
 		$this->template->assign_vars(array(
@@ -140,6 +138,29 @@ class admin_bar
 
 			'U_VIEW_DEFAULT'	=> $u_default_route,
 		));
+	}
+
+	/**
+	 * @param bool $is_default_route
+	 * @param int $style_id
+	 * @param string $route
+	 * @param string $board_url
+	 * @return string
+	 */
+	protected function get_default_route_url(&$is_default_route, $style_id, $route, $board_url)
+	{
+		[$df_route, $df_style_id] = array_filter(explode(':', $this->config['sitemaker_default_layout'])) + array('', $style_id);
+		$df_style_id = (int) $df_style_id;
+
+		$is_default_route = ([$df_route, $df_style_id] === [$route, $style_id]) ? true : false;
+		$u_default_route = $board_url . '/' . $df_route;
+
+		if ($df_style_id !== $style_id)
+		{
+			$u_default_route .= (strpos($df_route, '?') !== false ? '&amp;' : '?') . 'style=' . $df_style_id;
+		}
+
+		return reapply_sid($u_default_route);
 	}
 
 	/**

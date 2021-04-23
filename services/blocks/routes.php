@@ -78,14 +78,14 @@ class routes
 
 	/**
 	 * @param array $route_info
-	 * @param int $style_id
 	 * @param bool $edit_mode
 	 * @return array
 	 */
-	public function get_blocks_for_route(array $route_info, $style_id, $edit_mode)
+	public function get_blocks_for_route(array $route_info, $edit_mode)
 	{
 		$blocks = $this->get_cached_blocks($edit_mode);
 		$route_id = $route_info['route_id'];
+		$style_id = $route_info['style'];
 
 		return (isset($blocks[$style_id][$route_id])) ? $blocks[$style_id][$route_id] : array();
 	}
@@ -146,7 +146,7 @@ class routes
 		unset($route_info['style'], $route_info['route']);
 		$route_info += $this->get_default_route_info($current_route, $style_id);
 
-		return $this->set_display_route_id($routes, $route_info);
+		return $this->set_display_route_id($style_id, $route_info);
 	}
 
 	/**
@@ -277,22 +277,34 @@ class routes
 	}
 
 	/**
-	 * We get blocks to display by route id, so we update the route id here,
+	 * We get blocks to display by route id and style id, so we update the route id here,
 	 * to show blocks from default route if current route or it's parent has no blocks
 	 *
-	 * @param array $routes
+	 * @param int $style_id
 	 * @param array $route_info
 	 * @return array
 	 */
-	protected function set_display_route_id(array $routes, array $route_info)
+	protected function set_display_route_id($style_id, array $route_info)
 	{
-		$default_route = $this->config['sitemaker_default_layout'];
-		if (!$route_info['has_blocks'] && isset($routes[$default_route]))
+		if (!$route_info['has_blocks'] && ($default = $this->get_inherited_route_info($style_id)))
 		{
-			$route_info['route_id'] = $routes[$default_route]['route_id'];
+			$route_info['route_id'] = $default['route_id'];
+			$route_info['style'] = $default['style'];
 		}
 
 		return $route_info;
+	}
+
+	/**
+	 * @param int $current_style_id
+	 * @return int
+	 */
+	protected function get_inherited_route_info($current_style_id)
+	{
+		[$route, $style_id] = array_filter(explode(':', $this->config['sitemaker_default_layout'])) + array('', $current_style_id);
+		$routes = $this->get_all_routes();
+
+		return (isset($routes[$style_id]) && isset($routes[$style_id][$route])) ? $routes[$style_id][$route] : 0;
 	}
 
 	/**

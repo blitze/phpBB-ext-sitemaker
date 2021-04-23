@@ -101,6 +101,30 @@
 			<value></value>
 			<value>1</value>
 		</row>
+		<row>
+			<value>7</value>
+			<value></value>
+			<value>faq.php</value>
+			<value>1</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>8</value>
+			<value></value>
+			<value>faq.php</value>
+			<value>3</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>9</value>
+			<value></value>
+			<value>viewforum.php?f=1</value>
+			<value>5</value>
+			<value></value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
 		<column>bid</column>
@@ -148,12 +172,12 @@
 			<value>my.foo.block</value>
 			<value>3</value>
 			<value>2</value>
-			<value>bottom</value>
+			<value>top</value>
 			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>2</value>
+			<value>0</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -252,6 +276,48 @@
 			<value></value>
 			<value></value>
 			<value>1</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>11</value>
+			<value>my.foo.block</value>
+			<value>7</value>
+			<value>1</value>
+			<value>sidebar</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>12</value>
+			<value>my.foo.block</value>
+			<value>8</value>
+			<value>3</value>
+			<value>bottom</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>13</value>
+			<value>my.foo.block</value>
+			<value>9</value>
+			<value>5</value>
+			<value>sidebar</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
 			<value></value>
 			<value>1</value>
 		</row>

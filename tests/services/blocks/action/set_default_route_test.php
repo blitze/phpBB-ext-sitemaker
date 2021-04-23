@@ -18,6 +18,7 @@ class set_default_route_test extends base_action
 	 */
 	public function test_config_is_set()
 	{
+		$style_id = 1;
 		$route = 'index.php';
 		$variable_map = array(
 			array('route', '', false, request_interface::REQUEST, $route),
@@ -25,8 +26,8 @@ class set_default_route_test extends base_action
 
 		$command = $this->get_command('set_default_route', $variable_map);
 
-		$command->execute(1);
+		$command->execute($style_id);
 
-		$this->assertEquals($route, $this->config['sitemaker_default_layout']);
+		$this->assertEquals("$route:$style_id", $this->config['sitemaker_default_layout']);
 	}
 }

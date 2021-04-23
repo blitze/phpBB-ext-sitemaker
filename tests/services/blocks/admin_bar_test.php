@@ -45,7 +45,6 @@ class admin_bar_test extends \phpbb_database_test_case
 	/**
 	 * Create the admin_bar service
 	 *
-	 * @param array $auth_map
 	 * @param array $config_data
 	 * @param string $page
 	 * @param string $user_lang
@@ -53,7 +52,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service(array $auth_map = array(), array $config_data = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
+	protected function get_service(array $config_data = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
 	{
 		global $config, $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
@@ -72,10 +71,6 @@ class admin_bar_test extends \phpbb_database_test_case
 		$auth = $this->getMockBuilder('\phpbb\auth\auth')
 			->disableOriginalConstructor()
 			->getMock();
-		$auth->expects($this->any())
-			->method('acl_get')
-			->with($this->stringContains('_'), $this->anything())
-			->will($this->returnValueMap($auth_map));
 
 		$db = $this->new_dbal();
 
@@ -280,7 +275,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_show_admin_bar($user_lang, array $route_info, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config, 'index.php', $user_lang);
+		$admin_bar = $this->get_service($config, 'index.php', $user_lang);
 
 		// assert set_assets() method is called
 		$this->util->expects($this->once())
@@ -303,13 +298,9 @@ class admin_bar_test extends \phpbb_database_test_case
 				'index.php',
 				1,
 				array(
-					array('u_sm_filemanager', 0, false),
-				),
-				array(
 					'default_lang'				=> 'en',
 					'enable_mod_rewrite'		=> false,
 					'sitemaker_default_layout'	=> '',
-					'sm_filemanager'			=> 1,
 				),
 				array(
 					'S_IS_DEFAULT' => false,
@@ -342,13 +333,9 @@ class admin_bar_test extends \phpbb_database_test_case
 				'index.php',
 				1,
 				array(
-					array('u_sm_filemanager', 0, true),
-				),
-				array(
 					'default_lang'				=> 'en',
 					'enable_mod_rewrite'		=> true,
 					'sitemaker_default_layout'	=> 'faq.php',
-					'sm_filemanager'			=> 1,
 				),
 				array(
 					'S_IS_DEFAULT' => false,
@@ -376,7 +363,77 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_NAVBAR_MANAGER' => 'blitze_sitemaker_navbar_manager-prosilver',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
 				),
-			)
+			),
+			array(
+				'index.php',
+				1,
+				array(
+					'default_lang'				=> 'en',
+					'enable_mod_rewrite'		=> true,
+					'sitemaker_default_layout'	=> 'index.php:1',
+				),
+				array(
+					'S_IS_DEFAULT' => true,
+					'BLOCK_ACTIONS' => array(
+						'add_block' => 'blitze_sitemaker_blocks_admin-add_block',
+						'copy_route' => 'blitze_sitemaker_blocks_admin-copy_route',
+						'edit_block' => 'blitze_sitemaker_blocks_admin-edit_block',
+						'handle_custom_action' => 'blitze_sitemaker_blocks_admin-handle_custom_action',
+						'save_block' => 'blitze_sitemaker_blocks_admin-save_block',
+						'save_blocks' => 'blitze_sitemaker_blocks_admin-save_blocks',
+						'set_default_route' => 'blitze_sitemaker_blocks_admin-set_default_route',
+						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
+						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
+						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+						'update_column_width' => 'blitze_sitemaker_blocks_admin-update_column_width',
+					),
+					'PAGE_URL' => 'phpBB/index.php?',
+					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
+					'UA_ROUTE' => 'index.php',
+					'UA_STYLE_ID' => 1,
+					'UA_SCRIPT_PATH' => '/phpBB/',
+					'UA_MODREWRITE' => true,
+					'UA_WEB_ROOT_PATH' => null,
+					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
+					'UA_NAVBAR_MANAGER' => 'blitze_sitemaker_navbar_manager-prosilver',
+					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/index.php',
+				),
+			),
+			array(
+				'index.php',
+				1,
+				array(
+					'default_lang'				=> 'en',
+					'enable_mod_rewrite'		=> true,
+					'sitemaker_default_layout'	=> 'index.php:2',
+				),
+				array(
+					'S_IS_DEFAULT' => false,
+					'BLOCK_ACTIONS' => array(
+						'add_block' => 'blitze_sitemaker_blocks_admin-add_block',
+						'copy_route' => 'blitze_sitemaker_blocks_admin-copy_route',
+						'edit_block' => 'blitze_sitemaker_blocks_admin-edit_block',
+						'handle_custom_action' => 'blitze_sitemaker_blocks_admin-handle_custom_action',
+						'save_block' => 'blitze_sitemaker_blocks_admin-save_block',
+						'save_blocks' => 'blitze_sitemaker_blocks_admin-save_blocks',
+						'set_default_route' => 'blitze_sitemaker_blocks_admin-set_default_route',
+						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
+						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
+						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+						'update_column_width' => 'blitze_sitemaker_blocks_admin-update_column_width',
+					),
+					'PAGE_URL' => 'phpBB/index.php?',
+					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
+					'UA_ROUTE' => 'index.php',
+					'UA_STYLE_ID' => 1,
+					'UA_SCRIPT_PATH' => '/phpBB/',
+					'UA_MODREWRITE' => true,
+					'UA_WEB_ROOT_PATH' => null,
+					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
+					'UA_NAVBAR_MANAGER' => 'blitze_sitemaker_navbar_manager-prosilver',
+					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/index.php?style=2',
+				),
+			),
 		);
 	}
 
@@ -386,13 +443,12 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * @dataProvider set_javascript_data_test_data
 	 * @param string $route
 	 * @param int $style_id
-	 * @param array $auth
 	 * @param array $config
 	 * @param array $expected
 	 */
-	public function test_set_javascript_data($route, $style_id, array $auth, array $config, array $expected)
+	public function test_set_javascript_data($route, $style_id, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service($auth, $config, $route);
+		$admin_bar = $this->get_service($config, $route);
 		$admin_bar->set_javascript_data($route, $style_id);
 
 		$this->assertSame($expected, $this->tpl_data);
@@ -495,7 +551,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config, $page, 'en', $controller, $params);
+		$admin_bar = $this->get_service($config, $page, 'en', $controller, $params);
 
 		$admin_bar->get_startpage_options();
 

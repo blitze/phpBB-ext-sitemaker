@@ -211,6 +211,7 @@ class display
 	 */
 	protected function show_sitemaker($current_route, $page_dir, $style_id, $edit_mode)
 	{
+		/** @var \blitze\sitemaker\services\blocks\blocks $blocks */
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 
 		$route_info = $blocks->get_route_info($current_route, $page_dir, $style_id, $edit_mode);
@@ -221,7 +222,7 @@ class display
 
 		if ($edit_mode || !$route_info['hide_blocks'])
 		{
-			$blocks->display($edit_mode, $route_info, $style_id, $display_modes);
+			$blocks->display($edit_mode, $route_info, $display_modes);
 		}
 
 		$this->template->assign_vars(array(
