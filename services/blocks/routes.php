@@ -159,15 +159,6 @@ class routes
 	}
 
 	/**
-	 * @param string $route
-	 * @return bool
-	 */
-	public function is_forum_route($route)
-	{
-		return (strpos($route, 'viewforum.' . $this->php_ext) !== false || strpos($route, 'viewtopic.' . $this->php_ext) !== false);
-	}
-
-	/**
 	 * @param string $current_route
 	 * @param int $style_id
 	 * @return array
