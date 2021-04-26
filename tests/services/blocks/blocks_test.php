@@ -142,9 +142,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'index.php',
-				'',
 				false,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -175,9 +178,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'index.php',
-				'',
 				true,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -219,9 +225,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'app.php/foo/test/',
-				'',
 				false,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => false,
@@ -242,9 +251,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'app.php/foo/test/',
-				'',
 				true,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -277,9 +289,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				false,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -301,9 +316,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				false,
 				'index.php', // no style id specified, so we use current style. In this case '1'
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -336,9 +354,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				false,
 				'faq.php:3', // style id specified
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -360,9 +381,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				false,
 				'faq.php:2', // default route has style id that is different from current style
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -395,9 +419,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				false,
 				'faq.php:1', // style id specified
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -430,9 +457,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				1,
 				'search.php',
-				'',
 				true,
 				'index.php',
+				array(
+					'page_dir' => '',
+					'forum' => 0,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -454,9 +484,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				3,
 				'viewforum.php?f=1',
-				'',
 				false,
 				'index.php',
+				array(
+					'page_dir' => '',
+					'forum' => 1,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -489,9 +522,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				3,
 				'viewforum.php?f=3',
-				'',
 				false,
 				'index.php',
+				array(
+					'page_dir' => '',
+					'forum' => 3,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -524,9 +560,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				5,
 				'viewforum.php?f=3',
-				'',
 				false,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 3,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -559,9 +598,12 @@ class blocks_test extends \phpbb_database_test_case
 			array(
 				2,
 				'viewforum.php?f=3',
-				'',
 				false,
 				'',
+				array(
+					'page_dir' => '',
+					'forum' => 3,
+				),
 				array(
 					0 => true,
 					1 => true,
@@ -588,18 +630,18 @@ class blocks_test extends \phpbb_database_test_case
 	 * @dataProvider blocks_display_test_data
 	 * @param int $style_id
 	 * @param string $current_page
-	 * @param string $page_dir
 	 * @param bool $edit_mode
 	 * @param string $default_layout
+	 * @param array $page_data
 	 * @param array $display_modes
 	 * @param array $expected_route_info
 	 * @param array $expected_data
 	 */
-	public function test_blocks_display($style_id, $current_page, $page_dir, $edit_mode, $default_layout, array $display_modes, array $expected_route_info, array $expected_data)
+	public function test_blocks_display($style_id, $current_page, $edit_mode, $default_layout, array $page_data, array $display_modes, array $expected_route_info, array $expected_data)
 	{
 		$block = $this->get_service($default_layout);
 
-		$route_info = $block->get_route_info($current_page, $page_dir, $style_id, $edit_mode);
+		$route_info = $block->get_route_info($current_page, $page_data['page_dir'], $page_data['forum'], $style_id, $edit_mode);
 		$block->display($edit_mode, $route_info, $display_modes);
 		$result = $this->template->assign_display('blocks');
 

@@ -638,7 +638,7 @@ class display_test extends \phpbb_database_test_case
 	 */
 	public function test_show_blocks(array $auth_map, array $variable_map, array $page_data, $config_text_data, $show_admin_bar, array $expected_vars, array $expected_block_ids)
 	{
-		$page_data['forum'] = isset($page_data['forum']) ? $page_data['forum'] : '';
+		$page_data['forum'] = isset($page_data['forum']) ? $page_data['forum'] : 0;
 
 		$display = $this->get_service($auth_map, $variable_map, $page_data, $config_text_data, $show_admin_bar);
 		$display->show();

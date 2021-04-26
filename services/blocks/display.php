@@ -72,7 +72,7 @@ class display
 			$style_id = $this->get_style_id();
 			$current_route = $this->get_current_route();
 
-			$this->show_sitemaker($current_route, $this->user->page['page_dir'], $style_id, $edit_mode);
+			$this->show_sitemaker($current_route, $style_id, $edit_mode);
 		}
 	}
 
@@ -205,16 +205,18 @@ class display
 	/**
 	 * @param int $style_id
 	 * @param string $current_route
-	 * @param string $page_dir
 	 * @param int $style_id
 	 * @param bool $edit_mode
 	 */
-	protected function show_sitemaker($current_route, $page_dir, $style_id, $edit_mode)
+	protected function show_sitemaker($current_route, $style_id, $edit_mode)
 	{
 		/** @var \blitze\sitemaker\services\blocks\blocks $blocks */
 		$blocks = $this->phpbb_container->get('blitze.sitemaker.blocks');
 
-		$route_info = $blocks->get_route_info($current_route, $page_dir, $style_id, $edit_mode);
+		$page_dir = $this->user->page['page_dir'];
+		$forum_id = $this->user->page['forum'];
+
+		$route_info = $blocks->get_route_info($current_route, $page_dir, $forum_id, $style_id, $edit_mode);
 		$display_modes = $this->get_display_modes($route_info['is_sub_route']);
 		$u_edit_mode = $this->get_edit_mode_url($edit_mode, $display_modes);
 

@@ -21,9 +21,6 @@ class cleaner implements cleaner_interface
 	/** @var \blitze\sitemaker\services\blocks\manager */
 	protected $manager;
 
-	/** @var \blitze\sitemaker\services\blocks\routes */
-	protected $routes;
-
 	/** @var \blitze\sitemaker\services\url_checker */
 	protected $url_checker;
 
@@ -45,17 +42,15 @@ class cleaner implements cleaner_interface
 	 * @param \phpbb\config\config							$config				Config object
 	 * @param \phpbb\db\driver\driver_interface				$db					Database object
 	 * @param \blitze\sitemaker\services\blocks\manager		$manager			Blocks manager object
-	 * @param \blitze\sitemaker\services\blocks\routes		$routes				Blocks routes object
 	 * @param \blitze\sitemaker\services\url_checker		$url_checker		Url checker object
 	 * @param string										$blocks_table		Name of blocks database table
 	 * @param string										$cblocks_table		Name of custom blocks database table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, \blitze\sitemaker\services\blocks\routes $routes, \blitze\sitemaker\services\url_checker $url_checker, $blocks_table, $cblocks_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \blitze\sitemaker\services\blocks\manager $manager, \blitze\sitemaker\services\url_checker $url_checker, $blocks_table, $cblocks_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->manager = $manager;
-		$this->routes = $routes;
 		$this->url_checker = $url_checker;
 		$this->blocks_table = $blocks_table;
 		$this->cblocks_table = $cblocks_table;
@@ -244,7 +239,7 @@ class cleaner implements cleaner_interface
 	 */
 	protected function route_exists($route, $board_url, array $forumslist)
 	{
-		if (!$this->routes->is_forum_route($route))
+		if (strpos($route, 'viewforum.') === false)
 		{
 			return $this->url_exists($route, $board_url);
 		}

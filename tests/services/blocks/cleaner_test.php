@@ -124,12 +124,7 @@ class cleaner_test extends \phpbb_database_test_case
 				return in_array($url, $valid_urls) ? true : false;
 			}));
 
-		$routes = $this->getMockBuilder('\blitze\sitemaker\services\blocks\routes')
-			->disableOriginalConstructor()
-			->setMethods(null)
-			->getMock();
-
-		return new \blitze\sitemaker\services\blocks\cleaner($this->config, $db, $blocks_manager, $routes, $url_checker, $blocks_table, $custom_blocks_table);
+		return new \blitze\sitemaker\services\blocks\cleaner($this->config, $db, $blocks_manager, $url_checker, $blocks_table, $custom_blocks_table);
 	}
 
 	/**

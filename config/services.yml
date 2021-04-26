@@ -71,7 +71,6 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@blitze.sitemaker.blocks.manager'
-            - '@blitze.sitemaker.blocks.routes'
             - '@blitze.sitemaker.url_checker'
             - '%tables.sitemaker.blocks%'
             - '%tables.sitemaker.cblocks%'
