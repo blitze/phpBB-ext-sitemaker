@@ -125,6 +125,14 @@
 			<value></value>
 			<value>1</value>
 		</row>
+		<row>
+			<value>10</value>
+			<value></value>
+			<value>app.php/forum</value>
+			<value>5</value>
+			<value></value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_sm_blocks">
 		<column>bid</column>
@@ -311,6 +319,20 @@
 			<value>13</value>
 			<value>my.foo.block</value>
 			<value>9</value>
+			<value>5</value>
+			<value>sidebar</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>14</value>
+			<value>my.foo.block</value>
+			<value>10</value>
 			<value>5</value>
 			<value>sidebar</value>
 			<value>0</value>

@@ -621,6 +621,33 @@ class blocks_test extends \phpbb_database_test_case
 				),
 				array(),
 			),
+			// route has no blocks, no default route is set but this is a forum page and app.php/forum has blocks
+			array(
+				5,
+				'viewforum.php?f=13',
+				false,
+				'',
+				array(
+					'page_dir' => '',
+					'forum' => 13,
+				),
+				array(
+					0 => true,
+					1 => true,
+					2 => true,
+				),
+				array(
+					'route_id' => 10,
+					'ext_name' => '',
+					'route' => 'viewforum.php?f=13',
+					'style' => 5,
+					'hide_blocks' => false,
+					'has_blocks' => true,
+					'ex_positions' => array(),
+					'is_sub_route' => true,
+				),
+				array(),
+			),
 		);
 	}
 

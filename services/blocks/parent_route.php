@@ -149,7 +149,9 @@ class parent_route
 			}
 		} while ($forum_id);
 
-		return null;
+		// make all forums child route of app.php/forum
+		$route = 'app.' . $this->php_ext . '/forum';
+		return $this->route_has_blocks($routes, $route) ? $routes[$route] : null;
 	}
 
 	/**
