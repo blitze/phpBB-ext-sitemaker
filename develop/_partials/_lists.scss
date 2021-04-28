@@ -218,11 +218,11 @@ ul.sm-list {
 					text-decoration: none;
 				}
 			}
-
-			&.active > a {
-				font-weight: bolder;
-			}
 		}
+	}
+
+	li.active > a {
+		font-weight: bolder;
 	}
 
 	.sm-list-reverse & {
