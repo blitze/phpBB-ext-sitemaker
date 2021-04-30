@@ -21,6 +21,9 @@ class navbar
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
+
 	/** @var \phpbb\request\request_interface */
 	protected $request;
 
@@ -30,13 +33,15 @@ class navbar
 	 * @param \phpbb\config\config					$config			Config object
 	 * @param \phpbb\config\db_text					$config_text	Config text object
 	 * @param \phpbb\db\driver\driver_interface		$db	 			Database connection
+	 * @param \phpbb\path_helper					$path_helper	Path helper object
 	 * @param \phpbb\request\request_interface		$request		Request object
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, \phpbb\request\request_interface $request)
+	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, \phpbb\path_helper $path_helper, \phpbb\request\request_interface $request)
 	{
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->db = $db;
+		$this->path_helper = $path_helper;
 		$this->request = $request;
 	}
 
@@ -66,9 +71,9 @@ class navbar
 	 */
 	public function get_css($style)
 	{
-		$board_url = generate_board_url();
+		$web_root_path = $this->path_helper->get_web_root_path();
 
-		$css = "@import url('{$board_url}/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');";
+		$css = "@import url('{$web_root_path}/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');";
 		$css .= html_entity_decode((string) $this->config_text->get('sm_navbar_' . $style));
 
 		return $css;

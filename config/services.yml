@@ -235,6 +235,7 @@ services:
             - '@config'
             - '@config_text'
             - '@dbal.conn'
+            - '@path_helper'
             - '@request'
 
     blitze.sitemaker.poll:

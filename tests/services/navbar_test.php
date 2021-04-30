@@ -66,6 +66,16 @@ class navbar_test extends \phpbb_database_test_case
 		// 	1 => $config_text_data
 		// )));
 
+		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$path_helper->expects($this->any())
+			->method('get_web_root_path')
+			->will($this->returnCallback(function ()
+			{
+				return 'webroot';
+			}));
+
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -77,7 +87,7 @@ class navbar_test extends \phpbb_database_test_case
 		$this->db = $db = $this->new_dbal();
 		$this->config_text = new \phpbb\config\db_text($this->db, 'phpbb_config_text');
 
-		return new \blitze\sitemaker\services\navbar($this->config, $this->config_text, $db, $request);
+		return new \blitze\sitemaker\services\navbar($this->config, $this->config_text, $db, $path_helper, $request);
 	}
 
 	/**
@@ -158,15 +168,15 @@ class navbar_test extends \phpbb_database_test_case
 		return array(
 			array(
 				'xmas',
-				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');",
+				"@import url('webroot/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');",
 			),
 			array(
 				'silverlight',
-				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{background-color: #123456;}",
+				"@import url('webroot/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{background-color: #123456;}",
 			),
 			array(
 				'prosilver',
-				"@import url('http://www.example.com/phpBB/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{font-size:11px;}",
+				"@import url('webroot/ext/blitze/sitemaker/styles/all/theme/assets/navbar.min.css');.sm-menu{font-size:11px;}",
 			),
 		);
 	}
