@@ -28,7 +28,7 @@ function TreeGroup({ idKey, groupActions = {}, ...options }) {
 	};
 
 	const init = groupId => {
-		AjaxSetup($loader, showMessage, `${idKey}=${groupId}`);
+		AjaxSetup($loader, showMessage, `${idKey}=${groupId}&sid=${window.config.sid}`);
 
 		if (groupId > 0) {
 			$tree.show();

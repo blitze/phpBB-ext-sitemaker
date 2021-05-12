@@ -88,6 +88,7 @@ class menu_module_test extends \phpbb_database_test_case
 
 		$user = new \phpbb\user($language, '\phpbb\datetime');
 		$user->data['user_lang'] = $user_lang;
+		$user->data['session_id'] = 'session_id';
 		$user->page['root_script_path'] = '/phpBB/';
 
 		$request = $this->getMockBuilder('\phpbb\request\request_interface')
@@ -172,6 +173,7 @@ class menu_module_test extends \phpbb_database_test_case
 					'SM_USER_LANG' => 'en',
 					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
+					'SESSION_ID' => 'session_id',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",
@@ -202,6 +204,7 @@ class menu_module_test extends \phpbb_database_test_case
 					'SM_USER_LANG' => 'fr',
 					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
+					'SESSION_ID' => 'session_id',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
 						'FORUMS' => "FORUM|app.php/forum\n\tForum 1|viewforum.php?f=1\n\t\tForum 2|viewforum.php?f=2",

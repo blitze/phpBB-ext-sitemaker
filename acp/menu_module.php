@@ -91,6 +91,7 @@ class menu_module
 			'ICON_PICKER'	=> $this->icon->picker(),
 			'SM_USER_LANG'	=> $this->user->data['user_lang'],
 			'SCRIPT_PATH'	=> $this->user->page['root_script_path'],
+			'SESSION_ID'	=> $this->user->data['session_id'],
 			'T_PATH'		=> $this->phpbb_root_path,
 			'UA_AJAX_URL'   => $this->controller_helper->route('blitze_sitemaker_menus_admin', array(), true, '') . '/',
 		));
