@@ -57,15 +57,19 @@ export default function SidebarWidth(getPositionName: Function): string {
 			save($sidebar, $input, colWidth, unit);
 		}
 
-		let stepTimer;
+		let stepInterval;
+		let stepTimeOut;
 		let colWidth = 0;
 
-		$columnSizeInput.keyup(e => render($(e.target)));
+		$columnSizeInput.keyup((e) => render($(e.target)));
 
 		$(element)
 			.find('.stepper')
-			.mouseup(() => clearInterval(stepTimer))
-			.mousedown(e => {
+			.mouseup(() => {
+				clearTimeout(stepTimeOut);
+				clearInterval(stepInterval);
+			})
+			.mousedown((e) => {
 				const $input = $columnSizeInput.find('input');
 				const widthVal = $input.val();
 				const [width, unit] = getWidthParts(widthVal);
@@ -82,8 +86,10 @@ export default function SidebarWidth(getPositionName: Function): string {
 					}
 				};
 
-				// eslint-disable-next-line smells/no-setinterval
-				stepTimer = setInterval(columnSizer, 200);
+				stepTimeOut = setTimeout(() => {
+					// eslint-disable-next-line smells/no-setinterval
+					stepInterval = setInterval(columnSizer, 50);
+				}, 300);
 				columnSizer();
 			});
 	});
