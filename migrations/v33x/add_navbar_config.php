@@ -55,6 +55,9 @@ class add_navbar_config extends \phpbb\db\migration\container_aware_migration
 	 */
 	public function remove_navbar_css()
 	{
-		$this->container->get('blitze.sitemaker.navbar')->cleanup(true);
+		$sql = 'DELETE
+			FROM ' . $this->container->getParameter('tables.config_text') . '
+			WHERE config_name ' . $this->db->sql_like_expression('sm_navbar_' . $this->db->get_any_char());
+		$this->db->sql_query($sql);
 	}
 }
