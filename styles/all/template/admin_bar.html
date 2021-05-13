@@ -35,12 +35,14 @@
 							<div class="col-bottom">
 								<form id="copy-form">
 									<div class="grid-middle-noBottom">
-										<div class="col"><select class="sm-full-width" name="from_route">{{ S_ROUTE_OPS }}</select></div>
-										<a href="#" class="layout-copy" data-action="view" title="{{ lang('VISIT_PAGE') }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-									</div>
-									<div class="grid-middle-noBottom">
-										<div class="col"><select class="sm-full-width" name="from_style">{{ S_STYLE_OPTIONS }}</select></div>
-										<a href="#" class="layout-copy" data-action="copy" title="{{ lang('BLOCKS_COPY_FROM') }}"><i class="fa fa-copy" aria-hidden="true"></i></a>
+										<div class="col-7 grid-1-noBottom">
+											<div class="col"><select class="sm-full-width" name="from_route">{{ S_ROUTE_OPS }}</select></div>
+											<div class="col"><select class="sm-full-width" name="from_style">{{ S_STYLE_OPTIONS }}</select></div>
+										</div>
+										<div class="col-5">
+											<a href="#" class="layout-copy" data-action="view" title="{{ lang('VISIT_PAGE') }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+											<a href="#" class="layout-copy" data-action="copy" title="{{ lang('BLOCKS_COPY_FROM') }}"><i class="fa fa-copy" aria-hidden="true"></i></a>
+										</div>
 									</div>
 								</form>
 							</div>
