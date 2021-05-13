@@ -1,3 +1,4 @@
 <span>{{ TOTAL_USERS_ONLINE }}</span><br /><br />
 <span>{{ RECORD_USERS }}<br /> <br />{{ LOGGED_IN_USER_LIST }}</span>
+{% if LEGEND %}<br /><br /><em>{L_LEGEND}{L_COLON} {LEGEND}</em>{% endif %}
 {% if U_VIEWONLINE %}<br /><hr /><div class="align-center"><a href="{{ U_VIEWONLINE }}">{{ lang('VIEW_DETAILS') }}</a></div>{% endif %}

@@ -21,7 +21,7 @@ class whois_test extends blocks_base
 	 */
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
+		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/whois.xml');
 	}
 
 	/**
@@ -43,18 +43,33 @@ class whois_test extends blocks_base
 			{
 				return ($authed) ? true : false;
 			});
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->with('u_viewprofile')
+			->willReturn($authed);
 
 		$this->config['record_online_users'] = 3;
 		$this->config['record_online_date'] = strtotime('7 December 2015');
+		$this->config['legend_sort_groupname'] = $authed ? 'group_name' : 'group_legend';
+
+		$group_helper = $this->getMockBuilder('\phpbb\group\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$group_helper->expects($this->any())
+			->method('get_name')
+			->willReturnCallback(function ($group_name)
+			{
+				return $group_name;
+			});
 
 		$translator = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function ($key, $value)
+			->willReturnCallback(function ()
 			{
-				return $key . ': ' . $value;
+				return implode(': ', array_filter(func_get_args()));
 			});
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -67,15 +82,19 @@ class whois_test extends blocks_base
 			);
 		$template->expects($this->any())
 			->method('retrieve_vars')
-			->with(array('TOTAL_USERS_ONLINE', 'LOGGED_IN_USER_LIST', 'RECORD_USERS'))
-			->willReturnCallback(function () use ($current_page)
+			->with(array('TOTAL_USERS_ONLINE', 'LOGGED_IN_USER_LIST', 'RECORD_USERS', 'LEGEND'))
+			->willReturnCallback(function () use ($authed, $current_page)
 			{
 				if (strpos($current_page, 'f=') !== false)
 				{
+					$legend = $authed
+						? '<a href="#">Administrators</a><a href="#">Moderators</a>'
+						: '<span>Administrators</span><span>Moderators</span>';
 					return array(
 						'TOTAL_USERS_ONLINE' => 'In total there is 1 user online :: 2 registered, 0 hidden and 0 guests',
 						'LOGGED_IN_USER_LIST' => 'Users browsing this forum: demo and 0 guests',
 						'RECORD_USERS' => 'Most users ever online was 2 on Tue Nov 24, 2015 4:49 pm',
+						'LEGEND' => $legend,
 					);
 				}
 				return [];
@@ -84,6 +103,7 @@ class whois_test extends blocks_base
 		$user = $this->getMockBuilder('\phpbb\user', array(), array($translator, '\phpbb\datetime'))
 			->disableOriginalConstructor()
 			->getMock();
+		$user->data['user_id'] = $authed ? 2 : 1;
 		$user->timezone = new \DateTimeZone('UTC');
 		$user->expects($this->any())
 			->method('lang')
@@ -96,7 +116,7 @@ class whois_test extends blocks_base
 			'REGISTERED_USERS' => 'REGISTERED_USERS',
 		);
 
-		return new whois($this->auth, $this->config, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
+		return new whois($this->auth, $this->config, $this->db, $group_helper, $translator, $template, $user, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -132,7 +152,19 @@ class whois_test extends blocks_base
 					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
 					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
 					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
+					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>COMMA_SEPARATOR<span style="color:#9E8DA7">BOTS</span>COMMA_SEPARATOR<a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>',
 					'U_VIEWONLINE' => '',
+				),
+			),
+			array(
+				true,
+				'index.php',
+				array(
+					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
+					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
+					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
+					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>COMMA_SEPARATOR<span style="color:#9E8DA7">BOTS</span>COMMA_SEPARATOR<a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>COMMA_SEPARATOR<a style="color:#eee" href="phpBB/memberlist.php?mode=group&amp;g=7">custom</a>',
+					'U_VIEWONLINE' => 'phpBB/viewonline.php',
 				),
 			),
 			array(
@@ -142,6 +174,7 @@ class whois_test extends blocks_base
 					'TOTAL_USERS_ONLINE' => 'In total there is 1 user online :: 2 registered, 0 hidden and 0 guests',
 					'LOGGED_IN_USER_LIST' => 'Users browsing this forum: demo and 0 guests',
 					'RECORD_USERS' => 'Most users ever online was 2 on Tue Nov 24, 2015 4:49 pm',
+					'LEGEND' => '<a href="#">Administrators</a><a href="#">Moderators</a>',
 					'U_VIEWONLINE' => 'phpBB/viewonline.php',
 				),
 			),

@@ -236,6 +236,8 @@ services:
         arguments:
             - '@auth'
             - '@config'
+            - '@dbal.conn'
+            - '@group_helper'
             - '@language'
             - '@template'
             - '@user'

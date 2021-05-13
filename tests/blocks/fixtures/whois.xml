@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="phpbb_groups">
+		<column>group_id</column>
+		<column>group_type</column>
+		<column>group_name</column>
+		<column>group_colour</column>
+		<column>group_legend</column>
+        <column>group_desc</column>
+		<row>
+			<value>1</value>
+			<value>3</value>
+			<value>GUESTS</value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>3</value>
+			<value>GLOBAL_MODERATORS</value>
+			<value>00AA00</value>
+			<value>2</value>
+			<value></value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>3</value>
+			<value>ADMINISTRATORS</value>
+			<value>AA0000</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>3</value>
+			<value>BOTS</value>
+			<value>9E8DA7</value>
+			<value>1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>7</value>
+			<value>2</value>
+			<value>custom</value>
+			<value>eee</value>
+			<value>1</value>
+			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_user_group">
+		<column>group_id</column>
+		<column>user_id</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+		</row>
+	</table>
+</dataset>
