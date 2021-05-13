@@ -15,7 +15,7 @@
 		transform: rotate(15deg);
 	}
 
-	@media screen and (max-width: 940px) {
+	@media screen and (max-width: $breakpoint-medium) {
 		padding: 7px 10px;
 	}
 }
@@ -87,7 +87,7 @@
 	text-align: left;
 }
 
-@media screen and (max-width: $breakpoint-medium) {
+@media screen and (max-width: 480px) {
 	.sm-responsive-show {
 		display: block !important;
 	}
