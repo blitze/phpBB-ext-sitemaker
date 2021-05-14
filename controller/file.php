@@ -10,7 +10,6 @@
 
 namespace blitze\sitemaker\controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use phpbb\exception\http_exception;
 
