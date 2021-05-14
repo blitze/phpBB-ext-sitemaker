@@ -100,7 +100,7 @@ class whois extends block
 				'TOTAL_USERS_ONLINE'	=> $l_online_users,
 				'LOGGED_IN_USER_LIST'	=> $online_userlist,
 				'RECORD_USERS'			=> $l_online_record,
-				'LEGEND'				=> $data['LEGEND'] ? $data['LEGEND'] : $this->get_legend(),
+				'LEGEND'				=> !empty($data['LEGEND']) ? $data['LEGEND'] : $this->get_legend(),
 				'U_VIEWONLINE'			=> $this->get_viewonline_url(),
 			)
 		);

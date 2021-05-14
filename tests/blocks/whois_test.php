@@ -67,9 +67,10 @@ class whois_test extends blocks_base
 			->getMock();
 		$translator->expects($this->any())
 			->method('lang')
-			->willReturnCallback(function ()
+			->willReturnCallback(function ($key)
 			{
-				return implode(': ', array_filter(func_get_args()));
+				$lang = ['COMMA_SEPARATOR' => ', '];
+				return isset($lang[$key]) ? $lang[$key] : implode(': ', array_filter(func_get_args()));
 			});
 
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -152,7 +153,7 @@ class whois_test extends blocks_base
 					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
 					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
 					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
-					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>COMMA_SEPARATOR<span style="color:#9E8DA7">BOTS</span>COMMA_SEPARATOR<a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>',
+					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>, <span style="color:#9E8DA7">BOTS</span>, <a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>',
 					'U_VIEWONLINE' => '',
 				),
 			),
@@ -163,7 +164,7 @@ class whois_test extends blocks_base
 					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
 					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
 					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
-					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>COMMA_SEPARATOR<span style="color:#9E8DA7">BOTS</span>COMMA_SEPARATOR<a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>COMMA_SEPARATOR<a style="color:#eee" href="phpBB/memberlist.php?mode=group&amp;g=7">custom</a>',
+					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>, <span style="color:#9E8DA7">BOTS</span>, <a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>, <a style="color:#eee" href="phpBB/memberlist.php?mode=group&amp;g=7">custom</a>',
 					'U_VIEWONLINE' => 'phpBB/viewonline.php',
 				),
 			),
