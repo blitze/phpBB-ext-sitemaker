@@ -120,7 +120,6 @@ class whois extends block
 	private function get_legend()
 	{
 		$sql = $this->get_legend_sql();
-		echo "\n$sql\n";
 		$result = $this->db->sql_query($sql);
 
 		$legend = array();
@@ -160,7 +159,6 @@ class whois extends block
 	protected function get_legend_sql()
 	{
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
-		echo $order_legend . "\n";
 
 		// Grab group details for legend display
 		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
