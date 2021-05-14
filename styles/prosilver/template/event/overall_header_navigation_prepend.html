@@ -1,5 +1,5 @@
 {% if SM_SHOW_FORUM_NAV %}
 	<li class="no-bulletin" data-last-responsive="true">
-		<a href="{{ U_SM_VIEWFORUM }}" title="{{ lang('FORUM') }}" role="menuitem"><i class="{{ SM_FORUM_ICON }} fa-lg" aria-hidden="true"></i>{{ lang('FORUM') }}</a>
+		<a href="{{ U_SM_VIEWFORUM }}" title="{{ lang('FORUM') }}" role="menuitem"><i class="{{ SM_FORUM_ICON|replace({'fa ': 'icon '}) }} fa-fw" aria-hidden="true"></i>{{ lang('FORUM') }}</a>
 	</li>
 {% endif %}
