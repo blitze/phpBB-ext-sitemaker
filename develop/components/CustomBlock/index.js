@@ -30,7 +30,7 @@ export default function CustomBlock() {
 	}
 
 	function initTinyMCE() {
-		const { webRootPath } = config;
+		// const { webRootPath } = config;
 
 		const options = {
 			selector: 'div.editable-block',
@@ -45,7 +45,7 @@ export default function CustomBlock() {
 			image_advtab: true,
 			image_caption: true,
 			quickbars_insert_toolbar:
-				'responsivefilemanager image media codesample hr quicktable code',
+				'image media codesample hr quicktable code',
 			quickbars_selection_toolbar:
 				'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | responsivefilemanager image media link charmap emoticons codesample code',
 			noneditable_noneditable_class: 'mceNonEditable',
@@ -54,11 +54,12 @@ export default function CustomBlock() {
 			powerpaste_html_import: 'clean',
 			automatic_uploads: true,
 			images_reuse_filename: true,
-			images_upload_base_path: `${webRootPath}images/sitemaker_uploads/source/`,
+			// images_upload_base_path: `${webRootPath}images/sitemaker_uploads/source/`,
 			images_upload_url: config.uploadUrl,
 			valid_elements: '*[*]',
 			end_container_on_empty_block: true,
-			relative_urls: true,
+			relative_urls: false,
+			remove_script_host : true,
 			document_base_url: `${config.boardUrl}/`,
 			setup: (editor) => {
 				let $blockContainer;
