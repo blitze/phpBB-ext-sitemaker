@@ -26,15 +26,35 @@ export default function LayoutPreviewer() {
 		});
 
 	$('.style-layouts > dl')
-		.hover(e => {
+		.hover((e) => {
 			const layout = $(e.currentTarget).data('layout');
 			showSmallPreview(layout);
 		})
 		.find('.layout-option')
-		.change(e => {
+		.change((e) => {
 			const layout = e.currentTarget.value;
-			$(e.currentTarget)
-				.closest('dl')
-				.data('layout', layout);
+			$(e.currentTarget).closest('dl').data('layout', layout);
+		});
+
+	$('.layout-option')
+		.css('position', 'absolute')
+		.on('mouseover', (e) => {
+			const $target = $(e.target);
+			$target
+				.attr('size', $target.find('option').length)
+				.css('zIndex', 3000);
+		})
+		.on('mouseout', (e) =>
+			$(e.currentTarget).attr('size', 1).css('zIndex', ''),
+		)
+		.find('option')
+		.on('click', e => $(e.currentTarget).parent().trigger('mouseout'))
+		.on('mouseenter', (e) => {
+			e.stopPropagation();
+			showSmallPreview($(e.target).val());
+		})
+		.on('mouseleave', (e) => {
+			e.stopPropagation();
+			$(e.target).css('background', '');
 		});
 }
