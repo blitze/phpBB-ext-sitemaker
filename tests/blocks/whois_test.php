@@ -50,7 +50,7 @@ class whois_test extends blocks_base
 
 		$this->config['record_online_users'] = 3;
 		$this->config['record_online_date'] = strtotime('7 December 2015');
-		$this->config['legend_sort_groupname'] = $authed ? 'group_name' : 'group_legend';
+		$this->config['legend_sort_groupname'] = (int) !$authed;
 
 		$group_helper = $this->getMockBuilder('\phpbb\group\helper')
 			->disableOriginalConstructor()
@@ -164,7 +164,7 @@ class whois_test extends blocks_base
 					'TOTAL_USERS_ONLINE' => 'ONLINE_USERS_TOTAL: 0',
 					'LOGGED_IN_USER_LIST' => 'REGISTERED_USERS NO_ONLINE_USERS',
 					'RECORD_USERS' => 'RECORD_ONLINE_USERS: 3',
-					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>, <span style="color:#9E8DA7">BOTS</span>, <a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>, <a style="color:#eee" href="phpBB/memberlist.php?mode=group&amp;g=7">custom</a>',
+					'LEGEND' => '<a style="color:#AA0000" href="phpBB/memberlist.php?mode=group&amp;g=5">ADMINISTRATORS</a>, <a style="color:#00AA00" href="phpBB/memberlist.php?mode=group&amp;g=4">GLOBAL_MODERATORS</a>, <span style="color:#9E8DA7">BOTS</span>, <a style="color:#eee" href="phpBB/memberlist.php?mode=group&amp;g=7">Custom</a>',
 					'U_VIEWONLINE' => 'phpBB/viewonline.php',
 				),
 			),
