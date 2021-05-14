@@ -12,6 +12,7 @@ export default function Ajaxer($loader, showMessage, append = '') {
 					const delim = settings.url.indexOf('?') < 0 ? '?' : '&';
 					settings.url += `${delim}${append}`;
 				}
+				settings.url = settings.url.replace(/&amp;/g, '&');
 			}
 		},
 		complete: ({ responseJSON }) => {
