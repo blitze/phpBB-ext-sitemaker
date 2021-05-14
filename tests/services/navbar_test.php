@@ -62,10 +62,6 @@ class navbar_test extends \phpbb_database_test_case
 
 		$this->config_text = new \phpbb\config\db_text($db, 'phpbb_config_text');
 
-		// $config_text->set('sm_layout_prefs', json_encode(array(
-		// 	1 => $config_text_data
-		// )));
-
 		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
 			->disableOriginalConstructor()
 			->getMock();

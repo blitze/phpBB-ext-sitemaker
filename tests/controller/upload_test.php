@@ -96,12 +96,24 @@ class upload_test extends \phpbb_test_case
 		$language = new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx));
 
 		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->data['user_id'] = 48;
 		$user->data['username'] = 'demo';
 		$user->data['user_type'] = $user_type;
 
+		$controller_helper = $this->getMockBuilder('\phpbb\controller\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$controller_helper->expects($this->any())
+			->method('route')
+			->with('blitze_sitemaker_file', $this->arrayHasKey('file'), false, '')
+			->willReturnCallback(function ($route, $params)
+			{
+				return '/phpbb/phpBB/app.php/sitemaker/file/' . $params['file'];
+			});
+
 		$filemanager = new \blitze\sitemaker\services\filemanager($filesystem, $user, $phpbb_root_path);
 
-		$controller = new upload($files_factory, $language, $filemanager);
+		$controller = new upload($files_factory, $controller_helper, $language, $filemanager);
 		$controller->set_allowed_extensions(array('jpg'));
 
 		return $controller;
@@ -125,14 +137,14 @@ class upload_test extends \phpbb_test_case
 				USER_NORMAL,
 				'test.jpg',
 				'images/sitemaker_uploads/source/users/demo',
-				'{"location":"users\/demo\/test.jpg","message":""}',
+				'{"location":"\/phpbb\/phpBB\/app.php\/sitemaker\/file\/users\/demo\/test.jpg","message":""}',
 			),
 			array(
 				true,
 				USER_FOUNDER,
 				'blobid01.jpg',
 				'images/sitemaker_uploads/source',
-				'{"location":"sm_unique.jpg","message":""}',
+				'{"location":"\/phpbb\/phpBB\/app.php\/sitemaker\/file\/sm_unique.jpg","message":""}',
 			),
 			array(
 				false,

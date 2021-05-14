@@ -131,7 +131,7 @@ class admin_bar
 			'UA_SCRIPT_PATH'	=> $this->user->page['root_script_path'],
 			'UA_MODREWRITE'		=> $this->config['enable_mod_rewrite'],
 			'UA_WEB_ROOT_PATH'	=> $this->util->get_web_path(),
-			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_image_upload'),
+			'UA_UPLOAD_URL'		=> $this->controller_helper->route('blitze_sitemaker_file_upload'),
 			'UA_NAVBAR_MANAGER'	=> $this->controller_helper->route('blitze_sitemaker_navbar_manager', array(
 				'style'	=> $this->template->get_user_style()[0]
 			)),

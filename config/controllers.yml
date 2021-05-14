@@ -28,6 +28,12 @@ services:
             - '@language'
             - '@blitze.sitemaker.menus.action_handler'
 
+    blitze.sitemaker.file.controller:
+        class: blitze\sitemaker\controller\file
+        arguments:
+            - '@blitze.sitemaker.filemanager'
+            - '%core.root_path%'
+
     blitze.sitemaker.navbar.controller:
         class: blitze\sitemaker\controller\navbar
         arguments:
@@ -40,5 +46,6 @@ services:
         class: blitze\sitemaker\controller\upload
         arguments:
             - '@files.factory'
+            - '@controller.helper'
             - '@language'
             - '@blitze.sitemaker.filemanager'

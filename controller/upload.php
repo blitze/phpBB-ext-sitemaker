@@ -17,6 +17,9 @@ class upload
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
+	/** @var \phpbb\controller\helper */
+	protected $controller;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -30,12 +33,14 @@ class upload
 	 * Constructor
 	 *
 	 * @param \phpbb\files\factory							$files_factory		Files factory object
+	 * @param \phpbb\controller\helper						$controller			Controller helper object
 	 * @param \phpbb\language\language						$language			Language object
 	 * @param \blitze\sitemaker\services\filemanager		$filemanager		Filemanager object
 	 */
-	public function __construct(\phpbb\files\factory $files_factory, \phpbb\language\language $language, \blitze\sitemaker\services\filemanager $filemanager)
+	public function __construct(\phpbb\files\factory $files_factory, \phpbb\controller\helper $controller, \phpbb\language\language $language, \blitze\sitemaker\services\filemanager $filemanager)
 	{
 		$this->files_factory = $files_factory;
+		$this->controller = $controller;
 		$this->language = $language;
 		$this->filemanager = $filemanager;
 	}
@@ -86,7 +91,7 @@ class upload
 		}
 		else
 		{
-			$json_data['location'] = $user_dir . $file->get('realname');
+			$json_data['location'] = $this->controller->route('blitze_sitemaker_file', array('file' => $user_dir . $file->get('realname')), false, '');
 		}
 	}
 

@@ -71,7 +71,7 @@ class filemanager
 	protected function set_user_dir()
 	{
 		// if user is not founder, they must have a directory
-		$this->user_dir = ($this->user->data['user_type'] != USER_FOUNDER) ? 'users/' . $this->user->data['username'] . '/' : '';
+		$this->user_dir = ($this->user->data['user_type'] != USER_FOUNDER && $this->user->data['user_id'] != ANONYMOUS) ? 'users/' . $this->user->data['username'] . '/' : '';
 
 		$destination = $this->phpbb_root_path . $this->upload_dir . $this->user_dir;
 
