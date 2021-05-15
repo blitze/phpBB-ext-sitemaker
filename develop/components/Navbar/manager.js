@@ -123,13 +123,13 @@ export default function NavbarManager() {
 						.on('mouseenter', 'a', function handleEnter() {
 							const { value } = $(this).data();
 							if (value) {
-								$(`#${value}`).addClass('sm-navbar-preview');
+								$(`#sm-navbar-${value}`).addClass('sm-navbar-preview');
 							}
 						})
 						.on('mouseleave', 'a', function handleLeave() {
 							const { value } = $(this).data();
 							if (value) {
-								$(`#${value}`).removeClass('sm-navbar-preview');
+								$(`#sm-navbar-${value}`).removeClass('sm-navbar-preview');
 							}
 						});
 				}

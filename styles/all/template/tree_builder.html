@@ -54,7 +54,7 @@
 									</div>
 								</div>
 							{% endfor %}
-							<br clear="both" />
+							<div class="clearfix"></div>
 							<p class="submit-buttons">
 								<input class="button2" type="reset" id="cancel" name="cancel" value="{{ lang('CANCEL') }}" />
 								<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
@@ -91,7 +91,7 @@
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang(DELETE_GROUP_ITEM_CONFIRM) }}</p>
 </div>
 
-<script type="text/javascript">
+<script>
 // <![CDATA[
 	var config = {
 		ajaxUrl: '{{ UA_AJAX_URL }}',

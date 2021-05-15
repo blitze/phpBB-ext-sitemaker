@@ -7,7 +7,7 @@
 ] -%}
 
 {% macro makeNumberInput(name, element, prop, min, isPrimary) %}
-	<input type="number" class="navbar-prop" id="{{ name }}" name="{{ name }}" data-element="{{ element }}" data-prop="{{ prop }}" data-unit="px"{% if min is defined %} min="{{ min }}"{% endif %}{% if isPrimary %} data-primary="{{ isPrimary }}"{% endif %} />
+	<input type="number" class="navbar-prop" id="{{ name }}" name="{{ name }}" data-element="{{ element }}" data-prop="{{ prop }}" data-unit="px"{% if min is not empty %} min="{{ min }}"{% endif %}{% if isPrimary %} data-primary="{{ isPrimary }}"{% endif %} />
 {% endmacro %}
 
 {% macro makeSize(name, element, prop, min) %}
@@ -80,7 +80,7 @@
 			bottom_left: 'border-bottom-left-radius',
 			bottom_right: 'border-bottom-right-radius',
 		} %}
-		<div class="sub-title">{{ lang('BORDER_RADIUS') }}</title>
+		<div class="sub-title">{{ lang('BORDER_RADIUS') }}</div>
 		{{ _self.makeSize(name ~ 'border_radius', element, props, 0) }}
 	</dd>
 	{% endif %}
@@ -149,11 +149,9 @@
 				{% if NAVBAR_LOCATION %}
 				<dl>
 					<dt>
-						<label for="nav_resp_toggle">{{ lang('RESPONSIVE_TOGGLE') }} <i class="fa fa-question-circle fa-orange" title="{{ lang('RESPONSIVE_TOGGLE_EXPLAIN') }}"></i></label>
+						<label for="nav_resp_toggle_bg_color">{{ lang('RESPONSIVE_TOGGLE') }} <i class="fa fa-question-circle fa-orange" title="{{ lang('RESPONSIVE_TOGGLE_EXPLAIN') }}"></i></label>
 					</dt>
-					<dd>
-						{{ _self.makeBgColorOptions('nav_resp_toggle', '.sm-menu label') }}
-					</dd>
+					{{ _self.makeBgColorOptions('nav_resp_toggle', '.sm-menu label') }}
 				</dl>
 				<dl>
 					<dt>

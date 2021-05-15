@@ -107,12 +107,13 @@
 			<div class="style-layouts">
 			{%- set views = ['basic', 'boxed', 'simple'] -%}
 			{% for style in styles %}
+				{% set id = style.name|lower|replace({' ': '_'}) %}
 				<dl data-layout="{{ style.layout }}">
-					<dt><label for="{{ style.name }}">{{ style.name }}</label></dt>
+					<dt><label for="{{ id }}">{{ style.name }}</label></dt>
 					<dd>
 						<div class="grid-spaceAround-noBottom">
 							<div class="col">
-								<select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ style.name }}">
+								<select class="layout-option" name="layouts[{{ style.id }}][layout]" id="{{ id }}">
 								{% for name, path in layouts %}
 									<option value="{{ path }}"{{ path === style.layout ? ' selected="selected"' : '' }}>{{ lang('LAYOUT_' ~ name|upper) }}</option>
 								{% endfor %}
