@@ -26,7 +26,7 @@ class add_block extends base_action
 		}
 
 		$route_data = array(
-			'route' => $route,
+			'route' => substr($route, 0, 100),
 			'style'	=> $style_id,
 		);
 

@@ -81,7 +81,8 @@ class display
 	 */
 	protected function get_current_route()
 	{
-		return ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './') . ($this->user->page['forum'] ? '?f=' . $this->user->page['forum'] : '');
+		$current_route = ltrim($this->user->page['page_dir'] . '/' . $this->user->page['page_name'], './') . ($this->user->page['forum'] ? '?f=' . $this->user->page['forum'] : '');
+		return substr($current_route, 0, 100);
 	}
 
 	/**

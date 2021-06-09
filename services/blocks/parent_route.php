@@ -107,7 +107,7 @@ class parent_route
 	{
 		if ($page_dir)
 		{
-			return $this->get_parent_directory_route_info($routes, $current_route, $page_dir);
+			return $this->get_parent_directory_route_info($routes, $page_dir);
 		}
 		else if ($forum_id)
 		{
@@ -119,11 +119,10 @@ class parent_route
 
 	/**
 	 * @param array $routes
-	 * @param string $current_route
 	 * @param string $page_dir
 	 * @return null|array
 	 */
-	protected function get_parent_directory_route_info(array $routes, $current_route, $page_dir)
+	protected function get_parent_directory_route_info(array $routes, $page_dir)
 	{
 		$parent_dir = ltrim(dirname($page_dir) . '/index.php', './');
 		return (isset($routes[$parent_dir])) ? $routes[$parent_dir] : null;
