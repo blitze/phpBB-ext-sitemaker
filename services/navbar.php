@@ -86,13 +86,20 @@ class navbar
 	 */
 	public function save($style, $time = 'now')
 	{
-		$location = $this->request->variable('location', '');
-		$css = $this->request->variable('css', '');
+		$menu = $this->request->variable('menu', 0);
+
+		$css = $location = '';
+		if ($menu)
+		{
+			$location = $this->request->variable('location', '');
+			$css = $this->request->variable('css', '');
+		}
 
 		$this->save_css($style, $css);
 		$this->save_locations([$style => $location]);
 
 		$this->config->set('sm_navbar_last_modified', strtotime($time));
+		$this->config->set('sm_navbar_menu', $menu);
 	}
 
 	/**

@@ -129,6 +129,16 @@ class admin_bar_test extends \phpbb_database_test_case
 				'blitze.sitemaker.block.members'	=> 'BLITZE_SITEMAKER_BLOCK_MEMBERS',
 			)));
 
+		$navigation = $this->getMockBuilder('\blitze\sitemaker\services\menus\navigation')
+			->disableOriginalConstructor()
+			->getMock();
+		$navigation->expects($this->any())
+			->method('get_menu_options')
+			->willReturn([
+				1 => 'Menu 1',
+				2 => 'Menu 2',
+			]);
+
 		$filesystem = new \phpbb\filesystem\filesystem();
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
@@ -161,6 +171,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.auto_lang', $auto_lang);
 		$phpbb_container->set('blitze.sitemaker.blocks.factory', $blocks_factory);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
+		$phpbb_container->set('blitze.sitemaker.menus.navigation', $navigation);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
 
 		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
@@ -228,6 +239,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
+					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
+					'S_NAVBAR_MENU' => '',
 					'ICON_PICKER' => null,
 					'SM_USER_LANG' => 'fr',
 					'TINYMCE_LANG' => 'fr_FR',
@@ -247,7 +260,8 @@ class admin_bar_test extends \phpbb_database_test_case
 				array(
 					'default_lang'				=> 'en',
 					'enable_mod_rewrite'		=> false,
-					'sitemaker_default_layout'	=> ''
+					'sitemaker_default_layout'	=> '',
+					'sm_navbar_menu'			=> 1,
 				),
 				array(
 					'S_EDIT_MODE' => true,
@@ -256,6 +270,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
+					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
+					'S_NAVBAR_MENU' => 1,
 					'ICON_PICKER' => null,
 					'SM_USER_LANG' => 'pt_br',
 					'TINYMCE_LANG' => 'pt_BR',

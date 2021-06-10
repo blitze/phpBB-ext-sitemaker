@@ -136,6 +136,19 @@
 			<fieldset>
 				<dl>
 					<dt>
+						<label for="navbar_menu">{{ lang('NAVBAR_MENU') }}</label>
+					</dt>
+					<dd>
+						<select id="navbar_menu">
+							<option value="0">{{ lang('NONE') }}</option>
+						{% for id, name in S_MENU_OPTIONS %}
+							<option value="{{ id }}"{% if id eq S_NAVBAR_MENU %} selected="selected"{% endif %}>{{ name }}</option>
+						{% endfor %}
+					</select>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
 						<label for="navbar_location">{{ lang('NAVBAR_LOCATION') }}</label>
 					</dt>
 					<dd>

@@ -200,6 +200,7 @@ class navbar_test extends \phpbb_database_test_case
 				array(
 					array('css', '', false, request_interface::REQUEST, '.sm-menu{color: #123;}'),
 					array('location', '', false, request_interface::REQUEST, 'location2'),
+					array('menu', 0, false, request_interface::REQUEST, 1),
 				),
 				array(
 					'sm_navbar_css'			=> '.sm-menu{color: #123;}',
@@ -207,6 +208,7 @@ class navbar_test extends \phpbb_database_test_case
 						'prosilver'		=> 'location2',
 						'silverlight'	=> 'location2',
 					),
+					'sm_navbar_menu' => 1,
 					'sm_navbar_last_modified' => '12/31/2020',
 				),
 			),
@@ -215,12 +217,14 @@ class navbar_test extends \phpbb_database_test_case
 				array(
 					array('css', '', false, request_interface::REQUEST, ''),
 					array('location', '', false, request_interface::REQUEST, ''),
+					array('menu', 0, false, request_interface::REQUEST, 2),
 				),
 				array(
-					'sm_navbar_css'			=> '',
+					'sm_navbar_css'			=> null,
 					'sm_navbar_locations'	=> array(
 						'silverlight'	=> 'location2',
 					),
+					'sm_navbar_menu' => 2,
 					'sm_navbar_last_modified' => '12/31/2020',
 				),
 			),
@@ -229,12 +233,30 @@ class navbar_test extends \phpbb_database_test_case
 				array(
 					array('css', '', false, request_interface::REQUEST, '.sm-menu{background-color: #123;}'),
 					array('location', '', false, request_interface::REQUEST, ''),
+					array('menu', 0, false, request_interface::REQUEST, 5),
 				),
 				array(
 					'sm_navbar_css'			=> '.sm-menu{background-color: #123;}',
 					'sm_navbar_locations'	=> array(
 						'prosilver'		=> 'location1',
 					),
+					'sm_navbar_menu' => 5,
+					'sm_navbar_last_modified' => '12/31/2020',
+				),
+			),
+			array(
+				'silverlight',
+				array(
+					array('css', '', false, request_interface::REQUEST, '.sm-menu{background-color: #123;}'),
+					array('location', '', false, request_interface::REQUEST, 'location3'),
+					array('menu', 0, false, request_interface::REQUEST, 0),
+				),
+				array(
+					'sm_navbar_css'			=> null,
+					'sm_navbar_locations'	=> array(
+						'prosilver'		=> 'location1',
+					),
+					'sm_navbar_menu' => 0,
 					'sm_navbar_last_modified' => '12/31/2020',
 				),
 			),
@@ -263,6 +285,7 @@ class navbar_test extends \phpbb_database_test_case
 		$this->assertEquals($expected, array(
 			'sm_navbar_css' => $this->config_text->get('sm_navbar_' . $style),
 			'sm_navbar_locations' => json_decode($this->config['sm_navbar_locations'], true),
+			'sm_navbar_menu' => $this->config['sm_navbar_menu'],
 			'sm_navbar_last_modified' => date("m/d/Y", $this->config['sm_navbar_last_modified'])
 		));
 	}

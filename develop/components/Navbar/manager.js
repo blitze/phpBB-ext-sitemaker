@@ -318,6 +318,7 @@ export default function NavbarManager() {
 				function handleSubmit() {
 					const css = [];
 					const location = $('#navbar_location').val();
+					const menu = $('#navbar_menu').val();
 
 					function isDefaultValue(element, prop, value) {
 						return (
@@ -356,6 +357,7 @@ export default function NavbarManager() {
 					save({
 						css: css.join(''),
 						location,
+						menu,
 					});
 				}
 

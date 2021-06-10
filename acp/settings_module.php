@@ -96,7 +96,7 @@ class settings_module
 	public function main()
 	{
 		$this->translator->add_lang('acp/board');
-		$this->translator->add_lang('blocks_admin', 'blitze/sitemaker');
+		$this->translator->add_lang(['blocks_admin', 'navbar_manager'], 'blitze/sitemaker');
 
 		$form_key = 'blitze/sitemaker/settings';
 
