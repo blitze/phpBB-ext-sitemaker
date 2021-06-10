@@ -27,14 +27,14 @@ class menu extends links
 	 */
 	public function get_config(array $settings)
 	{
-		$menu_options = $this->navigation->get_menu_options();
 		$depth_options = $this->get_depth_options();
 
-		return array(
-			'legend1'       => 'SETTINGS',
-			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
-			'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'radio:yes_no', 'default' => 0, 'explain' => false),
-			'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
+		return array_merge(
+			parent::get_config($settings),
+			array(
+				'expanded'		=> array('lang' => 'EXPANDED', 'validate' => 'bool', 'type' => 'radio:yes_no', 'default' => 0, 'explain' => false),
+				'max_depth'		=> array('lang' => 'MAX_DEPTH', 'validate' => 'int', 'type' => 'select', 'options' => $depth_options, 'default' => 3, 'explain' => false),
+			)
 		);
 	}
 

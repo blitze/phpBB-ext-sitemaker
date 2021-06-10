@@ -38,7 +38,7 @@ class links_test extends blocks_base
 	 */
 	protected function get_block()
 	{
-		global $symfony_request, $phpbb_root_path;
+		global $symfony_request, $phpbb_admin_path, $phpbb_root_path;
 
 		$symfony_request = new Request();
 
@@ -64,7 +64,7 @@ class links_test extends blocks_base
 
 		$navigation = new navigation($this->cache, $mapper_factory, $navbar, $tree, $this->php_ext);
 
-		return new links($this->translator, $navigation);
+		return new links($this->translator, $this->user, $navigation, $phpbb_admin_path, $this->php_ext);
 	}
 
 	/**

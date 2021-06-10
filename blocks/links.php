@@ -21,8 +21,17 @@ class links extends block
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \blitze\sitemaker\services\menus\navigation */
 	protected $navigation;
+
+	/** @var string */
+	protected $phpbb_admin_path;
+
+	/** @var string */
+	protected $php_ext;
 
 	/** @var string */
 	protected $title = 'LINKS';
@@ -33,13 +42,19 @@ class links extends block
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\language\language						$language		Language object
-	 * @param \blitze\sitemaker\services\menus\navigation	$navigation		sitemaker navigation object
+	 * @param \phpbb\language\language						$language			Language object
+	 * @param \phpbb\user									$user				User object
+	 * @param \blitze\sitemaker\services\menus\navigation	$navigation			sitemaker navigation object
+	 * @param string										$phpbb_admin_path	Relative path to admin
+	 * @param string 										$php_ext			PHP extension (php)
 	 */
-	public function __construct(\phpbb\language\language $language, \blitze\sitemaker\services\menus\navigation $navigation)
+	public function __construct(\phpbb\language\language $language, \phpbb\user $user, \blitze\sitemaker\services\menus\navigation $navigation, $phpbb_admin_path, $php_ext)
 	{
 		$this->language = $language;
+		$this->user = $user;
 		$this->navigation = $navigation;
+		$this->phpbb_admin_path = $phpbb_admin_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -48,10 +63,12 @@ class links extends block
 	public function get_config(array $settings)
 	{
 		$menu_options = $this->navigation->get_menu_options();
+		$u_menus = append_sid("{$this->phpbb_admin_path}index.{$this->php_ext}", 'i=-blitze-sitemaker-acp-menu_module&amp;mode=menu', true, $this->user->session_id);
+		$append = '<a href="' . $u_menus . '" target="_blank" title="' . $this->language->lang('MANAGE_MENUS') . '"><i class="fa fa-cog fa-lg fa-green"></i></a>';
 
 		return array(
 			'legend1'       => 'SETTINGS',
-			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false),
+			'menu_id'		=> array('lang' => 'MENU', 'validate' => 'int', 'type' => 'select', 'options' => $menu_options, 'default' => 0, 'explain' => false, 'append' => $append),
 		);
 	}
 

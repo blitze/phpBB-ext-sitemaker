@@ -39,7 +39,7 @@ class menu_test extends blocks_base
 	 */
 	protected function get_block($page_data = array())
 	{
-		global $symfony_request, $user, $phpbb_root_path;
+		global $symfony_request, $user, $phpbb_admin_path, $phpbb_root_path;
 
 		$symfony_request = new Request();
 
@@ -71,7 +71,7 @@ class menu_test extends blocks_base
 
 		$navigation = new navigation($this->cache, $mapper_factory, $navbar, $tree, $this->php_ext);
 
-		return new menu($this->translator, $navigation);
+		return new menu($this->translator, $this->user, $navigation, $phpbb_admin_path, $this->php_ext);
 	}
 
 	public function test_block_config()
