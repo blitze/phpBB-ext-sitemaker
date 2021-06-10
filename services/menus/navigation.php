@@ -15,6 +15,9 @@ class navigation
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \blitze\sitemaker\model\mapper_factory */
 	protected $mapper_factory;
 
@@ -23,6 +26,9 @@ class navigation
 
 	/** @var \blitze\sitemaker\services\menus\display */
 	protected $tree;
+
+	/** @var string */
+	protected $phpbb_admin_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -34,17 +40,21 @@ class navigation
 	 * Constructor
 	 *
 	 * @param \phpbb\cache\driver\driver_interface		$cache				Cache driver interface
+	 * @param \phpbb\user								$user				User object
 	 * @param \blitze\sitemaker\model\mapper_factory	$mapper_factory		Mapper factory object
 	 * @param \blitze\sitemaker\services\navbar			$navbar				Navbar object
 	 * @param \blitze\sitemaker\services\menus\display	$tree				Menu tree display object
+	 * @param string									$phpbb_admin_path	Relative path to admin
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\navbar $navbar, \blitze\sitemaker\services\menus\display $tree, $php_ext)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\user $user, \blitze\sitemaker\model\mapper_factory $mapper_factory, \blitze\sitemaker\services\navbar $navbar, \blitze\sitemaker\services\menus\display $tree, $phpbb_admin_path, $php_ext)
 	{
 		$this->cache = $cache;
+		$this->user = $user;
 		$this->mapper_factory = $mapper_factory;
 		$this->navbar = $navbar;
 		$this->tree = $tree;
+		$this->phpbb_admin_path = $phpbb_admin_path;
 		$this->php_ext = $php_ext;
 	}
 
@@ -55,6 +65,14 @@ class navigation
 	public function get_settings($style)
 	{
 		return $this->navbar->get_settings($style);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_menus_admin_url()
+	{
+		return append_sid("{$this->phpbb_admin_path}index.{$this->php_ext}", 'i=-blitze-sitemaker-acp-menu_module&amp;mode=menu', true, $this->user->session_id);
 	}
 
 	/**

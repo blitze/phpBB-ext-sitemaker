@@ -119,10 +119,7 @@ services:
         class: blitze\sitemaker\blocks\links
         arguments:
             - '@language'
-            - '@user'
             - '@blitze.sitemaker.menus.navigation'
-            - '%core.adm_relative_path%'
-            - '%core.php_ext%'
         calls:
             - [set_name, [blitze.sitemaker.block.links]]
         tags:

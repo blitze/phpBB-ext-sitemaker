@@ -62,9 +62,9 @@ class links_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$navigation = new navigation($this->cache, $mapper_factory, $navbar, $tree, $this->php_ext);
+		$navigation = new navigation($this->cache, $this->user, $mapper_factory, $navbar, $tree, $phpbb_admin_path, $this->php_ext);
 
-		return new links($this->translator, $this->user, $navigation, $phpbb_admin_path, $this->php_ext);
+		return new links($this->translator, $navigation);
 	}
 
 	/**

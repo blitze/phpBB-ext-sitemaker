@@ -138,6 +138,9 @@ class admin_bar_test extends \phpbb_database_test_case
 				1 => 'Menu 1',
 				2 => 'Menu 2',
 			]);
+		$navigation->expects($this->any())
+			->method('get_menus_admin_url')
+			->willReturn('/admin/menus');
 
 		$filesystem = new \phpbb\filesystem\filesystem();
 
@@ -239,8 +242,9 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
-					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
 					'S_NAVBAR_MENU' => '',
+					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
+					'U_MANAGE_MENUS' => '/admin/menus',
 					'ICON_PICKER' => null,
 					'SM_USER_LANG' => 'fr',
 					'TINYMCE_LANG' => 'fr_FR',
@@ -270,8 +274,9 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
-					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
 					'S_NAVBAR_MENU' => 1,
+					'S_MENU_OPTIONS' => array(1 => 'Menu 1', 2 => 'Menu 2'),
+					'U_MANAGE_MENUS' => '/admin/menus',
 					'ICON_PICKER' => null,
 					'SM_USER_LANG' => 'pt_br',
 					'TINYMCE_LANG' => 'pt_BR',

@@ -224,9 +224,11 @@ services:
         class: blitze\sitemaker\services\menus\navigation
         arguments:
             - '@cache.driver'
+            - '@user'
             - '@blitze.sitemaker.mapper.factory'
             - '@blitze.sitemaker.navbar'
             - '@blitze.sitemaker.menus.display'
+            - '%core.adm_relative_path%'
             - '%core.php_ext%'
 
     blitze.sitemaker.navbar:

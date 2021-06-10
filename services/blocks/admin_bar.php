@@ -99,8 +99,10 @@ class admin_bar
 			'S_EX_POSITIONS'	=> join(', ', $route_info['ex_positions']),
 			'S_STYLE_OPTIONS'	=> style_select($style_id, true),
 			'S_STARTPAGE'		=> $this->startpage_is_set(),
-			'S_MENU_OPTIONS'	=> $navigation->get_menu_options(),
+
 			'S_NAVBAR_MENU'		=> $this->config['sm_navbar_menu'],
+			'S_MENU_OPTIONS'	=> $navigation->get_menu_options(),
+			'U_MANAGE_MENUS'	=> $navigation->get_menus_admin_url(),
 
 			'ICON_PICKER'		=> $this->icons->picker(),
 			'SM_USER_LANG'		=> $this->user->data['user_lang'],

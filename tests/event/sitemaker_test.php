@@ -53,7 +53,7 @@ class sitemaker_test extends \phpbb_database_test_case
 	 */
 	protected function get_listener()
 	{
-		global $cache, $phpbb_root_path, $phpEx;
+		global $cache, $phpbb_admin_path, $phpbb_root_path, $phpEx;
 
 		$this->config = new \phpbb\config\config(array());
 		$this->cache = $cache = new \phpbb_mock_cache();
@@ -87,7 +87,7 @@ class sitemaker_test extends \phpbb_database_test_case
 		$this->navbar = $this->createMock('\blitze\sitemaker\services\navbar');
 
 		$this->navigation = $this->getMockBuilder('\blitze\sitemaker\services\menus\navigation')
-			->setConstructorArgs([$cache, $mapper_factory, $this->navbar, $tree, $phpEx])
+			->setConstructorArgs([$cache, $this->user, $mapper_factory, $this->navbar, $tree, $phpbb_admin_path, $phpEx])
 			->setMethodsExcept(['get_settings'])
 			->getMock();
 		$this->navigation->expects($this->any())
