@@ -57,6 +57,7 @@ $lang = array_merge($lang, array(
 	'LOWERCASE'					=> 'Lowercase',
 	'MARGIN'					=> 'Margin',
 	'NAVBAR'					=> 'Navbar',
+	'NAVBAR_MENU'				=> 'Navbar menu',
 	'NAVBAR_DROPDOWN'			=> 'Dropdown',
 	'NAVBAR_LOCATION'			=> 'Location',
 	'NAVBAR_LOCATION_OPTION'	=> 'Location #%s',
