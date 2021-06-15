@@ -31,6 +31,7 @@
 	-->
 	<target name="clean">
 		<delete dir="${build-directory}" />
+		<delete dir="node_modules" />
 	</target>
 
 	<!--
@@ -58,8 +59,7 @@
 		<if>
 			<equals arg1="${has-dependencies}" arg2="1" />
 			<then>
-				<exec dir="${package-directory}" command="composer install --no-dev"
-					  checkreturn="true" />
+				<exec dir="${package-directory}" command="composer install --no-dev --optimize-autoloader" checkreturn="true" />
 			</then>
 		</if>
 
