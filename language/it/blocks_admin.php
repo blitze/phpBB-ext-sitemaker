@@ -124,6 +124,7 @@ $lang = array_merge($lang, array(
 	'MAX_POSTS'									=> 'Maximum number of posts',
 	'MAX_TOPICS'								=> 'Maximum number of topics',
 	'MAX_WORDS'									=> 'Maximum number of words',
+	'MANAGE_MENUS'								=> 'Manage Menus',
 	'MAP_COORDINATES'							=> 'Coordinates',
 	'MAP_COORDINATES_EXPLAIN'					=> 'Enter coordinates in the form latitude,longitude',
 	'MAP_HEIGHT'								=> 'Height',
