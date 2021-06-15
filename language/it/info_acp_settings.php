@@ -64,10 +64,8 @@ $lang = array_merge($lang, [
 	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
 	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
 
-	'NAVIGATION_SETTINGS'	=> 'Navigation Settings',
-	'NO_NAVBAR'				=> 'None',
+	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
 
-	'SELECT_NAVBAR_MENU'		=> 'Select main navigation menu',
 	'SETTINGS_SAVED'			=> 'Your settings have been saved',
 	'SHOW'						=> 'Show',
 	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
