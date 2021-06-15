@@ -1,0 +1,74 @@
+name: Release
+
+env:
+  EXTNAME: blitze/sitemaker
+  RELEASENAME: phpBB SiteMaker
+
+on: 
+  push:
+    tags:
+    - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout extension
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - name: Build extension
+        run: |
+          composer install
+          yarn release
+
+      - name: Get Repo Url
+        id: get_repo
+        run: |
+          REPO_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+          echo ::set-output name=url::$REPO_URL
+
+      - name: Get tag/versions
+        id: get_tag
+        run: |
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+          NEW_TAG=${GITHUB_REF#refs/tags/}
+          NEW_VERSION="${NEW_TAG//[v]}"
+          COMPOSER_VERSION=$(cat ./composer.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+
+          if [[ ! $PREVIOUS_TAG ]]
+          then
+            PREVIOUS_TAG='v0.0.0'
+          fi
+
+          echo ::set-output name=previous_tag::$PREVIOUS_TAG
+          echo ::set-output name=new_tag::$NEW_TAG
+          echo ::set-output name=new_version::$NEW_VERSION
+          echo ::set-output name=composer_version::$COMPOSER_VERSION
+
+      - name: Check versions
+        run: |
+          if [[ "${{ steps.get_tag.outputs.composer_version }}" != "${{ steps.get_tag.outputs.new_version }}" ]]
+          then
+            echo "Composer version does not match tag version"
+            exit 1
+          fi
+
+      - name: 'Get artifact name'
+        id: artifact
+        run: |
+          echo ::set-output name=filename::"${EXTNAME/\//_}_${{ steps.get_tag.outputs.new_version }}.zip"
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          name: ${{ env.RELEASENAME }} ${{ steps.get_tag.outputs.new_version }}
+          artifacts: build/upload/${{ steps.artifact.outputs.filename }}
+          artifactContentType: application/zip
+          body: "${{ steps.get_repo.outputs.url }}/compare/${{ steps.get_tag.outputs.previous_tag }}...${{ steps.get_tag.outputs.new_tag }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
