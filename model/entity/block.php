@@ -172,13 +172,8 @@ final class block extends base_entity
 	 */
 	public function set_settings($settings)
 	{
-		if (!is_array($settings))
+		if ($this->set_array_field('settings', $settings))
 		{
-			$this->settings = $settings;
-		}
-		else if (sizeof($settings))
-		{
-			$this->settings = json_encode($settings);
 			$this->hash = md5($this->settings);
 		}
 		return $this;

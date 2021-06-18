@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="phpBB SiteMaker Build Script" description="Builds an extension.zip from a git repository" default="all">
+	<property name="vendor-name" value="blitze" />
+	<property name="extension-name" value="sitemaker" />
+	<!--
+	Only set this to "true" if you have dependencies in the composer.json,
+	otherwise use "false".
+	-->
+	<property name="has-dependencies" value="true" />
+
+	<target name="clean-package">
+		<!--
+		Remove some unnecessary files/directories
+		${dir}/ is the folder of your extension, e.g. ext/acme/demo/
+		-->
+	</target>
+
+	<!--
+	DO NOT EDIT BELOW THIS LINE!!!!
+	-->
+
+	<property name="version" value="HEAD" override="true" />
+	<property name="build-directory" value="build" override="true" />
+	<property name="package-directory" value="${build-directory}/package/${vendor-name}/${extension-name}" />
+
+	<!-- These are the main targets which you will probably want to use -->
+	<target name="all" depends="prepare-structure,package" />
+
+	<!--
+	Clean up the build directory
+	-->
+	<target name="clean">
+		<delete dir="${build-directory}" />
+	</target>
+
+	<!--
+	Recreate the necessary folders
+	-->
+	<target name="prepare-structure" depends="clean">
+		<mkdir dir="${build-directory}" />
+		<mkdir dir="${build-directory}/checkout" />
+		<mkdir dir="${build-directory}/package" />
+		<mkdir dir="${build-directory}/package/${vendor-name}" />
+		<mkdir dir="${build-directory}/package/${vendor-name}/${extension-name}" />
+		<mkdir dir="${build-directory}/upload" />
+	</target>
+
+	<!--
+	The real packaging
+	-->
+	<target name="package">
+		<echo msg="Extracting ${version}" />
+
+		<phingcall target="git-checkout">
+			<property name="archive-version" value="${version}" />
+		</phingcall>
+
+		<if>
+			<equals arg1="${has-dependencies}" arg2="1" />
+			<then>
+				<exec dir="${package-directory}" command="composer install --no-dev"
+					  checkreturn="true" />
+			</then>
+		</if>
+
+		<phingcall target="clean-package">
+			<property name="dir" value="${package-directory}" />
+		</phingcall>
+
+		<phingcall target="copy-assets">
+			<property name="dir" value="${package-directory}" />
+		</phingcall>
+
+		<!-- Try setting the package version property from composer.json -->
+		<exec dir="${package-directory}"
+			  command='php -r "\$j = json_decode(file_get_contents(\"composer.json\")); echo (isset(\$j->version) ? \$j->version : \"${version}\");"'
+			  checkreturn="true"
+			  outputProperty='package-version' />
+
+		<phingcall target="wrap-package">
+			<property name="destination-filename" value="${build-directory}/upload/${vendor-name}_${extension-name}_${package-version}" />
+		</phingcall>
+	</target>
+
+	<!--
+	install node dependencies
+	-->
+	<target name="yarn-install" description="install node modules">
+		<exec command="yarn install" passthru="true" checkreturn="true" />
+	</target>
+
+	<!--
+	Run webpack build process
+	-->
+	<target name="build-assets" depends="yarn-install">
+		<exec command="yarn fontawesome" passthru="true" checkreturn="true" />
+		<exec command="yarn build" passthru="true" checkreturn="true" />
+	</target>
+
+	<!--
+	Move built assets to correct folder
+	-->
+	<target name="copy-assets" depends="build-assets">
+    <copy todir="${package-directory}/styles/all/theme">
+        <fileset dir="styles/all/theme">
+            <include name="**"></include>
+        </fileset>
+    </copy>
+  </target>
+
+	<!--
+	Checkout a given version and install/clean the dependencies
+	-->
+	<target name="git-checkout">
+		<echo msg="Getting archive for ${archive-version}" />
+
+		<exec command="git archive ${archive-version} --format zip --output ${build-directory}/checkout/${archive-version}.zip"
+			  checkreturn="true" />
+		<unzip file="${build-directory}/checkout/${archive-version}.zip" todir="${package-directory}" />
+	</target>
+
+	<!--
+	Create the zip and tar ball
+	-->
+	<target name="wrap-package">
+		<echo msg="Creating archives (${vendor-name}/${extension-name} ${version})" />
+		<zip basedir="${build-directory}/package/" destfile="${destination-filename}.zip" />
+	</target>
+</project>

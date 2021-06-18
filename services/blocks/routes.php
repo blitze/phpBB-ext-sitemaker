@@ -131,8 +131,13 @@ class routes
 		// if block has own settings but no blocks, inherit route_id and has_blocks from parent route if it exists
 		if (empty($route_info['has_blocks']))
 		{
-			unset($route_info['route_id'], $route_info['has_blocks']);
-			$route_info += $this->get_parent_route($routes, $current_route, $page_dir);
+			$parent_route_info = $this->get_parent_route($routes, $current_route, $page_dir);
+
+			if (sizeof($parent_route_info))
+			{
+				$route_info['route_id'] = $parent_route_info['route_id'];
+				$route_info['has_blocks'] = $parent_route_info['has_blocks'];
+			}
 		}
 
 		// fill in missing fields, while forcing route and style props to current route and style
@@ -194,15 +199,28 @@ class routes
 	protected function get_virtual_parent(array $routes_data, $current_route)
 	{
 		$routes = array_keys($routes_data);
+
+		// We add the current route to the list and sort it in ascending order
+		// Its parent will likely come before it in the list
+		// Eg if current route is 'app.php/content/news' the route list might be:
+		// ['app.php/content', 'app.php/content/category/cars', 'app.php/content/news', 'index.php']
 		$routes[] = $current_route;
 		sort($routes);
+
+		// We find the position of the current route in the list
 		$index = (int) array_search($current_route, $routes);
 
+		// we use it as our starting point and walk backwords to find the immediate parent
+		// in this case 'app.php/content'
 		$parent_route = array();
-		if (isset($routes[$index - 1]) && strpos($current_route, $routes[$index - 1]) !== false)
+		for ($i = $index - 1; $i >= 0; $i--)
 		{
-			$parent_route = $routes_data[$routes[$index - 1]];
-			$this->is_sub_route = $parent_route['has_blocks'];
+			if (strpos($current_route, $routes[$i]) !== false)
+			{
+				$parent_route = $routes_data[$routes[$i]];
+				$this->is_sub_route = $parent_route['has_blocks'];
+				break;
+			}
 		}
 
 		return $parent_route;

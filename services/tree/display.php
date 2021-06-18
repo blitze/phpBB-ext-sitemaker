@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -10,8 +11,8 @@
 namespace blitze\sitemaker\services\tree;
 
 /**
-* Display nested sets
-*/
+ * Display nested sets
+ */
 abstract class display
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -43,13 +44,13 @@ abstract class display
 	protected $data = array();
 
 	/**
-	* Construct
-	*
-	* @param \phpbb\db\driver\driver_interface		$db             Database connection
-	* @param string									$items_table	Table name
-	* @param string									$pk				Primary key
-	* @param string									$sql_where		Column restriction
-	*/
+	 * Construct
+	 *
+	 * @param \phpbb\db\driver\driver_interface			$db             Database connection
+	 * @param string									$items_table	Table name
+	 * @param string									$pk				Primary key
+	 * @param string									$sql_where		Column restriction
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, $items_table, $pk, $sql_where = '')
 	{
 		$this->db = $db;
@@ -89,7 +90,7 @@ abstract class display
 	{
 		$sql = "SELECT *
 			FROM $this->items_table
-			WHERE $this->pk = " . (int) $node_id ;
+			WHERE $this->pk = " . (int) $node_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -154,6 +155,7 @@ abstract class display
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$data[$row[$this->pk]] = $row;
+			$data[$row[$this->pk]]['depth'] = $row['depth'] - $start;
 		}
 		$this->db->sql_freeresult($result);
 
@@ -162,14 +164,14 @@ abstract class display
 
 	/**
 	 * @param array $data
-	 * @param \phpbb\template\twig\twig $template
-	 * @param string $handle
+	 * @return array
 	 */
-	public function display_list(array $data, \phpbb\template\twig\twig &$template, $handle = 'tree')
+	public function display_list(array $data)
 	{
 		$prev_depth = 0;
 		$parental_depth = array(0 => -1);
 		$data = array_values($data);
+		$nodes = [];
 
 		for ($i = 0, $size = sizeof($data); $i < $size; $i++)
 		{
@@ -177,39 +179,27 @@ abstract class display
 			$this_depth	= $parental_depth[$row[$this->column_parent_id]] + 1;
 			$repeat		= (int) abs($prev_depth - $this_depth);
 
-			$tpl_data	= array(
+			$nodes[]	= array_merge(array(
 				'PREV_DEPTH'	=> $prev_depth,
 				'THIS_DEPTH'	=> $this_depth,
 				'NUM_KIDS'		=> $this->count_descendants($row),
-			);
-
-			$template->assign_block_vars($handle, array_merge($tpl_data, array_change_key_case($row, CASE_UPPER)));
-			$this->recursively_close_tags($repeat, $handle . '.close', $template);
+				'CLOSE'			=> array_fill(0, $repeat, ''),
+			), array_change_key_case($row, CASE_UPPER));
 
 			$prev_depth = $this_depth;
 			$parental_depth[$row[$this->pk]] = $this_depth;
 		}
-		$this->recursively_close_tags($prev_depth, 'close_' . $handle, $template);
-	}
 
-	/**
-	 * @param int $repeat
-	 * @param string $handle
-	 * @param \phpbb\template\twig\twig $template
-	 * @return void
-	 */
-	protected function recursively_close_tags($repeat, $handle, \phpbb\template\twig\twig $template)
-	{
-		for ($i = 0; $i < $repeat; $i++)
-		{
-			$template->assign_block_vars($handle, array());
-		}
+		return array(
+			'tree'	=> $nodes,
+			'close'	=> array_fill(0, $prev_depth, ''),
+		);
 	}
 
 	/**
 	 * Get tree as form options or data
 	 *
-	 * @param	array	$db_data	Raw tree data from database
+	 * @param	array	$db_data		Raw tree data from database
 	 * @param	string	$title_column	Database column name to use as label/title for each item
 	 * @param	array	$selected_ids	Array of selected items
 	 * @param	string	$return_mode	options | data
@@ -219,9 +209,6 @@ abstract class display
 	 */
 	public function display_options($db_data, $title_column, $selected_ids = array(), $return_mode = 'options', $pad_with = '&nbsp;&nbsp;&nbsp;')
 	{
-		$right = 0;
-		$padding = '';
-		$padding_store = array('0' => '');
 		$return = array('options' => '', 'data' => array());
 
 		$db_data = array_values($db_data);
@@ -229,36 +216,13 @@ abstract class display
 		{
 			$row = $db_data[$i];
 
-			$this->set_padding($padding, $pad_with, $row, $padding_store, $right);
-
-			$right = $row[$this->column_right_id];
+			$padding = str_repeat($pad_with, $row['depth']);
 			$title = $this->get_padded_title($padding, $row[$title_column]);
 			$return['options'] .= $this->get_html_option($row, $selected_ids, $title);
 			$return['data'][$row[$this->pk]] = $title;
 		}
 
 		return $return[$return_mode];
-	}
-
-	/**
-	 * @param string $padding
-	 * @param string $pad_with
-	 * @param array $row
-	 * @param array $padding_store
-	 * @param int $right
-	 * @retur void
-	 */
-	protected function set_padding(&$padding, $pad_with, array $row, array $padding_store, $right)
-	{
-		if ($row[$this->column_left_id] < $right)
-		{
-			$padding .= $pad_with;
-			$padding_store[$row[$this->column_parent_id]] = $padding;
-		}
-		else if ($row[$this->column_left_id] > $right + 1)
-		{
-			$padding = (isset($padding_store[$row[$this->column_parent_id]])) ? $padding_store[$row[$this->column_parent_id]] : '';
-		}
 	}
 
 	/**

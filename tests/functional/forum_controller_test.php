@@ -20,23 +20,16 @@ class forum_controller_test extends \phpbb_functional_test_case
 	 * @return array vendor/name of extension(s) to test
 	 * @access static
 	 */
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('blitze/sitemaker');
 	}
 
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->add_lang_ext('blitze/sitemaker', array(
-			'common',
-		));
-	}
-
     public function test_forum_controller()
     {
-        $crawler = self::request('GET', 'app.php/forum');
+		$this->add_lang_ext('blitze/sitemaker', 'common');
+
+		$crawler = self::request('GET', 'app.php/forum');
         $this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
     }
 }

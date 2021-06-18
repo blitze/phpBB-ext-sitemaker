@@ -1,4 +1,4 @@
-@import "globals";
+@import 'globals';
 
 .flex {
 	> dl {
@@ -48,10 +48,6 @@
 /* blocks layout */
 .sm-block-spacing {
 	margin-bottom: $gutter-width;
-
-	.post & {
-		margin: 0.6em auto;
-	}
 }
 
 .sm-block-content {
@@ -60,18 +56,22 @@
 	overflow: hidden;
 	word-wrap: break-word;
 
-	.info {
-		float: right;
+	.forabg & {
+		margin: 0;
 	}
 
 	li {
 		list-style-type: inherit;
 	}
+
+	p:last-of-type {
+		margin-bottom: 0;
+	}
 }
 
 .sm-block-container {
 	.postbody {
-		@extend .sm-postbody;
+		@extend .sm-full-width;
 
 		.codebox {
 			display: inline-block;
@@ -84,15 +84,25 @@
 	.content {
 		overflow-x: hidden;
 		min-height: 1px;
+		padding-top: 0.3rem;
 	}
 
-	.header {
-		font-weight: bold;
+	.list-inner {
+		display: flex;
+		align-items: center;
+		width: 100%;
 	}
+}
+
+.sm-polar {
+	display: flex;
+	justify-content: space-between;
+	flex: 1;
 }
 
 .inner-spacing {
 	padding: 1em;
+	height: 100%;
 }
 
 .no-padding {
@@ -101,113 +111,21 @@
 
 /* Footer */
 .footer {
-	margin-left: $gutter-width;
-	clear: both;
-
-	> .panel {
-		padding: 15px;
-	}
-
 	.block {
 		.panel {
 			background: transparent;
 		}
 	}
 
-	.sm-block-spacing {
-		border-right: 1px solid #ccc;
-
-		&:nth-child(3),
-		&:last-child {
-			border: 0;
-		}
-	}
-
-	@media (max-width: $toast-breakpoint-small) {
-		margin-left: 0;
-	}
-}
-
-.holygrail {
-	display: flex;
-
-	.middle {
-		flex: 1;
-	}
-
-	.sidebar {
-		flex: 0 0 200px;
-	}
-
-	.left {
-		order: -1;
-		padding-right: $gutter-width;
-		padding-left: 0;
-	}
-
-	.right {
-		padding-left: $gutter-width;
-		padding-right: 0;
-		margin-right: 0;
-	}
-
-	@media all and (max-width: $toast-breakpoint-medium) {
-		display: block;
-
-		.left, .right {
-			padding: 0;
+	@media (min-width: $breakpoint-small) {
+		&.panel {
+			padding: 1rem;
 		}
 	}
 }
 
-.grid {
-	.grid__col {
-		margin-right: -0.25rem;
-
-		&.lastUnit {
-			width: 100%;
-		}
-	}
-
-	.sidebar {
-		&.left {
-			margin-right: 0;
-
-			@media screen and (max-width: $toast-breakpoint-medium) {
-				float: none;
-			}
-		}
-
-		&.right {
-			@media screen and (max-width: $toast-breakpoint-medium) {
-				margin-right: 0.25em;
-			}
-		}
-	}
-
-	@media (max-width: $toast-breakpoint-small) {
-		.sitemaker {
-			margin-left: -5px;
-			margin-right: -5px;
-
-			.forabg {
-				margin-left: 0;
-				margin-right: 0;
-			}
-		}
-
-		.grid__col {
-			margin-right: 0;
-		}
-	}
-}
-
-.main-content .block-position.horizontal {
-	@media (max-width: $toast-breakpoint-medium) {
-		margin-right: 0.25em;
-	}
-
-	@media (max-width: $toast-breakpoint-small) {
-		margin-right: 0;
+.sitemaker {
+	.horizontal .col {
+		padding-bottom: 0;
 	}
 }

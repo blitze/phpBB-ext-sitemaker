@@ -1,15 +1,16 @@
 <?php
-/**
-*
-* @package phpBB Sitemaker [English]
-* @copyright (c) 2012 Daniel A. (blitze)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
 
 /**
-* @ignore
-*/
+ *
+ * @package phpBB Sitemaker [English]
+ * @copyright (c) 2012 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+/**
+ * @ignore
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -33,10 +34,12 @@ $lang = array_merge($lang, array(
 	'BLOCK_CHILD_ROUTES_ONLY'					=> 'Show on child routes only',
 	'BLOCK_CHILD_ROUTES_HIDE'					=> 'Hide on child routes',
 	'BLOCK_CLASS'								=> 'CSS Class',
+	'BLOCK_CLASS_EXPLAIN'						=> 'Modify block appearance with CSS classes',
 	'BLOCK_DESIGN'								=> 'Appearance',
 	'BLOCK_DISPLAY_TYPE'						=> 'Display',
 	'BLOCK_HIDE_TITLE'							=> 'Hide block title?',
 	'BLOCK_INACTIVE'							=> 'Inactive',
+	'BLOCK_MISSING_TEMPLATE'					=> 'Missing required block template. Please contact developer',
 	'BLOCK_NOT_FOUND'							=> 'Oops! The requested block service was not found',
 	'BLOCK_NO_DATA'								=> 'No data to display',
 	'BLOCK_NO_ID'								=> 'Oops! Missing block id',
@@ -53,7 +56,7 @@ $lang = array_merge($lang, array(
 	'COPY_BLOCKS'								=> 'Copy Blocks?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
 
-	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right below.',
+	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right.',
 	'DELETE'									=> 'Delete',
 	'DELETE_ALL_BLOCKS'							=> 'Delete All Blocks',
 	'DELETE_ALL_BLOCKS_CONFIRM'					=> 'Are you sure that you’d like to delete all blocks for this page?',
@@ -64,13 +67,15 @@ $lang = array_merge($lang, array(
 	'EDIT_BLOCK'								=> 'Edit Block',
 	'EXIT_EDIT_MODE'							=> 'Exit Edit Mode',
 
+	'FEED_PROBLEMS'								=> 'There was a problem processing the provided rss/atom feed(s)',
+	'FEED_URL_MISSING'							=> 'Please provide at least one rss/atom feed to begin',
 	'FIELD_INVALID'								=> 'The provided value for the field “%s” has an invalid format',
 	'FIELD_REQUIRED'							=> '“%s” is a required field',
 	'FIELD_TOO_LONG'							=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
 	'FIELD_TOO_SHORT'							=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
 
 	'HIDE_ALL_BLOCKS'							=> 'Do not show blocks on this page',
-	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions.<br />Use <strong>CTRL + click</strong> to deselect or select multiple positions',
+	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions:',
 
 	'IMAGES'									=> 'Images',
 
@@ -86,6 +91,7 @@ $lang = array_merge($lang, array(
 
 	'PARENT_ROUTE'								=> 'Parent',
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
+	'PREDEFINED_CLASSES'						=> 'Predefined classes',
 
 	'REDO'										=> 'Redo',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
@@ -105,10 +111,9 @@ $lang = array_merge($lang, array(
 	'SET_STARTPAGE'								=> 'Set As Start Page',
 
 	'TITLES'									=> 'Titles',
-	'TOGGLE'									=> 'Toggle',
 
-	'UNDO'										=> 'Undo',
 	'UPDATE_SIMILAR'							=> 'Update blocks with similar settings',
+	'UNDO'										=> 'Undo',
 
 	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
 	'VISIT_PAGE'								=> 'Visit Page',

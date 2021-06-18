@@ -1,6 +1,6 @@
 // credit: http://w3bits.com/css-responsive-nav-menu/
 
-@import "globals";
+@import 'globals';
 
 //@extend-elements
 //original selectors
@@ -10,6 +10,8 @@
 	display: block;
 	color: $navbar_text_color;
 	text-decoration: none;
+	font-size: inherit;
+	font-weight: inherit;
 }
 
 //original selectors
@@ -59,7 +61,7 @@
 		display: none;
 		margin: 0;
 	}
-	input[type="checkbox"] {
+	input[type='checkbox'] {
 		display: none;
 		&:checked + .sub-menu {
 			display: block;
@@ -73,12 +75,20 @@
 		label.drop-icon {
 			@extend %extend_2;
 		}
-
 		&.active {
 			margin: -2px 0;
 			padding: 2px 0 0;
 			border-radius: 0;
 			clear: none;
+		}
+		.sm-nav-item {
+			@extend %extend_1;
+			padding: 1em 1.5em;
+			transition: all 0.125s ease-in-out;
+			&:hover {
+				background-color: $navbar_text_color;
+				color: $navbar_hover_background_color;
+			}
 		}
 	}
 	.sub-menu {
@@ -86,22 +96,22 @@
 		border-color: $navbar_border_color;
 		background-color: $navbar_sub_menu_background_color;
 		border-width: 1px 1px 0;
-		margin: 0 1em;
+		margin: 0 0 0 1em;
 		display: none;
-		li:last-child {
-			border-width: 0;
+		li {
+			border: 0;
 		}
-		a:hover {
+		.sm-nav-item:hover {
 			color: $navbar_sub_menu_background_color;
 		}
-	}
-	a {
-		@extend %extend_1;
-		padding: 1em 1.5em;
-		transition: all .125s ease-in-out;
-		&:hover {
-			background-color: $navbar_text_color;
-			color: $navbar_hover_background_color;
+		.sm-nav-header {
+			background-color: #555;
+			color: #ff9;
+
+			&:hover {
+				background-color: #555;
+				color: #ff9;
+			}
 		}
 	}
 	label.drop-icon {
@@ -122,7 +132,7 @@
 		@extend %extend_3;
 	}
 }
-@media only screen and(min-width: $toast-breakpoint-small) {
+@media only screen and(min-width: $breakpoint-small) {
 	.sm-menu {
 		padding-top: 2px;
 		.main-menu {
@@ -132,7 +142,7 @@
 		li {
 			float: left;
 			border-width: 0 1px 0 0;
-			&:hover > input[type="checkbox"] + .sub-menu {
+			&:hover > input[type='checkbox'] + .sub-menu {
 				display: block;
 			}
 		}
@@ -146,7 +156,6 @@
 			display: none;
 			li {
 				float: none;
-				border-width: 0 0 1px;
 			}
 			.sub-menu {
 				top: 0;
@@ -166,7 +175,7 @@
 			display: inline-block;
 			margin-left: 5px;
 		}
-		input[type="checkbox"]:checked + .sub-menu {
+		input[type='checkbox']:checked + .sub-menu {
 			display: none;
 		}
 	}

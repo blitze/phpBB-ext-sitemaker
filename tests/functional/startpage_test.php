@@ -14,11 +14,9 @@ namespace blitze\sitemaker\tests\functional;
  */
 class startpage_test extends \phpbb_functional_test_case
 {
-	protected $phpbb_extension_manager;
+	private static $helper;
 
-	static private $helper;
-
-	static public function setUpBeforeClass()
+	public static function setUpBeforeClass()
 	{
 		global $phpbb_root_path;
 
@@ -29,7 +27,7 @@ class startpage_test extends \phpbb_functional_test_case
 		self::$helper->copy_dir($phpbb_root_path . '../tests/functional/fixtures/ext/foo/bar', $phpbb_root_path . 'ext/foo/bar');
 	}
 
-	static public function tearDownAfterClass()
+	public static function tearDownAfterClass()
 	{
 		global $phpbb_root_path;
 
@@ -45,23 +43,9 @@ class startpage_test extends \phpbb_functional_test_case
 	 * @return array vendor/name of extension(s) to test
 	 * @access static
 	 */
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('blitze/sitemaker');
-	}
-
-	public function setUp()
-	{
-		parent::setUp();
-
-		// Load all of Pages language files
-		$this->add_lang_ext('blitze/sitemaker', array(
-			'common',
-		));
-
-		$this->phpbb_extension_manager = $this->get_extension_manager();
-
-		$this->purge_cache();
 	}
 
 	/**
@@ -69,40 +53,59 @@ class startpage_test extends \phpbb_functional_test_case
 	 */
 	public function test_set_default_startpage()
 	{
-		$this->phpbb_extension_manager->enable('foo/bar');
+		$this->add_lang_ext('blitze/sitemaker', array('common', 'block_manager'));
+
+		$phpbb_extension_manager = $this->get_extension_manager();
+		$phpbb_extension_manager->enable('foo/bar');
+
 		$this->login();
 
 		// Confirm forum index is initial start page
-		$crawler = self::request('GET', 'index.php');
+		$crawler = self::request('GET', 'index.php?sid=' . $this->sid, array(), false);
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
 		// Confirm foo/bar path exists and displays content
-		$crawler = self::request('GET', 'app.php/foo/template');
+		$crawler = self::request('GET', 'app.php/foo/template?sid=' . $this->sid, array(), false);
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
 
-		// Switch to edit mode
-		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1');
+		// switch to edit mode and confirm we have option to set start page
+		$crawler = self::request('GET', 'app.php/foo/template?edit_mode=1&sid=' . $this->sid, array(), false);
 
-		// Go to extension page and set as start page
-		$link = $crawler->selectLink('Set As Start Page')->link();
-		self::$client->click($link);
-		$this->assert_response_status_code('200');
+		$this->assertContainsLang('SET_STARTPAGE', $crawler->filter('#startpage-toggler')->text());
 
-		// Go to index.php
-		$link = $crawler->selectLink('Board index')->link();
-		self::$client->click($link);
+		$this->make_ajax_request([
+			'controller'	=> 'foo_bar.controller',
+			'method'		=> 'template',
+		]);
 
-		// Confirm it now displays the contents of foo/bar controller
+		// Go to index.php and Confirm it now displays the contents of foo/bar controller
+		$crawler = self::request('GET', 'index.php?edit_mode=1&sid=' . $this->sid, array(), false);
 		$this->assertContains("I am a variable", $crawler->filter('#content')->text());
+
+		// Confirm Remove Start Page is now available to us
+		$this->assertContainsLang('REMOVE_STARTPAGE', $crawler->filter('#startpage-toggler')->text());
 
 		// Remove as startpage
-		$link = $crawler->selectLink('Remove Start Page')->link();
-		self::$client->click($link);
-		$this->assert_response_status_code('200');
+		$this->make_ajax_request([
+			'controller'	=> '',
+			'method'		=> '',
+		]);
 
-		$crawler = self::request('GET', 'index.php');
+		$crawler = self::request('GET', 'index.php?sid=' . $this->sid, array(), false);
 		$this->assertGreaterThan(0, $crawler->filter('.topiclist')->count());
 
-		$this->phpbb_extension_manager->purge('foo/bar');
+		$phpbb_extension_manager->purge('foo/bar');
+	}
+
+	/**
+	 * @param array $data
+	 * @return void
+	 */
+	private function make_ajax_request(array $data)
+	{
+		self::$client->setHeader('X-Requested-With', 'XMLHttpRequest');
+		self::request('POST', 'app.php/sitemaker/blocks/set_startpage?style=1&sid=' . $this->sid, $data, false);
+		self::$client->removeHeader('X-Requested-With');
+		$this->assert_response_status_code('200');
 	}
 }

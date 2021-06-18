@@ -248,8 +248,6 @@ class data extends query_builder
 			$this->_limit_posts_by_topic($sql_where, $topic_first_or_last_post);
 		}
 
-		$sql_where[] = $this->content_visibility->get_global_visibility_sql('post', $this->ex_fid_ary, 'p.');
-
 		return $sql_where;
 	}
 

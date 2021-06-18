@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -71,7 +72,6 @@ class blocks extends routes
 	{
 		$ex_positions = array_flip($route_info['ex_positions']);
 		$users_groups = $this->groups->get_users_groups();
-
 		$route_blocks = $this->get_blocks_for_route($route_info, $style_id, $edit_mode);
 
 		$positions = array();
@@ -97,6 +97,29 @@ class blocks extends routes
 	}
 
 	/**
+	 * @param string $position
+	 * @param array $blocks
+	 * @param array $ex_positions
+	 * @param array $users_groups
+	 * @param array $display_modes
+	 * @param bool $edit_mode
+	 * @return array[]
+	 */
+	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
+	{
+		$pos_blocks = array();
+		if (!$this->exclude_position($position, $ex_positions, $edit_mode))
+		{
+			foreach ($blocks as $index => $entity)
+			{
+				$pos_blocks[$index] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $index);
+			}
+		}
+
+		return array_filter($pos_blocks);
+	}
+
+	/**
 	 * Render block
 	 *
 	 * @param array $display_modes
@@ -111,14 +134,30 @@ class blocks extends routes
 		$service_name = $db_data['name'];
 
 		$block = array();
-		if ($this->_block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
+		if ($this->block_is_viewable($db_data, $display_modes, $users_groups, $edit_mode) && ($block_instance = $this->block_factory->get_block($service_name)) !== null)
 		{
-			$returned_data = $block_instance->display($db_data, $edit_mode);
+			$returned_data =  array(
+				'title'		=> '',
+				'data'		=> null,
+				'content'	=> null,
+			);
 
-			if ($content = $this->_get_block_content($returned_data, $edit_mode))
+			try
 			{
-				$returned_data['title'] = $this->_get_block_title($db_data['title'], $returned_data['title']);
-				$returned_data['content'] = $content;
+				$returned_data = array_merge($returned_data, $block_instance->display($db_data, $edit_mode));
+			}
+			catch (\Exception $e)
+			{
+				$returned_data['title'] = strtoupper(str_replace(['.', '-'], '_', $service_name));
+				$this->set_edit_mode_content($returned_data, $edit_mode, $e->getMessage());
+			}
+
+			// we get the template after running 'display()' above so template can be set dynamically
+			$returned_data['template'] = $block_instance->get_template();
+
+			if ($this->block_has_content($returned_data, $edit_mode))
+			{
+				$returned_data['title'] = $this->get_block_title($db_data['title'], $returned_data['title']);
 
 				$block = array_merge($db_data, $returned_data);
 				$block['class'] .= self::$status_class[$block['status']];
@@ -141,34 +180,11 @@ class blocks extends routes
 	}
 
 	/**
-	 * @param string $position
-	 * @param array $blocks
-	 * @param array $ex_positions
-	 * @param array $users_groups
-	 * @param array $display_modes
-	 * @param bool $edit_mode
-	 * @return array[]
-	 */
-	protected function show_position($position, array $blocks, array $ex_positions, array $users_groups, $display_modes, $edit_mode)
-	{
-		$pos_blocks = array();
-		if (!$this->_exclude_position($position, $ex_positions, $edit_mode))
-		{
-			foreach ($blocks as $index => $entity)
-			{
-				$pos_blocks[$index] = $this->render($display_modes, $edit_mode, $entity->to_array(), $users_groups, $index);
-			}
-		}
-
-		return array_filter($pos_blocks);
-	}
-
-	/**
 	 * @param string $db_title
 	 * @param string $df_title
 	 * @return string
 	 */
-	protected function _get_block_title($db_title, $df_title)
+	protected function get_block_title($db_title, $df_title)
 	{
 		return ($db_title) ? $db_title : $this->translator->lang($df_title);
 	}
@@ -176,22 +192,58 @@ class blocks extends routes
 	/**
 	 * @param array $returned_data
 	 * @param bool $edit_mode
-	 * @return string|null
+	 * @return bool
 	 */
-	protected function _get_block_content(array &$returned_data, $edit_mode)
+	protected function block_has_content(array &$returned_data, $edit_mode)
 	{
-		$content = '';
-		if (!empty($returned_data['content']))
+		if ($this->block_returns_nothing($returned_data))
 		{
-			$content = $returned_data['content'];
+			return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_NO_DATA');
 		}
-		else if ($edit_mode)
+		else if ($this->block_is_missing_template($returned_data))
 		{
-			$returned_data['status'] = 0;
-			$content = $this->translator->lang('BLOCK_NO_DATA');
+			$returned_data['data'] = null;
+			return $this->set_edit_mode_content($returned_data, $edit_mode, 'BLOCK_MISSING_TEMPLATE');
 		}
 
-		return $content;
+		return true;
+	}
+
+	/**
+	 * @param array $data
+	 * @param bool $edit_mode
+	 * @param string $lang_key
+	 * @return bool
+	 */
+	protected function set_edit_mode_content(array &$data, $edit_mode, $lang_key)
+	{
+		if ($edit_mode)
+		{
+			$data['status'] = 0;
+			$data['content'] = $this->translator->lang($lang_key);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param array $returned_data
+	 * @return bool
+	 */
+	protected function block_returns_nothing(array $returned_data)
+	{
+		return !$returned_data['content'] && empty($returned_data['data']);
+	}
+
+	/**
+	 * @param array $returned_data
+	 * @return bool
+	 */
+	protected function block_is_missing_template(array $returned_data)
+	{
+		return is_array($returned_data['data']) && !$returned_data['template'];
 	}
 
 	/**
@@ -203,12 +255,12 @@ class blocks extends routes
 	 * @param bool $edit_mode
 	 * @return bool
 	 */
-	protected function _block_is_viewable(array $data, array $display_modes, array $users_groups, $edit_mode)
+	protected function block_is_viewable(array $data, array $display_modes, array $users_groups, $edit_mode)
 	{
 		$type = $data['type'];
 		$allowed_groups = $data['permission'];
 
-		return ($display_modes[$type] && ($edit_mode || $this->_user_is_permitted($allowed_groups, $users_groups))) ? true : false;
+		return ($display_modes[$type] && ($edit_mode || $this->user_is_permitted($allowed_groups, $users_groups))) ? true : false;
 	}
 
 	/**
@@ -216,7 +268,7 @@ class blocks extends routes
 	 * @param array $users_groups
 	 * @return bool
 	 */
-	protected function _user_is_permitted($allowed_groups, array $users_groups)
+	protected function user_is_permitted($allowed_groups, array $users_groups)
 	{
 		return (empty($allowed_groups) || sizeof(array_intersect($allowed_groups, $users_groups))) ? true : false;
 	}
@@ -227,7 +279,7 @@ class blocks extends routes
 	 * @param bool $edit_mode
 	 * @return bool
 	 */
-	protected function _exclude_position($position, array $ex_positions, $edit_mode)
+	protected function exclude_position($position, array $ex_positions, $edit_mode)
 	{
 		return ($edit_mode === false && isset($ex_positions[$position])) ? true : false;
 	}

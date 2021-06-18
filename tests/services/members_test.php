@@ -43,7 +43,9 @@ class members_test extends \phpbb_database_test_case
 	{
 		global $auth, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -77,37 +79,7 @@ class members_test extends \phpbb_database_test_case
 
 		$date_range = new date_range($user, '24 February 2015');
 
-		$tpl_data = array();
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
-		// make sure we've set template file
-		$ptemplate->expects($this->any())
-			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
-				$tpl_data = array_merge($tpl_data, $data);
-			}));
-
-		// make sure we've set template file
-		$ptemplate->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
-				$tpl_data[$key][] = $data;
-			}));
-
-		$ptemplate->expects($this->any())
-			->method('render_view')
-			->with(
-				$this->equalTo('blitze/sitemaker'),
-				$this->equalTo('blocks/members.html'),
-				$this->equalTo('members_block')
-			)
-			->will($this->returnCallback(function() use (&$tpl_data) {
-				return $tpl_data;
-			}));
-
-		return new members($db, $translator, $user, $date_range, $ptemplate, $phpbb_root_path, $phpEx);
+		return new members($db, $translator, $user, $date_range, $phpbb_root_path, $phpEx);
 	}
 
 	/**
@@ -121,7 +93,10 @@ class members_test extends \phpbb_database_test_case
 			array(
 				array(),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'recent',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Join Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member5</span>',
 							'USER_AVATAR'	=> '',
@@ -148,9 +123,6 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '30 Jan 2015',
 						),
 					),
-					'S_LIST'		=> 'recent',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Join Date'
 				),
 			),
 			array(
@@ -159,7 +131,10 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 2,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'visits',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member3</span>',
 							'USER_AVATAR'	=> '',
@@ -171,9 +146,6 @@ class members_test extends \phpbb_database_test_case
 							'USER_INFO'		=> '16 Aug 2015',
 						),
 					),
-					'S_LIST'		=> 'visits',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -182,15 +154,15 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'bots',
+					'USER_TITLE'	=> '',
+					'INFO_TITLE'	=> '',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> 'bot2',
 							'USER_INFO'		=> '',
 						),
 					),
-					'S_LIST'		=> 'bots',
-					'USER_TITLE'	=> '',
-					'INFO_TITLE'	=> ''
 				),
 			),
 			array(
@@ -199,16 +171,16 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'tenured',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">founder</span>',
 							'USER_AVATAR'	=> '',
 							'USER_INFO'		=> '05 Jan 2015',
 						),
 					),
-					'S_LIST'		=> 'tenured',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 			array(
@@ -217,16 +189,16 @@ class members_test extends \phpbb_database_test_case
 					'max_members'	=> 1,
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'posts',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Posts',
+					'MEMBERS'		=> array(
 						array(
 							'USERNAME'		=> '<span class="username">member2</span>',
 							'USER_AVATAR'	=> '',
 							'USER_INFO'		=> '<a href="phpBB/search.php?author_id=7&amp;sr=posts">1</a>',
 						),
 					),
-					'S_LIST'		=> 'posts',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Posts'
 				),
 			),
 			array(
@@ -236,16 +208,21 @@ class members_test extends \phpbb_database_test_case
 					'date_range'	=> 'month',
 				),
 				array(
-					'member'	=> array(
+					'S_LIST'		=> 'visits',
+					'USER_TITLE'	=> 'Username',
+					'INFO_TITLE'	=> 'Date',
+					'MEMBERS'	=> array(
 						array(
-							'USERNAME'		=> '<span class="username">member2</span>',
+							'USERNAME'		=> '<span class="username">member3</span>',
 							'USER_AVATAR'	=> '',
-							'USER_INFO'		=> '15 Feb 2015',
+							'USER_INFO'		=> '20 Aug 2015',
+						),
+						array(
+							'USERNAME'		=> '<span class="username">member1</span>',
+							'USER_AVATAR'	=> '',
+							'USER_INFO'		=> '16 Aug 2015',
 						),
 					),
-					'S_LIST'	=> 'visits',
-					'USER_TITLE'	=> 'Username',
-					'INFO_TITLE'	=> 'Date'
 				),
 			),
 		);
@@ -261,8 +238,8 @@ class members_test extends \phpbb_database_test_case
 	public function test_get_list(array $query, array $expected)
 	{
 		$members = $this->get_service();
-		$data = $members->get_list($query);
+		$result = $members->get_list($query);
 
-		$this->assertEquals($expected, $data);
+		$this->assertEquals($expected, $result);
 	}
 }

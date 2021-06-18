@@ -52,10 +52,7 @@ class mybookmarks_test extends blocks_base
 
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new mybookmarks($this->translator, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new mybookmarks($this->translator, $this->user, $forum_data, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -68,6 +65,16 @@ class mybookmarks_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/topiclist.html', $block->get_template());
 	}
 
 	/**
@@ -107,15 +114,13 @@ class mybookmarks_test extends blocks_base
 					'is_registered' => true,
 				),
 				array(
-					'topicrow' => array(
-						array(
-							'TOPIC_TITLE' => 'Topic with poll',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
-						),
-						array(
-							'TOPIC_TITLE' => 'Welcome to phpBB3',
-							'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
-						),
+					array(
+						'TOPIC_TITLE' => 'Topic with poll',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
+					),
+					array(
+						'TOPIC_TITLE' => 'Welcome to phpBB3',
+						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=2&amp;t=1',
 					),
 				),
 			),
@@ -138,6 +143,6 @@ class mybookmarks_test extends blocks_base
 		$block = $this->get_block($user_data);
 		$result = $block->display($bdata);
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, $result['data']['TOPICS']);
 	}
 }

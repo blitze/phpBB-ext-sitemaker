@@ -27,7 +27,9 @@ class listener_test extends \phpbb_test_case
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$language = new \phpbb\language\language($lang_loader);
 
-		$container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$container->expects($this->any())
 			->method('has')

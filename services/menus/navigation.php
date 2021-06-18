@@ -40,32 +40,29 @@ class navigation
 	}
 
 	/**
-	 * @param \phpbb\template\twig\twig $template
 	 * @param int $menu_id
 	 * @param bool $is_navigation
 	 * @param array $settings
-	 * @return bool
+	 * @return array
 	 */
-	public function build_menu($template, $menu_id, $is_navigation = false, array $settings = array())
+	public function build_menu($menu_id, $is_navigation = false, array $settings = array())
 	{
 		$data = $this->get_menu($menu_id);
 
 		if (!sizeof($data))
 		{
-			return false;
+			return [];
 		}
 
 		if (!$is_navigation)
 		{
-			$this->tree->display_list($data['items'], $template, 'tree');
+			return $this->tree->display_list($data['items']);
 		}
 		else
 		{
 			$this->tree->set_params($settings);
-			$this->tree->display_navlist($data, $template, 'tree');
+			return $this->tree->display_navlist($data);
 		}
-
-		return true;
 	}
 
 	/**

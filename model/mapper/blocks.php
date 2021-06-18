@@ -54,22 +54,39 @@ class blocks extends base_mapper
 	 */
 	protected function insert(\blitze\sitemaker\model\entity_interface $entity)
 	{
-		$this->move_blocks_down($entity);
+		// do we have other existing blocks for route at this position?
+		/** @type \blitze\sitemaker\model\entity\block $entity */
+		$collection = $this->find(array(
+			array('route_id', '=', $entity->get_route_id()),
+			array('style', '=', $entity->get_style()),
+			array('position', '=', $entity->get_position()),
+		));
+
+		// if we don't have existing blocks, make sure weight = 0
+		if (!$collection->valid())
+		{
+			$entity->set_weight(0);
+		}
+		// if we have existing blocks, increase block weight by 1 for any block that is below the new block
+		else
+		{
+			$this->move_blocks_down($entity);
+		}
 
 		return parent::insert($entity);
 	}
 
 	/**
-	 * @param \blitze\sitemaker\model\entity_interface $entity
+	 * @param \blitze\sitemaker\model\entity\block $entity
 	 */
-	protected function move_blocks_down(\blitze\sitemaker\model\entity_interface $entity)
+	protected function move_blocks_down(\blitze\sitemaker\model\entity\block $entity)
 	{
-		/** @type \blitze\sitemaker\model\entity\block $entity */
 		$sql = 'UPDATE ' . $this->entity_table . '
 			SET weight = weight + 1
 			WHERE weight >= ' . (int) $entity->get_weight() . '
 				AND route_id = ' . (int) $entity->get_route_id() . '
-				AND style = ' . (int) $entity->get_style();
+				AND style = ' . (int) $entity->get_style() . "
+				AND position = '" . $this->db->sql_escape($entity->get_position()) . "'";
 		$this->db->sql_query($sql);
 	}
 }

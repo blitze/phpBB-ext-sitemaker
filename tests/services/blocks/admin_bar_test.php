@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -41,26 +42,18 @@ class admin_bar_test extends \phpbb_database_test_case
 		return $this->createXMLDataSet(dirname(__FILE__) . '/../fixtures/blocks.xml');
 	}
 
-	static public function tearDownAfterClass()
-	{
-		global $phpbb_root_path;
-
-		parent::tearDownAfterClass();
-
-		unlink(dirname(__FILE__) . '/../fixtures/filemanager/config.php');
-	}
-
 	/**
 	 * Create the admin_bar service
 	 *
 	 * @param array $auth_map
 	 * @param array $config
 	 * @param string $page
+	 * @param string $user_lang
 	 * @param string $controller
 	 * @param string $params
 	 * @return \blitze\sitemaker\services\blocks\admin_bar
 	 */
-	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $controller = '', $params = '')
+	protected function get_service(array $auth_map = array(), array $config = array(), $page = 'index.php', $user_lang = 'en', $controller = '', $params = '')
 	{
 		global $db, $request, $phpbb_dispatcher, $phpbb_extension_manager, $phpbb_path_helper, $symfony_request, $user, $phpbb_root_path, $phpEx;
 
@@ -72,7 +65,13 @@ class admin_bar_test extends \phpbb_database_test_case
 			)
 		);
 
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$lang_mapping = array(
+			'fr' => 'fr_FR',
+		);
+
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 		$auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
@@ -80,7 +79,9 @@ class admin_bar_test extends \phpbb_database_test_case
 
 		$db = $this->new_dbal();
 		$config = new \phpbb\config\config($config);
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
@@ -89,7 +90,8 @@ class admin_bar_test extends \phpbb_database_test_case
 			->getMock();
 		$controller_helper->expects($this->any())
 			->method('route')
-			->willReturnCallback(function($route, $params) {
+			->willReturnCallback(function ($route, $params)
+			{
 				return $route . '-' . implode('/', $params);
 			});
 
@@ -111,6 +113,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$user->host = 'my-site.com';
 		$user->page['page'] = $page;
 		$user->page['root_script_path'] = '/phpBB/';
+		$user->data['user_lang'] = $user_lang;
 
 		$auto_lang = $this->getMockBuilder('\blitze\sitemaker\services\auto_lang')
 			->disableOriginalConstructor()
@@ -147,7 +150,8 @@ class admin_bar_test extends \phpbb_database_test_case
 					'ext_path'		=> 'ext/blitze/sitemaker/tests/services/fixtures/ext/foo/bar/',
 				),
 			),
-			$phpbb_container);
+			$phpbb_container
+		);
 
 		$symfony_request = new Request();
 		$symfony_request->attributes->set('_controller', $controller);
@@ -161,7 +165,7 @@ class admin_bar_test extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
 		$phpbb_container->set('foo.bar.controller', new \foo\bar\foo_bar_controller());
 
-		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
+		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -173,23 +177,22 @@ class admin_bar_test extends \phpbb_database_test_case
 		$template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->tpl_data =& $tpl_data;
+		$this->tpl_data = &$tpl_data;
 		$template->expects($this->any())
 			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($data) use (&$tpl_data)
+			{
 				$tpl_data = $data;
 			}));
 
 		$template->expects($this->any())
 			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
+			->will($this->returnCallback(function ($key, $data) use (&$tpl_data)
+			{
 				$tpl_data[$key][] = $data;
 			}));
 
-		$filemanager_path = dirname(__FILE__) . '/../fixtures/filemanager/';
-		$filemanager = new \blitze\sitemaker\services\filemanager\setup($auth, $config, $filesystem, $user, $filemanager_path, $phpbb_root_path, $phpEx);
-
-		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $filemanager, $icons, $this->util, $phpEx);
+		return new admin_bar($config, $controller_helper, $phpbb_container, $phpbb_dispatcher, $template, $translator, $user, $icons, $this->util, $lang_mapping);
 	}
 
 	/**
@@ -201,6 +204,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	{
 		return array(
 			array(
+				'fr',
 				array(
 					'route_id' => 1,
 					'ext_name' => '',
@@ -219,14 +223,16 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EDIT_MODE' => true,
 					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '',
 					'S_EX_POSITIONS' => '',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
+					'SM_USER_LANG' => 'fr',
+					'TINYMCE_LANG' => 'fr_FR',
 				),
 			),
 			array(
+				'pt_br',
 				array(
 					'route_id' => 2,
 					'ext_name' => '',
@@ -245,11 +251,12 @@ class admin_bar_test extends \phpbb_database_test_case
 					'S_EDIT_MODE' => true,
 					'S_ROUTE_OPS' => '<option value="">Select</option><option value="app.php/foo/test/">app.php/foo/test/</option><option value="faq.php">faq.php</option><option value="foo.php">foo.php</option><option value="index.php" selected="selected">index.php</option><option value="search.php">search.php</option>',
 					'S_HIDE_BLOCKS' => 0,
-					'S_POSITION_OPS' => '<option value="panel" selected="selected">panel</option><option value="top" selected="selected">top</option>',
 					'S_EX_POSITIONS' => 'panel, top',
 					'S_STYLE_OPTIONS' => '<option value="1" selected="selected">prosilver</option>',
 					'S_STARTPAGE' => false,
 					'ICON_PICKER' => null,
+					'SM_USER_LANG' => 'pt_br',
+					'TINYMCE_LANG' => 'pt_BR',
 				),
 			),
 		);
@@ -259,13 +266,14 @@ class admin_bar_test extends \phpbb_database_test_case
 	 * Test the show method
 	 *
 	 * @dataProvider show_admin_bar_test_data
+	 * @param string $user_lang
 	 * @param array $route_info
 	 * @param array $config
 	 * @param array $expected
 	 */
-	public function test_show_admin_bar(array $route_info, array $config, array $expected)
+	public function test_show_admin_bar($user_lang, array $route_info, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config);
+		$admin_bar = $this->get_service(array(), $config, 'index.php', $user_lang);
 
 		// assert set_assets() method is called
 		$this->util->expects($this->once())
@@ -309,6 +317,7 @@ class admin_bar_test extends \phpbb_database_test_case
 						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
 						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
 						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+						'update_column_width' => 'blitze_sitemaker_blocks_admin-update_column_width',
 					),
 					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
@@ -319,8 +328,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => false,
-					'FILEMANAGER' => false,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			),
 			array(
@@ -348,6 +355,7 @@ class admin_bar_test extends \phpbb_database_test_case
 						'set_route_prefs' => 'blitze_sitemaker_blocks_admin-set_route_prefs',
 						'set_startpage' => 'blitze_sitemaker_blocks_admin-set_startpage',
 						'update_block' => 'blitze_sitemaker_blocks_admin-update_block',
+						'update_column_width' => 'blitze_sitemaker_blocks_admin-update_column_width',
 					),
 					'PAGE_URL' => 'phpBB/index.php?',
 					'UA_BOARD_URL' => 'http://my-site.com/phpBB',
@@ -358,8 +366,6 @@ class admin_bar_test extends \phpbb_database_test_case
 					'UA_WEB_ROOT_PATH' => null,
 					'UA_UPLOAD_URL' => 'blitze_sitemaker_image_upload-',
 					'U_VIEW_DEFAULT' => 'http://my-site.com/phpBB/faq.php',
-					'FILEMANAGER' => true,
-					'FILEMANAGER_AKEY' => 'bf2780070a0ad9473d1c9c24a7036cb4f54d47b4',
 				),
 			)
 		);
@@ -477,7 +483,7 @@ class admin_bar_test extends \phpbb_database_test_case
 	 */
 	public function test_get_startpage_options($page, $controller, $params, array $config, array $expected)
 	{
-		$admin_bar = $this->get_service(array(), $config, $page, $controller, $params);
+		$admin_bar = $this->get_service(array(), $config, $page, 'en', $controller, $params);
 
 		$admin_bar->get_startpage_options();
 
@@ -515,41 +521,6 @@ class admin_bar_test extends \phpbb_database_test_case
 		$admin_bar = $this->get_service();
 
 		$options = $admin_bar->get_route_options($route);
-
-		$this->assertSame($expected, $options);
-	}
-
-	/**
-	 * Data set for test_get_excluded_position_options
-	 *
-	 * @return array
-	 */
-	public function get_excluded_position_options_test_data()
-	{
-		return array(
-			array(
-				array(),
-				'',
-			),
-			array(
-				array('sidebar', 'bottom'),
-				'<option value="sidebar" selected="selected">sidebar</option><option value="bottom" selected="selected">bottom</option>',
-			),
-		);
-	}
-
-	/**
-	 * Test the get_excluded_position_options method
-	 *
-	 * @dataProvider get_excluded_position_options_test_data
-	 * @param array $excluded_positions
-	 * @param string $expected
-	 */
-	public function test_get_excluded_position_options(array $excluded_positions, $expected)
-	{
-		$admin_bar = $this->get_service();
-
-		$options = $admin_bar->get_excluded_position_options($excluded_positions);
 
 		$this->assertSame($expected, $options);
 	}

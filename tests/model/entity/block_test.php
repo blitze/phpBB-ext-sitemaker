@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -57,20 +58,16 @@ class block_test extends \phpbb_test_case
 			'style'		=> 1,
 		);
 
-		foreach ($required_fields as $field)
-		{
+		foreach ($required_fields as $field) {
 			$test_data = $data;
 			unset($test_data[$field]);
 
 			$entity = new block($test_data);
 
-			try
-			{
+			try {
 				$entity->to_db();
 				$this->fail('no exception thrown');
-			}
-			catch (\blitze\sitemaker\exception\invalid_argument $e)
-			{
+			} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 				$this->assertEquals("EXCEPTION_INVALID_ARGUMENT-{$field}-FIELD_MISSING", $e->get_message($this->translator));
 			}
 		}
@@ -153,23 +150,17 @@ class block_test extends \phpbb_test_case
 	{
 		$block = new block(array());
 
-		try
-		{
+		try {
 			$this->assertNull($block->get_foo());
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\invalid_argument $e)
-		{
+		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 
-		try
-		{
+		try {
 			$this->assertNull($block->set_foo('bar'));
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\invalid_argument $e)
-		{
+		} catch (\blitze\sitemaker\exception\invalid_argument $e) {
 			$this->assertEquals('EXCEPTION_INVALID_ARGUMENT-foo-INVALID_PROPERTY', $e->get_message($this->translator));
 		}
 	}

@@ -1,8 +1,4 @@
-@import "globals";
-
-.fa {
-	margin-right: 3px;
-}
+@import 'globals';
 
 .edit-mode-btn {
 	position: fixed;
@@ -19,7 +15,7 @@
 		transform: rotate(15deg);
 	}
 
-	@media screen and (max-width : 940px) {
+	@media screen and (max-width: 940px) {
 		padding: 7px 10px;
 	}
 }
@@ -32,26 +28,23 @@
 
 .label-hidden {
 	display: none;
+	height: 0;
 
 	.content &,
 	.sm-content-footer & {
 		display: block;
 		visibility: hidden;
-		height: 0;
 	}
 }
 
 .label-inline {
 	display: inline;
 
-	.content & {
-		line-height: 1rem;
-
-		&:before {
-			content: ' ';
-			display: block;
-	    	white-space: pre;
-		}
+	.content &:before {
+		content: ' ';
+		display: block;
+		height: 0.5rem;
+		white-space: pre;
 	}
 }
 
@@ -59,13 +52,17 @@
 	display: block;
 }
 
-.topic-title {
+.d-inline {
 	float: none;
-	display: inline;
+	display: inline !important;
 }
 
-.sm-postbody {
+.sm-full-width {
 	width: 100%;
+
+	.content {
+		overflow: hidden;
+	}
 }
 
 .sm-fill-space {
@@ -73,7 +70,7 @@
 }
 
 .sm-content-footer {
-	margin-top: 1em;
+	margin-top: 1.2rem;
 }
 
 /* text alignment */
@@ -89,7 +86,7 @@
 	text-align: left;
 }
 
-@media screen and (max-width : $toast-breakpoint-medium) {
+@media screen and (max-width: $breakpoint-medium) {
 	.sm-responsive-show {
 		display: block;
 	}

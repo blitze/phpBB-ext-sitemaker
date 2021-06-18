@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -17,19 +18,6 @@ abstract class block implements block_interface
 {
 	/** @var string */
 	protected $name;
-
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
-
-	/**
-	 * Set block template object
-	 *
-	 * @param \blitze\sitemaker\services\template $ptemplate
-	 */
-	public function set_template(\blitze\sitemaker\services\template $ptemplate)
-	{
-		$this->ptemplate = $ptemplate;
-	}
 
 	/**
 	 * @inheritdoc
@@ -52,6 +40,14 @@ abstract class block implements block_interface
 	 */
 	public function get_config(array $settings)
 	{
-		return array();
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '';
 	}
 }

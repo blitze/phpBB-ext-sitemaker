@@ -35,8 +35,8 @@ class url_checker_test extends \phpbb_test_case
 			array('', true, false),
 			array('http://www.google.com', true, true),
 			array('http://www.google.com', false, true),
-			array('http://www.random-site.com/sitemaker', true, false),
-			array('http://www.random-site.com/sitemaker', false, false),
+			array('http://www.nonexistingsite.com/sitemaker', true, false),
+			array('http://www.nonexistingsite.com/sitemaker', false, false),
 		);
 	}
 

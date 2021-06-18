@@ -1,0 +1,33 @@
+.CodeMirror {
+	width: 368px;
+
+	.CodeMirror-vscrollbar,
+	.CodeMirror-hscrollbar {
+		&::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+			-webkit-appearance: none;
+			background: rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: rgba(175, 130, 45, 0.6);
+			border-radius: 3px;
+		}
+	}
+}
+
+.CodeMirror-fullscreen {
+	width: 100% !important;
+	max-height: 100% !important;
+	z-index: 2000;
+}
+
+.CodeMirror-button {
+	color: #536482;
+
+	&:disabled {
+		opacity: 0.3;
+	}
+}

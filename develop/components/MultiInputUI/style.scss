@@ -1,0 +1,29 @@
+.sm-multi-input-ui {
+	overflow: hidden;
+
+	.sm-multi-input-list {
+		max-height: 100px;
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		.sm-multi-input-item {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 0.3rem 0;
+			padding: 5px 0 5px 0.5rem;
+			border-radius: 4px;
+			background-color: #eee;
+
+			span,
+			button {
+				margin-right: 0.5rem;
+			}
+
+			input {
+				flex-grow: 1;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+}

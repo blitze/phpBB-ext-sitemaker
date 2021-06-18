@@ -44,7 +44,7 @@ class url_checker
 		}
 		else
 		{
-			$headers = get_headers($url);
+			$headers = @get_headers($url);
 			$headers = $headers[0];
 		}
 
@@ -58,17 +58,19 @@ class url_checker
 	 */
 	protected function curl_header($url)
 	{
-		$ch = curl_init();
+		$info = false;
+		if (($ch = curl_init()) !== false)
+		{
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HEADER, true);
+			curl_setopt($ch, CURLOPT_NOBODY, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+			$info = curl_exec($ch);
 
-		$info = curl_exec($ch);
-
-		curl_close($ch);
+			curl_close($ch);
+		}
 
 		return $info;
 	}

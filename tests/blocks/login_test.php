@@ -62,6 +62,8 @@ class login_test extends blocks_base
 				'content' => 'Member Menu',
 			));
 
+		$this->phpbb_container->set('blitze.sitemaker.block.member_menu', $member_menu);
+
 		$this->template->expects($this->exactly($call_count))
 			->method('assign_var')
 			->with(
@@ -69,12 +71,16 @@ class login_test extends blocks_base
 				$this->equalTo(true)
 			);
 
-		$this->phpbb_container->set('blitze.sitemaker.block.member_menu', $member_menu);
+		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
+			->disableOriginalConstructor()
+			->getMock();
+		$util->expects($this->any())
+			->method('get_form_key')
+			->will($this->returnCallback(function($form) {
+				return $form . ' token';
+			}));
 
-		$block = new login($this->phpbb_container, $this->template, $this->user, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new login($this->phpbb_container, $this->template, $this->user, $util, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -90,6 +96,16 @@ class login_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/login.html', $block->get_template());
 	}
 
 	/**
@@ -114,6 +130,7 @@ class login_test extends blocks_base
 				array(
 					'S_SHOW_HIDE_ME' => true,
 					'S_AUTOLOGIN_ENABLED' => true,
+					'S_FORM_TOKEN' => 'login token',
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',
 					'U_REGISTER' => 'phpBB/ucp.php?mode=register',
 					'U_SEND_PASSWORD' => 'phpBB/ucp.php?mode=sendpassword',
@@ -134,6 +151,7 @@ class login_test extends blocks_base
 				array(
 					'S_SHOW_HIDE_ME' => false,
 					'S_AUTOLOGIN_ENABLED' => false,
+					'S_FORM_TOKEN' => 'login token',
 					'S_LOGIN_ACTION' => 'phpBB/ucp.php?mode=login',
 					'U_REGISTER' => 'phpBB/ucp.php?mode=register',
 					'U_SEND_PASSWORD' => 'phpBB/ucp.php?mode=sendpassword',
@@ -151,7 +169,7 @@ class login_test extends blocks_base
 				true,
 				'index.php',
 				0,
-				'',
+				[],
 			),
 			array(
 				array(
@@ -183,6 +201,6 @@ class login_test extends blocks_base
 		$block = $this->get_block($user_is_logged_in, $curr_page, $call_count);
 		$result = $block->display($bdata);
 
-		$this->assertSame($expected, $result['content']);
+		$this->assertSame($expected, is_array($expected) ? $result['data'] : $result['content']);
 	}
 }

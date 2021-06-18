@@ -15,8 +15,10 @@ NOTESTS=$1
 
 if [ "$NOTESTS" == "1" ]
 then
-	cd phpBB
-	composer remove sami/sami --update-with-dependencies --dev --no-interaction
-	composer require phpbb/epv:dev-master --dev --no-interaction --ignore-platform-reqs
-	cd ../
+	composer require \
+		--working-dir=phpBB \
+		--dev \
+		--no-interaction \
+		--ignore-platform-reqs \
+		phpbb/epv:dev-master
 fi

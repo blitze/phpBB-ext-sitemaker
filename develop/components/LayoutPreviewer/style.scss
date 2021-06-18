@@ -1,0 +1,42 @@
+.style-layouts {
+	float: left;
+	width: 80%;
+	height: 400px;
+	overflow-y: auto;
+
+	dl:hover {
+		background-color: #7c3;
+		padding-left: 10px;
+		border-radius: 4px;
+	}
+}
+
+.layout-small-preview {
+	float: left;
+	width: 20%;
+	max-width: 400px;
+
+	img {
+		max-width: 100%;
+	}
+}
+
+.layout-large-preview {
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	visibility: hidden;
+	overflow: hidden;
+	border: 5px solid #666;
+	border-radius: 5px;
+	z-index: 1000;
+	max-width: 80%;
+	transition: opacity 500ms linear, visibility 0s linear 500ms;
+}
+
+.show {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 500ms linear, visibility 0s linear;
+}

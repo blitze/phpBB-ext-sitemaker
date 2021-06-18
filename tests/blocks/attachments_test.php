@@ -79,14 +79,11 @@ class attachments_test extends blocks_base
 
 		$forum_options = new options($this->phpbb_root_path, $this->php_ext);
 
-		$block = new attachments($this->auth, $cache, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new attachments($this->auth, $cache, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	/**
-	 * @retur void
+	 * @return void
 	 */
 	public function test_block_config()
 	{
@@ -106,6 +103,16 @@ class attachments_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/attachments.html', $block->get_template());
 	}
 
 	/**
@@ -383,7 +390,7 @@ class attachments_test extends blocks_base
 						'slideshow'			=> false,
 					),
 				),
-				'',
+				[],
 			),
 		);
 	}
@@ -393,20 +400,14 @@ class attachments_test extends blocks_base
 	 *
 	 * @dataProvider block_test_data
 	 * @param array $bdata
-	 * @param mixed $expected
+	 * @param array $expected
 	 */
 	public function test_block_display(array $bdata, $expected)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata);
+		$data = array_filter($result['data']);
 
-		if ($expected)
-		{
-			$this->assertEquals($expected, $result['content']['postrow.attachment']);
-		}
-		else
-		{
-			$this->assertEquals($expected, $result['content']);
-		}
+		$this->assertEquals($expected, !empty($expected) ? $data['attachments'] : $data);
 	}
 }

@@ -31,6 +31,7 @@ $lang = array_merge($lang, array(
 
 	'FEATURED_MEMBER'				=> 'Featured Member',
 	'FEATURED_MEMBERLIST'			=> 'Featured members list',
+	'FEEDS'							=> 'Feeds',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
 	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
 	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
@@ -39,6 +40,8 @@ $lang = array_merge($lang, array(
 
 	'HELP'							=> 'Help',
 	'HOURLY_MEMBER'					=> 'Member of the hour',
+
+	'GOOGLE_MAP'					=> 'Google Map',
 
 	'JOIN_DATE'						=> 'Join Date',
 
@@ -54,11 +57,11 @@ $lang = array_merge($lang, array(
 	'MY_BOOKMARKS'					=> 'My Bookmarks',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
-	'NO_NEW_POSTS'					=> 'There are no new posts to display',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 
 	'POLL'							=> 'Poll',
 	'POSTS_MEMBER'					=> 'Top Poster',
+	'PROCESSING'					=> 'processing...',
 
 	'QTYPE_POSTS'					=> 'Congratulations to:',
 	'QTYPE_RECENT'					=> 'Please welcome our newest member:',

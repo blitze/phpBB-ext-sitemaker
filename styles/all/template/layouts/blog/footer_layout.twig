@@ -1,22 +1,11 @@
 {% extends 'layout_base.twig' %}
 
 {% block layout %}
-							<div class="clear"></div>
 						</div>
 						{% if positions.boxes or S_EDIT_MODE %}
-							{% set num_blocks = positions.boxes|length %}
-							{% if num_blocks is divisible by(3) %}
-								{% set divisor = 3 %}
-							{% elseif num_blocks is divisible by(2) %}
-								{% set divisor = 2 %}
-							{% elseif num_blocks > 3 %}
-								{% set divisor = 3 %}
-							{% else %}
-								{% set divisor = 1 %}
-							{% endif %}
-						<div id="pos-boxes" class="block-position horizontal equal grid">
+						<div id="pos-boxes" class="block-position grid_sm-1-equalHeight horizontal">
 							{% for block in positions.boxes %}
-							<div id="block-{{ block.bid }}" class="block grid__col {{ divisor > 1 ? 'grid__col--1-of-' ~ divisor ~ ' grid__col--m-1-of-' ~ divisor : 'grid__col--5-of-5' }}">
+							<div id="block-{{ block.bid }}" class="block col">
 								{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 								{{ block_controls }}
 							</div>
@@ -25,87 +14,71 @@
 						{% endif %}
 
 						{% if positions.bottom or S_EDIT_MODE %}
-						<div class="grid">
-							<div id="pos-bottom" class="grid__col grid__col--4-of-4 block-position">
-								{% for block in positions.bottom %}
-								<div id="block-{{ block.bid }}" class="block">
-									{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-									{{ block_controls }}
-								</div>
-								{% endfor %}
+						<div id="pos-bottom" class="block-position">
+							{% for block in positions.bottom %}
+							<div id="block-{{ block.bid }}" class="block">
+								{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+								{{ block_controls }}
 							</div>
+							{% endfor %}
 						</div>
 						{% endif %}
 					</div>
 					{% if positions.subcontent or S_EDIT_MODE %}
-					<div id="pos-subcontent" class="block-position grid__col grid__col--1-of-4 sidebar{% block subcontent_class %} right{% endblock %}">
+						{%- set col_size = subcontent_size -%}
+						{%- if subcontent_width -%}
+							{%- set col_size = 0 -%}
+							{%- set col_style = ' style="width: ' ~ subcontent_width ~ '"' -%}
+						{%- endif -%}
+					<div id="pos-subcontent" class="{{ 'block-position col-' ~ col_size ~ '_sm-12' ~ subcontent_placement ~ ' sidebar' }}"{{ col_style }}>
 						{% for block in positions.subcontent %}
 						<div id="block-{{ block.bid }}" class="block">
 							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 							{{ block_controls }}
 						</div>
 						{% endfor %}
+						{% if S_EDIT_MODE %}
+						{% block subcontent_sizer %}{% endblock %}
+						{% endif %}
 					</div>
 					{% endif %}
 				</div>
-				<div class="grid">
 				{% if positions.bottom_hor or S_EDIT_MODE %}
-					{% set divisor = 0 %}
-					{% set columns_per_row = 3 %}
-					{% set num_blocks = positions.bottom_hor|length %}
-					<div id="pos-bottom_hor" class="block-position horizontal grid__col--ab">
+				<div id="pos-bottom_hor" class="block-position grid_sm-1-equalHeight horizontal">
 					{% for block in positions.bottom_hor %}
-						{% if divisor == 0 %}
-							{% if loop.revindex is divisible by (3) or loop.revindex > 2 %}
-								{% set divisor = 3 %}
-							{% elseif loop.revindex is divisible by (2) %}
-								{% set divisor = 3 %}
-								{% set columns_per_row = 2 %}
-							{% else %}
-								{% set divisor = 1 %}
-								{% set columns_per_row = 1 %}
-							{% endif %}
-						{% endif %}
-						<div id="block-{{ block.bid }}" class="block grid__col {{ columns_per_row > 1 ? 'grid__col--1-of-' ~ columns_per_row ~ ' grid__col--m-1-of-' ~ columns_per_row : 'grid__col--3-of-3' }}">
-							{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
-							{{ block_controls }}
-						</div>
-						{% if loop.index is divisible by(divisor) && !loop.last %}
-							{% set divisor = 0 %}
-						{% endif %}
-					{% endfor %}
+					<div id="block-{{ block.bid }}" class="block col">
+						{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
+						{{ block_controls }}
 					</div>
-				{% endif %}
+					{% endfor %}
 				</div>
+				{% endif %}
 			</div>
 			{% if positions.sidebar or S_EDIT_MODE %}
-			<div id="pos-sidebar" class="block-position grid__col grid__col--1-of-5 sidebar{% block sidebar_class %} left{% endblock %}">
+				{%- set col_size = sidebar_size -%}
+				{%- if sidebar_width -%}
+					{%- set col_size = 0 -%}
+					{%- set col_style = ' style="width: ' ~ sidebar_width ~ '"' -%}
+				{%- endif -%}
+			<div id="pos-sidebar" class="{{ 'block-position col-' ~ col_size ~ '_sm-12' ~ sidebar_placement ~ ' sidebar' }}"{{ col_style }}>
 				{% for block in positions.sidebar %}
 				<div id="block-{{ block.bid }}" class="block">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 					{{ block_controls }}
 				</div>
 				{% endfor %}
+				{% if S_EDIT_MODE %}
+				{% block sidebar_sizer %}{% endblock %}
+				{% endif %}
 			</div>
 			{% endif %}
 		</div>
 
 		{% if positions.footer or S_EDIT_MODE %}
-		<div class="footer">
-			<div id="pos-footer" class="panel bg3 block-position horizontal equal grid">
-				{% set num_blocks = positions.footer|length %}
-				{% if num_blocks is divisible by(3) %}
-					{% set divisor = 3 %}
-				{% elseif num_blocks is divisible by(2) %}
-					{% set divisor = 2 %}
-				{% elseif num_blocks > 3 %}
-					{% set divisor = 3 %}
-				{% else %}
-					{% set divisor = 1 %}
-				{% endif %}
-
+		<div class="footer panel bg3">
+			<div id="pos-footer" class="block-position grid_sm-1-center-equalHeight horizontal">
 				{% for block in positions.footer %}
-				<div id="block-{{ block.bid }}" class="block grid__col {{ divisor > 1 ? 'grid__col--1-of-' ~ divisor ~ ' grid__col--m-1-of-' ~ divisor : 'grid__col--5-of-5' }}">
+				<div id="block-{{ block.bid }}" class="block col">
 					{% include 'views/' ~ (block.view ? block.view : 'simple') ~ '_view.twig' %}
 					{{ block_controls }}
 				</div>

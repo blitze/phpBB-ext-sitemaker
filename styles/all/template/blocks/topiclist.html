@@ -1,7 +1,7 @@
-{% if loops.topicrow|length %}
+{% if TOPICS|length %}
 <ul class="sm-list">
-	{% for topicrow in loops.topicrow %}
-	<li><a href="{{ topicrow.U_VIEWTOPIC }}">{{ topicrow.TOPIC_TITLE }}</a></li>
+	{% for topic in TOPICS %}
+	<li><a href="{{ topic.U_VIEWTOPIC }}">{{ topic.TOPIC_TITLE }}</a></li>
 	{% endfor %}
 </ul>
 {% else %}

@@ -1,232 +1,347 @@
-@import "globals";
+@import 'globals';
+
+@mixin column($size) {
+	width: 100% / $size;
+
+	&:nth-child(#{$size}n + 1) {
+		border-left-width: 0;
+		padding-left: 0;
+	}
+}
 
 /* Lists
 ----------*/
-ul {
-	&.sm-list {
-		margin: 0;
-		padding: 0;
-		list-style: none;
+ul.sm-list {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		position: relative;
+		font-size: 12px;
+		line-height: 1.5;
+		padding: $gutter-width / 2 0;
+
+		> .sm-inner {
+			display: inline-block;
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+
+		&:last-of-type > .sm-inner {
+			margin-bottom: 0;
+		}
+	}
+
+	& > li > & {
+		margin-left: 1rem;
+		flex-basis: 100%;
+	}
+
+	/* List Types */
+	[class*='sm-list-type-'] & > li {
+		&:not(.sm-nav-header):not(.sm-nav-divider) {
+			display: flex;
+			align-items: flex-start;
+		}
+
+		&:before {
+			padding-right: 0.5em;
+		}
+	}
+
+	[class*='sm-list-type-numbered'] & {
+		counter-reset: numbers;
+
+		> li:not(.sm-nav-header):not(.sm-nav-divider) {
+			counter-increment: numbers;
+		}
+	}
+
+	> li:not(.sm-nav-header):not(.sm-nav-divider):before {
+		.sm-list-type-disc & {
+			content: '\2022';
+		}
+
+		.sm-list-type-circle & {
+			content: '\00ba';
+			border-radius: 0;
+		}
+
+		.sm-list-type-square & {
+			content: '\25A0';
+		}
+
+		.sm-list-type-triangle & {
+			content: '\2023';
+		}
+
+		.sm-list-type-hyphen & {
+			content: '-';
+			font-weight: bold;
+		}
+
+		.sm-list-type-plus & {
+			content: '\002B';
+		}
+
+		.sm-list-type-arrow & {
+			content: '\00BB';
+		}
+
+		.sm-list-type-arrow2 & {
+			content: '\21D2';
+		}
+
+		.sm-list-type-arrow3 & {
+			content: '\2192';
+		}
+
+		.sm-list-type-arrow4 & {
+			content: '\279C';
+		}
+
+		.sm-list-type-spade & {
+			content: '\2660';
+		}
+
+		.sm-list-type-club & {
+			content: '\2663';
+		}
+
+		.sm-list-type-diamond & {
+			content: '\2666';
+		}
+
+		.sm-list-type-heart & {
+			content: '\2665';
+		}
+
+		.sm-list-type-star & {
+			content: '\2605';
+		}
+
+		.sm-list-type-check & {
+			content: '\2713';
+		}
+
+		.sm-list-type-check2 & {
+			content: '\2714';
+		}
+
+		.sm-list-type-snowflake & {
+			content: '\2744';
+		}
+
+		.sm-list-type-music & {
+			content: '\266B';
+		}
+
+		.sm-list-type-numbered & {
+			content: '' counter(numbers) '.';
+		}
+
+		.sm-list-type-numbered-nested & {
+			content: '' counters(numbers, '.') '.';
+		}
+
+		.sm-list-type-numbered-zero & {
+			content: '' counter(numbers, decimal-leading-zero) '.';
+		}
+
+		.sm-list-type-numbered-alphabet & {
+			content: '' counter(numbers, lower-alpha) '.';
+		}
+
+		.sm-list-type-numbered-roman & {
+			content: '' counter(numbers, lower-roman) '.';
+		}
+
+		.sm-list-type-2x & {
+			font-size: 2em;
+		}
+
+		.sm-list-type-3x & {
+			font-size: 3em;
+		}
+	}
+
+	/* Nav lists */
+	nav & {
+		> li {
+			flex-wrap: wrap;
+			padding-top: 1em;
+
+			&.sm-nav-header {
+				font-weight: bold;
+				opacity: 0.8;
+				border-bottom: 1px solid $border-color;
+			}
+
+			&.sm-nav-divider {
+				padding: 0;
+				margin-bottom: -$gutter-width;
+			}
+
+			&.active > a {
+				font-weight: bolder;
+				color: $nav-list-active-color;
+			}
+
+			> a:hover {
+				font-weight: bold;
+				color: $nav-list-active-color;
+				text-decoration: none;
+			}
+		}
+	}
+
+	.sm-list-reverse & {
+		flex-direction: column-reverse !important;
+	}
+
+	.sm-list-inline & {
+		display: inline;
 
 		> li {
-			margin: 5px 0;
-			font-size: 11px;
-			vertical-align: top;
-			clear: both;
-
-			> .sm-inner {
-				display: inline-block;
-				margin-bottom: 14px;
-				width: 100%;
-			}
-		}
-
-		& > li > & {
-			margin-left: 15px;
-		}
-
-		/* List Types */
-		.sm-list-circle & {
-			list-style-position: inside;
-
-			> li {
-				list-style-type: circle;
-			}
-		}
-
-		.sm-list-disc & {
-			list-style-position: inside;
-
-			> li {
-				list-style-type: disc;
-			}
-		}
-
-		.sm-list-square & {
-			list-style-position: inside;
-
-			> li {
-				list-style-type: square;
-			}
-		}
-
-		.sm-list-numbered & {
-			> li {
-				list-style: decimal inside;
-			}
-		}
-
-		.sm-list-inline & {
-			> li {
-				display: inline;
-				padding: 5px;
-			}
-		}
-
-		.sm-list-inline-sep & {
-			> li {
-				display: inline;
-
-				&:after {
-					content: ', ';
-				}
-
-				&:last-child:after {
-					content: '';
-				}
-			}
-		}
-
-		.sm-list-flat & > li > & {
-			margin: 0;
-		}
-
-		.sm-list-arrow & > li:before {
-			content: '\00BB \0020';
-		}
-
-		.sm-list-hover & > li:hover,
-		.sm-list-striped & > li:nth-child(odd) {
+			display: inline;
 			padding: 5px;
-			background-color: $list-bgcolor;
 		}
+	}
 
-		.sm-list-stacked & > li {
-			padding: 5px;
-			border: 1px solid $border-color;
+	.sm-list-inline-sep & {
+		display: inline;
+
+		> li {
+			display: inline;
+
+			&:after {
+				content: ', ';
+			}
+
+			&:last-child:after {
+				content: '';
+			}
 		}
+	}
 
-		/* Dividers */
-		.sm-x-divider-dotted & > li {
-			border-top: 1px dotted $border-color;
-			padding-top: 5px;
-			margin: 5px 0;
-		}
+	.sm-list-striped & > li:nth-child(odd) {
+		padding: 5px;
+		background-color: $list-bgcolor;
+	}
 
+	.sm-list-stacked & > li {
+		margin: 4px 0;
+		padding: 5px;
+		border: 1px solid $border-color;
+	}
+
+	/* Dividers */
+	@media (min-width: $breakpoint-medium) {
+		.sm-x-divider-dotted & > li,
 		.sm-x-divider-line & > li {
 			border-top: 1px solid $border-color;
-			padding-top: 5px;
-			margin: 5px 0;
+			padding: $gutter-width 0;
+			margin: 0;
+
+			.sm-nav-divider {
+				display: none;
+			}
+
+			&:first-child {
+				border-top-width: 0;
+			}
 		}
 
+		.sm-x-divider-dotted & > li > &,
+		.sm-x-divider-line & > li > & {
+			margin-top: $gutter-width;
+			margin-bottom: -$gutter-width;
+
+			li:first-child {
+				border-top-width: 1px;
+			}
+		}
+
+		.sm-x-divider-dotted & > li {
+			border-top-style: dotted;
+		}
+
+		.sm-y-divider-line & > li,
 		.sm-y-divider-dotted & > li {
+			padding: $gutter-width / 2;
 			border-left: 1px dotted $border-color;
+
+			&:first-child {
+				border-left: 0;
+				padding-left: 0;
+			}
 		}
 
 		.sm-y-divider-line & > li {
 			border-left: 1px solid $border-color;
 		}
 
-		.sm-x-divider-line &:first-child > li:first-child,
-		.sm-x-divider-dotted &:first-child > li:first-child {
-			border-top: 0;
-		}
-
-		.sm-y-divider-line & > li:first-child,
-		.sm-y-divider-dotted & > li:first-child {
-			border-left: 0;
-		}
-
-		/* Nav lists */
-		nav & {
-			.active > a {
-				font-weight: bold;
-				color: $nav-list-active-color;
-				text-decoration: none;
+		.sm-list-reverse & > li {
+			&:first-child {
+				border-top-width: 1px;
 			}
 
-			.sm-list-circle & li.nav-header,
-			.sm-list-disc & li.nav-header,
-			.sm-list-square & li.nav-header {
-				margin-left: 15px;
-			}
-
-			> li {
-				font-size: 12px;
-				padding-top: 5px;
-				position: relative;
-
-				&.nav-header {
-					list-style-type: none;
-					margin-top: 5px;
-
-					> a {
-						border-bottom: 1px solid $border-color;
-
-						&:hover {
-							background-color: inherit;
-						}
-
-						.sm-x-divider-line &,
-						.sm-x-divider-dotted &,
-						.sm-y-divider-line &,
-						.sm-y-divider-dotted & {
-							border: 0;
-						}
-					}
-				}
-
-				> a {
-					display: block;
-				}
-			}
-
-			.active > a,
-			li > a:hover {
-				font-weight: bold;
-				color: $nav-list-active-color;
-				text-decoration: none;
+			&:last-child {
+				border-top-width: 0;
 			}
 		}
+	}
 
-		/*
-		 * Transform vertical list to horizontal blocks
-		 * Based on technique by Ali Jafarian
-		 */
-		.list-block-auto &,
-		.list-block-2cols &,
-		.list-block-3cols &,
-		.list-block-4cols &,
-		.list-block-5cols & {
-			font-size: 0;
-		}
+	/*
+	* Transform vertical list to horizontal blocks
+	*/
+	[class*='list-block-'] & {
+		box-sizing: border-box;
+		display: flex;
+		flex-flow: row wrap;
+		margin: 0;
 
-		.list-block-auto & > li {
-			width: auto;
-		}
-
-		.list-block-2cols & > li {
-			width: 50%;
-		}
-
-		.list-block-3cols & > li {
-			width: 33.33333%;
-		}
-
-		.list-block-4cols & > li {
-			width: 25%;
-		}
-
-		.list-block-5cols & > li {
-			width: 20%;
-		}
-
-		.list-block-auto & > li,
-		.list-block-2cols & > li,
-		.list-block-3cols & > li,
-		.list-block-4cols & > li,
-		.list-block-5cols & > li {
-			display: inline-block;
-			padding: 0 10px;
-			vertical-align: top;
+		> li {
+			flex: none;
+			max-width: 100%;
 			box-sizing: border-box;
 
-			@media (max-width: $toast-breakpoint-medium) {
+			@media (max-width: $breakpoint-medium) {
 				& {
-					width: 100%;
-					margin: 0 0 10px 0;
+					flex: none !important;
+					width: 100% !important;
+					padding: $gutter-width / 2 0;
 				}
 			}
 		}
+	}
+
+	.list-block-auto & > li {
+		flex: 1 1 0%;
+	}
+
+	.list-block-fit & > li {
+		width: auto;
+	}
+
+	.list-block-2cols & > li {
+		@include column(2);
+	}
+
+	.list-block-3cols & > li {
+		@include column(3);
+	}
+
+	.list-block-4cols & > li {
+		@include column(4);
+	}
+
+	.list-block-5cols & > li {
+		@include column(5);
 	}
 }

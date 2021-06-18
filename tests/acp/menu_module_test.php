@@ -41,12 +41,13 @@ class menu_module_test extends \phpbb_database_test_case
 	/**
 	 * Get the menu_module object
 	 *
+	 * @param string $user_lang
 	 * @param array $variable_map
 	 * @return \blitze\sitemaker\acp\menu_module
 	 */
-	public function get_module(array $variable_map)
+	public function get_module($user_lang, array $variable_map)
 	{
-		global $phpbb_container, $phpbb_dispatcher, $db, $request, $template;
+		global $phpbb_container, $phpbb_dispatcher, $db, $request, $template, $user;
 
 		$table_prefix = 'phpbb_';
 		$tables = array(
@@ -85,7 +86,13 @@ class menu_module_test extends \phpbb_database_test_case
 				return implode('-', func_get_args());
 			});
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$user = new \phpbb\user($language, '\phpbb\datetime');
+		$user->data['user_lang'] = $user_lang;
+		$user->page['root_script_path'] = '/phpBB/';
+
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
@@ -120,23 +127,15 @@ class menu_module_test extends \phpbb_database_test_case
 
 		$mapper_factory = new \blitze\sitemaker\model\mapper_factory($config, $db, $tables);
 
-		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icon_picker')
+		$icons = $this->getMockBuilder('\blitze\sitemaker\services\icons\picker')
 			->disableOriginalConstructor()
 			->getMock();
-
-		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$util->expects($this->exactly(2))
-			->method('add_assets');
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('controller.helper', $controller_helper);
 		$phpbb_container->set('language', $language);
 		$phpbb_container->set('blitze.sitemaker.mapper.factory', $mapper_factory);
-		$phpbb_container->set('blitze.sitemaker.icon_picker', $icons);
-		$phpbb_container->set('blitze.sitemaker.util', $util);
+		$phpbb_container->set('blitze.sitemaker.icons.picker', $icons);
 
 		return new menu_module();
 	}
@@ -150,11 +149,12 @@ class menu_module_test extends \phpbb_database_test_case
 	{
 		return array(
 			array(
+				'en',
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 0),
 				),
 				array(
-					'menu' => array(
+					'groups' => array(
 						array(
 							'ID' => 1,
 							'NAME' => 'Menu 1',
@@ -167,8 +167,10 @@ class menu_module_test extends \phpbb_database_test_case
 						),
 					),
 					'S_MENU' => true,
-					'MENU_ID' => 1,
+					'GROUP_ID' => 1,
 					'ICON_PICKER' => NULL,
+					'SM_USER_LANG' => 'en',
+					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
@@ -177,11 +179,12 @@ class menu_module_test extends \phpbb_database_test_case
 				),
 			),
 			array(
+				'fr',
 				array(
 					array('menu_id', 0, false, request_interface::REQUEST, 2),
 				),
 				array(
-					'menu' => array(
+					'groups' => array(
 						array(
 							'ID' => 1,
 							'NAME' => 'Menu 1',
@@ -194,8 +197,10 @@ class menu_module_test extends \phpbb_database_test_case
 						),
 					),
 					'S_MENU' => true,
-					'MENU_ID' => 2,
+					'GROUP_ID' => 2,
 					'ICON_PICKER' => NULL,
+					'SM_USER_LANG' => 'fr',
+					'SCRIPT_PATH' => '/phpBB/',
 					'T_PATH' => 'phpBB/',
 					'UA_AJAX_URL' => 'phpBB/app.php/menu/admin/',
 					'bulk_options' => array(
@@ -210,12 +215,13 @@ class menu_module_test extends \phpbb_database_test_case
 	 * Test the main method
 	 *
 	 * @dataProvider module_test_data
+	 * @param string $user_lang
 	 * @param array $variable_map
 	 * @param array $expected
 	 */
-	public function test_module(array $variable_map, array $expected)
+	public function test_module($user_lang, array $variable_map, array $expected)
 	{
-		$module = $this->get_module($variable_map);
+		$module = $this->get_module($user_lang, $variable_map);
 		$module->main();
 
 		$result = $this->template->assign_display('menu');

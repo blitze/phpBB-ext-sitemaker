@@ -1,5 +1,5 @@
 <ul class="sm-list">
-{% for wordgraph in loops.wordgraph %}
-	<li><a href="{{ wordgraph.WORD_URL }}" style="font-size: {{ wordgraph.WORD_SIZE }}px; color: #{{ wordgraph.WORD_COLOR }}">{{ wordgraph.WORD }}</a></li>
+{% for word in words %}
+	<li><a href="{{ word.WORD_URL }}" style="font-size: {{ word.WORD_SIZE }}px; color: #{{ word.WORD_COLOR }}">{{ word.WORD }}</a></li>
 {% endfor %}
 </ul>

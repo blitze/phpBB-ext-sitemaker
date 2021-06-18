@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -39,10 +40,20 @@ class custom_test extends blocks_base
 
 		$this->get_test_case_helpers()->set_s9e_services();
 
-		$block = new custom($this->cache, $this->db, $this->request, 'phpbb_sm_cblocks');
-		$block->set_template($this->ptemplate);
+		$util = $this->getMockBuilder('\blitze\sitemaker\services\util')
+			->disableOriginalConstructor()
+			->getMock();
 
-		return $block;
+		$assets = array();
+		$this->assets = &$assets;
+		$util->expects($this->any())
+			->method('add_assets')
+			->will($this->returnCallback(function ($data) use (&$assets)
+			{
+				$assets = array_merge($assets, $data);
+			}));
+
+		return new custom($this->cache, $this->db, $this->request, $util, 'phpbb_sm_cblocks');
 	}
 
 	public function test_block_config()
@@ -53,9 +64,22 @@ class custom_test extends blocks_base
 		$expected_keys = array(
 			'legend1',
 			'source',
+			'legend2',
+			'js_scripts',
+			'css_scripts',
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('', $block->get_template());
 	}
 
 	/**
@@ -63,7 +87,7 @@ class custom_test extends blocks_base
 	 *
 	 * @return array
 	 */
-	public function block_test_data()
+	public function block_display_test_data()
 	{
 		return array(
 			array(
@@ -72,9 +96,11 @@ class custom_test extends blocks_base
 					'status' => 1,
 					'settings' => array(
 						'source' => '',
+						'js_scripts' => array('script1.js', 'script2.js'),
 					),
 				),
 				false,
+				array('js' => array('script1.js', 'script2.js')),
 				'',
 			),
 			array(
@@ -83,9 +109,15 @@ class custom_test extends blocks_base
 					'status' => 1,
 					'settings' => array(
 						'source' => '',
+						'js_scripts' => array('script1.js', 'script2.js'),
+						'css_scripts' => array('style.css'),
 					),
 				),
 				true,
+				array(
+					'js' => array('script1.js', 'script2.js'),
+					'css' => array('style.css'),
+				),
 				'<div id="block-editor-3" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="" data-active="1"></div>',
 			),
 			array(
@@ -97,7 +129,8 @@ class custom_test extends blocks_base
 					),
 				),
 				false,
-				'<p>My custom content with <span style="font-weight:bold">bbcode</span> and <a href="#">html</a></p>',
+				array(),
+				'<p>My custom content with <strong class="text-strong">bbcode</strong> and <a href="#">html</a></p>',
 			),
 			array(
 				array(
@@ -108,7 +141,8 @@ class custom_test extends blocks_base
 					),
 				),
 				true,
-				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;" data-active="0"><p>My custom content with <span style="font-weight:bold">bbcode</span> and <a href="#">html</a></p></div>',
+				array(),
+				'<div id="block-editor-1" class="editable editable-block" data-service="blitze.sitemaker.block.custom" data-method="edit" data-raw="&lt;p&gt;My custom content with [b]bbcode[/b] and &lt;a href=&quot;#&quot;&gt;html&lt;/a&gt;&lt;/p&gt;" data-active="0"><p>My custom content with <strong class="text-strong">bbcode</strong> and <a href="#">html</a></p></div>',
 			),
 			array(
 				array(
@@ -119,6 +153,7 @@ class custom_test extends blocks_base
 					),
 				),
 				false,
+				array(),
 				"<script>\nalert('yes');\n</script>",
 			),
 			array(
@@ -130,6 +165,7 @@ class custom_test extends blocks_base
 					),
 				),
 				true,
+				array(),
 				"<script>\nalert('yes');\n</script>",
 			),
 		);
@@ -138,25 +174,27 @@ class custom_test extends blocks_base
 	/**
 	 * Test block display
 	 *
-	 * @dataProvider block_test_data
+	 * @dataProvider block_display_test_data
 	 * @param array $bdata
 	 * @param bool $edit_mode
-	 * @param string $expected
+	 * @param array $expected_assets
+	 * @param string $expected_content
 	 */
-	public function test_block_display(array $bdata, $edit_mode, $expected)
+	public function test_block_display(array $bdata, $edit_mode, $expected_assets, $expected_content)
 	{
 		$block = $this->get_block();
 		$result = $block->display($bdata, $edit_mode);
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected_assets, $this->assets);
+		$this->assertEquals($expected_content, $result['content']);
 	}
 
 	/**
-	 * Data set for test_block_display
+	 * Data set for test_save_custom_content
 	 *
 	 * @return array
 	 */
-	public function block_test_save_data()
+	public function save_custom_content_test_data()
 	{
 		return array(
 			array(
@@ -186,7 +224,7 @@ class custom_test extends blocks_base
 				),
 				array(
 					'id' => 2,
-					'content' => '<p>my new <span style="font-weight:bold">content</span></p>',
+					'content' => '<p>my new <strong class="text-strong">content</strong></p>',
 				),
 			),
 		);
@@ -195,7 +233,7 @@ class custom_test extends blocks_base
 	/**
 	 * Test saving custom content
 	 *
-	 * @dataProvider block_test_save_data
+	 * @dataProvider save_custom_content_test_data
 	 * @param int $block_id
 	 * @param array $variable_map
 	 * @param array $expected

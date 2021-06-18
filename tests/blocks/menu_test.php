@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -51,7 +52,7 @@ class menu_test extends blocks_base
 		$this->user->host = 'www.example.com';
 		$this->user->page = $page_data;
 		$this->user->page['root_script_path'] = '/phpBB/';
-		$this->user->style = array (
+		$this->user->style = array(
 			'style_name' => 'all',
 			'style_path' => 'all',
 		);
@@ -60,49 +61,9 @@ class menu_test extends blocks_base
 
 		$tree = new display($this->db, $this->user, $tables['mapper_tables']['items'], 'item_id');
 
-		$filesystem = new \phpbb\filesystem\filesystem();
-
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			$filesystem,
-			$this->request,
-			$this->phpbb_root_path,
-			$this->php_ext
-		);
-
-		$cache_path = $phpbb_root_path . 'cache/twig';
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-		$template_context = new \phpbb\template\context();
-		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
-		$twig = new \phpbb\template\twig\environment(
-			$this->config,
-			$filesystem,
-			$path_helper,
-			$cache_path,
-			null,
-			$template_loader,
-			$phpbb_dispatcher,
-			array(
-				'cache'			=> false,
-				'debug'			=> false,
-				'auto_reload'	=> true,
-				'autoescape'	=> false,
-			)
-		);
-
-		$ptemplate = new template($path_helper, $this->config, $template_context, $twig, $cache_path, $this->user, array(new \phpbb\template\twig\extension($template_context, $this->user)));
-		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
-
-		$ptemplate->set_custom_style('all', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
-
 		$navigation = new navigation($this->cache, $mapper_factory, $tree, $this->php_ext);
 
-		$block = new menu($this->translator, $navigation);
-		$block->set_template($ptemplate);
-
-		return $block;
+		return new menu($this->translator, $navigation);
 	}
 
 	public function test_block_config()
@@ -118,6 +79,16 @@ class menu_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/menu.html', $block->get_template());
 	}
 
 	/**
@@ -139,7 +110,6 @@ class menu_test extends blocks_base
 				),
 				false,
 				'',
-				array(),
 			),
 			array(
 				array(),
@@ -152,7 +122,6 @@ class menu_test extends blocks_base
 				),
 				true,
 				'SELECT_MENU',
-				array(),
 			),
 			array(
 				array(),
@@ -165,7 +134,6 @@ class menu_test extends blocks_base
 				),
 				false,
 				'',
-				array(),
 			),
 			array(
 				array(),
@@ -178,7 +146,6 @@ class menu_test extends blocks_base
 				),
 				true,
 				'MENU_NO_ITEMS',
-				array(),
 			),
 			array(
 				array(
@@ -194,20 +161,92 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 1,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Home',
+							'ITEM_URL' => '/index.php',
+							'ITEM_ICON' => 'fa fa-home ',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 2,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/index.php',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 2,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Content',
+							'ITEM_URL' => '/app.php/page/content/',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/content/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 8,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'About Us',
+							'ITEM_URL' => '/app.php/page/about',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 15,
+							'RIGHT_ID' => 16,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/about',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/about',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+					),
+					'close' => [],
+				),
 			),
 			array(
 				array(
@@ -223,20 +262,92 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 1,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Home',
+							'ITEM_URL' => '/index.php',
+							'ITEM_ICON' => 'fa fa-home ',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 2,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/index.php',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 2,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Content',
+							'ITEM_URL' => '/app.php/page/content/',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/content/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 8,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'About Us',
+							'ITEM_URL' => '/app.php/page/about',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 15,
+							'RIGHT_ID' => 16,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/about',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/about',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+					),
+					'close' => [],
+				),
 			),
 			array(
 				array(
@@ -252,48 +363,199 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li class="active">' .
-											'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
 				array(
-					'navlinks' => array(
+					'tree' => array(
 						array(
-							'FORUM_NAME' => 'News',
-							'U_VIEW_FORUM' => 'http://www.example.com/phpBB/app.php/page/news',
+							'ITEM_ID' => 1,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Home',
+							'ITEM_URL' => '/index.php',
+							'ITEM_ICON' => 'fa fa-home ',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 2,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/index.php',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
 						),
 						array(
-							'FORUM_NAME' => 'Content',
-							'U_VIEW_FORUM' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'ITEM_ID' => 2,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Content',
+							'ITEM_URL' => '/app.php/page/content/',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 14,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/content/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => true,
+							'NUM_KIDS' => 5,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 3,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'News',
+							'ITEM_URL' => '/app.php/page/news',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 4,
+							'RIGHT_ID' => 11,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/news',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/news',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => true,
+							'NUM_KIDS' => 3,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 4,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 3,
+							'ITEM_TITLE' => 'USA',
+							'ITEM_URL' => '/app.php/page/USA',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 5,
+							'RIGHT_ID' => 10,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 2,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/USA',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/USA',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 2,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 2,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 5,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 4,
+							'ITEM_TITLE' => 'Business',
+							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 6,
+							'RIGHT_ID' => 7,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 3,
+							'FULL_URL' => 'http://www.example.com/phpBB/viewtopic.php?f=1&t=2',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/viewtopic.php',
+							'URL_QUERY' => ['f=1', 't=2'],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 2,
+							'THIS_DEPTH' => 3,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 7,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'Articles',
+							'ITEM_URL' => '/app.php/content/articles',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 1,
+							'LEFT_ID' => 12,
+							'RIGHT_ID' => 13,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/content/articles',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/content/articles',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 3,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => ['', ''],
+						),
+						array(
+							'ITEM_ID' => 8,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'About Us',
+							'ITEM_URL' => '/app.php/page/about',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 15,
+							'RIGHT_ID' => 16,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/about',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/about',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
 						),
 					),
+					'close' => [],
 				),
 			),
 			array(
@@ -310,46 +572,146 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li class="active">' .
-											'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/app.php/page/startups"><i class="fa-fw" aria-hidden="true"></i>Startups</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
 				array(
-					'navlinks' => array(
+					'tree' => array(
 						array(
-							'FORUM_NAME' => 'USA',
-							'U_VIEW_FORUM' => 'http://www.example.com/phpBB/app.php/page/USA',
+							'ITEM_ID' => 3,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'News',
+							'ITEM_URL' => '/app.php/page/news',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 4,
+							'RIGHT_ID' => 11,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/news',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/news',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => true,
+							'NUM_KIDS' => 3,
+							'close' => [],
+						),
+						1 =>
+						array(
+							'ITEM_ID' => 4,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 3,
+							'ITEM_TITLE' => 'USA',
+							'ITEM_URL' => '/app.php/page/USA',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 5,
+							'RIGHT_ID' => 10,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 2,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/USA',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/USA',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 2,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => true,
+							'NUM_KIDS' => 2,
+							'close' => [''],
 						),
 						array(
-							'FORUM_NAME' => 'News',
-							'U_VIEW_FORUM' => 'http://www.example.com/phpBB/app.php/page/news',
+							'ITEM_ID' => 5,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 4,
+							'ITEM_TITLE' => 'Business',
+							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 6,
+							'RIGHT_ID' => 9,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 3,
+							'FULL_URL' => 'http://www.example.com/phpBB/viewtopic.php?f=1&t=2',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/viewtopic.php',
+							'URL_QUERY' => ['f=1', 't=2'],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 2,
+							'THIS_DEPTH' => 3,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 1,
+							'close' => [''],
 						),
 						array(
-							'FORUM_NAME' => 'Content',
-							'U_VIEW_FORUM' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'ITEM_ID' => 6,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 5,
+							'ITEM_TITLE' => 'Startups',
+							'ITEM_URL' => '/app.php/page/startups',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 7,
+							'RIGHT_ID' => 8,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 4,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/startups',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/startups',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 3,
+							'THIS_DEPTH' => 4,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 7,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'Articles',
+							'ITEM_URL' => '/app.php/content/articles',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 1,
+							'LEFT_ID' => 12,
+							'RIGHT_ID' => 13,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/content/articles',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/content/articles',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 4,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => ['', '', ''],
 						),
 					),
+					'close' => [],
 				),
 			),
 			array(
@@ -366,38 +728,200 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li class="active">' .
-							'<a href="http://www.example.com/phpBB/index.php"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Home</a>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/content/"><i class="fa-fw" aria-hidden="true"></i>Content</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/page/news"><i class="fa-fw" aria-hidden="true"></i>News</a>' .
-									'<ul class="sm-list fa-ul">' .
-										'<li>' .
-											'<a href="http://www.example.com/phpBB/app.php/page/USA"><i class="fa-fw" aria-hidden="true"></i>USA</a>' .
-											'<ul class="sm-list fa-ul">' .
-												'<li>' .
-													'<a href="http://www.example.com/phpBB/viewtopic.php?f=1&t=2"><i class="fa-fw" aria-hidden="true"></i>Business</a>' .
-												'</li>' .
-											'</ul>' .
-										'</li>' .
-									'</ul>' .
-								'</li>' .
-								'<li>' .
-									'<a href="http://www.example.com/phpBB/app.php/content/articles" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Articles</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/app.php/page/about"><i class="fa-fw" aria-hidden="true"></i>About Us</a>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 1,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Home',
+							'ITEM_URL' => '/index.php',
+							'ITEM_ICON' => 'fa fa-home ',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 2,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/index.php',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 2,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Content',
+							'ITEM_URL' => '/app.php/page/content/',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 14,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/content/',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/content/',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 5,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 3,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'News',
+							'ITEM_URL' => '/app.php/page/news',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 4,
+							'RIGHT_ID' => 11,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/news',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/news',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 3,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 4,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 3,
+							'ITEM_TITLE' => 'USA',
+							'ITEM_URL' => '/app.php/page/USA',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 5,
+							'RIGHT_ID' => 10,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 2,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/USA',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/USA',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 2,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 2,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 5,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 4,
+							'ITEM_TITLE' => 'Business',
+							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 6,
+							'RIGHT_ID' => 7,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 3,
+							'FULL_URL' => 'http://www.example.com/phpBB/viewtopic.php?f=1&t=2',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/viewtopic.php',
+							'URL_QUERY' => ['f=1', 't=2'],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 2,
+							'THIS_DEPTH' => 3,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 7,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'Articles',
+							'ITEM_URL' => '/app.php/content/articles',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 1,
+							'LEFT_ID' => 12,
+							'RIGHT_ID' => 13,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/content/articles',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/content/articles',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 3,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => ['', ''],
+						),
+						array(
+							'ITEM_ID' => 8,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'About Us',
+							'ITEM_URL' => '/app.php/page/about',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 15,
+							'RIGHT_ID' => 16,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/about',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/about',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+					),
+					'close' => [],
+				),
 			),
 			array(
 				array(
@@ -413,19 +937,65 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.google.com"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 13,
+							'MENU_ID' => 4,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Item 1',
+							'ITEM_URL' => 'http://www.google.com',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.google.com',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => 'www.google.com',
+							'URL_PATH' => '',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => false,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 1,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 14,
+							'MENU_ID' => 4,
+							'PARENT_ID' => 13,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '#',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 3,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => '#',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => false,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+					),
+					'close' => [''],
+				),
 			),
 			array(
 				array(
@@ -441,19 +1011,65 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/faq.php" target="_blank" rel="noopener" rel="noreferrer"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 15,
+							'MENU_ID' => 5,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Item 1',
+							'ITEM_URL' => '/faq.php',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 1,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/faq.php',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/faq.php',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 1,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 16,
+							'MENU_ID' => 5,
+							'PARENT_ID' => 15,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '#',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 3,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => '#',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => false,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+					),
+					'close' => [''],
+				),
 			),
 			array(
 				array(
@@ -469,19 +1085,65 @@ class menu_test extends blocks_base
 					),
 				),
 				false,
-				'<nav>' .
-					'<ul class="sm-list fa-ul">' .
-						'<li>' .
-							'<a href="http://www.example.com/phpBB/file.zip"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-							'<ul class="sm-list fa-ul">' .
-								'<li>' .
-									'<a href="#"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'</li>' .
-							'</ul>' .
-						'</li>' .
-					'</ul>' .
-				'</nav>',
-				array(),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 17,
+							'MENU_ID' => 6,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Item 1',
+							'ITEM_URL' => '/file.zip',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/file.zip',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/file.zip',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => false,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 1,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 18,
+							'MENU_ID' => 6,
+							'PARENT_ID' => 17,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '#',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 3,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => '#',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '',
+							'URL_QUERY' => [],
+							'IS_NAVIGABLE' => false,
+							'IS_EXPANDABLE' => false,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+					),
+					'close' => [''],
+				),
 			),
 		);
 	}
@@ -493,17 +1155,13 @@ class menu_test extends blocks_base
 	 * @param array $page_data
 	 * @param array $bdata
 	 * @param bool $editing
-	 * @param string $expected_list
-	 * @param array $expected_breadcrumb
+	 * @param mixed $expected
 	 */
-	public function test_menu_block_display(array $page_data, array $bdata, $editing, $expected_list, $expected_breadcrumb)
+	public function test_menu_block_display(array $page_data, array $bdata, $editing, $expected)
 	{
 		$block = $this->get_block($page_data);
 		$result = $block->display($bdata, $editing);
 
-		$this->assertEquals($expected_list, str_replace(array("\n", "\t", "  "), '', $result['content']));
-
-		// we no longer build the breadcrumb from the menu block, for now...
-		// $this->assertEquals($expected_breadcrumb, $this->template->assign_display('navlinks'));
+		$this->assertEquals($expected, is_array($expected) ? $result['data'] : $result['content']);
 	}
 }

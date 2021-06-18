@@ -40,4 +40,19 @@ class m6_add_block_settings_field extends \phpbb\db\migration\migration
 			),
 		);
 	}
+
+	/**
+	 * Revert schema changes
+	 *
+	 * @return array Array of table schema
+	 * @access public
+	 */
+	public function revert_schema()
+	{
+		return array(
+			'drop_columns'	=> array(
+				$this->table_prefix . 'sm_blocks'	=> array('settings'),
+			),
+		);
+	}
 }

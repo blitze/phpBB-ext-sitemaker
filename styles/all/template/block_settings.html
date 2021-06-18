@@ -1,0 +1,111 @@
+<div class="errorbox" style="display: none">
+	<h3>{{ lang('WARNING') }}</h3>
+	<p>{{ ERROR_MSG }}</p>
+</div>
+
+<form id="edit_form" method="post" style="width: 400px; height: 100%">
+	<input type="hidden" name="id" value="{{ S_BLOCK_ID }}" />
+	<div id="block-settings" class="sm-reset" style="border: 0; padding: 0">
+
+		<ul{% if !cfg_fields|length %} class="hide"{% endif %}>
+			<li><a href="#tab-design">{{ lang('BLOCK_DESIGN') }}</a></li>
+		{% for field in cfg_fields %}
+			{% if field.S_LEGEND %}<li><a href="#tab-{{ field.S_LEGEND }}">{{ field.LEGEND }}</a></li>{% endif %}
+		{% endfor %}
+		</ul>
+
+		<div id="tab-design">
+			<fieldset>
+				<dl>
+					<dt><label for="block_status">{{ lang('BLOCK_STATUS') }}</label></dt>
+					<dd>
+						<input type="radio" name="status" value="1"{% if S_ACTIVE %} checked="checked"{% endif %} id="block_status" /> {{ lang('BLOCK_ACTIVE') }}&nbsp;
+						<input type="radio" name="status" value="0"{% if not S_ACTIVE %} checked="checked"{% endif %} /> {{ lang('BLOCK_INACTIVE') }}
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="block_type">{{ lang('BLOCK_DISPLAY_TYPE') }}</label>
+						<a href="#" class="sm-toggler" data-target="#route-examples"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></a>
+					</dt>
+					<dd>
+						<label><input type="radio" name="type" value="0"{% if not S_TYPE %} checked="checked"{% endif %} id="block_type" /> {{ lang('BLOCK_SHOW_ALWAYS') }}</label>
+						<label><input type="radio" name="type" value="1"{% if S_TYPE == 1 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_HIDE') }}</label>
+						<label><input type="radio" name="type" value="2"{% if S_TYPE == 2 %} checked="checked"{% endif %} /> {{ lang('BLOCK_CHILD_ROUTES_ONLY') }}</label>
+					</dd>
+				</dl>
+				<div id="route-examples" class="sm-panel small" style="display: none">
+					<table>
+						<thead>
+							<tr>
+								<th width="45%"><strong>{{ lang('PARENT_ROUTE') }}</strong></th>
+								<th><strong>{{ lang('CHILD_ROUTE') }}</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									{{ lang('PARENT_ROUTE_EXPLAIN') }}
+								</td>
+								<td>
+									{{ lang('CHILD_ROUTE_EXPLAIN') }}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<dl>
+					<dt><label for="permission">{{ lang('BLOCK_PERMISSION') }}</label></dt>
+					<dd>
+						<select id="permission" class="sm-scrollbars" name="permission[]" multiple="multiple" size="3">
+							{{ S_GROUP_OPS }}
+						</select>
+					</dd>
+				</dl>
+				<dl>
+					<dt><label for="block_class">{{ lang('BLOCK_CLASS') }}</label><br /><span>{{ lang('BLOCK_CLASS_EXPLAIN') }}</span></span></dt>
+					<dd>
+						<div class="block-class-editor">
+							<textarea id="class_editor" class="sm-scrollbars block-preview" name="class">{{ S_BLOCK_CLASS }}</textarea>
+						</div>
+						<div class="sm-polar">
+							<div>
+								<button class="sm-class-editor-button" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+								<button class="sm-class-editor-button" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+								<button class="sm-class-editor-button" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
+							</div>
+							<a class="sm-toggler" data-target="#css-class-options" href="#"><i class="fa fa-sort" aria-hidden="true"></i>{{ lang('PREDEFINED_CLASSES') }}</a>
+						</div>
+					</dd>
+				</dl>
+				<div id="css-class-options" class="modifiers sm-panel small">
+					{% INCLUDE 'block_css_presets.html' %}
+				</div>
+				<dl>
+					<dt><label for="hide_title">{{ lang('BLOCK_HIDE_TITLE') }}</label></dt>
+					<dd>
+						<input class="block-preview" type="radio" name="hide_title" value="1"{% if S_HIDE_TITLE %} checked="checked"{% endif %} id="hide_title" /> {{ lang('YES') }}&nbsp;
+						<input class="block-preview" type="radio" name="hide_title" value="0"{% if not S_HIDE_TITLE %} checked="checked"{% endif %} /> {{ lang('NO') }}
+					</dd>
+				</dl>
+				{% INCLUDE 'block_view_settings.html' %}
+
+		{% for field in cfg_fields %}
+			{% if field.S_LEGEND %}
+			</fieldset>
+		</div>
+		<div id="tab-{{ field.S_LEGEND }}" class="block-settings">
+			<fieldset>
+			{% elseif field.TITLE %}
+				<dl>
+					<dt><label for="{{ field.KEY }}">{{ field.TITLE }}</label>{% if field.S_EXPLAIN %}<br /><span>{{ field.TITLE_EXPLAIN }}</span>{% endif %}</dt>
+					<dd>{{ field.TEMPLATE ? include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) : field.CONTENT }} {{ field.APPEND }}</dd>
+				</dl>
+			{% else %}
+				{{ field.TEMPLATE ? include(field.TEMPLATE, field.TPL_DATA, ignore_missing = true) : field.CONTENT }} {{ field.APPEND }}
+			{% endif %}
+		{% endfor %}
+			</fieldset>
+		</div>
+	</div>
+</form>

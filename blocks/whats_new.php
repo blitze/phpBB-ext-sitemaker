@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -12,8 +13,8 @@ namespace blitze\sitemaker\blocks;
 use blitze\sitemaker\services\blocks\driver\block;
 
 /**
-* What's New Block
-*/
+ * What's New Block
+ */
 class whats_new extends block
 {
 	/** @var \phpbb\language\language */
@@ -68,43 +69,42 @@ class whats_new extends block
 	{
 		if (!$this->user->data['is_registered'])
 		{
-			return array(
-				'title'		=> '',
-				'content'	=> '',
-			);
+			return [];
 		}
 		else
 		{
-			$this->fetch_new($bdata['settings']);
-
 			return array(
 				'title'     => 'WHATS_NEW',
-				'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'whats_new'),
+				'data'	=> array(
+					'NO_RECORDS'	=> ($bdata['settings']['topics_only']) ? $this->translator->lang('NO_NEW_TOPICS') : $this->translator->lang('NO_NEW_POSTS'),
+					'TOPICS'		=> $this->fetch_new($bdata['settings']),
+				),
 			);
 		}
 	}
 
 	/**
 	 * @param array $settings
+	 * @return array
 	 */
 	private function fetch_new(array $settings)
 	{
 		$topic_data = $this->get_topics($settings);
 
+		$topics = [];
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row = $topic_data[$i];
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
 
-			$this->ptemplate->assign_block_vars('topicrow', array(
+			$topics[] = array(
 				'TOPIC_TITLE'    => censor_text($row['topic_title']),
 				'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			));
-			unset($topic_data[$i]);
+			);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', ($settings['topics_only']) ? $this->translator->lang('NO_NEW_TOPICS') : $this->translator->lang('NO_NEW_POSTS'));
+		return $topics;
 	}
 
 	/**
@@ -159,5 +159,13 @@ class whats_new extends block
 				't.topic_id = p.topic_id AND p.post_time > ' . (int) $this->user->data['user_lastvisit'],
 			),
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/topiclist.html';
 	}
 }

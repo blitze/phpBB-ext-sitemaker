@@ -1,0 +1,5 @@
+<select id="{{ field }}" name="{{ 'config[' ~ field ~ '][]' }}" multiple="multiple">
+{% for value, title in options %}
+	<option value="{{ value }}"{% if value in selected %} selected="selected"{% endif %}>{{ lang(title) }}</option>
+{% endfor %}
+</select>

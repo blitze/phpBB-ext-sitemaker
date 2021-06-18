@@ -48,10 +48,7 @@ class wordgraph_test extends blocks_base
 		$content_visibility = new \phpbb\content_visibility($this->auth, $this->config, $this->phpbb_dispatcher, $this->db, $this->user, $this->phpbb_root_path, $this->php_ext, 'phpbb_forums', 'phpbb_posts', 'phbb_topics', 'phpbb_users');
 		$forum_data = new data($this->auth, $this->config, $content_visibility, $this->db, $this->user, $this->user_data, 0);
 
-		$block = new wordgraph($this->db, $forum_data, $this->phpbb_root_path, $this->php_ext, 0);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new wordgraph($this->db, $forum_data, $this->phpbb_root_path, $this->php_ext, 0);
 	}
 
 	public function test_block_config()
@@ -69,6 +66,16 @@ class wordgraph_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/wordgraph.html', $block->get_template());
 	}
 
 	/**
@@ -90,25 +97,23 @@ class wordgraph_test extends blocks_base
 					),
 				),
 				array(
-					'wordgraph' => array(
-						array(
-							'WORD' => 'Phpbb(1)',
-							'WORD_SIZE' => 9,
-							'WORD_COLOR' => '0cf',
-							'WORD_URL' => 'phpBB/search.php?keywords=Phpbb',
-						),
-						array(
-							'WORD' => 'Rocks(12)',
-							'WORD_SIZE' => 25,
-							'WORD_COLOR' => 'ec0',
-							'WORD_URL' => 'phpBB/search.php?keywords=Rocks',
-						),
-						array(
-							'WORD' => 'Sitemaker(5)',
-							'WORD_SIZE' => 14.818181818181818,
-							'WORD_COLOR' => '5c9',
-							'WORD_URL' => 'phpBB/search.php?keywords=Sitemaker',
-						),
+					array(
+						'WORD' => 'Phpbb(1)',
+						'WORD_SIZE' => 9,
+						'WORD_COLOR' => '0cf',
+						'WORD_URL' => 'phpBB/search.php?keywords=Phpbb',
+					),
+					array(
+						'WORD' => 'Rocks(12)',
+						'WORD_SIZE' => 25.0,
+						'WORD_COLOR' => 'ec1',
+						'WORD_URL' => 'phpBB/search.php?keywords=Rocks',
+					),
+					array(
+						'WORD' => 'Sitemaker(5)',
+						'WORD_SIZE' => 14.818181818181818,
+						'WORD_COLOR' => '5ca',
+						'WORD_URL' => 'phpBB/search.php?keywords=Sitemaker',
 					),
 				),
 			),
@@ -123,13 +128,11 @@ class wordgraph_test extends blocks_base
 					),
 				),
 				array(
-					'wordgraph' => array(
-						array(
-							'WORD' => 'Phpbb(1)',
-							'WORD_SIZE' => 9,
-							'WORD_COLOR' => '0cf',
-							'WORD_URL' => 'phpBB/search.php?keywords=Phpbb',
-						),
+					array(
+						'WORD' => 'Phpbb(1)',
+						'WORD_SIZE' => 9,
+						'WORD_COLOR' => '0cf',
+						'WORD_URL' => 'phpBB/search.php?keywords=Phpbb',
 					),
 				),
 			),
@@ -148,6 +151,6 @@ class wordgraph_test extends blocks_base
 		$block = $this->get_block();
 		$result = $block->display($bdata);
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, $result['data']['words']);
 	}
 }

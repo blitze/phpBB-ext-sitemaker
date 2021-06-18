@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -65,23 +66,25 @@ abstract class base_action implements action_interface
 	 * This is guaranteed to return a route entity. If the route does not exist, it create it
 	 *
 	 * @param array $route_data
-	 * @param bool  $has_blocks
+	 * @param bool  $force_has_blocks
 	 * @return \blitze\sitemaker\model\entity_interface
 	 */
-	protected function force_get_route(array $route_data, $has_blocks = false)
+	protected function force_get_route(array $route_data, $force_has_blocks = false)
 	{
 		$route_mapper = $this->mapper_factory->create('routes');
 
-		if (($route = $route_mapper->load($this->get_condition($route_data))) === null)
+		if (($entity = $route_mapper->load($this->get_condition($route_data))) === null)
 		{
 			$route_data['ext_name'] = $this->request->variable('ext', '');
-			$route_data['has_blocks'] = $has_blocks;
-
 			$entity = $route_mapper->create_entity($route_data);
-			$route = $route_mapper->save($entity);
 		}
 
-		return $route;
+		if ($force_has_blocks)
+		{
+			$entity->set_has_blocks(true);
+		}
+
+		return $route_mapper->save($entity);
 	}
 
 	/**
@@ -115,7 +118,7 @@ abstract class base_action implements action_interface
 
 			$returned_data['id'] = $db_data['bid'];
 			$returned_data['title'] = $this->get_block_title($db_data['title'], $returned_data['title']);
-			$returned_data['content'] = $this->get_block_content($returned_data);
+			$returned_data['content'] = $this->get_block_content($returned_data, $block_instance->get_template());
 
 			$block = array_merge($db_data, $returned_data);
 			$block['class'] .= (!$block['status']) ? ' sm-inactive' : '';
@@ -138,8 +141,20 @@ abstract class base_action implements action_interface
 	 * @param array $returned_data
 	 * @return string
 	 */
-	protected function get_block_content(array &$returned_data)
+	protected function get_block_content(array &$returned_data, $block_template)
 	{
+		if (!empty($returned_data['data']))
+		{
+			$template = $this->phpbb_container->get('template');
+			$template->assign_vars($returned_data['data']);
+
+			$template->set_filenames(array(
+				'block' => $block_template,
+			));
+
+			$returned_data['content'] = $template->assign_display('block');
+		}
+
 		if (empty($returned_data['content']))
 		{
 			$content = $this->translator->lang('BLOCK_NO_DATA');
@@ -149,6 +164,7 @@ abstract class base_action implements action_interface
 		{
 			$content = $returned_data['content'];
 		}
+
 		return $content;
 	}
 

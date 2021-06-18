@@ -40,7 +40,9 @@ class util_test extends \phpbb_test_case
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$user = $this->getMockBuilder('\phpbb\user')
 			->disableOriginalConstructor()

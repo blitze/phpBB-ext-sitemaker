@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -51,7 +52,7 @@ class links_test extends blocks_base
 		$this->user->host = 'www.example.com';
 		$this->user->page = $page_data;
 		$this->user->page['root_script_path'] = '/phpBB/';
-		$this->user->style = array (
+		$this->user->style = array(
 			'style_name' => 'prosilver',
 			'style_path' => 'prosilver',
 		);
@@ -60,49 +61,9 @@ class links_test extends blocks_base
 
 		$tree = new display($this->db, $this->user, $tables['mapper_tables']['items'], 'item_id');
 
-		$filesystem = new \phpbb\filesystem\filesystem();
-
-		$path_helper = new \phpbb\path_helper(
-			new \phpbb\symfony_request(
-				new \phpbb_mock_request()
-			),
-			$filesystem,
-			$this->request,
-			$this->phpbb_root_path,
-			$this->php_ext
-		);
-
-		$cache_path = $this->phpbb_root_path . 'cache/twig';
-		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
-		$template_context = new \phpbb\template\context();
-		$template_loader = new \phpbb\template\twig\loader(new \phpbb\filesystem\filesystem(), '');
-		$twig = new \phpbb\template\twig\environment(
-			$this->config,
-			$filesystem,
-			$path_helper,
-			$cache_path,
-			null,
-			$template_loader,
-			$phpbb_dispatcher,
-			array(
-				'cache'			=> false,
-				'debug'			=> false,
-				'auto_reload'	=> true,
-				'autoescape'	=> false,
-			)
-		);
-
-		$ptemplate = new template($path_helper, $this->config, $template_context, $twig, $cache_path, $this->user, array(new \phpbb\template\twig\extension($template_context, $this->user)));
-		$twig->setLexer(new \phpbb\template\twig\lexer($twig));
-
-		$ptemplate->set_custom_style('all', $this->phpbb_root_path . 'ext/blitze/sitemaker/styles/all');
-
 		$navigation = new navigation($this->cache, $mapper_factory, $tree, $this->php_ext);
 
-		$block = new links($this->translator, $navigation);
-		$block->set_template($ptemplate);
-
-		return $block;
+		return new links($this->translator, $navigation);
 	}
 
 	/**
@@ -119,6 +80,16 @@ class links_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/links.html', $block->get_template());
 	}
 
 	/**
@@ -172,21 +143,87 @@ class links_test extends blocks_base
 					),
 				),
 				false,
-				'<ul class="sm-list fa-ul">' .
-					'<li>' .
-						'<a href="http://www.example.com/phpBB/app.php/page/item-1"><i class="fa-fw" aria-hidden="true"></i>Item 1</a>' .
-						'<ul class="sm-list fa-ul">' .
-							'<li>' .
-								'<a href="http://www.example.com/phpBB/app.php/page/item-2"><i class="fa-fw" aria-hidden="true"></i>Item 2</a>' .
-								'<ul class="sm-list fa-ul">' .
-									'<li>' .
-										'<a href="http://www.example.com/phpBB/app.php/page/item-3"><i class="fa-fw" aria-hidden="true"></i>Item 3</a>' .
-									'</li>' .
-								'</ul>' .
-							'</li>' .
-						'</ul>' .
-					'</li>' .
-				'</ul>',
+				array(
+					'tree' => array(
+						array(
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'NUM_KIDS' => 2,
+							'CLOSE' => array(),
+							'ITEM_ID' => 1,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 0,
+							'ITEM_TITLE' => 'Item 1',
+							'ITEM_URL' => '/app.php/page/item-1',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 6,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 0,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-1',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/item-1',
+							'URL_QUERY' => array(),
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+						),
+						array(
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'NUM_KIDS' => 1,
+							'CLOSE' => [''],
+							'ITEM_ID' => 2,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 1,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '/app.php/page/item-2',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 5,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 1,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-2',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/item-2',
+							'URL_QUERY' => array(),
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+						),
+						array(
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 2,
+							'NUM_KIDS' => 0,
+							'CLOSE' => [''],
+							'ITEM_ID' => 3,
+							'MENU_ID' => 1,
+							'PARENT_ID' => 2,
+							'ITEM_TITLE' => 'Item 3',
+							'ITEM_URL' => '/app.php/page/item-3',
+							'ITEM_ICON' => '',
+							'ITEM_TARGET' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 4,
+							'ITEM_PARENTS' => '',
+							'DEPTH' => 2,
+							'FULL_URL' => 'http://www.example.com/phpBB/app.php/page/item-3',
+							'BOARD_URL' => 'http://www.example.com/phpBB',
+							'MOD_REWRITE_ENABLED' => '',
+							'HOST' => '',
+							'URL_PATH' => '/app.php/page/item-3',
+							'URL_QUERY' => array(),
+							'IS_NAVIGABLE' => true,
+							'IS_EXPANDABLE' => true,
+						),
+					),
+					'close' => ['', ''],
+				),
+				'status' => 1,
 			),
 		);
 	}
@@ -204,6 +241,6 @@ class links_test extends blocks_base
 		$block = $this->get_block();
 		$result = $block->display($bdata, $editing);
 
-		$this->assertEquals($expected, str_replace(array("\n", "\t", "  "), '', $result['content']));
+		$this->assertEquals($expected, is_array($expected) ? $result['data'] : $result['content']);
 	}
 }

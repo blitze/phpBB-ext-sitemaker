@@ -21,7 +21,7 @@ class forum_topics_test extends blocks_base
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -50,10 +50,16 @@ class forum_topics_test extends blocks_base
 		global $cache, $symfony_request;
 
 		$symfony_request = new Request();
+		$cache = new \phpbb_mock_cache();
 
 		$cache = $this->getMockBuilder('\phpbb\cache\service')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$cache->expects($this->any())
+			->method('obtain_word_list')
+			->willReturn(array());
+
 		$cache->expects($this->any())
 			->method('obtain_ranks')
 			->willReturn(array(
@@ -97,10 +103,9 @@ class forum_topics_test extends blocks_base
 			->disableOriginalConstructor()
 			->getMock();
 
-		$block = new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
-		$block->set_template($this->ptemplate);
+		$truncator = new \Urodoz\Truncate\TruncateService();
 
-		return $block;
+		return new forum_topics($this->auth, $content_visibility, $this->translator, $this->user, $truncator, $date_range, $forum_data, $forum_options, $this->phpbb_root_path, $this->php_ext);
 	}
 
 	public function test_block_config()
@@ -124,6 +129,16 @@ class forum_topics_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/forum_topics.html', $block->get_template());
 	}
 
 	/**
@@ -166,6 +181,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
@@ -185,6 +201,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => false,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;view=unread#unread',
@@ -224,6 +241,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=48',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
@@ -263,6 +281,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => false,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=3',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=3&amp;view=unread#unread',
@@ -302,6 +321,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=9',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=9&amp;view=unread#unread',
@@ -341,6 +361,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => false,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;view=unread#unread',
@@ -380,6 +401,7 @@ class forum_topics_test extends blocks_base
 						'REPLIES' => 0,
 						'VIEWS' => 0,
 						'S_UNREAD_TOPIC' => true,
+						'U_VIEWPROFILE' => 'phpBB/memberlist.php?mode=viewprofile&amp;u=2',
 						'U_VIEWFORUM' => 'phpBB/viewforum.php?f=4',
 						'U_VIEWTOPIC' => 'phpBB/viewtopic.php?f=4&amp;t=4',
 						'U_NEW_POST' => 'phpBB/viewtopic.php?f=4&amp;t=4&amp;view=unread#unread',
@@ -405,6 +427,6 @@ class forum_topics_test extends blocks_base
 		$result = $block->display($bdata);
 
 		$this->assertEquals($title, $result['title']);
-		$this->assertEquals($topicrow, $result['content']['topicrow']);
+		$this->assertEquals($topicrow, $result['data']['TOPICS']);
 	}
 }

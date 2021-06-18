@@ -80,11 +80,7 @@ class blocks_test extends \phpbb_database_test_case
 		$phpbb_container->set('my.empty.block', new \foo\bar\blocks\empty_block);
 		$phpbb_container->set('my.foo.block', new \foo\bar\blocks\foo_block);
 
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($translator, $blocks_collection);
 
 		$groups = $this->getMockBuilder('\blitze\sitemaker\services\groups')
 			->disableOriginalConstructor()
@@ -270,7 +266,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 0,	// no route to inherit from
+					'route_id' => 4,	// no route to inherit from
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,
@@ -327,7 +323,7 @@ class blocks_test extends \phpbb_database_test_case
 					2 => false,
 				),
 				array(
-					'route_id' => 0,
+					'route_id' => 4,
 					'ext_name' => '',
 					'route' => 'search.php',
 					'style' => 1,

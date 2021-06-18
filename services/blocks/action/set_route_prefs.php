@@ -24,6 +24,7 @@ class set_route_prefs extends base_action
 	{
 		$this->route_mapper = $this->mapper_factory->create('routes');
 
+		$ex_positions = $hide_blocks = '';
 		$route_data = array(
 			'route'	=> $this->request->variable('route', ''),
 			'style'	=> $style_id,
@@ -41,6 +42,9 @@ class set_route_prefs extends base_action
 			/** @type \blitze\sitemaker\model\entity\route $entity */
 			$entity = $this->force_get_route($route_data);
 			$this->update_route($entity, $route_prefs);
+
+			$ex_positions	= $entity->get_ex_positions();
+			$hide_blocks	= $entity->get_hide_blocks();
 		}
 		// user has made choices that match defaults, and route prefs exist in db
 		else if ($entity = $this->route_mapper->load($this->get_condition($route_data)))
@@ -49,7 +53,11 @@ class set_route_prefs extends base_action
 			$this->update_or_remove($entity, $route_prefs);
 		}
 
-		return array('message' => $this->translator->lang('ROUTE_UPDATED'));
+		return array(
+			'ex_positions'	=> $ex_positions,
+			'hide_blocks'	=> $hide_blocks,
+			'message'		=> $this->translator->lang('ROUTE_UPDATED'),
+		);
 	}
 
 	/**

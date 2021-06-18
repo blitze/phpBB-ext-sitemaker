@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -12,8 +13,8 @@ namespace blitze\sitemaker\blocks;
 use blitze\sitemaker\services\blocks\driver\block;
 
 /**
-* My Bookmarks Block
-*/
+ * My Bookmarks Block
+ */
 class mybookmarks extends block
 {
 	/** @var \phpbb\language\language */
@@ -64,26 +65,27 @@ class mybookmarks extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$block = array();
 		if ($this->user->data['is_registered'])
 		{
-			$topics_data = $this->get_bookmarks($bdata['settings']);
-			$this->show_bookmarks($topics_data);
+			$topics_data = $this->get_bookmarks_data($bdata['settings']);
 
-			$block = array(
-				'title'     => 'MY_BOOKMARKS',
-				'content'   => $this->ptemplate->render_view('blitze/sitemaker', 'blocks/topiclist.html', 'mybookmarks'),
+			return array(
+				'title'	=> 'MY_BOOKMARKS',
+				'data'	=> array(
+					'NO_RECORDS'	=> $this->translator->lang('NO_BOOKMARKED_TOPICS'),
+					'TOPICS'		=> $this->get_bookmarks($topics_data),
+				),
 			);
 		}
 
-		return $block;
+		return [];
 	}
 
 	/**
 	 * @param array $settings
 	 * @return string[]
 	 */
-	private function get_bookmarks(array $settings)
+	private function get_bookmarks_data(array $settings)
 	{
 		$sql_array = $this->get_bookmarks_sql();
 		$this->forum_data->query()
@@ -98,22 +100,22 @@ class mybookmarks extends block
 	/**
 	 * @param array $topic_data
 	 */
-	private function show_bookmarks(array $topic_data)
+	private function get_bookmarks(array $topic_data)
 	{
+		$bookmarks = [];
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row = $topic_data[$i];
 			$forum_id = $row['forum_id'];
 			$topic_id = $row['topic_id'];
 
-			$this->ptemplate->assign_block_vars('topicrow', array(
+			$bookmarks[] = array(
 				'TOPIC_TITLE'    => censor_text($row['topic_title']),
 				'U_VIEWTOPIC'    => append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
-			));
-			unset($topic_data[$i]);
+			);
 		}
 
-		$this->ptemplate->assign_var('NO_RECORDS', $this->translator->lang('NO_BOOKMARKED_TOPICS'));
+		return $bookmarks;
 	}
 
 	/**
@@ -130,5 +132,13 @@ class mybookmarks extends block
 				'b.topic_id = t.topic_id',
 			),
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/topiclist.html';
 	}
 }

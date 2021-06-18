@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -12,31 +13,31 @@ namespace blitze\sitemaker\blocks;
 use blitze\sitemaker\services\blocks\driver\block;
 
 /**
-* Stats Block
-*/
+ * Stats Block
+ */
 class stats extends block
 {
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
-	protected $template;
-
 	/** @var \phpbb\language\language */
 	protected $translator;
+
+	/** @var \phpbb\template\template */
+	protected $template;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config			$config			phpBB configuration
-	 * @param \phpbb\template\template		$template		Template object
 	 * @param \phpbb\language\language		$translator		Language object
+	 * @param \phpbb\template\template		$template		Template object
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\language\language $translator)
+	public function __construct(\phpbb\config\config $config, \phpbb\language\language $translator, \phpbb\template\template $template)
 	{
 		$this->config = $config;
-		$this->template = $template;
 		$this->translator = $translator;
+		$this->template = $template;
 	}
 
 	/**

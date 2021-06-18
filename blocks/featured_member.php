@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -109,8 +110,8 @@ class featured_member extends block
 		}
 
 		return array(
-			'title'		=> $block_title,
-			'content'	=> $this->display_user($bdata['bid'], $row, $change_user),
+			'title'	=> $block_title,
+			'data'	=> $this->display_user($bdata['bid'], $row, $change_user),
 		);
 	}
 
@@ -190,30 +191,27 @@ class featured_member extends block
 	 * @param int   $block_id
 	 * @param array $row
 	 * @param bool  $change_user
-	 * @return string
+	 * @return array
 	 */
 	private function display_user($block_id, array $row, $change_user)
 	{
 		$this->save_settings($block_id, $change_user);
 
-		$html = '';
+		$data = [];
 		if (sizeof($row))
 		{
-			$this->explain_view();
-
 			$row = array_shift($row);
 			$allowed_fields = array_flip(array_merge(array('pm', 'email', 'jabber'), $this->settings['show_cpf']));
 
-			$this->ptemplate->assign_block_vars_array('contact_field', array_intersect_key($row['contact_fields'], $allowed_fields));
-			$this->ptemplate->assign_block_vars_array('profile_field', array_intersect_key($row['profile_fields'], $allowed_fields));
-			unset($row['contact_fields'], $row['profile_fields']);
-
-			$this->ptemplate->assign_vars(array_change_key_case($row, CASE_UPPER));
-
-			$html = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/featured_member.html', 'featured_member_block');
+			$data = array_merge(
+				$this->get_view_desc(),
+				array_change_key_case($row, CASE_UPPER),
+				array('CONTACT_FIELDS' => array_intersect_key($row['contact_fields'], $allowed_fields)),
+				array('PROFILE_FIELDS' => array_intersect_key($row['profile_fields'], $allowed_fields))
+			);
 		}
 
-		return $html;
+		return $data;
 	}
 
 	/**
@@ -227,16 +225,17 @@ class featured_member extends block
 	}
 
 	/**
+	 * @return array
 	 */
-	private function explain_view()
+	private function get_view_desc()
 	{
 		$query_type = $this->settings['qtype'];
 		$rotation = $this->settings['rotation'];
 
-		$this->ptemplate->assign_vars(array(
+		return array(
 			'QTYPE_EXPLAIN'		=> ($query_type == 'posts' || $query_type == 'recent') ? $this->translator->lang('QTYPE_' . strtoupper($query_type)) : '',
 			'TITLE_EXPLAIN'		=> ($rotation != 'pageload') ? $this->translator->lang(strtoupper($rotation) . '_MEMBER') : '',
-		));
+		);
 	}
 
 	/**
@@ -263,5 +262,13 @@ class featured_member extends block
 			'posts'		=> 'POSTS_MEMBER',
 			'featured'	=> 'FEATURED_MEMBER',
 		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/featured_member.html';
 	}
 }

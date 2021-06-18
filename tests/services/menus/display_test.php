@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -13,9 +14,6 @@ use blitze\sitemaker\services\menus\display;
 
 class display_test extends \phpbb_database_test_case
 {
-	protected $ptemplate;
-	protected $tpl_data;
-
 	/**
 	 * Define the extension to be tested.
 	 *
@@ -52,19 +50,6 @@ class display_test extends \phpbb_database_test_case
 		$user = new \phpbb\user($lang, '\phpbb\datetime');
 		$user->page = $current_page;
 
-		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$tpl_data = array();
-		$this->tpl_data = &$tpl_data;
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function($key, $data) use (&$tpl_data) {
-				$tpl_data[$key][] = $data;
-			}));
-
 		$db = $this->new_dbal();
 
 		$menu_items_table = 'phpbb_sm_menu_items';
@@ -89,8 +74,7 @@ class display_test extends \phpbb_database_test_case
 				array(
 					'expanded'		=> true,
 					'max_depth'		=> 0,
-				),
-				array(
+				), array(
 					1 => array(
 						'item_id'		=> 1,
 						'item_title'	=> 'Item 1',
@@ -124,6 +108,65 @@ class display_test extends \phpbb_database_test_case
 						'right_id'		=> 6,
 						'depth'			=> 0,
 					),
+				),
+				array(
+					'tree' => array(
+						array(
+							'ITEM_ID' => 1,
+							'ITEM_TITLE' => 'Item 1',
+							'ITEM_URL' => '/index.php',
+							'URL_PATH' => '/',
+							'URL_QUERY' => [],
+							'PARENT_ID' => 0,
+							'LEFT_ID' => 1,
+							'RIGHT_ID' => 4,
+							'DEPTH' => 0,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'FULL_URL' => NULL,
+							'NUM_KIDS' => 1,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 2,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
+							'URL_PATH' => '/viewtopic.php',
+							'URL_QUERY' => ['f=1', 'amp;t=2'],
+							'PARENT_ID' => 1,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 3,
+							'DEPTH' => 1,
+							'PREV_DEPTH' => 0,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'FULL_URL' => NULL,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+						array(
+							'ITEM_ID' => 3,
+							'ITEM_TITLE' => 'Item 3',
+							'ITEM_URL' => '/app.php/forum',
+							'URL_PATH' => '/app.php/forum',
+							'URL_QUERY' => [],
+							'PARENT_ID' => 0,
+							'LEFT_ID' => 5,
+							'RIGHT_ID' => 6,
+							'DEPTH' => 0,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => false,
+							'FULL_URL' => NULL,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
+					),
+					'close' => [],
 				),
 				array(
 					array(
@@ -195,20 +238,45 @@ class display_test extends \phpbb_database_test_case
 					),
 				),
 				array(
-					array(
-						'PREV_DEPTH'	=> 1,
-						'THIS_DEPTH'	=> 1,
-						'NUM_KIDS'		=> 1,
-						'IS_CURRENT'	=> false,
-						'ITEM_ID'		=> 2,
+					'tree' => array(
+						array(
+							'ITEM_ID' => 2,
+							'ITEM_TITLE' => 'Item 2',
+							'ITEM_URL' => '/viewtopic.php?f=1&t=2',
+							'URL_PATH' => '/viewtopic.php',
+							'URL_QUERY' => ['f=1', 'amp;t=2'],
+							'PARENT_ID' => 1,
+							'LEFT_ID' => 2,
+							'RIGHT_ID' => 5,
+							'DEPTH' => 1,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 1,
+							'IS_CURRENT' => false,
+							'IS_PARENT' => true,
+							'FULL_URL' => NULL,
+							'NUM_KIDS' => 1,
+							'close' => [],
+						),
+						array(
+							'ITEM_ID' => 3,
+							'ITEM_TITLE' => 'Item 3',
+							'ITEM_URL' => '/app.php/forum',
+							'URL_PATH' => '/app.php/forum',
+							'URL_QUERY' => [],
+							'PARENT_ID' => 0,
+							'LEFT_ID' => 3,
+							'RIGHT_ID' => 4,
+							'DEPTH' => 2,
+							'PREV_DEPTH' => 1,
+							'THIS_DEPTH' => 0,
+							'IS_CURRENT' => true,
+							'IS_PARENT' => false,
+							'FULL_URL' => NULL,
+							'NUM_KIDS' => 0,
+							'close' => [''],
+						),
 					),
-					array(
-						'PREV_DEPTH'	=> 1,
-						'THIS_DEPTH'	=> 0,
-						'NUM_KIDS'		=> 0,
-						'IS_CURRENT'	=> true,
-						'ITEM_ID'		=> 3,
-					),
+					'close' => [''],
 				),
 			),
 		);
@@ -237,19 +305,8 @@ class display_test extends \phpbb_database_test_case
 		);
 
 		$tree->set_params($params);
-		$tree->display_navlist($data, $this->ptemplate);
+		$result = $tree->display_navlist($data);
 
-		$this->assertEquals($expected, $this->get_items_under_test($expected[0]));
-	}
-
-	protected function get_items_under_test($tpl)
-	{
-		$actual = array();
-		foreach ($this->tpl_data['tree'] as $row)
-		{
-			$actual[] = array_intersect_key($row, $tpl);
-		}
-
-		return $actual;
+		$this->assertEquals($expected, $result);
 	}
 }

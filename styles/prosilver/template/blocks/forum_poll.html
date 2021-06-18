@@ -4,7 +4,7 @@
 	{% if S_CAN_VOTE or POLL_LENGTH %}<p class="author">{{ POLL_LENGTH }}{% if S_CAN_VOTE and POLL_LENGTH %}<br />{% endif %}{% if S_CAN_VOTE %}<span class="poll_max_votes">{{ MAX_VOTES }}</span>{% endif %}</p>{% endif %}
 
 	<fieldset class="polls flex">
-	{% for poll_option in loops.poll_option %}
+	{% for poll_option in POLL_OPTIONS %}
 		{% EVENT viewtopic_body_poll_option_before %}
 		<dl class="{% if poll_option.POLL_OPTION_VOTED %}voted{% endif %}{% if poll_option.POLL_OPTION_MOST_VOTES %} most-votes{% endif %}"{% if poll_option.POLL_OPTION_VOTED %} title="{{ lang('POLL_VOTED_OPTION') }}"{% endif %} data-alt-text="{{ lang('POLL_VOTED_OPTION') }}" data-poll-option-id="{{ poll_option.POLL_OPTION_ID }}">
 			<dt>

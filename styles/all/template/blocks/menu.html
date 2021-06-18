@@ -1,27 +1,29 @@
-{% if loops.tree|length %}
+{% if tree|length %}
 <nav>
 	<ul class="sm-list fa-ul">
-	{% for tree in loops.tree %}
-		{% if tree.THIS_DEPTH > tree.PREV_DEPTH %}
+	{% for node in tree %}
+		{% if node.THIS_DEPTH > node.PREV_DEPTH %}
 			<ul class="sm-list fa-ul">
 		{% else %}
-		{% for close in tree.close %}
+		{% for i in node.CLOSE %}
 			</ul>
 		</li>
 		{% endfor %}
 		{% endif %}
-		{% if tree.ITEM_URL %}
-		<li{% if tree.IS_CURRENT %} class="active"{% endif %}>
-			<a href="{{ tree.FULL_URL }}"{% if tree.ITEM_TARGET %} target="_blank" rel="noopener" rel="noreferrer"{% endif %}><i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}</a>
+		{% if node.ITEM_URL %}
+		<li{% if node.IS_CURRENT %} class="active"{% endif %}>
+			<a href="{{ node.FULL_URL }}"{% if node.ITEM_TARGET %} target="_blank" rel="noopener"{% endif %}><i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}</a>
+		{% elseif node.ITEM_TITLE !== '-' %}
+		<li class="sm-nav-header">
+			<i class="{{ node.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ node.ITEM_TITLE }}
 		{% else %}
-		<li class="nav-header">
-			{% if tree.ITEM_TITLE !== '-' %}<i class="{{ tree.ITEM_ICON }}fa-fw" aria-hidden="true"></i>{{ tree.ITEM_TITLE }}{% else %}<hr />{% endif %}
+		<li class="sm-nav-divider"><hr />
 		{% endif %}
-		{% if tree.NUM_KIDS == 0 %}
+		{% if node.NUM_KIDS == 0 %}
 		</li>
 		{% endif %}
 	{% endfor %}
-	    {% for close_tree in loops.close_tree %}
+		{% for i in close %}
 	    	</ul>
 	    </li>
 	    {% endfor %}

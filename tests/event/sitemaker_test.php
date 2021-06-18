@@ -222,7 +222,8 @@ class sitemaker_test extends \phpbb_database_test_case
 		$this->user->data['is_registered'] = $user_is_logged_in;
 
 		$this->navigation->expects($this->exactly($config_data['sm_navbar_menu'] ? 1 : 0))
-			->method('build_menu');
+			->method('build_menu')
+			->willReturn([]);
 
 		$tpl_data = array();
 		$this->template->expects($this->exactly($config_data['sitemaker_startpage_controller'] ? 1 : 0))
@@ -231,7 +232,7 @@ class sitemaker_test extends \phpbb_database_test_case
 				$tpl_data[$key] = $value;
 			}));
 
-		$this->template->expects($this->exactly(1))
+		$this->template->expects($this->any())
 			->method('assign_vars')
 			->will($this->returnCallback(function($data) use (&$tpl_data) {
 				$tpl_data = array_merge($tpl_data, $data);

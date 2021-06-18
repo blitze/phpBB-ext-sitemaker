@@ -5,16 +5,20 @@
 			<li class="header">
 				<dl class="row-item">
 					<dt>
-						<span class="block-icon"><i class="{{ block.icon }}" aria-hidden="true"></i></span>
-						<span class="block-title{{ editable }}">{{ block.title }}</span>
+						<div class="list-inner">
+							<span class="block-icon"><i class="{{ block.icon }}" aria-hidden="true"></i></span>
+							<span class="block-title{{ editable }}">{{ block.title }}</span>
+						</div>
 					</dt>
 					<dd></dd>
 				</dl>
 			</li>
 		</ul>
 		{% endif %}
-		<ul class="forums sm-block-content inner-spacing">
-			<li>{{ block.content }}</li>
+		<ul class="forums inner-spacing">
+			<li class="sm-block-content">
+				{{ block.content ? block.content : include(block.template, block.data) }}
+			</li>
 		</ul>
 	</div>
 </div>

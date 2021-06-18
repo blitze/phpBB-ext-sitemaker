@@ -114,7 +114,6 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 		return array(
 			'drop_tables'	=> array(
 				$this->table_prefix . 'sm_blocks',
-				$this->table_prefix . 'sm_blocks_config',
 				$this->table_prefix . 'sm_block_routes',
 				$this->table_prefix . 'sm_menus',
 				$this->table_prefix . 'sm_menu_items',

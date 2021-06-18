@@ -1,0 +1,161 @@
+{%- set size_options = ['lg', '2x', '3x', '4x', '5x'] -%}
+{%- set rotation_options = ['rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical'] -%}
+
+<div id="icon-picker" class="icon-picker-container" style="display: none">
+	<div id="icons-tab" class="icons-bottom-tabs">
+		<ul>
+			<li><a href="#tab-icons-font">{{ lang('ICON_FONT') }}</a></li>
+			<li><a href="#tab-icons-font-settings">{{ lang('SETTINGS') }}</a></li>
+			{% if loops.icon|length %}<li><a href="#tab-icons-image">{{ lang('ICON_IMAGE') }}</a></li>{% endif %}
+		</ul>
+		<div id="tab-icons-font" class="tab-content">
+			<div class="icon-search">
+				<input name="icons_search" id="icons-search" type="text" class="inputbox search" value="" placeholder="{{ lang('SEARCH') }}">
+			</div>
+			<div class="icons-container">
+				<div id="icons-font-list" class="icons">
+				{% for category, icons in categories %}
+					<p id="{{ 'cat-' ~ category }}" class="filter-icon icon-cat">{{ lang('ICON_' ~ category|upper) }}</p>
+					<div class="icon-list">
+					{%- for icon in icons -%}
+						<div class="filter-icon" data-filter="{{ icon.filter|join('|') }}">
+							<a href="#{{ 'fa-' ~ icon.id }}"><i class="{{ 'fa fa-' ~ icon.id }}" aria-hidden="true"></i></a>
+						</div>
+					{%- endfor -%}
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+
+			<div class="sm-reset">
+				<select id="icons-font-cat-list" class="icon-categories">
+					{% for category in categories|keys %}
+					<option value="{{ '#cat-' ~ category }}">{{ lang('ICON_' ~ category|upper) }}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="preview-container">
+				<div id="icon-picker-preview" class="preview">
+					<i class="" aria-hidden="true"></i>
+				</div>
+			</div>
+			<div id="icon-picker-actions" class="actions-container">
+				<a href="#" id="icon-picker-insert" class="action-btn small">{{ lang('ICON_INSERT_UPDATE') }}</a>
+				<a href="#" id="icon-picker-none" class="small">{{ lang('NO_ICON') }}</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="tab-icons-font-settings" class="sm-reset tab-content">
+			<form id="icon-customization">
+				<fieldset class="small">
+					<dl>
+						<dt>{{ lang('ICON_SIZE') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<select id="icons-size" class="icons-customize" name="size">
+								<option value="" selected="selected">{{ lang('ICON_DEFAULT') }}</option>
+								{% for size in size_options %}
+								<option value="{{ 'fa-' ~ size }}">{{ lang('ICON_SIZE_' ~ size|upper) }}</option>
+								{% endfor %}
+							</select>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{{ lang('ICON_COLOR') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<ul>
+								<li>
+									<span class="icons-color-container" title="{{ lang('ICON_COLOR_DEFAULT') }}">
+										<span class="color">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-blue">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-blue" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-red">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-red" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-green">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-green" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-gray">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-gray" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-orange">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-orange" />
+								</li>
+								<li>
+									<span class="icons-color-container">
+										<span class="color bg-purple">&nbsp;</span>
+									</span>
+									<input type="radio" name="color" class="icons-customize" value="fa-purple" />
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{{ lang('ICON_FLOAT') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<label><input type="radio" name="float" class="icons-customize" value="" checked="checked" /> {{ lang('ICON_DEFAULT') }}</label>
+						</dd>
+						<dd>
+							<label><input type="radio" name="float" class="icons-customize" value="fa-pull-left" /> {{ lang('ICON_FLOAT_LEFT') }}</label>
+						</dd>
+						<dd>
+							<label><input type="radio" name="float" class="icons-customize" value="fa-pull-right" /> {{ lang('ICON_FLOAT_RIGHT') }}</label>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{{ lang('ICON_MISC') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<label><input type="checkbox" name="fw" class="icons-customize" value="fa-fw" /> {{ lang('ICON_MISC_FIXED_WIDTH') }}</label>
+						</dd>
+						<dd>
+							<label><input type="checkbox" name="bordered" class="icons-customize" value="fa-border" /> {{ lang('ICON_MISC_BORDERED') }}</label>
+						</dd>
+						<dd>
+							<label><input type="checkbox" name="spinning" class="icons-customize" value="fa-spin" /> {{ lang('ICON_MISC_SPINNING') }}</label>
+						</dd>
+						<dd>
+							<label><input type="checkbox" name="pulse" class="icons-customize" value="fa-pulse" /> {{ lang('ICON_MISC_PULSE') }}</label>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{{ lang('ICON_ROTATION') }}{{ lang('COLON') }}</dt>
+						<dd>
+							<label><input type="radio" name="rotation" class="icons-customize" value="" checked="checked" /> {{ lang('ICON_DEFAULT') }}</label>
+						</dd>
+						{% for rotation in rotation_options %}
+						<dd>
+							<label><input type="radio" name="rotation" class="icons-customize" value="{{ 'fa-' ~ rotation }}" /> {{ lang('ICON_' ~ rotation|upper|replace({'-': "_"})) }}</label>
+						</dd>
+						{% endfor %}
+					</dl>
+				</fieldset>
+			</form>
+		</div>
+		{% if loops.icon|length %}
+		<div id="tab-icons-image" class="tab-content">
+			{% for icon in loops.icon %}
+			<a href="#"><img src="" alt="" /></a>
+			{% endfor %}
+		</div>
+		{% endif %}
+	</div>
+</div>

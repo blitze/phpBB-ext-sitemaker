@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package phpBB Sitemaker [English]
@@ -8,8 +9,8 @@
  */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -35,30 +36,35 @@ if (empty($lang) || !is_array($lang))
 // Some characters you may want to copy&paste:
 // ’ » “ ” …
 //
-
-/*
-* These are errors which can be triggered by sending invalid data to the
-* boardrules extension API.
-*
-* These errors will never show to a user unless they are either modifying
-* the core boardrules extension code OR unless they are writing an extension
-* which makes calls to this extension.
-*
-* Translators: Feel free to not translate these language strings
-*/
+//
 $lang = array_merge($lang, array(
-	'LIST_FLAT'				=> 'Flat list',
 	'LIST_ARROW'			=> 'Arrow list marker',
 	'LIST_CIRCLE'			=> 'Circle list marker',
 	'LIST_DISC'				=> 'Bullet list marker',
 	'LIST_SQUARE'			=> 'Square list marker',
 	'LIST_NUMBERED'			=> 'Numbered list',
+	'LIST_NUMBERED_ALPHABET' => 'Numbered with alphabet',
+	'LIST_NUMBERED_NESTED'	=> 'Numbered with subsections',
+	'LIST_NUMBERED_ROMAN'	=> 'Numbered with Roman numerals',
+	'LIST_NUMBERED_ZERO'	=> 'Numbered with leading zero',
 	'LIST_INLINE'			=> 'Inline list',
 	'LIST_INLINE_SEP'		=> 'Comma-separated list',
-	'LIST_HOVER'			=> 'Highlight on hover',
+	'LIST_REVERSE'			=> 'Reverse order',
 	'LIST_STRIPED'			=> 'Striped list',
 	'LIST_STACKED'			=> 'Stacked list',
+	'LIST_TRIANGLE'			=> 'Triangle',
+	'LIST_HYPHEN'			=> 'Hyphen',
+	'LIST_PLUS'				=> 'Plus',
+	'LIST_SPADE'			=> 'Spade',
+	'LIST_CLUB'				=> 'Club',
+	'LIST_DIAMOND'			=> 'Diamond',
+	'LIST_HEART'			=> 'Heart',
+	'LIST_STAR'				=> 'Star',
+	'LIST_CHECK'			=> 'Check',
+	'LIST_SNOWFLAKE'		=> 'Snowflake',
+	'LIST_MUSIC'			=> 'Music',
 	'LIST_AUTOWIDTH'		=> 'Auto width',
+	'LIST_FIT_CONTENT'		=> 'Fit content',
 	'LIST_2COLS'			=> '2 column list',
 	'LIST_3COLS'			=> '3 columns list',
 	'LIST_4COLS'			=> '4 columns list',
@@ -75,8 +81,12 @@ $lang = array_merge($lang, array(
 	'IMAGE_ALIGN_LEFT'		=> 'Float image left',
 	'IMAGE_ALIGN_RIGHT'		=> 'Float image right',
 	'IMAGE_CIRCLE'			=> 'Circular image',
+	'IMAGE_ROUNDED'			=> 'Rounded image',
 	'IMAGE_BORDER'			=> 'Bordered image',
 	'IMAGE_BORDER_PADDING'	=> 'Image border padding',
+	'IMAGE_RATIO_SQUARE'	=> 'Square Image',
+	'IMAGE_RATIO_4_BY_3'	=> '4 by 3 image',
+	'IMAGE_RATIO_16_BY_9'	=> '16 by 9 image',
 
 	'RESPONSIVE_SHOW'		=> 'Show only on small devices',
 	'RESPONSIVE_HIDE'		=> 'Hide on small devices',

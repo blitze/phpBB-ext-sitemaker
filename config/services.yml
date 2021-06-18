@@ -1,11 +1,11 @@
 imports:
     - { resource: parameters.yml }
     - { resource: blocks.yml }
+    - { resource: cfg_fields.yml }
     - { resource: controllers.yml }
     - { resource: listeners.yml }
 
 services:
-
     blitze.sitemaker.auto_lang:
         class: blitze\sitemaker\services\auto_lang
         arguments:
@@ -49,20 +49,35 @@ services:
             - '@template'
             - '@language'
             - '@user'
-            - '@blitze.sitemaker.filemanager.setup'
-            - '@blitze.sitemaker.icon_picker'
+            - '@blitze.sitemaker.icons.picker'
             - '@blitze.sitemaker.util'
-            - '%core.php_ext%'
+            - '%tinymce.lang_mapping%'
 
     blitze.sitemaker.blocks.cfg_handler:
-        class: blitze\sitemaker\services\blocks\cfg_handler
+        class: blitze\sitemaker\services\blocks\config\cfg_handler
         arguments:
             - '@request'
             - '@template'
             - '@language'
+            - '@blitze.sitemaker.blocks.cfg_factory'
             - '@blitze.sitemaker.groups'
             - '%core.root_path%'
             - '%core.php_ext%'
+
+    blitze.sitemaker.blocks.cfg_factory:
+        class: blitze\sitemaker\services\blocks\config\cfg_factory
+        arguments:
+            - '@blitze.sitemaker.cfg_field_collection'
+
+    blitze.sitemaker.blocks.cleaner:
+        class: blitze\sitemaker\services\blocks\cleaner
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@blitze.sitemaker.blocks.manager'
+            - '@blitze.sitemaker.url_checker'
+            - '%tables.sitemaker.blocks%'
+            - '%tables.sitemaker.cblocks%'
 
     blitze.sitemaker.blocks.display:
         class: blitze\sitemaker\services\blocks\display
@@ -86,13 +101,14 @@ services:
         class: blitze\sitemaker\services\blocks\factory
         arguments:
             - '@language'
-            - '@blitze.sitemaker.template'
             - '@blitze.sitemaker.block_collection'
 
     blitze.sitemaker.blocks.manager:
         class: blitze\sitemaker\services\blocks\manager
         arguments:
             - '@cache.driver'
+            - '@log'
+            - '@user'
             - '@blitze.sitemaker.blocks.factory'
             - '@blitze.sitemaker.mapper.factory'
 
@@ -100,13 +116,9 @@ services:
         class: blitze\sitemaker\cron\blocks_cleanup
         arguments:
             - '@config'
-            - '@dbal.conn'
-            - '@blitze.sitemaker.blocks.manager'
-            - '@blitze.sitemaker.url_checker'
-            - '%tables.sitemaker.blocks%'
-            - '%tables.sitemaker.cblocks%'
         calls:
             - [set_name, [blitze.sitemaker.cron.blocks_cleanup]]
+            - [set_cleaner, ['@blitze.sitemaker.blocks.cleaner']]
         tags:
             - { name: cron.task }
 
@@ -115,23 +127,12 @@ services:
         arguments:
             - '@user'
 
-    blitze.sitemaker.filemanager.settings:
-        class: blitze\sitemaker\services\filemanager\settings
+    blitze.sitemaker.filemanager:
+        class: blitze\sitemaker\services\filemanager
         arguments:
-            - '@filesystem'
-            - '%filemanager.config_path%'
-            - '%core.php_ext%'
-
-    blitze.sitemaker.filemanager.setup:
-        class: blitze\sitemaker\services\filemanager\setup
-        arguments:
-            - '@auth'
-            - '@config'
             - '@filesystem'
             - '@user'
-            - '%filemanager.config_path%'
             - '%core.root_path%'
-            - '%core.php_ext%'
 
     blitze.sitemaker.forum.data:
         class: blitze\sitemaker\services\forum\data
@@ -168,12 +169,13 @@ services:
             - '@language'
             - '@user'
 
-    blitze.sitemaker.icon_picker:
-        class: blitze\sitemaker\services\icon_picker
+    blitze.sitemaker.icons.picker:
+        class: blitze\sitemaker\services\icons\picker
         arguments:
             - '@language'
+            - '@template'
             - '@blitze.sitemaker.util'
-            - '@blitze.sitemaker.template'
+            - '%fontawesome.categories%'
 
     blitze.sitemaker.mapper.factory:
         class: blitze\sitemaker\model\mapper_factory
@@ -181,10 +183,10 @@ services:
             - '@config'
             - '@dbal.conn'
             - mappers:
-                blocks: '%tables.sitemaker.blocks%'
-                routes: '%tables.sitemaker.block_routes%'
-                menus: '%tables.sitemaker.menus%'
-                items: '%tables.sitemaker.menu_items%'
+                  blocks: '%tables.sitemaker.blocks%'
+                  routes: '%tables.sitemaker.block_routes%'
+                  menus: '%tables.sitemaker.menus%'
+                  items: '%tables.sitemaker.menu_items%'
 
     blitze.sitemaker.members:
         class: blitze\sitemaker\services\members
@@ -193,7 +195,6 @@ services:
             - '@language'
             - '@user'
             - '@blitze.sitemaker.date_range'
-            - '@blitze.sitemaker.template'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -235,39 +236,16 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
 
-    blitze.sitemaker.template:
-        class: blitze\sitemaker\services\template
+    blitze.sitemaker.simplepie:
+        class: blitze\sitemaker\services\simplepie\feed
+        shared: false
+
+    blitze.sitemaker.template.extensions.format_date:
+        class: blitze\sitemaker\services\template\extensions\format_date
         arguments:
-            - '@path_helper'
-            - '@config'
-            - '@blitze.sitemaker.template_context'
-            - '@blitze.sitemaker.template.twig.environment'
-            - '%core.template.cache_path%'
             - '@user'
-            - '@template.twig.extensions.collection'
-            - '@ext.manager'
-
-    blitze.sitemaker.template_context:
-        class: phpbb\template\context
-
-    blitze.sitemaker.template.twig.environment:
-        class: phpbb\template\twig\environment
-        arguments:
-            - '@config'
-            - '@filesystem'
-            - '@path_helper'
-            - '%core.template.cache_path%'
-            - '@ext.manager'
-            - '@blitze.sitemaker.template.twig.loader'
-            - '@dispatcher'
-            - []
-        calls:
-            - [setLexer, ['@template.twig.lexer']]
-
-    blitze.sitemaker.template.twig.loader:
-        class: phpbb\template\twig\loader
-        arguments:
-            - '@filesystem'
+        tags:
+            - { name: twig.extension }
 
     blitze.sitemaker.url_checker:
         class: blitze\sitemaker\services\url_checker
@@ -291,3 +269,6 @@ services:
             - '@path_helper'
             - '@template'
             - '@user'
+
+    blitze.sitemaker.truncator:
+        class: Urodoz\Truncate\TruncateService

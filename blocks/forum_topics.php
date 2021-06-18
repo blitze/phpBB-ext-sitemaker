@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -8,8 +9,6 @@
  */
 
 namespace blitze\sitemaker\blocks;
-
-use Urodoz\Truncate\TruncateService;
 
 /**
  * Forum Topics Block
@@ -27,6 +26,9 @@ class forum_topics extends forum_topics_config
 
 	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \Urodoz\Truncate\TruncateService */
+	protected $truncator;
 
 	/** @var \blitze\sitemaker\services\date_range */
 	protected $date_range;
@@ -59,13 +61,14 @@ class forum_topics extends forum_topics_config
 	 * @param \phpbb\content_visibility					$content_visibility	Content visibility object
 	 * @param \phpbb\language\language					$translator			Language object
 	 * @param \phpbb\user								$user				User object
+	 * @param \Urodoz\Truncate\TruncateService			$truncator			Truncator service
 	 * @param \blitze\sitemaker\services\date_range		$date_range			Date Range Object
 	 * @param \blitze\sitemaker\services\forum\data		$forum_data			Forum Data object
 	 * @param \blitze\sitemaker\services\forum\options	$forum_options		Forum Data object
 	 * @param string									$phpbb_root_path	Path to the phpbb includes directory.
 	 * @param string									$php_ext			php file extension
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\language\language $translator, \phpbb\user $user, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\content_visibility $content_visibility, \phpbb\language\language $translator, \phpbb\user $user, \Urodoz\Truncate\TruncateService $truncator, \blitze\sitemaker\services\date_range $date_range, \blitze\sitemaker\services\forum\data $forum_data, \blitze\sitemaker\services\forum\options $forum_options, $phpbb_root_path, $php_ext)
 	{
 		parent::__construct($forum_options);
 
@@ -73,6 +76,7 @@ class forum_topics extends forum_topics_config
 		$this->content_visibility = $content_visibility;
 		$this->translator = $translator;
 		$this->user = $user;
+		$this->truncator = $truncator;
 		$this->date_range = $date_range;
 		$this->forum_data = $forum_data;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -88,51 +92,49 @@ class forum_topics extends forum_topics_config
 
 		$topic_data = $this->get_topic_data();
 
-		$content = '';
+		$data = null;
 		if (sizeof($topic_data))
 		{
-			$content = $this->get_block_content($topic_data);
+			$data = $this->get_block_content($topic_data);
 		}
 
 		return array(
-			'title'		=> $this->get_block_title(),
-			'content'	=> $content,
+			'title'	=> $this->get_block_title(),
+			'data'	=> $data,
 		);
 	}
 
 	/**
 	 * @param array $topic_data
-	 * @return string
+	 * @return array
 	 */
 	protected function get_block_content(array $topic_data)
 	{
 		$this->set_display_fields();
 
-		$view = 'S_' . strtoupper($this->settings['template']);
 		$post_data = $this->get_post_data($topic_data);
 		$topic_data = array_values($topic_data);
 
-		$this->show_topics($topic_data, $post_data);
-		unset($topic_data, $post_data);
-
-		$this->ptemplate->assign_vars(array(
-			$view				=> true,
+		return array(
+			'CONTEXT'			=> $this->settings['context'],
+			'TEMPLATE'			=> $this->settings['template'],
+			'TOPICS'			=> $this->get_topics($topic_data, $post_data),
 			'S_IS_BOT'			=> $this->user->data['is_bot'],
 			'LAST_POST_IMG'		=> $this->user->img('icon_topic_latest'),
 			'NEWEST_POST_IMG'	=> $this->user->img('icon_topic_newest'),
-		));
-
-		return $this->ptemplate->render_view('blitze/sitemaker', 'blocks/forum_topics.html', 'forum_topics_block');
+		);
 	}
 
 	/**
 	 * @param array $topic_data
 	 * @param array $post_data
+	 * @return array
 	 */
-	protected function show_topics(array &$topic_data, array &$post_data)
+	protected function get_topics(array &$topic_data, array &$post_data)
 	{
 		$user_data = $this->forum_data->get_posters_info();
 
+		$topics = [];
 		for ($i = 0, $size = sizeof($topic_data); $i < $size; $i++)
 		{
 			$row = $topic_data[$i];
@@ -141,7 +143,7 @@ class forum_topics extends forum_topics_config
 			$author = $user_data[$row[$this->fields['user_id']]];
 			$last_poster = $user_data[$row['topic_last_poster_id']];
 
-			$this->ptemplate->assign_block_vars('topicrow', array(
+			$topics[] = array(
 				'USERNAME'			=> $author['username_full'],
 				'AVATAR'			=> $author['avatar'],
 				'LAST_POSTER'		=> $last_poster['username_full'],
@@ -156,13 +158,16 @@ class forum_topics extends forum_topics_config
 				'VIEWS'				=> (int) $row['topic_views'],
 				'S_UNREAD_TOPIC'	=> $this->is_unread_topic($forum_id, $topic_id, $row['topic_last_post_time']),
 
+				'U_VIEWPROFILE'		=> $author['u_viewprofile'],
 				'U_VIEWTOPIC'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id"),
 				'U_VIEWFORUM'		=> append_sid($this->phpbb_root_path . 'viewforum.' . $this->php_ext, "f=$forum_id"),
 				'U_NEW_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;view=unread") . '#unread',
 				'U_LAST_POST'		=> append_sid($this->phpbb_root_path . 'viewtopic.' . $this->php_ext, "f=$forum_id&amp;t=$topic_id&amp;p=" . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
-			));
+			);
 			unset($topic_data[$i], $post_data[$topic_id]);
 		}
+
+		return $topics;
 	}
 
 	/**
@@ -207,8 +212,7 @@ class forum_topics extends forum_topics_config
 		$parse_flags = ($row['bbcode_bitfield'] ? OPTION_FLAG_BBCODE : 0) | OPTION_FLAG_SMILIES;
 		$row['post_text'] = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
 
-		$truncateService = new TruncateService();
-		return $truncateService->truncate($row['post_text'], $this->settings['preview_chars']);
+		return $this->truncator->truncate($row['post_text'], $this->settings['preview_chars']);
 	}
 
 	/**
@@ -268,7 +272,7 @@ class forum_topics extends forum_topics_config
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	private function set_display_fields()
 	{
@@ -276,8 +280,6 @@ class forum_topics extends forum_topics_config
 		{
 			$this->fields['time'] = 'topic_last_post_time';
 			$this->fields['user_id'] = 'topic_last_poster_id';
-
-			$this->ptemplate->assign_var('L_POST_BY_AUTHOR', $this->translator->lang('LAST_POST_BY_AUTHOR'));
 		}
 		else
 		{

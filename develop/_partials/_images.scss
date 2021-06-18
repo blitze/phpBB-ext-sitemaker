@@ -1,4 +1,4 @@
-@import "globals";
+@import 'globals';
 
 /* Avatar sizes */
 img {
@@ -40,32 +40,36 @@ img {
 }
 
 /* Block images */
-.img-ui, .attach-image {
+.img-ui,
+.attach-image {
 	display: block;
-	margin: 0 0 0.25rem 0;
+	position: relative;
 
-	.small-img & img {
-		width: $small-image-size;
-	}
-
-	.medium-img & img {
-		width: $medium-image-size;
-	}
-
-	.large-img & img {
+	// image sizes
+	.large-img & {
 		width: $large-image-size;
 	}
 
-	.fullwidth-img & img {
+	.medium-img & {
+		width: $medium-image-size;
+	}
+
+	.small-img & {
+		width: $small-image-size;
+	}
+
+	.fullwidth-img & {
+		float: none !important;
+		margin: 0 !important;
 		width: 100%;
 	}
 
 	.card-img & {
-		margin: -4px -9px auto -9px;
+		margin: -4px -10px auto;
 
 		img {
-			padding: 0;
 			width: 100%;
+			padding: 0;
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;
 		}
@@ -79,27 +83,75 @@ img {
 		}
 	}
 
-	.img-align-left & img {
+	// image alignment
+	.img-align-left & {
 		float: left;
-		margin: 0.7rem 1rem 0 0;
+		margin-right: 0.8rem;
 	}
 
-	.img-align-right & img {
+	.img-align-right & {
 		float: right;
-		margin: 0.7rem 0 0 1rem;
+		margin-left: 0.8rem;
 	}
 
-	.img-border & img,
-	.img-border-padding & img {
+	.img-align-left &,
+	.img-align-right & {
+		& + .label-hidden {
+			display: none;
+		}
+	}
+
+	// image borders
+	.img-border &,
+	.img-border-padding & {
 		border: 1px solid $border-color;
 	}
 
-	.img-border-padding & img {
+	// image padding
+	.img-border-padding & {
 		padding: 4px;
 	}
 
+	// image shape
 	.img-circle & img {
 		border-radius: 50%;
 		overflow: hidden;
+	}
+
+	.img-rounded & img {
+		border-radius: $panel_border_radius;
+	}
+
+	// image ratios
+	[class*='img-ratio-'] & {
+		position: relative;
+		display: block;
+		background: black;
+		overflow: hidden;
+		height: 0;
+
+		img {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+
+	.img-ratio-1x1 & {
+		padding-top: 100%;
+	}
+
+	.img-ratio-4x3 & {
+		padding-top: 75%;
+	}
+
+	.img-ratio-16x9 & {
+		padding-top: 56.25%;
 	}
 }

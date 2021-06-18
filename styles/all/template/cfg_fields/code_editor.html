@@ -1,0 +1,10 @@
+{% if label %}<label for="{{ key }}"><strong>{{ lang(label) }}</strong></label>{% endif %}
+{% if explain %}<span>{{ explain }}</span>{% endif %}
+<textarea id="{{ key ~ '-editor' }}" class="code-editor" name="config[{{ key }}]"{{ attributes }}>{{ value }}</textarea>
+<div class="align-right">
+	{%- set class = key ~ '-editor-button' -%}
+	<button class="{{ class ~ ' CodeMirror-button' }}" data-action="undo" title="{{ lang('UNDO') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
+	<button class="{{ class ~ ' CodeMirror-button' }}" data-action="redo" title="{{ lang('REDO') }}"><i class="fa fa-redo" aria-hidden="true"></i></button>
+	<button class="{{ class ~ ' CodeMirror-button' }}" data-action="clear" title="{{ lang('CLEAR') }}"><i class="fa fa-ban" aria-hidden="true"></i></button>
+	{% if fullscreen %}<button class="{{ class ~ ' CodeMirror-button' }}" data-action="fullscreen" title="{{ lang('FULLSCREEN') }}"><i class="fa fa-window-restore" aria-hidden="true"></i></button>{% endif %}
+</div>

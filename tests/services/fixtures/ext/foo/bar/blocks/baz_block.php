@@ -12,7 +12,7 @@ class baz_block extends \blitze\sitemaker\services\blocks\driver\block
 		return array(
 			'legend1'			=> 'SETTINGS',
 			'my_setting'	=> array('lang' => 'MY_SETTING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 1),
-			'other_setting'	=> array('lang' => 'OTHER_SETTING', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true, 'default' => 0),
+			'other_setting'	=> array('lang' => 'OTHER_SETTING', 'validate' => 'int:0:10', 'type' => 'number:0:10', 'explain' => true, 'default' => 0),
 		);
 	}
 

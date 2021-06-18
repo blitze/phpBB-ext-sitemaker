@@ -1,0 +1,12 @@
+.icon-container {
+	display: inline-block;
+	border: 1px solid #ccc;
+
+	.icon-select {
+		min-width: 15px;
+		min-height: 10px;
+		margin: 3px;
+		display: inline-block;
+		text-align: center;
+	}
+}

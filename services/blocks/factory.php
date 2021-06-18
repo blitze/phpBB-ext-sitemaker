@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -14,9 +15,6 @@ class factory
 	/** @var \phpbb\language\language */
 	protected $translator;
 
-	/** @var \blitze\sitemaker\services\template */
-	protected $ptemplate;
-
 	/** @var array */
 	private $blocks;
 
@@ -24,13 +22,11 @@ class factory
 	 * Constructor
 	 *
 	 * @param \phpbb\language\language				$translator			Language object
-	 * @param \blitze\sitemaker\services\template	$ptemplate			Template Object
 	 * @param \phpbb\di\service_collection			$blocks				Service Collection
 	 */
-	public function __construct(\phpbb\language\language $translator, \blitze\sitemaker\services\template $ptemplate, \phpbb\di\service_collection $blocks)
+	public function __construct(\phpbb\language\language $translator, \phpbb\di\service_collection $blocks)
 	{
 		$this->translator = $translator;
-		$this->ptemplate = $ptemplate;
 
 		$this->register_blocks($blocks);
 	}
@@ -41,7 +37,7 @@ class factory
 	 */
 	public function register_blocks(\phpbb\di\service_collection $blocks)
 	{
-		$this->blocks = array();
+		$this->blocks = [];
 		foreach ($blocks as $service => $driver)
 		{
 			$this->blocks[$service] = $driver;
@@ -60,10 +56,7 @@ class factory
 			return null;
 		}
 
-		$block = $this->blocks[$service_name];
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return $this->blocks[$service_name];
 	}
 
 	/**
@@ -72,7 +65,7 @@ class factory
 	 */
 	public function get_all_blocks()
 	{
-		$blocks = array();
+		$blocks = [];
 		foreach ($this->blocks as $service => $driver)
 		{
 			$lname = strtoupper(str_replace('.', '_', $driver->get_name()));

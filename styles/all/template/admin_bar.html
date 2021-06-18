@@ -1,16 +1,19 @@
+<!-- INCLUDECSS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css -->
+<!-- INCLUDEJS https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js -->
+
 <div id="admin-bar" class="admin-bar-container">
-	<div id="admin-options" class="admin-bar-inner" style="display: none;">
+	<div id="admin-options" class="sm-reset admin-bar-inner" style="display: none;">
 		<ul class="hmenu">
-			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#">{{ lang('BLOCKS') }}</a>
-				<div id="add-block-panel" class="dropdown">
+			<li>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cubes" aria-hidden="true"></i><span class="responsive-hide">{{ lang('BLOCKS') }}</span></a>
+				<div id="add-block-panel" class="sm-dropdown">
 					<div class="ui-state-default align-center"><strong>{{ lang('ADD_BLOCK_EXPLAIN') }}</strong></div>
 
-					<div id="blocks-list" class="blocks-gallery">
-						<div class="grid">
+					<div id="blocks-list" class="sm-scrollbars blocks-gallery">
+						<div class="grid-3_sm-2-noBottom">
 							{% for block in loops.block %}
-							<div data-block="{{ block.SERVICE }}" class="grid__col grid__col--1-of-3 sitemaker-block">
-								<div class="inner"><i class="fa fa-arrows-alt"></i>{{ block.NAME }}</div>
+							<div data-block="{{ block.SERVICE }}" class="col sitemaker-block">
+								<div class="inner"><i class="fa fa-arrows-alt" aria-hidden="true"></i>{{ block.NAME }}</div>
 							</div>
 							{% endfor %}
 						</div>
@@ -19,47 +22,41 @@
 					<div class="ui-state-default align-center">&nbsp;</div>
 			    </div>
 			</li>
-			<li class="hmenu-item">
-				<a class="menu-item has-dropdown" href="#">{{ lang('LAYOUT') }}</a>
-				<div class="dropdown">
-					<h3>{{ lang('SETTINGS') }}</h3>
-					<div class="grid">
-						<div class="grid__col grid__col--1-of-2">
-							{% if CONTROLLER_NAME %}
-							<p{% if S_IS_STARTPAGE %} style="display: none;"{% endif %}><a href="#" class="sm-startpage" id="set-startpage" data-controller="{{ CONTROLLER_NAME }}" data-method="{{ CONTROLLER_METHOD }}" data-params="{{ CONTROLLER_PARAMS }}">{{ lang('SET_STARTPAGE') }}</a></p>
-							{% endif %}
-							<p{% if not S_STARTPAGE %} style="display: none;"{% endif %}><a href="#" class="sm-startpage" id="remove-startpage">{{ lang('REMOVE_STARTPAGE') }}</a></p>
-
-							<p{% if S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" class="default-layout" data-set="true" title="{{ lang('DEFAULT_LAYOUT_EXPLAIN') }}">{{ lang('MAKE_DEFAULT_LAYOUT') }}</a></p>
-							<p{% if not U_VIEW_DEFAULT || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="{{ U_VIEW_DEFAULT }}">{{ lang('VIEW_DEFAULT_LAYOUT') }}</a></p>
-							<p{% if not S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" class="default-layout" data-set="false">{{ lang('REMOVE_DEFAULT_LAYOUT') }}</a></p>
-							<p>&nbsp;</p>
-							<form id="copy-form">
-								<p>
-									<select name="from_route">{{ S_ROUTE_OPS }}</select>
-									<select name="from_style">{{ S_STYLE_OPTIONS }}</select>
-								</p>
-								<p>
-									<a href="#" class="layout-action" data-action="view"><i class="fa fa-eye"></i> {{ lang('VISIT_PAGE') }}</a>
-									<a href="#" class="layout-action" data-action="copy"><i class="fa fa-copy"></i> {{ lang('BLOCKS_COPY_FROM') }}</a>
-								</p>
-							</form>
+			<li>
+				<a class="menu-item has-dropdown" href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SETTINGS') }}</span></a>
+				<div class="sm-dropdown">
+					<div class="grid-2_sm-1-noBottom">
+						<div class="col grid-1-noBottom">
+							<div class="col">
+								<p><a href="#" class="sm-startpage" id="startpage-toggler" data-is-start-page="{{ S_IS_STARTPAGE }}" data-start-page-exists="{{ S_STARTPAGE }}" data-controller="{{ CONTROLLER_NAME }}" data-method="{{ CONTROLLER_METHOD }}" data-params="{{ CONTROLLER_PARAMS }}">{{ lang(S_STARTPAGE ? 'REMOVE_STARTPAGE' : 'SET_STARTPAGE') }}</a></p>
+								<p><a href="#" class="default-layout" id="default-layout-toggler" data-is-default-layout="{{ S_IS_DEFAULT }}" title="{{ lang('DEFAULT_LAYOUT_EXPLAIN') }}">{{ lang(S_IS_DEFAULT ? 'REMOVE_DEFAULT_LAYOUT' : 'MAKE_DEFAULT_LAYOUT') }}</a></p>
+								<p{% if not U_VIEW_DEFAULT || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="{{ U_VIEW_DEFAULT }}">{{ lang('VIEW_DEFAULT_LAYOUT') }}</a></p>
+							</div>
+							<div class="col-bottom">
+								<form id="copy-form">
+									<p>
+										<select name="from_route">{{ S_ROUTE_OPS }}</select>
+										<select name="from_style">{{ S_STYLE_OPTIONS }}</select>
+									</p>
+									<p>
+										<a href="#" class="layout-copy" data-action="view"><i class="fa fa-eye" aria-hidden="true"></i> {{ lang('VISIT_PAGE') }}</a>
+										<a href="#" class="layout-copy" data-action="copy"><i class="fa fa-copy" aria-hidden="true"></i> {{ lang('BLOCKS_COPY_FROM') }}</a>
+									</p>
+								</form>
+							</div>
 						</div>
-						<div class="grid__col grid__col--1-of-2">
-							<p{% if not S_HAS_BLOCKS || S_IS_DEFAULT %} style="display: none;"{% endif %}><a href="#" id="delete-blocks" data-set="false">{{ lang('DELETE_ALL_BLOCKS') }}</a></p>
-							<form id="route-settings">
-								<input type="checkbox" id="hide_blocks" name="hide_blocks"{% if S_HIDE_BLOCKS %} checked="checked"{% endif %} /> {{ lang('HIDE_ALL_BLOCKS') }}<br /><br />
-								<div class="grid">
-									<div class="grid__col grid__col--1-of-2">{{ lang('HIDE_BLOCK_POSITIONS') }}</div>
-									<div class="grid__col grid__col--1-of-2">
-										<select id="ex_positions" name="ex_positions[]" multiple="multiple" size="5">
-											{{ S_POSITION_OPS }}
-										</select>
+						<div class="col">
+							<p><a href="#" id="delete-blocks">{{ lang('DELETE_ALL_BLOCKS') }}</a></p>
+							<form id="ex-positions">
+								<input type="checkbox" name="hide_blocks"{% if S_HIDE_BLOCKS %} checked="checked"{% endif %} /> {{ lang('HIDE_ALL_BLOCKS') }}<br /><br />
+								<div class="grid-2_sm-1-equalHeight-noBottom">
+									<div class="col">{{ lang('HIDE_BLOCK_POSITIONS') }}</div>
+									<div class="col">
+										<div class="sm-scrollbars ex-positions-box" data-positions="{{ S_EX_POSITIONS }}"></div>
 									</div>
 								</div>
-								<div class="clear"></div>
 								<p class="align-center">
-									<input type="submit" class="button2" value="{{ lang('SAVE_SETTINGS') }}" />
+									<input type="submit" class="ui-button ui-corner-all ui-widget" value="{{ lang('SAVE_SETTINGS') }}" />
 								</p>
 							</form>
 						</div>
@@ -67,18 +64,19 @@
 				</div>
 			</li>
 			{% EVENT blitze_sitemaker_admin_bar_append %}
-			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
-			<li class="hmenu-item right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg"></i><span class="responsive-hide"> {{ lang('SAVE_CHANGES') }}</span></a></li>
-			<li class="hmenu-item right"><div class="spacing">&nbsp;</div></li>
-			<li class="hmenu-item right responsive-hide">
+			<li class="right"><div class="spacing">&nbsp;</div></li>
+			<li class="right"><a id="toggle-edit" class="btn" href="{{ U_EDIT_MODE }}"><i class="fa fa-check fa-lg" aria-hidden="true"></i><span class="responsive-hide"> {{ lang('EXIT_EDIT_MODE') }}</span></a></li>
+			<li class="right"><a id="save-changes" class="btn" href="#"><i class="fa fa-save fa-lg" aria-hidden="true"></i><span class="responsive-hide">{{ lang('SAVE_CHANGES') }}</span></a></li>
+			<li class="right"><a data-fancybox data-type="iframe" href="https://blitze.github.io/phpBB-ext-sitemaker/docs/{{ SM_USER_LANG }}/introduction"><i class="fa fa-question-circle fa-lg fa-orange" aria-hidden="true"></i></a></li>
+			<li class="right"><div class="spacing">&nbsp;</div></li>
+			<li class="right responsive-hide">
 				<select id="style-options" style="display: none" onchange="if(this.options[this.selectedIndex].value != -1){ location.href='{{ PAGE_URL }}&amp;style='+this.options[this.selectedIndex].value;}">
 					{{ S_STYLE_OPTIONS }}
 				</select>
 			</li>
 		</ul>
 	</div>
-	<a id="admin-control" class="admin-bar-control" href="#"><i class="fa fa-exchange"></i></a>
+	<a id="admin-control" class="admin-bar-control" href="#"><i class="fa fa-exchange" aria-hidden="true"></i></a>
 
 	<div class="message-container">
 		<div id="ajax-message" class="flash-message"></div>
@@ -88,15 +86,15 @@
 <div id="dialog-edit" class="dialog" title="{{ lang('EDIT_BLOCK') }}" style="display: none;"></div>
 
 <div id="dialog-confirm" class="dialog" title="{{ lang('DELETE_BLOCK') }}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('DELETE_BLOCK_CONFIRM') }}</p>
+	<p><i class="fa fa-exclamation-triangle fa-4x pull-left fa-border" style="color: red" aria-hidden="true"></i> {{ lang('DELETE_BLOCK_CONFIRM') }}</p>
 </div>
 
 <div id="dialog-copy" class="dialog" title="{{ lang('COPY_BLOCKS') }}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('COPY_BLOCKS_CONFIRM') }}</p>
+	<p><i class="fa fa-exclamation-triangle fa-4x pull-left fa-border" style="color: red" aria-hidden="true"></i> {{ lang('COPY_BLOCKS_CONFIRM') }}</p>
 </div>
 
 <div id="dialog-delete-all" class="dialog" title="{{ lang('DELETE_ALL_BLOCKS') }}" style="display: none;">
-	<p><i class="fa fa-warning fa-4x pull-left fa-border" style="color: red"></i> {{ lang('DELETE_ALL_BLOCKS_CONFIRM') }}</p>
+	<p><i class="fa fa-exclamation-triangle fa-4x pull-left fa-border" style="color: red" aria-hidden="true"></i> {{ lang('DELETE_ALL_BLOCKS_CONFIRM') }}</p>
 </div>
 
 {{ ICON_PICKER }}
@@ -109,15 +107,15 @@
 	{% verbatim %}{% else %}{% endverbatim %}
 		{{ source('@blitze_sitemaker/views/simple_view.twig') }}
 	{% verbatim %}{% endif %}{% endverbatim %}
-	<div class="block-controls">
-		<a href="#" class="item-action delete-block" title="{{ lang('DELETE') }}"><span class="ui-icon ui-icon-closethick">{{ lang('DELETE') }}</span></a>
-		<a href="#" class="item-action edit-block" title="{{ lang('EDIT') }}"><span class="ui-icon ui-icon-gear">{{ lang('EDIT') }}</span></a>
+	<div class="panel block-controls">
+		<a href="#" class="item-action delete-block" title="{{ lang('DELETE') }}"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>
+		<a href="#" class="item-action edit-block" title="{{ lang('EDIT') }}"><i class="fa fa-gear fa-lg" aria-hidden="true"></i></a>
 	</div>
 </script>
 
 {% EVENT blitze_sitemaker_admin_bar_templates %}
 
-<script type="text/javascript">
+<script>
 // <![CDATA[
 	var editMode = {{ S_EDIT_MODE|e('js') }};
 	var config = {
@@ -127,10 +125,8 @@
 		ext: '{{ UA_EXTENSION }}',
 		route: '{{ UA_ROUTE }}',
 		style: '{{ UA_STYLE_ID }}',
-{% if FILEMANAGER %}
-		filemanager: true,
-		RFAccessKey: '{{ FILEMANAGER_AKEY|e('js') }}',
-{% endif %}
+		tinymceLang: '{{ TINYMCE_LANG|e('js') }}',
+		directionality: '{{ S_CONTENT_DIRECTION|e('js') }}',
 		uploadUrl: '{{ UA_UPLOAD_URL }}',
 		webRootPath: '{{ UA_WEB_ROOT_PATH }}',
 	};
@@ -140,15 +136,21 @@
 		copy: '{{ lang('COPY')|escape('js') }}',
 		remove: '{{ lang('DELETE')|escape('js') }}',
 		cancel: '{{ lang('CANCEL')|escape('js') }}',
+		clear: '{{ lang('CLEAR')|escape('js') }}',
 		deleteAll: '{{ lang('DELETE_ALL')|escape('js') }}',
 		hidingBlocks: '{{ lang('ROUTE_HIDDEN_BLOCKS')|escape('js') }}',
 		hidingPos: '{{ lang('ROUTE_HIDDEN_POSITIONS')|escape('js') }}',
 		ajaxError: '{{ lang('AJAX_ERROR')|escape('js') }}',
 		ajaxLoading: '{{ lang('AJAX_LOADING')|escape('js') }}',
+		processing: '{{ lang('PROCESSING')|e('js') }}',
 		leaveConfirm: '{{ lang('LEAVE_CONFIRM')|escape('js') }}',
 		updateSimilar: '{{ lang('UPDATE_SIMILAR')|escape('js') }}',
 		fileManager: '{{ lang('FILE_MANAGER')|escape('js') }}',
-		placeholder: '{{ lang('EDIT_ME')|escape('js') }}'
+		placeholder: '{{ lang('EDIT_ME')|escape('js') }}',
+		setStartPage: '{{ lang('SET_STARTPAGE')|escape('js') }}',
+		removeStartPage: '{{ lang('REMOVE_STARTPAGE')|escape('js') }}',
+		makeDefaultLayout: '{{ lang('MAKE_DEFAULT_LAYOUT')|escape('js') }}',
+		removeDefaultLayout: '{{ lang('REMOVE_DEFAULT_LAYOUT')|escape('js') }}',
 	};
 // ]]>
 </script>

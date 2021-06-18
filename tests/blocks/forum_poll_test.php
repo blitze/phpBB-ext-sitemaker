@@ -88,10 +88,7 @@ class forum_poll_test extends blocks_base
 
 		$poll = new poll($this->auth, $this->config, $this->db, $this->request, $this->translator, $this->user, $sitemaker, $this->phpbb_root_path, $this->php_ext);
 
-		$block = new forum_poll($this->db, $forum_data, $forum_options, $groups, $poll);
-		$block->set_template($this->ptemplate);
-
-		return $block;
+		return new forum_poll($this->db, $forum_data, $forum_options, $groups, $poll);
 	}
 
 	public function test_block_config()
@@ -110,6 +107,16 @@ class forum_poll_test extends blocks_base
 		);
 
 		$this->assertEquals($expected_keys, array_keys($config));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('@blitze_sitemaker/blocks/forum_poll.html', $block->get_template());
 	}
 
 	/**
@@ -132,7 +139,7 @@ class forum_poll_test extends blocks_base
 					),
 				),
 				false,
-				'',
+				[],
 			),
 			array(
 				array(
@@ -147,7 +154,7 @@ class forum_poll_test extends blocks_base
 				),
 				true,
 				array(
-					'poll_option' => array(
+					'POLL_OPTIONS' => array(
 						array(
 							'POLL_OPTION_ID' => '1',
 							'POLL_OPTION_CAPTION' => 'Great',
@@ -198,7 +205,7 @@ class forum_poll_test extends blocks_base
 				),
 				false,
 				array(
-					'poll_option' => array(
+					'POLL_OPTIONS' => array(
 						array(
 							'POLL_OPTION_ID' => '1',
 							'POLL_OPTION_CAPTION' => 'Option 1',
@@ -252,6 +259,6 @@ class forum_poll_test extends blocks_base
 		$block = $this->get_block($is_registered);
 		$result = $block->display($bdata);
 
-		$this->assertEquals($expected, $result['content']);
+		$this->assertEquals($expected, $result['data']);
 	}
 }

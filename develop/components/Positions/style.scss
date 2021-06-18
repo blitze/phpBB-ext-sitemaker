@@ -1,0 +1,118 @@
+.block-controls {
+	display: none;
+	position: absolute;
+	top: 10px;
+	right: 5px;
+	width: auto;
+	z-index: 1000;
+}
+
+.block-receiver {
+	min-height: 55px;
+	overflow: visible;
+
+	.block-controls {
+		border-width: 1px;
+		opacity: 0.8;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		.item-action {
+			float: right;
+		}
+	}
+
+	.block {
+		position: relative;
+
+		&:hover {
+			> .block-controls {
+				display: block;
+
+				a {
+					margin-left: 4px;
+				}
+			}
+		}
+	}
+
+	.block-title {
+		width: auto;
+		cursor: pointer;
+	}
+
+	.block-icon {
+		align-self: center;
+		min-width: 0.5rem;
+		min-height: 0.5rem;
+		padding: 1px;
+		margin-left: 0.1rem;
+		margin-right: 0.2rem;
+		text-align: center;
+		cursor: pointer;
+		outline: 1px solid #ddd;
+
+		&:hover {
+			outline: 1px solid #968787;
+		}
+
+		.fa {
+			margin: 0;
+		}
+	}
+
+	.placeholder {
+		display: block;
+		position: relative;
+		height: 100px;
+		width: 100%;
+	}
+
+	&.horizontal {
+		.sortable {
+			float: left;
+			height: 70px;
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		.placeholder {
+			@extend .sortable;
+			margin-left: 10px;
+			width: 15px;
+		}
+
+		&:after {
+			content: ' ';
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+
+	&.show-position {
+		outline: 1px dashed #ccc;
+
+		&.sidebar {
+			min-height: 450px;
+		}
+	}
+
+	&.empty-position {
+		display: none;
+	}
+}
+
+.dragging {
+	white-space: nowrap;
+	width: 150px;
+}
+
+.sm-inactive,
+.sm-inactive > .block,
+.sm-responsive-show,
+.sm-responsive-hide {
+	opacity: 0.5;
+}

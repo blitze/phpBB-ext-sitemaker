@@ -68,7 +68,9 @@ class base_action extends \phpbb_database_test_case
 		$this->config = new \phpbb\config\config(array());
 		$this->config_text = new \phpbb\config\db_text($this->db, 'phpbb_config_text');
 
-		$request = $this->getMock('\phpbb\request\request_interface');
+		$request = $this->getMockBuilder('\phpbb\request\request_interface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request->expects($this->any())
 			->method('variable')
 			->with($this->anything())
@@ -86,10 +88,6 @@ class base_action extends \phpbb_database_test_case
 		$blocks_service = $this->getMockBuilder('\blitze\sitemaker\services\blocks\blocks')
 			->disableOriginalConstructor()
 			->setMethods(null)
-			->getMock();
-
-		$ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
-			->disableOriginalConstructor()
 			->getMock();
 
 		$tpl_data = array();
@@ -132,9 +130,35 @@ class base_action extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, 'phpbb_sm_cblocks');
+		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$path_helper->expects($this->any())
+			->method('get_web_root_path')
+			->will($this->returnCallback(function() {
+				return './';
+			}));
 
-		$cfg_handler = new \blitze\sitemaker\services\blocks\cfg_handler($request, $template, $this->translator, $groups, $phpbb_root_path, $phpEx);
+		$user = $this->getMockBuilder('\phpbb\user')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$util = new \blitze\sitemaker\services\util($path_helper, $template, $user);
+
+		$custom_block = new \blitze\sitemaker\blocks\custom($cache, $db, $request, $util, 'phpbb_sm_cblocks');
+
+		$cfg_factory = $this->getMockBuilder('\blitze\sitemaker\services\blocks\config\cfg_factory')
+			->disableOriginalConstructor()
+			->getMock();
+		$cfg_factory->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($type) {
+				return ($type === 'radio')
+					? new \blitze\sitemaker\services\blocks\config\fields\radio($this->translator)
+					: false;
+			}));
+
+		$cfg_handler = new \blitze\sitemaker\services\blocks\config\cfg_handler($request, $template, $this->translator, $cfg_factory, $groups, $phpbb_root_path, $phpEx);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
 
@@ -152,7 +176,7 @@ class base_action extends \phpbb_database_test_case
 		$phpbb_container->set('blitze.sitemaker.block.custom', $custom_block);
 		$phpbb_container->set('blitze.sitemaker.blocks.cfg_handler', $cfg_handler);
 
-		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $ptemplate, $blocks_collection);
+		$block_factory = new \blitze\sitemaker\services\blocks\factory($this->translator, $blocks_collection);
 
 		$this->mapper_factory = new \blitze\sitemaker\model\mapper_factory($this->config, $db, $tables);
 

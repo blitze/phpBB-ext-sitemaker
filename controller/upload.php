@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -13,16 +14,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class upload
 {
-	/** @var \phpbb\auth\auth */
-	protected $auth;
-
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \blitze\sitemaker\services\filemanager\setup */
+	/** @var \blitze\sitemaker\services\filemanager */
 	protected $filemanager;
 
 	/** @var array */
@@ -31,14 +29,12 @@ class upload
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth								$auth				Auth object
 	 * @param \phpbb\files\factory							$files_factory		Files factory object
 	 * @param \phpbb\language\language						$language			Language object
-	 * @param \blitze\sitemaker\services\filemanager\setup	$filemanager		Filemanager object
+	 * @param \blitze\sitemaker\services\filemanager		$filemanager		Filemanager object
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\files\factory $files_factory, \phpbb\language\language $language, \blitze\sitemaker\services\filemanager\setup $filemanager)
+	public function __construct(\phpbb\files\factory $files_factory, \phpbb\language\language $language, \blitze\sitemaker\services\filemanager $filemanager)
 	{
-		$this->auth = $auth;
 		$this->files_factory = $files_factory;
 		$this->language = $language;
 		$this->filemanager = $filemanager;
@@ -54,13 +50,14 @@ class upload
 			'message'   => '',
 		);
 
-		if (!$this->auth->acl_get('u_sm_filemanager'))
+		try
 		{
-			$json_data['message'] = $this->language->lang('NOT_AUTHORISED');
-			return new JsonResponse($json_data, 401);
+			$this->handle_upload($json_data);
 		}
-
-		$this->handle_upload($json_data);
+		catch (\Exception $e)
+		{
+			$json_data['message'] = $e->getMessage();
+		}
 
 		return new JsonResponse($json_data);
 	}
@@ -71,13 +68,13 @@ class upload
 	 */
 	protected function handle_upload(array &$json_data)
 	{
+		$destination = $this->filemanager->get_upload_destination();
+		$user_dir = $this->filemanager->get_user_dir();
+
 		$file = $this->files_factory->get('files.upload')
 			->set_disallowed_content(array())
 			->set_allowed_extensions($this->allowed_extensions)
 			->handle_upload('files.types.form', 'file');
-
-		$destination = $this->filemanager->get_upload_destination();
-		$user_dir = $this->filemanager->get_user_dir();
 
 		$this->set_filename($file);
 		$file->move_file(rtrim($destination, '/'), true);

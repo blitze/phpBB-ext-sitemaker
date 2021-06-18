@@ -1,0 +1,229 @@
+@import '../../_partials/globals';
+
+body {
+	transition: padding 400ms;
+}
+
+.push-down {
+	padding-top: $admin-bar-height;
+}
+
+.admin-bar-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	z-index: 1000;
+	filter: drop-shadow(0 0 10px black);
+
+	.admin-bar-control {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0 8px;
+		height: $admin-bar-height;
+		line-height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		color: invert($admin-bar-bgcolor) !important;
+		font-size: 18px;
+		text-align: center;
+
+		&:hover {
+			text-decoration: none;
+			font-weight: bolder;
+			color: #ddd;
+		}
+	}
+
+	.admin-bar-toggler {
+		opacity: 0.5;
+		border-bottom-left-radius: 1rem;
+	}
+
+	.admin-bar-inner {
+		display: block;
+		width: 100%;
+		height: $admin-bar-height;
+		background-color: $admin-bar-bgcolor;
+		position: relative;
+	}
+
+	.hmenu {
+		margin: 0;
+		padding: 1px 10px;
+		width: auto;
+		list-style: none;
+
+		li {
+			float: left;
+			display: block;
+			margin-left: 4px;
+			text-align: center;
+			position: relative;
+			line-height: $admin-bar-height - 2;
+
+			@media (max-width: $breakpoint-small) {
+				position: initial;
+
+				.sm-dropdown {
+					left: -4px;
+					right: -4px;
+					margin-left: 0 !important;
+					min-width: 0 !important;
+				}
+			}
+
+			.sm-dropdown {
+				display: none;
+				position: absolute;
+				top: 0;
+				font-size: 11px;
+				margin-top: 36px;
+				margin-left: -6px;
+				padding: 10px;
+				min-width: 500px;
+				line-height: normal;
+				background-color: #fff;
+				border: 1px solid #c33;
+				border-top: 0;
+				border-radius: 5px;
+				text-align: left;
+				z-index: 5000;
+
+				p {
+					display: block;
+					margin-top: 1em;
+				}
+			}
+
+			.menu-item {
+				padding: 7px 10px;
+				color: #ccc;
+				font-weight: bold;
+				text-transform: uppercase;
+				text-decoration: none;
+				text-shadow: 0 1px 0 #000;
+			}
+
+			.menu-item {
+				font: bold 12px Arial, Helvetica;
+			}
+
+			.btn {
+				margin: 5px 0 5px 5px;
+				font-size: 12px !important;
+			}
+
+			.dropped,
+			&:hover > .menu-item {
+				color: #333;
+				background-color: #fff;
+				border-radius: 5px;
+				text-shadow: initial;
+			}
+
+			.dropped,
+			&:hover > .dropped {
+				padding-bottom: 14px;
+				border-radius: 5px 5px 0 0;
+				z-index: 1;
+			}
+
+			.spacing {
+				width: 25px;
+			}
+		}
+
+		.right {
+			float: right;
+			position: relative;
+		}
+	}
+
+	.ex-positions-box {
+		display: block;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		max-height: 85px;
+		padding: 4px 0;
+		overflow: auto;
+
+		label {
+			display: block;
+			padding: 0 5px;
+			margin: 0;
+
+			&:hover {
+				background-color: #ee3;
+			}
+		}
+	}
+}
+
+.message-container {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: both;
+	font-size: 1.2em;
+	text-align: left;
+
+	.flash-message {
+		display: none;
+		background-color: #d5f8a0;
+		padding: 5px 10px;
+		position: relative;
+		left: -50%;
+		text-align: left;
+	}
+}
+
+.block-admin-button-active {
+	background: #ffffff none;
+	border-bottom: 0;
+	z-index: 1000;
+}
+
+.ui-dialog {
+	z-index: 5001 !important ;
+}
+
+.sm-reset {
+	color: #000 !important;
+	font-size: 12px !important;
+	font-family: Arial, Helvetica, sans-serif !important;
+
+	label {
+		color: #000;
+	}
+
+	input,
+	select {
+		padding: 3px;
+		font-size: 12px !important;
+		color: #333 !important;
+		background-color: #fff !important;
+		border: 1px solid #999 !important;
+		border-radius: 4px !important;
+	}
+}
+
+.sm-scrollbars {
+	&::-webkit-scrollbar {
+		width: 5px;
+		height: 8px;
+		background: auto;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #ddd;
+	}
+}
+
+#dialog-edit .sm-panel {
+	margin-bottom: 5px;
+	padding: 10px;
+	border-radius: 10px;
+	background: #eee;
+}

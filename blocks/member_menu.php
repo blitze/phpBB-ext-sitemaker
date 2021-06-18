@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -59,10 +60,10 @@ class member_menu extends block
 	 */
 	public function display(array $bdata, $edit_mode = false)
 	{
-		$content = '';
+		$data = [];
 		if ($this->user->data['is_registered'])
 		{
-			$this->ptemplate->assign_vars(array(
+			$data = array(
 				'USER_AVATAR'	=> $this->get_user_avatar(),
 				'USERNAME'		=> get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 				'USER_POSTS'	=> $this->user->data['user_posts'],
@@ -75,14 +76,12 @@ class member_menu extends block
 				'U_LOGOUT'		=> append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, 'mode=logout', true, $this->user->session_id),
 				'U_MCP' 		=> $this->get_mcp_url(),
 				'U_ACP'			=> $this->get_acp_url(),
-			));
-
-			$content = $this->ptemplate->render_view('blitze/sitemaker', 'blocks/member_menu.html', 'member_menu_block');
+			);
 		}
 
 		return array(
-			'title'		=> 'WELCOME',
-			'content'	=> $content,
+			'title'	=> 'WELCOME',
+			'data'	=> $data,
 		);
 	}
 
@@ -129,5 +128,13 @@ class member_menu extends block
 			->build(true, false);
 
 		return (int) $this->forum_data->get_topics_count();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_template()
+	{
+		return '@blitze_sitemaker/blocks/member_menu.html';
 	}
 }

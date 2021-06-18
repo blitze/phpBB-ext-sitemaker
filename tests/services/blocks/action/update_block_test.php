@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -92,13 +93,10 @@ class update_block_test extends base_action
 
 		$command = $this->get_command('update_block', $variable_map);
 
-		try
-		{
+		try {
 			$this->assertNull($command->execute(1));
 			$this->fail('no exception thrown');
-		}
-		catch (\blitze\sitemaker\exception\base $e)
-		{
+		} catch (\blitze\sitemaker\exception\base $e) {
 			$this->assertEquals('EXCEPTION_OUT_OF_BOUNDS-bid', $e->get_message($this->translator));
 		}
 	}

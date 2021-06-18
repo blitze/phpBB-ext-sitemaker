@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -41,6 +42,7 @@ class edit_block_test extends base_action
 						'TITLE'			=> 'MY_SETTING',
 						'S_EXPLAIN'		=> false,
 						'TITLE_EXPLAIN'	=> '',
+						'APPEND'		=> '',
 						'CONTENT'		=> '<label><input type="radio" id="my_setting" name="config[my_setting]" value="1" checked="checked" class="radio" /> </label><label><input type="radio" name="config[my_setting]" value="0" class="radio" /> </label>',
 					),
 					array(
@@ -48,7 +50,8 @@ class edit_block_test extends base_action
 						'TITLE'			=> 'OTHER_SETTING',
 						'S_EXPLAIN'		=> true,
 						'TITLE_EXPLAIN'	=> 'OTHER_SETTING_EXPLAIN',
-						'CONTENT'		=> '<label><input type="radio" id="other_setting" name="config[other_setting]" value="1" class="radio" /> </label><label><input type="radio" name="config[other_setting]" value="0" checked="checked" class="radio" /> </label>',
+						'APPEND'		=> '',
+						'CONTENT'		=> '<input id="other_setting" type="number" min="0" max="10" name="config[other_setting]" value="0" />',
 					),
 				),
 			),
@@ -84,7 +87,7 @@ class edit_block_test extends base_action
 		$result = $command->execute(1);
 
 		$this->assertEquals($expected_block, array_intersect_key($result, $expected_block));
-		$this->assertEquals($expected_form, $result['form']['options']);
+		$this->assertEquals($expected_form, $result['form']['cfg_fields']);
 	}
 
 	/**

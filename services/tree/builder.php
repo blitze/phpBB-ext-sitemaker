@@ -15,31 +15,6 @@ namespace blitze\sitemaker\services\tree;
 abstract class builder extends \phpbb\tree\nestedset
 {
 	/**
-	 * @param \blitze\sitemaker\services\util $util
-	 */
-	public static function load_scripts(\blitze\sitemaker\services\util $util)
-	{
-		$util->add_assets(array(
-			'js'        => array(
-				'@blitze_sitemaker/vendor/jquery-ui/jquery-ui.min.js',
-				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.js',
-				'@blitze_sitemaker/vendor/codemirror/addon/display/autorefresh.js',
-				'@blitze_sitemaker/vendor/twig.js/index.js',
-				'@blitze_sitemaker/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-				'@blitze_sitemaker/vendor/jquery.populate/jquery.populate.js',
-				'@blitze_sitemaker/vendor/nestedSortable/jquery.ui.nestedSortable.js',
-				'@blitze_sitemaker/assets/tree/builder.min.js',
-			),
-			'css'   => array(
-				'@blitze_sitemaker/vendor/jquery-ui/themes/smoothness/jquery-ui.css',
-				'@blitze_sitemaker/vendor/codemirror/lib/codemirror.css',
-				'@blitze_sitemaker/vendor/codemirror/theme/monokai.css',
-				'@blitze_sitemaker/assets/tree/builder.min.css',
-			)
-		));
-	}
-
-	/**
 	 * Set additional sql where restrictions
 	 * @param string $sql_where
 	 * @return $this
@@ -165,7 +140,7 @@ abstract class builder extends \phpbb\tree\nestedset
 			$key = $i + $max_id + 1;
 			$field_values = array_map('trim', explode('|', trim($string))) + $values;
 
-			$adj_tree[$key] = array_merge($data, array_combine($fields, $field_values));
+			$adj_tree[$key] = array_merge($data, $this->get_item_props($fields, $field_values));
 			$adj_tree[$key][$this->column_item_id] = $key;
 			$adj_tree[$key]['parent_id'] = $parent_id;
 
@@ -173,6 +148,20 @@ abstract class builder extends \phpbb\tree\nestedset
 		}
 
 		return $adj_tree;
+	}
+
+	/**
+	 * @param array $fields
+	 * @param array $values
+	 * @return array
+	 */
+	protected function get_item_props(array $fields, array $values)
+	{
+		if (($props = array_combine($fields, $values)) !== false)
+		{
+			return $props;
+		}
+		return array();
 	}
 
 	/**

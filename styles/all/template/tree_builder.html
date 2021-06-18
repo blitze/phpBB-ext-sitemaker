@@ -1,0 +1,121 @@
+<p id="groups-loader"><i class="fa fa-spinner fa-green fa-spin fa-lg" aria-hidden="true"></i>{{ lang('LOADING') }}</p>
+
+<div class="grid-noGutter">
+	<div class="col-3">
+		<div class="groups-container">
+			<button id="add-group" style="display: none">{{ lang(ADD_GROUP) }}</button>
+			<ul id="sm-groups" class="groups-list" style="display: none">
+				{% for group in loops.groups %}
+				<li id="group-{{ group.ID }}" class="group-item{% if group.S_ACTIVE %} row3 current-group{% endif %}">
+					<a href="#" class="group-option"><span class="group-title">{{ group.NAME }}</span></a>
+					<div class="group-actions">
+						<a href="#" class="group-edit left" title="{{ lang('EDIT') }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+						<a href="#" class="group-delete left" title="{{ lang('DELETE') }}"><i class="fa fa-times" aria-hidden="true"></i></a>
+					</div>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="col-9">
+		<div id="loader"><i class="fa fa-pull-right" aria-hidden="true"></i></div>
+		<div id="ajax-message" class="message" style="display: none"></div>
+		<div id="nested-tree" class="tree-builder">
+		
+			<div class="bulk-container">
+				<div style="display: none">
+					<button id="add-new">{{ lang(ADD_GROUP_ITEM) }}</button>
+					<button id="add-bulk">{{ lang(ADD_BULK_ITEMS) }}</button>
+				</div>
+				<div class="bulk-dropdown" style="display: none">
+					<form id="bulk_form" name="bulk_form" method="post">
+						<fieldset>
+							<p><strong>{{ lang(ADD_BULK_ITEMS) }}</strong></p>
+							<a class="toggle-view right" href="#help-addbulk">{{ lang('HELP') }}</a>
+							<p id="help-addbulk" class="small bg2" style="display: none">{{ lang(ADD_BULK_ITEMS_EXPLAIN) }}</p><br />
+	
+							<label>{{ lang('ITEM_PARENT') }}</label>
+							<select id="parent_id" name="parent_id">
+								<option value="0">{{ lang('NO_PARENT') }}</option>
+								{% for option in loops.option %}
+								<option value="{{ option.CAT_ID }}">{{ option.S_PADDING }}{{ option.CAT_NAME }}</option>
+								{% endfor %}
+							</select><br /><br />
+							<label>{{ lang(GROUP_ITEMS) }}</label>
+							<textarea id="add_list" rows="5" cols="50" name="add_list"></textarea>
+							{% for type, items in bulk_options %}
+								<div class="bulk-type-wrapper">
+									<div>
+										<button class="bulk-type" data-items="{{ items }}">{{ lang(type) }}</button>
+										<button class="bulk-type-list">{{ lang('SELECT') }}</button>
+									</div>
+									<div class="bulk-dropdown bulk-type-items">
+										<div class="inner"></div>
+									</div>
+								</div>
+							{% endfor %}
+							<br clear="both" />
+							<p class="submit-buttons">
+								<input class="button2" type="reset" id="cancel" name="cancel" value="{{ lang('CANCEL') }}" />
+								<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+							</p>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+
+			<div class="align-right">
+				<label style="display: none"><input type="checkbox" id="select-all" /> {{ lang('SELECT_ALL') }}</label>
+			</div>
+			<div class="row3 items-container">
+				<div id="no-items" class="center">{{ lang(NO_ITEMS) }}</div>
+				<div class="items-list">
+					<ol id="sortable" class="ui-helper-reset ui-helper-clearfix ui-corner-all" style="display: none;"></ol>
+				</div>
+			</div>
+
+			<button id="save" class="right" style="display: none">{{ lang('SAVE_CHANGES') }}</button>
+			<button id="delete-selected" class="right" style="display: none">{{ lang('DELETE_SELECTED') }}</button>
+			<button id="rebuild-tree" class="right" style="display: none">{{ lang('REBUILD_TREE') }}</button>
+	
+			{{ ICON_PICKER }}
+		</div>
+	</div>
+</div>
+
+<div id="dialog-confirm-delete-group" class="dialog" title="{{ lang(DELETE_GROUP) }}" style="display: none;">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang(DELETE_GROUP_CONFIRM) }}</p>
+</div>
+
+<div id="dialog-confirm-delete-item" class="dialog" title="{{ lang(DELETE_GROUP_ITEM) }}" style="display: none;">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang(DELETE_GROUP_ITEM_CONFIRM) }}</p>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+	var config = {
+		ajaxUrl: '{{ UA_AJAX_URL }}',
+		directionality: '{{ S_CONTENT_DIRECTION|e('js') }}',
+		groupId: {{ GROUP_ID|e('js') }},
+		scriptPath: '{{ SCRIPT_PATH|e('js') }}',
+	};
+	var lang = {
+		none				: '{{ lang('NO_PARENT')|e('js') }}',
+		addNode				: '{{ lang('ADD_ITEM')|e('js') }}',
+		editNode			: '{{ lang('EDIT_ITEM')|e('js') }}',
+		changeMe			: '{{ lang('CHANGE_ME')|e('js') }}',
+		saveNode			: '{{ lang('SAVE')|e('js') }}',
+		hideNode			: '{{ lang('HIDE')|e('js') }}',
+		showNode			: '{{ lang('SHOW')|e('js') }}',
+		cancel				: '{{ lang('CANCEL')|e('js') }}',
+		remove				: '{{ lang('DELETE')|e('js') }}',
+		edit				: '{{ lang('EDIT')|e('js') }}',
+		deleteNode			: '{{ lang('DELETE_ITEM')|e('js') }}',
+		deleteChildNodes	: '{{ lang('DELETE_KIDS')|e('js') }}',
+		required			: '{{ lang('REQUIRED')|e('js') }}',
+		unsavedChanges		: '{{ lang('UNSAVED_CHANGES')|e('js') }}',
+		errorMessage		: '{{ lang('PROCESSING_ERROR')|e('js') }}',
+		processing			: '{{ lang('PROCESSING')|e('js') }}'
+	};
+// ]]>
+</script>

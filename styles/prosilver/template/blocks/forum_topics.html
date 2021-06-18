@@ -1,12 +1,12 @@
-{% if loops.topicrow|length %}
+{% if TOPICS|length %}
 	<ul class="sm-list">
-	{% if S_CONTEXT %}
-		{% for topicrow in loops.topicrow %}
+	{% if TEMPLATE === 'context' %}
+		{% for topicrow in TOPICS %}
 		<li>
 			<div class="sm-inner img-align-left small-avatar">
 				<a href="{{ topicrow.U_VIEWPROFILE }}" class="img-ui">{{ topicrow.AVATAR }}</a>
 				<div class="sm-fill-space">
-					<p class="topic-title"><a href="{{ topicrow.U_VIEWTOPIC }}">{{ topicrow.TOPIC_TITLE }}</a></p>
+					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p>
 					<div class="author">
 					{% if not S_IS_BOT %}
 						{% if topicrow.S_UNREAD_TOPIC %}
@@ -20,28 +20,30 @@
 						{% endif %}
 					{% endif %}
 						{% if topicrow.ATTACH_ICON_IMG %}<i class="icon fa-paperclip fa-fw" aria-hidden="true"></i>{% endif %}
-						{{ lang('POST_BY_AUTHOR') }} {{ topicrow.USERNAME }} {{ lang('POSTED_ON_DATE') }} {{ topicrow.TOPIC_POST_TIME }} {{ lang('IN') }} <a href="{{ topicrow.U_VIEWFORUM }}">{{ topicrow.FORUM_TITLE }}</a>
+						{{ lang(CONTEXT === 'last' ? 'LAST_POST_BY_AUTHOR' : 'POST_BY_AUTHOR') }} {{ topicrow.USERNAME }} {{ lang('POSTED_ON_DATE') }} {{ topicrow.TOPIC_POST_TIME }} {{ lang('IN') }} <a href="{{ topicrow.U_VIEWFORUM }}">{{ topicrow.FORUM_TITLE }}</a>
 					</div>
 				</div>
+				{%- if topicrow.TOPIC_PREVIEW -%}
 				<br />
 				<p class="gensmall">{{ topicrow.TOPIC_PREVIEW }}</p>
+				{%- endif -%}
 			</div>
 		</li>
 		{% endfor %}
-	{% elseif S_MINI %}
-		{% for topicrow in loops.topicrow %}
+	{% elseif TEMPLATE === 'mini' %}
+		{% for topicrow in TOPICS %}
 		<li title="{{ topicrow.TOPIC_PREVIEW }}">
 			<div class="sm-inner img-align-left small-avatar">
 				<a href="{{ topicrow.U_VIEWPROFILE }}" class="img-ui">{{ topicrow.AVATAR }}</a>
 				<div class="sm-fill-space">
-					<p class="topic-title"><a href="{{ topicrow.U_VIEWTOPIC }}">{{ topicrow.TOPIC_TITLE }}</a></p><br /><br />
-					<p class="small"><i class="fa fa-clock-o"></i>{{ topicrow.TOPIC_POST_TIME|date("M d, Y") }}</p>
+					<p class="topic-title"><a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}">{{ topicrow.TOPIC_TITLE }}</a></p>
+					<p class="small"><i class="fa fa-clock" aria-hidden="true"></i>{{ topicrow.TOPIC_POST_TIME }}</p>
 				</div>
 			</div>
 		</li>
 		{% endfor %}
 	{% else %}
-		{% for topicrow in loops.topicrow %}
+		{% for topicrow in TOPICS %}
 		<li>
 		{% if not S_IS_BOT %}
 			{% if topicrow.S_UNREAD_TOPIC %}
@@ -54,7 +56,7 @@
 			</a>
 			{% endif %}
 		{% endif %}
-			<a href="{{ topicrow.U_VIEWTOPIC }}" title="{{ topicrow.TOPIC_PREVIEW }}">{{ topicrow.TOPIC_TITLE }}</a>
+			<a href="{{ CONTEXT === 'first' ? topicrow.U_VIEWTOPIC : topicrow.U_LAST_POST }}" title="{{ topicrow.TOPIC_PREVIEW }}">{{ topicrow.TOPIC_TITLE }}</a>
 		</li>
 		{% endfor %}
 	{% endif %}

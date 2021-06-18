@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package sitemaker
@@ -17,6 +18,20 @@ interface block_interface
 	 * @return string
 	 */
 	public function get_name();
+
+	/**
+	 * Set service name
+	 *
+	 * @param string $name
+	 */
+	public function set_name($name);
+
+	/**
+	 * Get template name in the form @[vendor]_[extension name]/[path]/[template file].[html/twig]
+	 *
+	 * @return string
+	 */
+	public function get_template();
 
 	/**
 	 * Get block default settings

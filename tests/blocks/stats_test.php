@@ -48,10 +48,10 @@ class stats_test extends blocks_base
 				return $key . ': ' . $value;
 			});
 
-		$block = new stats($config, $this->template, $translator);
-		$block->set_template($this->ptemplate);
+		$template = $this->getMockBuilder('\phpbb\template\template')
+			->getMock();
 
-		return $block;
+		return new stats($config, $translator, $template);
 	}
 
 	public function test_block_config()
@@ -60,6 +60,16 @@ class stats_test extends blocks_base
 		$config = $block->get_config(array());
 
 		$this->assertEquals(array(), $config);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_block_template()
+	{
+		$block = $this->get_block();
+
+		$this->assertEquals('', $block->get_template());
 	}
 
 	/**

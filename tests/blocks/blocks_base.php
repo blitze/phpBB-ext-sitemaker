@@ -21,7 +21,6 @@ abstract class blocks_base extends \phpbb_database_test_case
 	protected $template;
 	protected $translator;
 	protected $user;
-	protected $ptemplate;
 	protected $user_data;
 	protected $util;
 	protected $phpbb_root_path;
@@ -42,9 +41,9 @@ abstract class blocks_base extends \phpbb_database_test_case
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
-		global $auth, $cache, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx;
+		global $auth, $cache, $config, $db, $phpbb_dispatcher, $request, $template, $user, $phpbb_root_path, $phpEx, $table_prefix;
 
 		parent::setUp();
 
@@ -71,41 +70,16 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$user->page['root_script_path'] = '/phpBB/';
 		$user->style['style_path'] = 'prosilver';
 
-		$request = $this->getMock('\phpbb\request\request');
-
-		$auth = $this->getMock('\phpbb\auth\auth');
-		$auth->expects($this->any())
-			->method('acl_get')
-			->willReturn(true);
-
-		$tpl_data = array();
-		$this->ptemplate = $this->getMockBuilder('\blitze\sitemaker\services\template')
+		$request = $this->getMockBuilder('\phpbb\request\request')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->ptemplate->expects($this->any())
-			->method('assign_vars')
-			->will($this->returnCallback(function($data) use (&$tpl_data) {
-				$tpl_data = array_merge($tpl_data, $data);
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_block_vars')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
-				$tpl_data[$block][] = $data;
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('assign_block_vars_array')
-			->will($this->returnCallback(function($block, $data) use (&$tpl_data) {
-				$tpl_data[$block] = $data;
-			}));
-
-		$this->ptemplate->expects($this->any())
-			->method('render_view')
-			->will($this->returnCallback(function() use (&$tpl_data) {
-				return $tpl_data;
-			}));
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
+		$auth->expects($this->any())
+			->method('acl_get')
+			->willReturn(true);
 
 		$temp_data = array();
 		$template = $this->getMockBuilder('\phpbb\template\template')
@@ -141,6 +115,13 @@ abstract class blocks_base extends \phpbb_database_test_case
 		$this->user =& $user;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
+		$this->config_text	= new \phpbb\config\db_text($this->db, $table_prefix . 'config_text');
+		$this->db_tools = $this->getMockBuilder('\phpbb\db\tools\tools')
+			->setConstructorArgs([$this->db])
+			->getMock();
+		$this->log = $this->getMockBuilder('\phpbb\log\log')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$cp_type_string = new \phpbb\profilefields\type\type_string($request, $template, $user);
 		$cp_type_url = new \phpbb\profilefields\type\type_text($request, $template, $user);
@@ -151,7 +132,23 @@ abstract class blocks_base extends \phpbb_database_test_case
 
 		$cp_types_collection = new \phpbb\di\service_collection($phpbb_container);
 
-		$profile_fields = new \phpbb\profilefields\manager($this->auth, $this->db, $phpbb_dispatcher, $this->request, $template, $cp_types_collection, $user, 'phpbb_profile_fields', 'phpbb_profile_lang', 'phpbb_profile_fields_data');
+		$profile_fields = new \phpbb\profilefields\manager(
+			$this->auth,
+			$this->config_text,
+			$this->db,
+			$this->db_tools,
+			$phpbb_dispatcher,
+			$this->translator,
+			$this->log,
+			$this->request,
+			$template,
+			$cp_types_collection,
+			$user,
+			$table_prefix . 'profile_fields',
+			$table_prefix . 'profile_fields_data',
+			$table_prefix . 'profile_fields_lang',
+			$table_prefix . 'profile_lang'
+		);
 
 		$path_helper = $this->getMockBuilder('\phpbb\path_helper')
 			->disableOriginalConstructor()

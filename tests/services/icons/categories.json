@@ -1,0 +1,21 @@
+{
+	"logistics": [
+		{
+			"id": "box",
+			"name": "Box",
+			"filter": ["archive", "container", "package", "storage", "box"]
+		},
+		{
+			"id": "boxes",
+			"name": "Boxes",
+			"filter": ["archives", "inventory", "storage", "warehouse", "boxes"]
+		}
+	],
+	"example": [
+		{
+			"id": "sample-code",
+			"name": "Sample Code",
+			"filter": ["sample", "code"]
+		}
+	]
+}
