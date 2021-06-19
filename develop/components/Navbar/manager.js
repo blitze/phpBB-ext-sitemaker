@@ -18,6 +18,10 @@ export default function NavbarManager() {
 		}
 	}
 
+	function hide() {
+		$container.hide(200);
+	}
+
 	$btn = $('#sm-navbar-edit-btn').on('click', function handleClick() {
 		if (!$container.is(':visible')) {
 			Promise.all([
@@ -366,9 +370,10 @@ export default function NavbarManager() {
 				}
 
 				if (!loaded) {
-					// $container.draggable();
+					$container.draggable();
 					$container.on('click', 'input[type=submit]', handleSubmit);
 					$container.on('click', 'input[type=reset]', handleReset);
+					$container.on('click', 'input[name=close]', hide);
 
 					$container.on('change', '.navbar-prop', handleChange);
 
@@ -385,7 +390,7 @@ export default function NavbarManager() {
 
 			show($btn);
 		} else {
-			$container.hide(200);
+			hide();
 		}
 		OutsideClick($container, () => $container.hide(200));
 	});
