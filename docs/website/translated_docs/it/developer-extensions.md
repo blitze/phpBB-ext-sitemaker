@@ -52,11 +52,11 @@ servizi:
 
 ```
 
-Al minimo, è tutto quello che ti serve. Se vai in modalità modifica, dovresti vedere il blocco elencato come 'MY_EXAMPLE_BLOCK_MY_BLOCK' che può essere trascinato e trascinato in qualsiasi posizione di blocco. Ma questo blocco non fa nulla di eccitante. It has no settings and does not translate the block name. Rendiamolo più interessante.
+Al minimo, è tutto quello che ti serve. Se vai in modalità modifica, dovresti vedere il blocco elencato come 'MY_EXAMPLE_BLOCK_MY_BLOCK' che può essere trascinato e trascinato in qualsiasi posizione di blocco. Ma questo blocco non fa nulla di eccitante. Non ha impostazioni e non traduce il nome del blocco. Rendiamolo più interessante.
 
 ### Impostazioni blocco
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Modifichiamo i nostri blocchi/mio_blocco. hp file e aggiungere un metodo "get_config" th a restituisce un array con le chiavi che sono le impostazioni del blocco e i valori che sono un array che descrive le impostazioni in questo modo:
 
 ```php
     /**
@@ -66,18 +66,18 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
         return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+            'legend1' => 'TAB1',
+            'checkbox' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'spiegare' => falso),
+            'sì_no' => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'radio' => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'spiegare' => falso, 'default' => 'topic'),
+            'select' => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'spiegare' => falso),
+            'multi' => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend2' => 'TAB2',
+            'number' => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
+            'textarea' => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Mostra solo quando è selezionata l'opzione 1</div>'),
         );
-    }
+}
 ```
 
 Questo è costruito nello stesso modo in cui phpBB costruisce la configurazione delle impostazioni di bordo in ACP. Puoi vedere altri esempi [qui](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
@@ -88,7 +88,7 @@ Avviso 'legend1' e 'legend2': sono usati per separare le impostazioni in schede.
 
 ### Blocchi associati
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+La convenzione per i nomi dei blocchi è che il nome del servizio (ad esempio my.example.block. y*block above) sarà usato come chiave della lingua sostituendo i punti (.) con underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Traduzione
 
@@ -107,7 +107,7 @@ Poiché 'blocks_admin.php' è caricato solo quando si modificano i blocchi, è n
 
 ### Rendering del blocco
 
-Il nuovo blocco verrà visualizzato solo se sta producendo qualcosa. Il tuo blocco può restituire qualsiasi stringa come contenuto, ma nella maggior parte dei casi hai bisogno di un modello per visualizzare il tuo contenuto. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Il nuovo blocco verrà visualizzato solo se sta producendo qualcosa. Il tuo blocco può restituire qualsiasi stringa come contenuto, ma nella maggior parte dei casi hai bisogno di un modello per visualizzare il tuo contenuto. Per rendere il tuo blocco usando i modelli, il blocco deve restituire un array che contiene i dati che si desidera passare al modello e deve anche implementare il metodo `get_template` come dimostrato di seguito:
 
 ```php
     /**
@@ -117,8 +117,8 @@ Il nuovo blocco verrà visualizzato solo se sta producendo qualcosa. Il tuo bloc
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
         return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend1' => 'TAB1',
+            'some_setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
         );
     }
 
@@ -127,7 +127,7 @@ Il nuovo blocco verrà visualizzato solo se sta producendo qualcosa. Il tuo bloc
      */
     public function get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
@@ -141,37 +141,37 @@ Il nuovo blocco verrà visualizzato solo se sta producendo qualcosa. Il tuo bloc
         }
 
         return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Quindi i tuoi styles/all/my_block.html o styles/prosilver/my_block.html file potrebbero assomigliare a questo:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Hai selezionato: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+In sintesi, il tuo blocco deve restituire un array con una chiave `title` (per il titolo del blocco) e una chiave `content` (se il blocco visualizza solo una stringa e non utilizza un modello) o una chiave `dati` (se il blocco utilizza un modello, in questo caso, dovrai anche implementare il metodo `get_template`).
 
 ### Blocca Asset
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Se il tuo blocco ha bisogno di aggiungere asset (css/js) alla pagina, ti consiglio di usare la sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) per questo. Dal momento che ci può essere più di un'istanza dello stesso blocco sulla pagina, o altri blocchi potrebbero essere l'aggiunta della stessa attività, la classe util assicura che l'asset è solo aggiunto.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@my_example/assets/some. s',
+                100 => '@my_example/assets/other. s', // imposta priorità
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => array(
+                '@my_example/assets/some. s',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+La classe util dovrà, ovviamente, essere aggiunta alle definizioni del servizio in config.yml così: `- '@blitze.sitemaker. til'` e definito nel costruttore del blocco `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+E questo è tutto. Abbiamo finito!
