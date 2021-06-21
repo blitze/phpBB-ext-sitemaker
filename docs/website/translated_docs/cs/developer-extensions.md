@@ -52,32 +52,32 @@ služeb:
 
 ```
 
-To je minimum, to je vše, co potřebujete. Pokud přejdete do editačního režimu, měli byste vidět blok zapsaný jako 'MY_EXAMPLE_BLOCK_MY_BLOCK', který může být přetažen a vyřazen na jakoukoli blokovou pozici. Tento blok ale nedělá nic vzrušujícího. It has no settings and does not translate the block name. Učiňme to zajímavějším.
+To je minimum, to je vše, co potřebujete. Pokud přejdete do editačního režimu, měli byste vidět blok zapsaný jako 'MY_EXAMPLE_BLOCK_MY_BLOCK', který může být přetažen a vyřazen na jakoukoli blokovou pozici. Tento blok ale nedělá nic vzrušujícího. Nemá žádné nastavení a nepřeloží název bloku. Učiňme to zajímavějším.
 
 ### Blokové nastavení
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Pojďme upravit naše bloky/my_block. hp soubor a přidat metodu "get_config" na vrací pole s tím, že klíče jsou nastavení bloků, a hodnoty popisující nastavení, jako je toto:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    veřejná funkce get_config(pole $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+        $options = array(1 => 'SOME_LANG_VAR', 2 => „OTHER_LANG_VAR“);
+        zpáteční pole
+            'legend1' => 'TAB1',
+            'checkbox' => pole ('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options„výchozí“ => pole(), „vysvětlit“ => false),
+            'yes_no' => pole ('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'rád' => pole ('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'vysvětlit' => false, 'default' => 'topic'),
+            'select' => pole ('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', „vysvětlit“ => nepravda),
+            'multi' => pole ('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'možnosti' => $options, 'default' => pole(), 'vysvětlit' => false),
+            'legend2' => 'TAB2',
+            'číslo' => pole ('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false; „výchozí“ => 5),
+            'textarea' => pole ('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'výchozí' => ''),
+            'togglable' => pole ('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options'výchozí' => '', 'append' => '<div id="toggle_key-1">Zobrazit pouze když je zvolena možnost 1</div>'),
         );
-    }
+}
 ```
 
 To je postaveno stejně, jako phpBB buduje konfiguraci pro nastavení desky v AKT. Můžete si prohlédnout další příklady [zde](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
@@ -88,7 +88,7 @@ Poznámka "legend1" a "legend2": Tato nastavení se používají pro oddělená 
 
 ### Název bloků
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Konventem názvů bloků je název služby (např. my.example.block. y*blok výše) bude použit jako jazykový klíč nahrazením teček (.) podtržítkem (*) (např. MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Překlad
 
@@ -107,71 +107,71 @@ Protože 'blocks_admin.php' je nahrán pouze při úpravách bloků, budete muse
 
 ### Obnovení bloku
 
-Nový blok se zobrazí pouze v případě, že něco objeví. Váš blok může vrátit libovolný řetězec jako obsah, ale ve většině případů potřebujete šablonu, aby se zobrazil obsah. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Nový blok se zobrazí pouze v případě, že něco objeví. Váš blok může vrátit libovolný řetězec jako obsah, ale ve většině případů potřebujete šablonu, aby se zobrazil obsah. Pro vykreslení bloku pomocí šablon, blok musí vrátit pole, které obsahuje data, která chcete předat do šablony, a musí také implementovat metodu `get_template` , jak je uvedeno níže:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    veřejná funkce get_config(pole $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        $options = array(1 => 'SOME_LANG_VAR', 2 => „OTHER_LANG_VAR“);
+        zpáteční pole
+            'legend1' => 'TAB1',
+            'some_setting' => pole('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options„výchozí“ => pole(), „vysvětlit“ => false),
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get_template()
+    Veřejná funkce get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function display(array $data, $edit_mode = false)
+    zobrazení veřejné funkce (pole $data, $edit_mode = false)
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // do něco pouze v editačním módu
         }
 
-        return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+        return ary(
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => pole
+                'some_var' => $data['settings']['some_setting']
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Pak vaše styles/all/my_block.html nebo styles/prosilver/my_block.html soubor může vypadat takto:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Vybrali jste: {{ some_var }}</p>
     
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
 ### Blokové aktivy
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Pokud váš blok potřebuje přidat aktiva (css/js) na stránku, doporučuji pro to použít sitemaker [util třídu](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php). Protože na stránce může být více než jedna instance téhož bloku, nebo jiné bloky mohou přidávat stejné aktivum, třída utilu zajišťuje, že aktivum je pouze přidáno.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@my_example/assets/některé. s',
+                100 => '@my_example/assets/other. s', // nastavit prioritu
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => pole(
+                '@my_example/assets/některé. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+Do definic vašich služeb bude samozřejmě muset být přidána utilová třída v config.yml jako je toto: `- '@blitze.sitemaker. til'` a definováno v konstruktoru vašeho bloku `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+A je to. Jsme hotovi!
