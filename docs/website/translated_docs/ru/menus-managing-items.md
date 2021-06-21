@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: пункты меню-управление
+title: Управление пунктами меню
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Ваше меню бесполезно, если оно не имеет пунктов меню. Вы можете добавить пункты меню к локальным или внешним файлам.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> URL для внешних сайтов должен начинаться с http(s)://, ftp://, //, и т.д.
 > 
-> You can create a divider by entering '-' as the item title
+> Вы можете создать разделитель, введя '-' в качестве заголовка элемента
 
-## Adding Menu items
+## Добавление пунктов меню
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Вы можете добавить пункты меню один за один раз, или вы можете добавить несколько пунктов меню в один.
 
-### Adding single menu items
+### Добавление одного пункта меню
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Чтобы добавить один пункт меню, * нажмите на кнопку `Добавить пункт меню` * Заполните необходимую информацию и нажмите `Сохранить`
 
-### Adding multiple items
+### Добавление нескольких элементов
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Чтобы добавить несколько пунктов меню сразу, * Щелкните по значку <unk> рядом с `Добавить пункт меню` * Вы можете добавить элементы вручную, разместив каждый элемент на новой строке и используя элементы вкладки гнездовья или * Вы можете кликнуть на один из предложенных параметров в нижней части текстовой таблицы, чтобы автоматически заполнить пункты меню
 
-## Reorder the menu items
+## Упорядочить пункты меню
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Вы можете перетащить и перетащить пункты меню вверх/вниз, чтобы установить их порядок отображения, или перетащить их влево/вправо, чтобы установить нужную иерархию.
 
-## Rebuilding the menu items
+## Восстановление пунктов меню
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Если вы обнаружили, что пункты меню отображаются некорректно, нажмите на кнопку `Восстановить дерево` , чтобы восстановить пункты меню.
