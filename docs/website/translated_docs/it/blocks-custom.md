@@ -3,22 +3,22 @@ id: blocchi-personalizzati
 title: Blocco personalizzato
 ---
 
-Se i blocchi disponibili non ti danno la libertà che ti serve, c'è il blocco `personalizzato` che ti permette di visualizzare liberamente i tuoi contenuti utilizzando BBcode o HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Se i blocchi disponibili non ti danno la libertà che ti serve, c'è il blocco `personalizzato` che ti permette di visualizzare liberamente i tuoi contenuti utilizzando BBcode o HTML. Il blocco viene fornito con un editor WYSIWYG (TinyMCE) e un gestore di script:
 
 ## L'editor
 
 - Puoi usare l'editor per creare contenuti HTML
 - Puoi modificare il codice sorgente se hai bisogno di questo livello di controllo cliccando sull'icona `del codice sorgente` (`<>`) nell'editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
+- L'editor consente di caricare e modificare le immagini 
+    - Crea una nuova cartella in phpBB/images/sitemaker_uploads/ per ogni utente che ha accesso ad essa
+    - È possibile visualizzare/gestire tutte le cartelle utente
 - L'editor filtra qualsiasi script potenzialmente pericoloso come javascript, ecc. Se hai bisogno di aggiungere contenuti come pubblicità google, gli javascript verranno filtrati, ma è possibile aggirare questo problema facendo quanto segue: 
     - Aggiungi il blocco personalizzato alla posizione desiderata
     - Modifica il Blocco Personalizzato, clicca sulla scheda `HTML` e incolla il tuo Javascript
 
-## The Scripts Manager
+## Il Gestore Degli Script
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Il blocco personalizzato consente anche di aggiungere file CSS e Javascript personalizzati alla tua pagina. Per fare questo:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Aggiungi un `blocco personalizzato` a qualsiasi posizione di blocco. La posizione non importa a meno che non si visualizzano anche contenuti con il blocco
+- Modifica il blocco, fare clic sulla scheda `Script` e aggiungere i file CSS o Javascript > Parola di cautela però: Aggiungere a molti script sulla tua pagina può influenzare i tempi di caricamento
