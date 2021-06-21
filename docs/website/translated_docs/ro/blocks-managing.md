@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
+id: blocks-management
 title: Mananaging Blocks
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+Pentru a gestiona blocurile în phpBB SiteMaker, trebuie să fiți în [Editare Mod](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Cand un bloc nu afiseaza nici un continut, nu va fi afisat, cu exceptia modului de editare. În acest fel, fie îi poți da conținut (în cazul blocului personalizat) fie îi poți schimba setările.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> În modul de editare blocurile oarecum transparente sunt blocuri care altfel nu vor fi afișate, dar sunt afișate doar pentru că suntem în modul de editare
 
-## Adding blocks
+## Adăugarea de blocuri
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+Puteți adăuga blocuri la orice pagină frontală, cu excepția paginilor Panoului de Control al Utilizatorilor și Panoului de Control Moderator. Pentru a adăuga un bloc, va trebui să: * apasă pe **Blocurile** din bara de administrare. Acest lucru va afișa o listă de blocuri disponibile * Trage și plasează blocul dorit în orice poziție de bloc
 
-## Editing blocks
+## Editare blocuri
 
-### Adding a block icon
+### Adăugare pictogramă bloc
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+În stânga titlului blocului (prosilver), există o casetă pentru iconița blocului. Faceţi clic pe această casetă pentru a obţine selectorul de icoane. Poți selecta dimensiunea pictogramelor, culoarea, pluta, rotația, etc.
 
-### Editing the Block Title
+### Editează titlul blocului
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+blocurile SiteMaker phpBB vor avea un titlu implicit tradus, dar dacă titlul nu satisface nevoile tale, îl poți modifica. Pentru a edita titlul blocului, * Faceți clic pe titlul blocului pentru a obține un formular de editare în linie * Schimbați titlul la orice doriți * Eliminați focalizarea din câmp sau apăsați enter pentru a trimite modificări
 
-> Your modified block title is not translated
+> Titlul blocului modificat nu este tradus
 > 
-> To revert to the default title, simple delete the title and hit enter
+> Pentru a reveni la titlul implicit, simpla ștergere a titlului și apăsați enter
 
-### Editing block settings
+### Editare setări bloc
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Când plutești peste un bloc, o pictogramă de ceață va apărea în dreapta blocului care poate fi folosit pentru a edita blocul. În caseta de dialog a blocului de editare, puteți: - Activați/dezactivați un bloc [Status] - Alegeți când blocul ar trebui/nu ar trebui afișat [Display]. Acest lucru se aplică numai în cazurile în care ai pagini imbricate (vezi [Înțelegerea moștenirii blocului](./blocks-inheritance.md)): - **Întotdeauna**: Afișează blocul - **Ascunde pe rutele pentru copii**: Arată doar acest bloc pe ruta părinte - **Arată doar pe rutele pentru copii**: Arată acest bloc pe o rută de copii - Alege ce grupuri de utilizatori pot vizualiza blocul [Vizualizabil]. Utilizați CTRL + faceți clic pentru a selecta mai multe grupuri. - Setați clase personalizate pentru a modifica aspectul blocului sau al articolelor (liste, imagini, fundal, etc) în interiorul blocului [Clasa CSS] - Arată/ascunde titlul blocului [Ascunde titlul blocului? - Selectați vizualizarea blocului [Vizualizare bloc]. Puteți selecta o vizualizare implicită a blocului atunci când sunt adăugate blocuri noi în ACP. - **Implicit / Simplu**: folosește clasa panourilor de prosilver pentru a înfășura blocul într-un container padded - **Basic**: blocul nu are nici un container împachetat - **Cuprins**: folosește clasa cu forabg prosilver pentru a înfășura blocul într-o căsuță - Setează / Actualizează setările specifice blocului - Dacă ai același bloc cu aceleași setări pe mai multe pagini, le puteți actualiza imediat verificând blocurile **Actualizare cu setări similare**
 
-## Deleting blocks
+## Ştergere blocuri
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Treci peste blocul pe care dorești să îl ștergi
+- Faceți clic pe pictograma **x** și confirmați că doriți să ștergeți blocul
+- Mergeți în sus la bara de administrare și faceți clic pe `Salvează Modificările`
