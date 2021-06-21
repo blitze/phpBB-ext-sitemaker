@@ -17,18 +17,18 @@ Zeg dat we een extensie hebben met vendor/extension als mijn/voorbeeld. Om een b
 ```php
 namespace my\example\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
+gebruik blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+class my_block breidt blok
 {
     /**
      * {@inheritdoc}
      */
-    public function display(array $settings, $edit_mode = false)
+    openbare functie display(array $settings, $edit_mode = onwaar)
     {
         return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
+            'title' => 'mijn blok titel',
+            'inhoud' => 'mijn blokinhoud',
         );
     }
 }
@@ -52,32 +52,32 @@ services:
 
 ```
 
-Op een absoluut minimum, dat is alles wat je nodig hebt. Als je in de bewerkmodus gaat, moet je het blok zien dat wordt weergegeven als 'MY_EXAMPLE_BLOCK_MY_BLOCK' die kan worden gesleept en laten vallen op een blokpositie. Maar dit blok doet niets opwindends. It has no settings and does not translate the block name. Laten we het interessanter maken.
+Op een absoluut minimum, dat is alles wat je nodig hebt. Als je in de bewerkmodus gaat, moet je het blok zien dat wordt weergegeven als 'MY_EXAMPLE_BLOCK_MY_BLOCK' die kan worden gesleept en laten vallen op een blokpositie. Maar dit blok doet niets opwindends. Het heeft geen instellingen en vertaalt de naam van het blok niet. Laten we het interessanter maken.
 
 ### Blokkeer instellingen
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Laten we ons blokken/my_block aanpassen. hp bestand en voeg een "get_config" methode toe op een array waarvan de sleutels de blok-instellingen zijn en de waarden een array zijn die de instellingen als volgt beschrijven:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    openbare functie get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+        retourarray(
+            'legend1' => 'TAB1',
+            'checkbox' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'standaard' => array(), 'verklaren' => false),
+            'ja' => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'leg uit' => false, 'standaard' => false),
+            'radio' => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => onwaar, 'default' => 'topic'),
+            'select' => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'standaard' => '', 'uitleggen' => false),
+            'multi' => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'opties' => $options, 'standaard' => array(), 'explain' => false),
+            'legend2' => 'TAB2',
+            'number' => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'toelichten' => false, 'standaard' => 5),
+            'textarea' => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'toelichten' => waar, 'standaard' => ''),
+            'schakellable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'standaard' => '', 'append' => '<div id="toggle_key-1">Toon alleen wanneer optie 1 is geselecteerd</div>'),
         );
-    }
+}
 ```
 
 Dit wordt op dezelfde manier opgebouwd als phpBB de configuratie voor de bord-instellingen in de ACS-landen. U kunt meer voorbeelden zien hier [](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
@@ -88,7 +88,7 @@ Let op 'legend1' en 'legend2': Deze worden gebruikt om de instellingen te scheid
 
 ### Namaakblokken
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+De conventie voor bloknamen is dat de servicenaam (bijv. mijn.example.blok. y*blok hierboven) zal worden gebruikt als de taalsleutel door de stippen (.) te vervangen door de underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Vertaling
 
@@ -107,71 +107,71 @@ Omdat 'blokken_admin.php' alleen geladen is bij het bewerken van blokken, moet j
 
 ### Het blok renderen
 
-Het nieuwe blok zal alleen worden weergegeven als het iets rendert. Je blok kan een tekenreeks als inhoud retourneren, maar in de meeste gevallen heb je een sjabloon nodig om je inhoud te tonen. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Het nieuwe blok zal alleen worden weergegeven als het iets rendert. Je blok kan een tekenreeks als inhoud retourneren, maar in de meeste gevallen heb je een sjabloon nodig om je inhoud te tonen. Om je blok te tonen met behulp van sjablonen, het blok moet een array retourneren dat de gegevens die je wilt doorgeven aan de template bevat en moet ook de `get_template` methode implementeren, zoals hieronder getoond:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    openbare functie get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        retourarray(
+            'legend1' => 'TAB1',
+            'some_setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'standaard' => array(), 'verklaren' => false),
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get_template()
+    openbare functie get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_blok. tml';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function display(array $data, $edit_mode = false)
+    openbare functie weergave (array $data, $edit_mode = false)
     {
-        if ($edit_mode)
+        als ($edit_mode)
         {
-            // do something only in edit mode
+            // doe iets alleen in bewerkingsmodus
         }
 
-        return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+        retourarray(
+            'title' => 'MY_BLOCK_TITLE',
+            'gegevens' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Dan zou je stijl/alle/my_block.html of styles/prosilver/my_block.html bestand er ongeveer zo uit kunnen zien:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Je hebt geselecteerd: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+Samenvattend je blok moet een array retourneren met een `titel` sleutel (voor de bloktitel) en een `content` toets (als het blok gewoon een string weergeeft en geen sjabloon gebruikt) of `data` sleutel (als het blok een template gebruikt, in dat geval moet u ook de `get_template` methode implementeren.
 
 ### Blokkeer Assets
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Als je blok content (css/js) aan de pagina moet toevoegen, raad ik aan om de sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) daarvoor te gebruiken. Omdat er meer dan één exemplaar van hetzelfde blok op de pagina kan zijn of andere blokken kunnen hetzelfde materiaal toevoegen, de util klasse zorgt ervoor dat de activa alleen toegevoegde zijn.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
-            ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'js' => array(
+                '@my_example/assets/some. s',
+                100 => '@my_example/assets/other. s', // stel prioriteit
+            in ),
+            'css' => array(
+                '@my_example/assets/some. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+De util class zal natuurlijk moeten worden toegevoegd aan uw servicedefinities in config.yml zoals so: `- '@blitze.sitemaker. tot'` en gedefinieerd in de constructor van uw blok `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+En dat is het. We zijn klaar!
