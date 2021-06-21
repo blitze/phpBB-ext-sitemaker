@@ -1,22 +1,22 @@
 ---
 id: menus-managing
-title: Managing Menus
+title: メニューの管理
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+ACPでメニューを作成し、メニューやリンクブロックを使って表示したり、水平ナビゲーションバーとして表示したりできます。
 
-## Managing Menus
+## メニューの管理
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+メニューを管理するには、ACP > Extensions> Sitemaker > Menu
 
-### Creating Menus
+### メニューの作成
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+新しいメニュー (グループ) を作成するには、 `メニューの追加` ボタンをクリックします。 ランダムに生成された名前で新しいメニューグループが作成されます。 新しいメニューも選択されるので、メニュー項目を追加することができます。
 
-### Editing Menus
+### メニューの編集
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+もっと意味のあるメニュー名が欲しい場合 * メニュー名にカーソルを合わせ、歯車アイコンをクリック * 新しいメニュー名を入力し、Enter キーを押して更新します。
 
-### Deleting Menus
+### メニューの削除
 
 To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
