@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: administrare meniuri
+title: Meniuri de gestionare
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Puteți crea meniuri în ACP pe care le puteți afișa apoi folosind blocurile de meniuri sau link-urile sau afișate ca bară de navigare orizontală.
 
-## Managing Menus
+## Meniuri de gestionare
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Pentru a gestiona meniurile, accesați ACP > Extensii > articole > Meniu
 
-### Creating Menus
+### Crearea meniurilor
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Pentru a crea un meniu nou (grup), faceți clic pe butonul `Adaugă meniu`. Un nou grup de meniuri va fi creat cu un nume generat aleator. Noul meniu va fi de asemenea selectat astfel încât să puteți începe să adăugați elemente de meniu la el.
 
-### Editing Menus
+### Editare Meniuri
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Dacă doriţi un nume de meniu mai semnificativ, * plimbați peste numele meniului și faceți clic pe pictograma cog * introduceți noul nume de meniu și apăsați enter pentru a-l actualiza
 
-### Deleting Menus
+### Ştergere meniuri
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Pentru a șterge un meniu, și elementele lui, * Treceți peste numele meniului și faceți clic pe pictograma **x** * Dacă elementul de meniu nu are elemente copii; va trebui să confirmați alegerea dvs. pentru a șterge elementul * Dacă elementul de meniu are elemente copii, trebuie să indicați dacă doriți să ștergeți numai elementul și să mutați copiii acestuia în sus sau dacă doriți să ștergeți întreaga ramură
