@@ -1,60 +1,60 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: Rozšíření vývojářů
+title: Rozšíření phpBB SiteMaker
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+phpBB SiteMaker můžete rozšířit pomocí [nahrazení služby](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [dekorace služeb](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration)a [phpBB's event systém](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). Seznam podporovaných událostí najdete zde [](./developer-events.md).
 
-## Creating a SiteMaker block
+## Vytváření SiteMaker bloku
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+Blok phpBB SiteMaker je jednoduše třída, která rozšiřuje kategorii blitze\sitemaker\services\blocks\driver\block třídu a vrací pole z "zobrazovací" metody s "titul" a "obsah". Všechno ostatní vložení je na vás. Abyste svůj blok objevil phpBB SiteMaker, musíte mu dát štítek "sitemaker.block".
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+Jako příklad uveďme rozšíření s dodavatelem/rozšířením. Chcete-li vytvořit blok nazvaný "můj_block" pro phpBB SiteMaker:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- Vytvořte složku "bloků".
+- Vytvořte můj_block.php soubor v bloku složky s následujícím obsahem
 
 ```php
 namespace my\example\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
+používá blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+class my_block rozšiřuje blok
 {
     /**
      * {@inheritdoc}
      */
-    public function display(array $settings, $edit_mode = false)
+    veřejné funkce zobrazení (array $settings, $edit_mode = false)
     {
-        return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
+        reklamační pole (
+            'title' => 'Můj název bloku',
+            'content' => 'můj obsah bloku',
         );
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+Potom ve vašem konfiguragu.yml souboru přidejte následující:
 
 ```yml
-services:
+služeb:
 
-    ...
+...
 
     my.example.block.my_block:
         class: my\example\blocks\my_block
         calls:
             - [set_name, [my.example.block.my_block]]
-        tags:
+        tagy:
             - { name: sitemaker.block }
 
-    ....
+....
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+To je minimum, to je vše, co potřebujete. Pokud přejdete do editačního režimu, měli byste vidět blok zapsaný jako 'MY_EXAMPLE_BLOCK_MY_BLOCK', který může být přetažen a vyřazen na jakoukoli blokovou pozici. Tento blok ale nedělá nic vzrušujícího. It has no settings and does not translate the block name. Učiňme to zajímavějším.
 
-### Block Settings
+### Blokové nastavení
 
 Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
 
@@ -80,34 +80,34 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+To je postaveno stejně, jako phpBB buduje konfiguraci pro nastavení desky v AKT. Můžete si prohlédnout další příklady [zde](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+Pokud chcete typ vlastního pole, můžete vidět příklad [zde](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) (nastavení 'content_type').
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+Poznámka "legend1" a "legend2": Tato nastavení se používají pro oddělená nastavení na taby.
 
-### Naming Blocks
+### Název bloků
 
 The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### Překlad
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+Také si všimněte, že máme několik jazykových kláves, které musí být přeloženy. Chcete-li toho dosáhnout, vytvořte soubor nazvaný "blocks_admin.php" ve vaší jazykové složce. Tento soubor bude automaticky nahrán při editaci bloků a měl by mít překlady pro nastavení bloků a bloková jména.
 
     $lang = array_merge($lang, array(
-        'SOME_LANG_VAR'     => 'Option 1',
-        'OTHER_LANG_VAR'    => 'Option 2',
-        'SOME_LANG_VAR_1'   => 'Setting 1',
-        ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+        'SOME_LANG_VAR' => 'Option 1',
+        'JA_LANG_VAR' => 'Volba 2',
+        'SOME_LANG_VAR_1' => 'Nastavení 1',
+    ....
+        "MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+Protože 'blocks_admin.php' je nahrán pouze při úpravách bloků, budete muset přidat další překlady (např. název bloku) nahráním jazykového souboru do zobrazovací metody, tak `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### Obnovení bloku
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Nový blok se zobrazí pouze v případě, že něco objeví. Váš blok může vrátit libovolný řetězec jako obsah, ale ve většině případů potřebujete šablonu, aby se zobrazil obsah. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
 
 ```php
     /**
@@ -156,7 +156,7 @@ Then your styles/all/my_block.html or styles/prosilver/my_block.html file might 
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
-### Block Assets
+### Blokové aktivy
 
 If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
 
