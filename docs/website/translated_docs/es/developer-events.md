@@ -113,8 +113,8 @@ Puede modificar el comportamiento de phpBB SiteMaker usando el sistema de evento
 - Desde: 3.1.2
 - Propósito: Evento para permitir que otras extensiones hagan algo cuando se actualiza el diseño
 
-# blitze_sitemaker_tinymce_options
+# opciones de creación de sitios
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Ubicación: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Desde: 3.3.0
+- Propósito: Evento para permitir que otras extensiones modifiquen las opciones de tinymce
