@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: Model-management
+title: Správa osobností
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Můžete vytvořit menu v AKT, které pak můžete zobrazit použitím Menu nebo bloků Linků nebo zobrazit jako horizontální navbar.
 
-## Managing Menus
+## Správa osobností
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Chcete-li řídit menu, přejděte do AKT > Rozšíření > Sitemaker > Menu
 
-### Creating Menus
+### Vytváření rozumu
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Chcete-li vytvořit novou nabídku (skupinu), klikněte na tlačítko `Přidat nabídku` Nová kategorie menu bude vytvořena s náhodně vytvořeným názvem. Nové menu bude také vybráno, takže do něj můžete přidat položky menu.
 
-### Editing Menus
+### Upravit rozum
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Pokud chcete mít smysluplnější název nabídky. * Najeďte myší nad název menu a klikněte na ikonu kolečka * zadejte název nového menu a stiskněte enter pro aktualizaci
 
-### Deleting Menus
+### Jak ozdravit
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Možnost smazat nabídku a její položky. * Najeďte myší nad název menu a klikněte na ikonu **x** * Pokud položka nabídky neobsahuje žádné podřízené položky, pro smazání položky * Pokud má položka nabídky podřízené položky, budete potřebovat svou volbu. budete muset uvést, pokud chcete odstranit pouze položku a přesunout její potomky nebo odstranit celou větev
