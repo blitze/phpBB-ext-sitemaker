@@ -1,6 +1,6 @@
 ---
-id: blocks-views
-title: Block Views
+id: الكتل المشاهدة
+title: حظر المشاهدات
 ---
 
-Work in progress...
+العمل جاري...
