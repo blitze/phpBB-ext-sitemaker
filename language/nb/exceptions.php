@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
-	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> 'Obligatoriske felt mangler',
+	'EXCEPTION_INVALID_ACTION'		=> 'Handlingen eksisterer ikke',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Ugyldig argument spesifisert for `%1$s. Årsak: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'Den oppgitte verdien er av en uventet datatype',
+	'EXCEPTION_INVALID_ENTITY'		=> 'Den oppgitte enheten er av en uventet enhetsklasse',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'Den forespurte egenskapen eksisterer ikke',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Den forespurte `%1$s` eksisterer ikke',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Den forespurte tjenesten ble ikke funnet',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Den forespurte handlingen `%1$s` kunne ikke utføres. Årsak: %2$s',
 ));
