@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: menus-hantering-objekt
+title: Hantera menyobjekt
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Din meny är värdelös om den inte har menyobjekt. Du kan lägga till menyalternativ som pekar på lokala eller externa filer.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> URL för externa webbplatser måste börja med http(s)://, ftp://, //, etc.
 > 
-> You can create a divider by entering '-' as the item title
+> Du kan skapa en avdelare genom att ange '-' som artikelns titel
 
-## Adding Menu items
+## Lägger till menyobjekt
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Du kan lägga till menyalternativ ett objekt åt gången, eller så kan du lägga till flera menyalternativ åt gången.
 
-### Adding single menu items
+### Lägger till enskilda menyalternativ
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Lägga till ett enda menyobjekt * Klicka på `Lägg till menyobjekt` -knappen * Fyll i nödvändig information och tryck `Spara`
 
-### Adding multiple items
+### Lägger till flera objekt
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Lägga till flera menyalternativ på en gång, * Klicka på ikonen ▼ bredvid `Lägg till menyobjekt` * Du kan manuellt lägga till objekt genom att placera varje objekt på en ny rad och använda fliken tecken boobjekt eller * Du kan klicka på ett av de angivna alternativen längst ner i textfältet för att automatiskt fylla i menyobjekten
 
-## Reorder the menu items
+## Ordna om menyobjekten
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Du kan dra och släppa menyobjekten upp/ner för att ställa in sin visningsordning eller dra dem åt vänster/höger för att ställa in önskad hierarki.
 
-## Rebuilding the menu items
+## Bygger om menyobjekt
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Om du upptäcker att menyobjekten inte visas korrekt, klicka på knappen `Bygg om träd` för att bygga om menyobjekten.
