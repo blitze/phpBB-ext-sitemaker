@@ -1,44 +1,44 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: blok-arv
+title: Forståelse Af Blokarv
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+Vi har allerede set, at ved at indstille et standardlayout andre sider, der ikke har blokke af deres egen vil arve blokkene fra standard layout. Der er imidlertid en anden type blokarv.
 
-## Parent/Child Routes
+## Forældre/Barneruter
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+I phpBB SiteMaker, vi taler om indlejrede ruter i form af reelle indlejrede (sub) mapper eller næsten indlejrede stier/ruter. Vær venlig at blive hos mig :). * Rigtige forældre/Barn-ruter: For eksempel, stien /some_directory/sub_directory/index.php er et barn af /some_directory/index. hp * Virtuelle forældre / Barn ruter: For eksempel viewtopic.php behandles som et barn af viewforum.php.
 
-Here are some examples of parent/child routes:
+Her er nogle eksempler på forældre/barn ruter:
 
-| Parent             | Child                          |
+| Overordnet         | Barn                           |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
-| /app.php/articles  | /app.php/articles/my-article   |
+| /app.php/artikler  | /app.php/articles/min-article  |
 
-## Parent/Child Block Inheritance
+## Forældre/Barneblok Arv
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+For forældre/barn ruter barnets rute arver blokkene på den overordnede rute (hvis forælderen har sine egne blokke) eller fra standardlayoutet (hvis en er indstillet). Med andre ord, selv om der er et standard layout, barnets rute vil arve blokke fra sin overordnede rute, hvis den overordnede rute har sine egne blokke. Men ikke alle blokke fra forældreruten skal arves.
 
-## Controlling Block Inheritance
+## Kontrollerende Blok Nedarvning
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+På et blokniveau kan du styre, hvornår en blok kan arves af børneruter. Vi berørte dette tidligere i [Redigering af blok indstillinger](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+Overvej følgende rigtige mappestruktur:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+- opdatering: index.php
+- opdateringen/
+    - opdateringen/ - index.php
+    - opdateringen,page.php
+    - opdateringen/ - kammerat/
+        - opdateringen,index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+Med henblik på at arve blokke, siger vi: * Den overordnede rute for /phpBB/Movies/Comedy/index.php er /phpBB/Movies/index. hp og ikke /phpBB/Movies/page.php * Alle sider i en undermappe i forhold til /phpBB/index.php er en underrute til /phpBB/index.php. Så /phpBB/Movies/index.php og /phpBB/Movies/page.php er alle børn af /phpBB/index.php og vil derfor arve sine blokke, hvis de ikke har deres egne blokke. I dette tilfælde: * Når en blok på /phpBB/index. hp er sat til at vise på **Skjul på underordnede ruter**, blokken vil blive vist på /phpBB/index. hp (overordnet rute), men ikke på dens underruter * Når en blok på /phpBB/index. hp er sat til at vise på **Vis kun på underordnede ruter**, den vil blive vist på /phpBB/Movies/index.php og /phpBB/Movies/page. hp (barnruter), men ikke på /phpBB/index.php (forælder), eller /phpBB/Film / Comedy/index. hp (vi går kun et niveau dybt) * Når en blok på /phpBB/index. hp er sat til at vise **altid** (standard), den vil blive vist på /phpBB/index.php (forælder), /phpBB/Movies/index. hp og /phpBB/page.php (børneruter), men ikke på /phpBB/Movies/Comedy/index.php (vi går kun et niveau dybt). I dette tilfælde arver /phpBB/Movies/Comedy/index.php fra standardruten (hvis den eksisterer)
 
-## Posible Future State
+## Potentiel Fremtidig Stat
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+Jeg er virkelig interesseret i din feedback på dette område. De fleste phpBB-brugere vil ikke have rigtige mapper som beskrevet ovenfor. Så jeg tænker på at bruge den struktur, der er defineret i en menublok som en virtuel mappestruktur og anvende denne forældre/barn arv til det. Jeg overvejer også at gå ud over et niveau dyb. Lad mig vide, om dette vil være nyttigt for dig.
