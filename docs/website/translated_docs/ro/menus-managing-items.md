@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: meniuri-gestionare-elemente
+title: Elemente de meniu gestionat
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Meniul tău este inutil dacă nu are elemente de meniu. Puteţi adăuga elemente de meniu care indică fişierele locale sau externe.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> URL-ul pentru siturile externe trebuie să înceapă cu http(s)://, ftp://, //, etc.
 > 
-> You can create a divider by entering '-' as the item title
+> Puteți crea o despărțitoare prin introducerea '-' ca titlu articol
 
-## Adding Menu items
+## Adăugarea elementelor din meniu
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Puteți adăuga elemente de meniu câte un dată, sau puteți adăuga mai multe elemente de meniu la unu.
 
-### Adding single menu items
+### Adăugarea unui singur meniu
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Pentru a adăuga un singur element de meniu, * faceți clic pe butonul `Adăugare element de meniu` * Completați informațiile necesare și apăsați `Salvați`
 
-### Adding multiple items
+### Adăugarea mai multor elemente
 
 To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
 
-## Reorder the menu items
+## Reordonați elementele meniului
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Puteți trage și plasa elementele din meniu în sus/jos pentru a seta ordinea de afișare, sau trage-le la stânga/dreapta pentru a seta ierarhia dorită.
 
-## Rebuilding the menu items
+## Reconstruieşte elementele de meniu
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Dacă găsiți că elementele de meniu nu sunt afișate corect, faceți clic pe butonul `Reconstruiește arborele` pentru a reconstrui elementele de meniu.
