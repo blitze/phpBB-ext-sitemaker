@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_MENU'					=> 'Menü',
+	'ACP_MENU'					=> 'Menu',
 	'ACP_MENU_MANAGE'			=> 'Menu Management',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Here you can create and manage menus for your site',
 	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
@@ -59,9 +59,9 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ITEM'					=> 'Edit Item',
 
-	'ITEM_ACTIVE'				=> 'Etkin',
-	'ITEM_INACTIVE'				=> 'İnaktif',
-	'ITEM_PARENT'				=> 'Üst',
+	'ITEM_ACTIVE'				=> 'Active',
+	'ITEM_INACTIVE'				=> 'Inactive',
+	'ITEM_PARENT'				=> 'Parent',
 	'ITEM_TITLE'				=> 'Item Title',
 	'ITEM_TITLE_EXPLAIN'		=> 'Set as ’-’ for divider',
 	'ITEM_TARGET'				=> 'Item Target',
@@ -79,14 +79,14 @@ $lang = array_merge($lang, array(
 	'REQUIRED'					=> 'Required',
 	'REQUIRED_FIELDS'			=> '* Required fields',
 
-	'SAVE_CHANGES'				=> 'Değişiklikleri Kaydet',
-	'SAVE'						=> 'Kaydet',
+	'SAVE_CHANGES'				=> 'Save Changes',
+	'SAVE'						=> 'Save',
 	'SELECT_ALL'				=> 'Select All',
 
 	'TARGET_BLANK'				=> 'Blank Page',
-	'TARGET_PARENT'				=> 'Üst',
+	'TARGET_PARENT'				=> 'Parent',
 
 	'UNSAVED_CHANGES'			=> 'You have unsaved changes',
 
-	'VISIT_PAGE'				=> 'Sayfayı ziyaret et',
+	'VISIT_PAGE'				=> 'Visit Page',
 ));
