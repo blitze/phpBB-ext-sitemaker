@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: ブロックの概要
+title: ブロックとは？
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+phpBB SiteMakerの中心にはブロックの概念があります。 ブロックとは、サイト上のさまざまな事前定義されたエリア(ブロック位置)に配置できる小さなコンテンツのことです。 ブロックには通常、表示したいコンテンツを微調整するように設定/変更できる設定があります。 ほとんどのブロックは、すべてではありませんが、所望のコンテンツを取得するためにデータベースクエリを行います。 だから、あまりにもクレイジーにしないようにしましょう :)。 ブロックを管理するには、「編集モード」に切り替える必要があります。
 
-## Edit Mode
+## 編集モード
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+サイトの右上にある鉛筆アイコンをクリックして編集モードに切り替えます。 これにより、"ブロック" と "設定" のメニュー項目が表示されます。 これは「編集モード」と呼ばれます。
