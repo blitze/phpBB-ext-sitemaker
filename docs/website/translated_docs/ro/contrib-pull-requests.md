@@ -1,76 +1,76 @@
 ---
-id: contrib-pull-requests
-title: Submitting a Pull Request
-sidebar_label: Pull Requests
+id: contribuți-pull-requests
+title: Trimiterea unei cereri de tragere
+sidebar_label: Trageți cererile
 ---
 
-`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
+`Trageți cererile pentru a le spune celorlalți despre modificările pe care le-ați împins la o sucursală dintr-un depozit pe GitHub. Odată ce cererea de tragere este deschisă, puteți discuta și analiza schimbările potențiale cu colaboratori și adăuga angajamente de monitorizare înainte ca modificările să fie îmbinate în sucursala de bază.` [Citește mai mult](https://help.github.com/articles/about-pull-requests/)
 
-## Forking/Cloning
+## Forjare/Clonare
 
-* Create a github account if you don't already have one
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* Creează un cont github dacă nu ai deja unul
+* Mergeți la https://github.com/blitze/phpBB-ext-sitemaker.git și faceți clic pe "Fork"
 
-Clone your fork of the repository:
+Clonați furculița din depozit:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+De la linia de comandă mergeți la directorul sitemaker:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Configure git:**
+**Configurare git:**
 
-Add your Username to Git on your system:
+Adaugă numele tău de utilizator la Git în sistemul tău:
 
-    git config --global user.name "Your Name Here"
+    git config --global user.name "Numele dvs aici"
     
 
-Add your E-mail address to Git on your system:
+Adaugă adresa ta de e-mail la Git pe sistem:
 
     git config --add user.email username@phpbb.com
     
 
-Add the upstream remote (you can change ‘upstream’ to whatever you like):
+Adaugă telecomanda din amonte (poți schimba 'în amonte' în orice dorești):
 
     git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Install vendors**
+**Instalare furnizor**
 
-    composer install
+    Instalare compozitor
     
 
-**Install NPM packages**
+**Instalaţi pachetele NPM**
 
     npm install
     
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+Alternativ, poți folosi [yarn](https://yarnpkg.com):
 
-    yarn install
+    instalare yarn
     
 
-## Pull Requests
+## Trageți cererile
 
-    # Create a new branch for your feature & switch to it
-    git checkout -b feature/my-fancy-new-feature
+    # Creați o sucursală nouă pentru caracteristica dvs. & comutați la aceasta
+    caracteristica git checkout -b /my-fancy-new-feature
     
-    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
+    # creați o sucursală nouă pentru problema la care lucrați * comutați la ea (ticket # is from github tracker)
     git checkout -b ticket/1234
     
 
-Make your changes
+Efectuați modificările
 
-    # Stage the files
+    # Etapa fișierelor
     git add <files> 
     
-    # Commit staged files - please use a correct commit message
-    git commit -m "my commit message"
+    # Fișiere de angajament în etape - vă rugăm să utilizați un mesaj de comitere corect
+    git commit -m "Mesajul meu de comitere"
     
 
-Push the branch back to GitHub git push origin feature/my-fancy-new-feature
+Apăsați sucursala înapoi la GitHub git push origin feature/my-fancy-new-feature
 
-Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+Trimite o [cerere de tragere](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
