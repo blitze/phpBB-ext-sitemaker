@@ -61,7 +61,7 @@ $lang = array_merge($lang, array(
 	'NO_NEW_TOPICS'					=> 'Нет новых тем для отображения',
 
 	'POLL'							=> 'Опрос',
-	'POPULAR_TOPICS'				=> 'Popular Topics',
+	'POPULAR_TOPICS'				=> 'Популярные темы',
 	'POSTS_MEMBER'					=> 'Топ Плакат',
 	'PROCESSING'					=> 'обработка...',
 
