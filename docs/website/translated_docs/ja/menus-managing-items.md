@@ -1,30 +1,30 @@
 ---
 id: menus-managing-items
-title: Managing Menu Items
+title: メニューアイテムの管理
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+メニューにメニューアイテムがない限り、メニューは役に立ちません。 ローカルまたは外部ファイルをポイントするメニュー項目を追加できます。
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> 外部サイトの URL は、http(s)://、ftp://、などで始まる必要があります。
 > 
-> You can create a divider by entering '-' as the item title
+> 項目名として「-」を入力することで区切り文字を作成することができます
 
-## Adding Menu items
+## メニューアイテムを追加中
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+一度に1つの項目を追加したり、複数のメニュー項目を一度に追加したりできます。
 
-### Adding single menu items
+### 単一のメニュー項目を追加
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+単一のメニューアイテムを追加するには * `メニュー項目を追加` ボタンをクリック * 必要な情報を入力し、 `保存`
 
-### Adding multiple items
+### 複数のアイテムを追加中
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+一度に複数のメニュー項目を追加する。 * `メニュー項目を追加`の横にある<unk> アイコンをクリックします。 * 新しい行に各項目を配置し、タブ文字のネスト項目を使用することで手動で項目を追加することができます。 * テキスト領域の下部にある提供されたオプションのいずれかをクリックして、メニュー項目を自動的に入力することができます。
 
-## Reorder the menu items
+## メニュー項目を並び替え
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+メニュー項目を上下にドラッグ&ドロップして表示順序を設定したり、左右にドラッグして目的の階層を設定したりできます。
 
-## Rebuilding the menu items
+## メニューアイテムの再構築
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+メニュー項目が正しく表示されていない場合は、 `Rebuild Tree` ボタンをクリックしてメニュー項目を再構築します。
