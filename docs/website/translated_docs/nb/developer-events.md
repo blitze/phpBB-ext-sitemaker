@@ -49,72 +49,72 @@ Du kan endre adferden til phpBB SiteMaker ved hjelp av phpBB's hendelsessystem.
 
 - Sted: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
 - Siden: 3.1.0
-- Purpose: Add form fields for sitemaker settings
+- Formål: Legg til skjemafelter for sidemaker innstillinger
 
 # blitze_sitemaker_admin_bar_append
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add menu items to admin bar
+- Sted: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- Siden: 3.1.0
+- Formål: Legg til menyelementer i adminbar
 
-# blitze_sitemaker_admin_bar_templates
+# blitze_sitemaker_admin_bar_maler
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add template files to be used in JS for block views, etc
+- Sted: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- Siden: 3.1.0
+- Formål: Legg til malfiler som skal brukes i JS for blokkvisning, osv
 
-## Javascript Events
+## Javascript hendelser
 
-# blitze_sitemaker_layout_saved
+# blitze_sitemaker_layout_lagret
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout changes are saved
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+- Sid: 3.1.2
+- Formål: Hendelse for å tillate andre utvidelser å gjøre noe når endringer i oppsett blir lagret
 
-# blitze_sitemaker_render_block_before
+# blitze_sitemaker_render_block_før
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- Sid: 3.1.2
+- Formål: Hendelse som tillater andre utvidelser å gjøre noe før blokk gjengis eller forhindre at den blir gjengitt
 
-# blitze_sitemaker_render_block_after
+# blitze_sitemaker_render_block_etter
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something after block is rendered
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- Sid: 3.1.2
+- Formål: Hendelse for å tillate andre utvidelser å gjøre noe etter at blokk er gjengitt
 
-# blitze_sitemaker_save_block_before
+# blitze_sitemaker_save_block_før
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to modify block data before it is saved
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
+- Sid: 3.1.2
+- Formål: Hendelse for å tillate andre utvidelser å endre blokkdata før den blir lagret
 
 # blitze_sitemaker_show_all_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when all block positions are shown
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- Sid: 3.1.2
+- Formål: Hendelse for å tillate andre utvidelser å gjøre noe når alle blokkposisjoner vises
 
-# blitze_sitemaker_hide_empty_block_positions
+# blitze_sitemaker_hide_empty_block_posier
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when empty positions are hidden
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- Sid: 3.1.2
+- Formål: Hendelse som tillater andre utvidelser å gjøre noe når tomme posisjoner er skjult
 
 # blitze_sitemaker_layout_cleared
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is cleared
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- Sid: 3.1.2
+- Formål: Hendelse for å tillate andre utvidelser å gjøre noe når oppsettet er tømt
 
-# blitze_sitemaker_layout_updated
+# blitze_sitemaker_oppsett_oppdatert
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is updated
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- Sid: 3.1.2
+- Formål: Hendelse som tillater andre utvidelser å gjøre noe når oppsett blir oppdatert
 
-# blitze_sitemaker_tinymce_options
+# blitze_sitemaker_tinymce_innstillinger
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Sted: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Siden: 3.3.0
+- Formål: Hendelse for å tillate andre utvidelser å endre tinymce alternativer
