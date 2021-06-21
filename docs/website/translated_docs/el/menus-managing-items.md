@@ -1,30 +1,30 @@
 ---
 id: menus-managing-items
-title: Managing Menu Items
+title: Διαχείριση Στοιχείων Μενού
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Το μενού σας είναι άχρηστο εκτός αν έχει στοιχεία μενού. Μπορείτε να προσθέσετε στοιχεία μενού που οδηγούν σε τοπικά ή εξωτερικά αρχεία.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> Η διεύθυνση URL για τις εξωτερικές τοποθεσίες πρέπει να ξεκινά με http(s)://, ftp://, //, κλπ.
 > 
-> You can create a divider by entering '-' as the item title
+> Μπορείτε να δημιουργήσετε ένα διαχωριστικό εισάγοντας '-' ως τίτλο του αντικειμένου
 
-## Adding Menu items
+## Προσθήκη στοιχείων μενού
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Μπορείτε να προσθέσετε στοιχεία μενού ένα στοιχείο κάθε φορά, ή μπορείτε να προσθέσετε πολλαπλά στοιχεία μενού σε αυτά.
 
-### Adding single menu items
+### Προσθήκη στοιχείων ενός μενού
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Για να προσθέσετε ένα στοιχείο μενού, * Κάντε κλικ στο κουμπί `Προσθήκη στοιχείου μενού` * Συμπληρώστε τις απαιτούμενες πληροφορίες και πατήστε `Αποθήκευση`
 
-### Adding multiple items
+### Προσθήκη πολλαπλών στοιχείων
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Για να προσθέσετε πολλαπλά στοιχεία μενού ταυτόχρονα, * Κάντε κλικ στο εικονίδιο ▼ δίπλα στο `Προσθήκη στοιχείου Μενού` * Μπορείτε να προσθέσετε χειροκίνητα στοιχεία τοποθετώντας κάθε στοιχείο σε μια νέα γραμμή και χρησιμοποιώντας τα στοιχεία φωλιά χαρακτήρα καρτέλας ή * Μπορείτε να κάνετε κλικ σε μία από τις παρεχόμενες επιλογές στο κάτω μέρος του textarea για να συμπληρώσετε αυτόματα τα στοιχεία μενού
 
-## Reorder the menu items
+## Αναδιάταξη των στοιχείων μενού
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Μπορείτε να σύρετε και να αποθέσετε τα στοιχεία μενού πάνω/κάτω για να ορίσετε την σειρά εμφάνισης τους ή να τα σύρετε αριστερά/δεξιά για να ορίσετε την επιθυμητή ιεραρχία.
 
-## Rebuilding the menu items
+## Ανοικοδόμηση στοιχείων μενού
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Αν διαπιστώσετε ότι τα στοιχεία μενού δεν εμφανίζονται σωστά, κάντε κλικ στο κουμπί `Αναδόμηση Δέντρου` για να ξαναδημιουργήσετε τα στοιχεία του μενού.
