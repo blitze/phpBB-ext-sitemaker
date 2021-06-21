@@ -1,76 +1,76 @@
 ---
 id: contrib-pull-requests
-title: Submitting a Pull Request
-sidebar_label: Pull Requests
+title: プルリクエストを送信中
+sidebar_label: 取得リクエスト
 ---
 
-`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
+`プルリクエストを使用すると、GitHub 上のリポジトリのブランチにプッシュした変更を他の人に知らせることができます。 プルリクエストが開かれると、 コラボレーターとの潜在的な変化について議論したり確認したりできますし、変更がベースブランチにマージされる前にフォローアップコミットを追加できます。` [続きを読む](https://help.github.com/articles/about-pull-requests/)
 
-## Forking/Cloning
+## フォーク/複製
 
-* Create a github account if you don't already have one
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* Github アカウントをまだお持ちでない場合は作成してください
+* https://github.com/blitze/phpBB-ext-sitemaker.git に移動し、"Fork" をクリックしてください。
 
-Clone your fork of the repository:
+リポジトリのフォークをクローン:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+コマンドラインから sitemaker ディレクトリに移動します:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Configure git:**
+**gitを設定:**
 
-Add your Username to Git on your system:
+システムの Git にユーザー名を追加します。
 
     git config --global user.name "Your Name Here"
     
 
-Add your E-mail address to Git on your system:
+システムの Git にメールアドレスを追加します。
 
     git config --add user.email username@phpbb.com
     
 
-Add the upstream remote (you can change ‘upstream’ to whatever you like):
+上流のリモートを追加します（「upstream」を好きなように変更できます）：
 
     git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Install vendors**
+**ベンダのインストール**
 
     composer install
     
 
-**Install NPM packages**
+**NPMパッケージのインストール**
 
     npm install
     
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+あるいは、 [yarn](https://yarnpkg.com) を使用することもできます。
 
     yarn install
     
 
-## Pull Requests
+## 取得リクエスト
 
-    # Create a new branch for your feature & switch to it
+    # あなたの機能 & に切り替えるための新しいブランチを作成します。
     git checkout -b feature/my-fancy-new-feature
     
-    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
+    # あなたが取り組んでいる課題の新しいブランチを作成します（チケット # github trackerからのものです）。
     git checkout -b ticket/1234
     
 
-Make your changes
+変更を加えてください
 
     # Stage the files
     git add <files> 
     
-    # Commit staged files - please use a correct commit message
+    # Commit steded files - Please use a correct commit message
     git commit -m "my commit message"
     
 
-Push the branch back to GitHub git push origin feature/my-fancy-new-feature
+ブランチをGitHub に押し戻します git push origin feature/my-fancy-new-feature
 
-Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+[プルリクエスト](https://github.com/blitze/phpBB-ext-sitemaker/pulls)を送信
