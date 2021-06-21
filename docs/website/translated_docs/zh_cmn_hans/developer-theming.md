@@ -1,55 +1,55 @@
 ---
-id: developer-theming
-title: Theming
+id: 开发者主题
+title: 主题
 ---
 
-phpBB SiteMaker comes with styles and colors made for prosilver. You can overwrite CSS, JS, and HTML files by creating the corresponding file in your style's folder.
+phpBB SiteMaker提供了prosilver的样式和颜色。 您可以通过在您的样式文件夹中创建相应的文件来覆盖 CSS、JS 和 HTML 文件。
 
-# Creating JS/CSS files for your style
+# 为您的样式创建 JS/CSS 文件
 
-Note: * For the purpose of the below instructions we will assume that you have a style called my-style.
+注意： * 为了以下说明的目的，我们将假定你有一个样式叫我的风格。
 
-Clone into phpBB/ext/blitze/sitemaker:
+克隆到 phpBB/ext/blitze/sitemaker:
 
     git clone https://github.com/blitze/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+从命令行到 sitemaker 目录：
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Install vendors**
+**安装供应商**
 
-    composer install
+    编辑器安装
     
 
-**Install packages**
+**安装软件包**
 
-For the below commands you can use npm or [yarn](https://yarnpkg.com)
+对于下面的命令，你可以使用 npm 或 [yarn](https://yarnpkg.com)
 
-    yarn install
+    yarn 安装
     
 
-**Watch Changes**
+**观看更改**
 
-    yarn start --theme my-style
+    yarn 启动 --theme my-style
     
 
-**Make Changes**
+**进行更改**
 
-* Make your changes to files in the phpBB/ext/blitze/sitemaker/develop folder.
-* Look at phpBB/ext/blitze/sitemaker/develop/_partials/_globals.scss for sass variables
+* 更改 phpBB/ext/blitze/sitemaker/development 文件夹。
+* 查看 phpBB/ext/blitze/sitemaker/development/_partials/_globals.scss 了解 sass 变量
 
-**Build Assets**
+**构建资产**
 
-    yarn build --theme my-style
+    yarn 构建 --theme my-style
     
 
-**Deploy**
+**部署**
 
-You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
+您现在可以复制 phpBB/ext/blitze/sitemaker/style/my 风格生成的文件，并上传到您的生产服务器。
 
-> This extension uses jQuery UI for tabs, dialogs and buttons. The default jQuery theme is 'smoothness.' You can use a different jQuery UI theme that best fits your theme. You can specify the jQuery UI theme using the flag --jq_ui_theme. For example:
+> 此扩展使用 jQuery UI 用于标签、对话框和按键。 默认的 jQuery 主题是“平滑”。 你可以使用最适合你的主题的不同的 jQuery UI 主题。 您可以使用国旗 --jq_ui_theme 指定 jQuery UI 主题。 例如：
 
-    yarn build --theme my-style --jq_ui_theme ui-lightness
+    yarn 构建 --theme my-style --jq_ui_theme ui-light
