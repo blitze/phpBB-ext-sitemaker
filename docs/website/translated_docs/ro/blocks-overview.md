@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: block-overview
+title: Ce sunt blocurile?
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+În inima phpBB SiteMaker este conceptul blocurilor. Blocurile sunt bucăți mici de conținut pe care le poți plasa în diferite zone predefinite (poziții blocate) pe site-ul tău. De obicei, blocurile vor avea setări pe care le puteți seta/modifica pentru a regla conținutul pe care doriți să îl afișați. Cele mai multe blocuri, dar nu toate, vor face interogări de baze de date pentru a obține conținutul dorit. Deci să nu ne înnebunim prea mult :). Pentru a gestiona blocurile, va trebui să comutați la "modul de editare".
 
-## Edit Mode
+## Mod editare
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+Comutați la modul de editare făcând clic pe pictograma creion din dreapta sus a site-ului dvs. Acest lucru va afişa "Bara de administrare" cu "Blocks" şi elementele de meniu "Setări". Acest lucru este denumit „modul de editare”.
