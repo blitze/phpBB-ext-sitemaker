@@ -1,18 +1,18 @@
 ---
 id: menus-display
-title: Displaying Menus
+title: メニューを表示
 ---
 
-Now that you have create your menus, you can display them in several ways:
+メニューを作成したので、いくつかの方法で表示できます。
 
-## Links Block
+## リンクブロック
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+このブロックを使用して、メニュー項目のフラットまたはネストされたリストを表示できます。 このブロックはナビゲーションに使用されることを意図していません。つまり、現在のページやそのようなものは表示されません。 これは外部リンクを含む項目のリストを対象としています。
 
-## Menus Block
+## メニューブロック
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+このブロックはサイトナビゲーションを目的としています。 現在位置を決定するためにいくつかの追加の計算を行い、非常に大きなリストであることを意図していません。
 
-## Navigation bar
+## ナビゲーションバー
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+format@@0 ブロックと同様に、ナビゲーション バーには、サイト ナビゲーション用の応答性の高いドロップダウン メニューとしてメニュー アイテムが表示されます。 これを有効にするには、ACP > エクステンション > サイトマッカー > 設定 > メニューを選択してください
