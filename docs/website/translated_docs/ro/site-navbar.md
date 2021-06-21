@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: Bara de navigare
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+Vezi [Afișarea meniurilor](./menus-display#navigation-bar)
