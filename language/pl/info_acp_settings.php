@@ -38,15 +38,15 @@ $lang = array_merge($lang, [
 	'ACP_SITEMAKER'		=> 'SiteMaker',
 	'ACP_SM_SETTINGS'	=> 'Ustawienia',
 
-	'BLOCKS_CLEANUP'			=> 'Oczyszczanie bloków',
-	'BLOCKS_CLEANUP_EXPLAIN'	=> 'Następujące elementy zostały uznane za nieistniejące lub nieosiągalne, dlatego możesz usunąć wszystkie związane z nimi bloki. Należy pamiętać, że niektóre z nich mogą być fałszywie dodatnie',
+	'BLOCKS_CLEANUP'			=> 'Czyszczenie bloków',
+	'BLOCKS_CLEANUP_EXPLAIN'	=> 'Następujące elementy nie istnieją lub nie są już osiągalne, dlatego możesz usunąć wszystkie bloki z nimi związane. Pamiętaj, że niektóre z nich mogą być fałszywie dodatnie',
 	'BLOCKS_CLEANUP_BLOCKS'		=> 'Nieprawidłowe bloki (np. z odinstalowanych rozszerzeń):',
 	'BLOCKS_CLEANUP_ROUTES'		=> 'Nieosiągalne/uszkodzone strony:',
-	'BLOCKS_CLEANUP_STYLES'		=> 'Odinstalowane style (ids):',
-	'BLOCKS_CLEANUP_SUCCESS'	=> 'Pomyślnie wyczyszczono bloki',
+	'BLOCKS_CLEANUP_STYLES'		=> 'Odinstalowane style (id):',
+	'BLOCKS_CLEANUP_SUCCESS'	=> 'Bloki wyczyszczone pomyślnie',
 
 	'FORUM_INDEX_SETTINGS'			=> 'Ustawienia indeksu forum',
-	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'Te ustawienia mają zastosowanie tylko wtedy, gdy nie ma zdefiniowanej strony startowej',
+	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'Te ustawienia mają zastosowanie tylko wtedy, gdy nie zdefiniowano strony startowej',
 
 	'HIDE'			=> 'Ukryj',
 	'HIDE_BIRTHDAY'	=> 'Ukryj sekcję urodzin',
@@ -55,13 +55,13 @@ $lang = array_merge($lang, [
 
 	'LAYOUT_BLOG'		=> 'Blog',
 	'LAYOUT_CUSTOM'		=> 'Własny',
-	'LAYOUT_HOLYGRAIL'	=> 'Święta Grail',
+	'LAYOUT_HOLYGRAIL'	=> 'Święty Gróz',
 	'LAYOUT_PORTAL'		=> 'Portal',
 	'LAYOUT_PORTAL_ALT'	=> 'Portal (alt)',
 	'LAYOUT_SETTINGS'	=> 'Ustawienia układu',
 
-	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Bloki Sitemaker usunięte za brakujący styl o id %s',
-	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Bloki Sitemaker usunięte dla uszkodzonych stron:<br />%s',
+	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Bloki strony zostały usunięte dla brakującego stylu z id %s',
+	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Bloki sitakera usunięte dla uszkodzonych stron:<br />%s',
 	'LOG_DELETED_BLOCKS'			=> 'Usunięto nieprawidłowe bloki Sitemakera:<br />%s',
 
 	'NAVIGATION_SETTINGS'		=> 'Ustawienia nawigacji',
@@ -69,6 +69,6 @@ $lang = array_merge($lang, [
 	'SETTINGS_SAVED'			=> 'Twoje ustawienia zostały zapisane',
 	'SHOW'						=> 'Pokaż',
 	'SHOW_FORUM_NAV'			=> 'Pokazać "Forum" na pasku nawigacyjnym?',
-	'SHOW_FORUM_NAV_EXPLAIN'	=> 'Kiedy strona jest ustawiona jako strona startowa zamiast indeksu forum, powinniśmy wyświetlić \'Forum\' na pasku nawigacji',
+	'SHOW_FORUM_NAV_EXPLAIN'	=> 'Kiedy strona jest ustawiona jako strona startowa zamiast indeksu forum, powinniśmy wyświetlić "Forum" na pasku nawigacyjnym',
 	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Tak - z ikoną:',
 ]);
