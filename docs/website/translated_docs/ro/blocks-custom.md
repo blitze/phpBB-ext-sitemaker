@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: bloc-particularizat
+title: Bloc personalizat
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Dacă blocurile disponibile nu vă oferă libertatea de care aveţi nevoie, există `blocul personalizat` care vă permite libertatea de a afişa propriul conţinut folosind BBcode sau HTML. Blocul vine cu un editor WYSIWYG (TinyMCE) și un manager de script-uri:
 
-## The editor
+## Editorul
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Poți folosi editorul pentru a crea conținut HTML
+- Poți edita codul sursă dacă ai nevoie de acel nivel de control făcând clic pe pictograma `codul sursă` (`<>`) din editor
+- Editorul vă permite să încărcaţi şi să modificaţi imaginile 
+    - Creează un dosar nou în phpBB/images/sitemaker_uploads/ pentru fiecare utilizator care are acces la el
+    - Puteți vizualiza/gestiona toate dosarele utilizatorilor
+- Editorul filtrează orice script-uri potențial periculoase cum ar fi javascript, etc. Dacă aveţi nevoie să adăugaţi conţinut ca Google Ads, javascript va fi filtrat, dar puteţi trece peste asta făcând următoarele: 
+    - Adaugă blocul personalizat la locația dorită
+    - Editați blocul personalizat, faceți clic pe tab-ul `HTML` și lipiți Javascript
 
-## The Scripts Manager
+## Managerul de scripturi
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Blocul personalizat vă permite, de asemenea, să adăugați fișiere CSS și Javascript la pagina dvs. Pentru a face acest lucru:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Adaugă un `bloc personalizat` în orice poziție de bloc. Poziția nu contează decât dacă afișezi și conținut cu blocul
+- Editează blocul, click pe tab-ul `Scripturi` și adaugă fișierele CSS sau Javascript > Word de precauție încă: Adăugarea la mai multe scripturi de pe pagina ta poate afecta timpii de încărcare
