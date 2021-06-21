@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: menukaartbeheer
+title: Menu's beheren
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+U kunt menu's maken in de ACS die u vervolgens kunt weergeven met behulp van de Menu's of de links of weergegeven als een horizontale navigatiebalk.
 
-## Managing Menus
+## Menu's beheren
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Ga naar de ACS > Extensies > Sitemaker > Menu om menu te beheren
 
-### Creating Menus
+### Menu's aanmaken
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Klik op de knop `Menu` om een nieuw menu (groep) aan te maken. Een nieuwe menu groep wordt aangemaakt met een willekeurig gegenereerde naam. Het nieuwe menu zal ook worden geselecteerd zodat u kunt beginnen met het toevoegen van menu-items.
 
-### Editing Menus
+### Menu's bewerken
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Als u een meer betekenisvolle menutnaam wilt, * zweven over de menaam en klik op het cog-pictogram * voer de nieuwe menutnaam in en druk op enter om het bij te werken
 
-### Deleting Menus
+### Menu's verwijderen
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Het verwijderen van een menu en zijn items, * Beweeg over de menunaam en klik op de **x** pictogram * Als het menu-item geen onderliggende items heeft, u moet uw keuze om het item te verwijderen bevestigen * als het menu-item onderliggende items heeft, u moet aangeven of u alleen het item wilt verwijderen en zijn kinderen naar boven wilt verplaatsen of dat u de hele branch wilt verwijderen
