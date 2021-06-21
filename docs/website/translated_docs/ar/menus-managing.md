@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: إدارة القوائم
+title: إدارة القوائم
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+يمكنك إنشاء قوائم في ACP يمكنك عرضها باستخدام القوائم أو كتل الروابط أو عرضها كشريط التنقل الأفقي.
 
-## Managing Menus
+## إدارة القوائم
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+لإدارة القوائم، انتقل إلى ACP > ملحقات > صانع الموقع > القائمة
 
-### Creating Menus
+### إنشاء قوائم
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+لإنشاء قائمة جديدة (مجموعة)، انقر على زر `إضافة قائمة`. سيتم إنشاء مجموعة قائمة جديدة مع اسم تم إنشاؤه عشوائياً. سيتم تحديد القائمة الجديدة أيضًا حتى يمكنك البدء بإضافة عناصر القائمة إليها.
 
-### Editing Menus
+### تحرير القوائم
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+إذا كنت تريد اسم قائمة ذي مغزى أكبر، * فوق اسم القائمة وانقر على أيقونة الكوكب * أدخل اسم القائمة الجديدة واضغط على الإدخال لتحديثها
 
-### Deleting Menus
+### حذف القوائم
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+لحذف القائمة ، وعناصرها، * فوق اسم القائمة وانقر على **x** أيقونة * إذا كان عنصر القائمة لا يحتوي على عناصر فرعية، سوف تحتاج إلى تأكيد اختيارك لحذف العنصر * إذا كان عنصر القائمة يحتوي على عناصر فرعية، سوف تحتاج إلى الإشارة إلى ما إذا كنت تريد حذف العنصر فقط ونقل أولاده إلى الأعلى أو إذا كنت تريد حذف الفرع بأكمله
