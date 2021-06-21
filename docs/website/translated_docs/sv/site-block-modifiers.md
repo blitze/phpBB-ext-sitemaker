@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: site-block-modifierare
+title: Anpassa Blocks Display
 ---
 
-Work in progress...
+Arbetet pågår...
