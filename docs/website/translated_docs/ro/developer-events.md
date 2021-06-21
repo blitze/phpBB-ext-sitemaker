@@ -1,120 +1,120 @@
 ---
-id: developer-events
-title: phpBB SiteMaker Events
+id: evenimente dezvoltator
+title: Evenimente fpBB SiteMaker
 ---
 
-You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+Puteți modifica comportamentul phpBB SiteMaker folosind sistemul de evenimente al phpBB.
 
-## PHP Events
+## Evenimente PHP
 
-# blitze.sitemaker.acp_add_bulk_menu_options
+# blitze.sitemaker.acp_add_bulk_menu
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
-- Since: 3.1.0
-- Purpose: Add bulk menu options in acp menu
+- Locatie: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+- De la: 3.1.0
+- Scop : Adăugare opţiuni meniu în meniul acp
 
 # blitze.sitemaker.acp_display_settings_form
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: display acp (sitemaker) settings form
+- Locatie: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- De la: 3.1.0
+- Scopul: display acp (sitemaker) setări formular
 
 # blitze.sitemaker.acp_save_settings
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: Save acp (sitemaker) settings
+- Locatie: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- De la: 3.1.0
+- Scop : Salvare acp (sitemaker) setări
 
 # blitze.sitemaker.admin_bar.set_assets
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
-- Since: 3.0.1-RC1
-- Purpose: Add assets for available blocks in edit mode
+- Locatie: /phpBB/ext/blitze/sitemaker/servicii/blocuri/admin_bar.php
+- De la: 3,0,1 RC1
+- Scopul: Adaugă active pentru blocurile disponibile în modul editare
 
 # blitze.sitemaker.modify_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify block positions
+- Locatie: /phpBB/ext/blitze/sitemaker/servicii/blocuri/blocks.php
+- De la: 3,0,1 RC1
+- Scopul: Modifică pozițiile blocului
 
 # blitze.sitemaker.modify_rendered_block
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify a rendered block
+- Locatie: /phpBB/ext/blitze/sitemaker/servicii/blocuri/blocks.php
+- De la: 3,0,1 RC1
+- Scop : Modifică un bloc randat
 
-## Template Events
+## Evenimente șablon
 
-# blitze_sitemaker_acp_settings
+# setari blitze_sitemaker_acp_
 
-- Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
-- Since: 3.1.0
-- Purpose: Add form fields for sitemaker settings
+- Locatie: /phpBB/ext/blitze/sitemaker/ad/style/acp_settings.html
+- De la: 3.1.0
+- Scopul: Adăugați câmpuri formular pentru setările de sitemaker
 
 # blitze_sitemaker_admin_bar_append
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add menu items to admin bar
+- Locație: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- De la: 3.1.0
+- Scop : Adaugă elemente de meniu în bara de administrare
 
-# blitze_sitemaker_admin_bar_templates
+# blitze_sitemaker_admin_bar_template-uri
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add template files to be used in JS for block views, etc
+- Locație: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- De la: 3.1.0
+- Scop : Adauga sablon fisiere pentru a fi folosite in JS pentru vizualizari blocate, etc
 
-## Javascript Events
+## Evenimente Javascript
 
 # blitze_sitemaker_layout_saved
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout changes are saved
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/componente/AdminBar/SaveLayout/index.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva atunci când modificările de aspect sunt salvate
 
-# blitze_sitemaker_render_block_before
+# blitze_sitemaker_render_block_înainte
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/componente/BlockRenderer/index.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva înainte ca blocul să fie randat sau să împiedice reredarea lui
 
 # blitze_sitemaker_render_block_after
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something after block is rendered
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/componente/BlockRenderer/index.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva după bloc este randat
 
-# blitze_sitemaker_save_block_before
+# blitze_sitemaker_save_block_înainte
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to modify block data before it is saved
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/componente/BlocksManager/Edit/index.js
+- De la: 3.1.2
+- Scop : Eveniment pentru a permite altor extensii să modifice datele blocului înainte de a fi salvat
 
 # blitze_sitemaker_show_all_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when all block positions are shown
+- Locație: /phpBB/ext/blitze/sitemaker/develop/componente/poziții/poziții.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva atunci când toate pozițiile blocului sunt afișate
 
 # blitze_sitemaker_hide_empty_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when empty positions are hidden
+- Locație: /phpBB/ext/blitze/sitemaker/develop/componente/poziții/poziții.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva atunci când pozițiile goale sunt ascunse
 
 # blitze_sitemaker_layout_cleared
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is cleared
+- Locație: /phpBB/ext/blitze/sitemaker/develop/componente/poziții/poziții.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva atunci când aspectul este eliminat
 
-# blitze_sitemaker_layout_updated
+# blitze_sitemaker_layout_actualizat
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is updated
+- Locație: /phpBB/ext/blitze/sitemaker/develop/componente/poziții/poziții.js
+- De la: 3.1.2
+- Scopul: Eveniment pentru a permite altor extensii să facă ceva atunci când layout este actualizat
 
-# blitze_sitemaker_tinymce_options
+# opțiuni blitze_sitemaker_tinymce_optiones
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/componente/CustomBlock/index.js
+- De la: 3,0
+- Scopul: Eveniment pentru a permite altor extensii să modifice opțiunile tinymce
