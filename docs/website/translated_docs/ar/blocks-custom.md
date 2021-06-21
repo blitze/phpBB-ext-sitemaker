@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: مربعات برمجية
+title: كتلة مخصصة
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+إذا كانت الكتل المتاحة لا تمنحك الحرية التي تحتاجها، هناك `كتلة مخصصة` التي تسمح لك بحرية عرض المحتوى الخاص بك باستخدام BBcode أو HTML. تأتي الكتلة مع محرر WYSIWYG (TinyMCE) ومدير نصوص:
 
-## The editor
+## المحرر
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- يمكنك استخدام المحرر لإنشاء محتوى HTML
+- يمكنك تعديل رمز المصدر إذا كنت بحاجة إلى مستوى التحكم هذا بالنقر على رمز `المصدر` (`<>`) في المحرر
+- يسمح لك المحرر بتحميل وتعديل الصور 
+    - يقوم بإنشاء مجلد جديد في phpBB/images/sitemaker_uploads/ لكل مستخدم يمكنه الوصول إليه
+    - يمكنك عرض/إدارة جميع مجلدات المستخدم
+- يقوم المحرر بتصفية أي برامج نصية خطرة مثل جافا سكريبت، إلخ. إذا كنت بحاجة إلى إضافة محتوى مثل إعلانات جوجل، سيتم تصفية جافا سكريبت ، ولكن يمكنك الحصول على ذلك من خلال القيام بما يلي: 
+    - إضافة كتلة مخصصة إلى الموقع المطلوب
+    - تعديل الكتلة المخصصة، انقر فوق علامة التبويب `HTML` ولصق جافا سكريبت
 
-## The Scripts Manager
+## مدير البرامج النصية
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+يسمح لك الكتلة المخصصة أيضا بإضافة ملفات CSS و Javascript المخصصة إلى الصفحة الخاصة بك. للقيام بذلك:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- إضافة `كتلة مخصصة` لأي وضع كتلة. الموضع لا يهم إلا إذا كنت أيضا تعرض المحتوى مع الكتلة
+- تعديل الكتلة، انقر فوق علامة التبويب `سكريبت` وإضافة ملفات CSS أو جافا سكريبت > كلمة التحذير على الرغم من أن الإضافة إلى العديد من البرامج النصية في صفحتك يمكن أن تؤثر على أوقات التحميل
