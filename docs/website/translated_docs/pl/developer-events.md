@@ -113,8 +113,8 @@ Możesz modyfikować zachowanie phpBB SiteMaker za pomocą systemu zdarzeń phpB
 - Ponieważ: 3.1.2
 - Zastosowanie: Zdarzenie, aby zezwolić innym rozszerzeniom na coś podczas aktualizacji układu
 
-# blitze_sitemaker_tinymce_options
+# [PLACEHOLDER] blitze_sitemera
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Lokalizacja: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Od: 3.3.0
+- Przeznaczenie: Wydarzenie umożliwiające innym rozszerzeniom modyfikowanie opcji tinymce
