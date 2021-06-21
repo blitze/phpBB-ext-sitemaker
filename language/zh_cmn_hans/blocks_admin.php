@@ -63,10 +63,10 @@ $lang = array_merge($lang, array(
 
 	'CACHE_DURATION'							=> '缓存持续时间',
 	'CONTEXT'									=> '二. 背景',
-	'CSS_SCRIPTS'								=> 'CSS 脚本',
+	'CSS_SCRIPTS'								=> 'CSS Scripts',
 	'CUSTOM_PROFILE_FIELDS'						=> '自定义配置文件字段',
 
-	'DATE_RANGE'								=> '日期范围',
+	'DATE_RANGE'								=> 'Date Range',
 	'DISPLAY_PREVIEW'							=> '显示预览吗？',
 
 	'EDIT_ME'									=> '请编辑我',
@@ -134,7 +134,7 @@ $lang = array_merge($lang, array(
 	'MAP_VIEW_HYBRID'							=> '混合的',
 	'MAP_VIEW_MAP'								=> '地图',
 	'MAP_VIEW_SATELITE'							=> 'Satellite',
-	'MAP_VIEW_TERRAIN'							=> '地形图',
+	'MAP_VIEW_TERRAIN'							=> 'Terrain',
 	'MAP_ZOOM_LEVEL'							=> '缩放级别',
 	'MEMBERS_DATE'								=> '日期',
 	'MENU_NO_ITEMS'								=> '没有活动项目要显示',
