@@ -113,8 +113,8 @@ Vous pouvez modifier le comportement de phpBB SiteMaker en utilisant le système
 - Depuis : 3.1.2
 - But : Événement permettant aux autres extensions de faire quelque chose lorsque la mise en page est mise à jour
 
-# blitze_sitemaker_tinymce_options
+# Options de mise à jour du site
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Lieu: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Depuis : 3.3.0
+- But : Événement permettant aux autres extensions de modifier les options de tinymce
