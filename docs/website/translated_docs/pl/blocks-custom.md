@@ -1,20 +1,20 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: niestandardowe bloki
+title: Własny blok
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Jeśli dostępne bloki nie dają ci potrzebnej wolności, istnieje `Blok niestandardowy` który pozwala ci na swobodne wyświetlanie własnych treści za pomocą BBcode lub HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
 
-## The editor
+## Edytor
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+- Możesz użyć edytora do tworzenia zawartości HTML
+- Możesz edytować kod źródłowy, jeśli potrzebujesz tego poziomu kontroli klikając na ikonę `kodu źródłowego` (`<>`) w edytorze
 - The editor allows you to upload and modify images 
     - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
     - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Edytor filtruje wszelkie potencjalnie niebezpieczne skrypty, takie jak javascript, itp. Jeśli potrzebujesz dodać treści takie jak reklamy google, javascript zostanie przefiltrowany, ale możesz to obejść, wykonując następujące czynności: 
+    - Dodaj niestandardowy blok do pożądanej lokalizacji
+    - Edytuj niestandardowy blokadę, kliknij na kartę `HTML` i wklej Javascript
 
 ## The Scripts Manager
 
