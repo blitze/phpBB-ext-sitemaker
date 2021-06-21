@@ -1,76 +1,76 @@
 ---
 id: contrib-pull-requests
-title: Submitting a Pull Request
-sidebar_label: Pull Requests
+title: Υποβολή αιτήματος έλξης
+sidebar_label: Αιτήσεις Λήψης
 ---
 
-`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
+`Τραβήξτε αιτήσεις μας επιτρέπουν να πούμε σε άλλους για τις αλλαγές που έχουμε ωθήσει σε έναν κλάδο σε ένα αποθετήριο στο GitHub. Μόλις ανοίξει ένα αίτημα έλξης, μπορούμε να συζητήσουμε και να εξετάσουμε τις πιθανές αλλαγές με τους συνεργάτες μας και να προσθέσουμε υποβολές πριν οι αλλαγές μας συγχωνευθούν στον βασικό κλάδο.` [Διαβάστε περισσότερα](https://help.github.com/articles/about-pull-requests/)
 
-## Forking/Cloning
+## Περονοφόρο/κλωνοποίηση
 
-* Create a github account if you don't already have one
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* Δημιουργήστε ένα λογαριασμό github αν δεν έχετε ήδη έναν
+* Πηγαίνετε στο https://github.com/blitze/phpBB-ext-sitemaker.git και κάντε κλικ στο "Fork"
 
-Clone your fork of the repository:
+Κλωνοποιήστε το πιρούνι σας του αποθετηρίου:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+Από τη γραμμή εντολών πηγαίνετε στον κατάλογο sitemaker:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Configure git:**
+**Ρύθμιση git:**
 
-Add your Username to Git on your system:
+Προσθέστε το όνομα χρήστη στο Git στο σύστημά σας:
 
     git config --global user.name "Your Name Here"
     
 
-Add your E-mail address to Git on your system:
+Προσθέστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας στο Git στο σύστημά σας:
 
     git config --add user.email username@phpbb.com
     
 
-Add the upstream remote (you can change ‘upstream’ to whatever you like):
+Προσθέστε το τηλεχειριστήριο ανάντη (μπορείτε να αλλάξετε το 'upstream' σε ό,τι θέλετε):
 
     git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Install vendors**
+**Εγκατάσταση προμηθευτών**
 
-    composer install
+    εγκατάσταση συνθέτη
     
 
-**Install NPM packages**
+**Εγκατάσταση πακέτων NPM**
 
     npm install
     
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+Εναλλακτικά μπορείτε να χρησιμοποιήσετε [νήματα](https://yarnpkg.com):
 
-    yarn install
+    εγκατάσταση νήματος
     
 
-## Pull Requests
+## Αιτήσεις Λήψης
 
-    # Create a new branch for your feature & switch to it
+    # Δημιουργήστε έναν νέο κλάδο για τη δυνατότητα μας & αλλάξτε σε αυτόν
     git checkout -b feature/my-fancy-new-feature
     
-    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
+    # δημιουργήστε έναν νέο κλάδο για το ζήτημα που εργαζόμαστε στο * μεταβείτε σε αυτόν (ticket # is from github tracker)
     git checkout -b ticket/1234
     
 
-Make your changes
+Κάντε τις αλλαγές σας
 
-    # Stage the files
+    # Στάδιο τα αρχεία
     git add <files> 
     
-    # Commit staged files - please use a correct commit message
-    git commit -m "my commit message"
+    # Commit staged files - παρακαλώ χρησιμοποιήστε ένα σωστό μήνυμα υποβολής
+    git commit -m "το μήνυμα υποβολής μου"
     
 
-Push the branch back to GitHub git push origin feature/my-fancy-new-feature
+Πιέστε τον κλάδο πίσω στο GitHub git push origin feature/my-fancy-new-feature
 
-Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+Υποβάλετε [αίτηση έλξης](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
