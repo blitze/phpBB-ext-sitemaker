@@ -61,7 +61,7 @@ $lang = array_merge($lang, array(
 	'NO_NEW_TOPICS'					=> 'Žádná nová témata k zobrazení',
 
 	'POLL'							=> 'Anketa',
-	'POPULAR_TOPICS'				=> 'Popular Topics',
+	'POPULAR_TOPICS'				=> 'Populární témata',
 	'POSTS_MEMBER'					=> 'Horní plakát',
 	'PROCESSING'					=> 'zpracovávání...',
 
