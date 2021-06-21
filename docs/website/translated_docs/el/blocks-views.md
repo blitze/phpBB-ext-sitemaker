@@ -1,6 +1,6 @@
 ---
-id: blocks-views
-title: Block Views
+id: blocks-προβολές
+title: Αποκλεισμός Προβολών
 ---
 
-Work in progress...
+Εργασία σε εξέλιξη...
