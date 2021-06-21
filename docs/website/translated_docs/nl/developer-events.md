@@ -113,8 +113,8 @@ U kunt het gedrag van phpBB SiteMaker wijzigen met behulp van phpBB's event syst
 - Sinds: 3.1.2
 - Doel: Gebeurtenis om andere extensies toe te staan iets te doen wanneer de lay-out is bijgewerkt
 
-# blitze_sitemaker_tinymce_options
+# blitze_sitemaker_tinymce_opties
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Locatie: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Sinds: 3.0
+- Doel: Gebeurtenis toestaan dat andere extensies tinymce opties wijzigen
