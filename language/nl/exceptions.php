@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
-	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> 'Verplicht veld ontbreekt',
+	'EXCEPTION_INVALID_ACTION'		=> 'De actie bestaat niet',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Ongeldig argument opgegeven voor `%1$s`. Reden: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'De opgegeven waarde is van een onverwacht gegevenstype',
+	'EXCEPTION_INVALID_ENTITY'		=> 'De opgegeven entiteit is van een onverwachte entiteit klasse',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'De gevraagde eigenschap bestaat niet',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'De gevraagde `%1$s` bestaat niet',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'De gevraagde service is niet gevonden',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'De gevraagde actie `%1$s` kon niet worden uitgevoerd. Reden: %2$s',
 ));
