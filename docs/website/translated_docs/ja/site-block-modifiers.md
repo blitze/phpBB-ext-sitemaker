@@ -1,6 +1,6 @@
 ---
 id: site-block-modifiers
-title: Customizing Blocks Display
+title: ブロックの表示をカスタマイズ
 ---
 
-Work in progress...
+作業中...
