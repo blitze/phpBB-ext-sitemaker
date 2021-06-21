@@ -29,12 +29,12 @@ Considere la siguiente estructura real de directorios:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+► index.php
+✫ :/★ Movies/
+    ► 4b4bindex.php
+    ► page.php
+    → Comedy/
+        → → index.php
 ```
 
 Para los propósitos de heredar bloques, decimos: * La ruta padre de /phpBB/Movies/Comedy/index.php es /phpBB/Movies/index.php y no /phpBB/Movies/page.php * Todas las páginas en un subdirectorio relativo a /phpBB/index.php es una ruta hijo de /phpBB/index.php. Así que /phpBB/Movies/index.php y /phpBB/Movies/page.php son todos hijos de /phpBB/index.php y por lo tanto heredarán sus bloques si no tienen bloques propios. En este caso: * Cuando un bloque en /phpBB/index. hp está configurado para mostrar en **Ocultar en rutas secundarias**, el bloque se mostrará en /phpBB/index. hp (ruta padre) pero no en sus rutas hijo * Cuando un bloque en /phpBB/index. hp está configurado para mostrar en **Mostrar en rutas secundarias sólo**, se mostrará en /phpBB/Movies/index.php y /phpBB/Movies/page. hp (rutas hijas) pero no en /phpBB/index.php (padre), ni /phpBB/Movies/Comedy/index. hp (sólo vamos un nivel de profundidad) * Cuando un bloque en /phpBB/index. hp está configurado para mostrar **siempre** (por defecto), se mostrará en /phpBB/index.php (padre), /phpBB/Movies/index. hp y /phpBB/page.php (rutas hijas) pero no en /phpBB/Movies/Comedy/index.php (sólo vamos un nivel de profundidad). En este caso, /phpBB/Movies/Comedy/index.php heredará de la ruta predeterminada (si existe)
