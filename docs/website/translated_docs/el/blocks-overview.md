@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: Επισκόπηση αποκλεισμών
+title: Τι είναι τα μπλοκ?
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+Στην καρδιά του phpBB SiteMaker είναι η έννοια των μπλοκ. Τα μπλοκ είναι μικρά κομμάτια περιεχομένου που μπορείτε να τοποθετήσετε σε διαφορετικές προκαθορισμένες περιοχές (θέσεις μπλοκ) στον ιστότοπό σας. Τα μπλοκ συνήθως έχουν τις ρυθμίσεις που μπορείτε να ορίσετε/αλλάξετε για να ρυθμίσετε λεπτομερώς το περιεχόμενο που θέλετε να εμφανίσετε. Τα περισσότερα μπλοκ, αλλά όχι όλα, θα κάνουν ερωτήματα σε βάση δεδομένων για να πάρετε το επιθυμητό περιεχόμενο. Ας μην τρελαθούμε λοιπόν πάρα πολύ :). Για να διαχειριστείτε τα μπλοκ, θα πρέπει να μεταβείτε σε "λειτουργία επεξεργασίας".
 
-## Edit Mode
+## Λειτουργία Επεξεργασίας
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+Ενεργοποιήστε τη λειτουργία επεξεργασίας κάνοντας κλικ στο εικονίδιο του μολυβιού στην επάνω δεξιά γωνία του ιστοτόπου σας. Αυτό θα εμφανίσει τη γραμμή "Admin bar" με τα στοιχεία μενού "Blocks" και "Ρυθμίσεις". Αυτό αναφέρεται ως "κατάσταση επεξεργασίας".
