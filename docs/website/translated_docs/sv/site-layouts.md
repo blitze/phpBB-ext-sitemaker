@@ -1,20 +1,20 @@
 ---
-id: site-layouts
-title: Layouts
+id: sajt-layouter
+title: Layouter
 ---
 
-"Layouts" determine the available block positions and how they are displayed.
+"Layouts" bestämmer de tillgängliga blockpositionerna och hur de visas.
 
-## Block Positions
+## Blockera positioner
 
-Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
+Blockpositioner är fördefinierade områden på din webbplats där block kan existera. De tillgängliga blockpositionerna bestäms av mallens stil som du använder. För prosilver, phpBB SiteMaker levereras med följande blockpositioner: * panel: full bredd över toppen * sidofält: vänster/höger beroende på layout under * underinnehåll: liknande sidofältet bara större * top_hor: horisontella block över toppen, flankerar över sidofältet/underinnehållet beroende på layout * överst: ovanför huvudinnehållet * ruta: lika bredd, horisontella block under huvudinnehållet * botten: under huvudinnehållet * bottom_hor: horisontella block över botten, flankerar sidofältet/underinnehållet beroende på layout * sidfot: horisontella block i sidfoten Du kan lägga till fler blockpositioner i dina egna stilmallar genom att kopiera och modifiera motsvarande phpBB SiteMaker-mallar
 
-## Site Layout
+## Webbplatsens layout
 
-You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
+Du kan välja layout för din webbplats i AVS (Extensions > Sitemaker > Inställningar): * **Blogg**: underinnehåll och sidofält bredvid varandra, pressas till höger, top_hor/botom_hor flank underinnehåll * **Holy Grail**: lika bredd sidofält och underinnehåll på motsatta sidor, top_hor/botom_hor flank underinnehåll * **Portal**: sidofält till vänster, underinnehåll till höger, top_hor/botom_hor flank underinnehåll * **Portal Alt**: underinnehåll till vänster, sidofält till höger, top_hor/botom_hor flank sidofält * **Anpassad**: Ange manuellt bredden på sidofältet som px, %, em eller rem. Standard är 200px på varje sida
 
-## Custom templates/styles
+## Anpassade mallar/stilar
 
-As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
+Så mycket som möjligt, vi försökte sätta mallfiler och tillgångar i stilar / alla / mapp så att du kan skriva över dem genom att skapa en fil med samma namn under ditt eget malltema e. . Prosilver. Så om du vill ändra hur ett visst block visar eller om du vill skapa din egen layout med dina egna blockpositioner, du behöver helt enkelt skapa en fil med samma namn och sökväg som originalet i din egen stil.
 
-If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
+Om du behöver anpassa CSS/JS-filer, ta en titt på avsnittet [theming](./developer-theming.md).
