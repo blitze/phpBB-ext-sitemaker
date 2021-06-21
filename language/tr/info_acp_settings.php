@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SITEMAKER'		=> 'SiteMaker',
-	'ACP_SM_SETTINGS'	=> 'Ayarlar',
+	'ACP_SM_SETTINGS'	=> 'Settings',
 
 	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
 	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
