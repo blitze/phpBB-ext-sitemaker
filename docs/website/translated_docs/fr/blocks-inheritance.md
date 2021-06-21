@@ -1,31 +1,31 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: héritage-blocs
+title: Comprendre l'héritage du bloc
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+Nous avons déjà vu qu'en définissant une mise en page par défaut, d'autres pages qui n'ont pas de blocs de leurs propres hériteront des blocs de la mise en page par défaut. Il y a cependant un autre type d'héritage de bloc.
 
-## Parent/Child Routes
+## Routes parent/enfant
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+Dans phpBB SiteMaker, nous parlons de routes imbriquées en termes de véritables répertoires imbriqués (sous) ou de routes virtuellement imbriquées. Veuillez rester avec moi :). * Real Parent/Child routes: Par exemple, le chemin /some_directory/sub_directory/index.php est un enfant de /some_directory/index.php * Virtual Parent/Child routes: Par exemple, viewtopic.php est traité comme un enfant de viewforum.php.
 
-Here are some examples of parent/child routes:
+Voici quelques exemples de routes parent/enfant :
 
-| Parent             | Child                          |
+| Parent             | Enfant                         |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
-| /app.php/articles  | /app.php/articles/my-article   |
+| /app.php/articles  | /app.php/articles/mon-article  |
 
-## Parent/Child Block Inheritance
+## Hérité du bloc parent/enfant
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+Pour les routes parent/enfant, le chemin enfant hérite des blocs de la route mère (si le parent a ses propres blocs) ou de la mise en page par défaut (si l'un a été défini). En d'autres termes, même s'il y a une disposition par défaut, la route enfant héritera des blocs de sa route parente si la route parente a ses propres blocs. Mais tous les blocs de la route mère ne doivent pas être hérités.
 
-## Controlling Block Inheritance
+## Contrôle de l'héritage des blocs
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+À un niveau de bloc, vous pouvez contrôler quand un bloc peut être hérité par des routes enfants. Nous l'avons déjà touché dans les [Paramètres d'édition des blocs](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+Considérez la structure de répertoire réelle suivante :
 
 ```text
 phpBB
@@ -37,8 +37,8 @@ phpBB
         └── index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+Pour l'héritage de blocs, nous disons : * Le chemin parent de /phpBB/Movies/Comedy/index.php est /phpBB/Movies/index.php et non /phpBB/Movies/page.php * Toutes les pages d'un sous répertoire relatif à /phpBB/index.php est un chemin enfant de /phpBB/index.php. Donc /phpBB/Movies/index.php et /phpBB/Movies/page.php sont tous des enfants de /phpBB/index.php et hériteront donc de ses blocs s'ils n'ont pas de blocs. Dans ce cas: * Quand un bloc sur /phpBB/index. hp est configuré pour afficher sur **Cacher sur les routes enfants**, le bloc s'affichera sur /phpBB/index. hp (route parentale) mais pas sur ses routes enfants * Quand un bloc sur /phpBB/index. hp est configuré pour afficher sur **Afficher sur les routes enfants seulement**, il s'affichera sur /phpBB/Movies/index.php et /phpBB/Movies/page. hp (routes enfants) mais pas sur /phpBB/index.php (parent), ni /phpBB/Movies/Comedy/index. hp (nous ne faisons qu'un niveau de profondeur) * Quand un bloc sur /phpBB/index. hp est configuré pour afficher **toujours** (par défaut), il s'affichera sur /phpBB/index.php (parent), /phpBB/Movies/index. hp et /phpBB/page.php (routes enfants) mais pas sur /phpBB/Movies/Comedy/index.php (nous ne faisons qu'un niveau de profondeur). Dans ce cas, /phpBB/Movies/Comedy/index.php héritera de la route par défaut (si elle existe)
 
-## Posible Future State
+## État d'avenir acceptable
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+Je suis vraiment intéressé par vos commentaires dans ce domaine. La plupart des utilisateurs de phpBB n'auront pas de répertoires réels comme indiqué ci-dessus. Donc, je pense à utiliser la structure qui est définie dans un bloc de menu comme une structure de répertoire virtuel et d'y appliquer cet héritage parent/enfant. Je pense aussi aller au-delà d'un niveau profond. Veuillez me dire si cela vous sera utile.
