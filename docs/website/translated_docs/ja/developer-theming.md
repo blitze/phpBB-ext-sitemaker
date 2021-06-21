@@ -1,55 +1,55 @@
 ---
-id: developer-theming
-title: Theming
+id: 開発者のテーマ
+title: テーマ
 ---
 
-phpBB SiteMaker comes with styles and colors made for prosilver. You can overwrite CSS, JS, and HTML files by creating the corresponding file in your style's folder.
+phpBB SiteMakerはプロシルバー用に作られたスタイルと色が付属しています。 スタイルフォルダに対応するファイルを作成することで、CSS、JS、およびHTMLファイルを上書きできます。
 
-# Creating JS/CSS files for your style
+# スタイルの JS/CSS ファイルを作成する
 
-Note: * For the purpose of the below instructions we will assume that you have a style called my-style.
+注: * 以下の手順では、my-styleと呼ばれるスタイルがあると仮定します。
 
-Clone into phpBB/ext/blitze/sitemaker:
+phpBB/ext/blitze/sitemakerにクローン:
 
     git clone https://github.com/blitze/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+コマンドラインから sitemaker ディレクトリに移動します:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Install vendors**
+**ベンダのインストール**
 
     composer install
     
 
-**Install packages**
+**パッケージのインストール**
 
-For the below commands you can use npm or [yarn](https://yarnpkg.com)
+以下のコマンドでは、npm または [yarn](https://yarnpkg.com) を使用できます。
 
     yarn install
     
 
-**Watch Changes**
+**ウォッチの変更**
 
     yarn start --theme my-style
     
 
-**Make Changes**
+**変更する**
 
-* Make your changes to files in the phpBB/ext/blitze/sitemaker/develop folder.
-* Look at phpBB/ext/blitze/sitemaker/develop/_partials/_globals.scss for sass variables
+* phpBB/ext/blitze/sitemaker/developmentフォルダ内のファイルに変更を加えます。
+* sass 変数の phpBB/ext/blitze/sitemaker/develop/_partials/_globals.scss を参照してください。
 
-**Build Assets**
+**資産を構築**
 
     yarn build --theme my-style
     
 
-**Deploy**
+**デプロイ**
 
-You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
+phpBB/ext/blitze/sitemaker/styles/my-styleから生成されたファイルをコピーして、本番サーバーにアップロードできるようになりました。
 
-> This extension uses jQuery UI for tabs, dialogs and buttons. The default jQuery theme is 'smoothness.' You can use a different jQuery UI theme that best fits your theme. You can specify the jQuery UI theme using the flag --jq_ui_theme. For example:
+> この拡張機能は、タブ、ダイアログ、ボタンにjQuery UIを使用します。 デフォルトのjQueryテーマは「滑らかさ」です。テーマに最適な別のjQuery UIテーマを使用できます。 jQuery UI テーマは、--jq_ui_themeフラグを使用して指定できます。 例:
 
-    yarn build --theme my-style --jq_ui_theme ui-lightness
+    yarn build --theme my-style -jq_ui_theme ui-lightness
