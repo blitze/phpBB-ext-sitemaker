@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: menù-display
+title: Visualizzazione menu
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Ora che hai creato i tuoi menu, puoi visualizzarli in diversi modi:
 
-## Links Block
+## Blocco link
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Puoi utilizzare questo blocco per visualizzare una lista flat o nidificata delle voci di menu. Questo blocco non è destinato ad essere utilizzato per la navigazione, ad esempio, non mostrerà una pagina corrente o qualcosa di simile. E' destinato a un elenco di elementi, compresi i link esterni.
 
-## Menus Block
+## Blocco menu
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Questo blocco è destinato alla navigazione del sito. Fa qualche ulteriore calcolo per determinare la posizione attuale e non è inteso a essere un elenco molto grande.
 
-## Navigation bar
+## Barra di navigazione
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Simile al blocco Menus, la barra di navigazione visualizzerà le voci di menu come un menu a discesa reattivo per la navigazione del sito. Puoi attivarlo in ACP > Estensioni > Sitemaker > Impostazioni > Seleziona menu
