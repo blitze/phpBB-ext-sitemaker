@@ -40,14 +40,14 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_FORUM_POLL'			=> 'Forum Sondaggio',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_TOPICS'		=> 'Forum Argomenti',
 	'BLITZE_SITEMAKER_BLOCK_GOOGLE_MAPS'		=> 'Google Maps',
-	'BLITZE_SITEMAKER_BLOCK_POPULAR_TOPICS'		=> 'Popular Topics',
+	'BLITZE_SITEMAKER_BLOCK_POPULAR_TOPICS'		=> 'Argomenti Popolari',
 	'BLITZE_SITEMAKER_BLOCK_LINKS'				=> 'Link',
 	'BLITZE_SITEMAKER_BLOCK_LOGIN'				=> 'Box di accesso',
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Membri',
 	'BLITZE_SITEMAKER_BLOCK_MEMBER_MENU'		=> 'Menù Membri',
 	'BLITZE_SITEMAKER_BLOCK_MENU'				=> 'Menù',
 	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'I miei segnalibri',
-	'BLITZE_SITEMAKER_BLOCK_RECENT_TOPICS'		=> 'Recent Topics',
+	'BLITZE_SITEMAKER_BLOCK_RECENT_TOPICS'		=> 'Argomenti Recenti',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistiche',
 	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Selettore stili',
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'Novità?',
@@ -82,14 +82,14 @@ $lang = array_merge($lang, array(
 	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Elenco separato da virgole di utenti alla funzione (si applica solo alla modalità di visualizzazione dei membri in evidenza)',
 	'FEED_DATA_PREVIEW'							=> 'Dati feed',
 	'FEED_ITEM_TEMPLATE'						=> 'Modello Articolo',
-	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />
-		<ul class="sm-list">
-			<li>Access feed data in <strong>item</strong> variable e.g. item.title</li>
-			<li>Template must be in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntax</a></li>
-			<li>Click <strong>Samples</strong> above for sample templates</li>
-			<li>Use <code>get_item_tags(<a href="http://simplepie.org/wiki/faq/supported_xml_namespaces" target="_blank">$namespace</a>, $tag)</code> to get any tag from the feed that we do not provide e.g.<br /><strong><code>{{ get_item_tags(\'\', \'image\') }}</code></strong></li>
-			<li>Use Twig’s json_encode filter to see contents of array e.g. <strong><code>{{ get_item_tags(\'\', \'image\')|json_encode() }}</code></strong></li>
-		</ul>',
+	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>SUGGERIMENTI:</strong><br />
+		<unk>		<ul class="sm-list">
+			<unk> <unk>			<li>Accesso dati feed in <strong>elemento</strong> variabile e. . oggetto. itle</li>
+			<unk> <unk>			<li>Il modello deve essere in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Sintassi Twig</a></li>
+			<unk>			<li>Clicca <strong>Campioni</strong> sopra per i modelli di esempio</li>
+			<unk>			<li>Usa <code>get_item_tags(<a href="http://simplepie.org/wiki/faq/supported_xml_namespaces" target="_blank">$namespace</a>, $tag)</code> per ottenere qualsiasi tag dal feed che non forniamo . .<br /><strong><code>{{ get_item_tags(\'\', \'image\') }}</code></strong></li>
+			<unk>			<li>Usa il filtro json_encode di Twig, per vedere i contenuti dell\'array e. . <strong><code>{{ get_item_tags(\'\', \'image\')<unk> json_encode() }}</code></strong></li>
+		<unk>		</ul>',
 	'FEED_PREVIEW_SOURCE'						=> 'Sorgente',
 	'FEED_URL_PLACEHOLDER'						=> 'http://esempio.com/rss',
 	'FEED_URLS'									=> 'URL feed',
@@ -124,7 +124,7 @@ $lang = array_merge($lang, array(
 	'MAX_POSTS'									=> 'Numero massimo di messaggi',
 	'MAX_TOPICS'								=> 'Numero massimo di argomenti',
 	'MAX_WORDS'									=> 'Numero massimo di parole',
-	'MANAGE_MENUS'								=> 'Manage Menus',
+	'MANAGE_MENUS'								=> 'Gestisci Menu',
 	'MAP_COORDINATES'							=> 'Coordinate',
 	'MAP_COORDINATES_EXPLAIN'					=> 'Inserisci le coordinate nella latitudine della forma, longitudine',
 	'MAP_HEIGHT'								=> 'Altezza',
@@ -180,9 +180,9 @@ $lang = array_merge($lang, array(
 	'TOPIC_TITLE_LIMIT'							=> 'Numero massimo di caratteri per il titolo del topic',
 	'TOPIC_TYPE'								=> 'Tipo Topic',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Seleziona i tipi di topic che desideri visualizzare. Lascia le caselle deselezionata per selezionare tra tutti i tipi di topic',
-	'TOPICS_LOOK_BACK'							=> 'Look back',
+	'TOPICS_LOOK_BACK'							=> 'Guarda indietro',
 	'TOPICS_ONLY'								=> 'Solo argomenti?',
-	'TOPICS_PER_PAGE'							=> 'Per page',
+	'TOPICS_PER_PAGE'							=> 'Per pagina',
 
 	'WORD_MAX_SIZE'								=> 'Dimensione massima font',
 	'WORD_MIN_SIZE'								=> 'Dimensione minima carattere',
