@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: インストール
+title: インストール/アップグレード
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+[から](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/) 拡張機能をダウンロードする
 
 ## Installing phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* phpBB/ext/blitze/sitemaker があるように、phpBB/ext/ext/ext/sitemaker にそれを抽出してアップロードします
+* 「ACP」>「カスタマイズ」>「拡張機能」に移動し、「phpBBサイトマッカー」拡張機能を有効にします。
 
-## Upgrading phpBB SiteMaker
+## phpBB SiteMaker をアップグレードする
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* 何か問題が発生した場合に備えてデータベースのバックアップを作成します
+* 「ACP」>「カスタマイズ」>「拡張機能」に移動し、無効にします（パージしない）「phpBB Sitemaker」
+* 最新バージョンのphpBB SiteMakerをダウンロードして抽出し、phpBB/ext/フォルダにアップロードしてください(上書き)
+* 「ACP」>「カスタマイズ」>「拡張機能」に移動し、「phpBBサイトマッカー」拡張機能を有効にします。
