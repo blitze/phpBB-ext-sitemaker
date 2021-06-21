@@ -22,21 +22,21 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TIME'						=> 'Sempre',
+	'ALL_TIME'						=> 'Tutto Il Tempo',
 
-	'BLOCK_TITLE'					=> 'Titolo del blocco',
+	'BLOCK_TITLE'					=> 'Titolo Blocco',
 
 	'CHANGE_ME'						=> 'Cambiami',
 
 	'DAILY_MEMBER'					=> 'Membro del giorno',
 
-	'FEATURED_MEMBER'				=> 'Membro in evidenza',
-	'FEATURED_MEMBERLIST'			=> 'Elenco membri in evidenza',
+	'FEATURED_MEMBER'				=> 'Membro In Evidenza',
+	'FEATURED_MEMBERLIST'			=> 'Lista membri in vetrina',
 	'FEEDS'							=> 'Feed',
-	'FORUM_ANNOUNCEMENTS'			=> 'Forum Annunci',
+	'FORUM_ANNOUNCEMENTS'			=> 'Annunci Forum',
 	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Annunci Forum Globali',
-	'FORUM_RECENT_POSTS'			=> 'Post recenti',
-	'FORUM_RECENT_TOPICS'			=> 'Discussioni recenti',
+	'FORUM_RECENT_POSTS'			=> 'Post Del Forum Recenti',
+	'FORUM_RECENT_TOPICS'			=> 'Argomenti Del Forum Recenti',
 	'FORUM_STICKY_POSTS'			=> 'Post Adesivi Recenti',
 
 	'HELP'							=> 'Aiuto',
@@ -44,54 +44,54 @@ $lang = array_merge($lang, array(
 
 	'GOOGLE_MAP'					=> 'Google Map',
 
-	'JOIN_DATE'						=> 'Data di ingresso',
+	'JOIN_DATE'						=> 'Data Di Iscrizione',
 
-	'LAST_POST_BY_AUTHOR'			=> 'Ultimo post di',
-	'LAST_VISITED'					=> 'Ultima visita',
-	'LINKS'							=> 'Link',
+	'LAST_POST_BY_AUTHOR'			=> 'Ultimo messaggio da',
+	'LAST_VISITED'					=> 'Ultimo Visitato',
+	'LINKS'							=> 'Collegamenti',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Contenuti',
 	'MEMBERS_DATE'					=> 'Data',
-	'MENU'							=> 'Menù',
+	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Membro del mese',
-	'MOST_TENURED'					=> 'Più richiamati',
-	'MY_BOOKMARKS'					=> 'I miei segnalibri',
+	'MOST_TENURED'					=> 'Più Tenuto',
+	'MY_BOOKMARKS'					=> 'I Miei Segnalibri',
 
-	'NO_BOOKMARKED_TOPICS'			=> 'Non hai salvato nessun topic',
+	'NO_BOOKMARKED_TOPICS'			=> 'Non hai segnalibro nessun argomento',
 	'NO_NEW_TOPICS'					=> 'Non ci sono nuovi topic da visualizzare',
 
 	'POLL'							=> 'Sondaggio',
 	'POPULAR_TOPICS'				=> 'Argomenti Popolari',
-	'POSTS_MEMBER'					=> 'Poster Top',
+	'POSTS_MEMBER'					=> 'Poster Superiore',
 	'PROCESSING'					=> 'elaborazione...',
 
 	'QTYPE_POSTS'					=> 'Congratulazioni a:',
-	'QTYPE_RECENT'					=> 'Dai il benvenuto al nostro nuovo membro:',
+	'QTYPE_RECENT'					=> 'Vi preghiamo di dare il benvenuto al nostro nuovo membro:',
 
-	'RECENT_BOTS'					=> 'Motori di ricerca recenti',
-	'RECENT_MEMBER'					=> 'Membro recente',
-	'RECENT_MEMBERS'				=> 'Membri recenti',
+	'RECENT_BOTS'					=> 'Motori Di Ricerca Recenti',
+	'RECENT_MEMBER'					=> 'Membro Recente',
+	'RECENT_MEMBERS'				=> 'Membri Recenti',
 
-	'SESSION_HIDE_ME'				=> 'Non nascondi',
-	'SM_NAVIGATION'					=> 'Navigazione',
-	'SM_TOGGLE_DROPDOWN'			=> 'Menù a tendina',
-	'STYLE_SWITCHER'				=> 'Selettore stili',
+	'SESSION_HIDE_ME'				=> 'Mi Nascondi',
+	'SM_NAVIGATION'					=> 'Navigation',
+	'SM_TOGGLE_DROPDOWN'			=> 'Attiva/disattiva menu a discesa',
+	'STYLE_SWITCHER'				=> 'Commutatore Di Stile',
 
-	'THIS_MONTH'					=> 'Questo mese',
-	'THIS_WEEK'						=> 'Questa settimana',
-	'THIS_YEAR'						=> 'Quest\'anno',
+	'THIS_MONTH'					=> 'Questo Mese',
+	'THIS_WEEK'						=> 'Questa Settimana',
+	'THIS_YEAR'						=> 'Questo Anno',
 	'TODAY'							=> 'Oggi',
-	'TOPICS_LAST_READ'				=> 'Ultima lettura argomenti',
+	'TOPICS_LAST_READ'				=> 'Ultimi Argomenti Di Lettura',
 	'TOPIC_LAST_READ'				=> 'Ultima lettura %s',
-	'TOP_POSTERS'					=> 'Poster Top',
+	'TOP_POSTERS'					=> 'Poster Migliori',
 
-	'UCP_SITEMAKER_CONTENT'			=> 'Le mie cose',
+	'UCP_SITEMAKER_CONTENT'			=> 'I Miei Robi',
 
-	'VIEW_DETAILS'					=> 'Vedi dettagli',
+	'VIEW_DETAILS'					=> 'Visualizza Dettagli',
 	'VIEW_USER_PROFILE'				=> 'Tutto su %s',
 
 	'WEEKLY_MEMBER'					=> 'Membro della settimana',
 	'WELCOME'						=> 'Benvenuto',
-	'WHATS_NEW'						=> 'Novità?',
-	'WORDGRAPH'						=> 'Parola',
+	'WHATS_NEW'						=> 'Che Cosa È Nuovo?',
+	'WORDGRAPH'						=> 'Wordgraph',
 ));
