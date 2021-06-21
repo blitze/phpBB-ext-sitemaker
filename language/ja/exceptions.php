@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
-	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> '必須項目がありません',
+	'EXCEPTION_INVALID_ACTION'		=> 'アクションが存在しません',
+	'EXCEPTION_INVALID_ARGUMENT'	=> '`%1$s`に無効な引数が指定されました。理由: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> '指定された値は予期しないデータ型です',
+	'EXCEPTION_INVALID_ENTITY'		=> '提供されたエンティティは予期しないエンティティクラスです。',
+	'EXCEPTION_INVALID_PROPERTY'	=> '要求されたプロパティは存在しません',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> '要求された`%1$s`は存在しません',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> '要求されたサービスが見つかりませんでした',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> '要求されたアクション `%1$s` を実行できませんでした。理由: %2$s',
 ));
