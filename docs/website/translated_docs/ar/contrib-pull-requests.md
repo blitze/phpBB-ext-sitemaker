@@ -1,76 +1,76 @@
 ---
-id: contrib-pull-requests
-title: Submitting a Pull Request
-sidebar_label: Pull Requests
+id: طلبات سحب contrib-سحب-
+title: تقديم طلب سحب
+sidebar_label: طلبات السحب
 ---
 
-`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
+`طلبات السحب تتيح لك إخبار الآخرين عن التغييرات التي دفعتها إلى فرع في مستودع GitHub. بمجرد فتح طلب سحب، يمكنك مناقشة ومراجعة التغييرات المحتملة مع المتعاونين وإضافة التزامات المتابعة قبل دمج التغييرات الخاصة بك في فرع القاعدة.` [اقرأ المزيد](https://help.github.com/articles/about-pull-requests/)
 
-## Forking/Cloning
+## التصنيع/الاستنساخ
 
-* Create a github account if you don't already have one
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* إنشاء حساب github إذا لم يكن لديك بالفعل حساب
+* انتقل إلى https://github.com/blitze/phpBB-ext-sitemaker.git وانقر على "Fork"
 
-Clone your fork of the repository:
+استنسخ شوكك من المستودع:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+من سطر الأوامر انتقل إلى دليل الموقع:
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Configure git:**
+**تكوين الحدث:**
 
-Add your Username to Git on your system:
+إضافة اسم المستخدم الخاص بك إلى Git على النظام الخاص بك:
 
-    git config --global user.name "Your Name Here"
+    git config --المستخدم العالمي.name "اسمك هنا"
     
 
-Add your E-mail address to Git on your system:
+أضف عنوان بريدك الإلكتروني إلى Git على النظام الخاص بك:
 
-    git config --add user.email username@phpbb.com
+    git config --إضافة user.email username@phpbb.com
     
 
-Add the upstream remote (you can change ‘upstream’ to whatever you like):
+أضف جهاز التحكم عن بعد (يمكنك تغيير "التمهيد" إلى أي شيء تريد):
 
-    git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
+    git عن بعد إضافة أعلى مسار git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Install vendors**
+**تثبيت البائعين**
 
-    composer install
+    تثبيت المؤلف
     
 
-**Install NPM packages**
+**تثبيت حزم NPM**
 
     npm install
     
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+بدلاً من ذلك، يمكنك استخدام [yarn](https://yarnpkg.com):
 
-    yarn install
+    تثبيت yarn
     
 
-## Pull Requests
+## طلبات السحب
 
-    # Create a new branch for your feature & switch to it
-    git checkout -b feature/my-fancy-new-feature
+    # قم بإنشاء فرع جديد للميزة الخاصة بك & قم بالتبديل إليه
+    git Checout -b feature/my-fancy-new-feat
     
-    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
-    git checkout -b ticket/1234
-    
-
-Make your changes
-
-    # Stage the files
-    git add <files> 
-    
-    # Commit staged files - please use a correct commit message
-    git commit -m "my commit message"
+    # قم بإنشاء فرع جديد للمشكلة التي تعمل عليها * قم بالتبديل إليها (التذكرة # من github tracker)
+    git Checout - b ticket/1234
     
 
-Push the branch back to GitHub git push origin feature/my-fancy-new-feature
+إجراء التغييرات الخاصة بك
 
-Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+    # المرحلة
+    git إضافة الملفات <files> 
+    
+    # إرسال الملفات - الرجاء استخدام رسالة الالتزام الصحيحة
+    git الالتزام -m "رسالة الالتزام الخاصة بي"
+    
+
+ارجع الفرع إلى خاصية GitHub git push Originure/my-fancy-new-الميزة الجديدة
+
+تقديم [طلب سحب](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
