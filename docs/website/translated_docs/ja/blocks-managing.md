@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: ブロック管理
+title: ブロックの管理
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+phpBB SiteMakerでブロックを管理するには、 [編集モード](./blocks-overview#edit-mode)にする必要があります。
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> ブロックがコンテンツを表示しない場合、編集モード以外は表示されません。 これにより、(format@@0ブロックの場合)コンテンツを与えるか、設定を変更することができます。
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> 編集モード やや透明なブロックは、表示されないブロックですが、編集モードになっているためにのみ表示されます
 
-## Adding blocks
+## ブロックを追加中
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+ユーザーコントロールパネルとモデレーターコントロールパネルページを除き、フロントページにブロックを追加できます。 ブロックを追加するには、以下を行う必要があります: * Admin バーの **Blocks** をクリックします。 利用可能なブロックのリストが表示されます * 任意のブロック位置にドラッグ&ドロップします
 
-## Editing blocks
+## ブロックの編集
 
-### Adding a block icon
+### ブロックアイコンを追加する
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+ブロックタイトルの左側には、ブロックアイコンのボックスがあります。 アイコンピッカーを取得するには、このボックスをクリックしてください。 アイコンのサイズ、色、フロート、回転などを選択できます。
 
-### Editing the Block Title
+### ブロックタイトルの編集
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+phpBB SiteMakerブロックにはデフォルトで翻訳されたタイトルがありますが、タイトルがニーズを満たしていない場合は変更できます。 ブロックのタイトルを編集する * ブロックのタイトルをクリックしてインライン編集フォームを取得する * タイトルを希望するものに変更する * フィールドからフォーカスを取り除くか、Enter キーを押して変更を送信する
 
-> Your modified block title is not translated
+> 変更されたブロックのタイトルは翻訳されていません
 > 
-> To revert to the default title, simple delete the title and hit enter
+> デフォルトのタイトルに戻すには、単純にタイトルを削除してEnterキーを押します。
 
-### Editing block settings
+### ブロック設定の編集
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+ブロックにカーソルを合わせると、コグアイコンがブロックの右側に表示され、ブロックを編集できます。 - ブロックを有効/無効にする [Status] - ブロックを表示/非表示にするタイミングを選択する [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. 複数のグループを選択するには、Ctrl + クリックを使用します。 - ブロックまたはアイテム（リスト、画像、背景）の外観を変更するカスタムクラスを設定します etc) ブロック内の [CSS クラス] - ブロックタイトルを表示・非表示にします。 - ブロックビュー を選択します。 ACPに新しいブロックが追加されると、デフォルトのブロックビューを選択できます。 - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
 
-## Deleting blocks
+## ブロックを削除中
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- 削除したいブロックにカーソルを合わせます
+- **x** アイコンをクリックし、ブロックを削除することを確認します
+- 管理者バーに移動し、 `変更を保存` をクリックします
