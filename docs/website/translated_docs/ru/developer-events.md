@@ -115,6 +115,6 @@ title: phpBB SiteMaker события
 
 # blitze_sitemaker_tinymce_options
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Местонахождение: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- с: 3.3.0
+- Цель: событие для разрешения других расширений для изменения параметров на тиме
