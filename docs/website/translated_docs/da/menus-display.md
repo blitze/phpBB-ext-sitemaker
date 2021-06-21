@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: menu-display
+title: Viser Menuer
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Nu hvor du har oprettet dine menuer, kan du vise dem på flere måder:
 
-## Links Block
+## Links Blok
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Du kan bruge denne blok til at vise en flad eller indlejret liste over menupunkter. Denne blok er ikke beregnet til at blive brugt til navigation, dvs. den vil ikke vise en aktuel side eller noget lignende. Det er beregnet til en liste over emner, herunder eksterne links.
 
-## Menus Block
+## Menuer Blok
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Denne blok er beregnet til sejlads på stedet. Det gør nogle yderligere beregninger for at bestemme nuværende placering og er ikke beregnet til at være en meget stor liste.
 
 ## Navigation bar
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Svarende til menublokken, vil navigationslinjen vise menupunkter som en følsom dropdown menu beregnet til site navigation. Du kan aktivere dette i AVS > Udvidelser > Sitemaker > Indstillinger > Vælg menu
