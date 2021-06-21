@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: الكتلة-نظرة عامة
+title: ما هي الكتلة؟
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+في قلب phpBB SiteMaker هو مفهوم الكتل. الكتل هي أجزاء صغيرة من المحتوى الذي يمكنك وضعه في مناطق مختلفة محددة مسبقاً (مواقع الكتل) على موقعك. تحتوي الكتل عادة على إعدادات يمكنك تعيينها/تغييرها لصقل المحتوى الذي ترغب في عرضه. معظم الكتل البرمجية، ولكن ليس كلها، ستجعل استفسارات قاعدة البيانات للحصول على المحتوى المطلوب. لذا دعونا لا نجنون جدا:). لإدارة الكتل البرمجية، سوف تحتاج إلى التبديل إلى "وضع التحرير".
 
-## Edit Mode
+## وضع التحرير
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+قم بالتبديل إلى وضع التحرير عن طريق النقر على أيقونة قلم الرصاص في أعلى يمين موقعك. هذا سوف يعرض "شريط المشرف" مع "الكتل" و "الإعدادات". يشار إلى هذا على أنه في "وضع التحرير".
