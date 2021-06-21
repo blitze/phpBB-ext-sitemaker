@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: afișare meniuri
+title: Afișare Meniuri
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Acum că v-aţi creat meniurile, le puteţi afişa în mai multe moduri:
 
-## Links Block
+## Bloc: Link-uri
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Puteți utiliza acest bloc pentru a afișa o listă plană sau imbricată de elemente de meniu. Acest bloc nu este destinat pentru navigare, adică nu va afișa o pagină curentă sau ceva asemănător. Acesta este destinat pentru o listă de articole, inclusiv linkuri externe.
 
-## Menus Block
+## Bloc: Meniuri
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Acest bloc este destinat pentru navigarea site-ului. Face unele calcule suplimentare pentru a determina locaţia curentă şi nu se intenţionează a fi o listă foarte mare.
 
-## Navigation bar
+## Bara de navigare
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Similar cu blocul Menus, bara de navigare va afișa elementele de meniu ca un meniu vertical responsiv destinat navigării pe site. Puteți activa acest lucru în ACP > Extensii > articole > Setări > Selectaţi meniu
