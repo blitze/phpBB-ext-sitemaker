@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: προσαρμοσμένα blocks-
+title: Προσαρμοσμένο Μπλοκ
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Εάν τα διαθέσιμα μπλοκ δεν σας δίνουν την ελευθερία που χρειάζεστε, υπάρχει το `Προσαρμοσμένο Block` που σας επιτρέπει την ελευθερία να εμφανίζετε το δικό σας περιεχόμενο χρησιμοποιώντας BBcode ή HTML. Το μπλοκ έρχεται με έναν επεξεργαστή WYSIWYG (TinyMCE) και έναν διευθυντή σεναρίων:
 
-## The editor
+## Ο επεξεργαστής κειμένου
 
-- You can use the editor to create HTML content
+- Μπορείτε να χρησιμοποιήσετε τον επεξεργαστή για να δημιουργήσετε περιεχόμενο HTML
 - You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Ο επεξεργαστής σας επιτρέπει να ανεβάσετε και να τροποποιήσετε εικόνες 
+    - Δημιουργεί ένα νέο φάκελο στο phpBB/images/sitemaker_uploads/ για κάθε χρήστη που έχει πρόσβαση σε αυτό
+    - Μπορείτε να δείτε/διαχειριστείτε όλους τους φακέλους χρηστών
+- Ο επεξεργαστής φιλτράρει τυχόν επικίνδυνα σενάρια όπως javascript, κλπ. Αν χρειαστεί να προσθέσετε περιεχόμενο, όπως το google διαφημίσεις, το javascript θα φιλτραριστούν, αλλά μπορείτε να πάρετε γύρω από αυτό κάνοντας τα εξής: 
+    - Προσθέστε το προσαρμοσμένο μπλοκ στην επιθυμητή τοποθεσία
+    - Επεξεργαστείτε το Προσαρμοσμένο Φραγμό, κάντε κλικ στην καρτέλα `HTML` και επικολλήστε το Javascript σας
 
-## The Scripts Manager
+## Ο Διαχειριστής Σεναρίων
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Το Προσαρμοσμένο Block σας επιτρέπει επίσης να προσθέσετε προσαρμοσμένα αρχεία CSS και Javascript στη σελίδα σας. Για να το κάνετε αυτό:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Πρόσθεσε ένα `Προσαρμοσμένο Block` σε οποιαδήποτε θέση μπλοκ. Η θέση δεν έχει σημασία αν δεν εμφανίζετε επίσης περιεχόμενο με το block
+- Επεξεργασία του μπλοκ, κάντε κλικ στην καρτέλα `Σενάρια` και προσθέστε τα αρχεία CSS ή Javascript > Προσοχή όμως: Προσθέτοντας πολλά σενάρια στη σελίδα σας μπορεί να επηρεάσει τις ώρες φόρτωσης
