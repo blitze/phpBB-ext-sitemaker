@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Champ obligatoire manquant',
-	'EXCEPTION_INVALID_ACTION'		=> 'Cette action n\'existe pas',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Argument invalide spécifié pour `%1$s`. Raison : %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'La valeur indiquée est d\'un type de données non valide',
-	'EXCEPTION_INVALID_ENTITY'		=> 'L\'entité indiquée est d\'une classe d\'entité non valide',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'La propriété demandée n\'existe pas',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Le `%1$s` demandé n\'existe pas',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Le service demandé n\'a pas été trouvé',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'L\'action demandée `%1$s` n\'a pas pu être effectuée. Raison : %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
+	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
+	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
 ));
