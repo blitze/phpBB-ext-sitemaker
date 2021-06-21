@@ -11,7 +11,7 @@ Para gerenciar menus, vá para ACP > Extensões > Sitemaker > Menu
 
 ### Criando menus
 
-To create a new menu (group), click on the `Add Menu` button. Um novo grupo de menu será criado com um nome gerado aleatoriamente. O novo menu também será selecionado para que você possa começar a adicionar itens de menu a ele.
+Para criar um novo menu (grupo), clique no botão `Adicionar Menu`. Um novo grupo de menu será criado com um nome gerado aleatoriamente. O novo menu também será selecionado para que você possa começar a adicionar itens de menu a ele.
 
 ### Editando menus
 
