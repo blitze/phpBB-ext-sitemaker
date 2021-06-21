@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
-	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> 'Chybí povinné pole',
+	'EXCEPTION_INVALID_ACTION'		=> 'Akce neexistuje',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Byl zadán neplatný argument pro `%1$s`. Důvod: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'Poskytnutá hodnota je neočekávaný datový typ',
+	'EXCEPTION_INVALID_ENTITY'		=> 'Poskytnutá účetní jednotka patří do neočekávané třídy účetní jednotky',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'Požadovaná vlastnost neexistuje',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Požadovaný `%1$s` neexistuje',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Požadovaná služba nebyla nalezena',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Požadovanou akci `%1$s` nelze provést. Důvod: %2$s',
 ));
