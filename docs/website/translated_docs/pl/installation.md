@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: instalacja
+title: Instalacja / Aktualizacja
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+Pobierz rozszerzenie z [tutaj](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
-## Installing phpBB SiteMaker
+## Instalowanie phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Wypakuj i prześlij do folderu phpBB/ext/ aby mieć phpBB/ext/blitze/sitemaker
+* Przejdź do "ACP" > "Dostosuj" > "Rozszerzenia" i włącz rozszerzenie "phpBB Sitemaker".
 
-## Upgrading phpBB SiteMaker
+## Ulepszanie phpBB SiteMaker
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Utwórz kopię zapasową bazy danych na wypadek, gdyby coś poszło nie tak
+* Przejdź do "ACP" > "Dostosuj" > "Rozszerzenia" i wyłącz (nie czyszczenie) "phpBB Sitemaker"
+* Pobierz i rozpakuj najnowszą wersję phpBB SiteMaker i prześlij ją do folderu phpBB/ext/ (nadpisanie)
+* Przejdź do "ACP" > "Dostosuj" > "Rozszerzenia" i włącz rozszerzenie "phpBB Sitemaker".
