@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: menyer visning
+title: Viser menyer
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Nå som du har opprettet dine menn, kan du vise dem på flere måter:
 
-## Links Block
+## Lenker blokk
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Du kan bruke denne blokken til å vise en flat eller nestet liste over menyelementer. Denne blokken er ikke ment å bli brukt til navigasjon, det vil si at den ikke viser en gjeldende side eller noe sånt. Den er beregnet på en liste over objekter, inkludert eksterne koblinger.
 
-## Menus Block
+## Blokker menyer
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Denne blokken er beregnet på stedsnavigasjon. Det gjør enkelte ekstra beregninger for å bestemme gjeldende sted, og er ikke ment å være en svært stor liste.
 
-## Navigation bar
+## Navigasjonsfelt
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+I likhet med menyblokkeringen vil navigasjonslinjen vise menypunkter som en responsiv nedtrekksmeny beregnet for stedsnavigasjon. Du kan aktivere dette i ACP > Extensions > Sitemaker > Settings > Select menu
