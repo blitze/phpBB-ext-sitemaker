@@ -1,177 +1,177 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: إضافات المطور
+title: تمديد phpBB SiteMaker
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+يمكنك تمديد / تعديل phpBB SiteMaker باستخدام [استبدال الخدمة](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement)و [ديكور الخدمة](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration)و [نظام أحداث phpBBB](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). يمكنك العثور على قائمة بالأحداث المدعومة [هنا](./developer-events.md).
 
-## Creating a SiteMaker block
+## إنشاء كتلة SiteMaker
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+كتلة phpBB SiteMaker هي ببساطة فئة تمدد فئة blitze\sitemaker\services\blocks\driver\block وتعيد صفيفة من طريقة "Display" مع 'title' و 'content'. كل شيء آخر فيما بين هذه الأمور يعود لك. لجعل الكتلة الخاصة بك قابلة للاكتشاف بواسطة SiteMaker، ستحتاج إلى إعطائها علامة "sitemaker.block".
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+قل أن لدينا تمديد مع البائع/التمديد كمثال/مثال. لإنشاء كتلة تسمى "my_block" لـ phpBB SiteMaker:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- إنشاء مجلد "القطع"
+- إنشاء ملف my_block.php في مجلد الكتل مع المحتوى التالي
 
 ```php
-namespace my\example\blocks;
+اسم الفضاء my\example\block;
 
-use blitze\sitemaker\services\blocks\driver\block;
+استخدم blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+class my_block يمدد كتلة
 {
     /**
      * {@inheritdoc}
      */
-    public function display(array $settings, $edit_mode = false)
+    عرض الدالة العامة (صفيف $settings, $edit_mode = خطأ)
     {
-        return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
-        );
+        مرجع المصفوف(
+            'title' => 'بلدي بلوك'،
+            'المحتوى' => 'محتوى الكتلة',
+        )؛
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+ثم في ملف config.yml الخاص بك، أضف ما يلي:
 
 ```yml
-services:
+الخدمات:
 
-    ...
+...
 
     my.example.block.my_block:
         class: my\example\blocks\my_block
-        calls:
+        مكالمات:
             - [set_name, [my.example.block.my_block]]
-        tags:
+        العلامات:
             - { name: sitemaker.block }
 
-    ....
+....
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+على أقل تقدير، هذا كل ما تحتاجين. إذا ذهبت إلى وضع التحرير، يجب أن ترى الكتلة المدرجة كـ 'MY_EXAMPLE_BLOCK_MY_BLOCK' التي يمكن سحبها وإسقاطها في أي وضع كتل. لكن هذه الكتلة لا تفعل أي شيء مثير. ليس لديه إعدادات ولا يترجم اسم الكتلة. دعونا نجعلها أكثر إثارة للاهتمام.
 
-### Block Settings
+### إعدادات حظر
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+دعونا نعدل كتلنا/my_block. اضف ملف وأضف طريقة "get_config" عند إرجاع مصفوفة مع المفاتيح هي إعدادات الكتلة والقيم هي مصفوفة تصف الإعدادات مثل:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    وظيفة عامة get_config(صفيف $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
-        );
-    }
+        $options = المصفوفة (1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR')؛
+        مصفوفة العودة (
+            'اسطورية1' => 'TAB1',
+            'مربع الاختيار' => المصفوفة('lang' => 'SOME_LANG_VAR_1', 'صلاحية' => 'سلسلة'، 'نوع' => 'مربع الاختيار'، 'خيارات' => $options، 'الافتراضي' => الصفيفة (), 'فسر ' => false),
+            'yes_no' => Array('lang' => 'SOME_LANG_VAR_2', 'صحيح' => 'bool', 'type' => 'radio:yes_no', 'فسر ' => false, 'ault' => false),
+            'radio' => Array('lang' => 'SOME_LANG_VAR_3', 'صلاحية' => 'bool', 'type' => 'radio', 'خيارات' => $options, 'فسر ' => false, 'الافتراضي' => 'الموضوع')،
+            'إختيار' => المصفوف('lang' => 'SOME_LANG_VAR_4', 'صواب' => 'سلسلة'، 'نوع' => 'إختيار'، 'خيارات' => $options، 'افتراضي' => '، 'شرح' => false)،
+            'عدة' => صفيفة ('lang' => 'SOME_LANG_VAR_5', 'صحيح' => 'سلسلة', 'نوع' => 'multi_select', 'خيارات' => $options، 'الافتراضي' => المصفوفة (), 'فسر ' => false)،
+            'اسطورية2' => 'TAB2',
+            'العدد' => الصفيف('lang' => 'SOME_LANG_VAR_6', 'صحيح' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'الافتراضي' => 5)،
+            'textarea' => Array('lang' => 'SOME_LANG_VAR_7', 'صحيح' => 'سلسلة', 'نوع' => 'textarea:3:40', 'maxlength' => 2, 'فسر ' => صحيح, 'الافتراضي' => ')،
+            'تبديل العمل' => مصفوفة ('lang' => 'SOME_TOGLABLE_VAR', 'صحيح' => 'سلسلة'، 'نوع' => 'إختيار:1:0:toggle_key', 'خيارات' => $options، 'الافتراضي' => '، 'تذييل' => '<div id="toggle_key-1">فقط عندما يتم اختيار الخيار 1</div>')،
+        )؛
+}
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+تم بناء هذا بنفس الطريقة التي يبني بها phpBB التكوين لإعدادات اللوحة في ACP. يمكنك رؤية المزيد من الأمثلة [هنا](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+إذا كنت تريد نوع حقل مخصص، يمكنك مشاهدة مثال [هنا](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) (إعدادات 'content_type'.
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+لاحظ 'legend1' و 'legend2': يتم استخدام هذه الإعدادات لفصل الإعدادات إلى علامات التبويب.
 
-### Naming Blocks
+### كتل التسمية
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+اتفاقية أسماء الكتل هي أن اسم الخدمة (مثل my.example.block). و*أعلاه) سوف تستخدم كمفتاح اللغة عن طريق استبدال النقاط (.) بسطر (*مثلاً: MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### الترجمة
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+لاحظ أيضا أن لدينا عدة مفاتيح لغوية تحتاج للترجمة. للقيام بذلك، قم بإنشاء ملف يسمى "blocks_admin.php" في مجلد لغتك. سيتم تحميل هذا الملف تلقائياً عند تحرير المربعات البرمجية، ويجب أن يحتوي على ترجمات لإعدادات المربعات البرمجية الخاصة بك وأسماء الحظر.
 
-    $lang = array_merge($lang, array(
-        'SOME_LANG_VAR'     => 'Option 1',
-        'OTHER_LANG_VAR'    => 'Option 2',
-        'SOME_LANG_VAR_1'   => 'Setting 1',
-        ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
-    );
+    $lang = المصفوفة_دمج($lang، المصفوفة(
+        'SOME_LANG_VAR' => 'الخيار 1',
+        'OTHER_LANG_VAR' => 'الخيار 2',
+        'SOME_LANG_VAR_1' => 'إعداد 1',
+    ....
+        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'بلدي بلوك'،
+    )؛
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+لأنه يتم تحميل "blocks_admin.php" فقط عند تحرير المربعات البرمجية، سوف تحتاج إلى إضافة ترجمات أخرى (على سبيل المثال. حظر العنوان عن طريق تحميل ملف لغة في طريقة العرض الخاصة بك مثل `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### تقديم الكتلة
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+سيتم عرض الكتلة الجديدة فقط إذا كانت تقدم شيئاً. يمكن لكتلة التحكم الخاصة بك إرجاع أي سلسلة كمحتوى ولكن في معظم الحالات، تحتاج إلى قالب لتقديم المحتوى الخاص بك. لعرض كتلة استخدام قوالب، يجب أن تعيد الكتلة مصفوفة تحتوي على البيانات التي تريد تمريرها إلى القالب ويجب أيضا تنفيذ طريقة `get_template` كما هو موضح أدناه:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    وظيفة عامة get_config(صفيف $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        $options = المصفوفة (1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR')؛
+        مصفوفة العودة (
+            'اسطورية1' => 'TAB1',
+            'some_setting' => ary('lang' => 'SOME_LANG_VAR_1', 'صلاحية' => 'سلسلة'، 'نوع' => 'مربع الاختيار'، 'خيارات' => $options، 'الافتراضي' => المصفوفة (), 'فسر ' => false),
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get_template()
+    وظيفة عامة get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function display(array $data, $edit_mode = false)
+    عرض الوظيفة العامة (الصفيفة $data, $edit_mode = خطأ)
     {
-        if ($edit_mode)
+        اذا ($edit_mode)
         {
-            // do something only in edit mode
+            // افعل شيئا فقط في وضع التحرير
         }
 
-        return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
-            ),
-        );
-    }
+        مصفوفة العودة (
+            'title' => 'MY_BLOCK_TITLE',
+            'البيانات' => صفيفة(
+                'some_var' => $data['settings']['some_setting']،
+            )،
+        )؛
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+ثم قد يبدو ملف الأنماط/all/my_block.html أو styles/prosilver/my_block.html شيئًا كهذا:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>لقد اخترت: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+وباختصار، يجب أن تعيد الكتلة المصفوفة التي تحتوي على مفتاح `عنوان` (لعنوان الكتلة) ومفتاح `محتوى` (إذا كانت الكتلة تعرض سلسلة فقط ولا تستخدم قالب) أو مفتاح `بيانات` (إذا كانت الكتلة تستخدم قالب، في هذه الحالة، ستحتاج أيضًا إلى تنفيذ طريقة `get_template`).
 
-### Block Assets
+### حظر الأصول
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+إذا كان الكتلة الخاصة بك تحتاج إلى إضافة الأصول (ss/js) إلى الصفحة، فأنا أوصي باستخدام صنف الموقع [util](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) لذلك. بما أنه يمكن أن يكون هناك أكثر من مثال واحد من نفس الكتلة على الصفحة، أو قد تكون الكتل الأخرى إضافة نفس الأصل، حتى تضمن الفئة أن الأصل مضاف فقط.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
-            ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'js' => ary(
+                '@my_example/assets/some. s',
+                100 => '@my_example/assets/other. s', // تعيين الأولوية
+            )،
+            'css' => المصفوفة(
+                '@my_example/assets/some. ع ،
             )
-        ));
+)؛
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+سيلزم بالطبع إضافة الصف إلى تعاريف الخدمة الخاصة بك في config.yml مثل ذلك: `- '@blitze.sitemaker. حتى` ومعرّف في منشئ الكتلة `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+وهذا كل شيء. لقد انتهينا منها!
