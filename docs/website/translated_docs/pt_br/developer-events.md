@@ -1,120 +1,120 @@
 ---
-id: developer-events
-title: phpBB SiteMaker Events
+id: eventos-desenvolvedor
+title: phpBB SiteMaker Eventos
 ---
 
-You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+Você pode modificar o comportamento do phpBB SiteMaker usando o sistema de eventos do phpBB.
 
-## PHP Events
+## Eventos PHP
 
-# blitze.sitemaker.acp_add_bulk_menu_options
+# blitze.sitemaker.acp_adicionar_opções_de_menu_bulk
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
-- Since: 3.1.0
-- Purpose: Add bulk menu options in acp menu
+- Localização: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+- Desde: 3.1.0
+- Objetivo: Adicionar opções de menu em massa no menu acp
 
-# blitze.sitemaker.acp_display_settings_form
+# blitze.sitemaker.acp_form_de_configurações_do_site
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: display acp (sitemaker) settings form
+- Localização: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- Desde: 3.1.0
+- Formulário de configurações do acp (sitemaker)
 
-# blitze.sitemaker.acp_save_settings
+# blitze.sitemaker.acp_salvar_configurações
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: Save acp (sitemaker) settings
+- Localização: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- Desde: 3.1.0
+- Purpose: Salvar configurações do acp (sitemaker)
 
 # blitze.sitemaker.admin_bar.set_assets
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
-- Since: 3.0.1-RC1
-- Purpose: Add assets for available blocks in edit mode
+- Localização: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
+- Desde: 3.0.1-RC1
+- Carteira: Adicionar ativos para blocos disponíveis no modo de edição
 
-# blitze.sitemaker.modify_block_positions
+# blitze.sitemaker.momodifique_posição_de_blocos
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify block positions
+- Localização: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+- Desde: 3.0.1-RC1
+- Purpo: Modificar posições do bloco
 
 # blitze.sitemaker.modify_rendered_block
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify a rendered block
+- Localização: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+- Desde: 3.0.1-RC1
+- Purpo: Modifica um bloco renderizado
 
-## Template Events
+## Eventos de Modelo
 
 # blitze_sitemaker_acp_settings
 
-- Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
-- Since: 3.1.0
-- Purpose: Add form fields for sitemaker settings
+- Localização: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
+- Desde: 3.1.0
+- Purpo: Adicionar campos de formulário para configurações do sitemaker
 
-# blitze_sitemaker_admin_bar_append
+# blitze_sitemaker_barra_anexar
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add menu items to admin bar
+- Localização: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- Desde: 3.1.0
+- Carteira: Adicionar itens de menu na barra de administração
 
-# blitze_sitemaker_admin_bar_templates
+# blitze_sitemaker_templates
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add template files to be used in JS for block views, etc
+- Localização: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- Desde: 3.1.0
+- Purpose: Adicionar arquivos de modelo a serem usados em JS para exibições de blocos, etc
 
-## Javascript Events
+## Eventos de Javascript
 
 # blitze_sitemaker_layout_saved
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout changes are saved
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+- Desde: 3.1.2
+- Carteira: Evento para permitir que outras extensões façam algo quando as alterações no layout são salvas
 
-# blitze_sitemaker_render_block_before
+# blitze_sitemaker_render_block_antes
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- Desde: 3.1.2
+- Purpo: O evento permite que outras extensões façam algo antes que o bloco seja renderizado ou impeça que ele seja re-renderizado
 
 # blitze_sitemaker_render_block_after
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something after block is rendered
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- Desde: 3.1.2
+- Purpo: O Evento para permitir que outras extensões façam algo após o bloco é renderizado
 
-# blitze_sitemaker_save_block_before
+# blitze_sitemaker_salvar_bloco_antes
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to modify block data before it is saved
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
+- Desde: 3.1.2
+- Purpo: Evento para permitir que outras extensões modifiquem dados do bloco antes de serem salvos
 
-# blitze_sitemaker_show_all_block_positions
+# blitze_sitemaker_mostrar_todas_as_posição_de_blocos
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when all block positions are shown
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+- Desde: 3.1.2
+- Purpo: Evento para permitir que outras extensões façam algo quando todas as posições de blocos forem mostradas
 
-# blitze_sitemaker_hide_empty_block_positions
+# blitze_sitemaker_hide_empty_posição_de_bloco_
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when empty positions are hidden
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+- Desde: 3.1.2
+- Purpo: Evento para permitir que outras extensões façam algo quando posições vazias estiverem ocultas
 
-# blitze_sitemaker_layout_cleared
+# blitze_layouker_de_site_limpo
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is cleared
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+- Desde: 3.1.2
+- Carteira: Evento para permitir que outras extensões façam algo quando o layout estiver limpo
 
-# blitze_sitemaker_layout_updated
+# blitze_sitemaker_layout_atualizado
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is updated
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+- Desde: 3.1.2
+- Carteira: Evento para permitir que outras extensões façam algo quando o layout é atualizado
 
-# blitze_sitemaker_tinymce_options
+# opções_do_sitemaker_tinymce_blitze_site
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Desde: 3.3.0
+- Objetivo: Evento para permitir que outras extensões modifiquem opções de tinymce
