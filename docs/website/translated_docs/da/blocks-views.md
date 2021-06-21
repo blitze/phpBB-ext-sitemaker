@@ -1,6 +1,6 @@
 ---
-id: blocks-views
-title: Block Views
+id: blok-visninger
+title: Blokér Visninger
 ---
 
-Work in progress...
+Arbejdet er i gang...
