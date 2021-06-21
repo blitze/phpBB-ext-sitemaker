@@ -115,6 +115,6 @@ Puoi modificare il comportamento di phpBB SiteMaker utilizzando il sistema di ev
 
 # blitze_sitemaker_tinymce_options
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Ubicazione: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Poiché: 3.3.0
+- Scopo: Evento per consentire ad altre estensioni di modificare le opzioni di timo
