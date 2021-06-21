@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: block-översikt
+title: Vad är block?
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+I hjärtat av phpBB SiteMaker är begreppet block. Block är små bitar av innehåll som du kan placera i olika fördefinierade områden (blockpositioner) på din webbplats. Blocken kommer vanligtvis att ha inställningar som du kan ställa in/ändra för att finjustera det innehåll som du vill visa. De flesta block, men inte alla, kommer att göra databasfrågor för att få det önskade innehållet. Så låt oss inte bli för galna :). För att hantera block måste du växla till "redigeringsläge".
 
-## Edit Mode
+## Redigera läge
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+Växla till redigeringsläge genom att klicka på pennikonen längst upp till höger på din webbplats. Detta kommer att visa "Admin bar" med "Block" och "Inställningar" menyobjekt. Detta kallas att vara i "redigeringsläge".
