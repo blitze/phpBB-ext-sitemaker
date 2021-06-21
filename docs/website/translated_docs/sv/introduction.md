@@ -1,6 +1,6 @@
 ---
-id: introduction
-title: Introduction
+id: introduktion
+title: Introduktion
 ---
 
-phpBB SiteMaker seeks to transform your phpBB board into a CMS/portal. It does so by providing you with blocks and menus to help you customize your site to your liking. There are or will be other SiteMaker extensions that provide additional functionality to meet this goal. It also allows you to define a landing page when your site is accessed. So if you don't want visitors to your site to immediately see the phpBB forum when they go to www.your-site.com, you can define your own start page.
+phpBB SiteMaker syftar till att omvandla din phpBB styrelse till en CMS/portal. Det gör det genom att ge dig block och menyer för att hjälpa dig anpassa din webbplats till dina önskemål. Det finns eller kommer att finnas andra SiteMaker-tillägg som ger ytterligare funktionalitet för att uppfylla detta mål. Det gör också att du kan definiera en landningssida när din webbplats är tillgänglig. Så om du inte vill att besökare till din webbplats att omedelbart se phpBB forum när de går till www. vår-site.com kan du definiera din egen startsida.
