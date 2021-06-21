@@ -1,17 +1,17 @@
 ---
-id: contrib-translators
-title: Translators
+id: contrib-oversættere
+title: Oversættere
 ---
 
-We need help translating this extension, as well as its documentation. We have created a project on Crowdin to ease translations. Crowdin gives you a translation interface that's second to none. You can contribute how ever you want but we really recommend using Crowdin.
+Vi har brug for hjælp til at oversætte denne udvidelse samt dokumentationen. Vi har oprettet et projekt på Crowdin for at lette oversættelser. Crowdin giver dig et oversættelsesinterface, der er andet end ingen. Du kan bidrage med, hvordan du vil, men vi anbefaler virkelig, at du bruger Crowdin.
 
-> Crowdin is a localization management platform that helps companies to translate their software. You can read more about Crowdin [here](https://support.crowdin.com/crowdin-intro/)
+> Crowdin er en lokaliseringsadministrationsplatform, der hjælper virksomheder med at oversætte deres software. Du kan læse mere om Crowdin [her](https://support.crowdin.com/crowdin-intro/)
 
-If you are willing to contribute with translations, you will need:
+Hvis du er villig til at bidrage med oversættelser, skal du:
 
-* A [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) account.
-* Chose the target language if exist otherwise request to be enabled.
+* En [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) konto.
+* Vælg målsproget, hvis der ellers findes en anmodning om at blive aktiveret.
 
-If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
+Hvis dit ønskede sprog ikke er angivet, bedes du [kontakte mig](https://crowdin.com/profile/blitze) og jeg vil tilføje det.
 
-[Start Translating](https://crowdin.com/project/phpbb-ext-sitemaker)
+[Start Oversættelse](https://crowdin.com/project/phpbb-ext-sitemaker)
