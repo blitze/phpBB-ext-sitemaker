@@ -3,22 +3,22 @@ id: bloky na míru
 title: Celní blok
 ---
 
-Pokud dostupné bloky neposkytují potřebnou svobodu. existuje `Vlastní blok` umožňující zobrazení vlastního obsahu pomocí BBCode nebo HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Pokud dostupné bloky neposkytují potřebnou svobodu. existuje `Vlastní blok` umožňující zobrazení vlastního obsahu pomocí BBCode nebo HTML. Blok přichází s WYSIWYG editorem (TinyMCE) a manažerem skriptů:
 
 ## Redaktor
 
 - Můžete použít editor k vytvoření obsahu HTML
 - Pokud potřebujete tuto úroveň řízení, můžete upravit kliknutím na ikonu `zdrojového kódu` (`<>`) v editoru
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
+- Editor umožňuje nahrát a upravovat obrázky 
+    - Vytváří novou složku v phpBB/images/sitemaker_uploads/ pro každého uživatele, který k ní má přístup
+    - Můžete zobrazit/spravovat všechny uživatelské složky
 - Editor filtruje jakékoli potenciálně nebezpečné skripty, jako je javascript atd. Pokud potřebujete přidat obsah jako google reklamy, javascript bude odfiltrován, ale můžete si to obejít pomocí následující: 
     - Přidejte celní blok na požadovanou polohu
     - Upravte vlastní blok, klikněte na záložku `HTML` a vložte svůj JavaScript
 
-## The Scripts Manager
+## Správce skriptů
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Vlastní blok vám také umožňuje přidat vlastní CSS a Javascript soubory na vaši stránku. Abych to udělal:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Přidejte `vlastní blok` do libovolné pozice bloku. Pozice nezáleží, pokud také nezobrazujete obsah s blokem
+- Upravit blok, klikněte na záložku `skripty` a přidejte soubory CSS nebo Javascript > Slovo opatrnosti: Přidání mnoha skriptů na vaší stránce může ovlivnit časy načítání
