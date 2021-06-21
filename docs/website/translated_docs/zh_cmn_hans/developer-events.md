@@ -113,8 +113,8 @@ title: phpBB SiteMaker 事件
 - 自：3.1.2
 - 目的：事件允许其他扩展在布局更新时做一些事情
 
-# blitze_sitemaker_tinymce_options
+# 闪烁_sitemaker_tinymce_options
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- 位置： /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- 自： 3.3.0
+- 目的：允许其他扩展修改tinymce选项的事件
