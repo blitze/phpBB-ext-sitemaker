@@ -1,44 +1,44 @@
 ---
 id: blocks-inheritance
-title: Understanding Block Inheritance
+title: Porozumění blokové gramotnosti
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+Již jsme viděli, že pokud nastavíme výchozí rozložení, jiné stránky, které nemají vlastní bloky, zdědí bloky z výchozí rozložení. Existuje však i další typ blokového dědictví.
 
-## Parent/Child Routes
+## Rodiče/děti
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+V phpBB SiteMaker, mluvíme o hnízdních trasách z hlediska skutečných hnízdních (sub) adresářů nebo prakticky zasazené cesty/trasy. Prosím, zůstaňte se mnou :). * Real Parent/Child routes: například cesta /some_directory/sub_directory/index.php je dítě /some_directory/index.php * Virtual Parent/Child routes: například prohlížení.php je zacházeno jako s dítětem divforum.php.
 
-Here are some examples of parent/child routes:
+Zde jsou některé příklady tras rodiče/dítě:
 
-| Parent             | Child                          |
-| ------------------ | ------------------------------ |
-| /index.php         | /viewforum.php, /dir/index.php |
-| /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
-| /app.php/articles  | /app.php/articles/my-article   |
+| Parent             | Dět                             |
+| ------------------ | ------------------------------- |
+| /index.php         | /viewforum.php, /dir/index.php. |
+| /viewforum.php?f=2 | /viewtopic.php?f=2&t=1          |
+| /app.php/articles  | /app.php/articles/my-článek     |
 
-## Parent/Child Block Inheritance
+## Parent/dítě blokové gramotnosti
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+U rodičovských či dětských tras zdědí trasa rodičovské (pokud má rodič své vlastní bloky) nebo výchozí rozložení (pokud byla nastavena). Jinými slovy, i když existuje standardní rozložení, po rodičovské trase zdědí bloky z rodičovské trasy, pokud má rodičovská trasa své vlastní bloky. Ne všechny bloky rodičovské trasy však musí být zděděny.
 
-## Controlling Block Inheritance
+## Kontrola blokové gramotnosti
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+Na blokové úrovni můžete kontrolovat, zda blok lze zdědit dětskými trasami. Tohle jsme se dotkli již dříve v [Upravit nastavení bloků](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+Uvažme následující skutečnou strukturu katalogů:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+<unk> 「<unk> index.php
+<unk> َ<unk> Movies/
+    <unk> <unk> <unk> <unk> index.php
+    <unk> page.php
+    <unk> <unk> <unk> <unk> <unk> <unk> Comedy/
+        <unk> 32/<unk> index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+Pro účely dědice bloků říkáme: * Nadřízená trasa /phpBB/Movies/Comedy/index.php je /phpBB/Movies/index. hp a ne /phpBB/Movies/page.php * Všechny stránky v podadresáři relativní k /phpBB/index.php je podřízená cesta z /phpBB/index.php. Takže /phpBB/Movies/index.php a /phpBB/Movies/page.php jsou všechny děti /phpBB/index.php, a proto zdědí své bloky, pokud nemají své vlastní bloky. V tomto případě: * Když blok na /phpBB/index. hp je nastaven na **Hide on child routes**, blok se zobrazí na /phpBB/index. hp (nadřazená cesta), ale ne na jejích podřízených směrech * Když blok na /phpBB/index. hp je nastaven na zobrazení na **Zobrazit pouze na dětských cestách**, bude se zobrazovat na /phpBB/Movies/index.php a /phpBB/Movies/page. hp (dětské trasy), ale ne na /phpBB/index.php (rodič), nebo /phpBB/Movies/Comedy/index. hp (jdeme pouze do jedné úrovně) * Když blok na /phpBB/index. hp je nastaven na zobrazení **vždy** (výchozí), zobrazí se na /phpBB/index.php (rodič), /phpBB/Movies/index. hp a /phpBB/page.php (dětské trasy), ale ne na /phpBB/Movies/Comedy/index.php (pouze jdeme o jednu úroveň hluboká). V tomto případě, /phpBB/Movies/Comedy/index.php zdědí z výchozí trasy (pokud existuje)
 
-## Posible Future State
+## Budoucnost státu
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+Skutečně se zajímám o vaši zpětnou vazbu v této oblasti. Většina uživatelů phpBB nebude mít skutečné adresáře uvedené výše. Proto přemýšlím o použití struktury, která je definována v menu bloku jako virtuální adresářová struktura, a uplatním na ni tento rodič/dítě inheritance. Zvažujem také jít nad rámec jedné úrovně hluboko. Prosím, dejte mi vědět, zda to bude pro vás užitečné.
