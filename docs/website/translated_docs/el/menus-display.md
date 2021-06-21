@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: οθόνη μενού
+title: Εμφάνιση Μενού
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Τώρα που έχετε δημιουργήσει τα μενού σας, μπορείτε να τα εμφανίσετε με διάφορους τρόπους:
 
-## Links Block
+## Μπλοκ Συνδέσμων
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Μπορείτε να χρησιμοποιήσετε αυτό το μπλοκ για να εμφανίσετε μια επίπεδη ή εμφωλευμένη λίστα από στοιχεία μενού. Αυτό το μπλοκ δεν προορίζεται να χρησιμοποιηθεί για πλοήγηση, δηλαδή δεν θα εμφανίζει μια τρέχουσα σελίδα ή κάτι τέτοιο. Προορίζεται για κατάλογο στοιχείων, συμπεριλαμβανομένων των εξωτερικών συνδέσμων.
 
-## Menus Block
+## Μπλοκ Μενού
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Αυτό το μπλοκ προορίζεται για την πλοήγηση ιστοσελίδων. Κάνει μερικές επιπλέον υπολογισμούς για να καθορίσει την τρέχουσα θέση και δεν προορίζεται να είναι μια πολύ μεγάλη λίστα.
 
-## Navigation bar
+## Γραμμή πλοήγησης
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Παρόμοια με το μπλοκ μενού, η γραμμή πλοήγησης θα εμφανίσει τα στοιχεία μενού ως αναπτυσσόμενο μενού που ανταποκρίνεται για την πλοήγηση ιστοσελίδα. Μπορείτε να το ενεργοποιήσετε σε ACP > Επεκτάσεις > Ιδιοκτήτης> Ρυθμίσεις> Επιλογή μενού
