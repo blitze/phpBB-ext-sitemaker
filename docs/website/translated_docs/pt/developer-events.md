@@ -113,8 +113,8 @@ Você pode modificar o comportamento do phpBB SiteMaker usando o sistema de even
 - Desde: 3.1.2
 - Propósito: Evento para permitir que outras extensões façam algo quando o layout é atualizado
 
-# blitze_sitemaker_tinymce_options
+# opções_do_sitemaker_tinymce_blitze_site
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Localização: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Desde: 3.3.0
+- Objetivo: Evento para permitir que outras extensões modifiquem opções de tinymce
