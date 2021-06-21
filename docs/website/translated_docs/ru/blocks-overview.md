@@ -1,10 +1,10 @@
 ---
-id: blocks-overview
-title: What are blocks?
+id: обзор блоков
+title: Что такое блоки?
 ---
 
-At the heart of phpBB SiteMaker is the concept of blocks. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. So let's not get too crazy :). To manage blocks, you will need to switch to "edit mode".
+В центре phpBB SiteMaker находится концепция блоков. Блоки - это небольшие части содержимого, которые вы можете разместить в различных заранее определенных областях (позиции блоков) на вашем сайте. Блоки обычно будут иметь настройки, которые вы можете установить/изменить для тонкой настройки содержимого, который вы хотите отобразить. Большинство блоков, но не все, сделают запросы к базе данных для получения нужного содержания. Так давайте не получим слишком сумасшедший :). Для управления блоками вам нужно переключиться в режим редактирования.
 
-## Edit Mode
+## Изменить режим
 
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+Переключиться в режим редактирования, нажав на значок карандаша в верхнем правом углу вашего сайта. Это отобразит "Панель управления" в меню "Блоки" и "Настройки". Это относится к "режиму редактирования".
