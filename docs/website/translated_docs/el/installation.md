@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: εγκατάσταση
+title: Εγκατάσταση / Αναβάθμιση
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+Κατεβάστε την επέκταση από [εδώ](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
 ## Installing phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Εξάγετε και ανεβάστε το στο φάκελο phpBB/ext/ έτσι έχετε το phpBB/ext/blitze/sitemaker
+* Πηγαίνετε στο "ACP" > "Προσαρμογή" > "Επεκτάσεις" και ενεργοποιήστε την επέκταση "phpBB Sitemaker".
 
-## Upgrading phpBB SiteMaker
+## Αναβάθμιση του phpBB SiteMaker
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων σας μόνο σε περίπτωση που κάτι πάει στραβά
+* Πηγαίνετε στο "ACP" > "Προσαρμογή" > "Επεκτάσεις" και απενεργοποιήστε (μην καθαρίσετε) "phpBB Sitemaker"
+* Κατεβάστε και εξαγάγετε την τελευταία έκδοση του phpBB SiteMaker και ανεβάστε το στο phpBB/ext/ φάκελο σας (αντικατάσταση)
+* Πηγαίνετε στο "ACP" > "Προσαρμογή" > "Επεκτάσεις" και ενεργοποιήστε την επέκταση "phpBB Sitemaker".
