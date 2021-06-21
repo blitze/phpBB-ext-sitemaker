@@ -1,20 +1,20 @@
 ---
-id: site-layouts
-title: Layouts
+id: διατάξεις τοποθεσίας
+title: Διατάξεις
 ---
 
-"Layouts" determine the available block positions and how they are displayed.
+"Διατάξεις" καθορίζουν τις διαθέσιμες θέσεις μπλοκ και πώς εμφανίζονται.
 
-## Block Positions
+## Αποκλεισμός Θέσεων
 
-Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions: * panel: full width across the top * sidebar: left/right depending on layout below * subcontent: similar to sidebar just larger * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout * top: above main content * box: equal width, horizontal blocks below main content * bottom: below main content * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
+Οι θέσεις μπλοκ είναι προκαθορισμένες περιοχές στο site σας όπου μπορεί να υπάρχουν μπλοκ. Οι διαθέσιμες θέσεις μπλοκ καθορίζονται από το στυλ προτύπου που χρησιμοποιείτε. Για prosilver, phpBB SiteMaker έρχεται με τις ακόλουθες θέσεις μπλοκ: * πίνακα: πλήρες πλάτος στην κορυφή * πλευρική μπάλα: αριστερά/δεξιά ανάλογα με τη διάταξη κάτω * υποπεριεχόμενο: παρόμοιο με την πλαϊνή μπάρα μόλις μεγαλύτερο * top_hor: οριζόντια μπλοκ σε όλη την κορυφή, flanking above sidebar/subcontent depending on layout * top: πάνω από το κύριο περιεχόμενο * κουτί: ίσο πλάτος, οριζόντια μπλοκ κάτω από το κύριο περιεχόμενο * κάτω: κάτω από το κύριο περιεχόμενο * bottom_hor: οριζόντια μπλοκ σε όλο το κάτω μέρος, flanking the sidebar/subcontent depending on layout * footer: horizontal blocks in the footer Μπορείτε να προσθέσετε περισσότερες θέσεις μπλοκ στα δικά σας πρότυπα στυλ αντιγράφοντας και τροποποιώντας τα αντίστοιχα πρότυπα του phpBB SiteMaker
 
-## Site Layout
+## Διάταξη Ιστοσελίδας
 
-You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings): * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent on left, sidebar on the right, top_hor/botom_hor flank sidebar * **Custom**: Manually set the width of the sidebars as px, %, em or rem. Defaults to 200px on each side
+Μπορείτε να επιλέξετε τη διάταξη για τον ιστότοπό σας στις χώρες ΑΚΕ (Προτάσεις > Ιδιοκτήτης> Ρυθμίσεις): * **Blog**: subcontent και sidebar ο ένας δίπλα στον άλλο, έσπρωξε προς τα δεξιά, top_hor/botom_hor flank subcontent * **Ιερό Grail**: πλευρική μπάρα ίσου πλάτους και υποπεριεκτικότητα σε αντίθετες πλευρές, top_hor/botom_hor flank subcontent * **Portal**: πλαϊνή μπάρα στα αριστερά, subcontent στα δεξιά, top_hor/botom_hor flank subcontent * **Portal Alt**: subcontent στα αριστερά, πλευρική μπάρα στα δεξιά, top_hor/botom_hor flank sidebar * **Προσαρμοσμένο**: Χειροκίνητα ρυθμίστε το πλάτος των πλαϊνών debars σε px, %, em ή rem. Προεπιλογές σε 200px σε κάθε πλευρά
 
-## Custom templates/styles
+## Προσαρμοσμένα πρότυπα/στυλ
 
-As much as possible, we tried to put template files and assets in styles/all/ folder so that you can overwrite them by creating a file with same name under your own template theme e.g. prosilver. So if you want to modify how a certain block displays or if you want to create your own layout with your own block positions, you simply need to create a file with the same name and path as the original in your own style.
+Όσο το δυνατόν περισσότερο, προσπαθήσαμε να βάλουμε πρότυπα αρχεία και περιουσιακά στοιχεία σε στυλ/όλους/ φάκελο, έτσι ώστε να μπορείτε να τα αντικαταστήσετε δημιουργώντας ένα αρχείο με το ίδιο όνομα κάτω από το δικό σας πρότυπο θέμα e. . prosilver. Έτσι, αν θέλετε να τροποποιήσετε τον τρόπο εμφάνισης ενός συγκεκριμένου ταμπλό ή αν θέλετε να δημιουργήσετε τη δική σας διάταξη με τις δικές σας θέσεις μπλοκ, απλά πρέπει να δημιουργήσετε ένα αρχείο με το ίδιο όνομα και διαδρομή όπως το πρωτότυπο στο δικό σας στυλ.
 
-If you need to customize CSS/JS files, take a look at the [theming](./developer-theming.md) section.
+Αν χρειαστεί να προσαρμόσετε τα αρχεία CSS/JS, ρίξτε μια ματιά στην ενότητα [theming](./developer-theming.md).
