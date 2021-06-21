@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: menyadministrerer
+title: Administrere menyer
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Du kan opprette menyer i ACP som du deretter kan vise ved hjelp av menyen, koblingsblokkene eller vises som en horisontal navnelinje.
 
-## Managing Menus
+## Administrere menyer
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+For å håndtere menyer, gå til ACP > Extensions > Sitemaker > Menu
 
-### Creating Menus
+### Oppretter menyer
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+For å opprette en ny meny (gruppe), klikk på `Legg til meny` knappen. En ny menygruppe vil bli opprettet med et tilfeldig generert navn. Den nye menyen vil også bli valgt, så du kan begynne å legge til menyelementer i den.
 
-### Editing Menus
+### Redigerer menyer
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Dersom du ønsker et mer meningsfylt menynavn, * sveve over menynavnet og klikk på cog ikonet * Skriv inn det nye menynavnet og trykk skriv inn for å oppdatere det
 
-### Deleting Menus
+### Sletter menyer
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Du kan slette en meny med gjenstander, * Overskrid menynavnet og klikk på **x** ikonet * Hvis menypunktet ikke har noen underelementer, du må bekrefte valget for å slette menypunktet * Hvis menypunktet har underordnede elementer, du må indikere hvis du bare ønsker å slette elementet og flytte barna oppover, eller hvis du vil slette hele grenen
