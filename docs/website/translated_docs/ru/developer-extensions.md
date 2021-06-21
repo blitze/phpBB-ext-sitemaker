@@ -52,11 +52,11 @@ class my_block extends block
 
 ```
 
-Как минимум, это все, что вам нужно. Если вы перейдете в режим редактирования, вы увидите блок, перечисленный как 'MY_EXAMPLE_BLOCK_MY_BLOCK', который можно перетащить и перетащить на любую позицию блока. Но этот блок ничего не волнует. It has no settings and does not translate the block name. Давайте сделаем это более интересным.
+Как минимум, это все, что вам нужно. Если вы перейдете в режим редактирования, вы увидите блок, перечисленный как 'MY_EXAMPLE_BLOCK_MY_BLOCK', который можно перетащить и перетащить на любую позицию блока. Но этот блок ничего не волнует. Он не имеет настроек и не переводит название блока. Давайте сделаем это более интересным.
 
 ### Настройки блока
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Давайте изменим наши блоки/my_block. hp файл и добавьте метод "get_config" на возвращает массив с ключами настроек блока и значениями, представляющими собой массив, описывающий такие параметры, как
 
 ```php
     /**
@@ -65,19 +65,19 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     public function get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+        возвращаемый массив(
+            'legend1' => 'TAB1',
+            'checkbox' => массив('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'По умолчанию' => массив(), 'объяснять' => ложь),
+            'yes_no' => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'radio' => массив('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'объяснить' => false, 'default' => 'тема'),
+            'select' => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'объяснить' => false),
+            'multi' => массив('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend2' => 'TAB2',
+            'number' => массив('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'по умолчанию' => 5),
+            'textarea' => массив('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'по умолчанию' => ''),
+            'Переключатель' => массив('lang' => 'SOME_TOGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'по умолчанию' => '', 'append' => '<div id="toggle_key-1">показывать только при выборе варианта 1</div>'),
         );
-    }
+}
 ```
 
 Она построена так же, как и phpBB, строит конфигурацию для настроек платы в АШП. Вы можете увидеть больше примеров [здесь](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
@@ -88,7 +88,7 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
 
 ### Наименование блоков
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Конвенция о именах блоков заключается в том, что сервис имени (например my.example.block. y*блок выше) будет использоваться в качестве ключа языка, заменив точки (.) на подчеркивание (*) (например, MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Перевод
 
@@ -107,7 +107,7 @@ The convention for block names is that the service name (e.g my.example.block.my
 
 ### Отображение блока
 
-Новый блок будет отображаться только если он что-то сделает. Ваш блок может возвращать любую строку как содержимое, но в большинстве случаев вам нужен шаблон для отображения содержимого. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Новый блок будет отображаться только если он что-то сделает. Ваш блок может возвращать любую строку как содержимое, но в большинстве случаев вам нужен шаблон для отображения содержимого. Чтобы отобразить ваш блок с помощью шаблонов, блок должен возвращать массив, содержащий данные, которые вы хотите передать в шаблон, и должен также использовать метод `get_template` , как показано ниже:
 
 ```php
     /**
@@ -116,9 +116,9 @@ The convention for block names is that the service name (e.g my.example.block.my
     public function get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        возвращаемый массив(
+            'legend1' => 'TAB1',
+            'some_setting' => массив('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'По умолчанию' => массив(), 'объяснять' => ложь),
         );
     }
 
@@ -127,7 +127,7 @@ The convention for block names is that the service name (e.g my.example.block.my
      */
     public function get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
@@ -137,41 +137,41 @@ The convention for block names is that the service name (e.g my.example.block.my
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // делаем что-то только в режиме редактирования
         }
 
         return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => массив(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Затем файл styles/all/my_block.html или styles/prosilver/my_block.html может выглядеть следующим образом:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Вы выбрали: {{ some_var }}</p>
     
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
 ### Блокировать активы
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Если вашему блоку нужно добавить на страницу ресурсы (css/js), я рекомендую использовать для этого инструмент [утилита класса](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php). Поскольку на странице может быть несколько экземпляров одного и того же блока, или другие блоки могут добавить один и тот же актив, утилита класса гарантирует, что актив добавляется только только.
 
 ```php
-        $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+        $this->утилита>add_assets(array(
+            'js' => array(
+                '@my_example/assets/some. s',
+                100 => '@my_example/assets/other. s', // установить приоритет
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => array(
+                '@my_example/assets/some. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+Класс util должен, конечно, быть добавлен в ваши служебные определения в config.yml, как так: `- '@blitze.sitemaker. til'` и определено конструктором вашего блока `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Вот и всё. Мы закончили!
