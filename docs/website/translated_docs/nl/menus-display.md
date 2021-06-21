@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: menu-weergave
+title: Menu's weergeven
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Nu u uw menukaarten hebt aangemaakt, kunt u ze op verschillende manieren weergeven:
 
-## Links Block
+## Links blokkeren
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+U kunt dit blok gebruiken om een platte of geneste lijst van menu-items weer te geven. Dit blok is niet bedoeld om te worden gebruikt voor navigatie, d.w.z. het toont geen huidige pagina of iets dergelijks. Het is bedoeld voor een lijst van items, waaronder externe links.
 
-## Menus Block
+## Menu blok
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Dit blok is bedoeld voor site navigatie. Het is niet de bedoeling dat het een zeer grote lijst wordt.
 
-## Navigation bar
+## Navigatiebalk
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Vergelijkbaar met het Menu blok, de navigatiebalk zal menu-items weergeven als een responsive dropdown menu bedoeld voor de navigatie van de site. U kunt dit inschakelen in ACS > Extensies > Sitemaker > Instellingen > Selecteer menu
