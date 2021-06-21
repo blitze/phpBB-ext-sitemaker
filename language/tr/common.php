@@ -30,7 +30,7 @@ $lang = array_merge($lang, array(
 
 	'DAILY_MEMBER'					=> 'Member of the day',
 
-	'FEATURED_MEMBER'				=> 'Özellikli Üye',
+	'FEATURED_MEMBER'				=> 'Featured Member',
 	'FEATURED_MEMBERLIST'			=> 'Featured members list',
 	'FEEDS'							=> 'Feeds',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
@@ -48,20 +48,20 @@ $lang = array_merge($lang, array(
 
 	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
 	'LAST_VISITED'					=> 'Last Visited',
-	'LINKS'							=> 'Bağlantılar',
+	'LINKS'							=> 'Links',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Contents',
-	'MEMBERS_DATE'					=> 'Tarih',
-	'MENU'							=> 'Menü',
+	'MEMBERS_DATE'					=> 'Date',
+	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Member of the month',
 	'MOST_TENURED'					=> 'Most Tenured',
-	'MY_BOOKMARKS'					=> 'Yer İmlerim',
+	'MY_BOOKMARKS'					=> 'My Bookmarks',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
 	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
 
 	'POLL'							=> 'Poll',
-	'POPULAR_TOPICS'				=> 'Popüler Konular',
+	'POPULAR_TOPICS'				=> 'Popular Topics',
 	'POSTS_MEMBER'					=> 'Top Poster',
 	'PROCESSING'					=> 'processing...',
 
@@ -75,7 +75,7 @@ $lang = array_merge($lang, array(
 	'SESSION_HIDE_ME'				=> 'Hide Me',
 	'SM_NAVIGATION'					=> 'Navigation',
 	'SM_TOGGLE_DROPDOWN'			=> 'Toggle dropdown',
-	'STYLE_SWITCHER'				=> 'Stil Değiştirici',
+	'STYLE_SWITCHER'				=> 'Style Switcher',
 
 	'THIS_MONTH'					=> 'This Month',
 	'THIS_WEEK'						=> 'This Week',
@@ -92,6 +92,6 @@ $lang = array_merge($lang, array(
 
 	'WEEKLY_MEMBER'					=> 'Member of the week',
 	'WELCOME'						=> 'Welcome',
-	'WHATS_NEW'						=> 'Neler yeni?',
+	'WHATS_NEW'						=> 'What’s New?',
 	'WORDGRAPH'						=> 'Wordgraph',
 ));
