@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: ナビゲーションバー
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+[メニューの表示](./menus-display#navigation-bar) を参照
