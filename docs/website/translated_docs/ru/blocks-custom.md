@@ -1,20 +1,20 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: пользовательские блоки
+title: Пользовательский блок
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Если доступные блоки не дают тебе нужную свободу, есть `Пользовательский блок` , который позволяет вам свободно отображать свой собственный контент с помощью BBcode или HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
 
-## The editor
+## Редактор
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+- Вы можете использовать редактор для создания HTML-контента
+- Вы можете изменить исходный код, если вам нужен такой уровень контроля, нажав на значок `Исходный код` (`<>`) в редакторе
 - The editor allows you to upload and modify images 
     - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
     - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Редактор фильтрует любые потенциально опасные скрипты, такие как javascript и т.д. Если вам нужно добавить контент как Google рекламу, javascript будет отфильтрован, но вы можете обойти это, сделав следующее: 
+    - Добавить пользовательский блок в нужное место
+    - Редактировать пользовательский блок, нажмите на вкладку `HTML` и вставьте ваш Javascript
 
 ## The Scripts Manager
 
