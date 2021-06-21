@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: Menyhantering
+title: Hantera menyer
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Du kan skapa menyer i AVS som du sedan kan visa med hjälp av menyerna eller länkblocken eller som visas som ett horisontellt navigationsfält.
 
-## Managing Menus
+## Hantera menyer
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+För att hantera menyer, gå till AVS > Extensions > Sitemaker > Meny
 
-### Creating Menus
+### Skapar menyer
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+För att skapa en ny meny (grupp), klicka på knappen `Lägg till meny`. En ny menygrupp kommer att skapas med ett slumpmässigt genererat namn. Den nya menyn kommer också att väljas så att du kan börja lägga till menyalternativ till den.
 
-### Editing Menus
+### Redigerar menyer
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Om du vill ha ett mer meningsfullt menynamn, * hovra över menynamnet och klicka på kugghjulsikonen * ange det nya menynamnet och tryck på enter för att uppdatera det
 
-### Deleting Menus
+### Tar bort menyer
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Ta bort en meny och dess objekt, * Håll muspekaren över menynamnet och klicka på **x** -ikonen * Om menyobjektet inte har några underordnade objekt, du måste bekräfta ditt val för att ta bort objektet * Om menyobjektet har underordnade objekt, du måste ange om du bara vill ta bort objektet och flytta dess barn uppåt eller om du vill ta bort hela affärsenheten
