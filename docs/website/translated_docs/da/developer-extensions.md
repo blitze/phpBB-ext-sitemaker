@@ -1,25 +1,25 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: udvikler-udvidelser
+title: Udvidelse af phpBB SiteMaker
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+Du kan udvide/ændre phpBB SiteMaker ved hjælp af [service udskiftning](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service dekoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration)og [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). Du kan finde en liste over understøttede begivenheder [her](./developer-events.md).
 
-## Creating a SiteMaker block
+## Opretter en SiteMaker blok
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+En phpBB SiteMaker blok er blot en klasse, der udvider blitze\sitemaker\services\blocks\driver\block class og returnerer et array fra "display" metoden med en 'titel' og 'indhold'. Alt andet mellem er op til jer. For at gøre din blok synlig af phpBB SiteMaker, skal du give det "sitemaker.block" tag.
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+Sig at vi har en forlængelse med sælger/udvidelse som min/eksempel. For at oprette en blok kaldet "my_block" til phpBB SiteMaker:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- Opret en "blokke" mappe
+- Opret my_block.php-fil i blokmappen med følgende indhold
 
 ```php
-namespace my\example\blocks;
+namespace min\example\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
+brug blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+klasse my_block udvider blok
 {
     /**
      * {@inheritdoc}
@@ -27,19 +27,19 @@ class my_block extends block
     public function display(array $settings, $edit_mode = false)
     {
         return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
+            'titel' => 'min blok titel',
+            'indhold' => 'mit blokindhold',
         );
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+Derefter i din config.yml fil, tilføje følgende:
 
 ```yml
-services:
+tjenesteydelser:
 
-    ...
+...
 
     my.example.block.my_block:
         class: my\example\blocks\my_block
@@ -48,15 +48,15 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    ....
+....
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+På et minimum, det er alt hvad du behøver. Hvis du går ind i redigeringstilstand, skal du se blokken opført som 'MY_EXAMPLE_BLOCK_MY_BLOCK', der kan trækkes og slippes på en hvilken som helst blokposition. Men denne blok gør ikke noget spændende. Det har ingen indstillinger og oversætter ikke blokkens navn. Lad os gøre det mere interessant.
 
-### Block Settings
+### Bloker Indstillinger
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Lad os ændre vores blokke/my_block. hp fil og tilføje en "get_config" metode th på returnerer et array med tasterne er blokken indstillinger og værdierne er et array der beskriver indstillingerne som så:
 
 ```php
     /**
@@ -65,49 +65,49 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     public function get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+        returarray(
+            'legend1' => 'TAB1',
+            'checkbox' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'streng', 'type' => 'checkbox', 'indstillinger' => $options, 'default' => array(), 'explain' => false)
+            'yes_no' => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false)
+            'radio' => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'emne'),
+            'select' => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'streng', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false)
+            'multi' => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'streng', 'type' => 'multi_select', 'indstillinger' => $options, 'default' => array(), 'explain' => false),
+            'legend2' => 'TAB2',
+            'tal' => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
+            'textarea' => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'streng', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true 'default' => ''),
+            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'streng', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Vis kun, når indstilling 1 er valgt</div>'),
         );
-    }
+}
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+Dette er konstrueret på samme måde, som phpBB bygger konfiguration for board indstillinger i ACP. Du kan se flere eksempler [her](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+Hvis du vil have en brugerdefineret felttype, kan du se et eksempel [her](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' indstilling).
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+Bemærk 'legend1' og 'legend2': Disse bruges til at adskille indstillingerne i faneblade.
 
-### Naming Blocks
+### Navnende Blokke
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Konventionen for bloknavne er, at tjenestenavnet (f.eks. my.example.block. y*blok ovenfor) vil blive brugt som sprognøglen ved at erstatte prikker (.) med understregning (*) (f.eks MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### Oversættelse
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+Bemærk også, at vi har flere sprognøgler, der skal oversættes. For at gøre dette skal du oprette en fil med navnet "blocks_admin.php" i din sprogmappe. Denne fil vil automatisk blive indlæst, når du redigerer blokke, og bør have oversættelser til dine blokindstillinger og blokere navne.
 
     $lang = array_merge($lang, array(
-        'SOME_LANG_VAR'     => 'Option 1',
-        'OTHER_LANG_VAR'    => 'Option 2',
-        'SOME_LANG_VAR_1'   => 'Setting 1',
-        ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+        'SOME_LANG_VAR' => 'Option 1',
+        'OTHER_LANG_VAR' => 'Option 2',
+        'SOME_LANG_VAR_1' => 'Indstilling 1',
+    ....
+        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'Min Block',
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+Da 'blocks_admin.php' kun indlæses ved redigering af blokke, skal du tilføje andre oversættelser (f.eks. blok titel) ved at indlæse en sprogfil i din visningsmetode som `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### Gengiver blokken
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Den nye blok vil kun blive vist, hvis den gengiver noget. Din blok kan returnere enhver streng som indhold, men i de fleste tilfælde har du brug for en skabelon for at gengive dit indhold. For at vise din blok ved hjælp af skabeloner, blokken skal returnere et array, der indeholder de data, du ønsker at videregive til skabelonen, og skal også implementere `get_template` -metoden som vist nedenfor:
 
 ```php
     /**
@@ -116,9 +116,9 @@ The new block will only be displayed if it is rendering something. Your block ca
     public function get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        returarray(
+            'legend1' => 'TAB1',
+            'some_setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'streng', 'type' => 'checkbox', 'indstillinger' => $options, 'default' => array(), 'explain' => false),
         );
     }
 
@@ -127,7 +127,7 @@ The new block will only be displayed if it is rendering something. Your block ca
      */
     public function get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
@@ -137,41 +137,41 @@ The new block will only be displayed if it is rendering something. Your block ca
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // gør noget kun i redigeringstilstand
         }
 
-        return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+        returarray(
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Så kan din stil/all/my_block.html eller stil/prosilver/my_block.html fil se sådan ud:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Du valgte: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+Sammenfattende din blok skal returnere et array med en `titel` -nøgle (for blokkens titel) og en `indholds` -nøgle (hvis blokken bare viser en streng og ikke bruger en skabelon) eller en `-data-` -nøgle (hvis blokken bruger en skabelon, i hvilket tilfælde skal du også implementere `get_template` metoden).
 
-### Block Assets
+### Aktiver Blok
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Hvis din blok har brug for at tilføje aktiver (css/js) til siden, anbefaler jeg at bruge sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for at. Da der kan være mere end en instans af den samme blok på siden, eller andre blokke kan være at tilføje det samme aktiv, util klassen sikrer, at aktivet kun er tilføjet.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@my_example/assets/some. s',
+                100 => '@my_example/assets/other. s', // fastsat prioritet
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => array(
+                '@my_example/assets/some. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+Den util klasse vil naturligvis skal føjes til din service definitioner i config.yml som så: `- '@blitze.sitemaker. til'` og defineret i din bloks konstruktør `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Og det er det. Vi er færdig!
