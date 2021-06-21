@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: شريط التنقل
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+شاهد [عرض القوائم](./menus-display#navigation-bar)
