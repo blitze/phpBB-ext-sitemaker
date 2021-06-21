@@ -1,6 +1,6 @@
 ---
-id: blocks-views
-title: Block Views
+id: blocuri-vizualizari
+title: Vizualizari bloc
 ---
 
-Work in progress...
+Lucrări în desfășurare...
