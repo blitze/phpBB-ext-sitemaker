@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: تعديل الموقع
+title: تخصيص عرض الكتل
 ---
 
-Work in progress...
+العمل جاري...
