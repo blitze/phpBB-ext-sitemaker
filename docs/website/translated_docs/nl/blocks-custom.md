@@ -1,20 +1,20 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blokken-aangepast
+title: Aangepaste blok
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Als de beschikbare blokken je niet de vrijheid geven die je nodig hebt er is de `Custom Block` die u de vrijheid geeft om uw eigen inhoud te tonen met behulp van BBcode of HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
 
-## The editor
+## De editor
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+- U kunt de editor gebruiken om HTML-inhoud aan te maken
+- Je kunt de broncode bewerken als je die controle nodig hebt door te klikken op het `Broncode` pictogram (`<>`) in de editor
 - The editor allows you to upload and modify images 
     - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
     - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- De editor filtert alle potentieel gevaarlijke scripts zoals javascript, enz. Als u inhoud zoals google ads moet toevoegen, zal de javascript worden gefilterd, maar u kunt er omheen door het volgende te doen: 
+    - Voeg het aangepaste blok toe aan de gewenste locatie
+    - Bewerk het Aangepast Blok, klik op het `tabblad HTML` en plak uw Javascript
 
 ## The Scripts Manager
 
