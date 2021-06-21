@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blocks-Custom
+title: カスタムブロック
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+利用可能なブロックが必要な自由を与えてくれない場合 BBcodeやHTMLを使って自由に自分のコンテンツを表示できる `カスタムブロック` があります。 ブロックには WYSIWYG エディタ(TinyMCE)とスクリプトマネージャーが付属しています。
 
-## The editor
+## エディタ
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- エディタを使用してHTMLコンテンツを作成することができます
+- エディタの `ソース コード` アイコン (`<>`) をクリックして、そのレベルの制御が必要な場合は、ソースコードを編集できます。
+- このエディターでは、画像をアップロードおよび変更することができます 
+    - phpBB/images/sitemaker_uploads/ に新しいフォルダを作成します。
+    - すべてのユーザーフォルダを表示/管理できます
+- エディタは、javascriptなどの危険なスクリプトをフィルタリングします。 google 広告のようなコンテンツを追加する必要がある場合は、javascript は除外されますが、次の操作を行うことで回避できます。 
+    - 目的の場所にカスタムブロックを追加
+    - カスタムブロックを編集し、 `HTML` タブをクリックしてJavascriptを貼り付けます。
 
-## The Scripts Manager
+## スクリプトマネージャー
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+カスタムブロックでは、カスタム CSS と Javascript ファイルをページに追加することもできます。 以下を行うには:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- 任意のブロック位置に `カスタムブロック` を追加します。 ブロックの内容を表示しない限り、位置は関係ありません
+- ブロックを編集 `スクリプト` タブをクリックし、CSSまたはJavascriptファイルを追加します。 > 注意事項：ページの多くのスクリプトに追加すると、読み込み時間に影響を与える可能性があります
