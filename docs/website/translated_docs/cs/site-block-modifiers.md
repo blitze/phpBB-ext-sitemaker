@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: rohové modifikátory stránek
+title: Přizpůsobení blokových disků
 ---
 
-Work in progress...
+Probíhající práce...
