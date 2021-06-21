@@ -40,14 +40,14 @@ $lang = array_merge($lang, array(
 	'BLITZE_SITEMAKER_BLOCK_FORUM_POLL'			=> 'Fórum anketa',
 	'BLITZE_SITEMAKER_BLOCK_FORUM_TOPICS'		=> 'Témata fóra',
 	'BLITZE_SITEMAKER_BLOCK_GOOGLE_MAPS'		=> 'Google mapy',
-	'BLITZE_SITEMAKER_BLOCK_POPULAR_TOPICS'		=> 'Popular Topics',
+	'BLITZE_SITEMAKER_BLOCK_POPULAR_TOPICS'		=> 'Populární témata',
 	'BLITZE_SITEMAKER_BLOCK_LINKS'				=> 'Odkazy',
 	'BLITZE_SITEMAKER_BLOCK_LOGIN'				=> 'Přihlašovací pole',
 	'BLITZE_SITEMAKER_BLOCK_MEMBERS'			=> 'Členové',
 	'BLITZE_SITEMAKER_BLOCK_MEMBER_MENU'		=> 'Nabídka členství',
 	'BLITZE_SITEMAKER_BLOCK_MENU'				=> 'Nabídka',
 	'BLITZE_SITEMAKER_BLOCK_MYBOOKMARKS'		=> 'Moje záložky',
-	'BLITZE_SITEMAKER_BLOCK_RECENT_TOPICS'		=> 'Recent Topics',
+	'BLITZE_SITEMAKER_BLOCK_RECENT_TOPICS'		=> 'Nedávná témata',
 	'BLITZE_SITEMAKER_BLOCK_STATS'				=> 'Statistika',
 	'BLITZE_SITEMAKER_BLOCK_STYLE_SWITCHER'		=> 'Přepínač stylů',
 	'BLITZE_SITEMAKER_BLOCK_WHATS_NEW'			=> 'Co je nového?',
@@ -84,11 +84,11 @@ $lang = array_merge($lang, array(
 	'FEED_ITEM_TEMPLATE'						=> 'Šablona položky',
 	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />
 		<ul class="sm-list">
-			<li>Access feed data in <strong>item</strong> variable e.g. item.title</li>
-			<li>Template must be in <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntax</a></li>
-			<li>Click <strong>Samples</strong> above for sample templates</li>
-			<li>Use <code>get_item_tags(<a href="http://simplepie.org/wiki/faq/supported_xml_namespaces" target="_blank">$namespace</a>, $tag)</code> to get any tag from the feed that we do not provide e.g.<br /><strong><code>{{ get_item_tags(\'\', \'image\') }}</code></strong></li>
-			<li>Use Twig’s json_encode filter to see contents of array e.g. <strong><code>{{ get_item_tags(\'\', \'image\')|json_encode() }}</code></strong></li>
+			<li>Přístup k datům kanálu v proměnné <strong>položka</strong> . . položka. šablona</li>
+			<li>musí být v <a href="https://twig.symfony.com/doc/2.x/" target="_blank">Twig syntaxe</a></li>
+			<li>Klikni <strong>Vzorků</strong> výše pro šablony vzorových</li>
+			<li>Použít <code>get_item_tags(<a href="http://simplepie.org/wiki/faq/supported_xml_namespaces" target="_blank">$namespace</a>, $tag)</code> pro získání tagu z kanálu, který neposkytujeme.<br /><strong><code>{{ get_item_tags(\'\', \'image\') }}</code></strong></li>
+			<li>Použijte Twig\'s json_encode filtr pro zobrazení obsahu pole. . <strong><code>{{ get_item_tags(\'\', \'image\')|json_encode() }}</code></strong></li>
 		</ul>',
 	'FEED_PREVIEW_SOURCE'						=> 'Zdroj',
 	'FEED_URL_PLACEHOLDER'						=> 'http://example.com/rss',
@@ -124,7 +124,7 @@ $lang = array_merge($lang, array(
 	'MAX_POSTS'									=> 'Maximální počet příspěvků',
 	'MAX_TOPICS'								=> 'Maximální počet témat',
 	'MAX_WORDS'									=> 'Maximální počet slov',
-	'MANAGE_MENUS'								=> 'Manage Menus',
+	'MANAGE_MENUS'								=> 'Správa nabídek',
 	'MAP_COORDINATES'							=> 'Souřadnice',
 	'MAP_COORDINATES_EXPLAIN'					=> 'Zadejte souřadnice v zeměpisné šířce formuláře, délku',
 	'MAP_HEIGHT'								=> 'Výška',
@@ -180,9 +180,9 @@ $lang = array_merge($lang, array(
 	'TOPIC_TITLE_LIMIT'							=> 'Maximální počet znaků v názvu tématu',
 	'TOPIC_TYPE'								=> 'Typ tématu',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Vyberte typy témat, které chcete zobrazit. Nechte pole nezaškrtnuté pro výběr ze všech typů témat.',
-	'TOPICS_LOOK_BACK'							=> 'Look back',
+	'TOPICS_LOOK_BACK'							=> 'Pohled zpět',
 	'TOPICS_ONLY'								=> 'Pouze témata?',
-	'TOPICS_PER_PAGE'							=> 'Per page',
+	'TOPICS_PER_PAGE'							=> 'Na stránku',
 
 	'WORD_MAX_SIZE'								=> 'Maximální velikost písma',
 	'WORD_MIN_SIZE'								=> 'Minimální velikost písma',
