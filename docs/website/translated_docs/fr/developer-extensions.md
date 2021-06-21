@@ -52,11 +52,11 @@ services :
 
 ```
 
-Au minimum, c'est tout ce dont vous avez besoin. Si vous allez en mode édition, vous devriez voir le bloc listé comme 'MY_EXAMPLE_BLOCK_MY_BLOCK' qui peut être déplacé et déposé sur n'importe quelle position de bloc. Mais ce bloc ne fait rien d'excitant. It has no settings and does not translate the block name. Rendons-le plus intéressant.
+Au minimum, c'est tout ce dont vous avez besoin. Si vous allez en mode édition, vous devriez voir le bloc listé comme 'MY_EXAMPLE_BLOCK_MY_BLOCK' qui peut être déplacé et déposé sur n'importe quelle position de bloc. Mais ce bloc ne fait rien d'excitant. Il n'a pas de paramètres et ne traduit pas le nom du bloc. Rendons-le plus intéressant.
 
 ### Paramètres du bloc
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Modifions nos blocs/mon_block. hp file and add a "get_config" method th at return an array with the keys being the block settings and the values being an array describing the settings like so:
 
 ```php
     /**
@@ -88,7 +88,7 @@ Notice 'legend1' and 'legend2' : These are used to separate the settings into ta
 
 ### Nommer les blocs
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+La convention pour les noms de blocs est que le nom du service (par exemple mon.exemple.block. y*bloc ci-dessus) sera utilisé comme clé de langage en remplaçant les points (.) par trait de soulignement (*) (par exemple MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Traduction
 
@@ -107,18 +107,18 @@ Comme 'blocks_admin.php' n'est chargé que lors de l'édition de blocs, vous dev
 
 ### Rendre le bloc
 
-Le nouveau bloc ne sera affiché que s'il rend quelque chose. Votre bloc peut retourner n'importe quelle chaîne de contenu mais dans la plupart des cas, vous avez besoin d'un modèle pour rendre votre contenu. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Le nouveau bloc ne sera affiché que s'il rend quelque chose. Votre bloc peut retourner n'importe quelle chaîne de contenu mais dans la plupart des cas, vous avez besoin d'un modèle pour rendre votre contenu. Pour afficher votre bloc en utilisant des modèles, le bloc doit retourner un tableau qui contient les données que vous voulez passer au modèle et doit également implémenter la méthode `get_template` comme démontré ci-dessous :
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    fonction publique get_config(table $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
-        return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        $options = table(1 => 'SOME_LANG_VAR', 2 => 'AUTRE_LANG_VAR');
+        retour tableau(
+            'legend1' => 'TAB1',
+            'some_setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'chaîne', 'type' => 'checkbox', 'options' => $options, 'default' => tableau(), 'expliquer' => faux),
         );
     }
 
@@ -127,51 +127,51 @@ Le nouveau bloc ne sera affiché que s'il rend quelque chose. Votre bloc peut re
      */
     public function get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function display(array $data, $edit_mode = false)
+    public function display(tableau $data, $edit_mode = false)
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // ne fait quelque chose qu'en mode édition
         }
 
         return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Ensuite, votre fichier styles/all/my_block.html ou styles/prosilver/my_block.html pourrait ressembler à ceci :
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Vous avez sélectionné : {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+En résumé, votre bloc doit retourner un tableau avec une clé `titre` (pour le titre du bloc) et une clé `contenu` (si le bloc affiche juste une chaîne de caractères et n'utilise pas de modèle) ou une clé `de données` (si le bloc utilise un modèle, dans ce cas, vous devrez également implémenter la méthode `get_template`).
 
 ### Bloc d'actifs
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Si votre bloc doit ajouter des assets (css/js) à la page, je vous recommande d'utiliser la classe [util du sitemaker](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) pour cela. Comme il peut y avoir plus d'une instance du même bloc sur la page, ou d'autres blocs pourraient être d'ajouter le même actif, la classe utilitaire s'assure que l'actif est seulement ajouté.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@mon_exemple/assets/une. s',
+                100 => '@mon_exemple/assets/autre. s', // définit la priorité
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => tableau(
+                '@mon_exemple/assets/unes. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+La classe utilitaire devra bien sûr être ajoutée à vos définitions de service dans config.yml comme suit: `- '@blitze.sitemaker. til'` et défini dans le constructeur de votre bloc `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Et c'est tout. Nous avons terminé !
