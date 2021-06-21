@@ -1,54 +1,54 @@
 ---
-id: developer-events
-title: phpBB SiteMaker Events
+id: utviklerhendelser
+title: phpBB SiteMaker Hendelser
 ---
 
-You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+Du kan endre adferden til phpBB SiteMaker ved hjelp av phpBB's hendelsessystem.
 
-## PHP Events
+## PHP hendelser
 
 # blitze.sitemaker.acp_add_bulk_menu_options
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
-- Since: 3.1.0
-- Purpose: Add bulk menu options in acp menu
+- Sted: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+- Siden: 3.1.0
+- Formål: Legg til massealternativer i blokk-menyen
 
 # blitze.sitemaker.acp_display_settings_form
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: display acp (sitemaker) settings form
+- Sted: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- Siden: 3.1.0
+- Formål: vis acp (sitemaker) innstillingsskjema
 
 # blitze.sitemaker.acp_save_settings
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: Save acp (sitemaker) settings
+- Sted: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- Siden: 3.1.0
+- Formål: Lagre acp (sitemaker) innstillinger
 
 # blitze.sitemaker.admin_bar.set_assets
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
-- Since: 3.0.1-RC1
-- Purpose: Add assets for available blocks in edit mode
+- Sted: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
+- Siden: 3.0.1-RC1
+- Formål: Legg til ressurser for tilgjengelige blokker i redigeringsmodus
 
-# blitze.sitemaker.modify_block_positions
+# blitze.sitemaker.modify_block_posier
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify block positions
+- Sted: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+- Siden: 3.0.1-RC1
+- Formål: posisjoner endre blokker
 
 # blitze.sitemaker.modify_rendered_block
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify a rendered block
+- Sted: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+- Siden: 3.0.1-RC1
+- Formål: endre en rendret blokk
 
-## Template Events
+## Mal hendelser
 
-# blitze_sitemaker_acp_settings
+# blitze_sitemaker_acp_innstillinger
 
-- Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
-- Since: 3.1.0
+- Sted: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
+- Siden: 3.1.0
 - Purpose: Add form fields for sitemaker settings
 
 # blitze_sitemaker_admin_bar_append
