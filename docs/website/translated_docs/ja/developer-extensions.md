@@ -1,18 +1,18 @@
 ---
 id: developer-extensions
-title: Extending phpBB SiteMaker
+title: phpBBサイトメーカーを拡張
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+phpBB SiteMakerは、 [サービス交換](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement)、 [サービスデコレーション](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration)、および [phpBBのイベントシステム](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html)を使用して拡張/変更できます。 サポートされているイベントのリストは [](./developer-events.md) をご覧ください。
 
-## Creating a SiteMaker block
+## SiteMaker ブロックの作成
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+phpBB SiteMaker ブロックは、blitze\sitemaker\services\blocks\driver\block クラスを拡張し、「display」メソッドから 'title' と 'content' の配列を返す単なるクラスです。 他のすべてはあなた次第です。 phpBB SiteMakerでブロックを検出できるようにするには、「sitemaker.block」タグを指定する必要があります。
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+例えば、vendor/extension を my/example とする拡張子があるとします。 phpBB SiteMakerの「my_block」というブロックを作成するには:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- "blocks" フォルダを作成
+- 以下の内容のmy_block.phpファイルをblockフォルダに作成します
 
 ```php
 namespace my\example\blocks;
@@ -34,12 +34,12 @@ class my_block extends block
 }
 ```
 
-Then in your config.yml file, add the following:
+次に、config.yml ファイルに以下を追加します。
 
 ```yml
-services:
+サービス:
 
-    ...
+...
 
     my.example.block.my_block:
         class: my\example\blocks\my_block
@@ -48,15 +48,15 @@ services:
         tags:
             - { name: sitemaker.block }
 
-    ....
+....
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+最低限必要なのはそれだけです 編集モードに入ると、任意のブロック位置にドラッグ&ドロップできる「MY_EXAMPLE_BLOCK_MY_BLOCK」と表示されているブロックが表示されます。 しかし、このブロックはエキサイティングではありません。 これは設定を持たず、ブロック名を変換しません。 もっと面白くしましょう。
 
-### Block Settings
+### ブロック設定
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+ブロック/my_blockを修正しましょう。 hpファイルと追加「get_config」メソッドでは、ブロック設定とそのような設定を説明する配列であるキーを持つ配列を返します。
 
 ```php
     /**
@@ -80,34 +80,34 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+これは、phpBBがACPのボード設定用の構成を構築するのと同じ方法で構成されています。 さらに多くの例 [はこちら](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) をご覧ください。
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+カスタムフィールドタイプが必要な場合は、 [の例](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' の設定) を参照できます。
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+'legend1' と 'legend2' に注意してください: これらは設定をタブに分割するために使用されます。
 
-### Naming Blocks
+### 名前を付けるブロック
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+ブロック名の規則は、サービス名 (e.g my.example.block) というものです。 y*block above)は、ドット(.)をアンダースコア(*)に置き換えることで言語キーとして使用されます(例:MY_EXAMPLE_BLOCK_MY_BLOCK)。
 
-### Translation
+### 翻訳
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+また、翻訳が必要な言語キーがいくつかあります。 これを行うには、言語フォルダに「blocks_admin.php」という名前のファイルを作成します。 このファイルは、ブロックを編集するときに自動的に読み込まれます。あなたのブロックの設定とブロック名の翻訳が必要です。
 
     $lang = array_merge($lang, array(
         'SOME_LANG_VAR'     => 'Option 1',
         'OTHER_LANG_VAR'    => 'Option 2',
         'SOME_LANG_VAR_1'   => 'Setting 1',
         ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'マイブロック',
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+'blocks_admin.php' はブロックを編集するときにのみ読み込まれるので、他の翻訳を追加する必要があります(例: `$language->add_lang('my_lang_file', 'my/example'); のようにdisplayメソッドに言語ファイルを読み込んでください。`
 
-### Rendering the block
+### ブロックのレンダリング
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+新しいブロックは、何かをレンダリングしている場合にのみ表示されます。 ブロックは任意の文字列をコンテンツとして返すことができますが、ほとんどの場合、コンテンツをレンダリングするためのテンプレートが必要です。 テンプレートを使用してブロックをレンダリングするには、 ブロックは、テンプレートに渡すデータを保持する配列を返し、 `get_template` メソッドを以下に示すように実装する必要があります。
 
 ```php
     /**
@@ -149,16 +149,16 @@ The new block will only be displayed if it is rendering something. Your block ca
     }
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+styles/all/my_block.htmlまたはstyles/prosilver/my_block.htmlファイルは次のようになります:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>選択済: {{ some_var }}</p>
     
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
-### Block Assets
+### 資産をブロック
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+ページにアセット(css/js)を追加する必要がある場合は、サイトメーカー [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) を使用することをお勧めします。 ページ上に同じブロックのインスタンスが複数ある場合があるので、 または他のブロックが同じ資産を追加している可能性がありますutilクラスは、資産が追加されたもののみを保証します。
 
 ```php
         $this->util->add_assets(array(
@@ -174,4 +174,4 @@ If your block needs to add assets (css/js) to the page, I recommend using the si
 
 The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+以上です 完了！
