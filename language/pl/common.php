@@ -26,17 +26,17 @@ $lang = array_merge($lang, array(
 
 	'BLOCK_TITLE'					=> 'Tytuł bloku',
 
-	'CHANGE_ME'						=> 'Zmień mnie',
+	'CHANGE_ME'						=> 'Zmień',
 
 	'DAILY_MEMBER'					=> 'Członek dnia',
 
-	'FEATURED_MEMBER'				=> 'Polecany członek',
+	'FEATURED_MEMBER'				=> 'Polecany użytkownik',
 	'FEATURED_MEMBERLIST'			=> 'Lista wyróżnionych użytkowników',
 	'FEEDS'							=> 'Kanały',
 	'FORUM_ANNOUNCEMENTS'			=> 'Ogłoszenia forum',
-	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Ogłoszenia na globalnym forum',
+	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Ogłoszenia o globalnym forum',
 	'FORUM_RECENT_POSTS'			=> 'Ostatnie posty na forum',
-	'FORUM_RECENT_TOPICS'			=> 'Ostatnie tematy forum',
+	'FORUM_RECENT_TOPICS'			=> 'Najnowsze tematy forum',
 	'FORUM_STICKY_POSTS'			=> 'Ostatnie przyklejone posty',
 
 	'HELP'							=> 'Pomoc',
@@ -46,46 +46,46 @@ $lang = array_merge($lang, array(
 
 	'JOIN_DATE'						=> 'Data dołączenia',
 
-	'LAST_POST_BY_AUTHOR'			=> 'Ostatni post od',
-	'LAST_VISITED'					=> 'Ostatnio odwiedzane',
+	'LAST_POST_BY_AUTHOR'			=> 'Ostatni post przez',
+	'LAST_VISITED'					=> 'Ostatnio odwiedzone',
 	'LINKS'							=> 'Linki',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Treść',
 	'MEMBERS_DATE'					=> 'Data',
 	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Członek miesiąca',
-	'MOST_TENURED'					=> 'Najwięcej Tenured',
+	'MOST_TENURED'					=> 'Najbardziej zakotwiczone',
 	'MY_BOOKMARKS'					=> 'Moje zakładki',
 
-	'NO_BOOKMARKED_TOPICS'			=> 'Nie zaznaczyłeś żadnych wątków',
-	'NO_NEW_TOPICS'					=> 'Brak nowych wątków do wyświetlenia',
+	'NO_BOOKMARKED_TOPICS'			=> 'Nie dodałeś żadnych wątków do zakładek',
+	'NO_NEW_TOPICS'					=> 'Brak nowych tematów do wyświetlenia',
 
 	'POLL'							=> 'Ankieta',
 	'POPULAR_TOPICS'				=> 'Popularne tematy',
 	'POSTS_MEMBER'					=> 'Najlepszy plakat',
 	'PROCESSING'					=> 'przetwarzanie...',
 
-	'QTYPE_POSTS'					=> 'Gratulacje:',
-	'QTYPE_RECENT'					=> 'Witaj naszego najnowszego użytkownika:',
+	'QTYPE_POSTS'					=> 'Gratulacje dla:',
+	'QTYPE_RECENT'					=> 'Proszę powitać naszego najnowszego użytkownika:',
 
 	'RECENT_BOTS'					=> 'Ostatnie wyszukiwarki',
-	'RECENT_MEMBER'					=> 'Najnowszy Członek',
+	'RECENT_MEMBER'					=> 'Ostatni Członek',
 	'RECENT_MEMBERS'				=> 'Najnowsi użytkownicy',
 
 	'SESSION_HIDE_ME'				=> 'Ukryj mnie',
-	'SM_NAVIGATION'					=> 'Nawigacja',
+	'SM_NAVIGATION'					=> 'Navigation',
 	'SM_TOGGLE_DROPDOWN'			=> 'Przełącz listę rozwijaną',
 	'STYLE_SWITCHER'				=> 'Przełącznik stylu',
 
-	'THIS_MONTH'					=> 'W tym miesiącu',
+	'THIS_MONTH'					=> 'Ten Miesiąc',
 	'THIS_WEEK'						=> 'W tym tygodniu',
-	'THIS_YEAR'						=> 'Ten rok',
-	'TODAY'							=> 'Dzisiaj',
+	'THIS_YEAR'						=> 'W tym roku',
+	'TODAY'							=> 'Dziś',
 	'TOPICS_LAST_READ'				=> 'Ostatnio przeczytane tematy',
-	'TOPIC_LAST_READ'				=> 'Ostatnio przeczytane %s',
-	'TOP_POSTERS'					=> 'Najwięcej plakatów',
+	'TOPIC_LAST_READ'				=> 'Ostatnie przeczytanie %s',
+	'TOP_POSTERS'					=> 'Najlepsze plakaty',
 
-	'UCP_SITEMAKER_CONTENT'			=> 'Moja Rzeźba',
+	'UCP_SITEMAKER_CONTENT'			=> 'Moja sztuka',
 
 	'VIEW_DETAILS'					=> 'Zobacz szczegóły',
 	'VIEW_USER_PROFILE'				=> 'Wszystko o %s',
@@ -93,5 +93,5 @@ $lang = array_merge($lang, array(
 	'WEEKLY_MEMBER'					=> 'Członek tygodnia',
 	'WELCOME'						=> 'Witaj',
 	'WHATS_NEW'						=> 'Co nowego?',
-	'WORDGRAPH'						=> 'Słowo',
+	'WORDGRAPH'						=> 'Wykres słów',
 ));
