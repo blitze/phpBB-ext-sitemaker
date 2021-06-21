@@ -16,7 +16,7 @@ Si los bloques disponibles no te dan la libertad que necesitas, hay el `Bloque P
     - Añadir el bloque personalizado a la ubicación deseada
     - Editar el bloque personalizado, haga clic en la pestaña `HTML` y pegue su Javascript
 
-## The Scripts Manager
+## El Administrador de Scripts
 
 The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
 
