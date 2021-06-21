@@ -22,76 +22,76 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TIME'						=> 'Altijd',
+	'ALL_TIME'						=> 'Gehele tijd',
 
-	'BLOCK_TITLE'					=> 'Bloktitel',
+	'BLOCK_TITLE'					=> 'Blok titel',
 
-	'CHANGE_ME'						=> 'Wijzigen',
+	'CHANGE_ME'						=> 'Verander mij',
 
 	'DAILY_MEMBER'					=> 'Lid van de dag',
 
-	'FEATURED_MEMBER'				=> 'Aanbevolen lid',
+	'FEATURED_MEMBER'				=> 'Aanbevolen Lid',
 	'FEATURED_MEMBERLIST'			=> 'Uitgelichte ledenlijst',
 	'FEEDS'							=> 'Feeds',
 	'FORUM_ANNOUNCEMENTS'			=> 'Forum aankondigingen',
-	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Globale forumaankondigingen',
-	'FORUM_RECENT_POSTS'			=> 'Recente Forumberichten',
+	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Globaal Forum Mededelingen',
+	'FORUM_RECENT_POSTS'			=> 'Recente forumberichten',
 	'FORUM_RECENT_TOPICS'			=> 'Recente forumonderwerpen',
 	'FORUM_STICKY_POSTS'			=> 'Recente Sticky Berichten',
 
 	'HELP'							=> 'Hulp',
 	'HOURLY_MEMBER'					=> 'Lid van het uur',
 
-	'GOOGLE_MAP'					=> 'Google Kaart',
+	'GOOGLE_MAP'					=> 'Google Map',
 
-	'JOIN_DATE'						=> 'Deelnamedatum',
+	'JOIN_DATE'						=> 'Join Datum',
 
 	'LAST_POST_BY_AUTHOR'			=> 'Laatste bericht door',
 	'LAST_VISITED'					=> 'Laatst bezocht',
-	'LINKS'							=> 'Links',
+	'LINKS'							=> 'Koppelingen',
 
 	'MCP_SITEMAKER_CONTENT'			=> 'Inhoud',
-	'MEMBERS_DATE'					=> 'Datum',
+	'MEMBERS_DATE'					=> 'Datum:',
 	'MENU'							=> 'Menu',
 	'MONTHLY_MEMBER'				=> 'Lid van de maand',
-	'MOST_TENURED'					=> 'Meest Tenured',
-	'MY_BOOKMARKS'					=> 'Mijn bladwijzers',
+	'MOST_TENURED'					=> 'Meest gewaardeerd',
+	'MY_BOOKMARKS'					=> 'Bladwijzers',
 
-	'NO_BOOKMARKED_TOPICS'			=> 'Je hebt geen topics aan het favorieten',
-	'NO_NEW_TOPICS'					=> 'Er zijn geen nieuwe topics om weer te geven',
+	'NO_BOOKMARKED_TOPICS'			=> 'Je hebt geen topics als favoriet gemarkeerd',
+	'NO_NEW_TOPICS'					=> 'Er zijn geen nieuwe onderwerpen om weer te geven',
 
-	'POLL'							=> 'Poll',
+	'POLL'							=> 'Stemming',
 	'POPULAR_TOPICS'				=> 'Populaire onderwerpen',
 	'POSTS_MEMBER'					=> 'Top Poster',
-	'PROCESSING'					=> 'verwerkt...',
+	'PROCESSING'					=> 'verwerken...',
 
 	'QTYPE_POSTS'					=> 'Gefeliciteerd aan:',
 	'QTYPE_RECENT'					=> 'Welkom ons nieuwste lid:',
 
 	'RECENT_BOTS'					=> 'Recente zoekmachines',
-	'RECENT_MEMBER'					=> 'Recente Lid',
+	'RECENT_MEMBER'					=> 'Recent lid',
 	'RECENT_MEMBERS'				=> 'Recente leden',
 
 	'SESSION_HIDE_ME'				=> 'Verberg mij',
-	'SM_NAVIGATION'					=> 'Navigatie',
-	'SM_TOGGLE_DROPDOWN'			=> 'Zet dropdown aan',
-	'STYLE_SWITCHER'				=> 'Stijl wisselaar',
+	'SM_NAVIGATION'					=> 'Navigation',
+	'SM_TOGGLE_DROPDOWN'			=> 'Toggle dropdown',
+	'STYLE_SWITCHER'				=> 'Stijl schakelaar',
 
-	'THIS_MONTH'					=> 'Deze maand',
-	'THIS_WEEK'						=> 'Deze Week',
+	'THIS_MONTH'					=> 'Deze Maand',
+	'THIS_WEEK'						=> 'Deze week',
 	'THIS_YEAR'						=> 'Dit jaar',
-	'TODAY'							=> 'Vandaag',
+	'TODAY'							=> 'vandaag',
 	'TOPICS_LAST_READ'				=> 'Laatst gelezen onderwerpen',
 	'TOPIC_LAST_READ'				=> 'Laatst gelezen %s',
-	'TOP_POSTERS'					=> 'Top Posters',
+	'TOP_POSTERS'					=> 'Top posters',
 
 	'UCP_SITEMAKER_CONTENT'			=> 'Mijn spullen',
 
 	'VIEW_DETAILS'					=> 'Details bekijken',
-	'VIEW_USER_PROFILE'				=> 'Alles ongeveer %s',
+	'VIEW_USER_PROFILE'				=> 'Alles over %s',
 
 	'WEEKLY_MEMBER'					=> 'Lid van de week',
 	'WELCOME'						=> 'Verwelkoming',
-	'WHATS_NEW'						=> 'Wat is er nieuw?',
-	'WORDGRAPH'						=> 'Wordgrafiek',
+	'WHATS_NEW'						=> 'Wat is nieuw?',
+	'WORDGRAPH'						=> 'Wordgraph',
 ));
