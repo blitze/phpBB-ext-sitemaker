@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: menu-gestione-elementi
+title: Gestione delle voci di menu
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Il tuo menu è inutile a meno che non abbia voci di menu. È possibile aggiungere voci di menu che puntano a file locali o esterni.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> L'URL dei siti esterni deve iniziare con http(s)://, ftp://, //, ecc.
 > 
-> You can create a divider by entering '-' as the item title
+> Puoi creare un separatore inserendo '-' come titolo dell'elemento
 
-## Adding Menu items
+## Aggiunta voci di menu
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+È possibile aggiungere voci di menu alla volta, o è possibile aggiungere più voci di menu a quelle.
 
-### Adding single menu items
+### Aggiunta di voci di menu singolo
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+Per aggiungere una singola voce di menu, * clicca su `Aggiungi voce di menu` pulsante * Inserisci le informazioni richieste e premi `Salva`
 
-### Adding multiple items
+### Aggiunta di elementi multipli
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+Per aggiungere più voci di menu contemporaneamente, * Clicca sull'icona accanto a `Aggiungi voce di menu` * È possibile aggiungere manualmente gli elementi inserendo ogni elemento su una nuova linea e utilizzando gli elementi nest del carattere di scheda o * È possibile cliccare su una delle opzioni fornite nella parte inferiore dell'area di testo per compilare automaticamente gli elementi del menu
 
-## Reorder the menu items
+## Riordina le voci del menu
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Puoi trascinare e rilasciare le voci di menu su/giù per impostare il loro ordine di visualizzazione, o trascinarle a sinistra/destra per impostare la gerarchia desiderata.
 
-## Rebuilding the menu items
+## Ricostruzione delle voci di menu
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Se riscontri che le voci di menu non vengono visualizzate correttamente, clicca sul pulsante `Ricostruisci l'albero` per ricostruire le voci di menu.
