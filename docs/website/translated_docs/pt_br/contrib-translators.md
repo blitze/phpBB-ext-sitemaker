@@ -1,17 +1,17 @@
 ---
-id: contrib-translators
-title: Translators
+id: tradutores-contrib
+title: Tradutores
 ---
 
-We need help translating this extension, as well as its documentation. We have created a project on Crowdin to ease translations. Crowdin gives you a translation interface that's second to none. You can contribute how ever you want but we really recommend using Crowdin.
+Precisamos de ajuda para traduzir essa extensão, bem como a sua documentação. Criamos um projeto no Crowdin para facilitar as traduções. Crowdin dá-lhe uma interface de tradução que não é igual a nenhuma. Você pode contribuir como sempre quer, mas realmente recomendamos usar o Crowdin.
 
-> Crowdin is a localization management platform that helps companies to translate their software. You can read more about Crowdin [here](https://support.crowdin.com/crowdin-intro/)
+> O Crowdin é uma plataforma de gestão de localização que ajuda as empresas a traduzir o seu software. Você pode ler mais sobre o Crowdin [aqui](https://support.crowdin.com/crowdin-intro/)
 
-If you are willing to contribute with translations, you will need:
+Se você estiver disposto a contribuir com as traduções, você precisará:
 
-* A [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) account.
-* Chose the target language if exist otherwise request to be enabled.
+* Uma conta no [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker).
+* Escolha o idioma de destino se existir caso contrário o pedido para ser habilitado.
 
-If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
+Se o idioma desejado não estiver listado, [entre em contato comigo](https://crowdin.com/profile/blitze) e eu o adicionarei.
 
-[Start Translating](https://crowdin.com/project/phpbb-ext-sitemaker)
+[Iniciar tradução](https://crowdin.com/project/phpbb-ext-sitemaker)
