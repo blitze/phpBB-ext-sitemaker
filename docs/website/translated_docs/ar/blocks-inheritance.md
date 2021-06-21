@@ -1,44 +1,44 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: الكتلة-الإرث
+title: فهم ميراث الكتلة
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+لقد رأينا ذلك من خلال تعيين تخطيط افتراضي، الصفحات الأخرى التي لا تحتوي على كتل خاصة بها سوف ترث الكتل من التخطيط الافتراضي. غير أن هناك نوعا آخر من الإرث المجمع.
 
-## Parent/Child Routes
+## طرق الوالد/الطفل
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+في phpBB SiteMaker، نتحدث عن الطرق المتداخلة من حيث الدلائل (الفرعية) المتداخلة الحقيقية أو المسار/المسارات المتداخلة تقريبا. يرجى البقاء معي :). * طرق الوالد/الطفل الحقيقية: على سبيل المثال، المسار /some_directory/sub_directory/index.php هو طفل لـ /some_directory/index. hp * طرق الوالد/الطفل الظاهرية: على سبيل المثال، viewtopic.php يعامل كطفل لviewforum.php.
 
-Here are some examples of parent/child routes:
+وفيما يلي بعض الأمثلة على طرق الوالدين/الأطفال:
 
-| Parent             | Child                          |
+| الأصل              | طفل                            |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
-| /app.php/articles  | /app.php/articles/my-article   |
+| /app.php/articles  | /app.php/articles/my-مقالة     |
 
-## Parent/Child Block Inheritance
+## ميراث الوالد/الطفل المجمع
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+بالنسبة لطرق الوالدين/الأطفال، مسار الطفل يرث كتل من المسار الأصلي (إذا كان للوالد كتل خاصة به) أو من التخطيط الافتراضي (إذا كان قد تم تعيين واحد). بعبارة أخرى، حتى لو كان هناك تخطيط افتراضي، مسار الأطفال سوف يرث القطع من طريقه الأصلي إذا كان للطريق الرئيسي قطعه الخاصة به. ولكن لا يجب أن تكون جميع القطع من المسار الأصلي موروثة.
 
-## Controlling Block Inheritance
+## التحكم في ميراث الكتلة
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+على مستوى الكتلة، يمكنك التحكم في الوقت الذي يمكن أن تكون الكتلة موروثة بواسطة طرق الأطفال. لقد لمسنا هذا في وقت سابق في [إعدادات تحرير الكتلة](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+فكر في بنية الدليل الحقيقي التالية:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+<unk> <unk> <unk> ', index.php
+<unk> <unk> ', Movies/
+    <unk> <unk> ~ index.php
+    <unk> <unk> ', page.php
+    <unk> <unk> ', Comedy/
+        <unk> ~ index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+لأغراض وراثة القطع، نقول: * المسار الأصلي لـ /phpBB/Movies/Comedy/index.php هو /phpBB/Movies/index. hp وليس /phpBB/Movies/page.php * جميع الصفحات في دليل فرعي يتعلق بـ /phpBB/index.php هي مسار ثانوي لـ /phpBB/index.php. إذاً /phpBB/Movies/index.php و /phpBB/Movies/page.php جميعهم أطفال /phpBB/index.php وبالتالي سيرثون كتلهم إذا لم يكن لديهم كتل خاصة بهم. في هذه الحالة: * عندما تكون بلوكة على /phpBB/index. تم تعيين hp للعرض في **إخفاء طرق الأطفال**، ستظهر الكتلة على /phpBB/index. hp (المسار الرئيسي) ولكن ليس على مسارات الأطفال الخاصة به * عندما تكون بلوكة على /phpBB/index. تم تعيين hp للعرض في **عرض على طرق الأطفال فقط**، وسوف يتم عرضها على /phpBB/Movies/index.php و /phpBB/Movies/page. hp (طرق الأطفال) ولكن ليس على /phpBB/index.php (parent)، ولا /phpBB/Movies/Comedy/index. hp (نحن نذهب لمستوى واحد عميق) * عندما تكون بلوكة على /phpBB/index. hp تم تعيينه لعرض **دائمًا** (الافتراضي)، سيتم عرضه على /phpBB/index.php (parent)، /phpBB/Movies/index. hp و /phpBB/page.php (طرق الأطفال) ولكن ليس على /phpBB/Movies/Comedy/index.php (نذهب إلى مستوى واحد عميق). في هذه الحالة، سيرث /phpBB/Movies/Comedy/index.php من المسار الافتراضي (إن وجد)
 
-## Posible Future State
+## دولة المستقبل المحتملة
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+أنا مهتم حقاً بردود فعلكم في هذا المجال. لن يكون لدى معظم مستخدمي phpBB أدلة حقيقية كما هو مبين أعلاه. لذا فأنا أفكر في استخدام البنية التي يتم تعريفها في قائمة كتلة كهيكل دليل افتراضي وتطبيق هذا الإرث للوالد/الطفل عليها. أنا أيضا أفكر في الذهاب إلى أبعد من مستوى واحد عميق. من فضلك أخبرني إذا كان هذا سيكون مفيداً لك.
