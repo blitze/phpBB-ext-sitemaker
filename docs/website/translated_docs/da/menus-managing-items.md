@@ -1,30 +1,30 @@
 ---
 id: menus-managing-items
-title: Managing Menu Items
+title: Håndterer Menupunkter
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Din menu er ubrugelig, medmindre den har menupunkter. Du kan tilføje menupunkter, der peger på lokale eller eksterne filer.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> Webadressen for eksterne websteder skal begynde med http(s)://, ftp://, //, etc.
 > 
-> You can create a divider by entering '-' as the item title
+> Du kan oprette en divider ved at indtaste '-' som elementets titel
 
-## Adding Menu items
+## Tilføjer menupunkter
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Du kan tilføje menupunkter et punkt ad gangen, eller du kan tilføje flere menupunkter på dem.
 
-### Adding single menu items
+### Tilføjer enkelte menupunkter
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+For at tilføje et enkelt menupunkt, * klik på `Tilføj menupunkt` knappen * Udfyld de krævede oplysninger og tryk `Gem`
 
-### Adding multiple items
+### Tilføjer flere elementer
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+For at tilføje flere menupunkter på én gang, * Klik på ikonet Start ved siden af `Tilføj menupunkt` * Du kan manuelt tilføje elementer ved at placere hvert element på en ny linje og ved hjælp af tabulatortegnet nest elementer eller * Du kan klikke på en af de angivne muligheder nederst i textarea for automatisk at udfylde menupunkterne
 
-## Reorder the menu items
+## Omarrangér menupunkterne
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Du kan trække og slippe menupunkterne op/ned for at indstille deres visningsrækkefølge, eller trække dem venstre/højre for at indstille det ønskede hierarki.
 
-## Rebuilding the menu items
+## Genopbygger menupunkterne
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Hvis du finder, at menupunkterne ikke vises korrekt, skal du klikke på knappen `Genopbyg træ` for at genopbygge menupunkterne.
