@@ -19,4 +19,4 @@ Se vuoi un nome del menu più significativo, * passa sopra il nome del menu e cl
 
 ### Eliminazione menu
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Per eliminare un menu e i suoi elementi, * Passa sopra il nome del menu e clicca sull'icona **x** * Se la voce del menu non ha elementi figli, dovrai confermare la tua scelta per eliminare l'elemento * Se la voce di menu ha elementi figli, è necessario indicare se si desidera eliminare solo l'elemento e spostare i suoi figli in su o se si desidera eliminare l'intero ramo
