@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: block-anpassade
+title: Anpassat block
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Om de tillgängliga blocken inte ger dig den frihet du behöver, det finns `Anpassade Block` som låter dig visa ditt eget innehåll med BBcode eller HTML. Blocket kommer med en WYSIWYG editor (TinyMCE) och en skript manager:
 
-## The editor
+## Redigeraren
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Du kan använda redigeraren för att skapa HTML-innehåll
+- Du kan redigera källkoden om du behöver den kontrollnivån genom att klicka på `källkod` ikonen (`<>`) i redigeraren
+- Redigeraren låter dig ladda upp och ändra bilder 
+    - Det skapar en ny mapp i phpBB/images/sitemaker_uploads/ för varje användare som har tillgång till den
+    - Du kan visa/hantera alla användarmappar
+- Redigeraren filtrerar bort eventuella potentiellt farliga skript som javascript, etc. Om du behöver lägga till innehåll som Google annonser, javascript kommer att filtreras ut, men du kan komma runt det genom att göra följande: 
+    - Lägg till det anpassade blocket till önskad plats
+    - Redigera Custom Block, klicka på fliken `HTML` och klistra in Javascript
 
-## The Scripts Manager
+## Skript Manager
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Anpassade blocket låter dig också lägga till anpassade CSS och Javascript-filer på din sida. Att göra detta:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Lägg till ett `anpassat block` till valfri blockposition. Positionen spelar ingen roll om du också visar innehåll med blocket
+- Redigera blocket, Klicka på fliken `Skript` och lägg till dina CSS eller Javascript-filer > Varningens ord: Att lägga till många skript på din sida kan påverka laddningstiderna
