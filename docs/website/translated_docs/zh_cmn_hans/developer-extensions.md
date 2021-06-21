@@ -1,43 +1,43 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: 开发者扩展
+title: 扩展 phpBB 站点Maker
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+你可以使用 [服务替换](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [服务装饰](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), 和 [phpBB 事件系统](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html)。 你可以在这里找到支持的事件列表 [](./developer-events.md)。
 
-## Creating a SiteMaker block
+## 创建一个 SiteMaker 模块
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+一个 phpBB SiteMaker 模块只是一个扩展 blitze\sitemaker\services\blocks\驱动程序\block 分类，并返回“显示”方法中的“title”和“content”的数组。 所有其他收件人都是您自己的。 要使你的块可以通过 phpBB SiteMaker 发现，您需要给它“sitemaker.block”标签。
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+说我们有销售商/延期作为我的/示例。 要创建一个叫做“我的_block”的 phpBB SiteMaker 的方块：
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- 创建一个"块"文件夹
+- 在块文件夹中创建我的_block.php 文件，内容如下
 
 ```php
-namespace my\example\blocks;
+命名空间我\示例\blocks；
 
-use blitze\sitemaker\services\blocks\driver\block;
+使用blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
-{
+class my_blockexts block
+
     /**
      * {@inheritdoc}
      */
-    public function display(array $settings, $edit_mode = false)
-    {
+    公共函数显示(array $settings, $edit_mode = false)
+    *
         return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
-        );
+            'title' => '我的块标题',
+            'content' => '我的块内容',
+        ;
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+然后在你的 config.yml 文件中添加：
 
 ```yml
-services:
+服务：
 
     ...
 
@@ -45,16 +45,16 @@ services:
         class: my\example\blocks\my_block
         calls:
             - [set_name, [my.example.block.my_block]]
-        tags:
+        标签:
             - { name: sitemaker.block }
 
-    ....
+    ......
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+最起码，这就是你需要的。 如果你进入编辑模式，你应该看到列出的“MY_EXAMPLE_BLOK_MY_BLOCK”模块，可以拖拽到任何块位置。 但是，这个模块不会有任何激动。 It has no settings and does not translate the block name. 让我们更感兴趣。
 
-### Block Settings
+### 屏蔽设置
 
 Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
 
@@ -80,34 +80,34 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+这种构造方式与 phpBB 构建非加太区域的棋盘设置相同。 你可以在这里看到更多的例子。 [](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php)。
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+如果你想要一个自定义字段类型，你可以在这里看到一个示例 [](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type'settings)。
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+通知 'leginsd1' 和 'legend2': 这些选项用于将设置分隔为标签。
 
-### Naming Blocks
+### 命名区块
 
 The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### 翻译
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+还注意到我们有几个需要翻译的语言键。 为此，在您的语言文件夹中创建一个名为“block_admin.php”的文件。 这个文件将在编辑块时自动加载，并且应该为您的区块设置和块名称提供翻译。
 
-    $lang = array_merge($lang, array(
-        'SOME_LANG_VAR'     => 'Option 1',
-        'OTHER_LANG_VAR'    => 'Option 2',
-        'SOME_LANG_VAR_1'   => 'Setting 1',
-        ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+    $lang = array_merge($lang, 数组(
+        'SOME_LANG_VAR' => '选项1',
+        'OTHER_LANG_VAR' => '选项2',
+        'SOME_LANG_VAR_1' => '设置1'，
+        ......
+        'MY_EXAMPLE_BLOK_MY_BLOK' => 'My Block',
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+因为 'blocks_admin.php' 仅在编辑方块时加载，所以你需要添加其他翻译 (例如，块标题) 以像 `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### 渲染块
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+新区块只有在渲染内容时才会显示。 您的模块可以返回任何字符串作为内容，但在大多数情况下你需要一个模板来渲染您的内容。 To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
 
 ```php
     /**
@@ -156,7 +156,7 @@ Then your styles/all/my_block.html or styles/prosilver/my_block.html file might 
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
-### Block Assets
+### 屏蔽资产
 
 If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
 
