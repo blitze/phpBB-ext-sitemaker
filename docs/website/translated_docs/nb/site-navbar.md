@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: Navigasjonsfelt (Automatic Translation)
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+Se [Viser menyer](./menus-display#navigation-bar)
