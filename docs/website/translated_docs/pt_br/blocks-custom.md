@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blocos-personalizado
+title: Bloco personalizado
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Se os blocos disponíveis não lhe derem a liberdade de que precisa. existe o `Bloco Customizado` que lhe permite exibir seu próprio conteúdo usando BBcode ou HTML. O bloco vem com um editor WYSIWYG (TinyMCE) e um gerenciador de scripts:
 
-## The editor
+## O editor
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Você pode usar o editor para criar conteúdo HTML
+- Você pode editar o código fonte se você precisar desse nível de controle clicando no ícone do</code> Código Fonte `(<code><>`) no editor
+- O editor permite que você envie e modifique imagens 
+    - Cria uma nova pasta no phpBB/images/sitemaker_uploads/ para todos os usuários que têm acesso a ela
+    - Você pode ver/gerenciar todas as pastas do usuário
+- O editor filtra quaisquer scripts potencialmente perigosos como javascript, etc. Se você precisar adicionar conteúdo como anúncios do google, o javascript será filtrado, mas você pode contornar isso fazendo o seguinte: 
+    - Adicione o bloco personalizado ao local desejado
+    - Edite o Bloco Personalizado, clique na aba `HTML` e cole o seu Javascript
 
-## The Scripts Manager
+## O Gerenciador de Scripts
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+O Bloco Personalizado também permite que você adicione arquivos CSS e Javascript personalizados à sua página. Para fazer isso:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Adicione um `Bloco Personalizado` a qualquer posição do bloco. A posição não importa a menos que você também esteja exibindo conteúdo com o bloco
+- Edite o bloco, clique na guia `Scripts` e adicione seus arquivos CSS ou Javascript > Palavra de Cuidado: Adicionar a vários scripts em sua página pode afetar os tempos de carregamento
