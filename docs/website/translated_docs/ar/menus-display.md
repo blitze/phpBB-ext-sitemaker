@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: قوائم-عرض
+title: عرض القوائم
 ---
 
-Now that you have create your menus, you can display them in several ways:
+الآن بعد أن قمت بإنشاء القوائم الخاصة بك، يمكنك عرضها بعدة طرق:
 
-## Links Block
+## كتلة الروابط
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+يمكنك استخدام هذه الكتلة لعرض قائمة مسطحة أو متداخلة من عناصر القائمة. لا يقصد بهذه الكتلة أن تستخدم في الملاحة، أي أنها لن تظهر صفحة حالية أو أي شيء من هذا القبيل. وهو مخصص لقائمة بالبنود، بما في ذلك الروابط الخارجية.
 
-## Menus Block
+## كتلة القوائم
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+هذه الكتلة مخصصة للتنقل في الموقع. وهي تقوم ببعض الحسابات الإضافية لتحديد الموقع الحالي وليس المقصود منها أن تكون قائمة كبيرة جدا.
 
-## Navigation bar
+## شريط التنقل
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+على غرار كتلة القوائم ، سيعرض شريط التنقل عناصر القائمة كقائمة قائمة منسدلة مستجيبة مخصصة للتنقل في الموقع. يمكنك تمكين هذا في ACP > ملحقات > Sitemaker > الإعدادات > حدد القائمة
