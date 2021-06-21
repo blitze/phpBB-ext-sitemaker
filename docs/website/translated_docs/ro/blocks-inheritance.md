@@ -1,44 +1,44 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: moștenirea-blocuri
+title: Înțelegerea moștenirii blocului
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+Am văzut deja acest lucru prin setarea unui layout implicit, alte pagini care nu au blocuri proprii vor moșteni blocurile de la layout-ul implicit. Există, totuşi, un alt tip de moştenire în bloc.
 
-## Parent/Child Routes
+## Rute părinte/copil
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+In phpBB SiteMaker, vorbim de rute imbricate in termeni de directoarele imbricate reale (sub) sau practic imbricate pe rute. Te rog să stai cu mine :). * Adevărate trasee pentru părinți/copii: De exemplu, calea /unul_directory/sub_directory/index.php este un copil al /some_directory/index. hp * Virtual Parent/Copil: De exemplu, viewtopic.php este tratat ca un copil de viewforum.php.
 
-Here are some examples of parent/child routes:
+Iată câteva exemple de piste pentru părinți/copii:
 
-| Parent             | Child                          |
+| Părinte            | Copil                          |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
 | /app.php/articles  | /app.php/articles/my-article   |
 
-## Parent/Child Block Inheritance
+## Moștenire părinte/bloc copil
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+Pentru rutele părinte/copil, ruta copil moștenește blocurile rutei părinte (dacă părintele are propriile blocuri) sau din aspectul implicit (dacă unul a fost stabilit). Cu alte cuvinte, chiar dacă există un aspect implicit, ruta copil va moșteni blocuri de pe ruta sa părinte, în cazul în care ruta părinte are propriile blocuri. Dar nu toate blocurile din ruta părinte trebuie moştenite.
 
-## Controlling Block Inheritance
+## Controlul moștenirii blocului
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+La un nivel de bloc, poți controla când un bloc poate fi moștenit de trasee pentru copii. Am atins acest lucru mai devreme în [Editarea Setări blocului](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+Luați în considerare următoarea structură de directoare reală:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+Ribavirin ─ index.php
+Ribavirin ─ filme/
+    <unk> • ─ index.php
+    ß ─ pagină.php
+    <unk> 3.2.3 ─ Comedie/
+        Ribavirin ─ index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+În scopul moştenirii blocurilor, spunem * Calea părinte a /phpBB/Movies/Comedy/index.php este /phpBB/film/index. hp și nu /phpBB/Movies/page.php * Toate paginile dintr-un subdirector în raport cu /phpBB/index.php este o rută copil de /phpBB/index.php. Așadar /phpBB/Movies/index.php și /phpBB/Movies/page.php sunt copii de /phpBB/index.php și, prin urmare, își va moșteni blocurile dacă nu au blocuri proprii. În acest caz: * Când un bloc este pe /phpBB/index. hp este setat pe **Ascundeți pe rutele copii**, blocul va afișa pe /phpBB/index. hp (ruta părinte), dar nu pe traseul său * Atunci când un bloc este pornit /phpBB/index. hp este setat pe **Afișat doar pe rutele pentru copii**, va fi afișat pe /phpBB/filme/index.php și /phpBB/film/pagină. hp (rute pentru copii), dar nu pe /phpBB/index.php (părinte), nici /phpBB/Movies/Comedy/index. hp (mergem doar un singur nivel adâncime) * Când un bloc este pe /phpBB/index. hp este setat să afișeze **întotdeauna** (implicit), va afișa pe /phpBB/index.php (părinte), /phpBB/Movies/index. hp and /phpBB/page.php (rute copii), dar nu pe /phpBB/Movies/Comedy/index.php (mergem doar un singur nivel adânc). În acest caz, /phpBB/Movies/Comedy/index.php va moșteni de pe ruta implicită (dacă există)
 
-## Posible Future State
+## Starea Posibil a viitorului
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+Sunt foarte interesat de feedback-ul tău în acest domeniu. Majoritatea utilizatorilor phpBB nu vor avea directoare reale, așa cum se subliniază mai sus. Așa că mă gândesc să folosesc structura care este definită într-un bloc de meniu ca o structură de director virtual și să aplicați această moștenire părinte/copil la ea. Mă gândesc, de asemenea, să depăşim un nivel mai adânc. Te rog spune-mi dacă acest lucru îți va fi util.
