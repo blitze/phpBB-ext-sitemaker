@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: blokkers-egendefinert
+title: Egendefinert blokk
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Hvis tilgjengelige blokker ikke gir deg den friheten du trenger, Det er `Egendefinerte blokker` som lar deg friheten til å vise ditt eget innhold ved hjelp av BBcode eller HTML. Blokken kommer med en WYSIWYG editor (TinyMCE) og administrerer:
 
-## The editor
+## Redaktør
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Du kan bruke redigeringsprogrammet for å lage HTML-innhold
+- Du kan redigere kildekoden hvis du trenger det kontrollnivået ved å klikke på `Kildekode` -ikonet (`<>`) i editoren
+- Redigeringsprogrammet lar deg laste opp og endre bilder 
+    - Det oppretter en ny mappe i phpBB/images/sitemaker_uploads/ for alle brukere som har tilgang til den
+    - Du kan se/behandle alle brukermapper
+- Redigeringsprogrammet filtrerer ut potensielt farlige skripter som javascript, osv. Hvis du trenger å legge til innhold som google annonser, vil JavaScript filtreres ut, men det kan du komme deg rundt ved å gjøre følgende: 
+    - Legg til den egendefinerte blokken til ønsket sted
+    - Rediger egendefinert blokk, klikk på `HTML` og lim inn Javascript
 
-## The Scripts Manager
+## Skript behandler
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Den egendefinerte blokken lar deg også legge til egendefinerte CSS-filer til siden din. Å gjøre dette:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Legg til en `egendefinert blokk` i hvilken som helst blokkposisjon. Denne posisjonen spiller ingen rolle med mindre du også viser innhold med blokken
+- Rediger blokken, klikk på `Scripts` fanen og legg til dine CSS eller Javascript-filer > Varsomhet med ord: Legg til i mange skript på siden kan påvirke lastetiden
