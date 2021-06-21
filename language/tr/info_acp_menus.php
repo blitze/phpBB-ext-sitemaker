@@ -80,7 +80,7 @@ $lang = array_merge($lang, array(
 	'REQUIRED_FIELDS'			=> '* Required fields',
 
 	'SAVE_CHANGES'				=> 'Değişiklikleri Kaydet',
-	'SAVE'						=> 'Save',
+	'SAVE'						=> 'Kaydet',
 	'SELECT_ALL'				=> 'Select All',
 
 	'TARGET_BLANK'				=> 'Blank Page',
