@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: zarządzanie menem
+title: Zarządzanie menu
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Możesz utworzyć menu w AKP, które możesz wyświetlić za pomocą menu lub bloków Linków lub wyświetlać jako poziomy pasek nawigacyjny.
 
-## Managing Menus
+## Zarządzanie menu
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Aby zarządzać menem, przejdź do AKP > Rozszerzenia > Sitemaker > Menu
 
-### Creating Menus
+### Tworzenie menu
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Aby utworzyć nowe menu (grupa), kliknij przycisk `Dodaj menu`. Nowa grupa menu zostanie utworzona z losowo wygenerowaną nazwą. Nowe menu również zostanie wybrane, abyś mógł zacząć dodawać do niego elementy menu.
 
-### Editing Menus
+### Edycja menu
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Jeśli chcesz mieć bardziej sensowną nazwę menu, * najechaj nad nazwą menu i kliknij na ikonę cog * wprowadź nową nazwę menu i naciśnij enter aby ją zaktualizować
 
-### Deleting Menus
+### Usuwanie menu
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Aby usunąć menu i jego elementy, * Przesuń na nazwę menu i kliknij ikonę **x** * Jeśli pozycja menu nie ma elementów podrzędnych, musisz potwierdzić swój wybór aby usunąć element * Jeśli element menu ma elementy podrzędne, musisz wskazać, czy chcesz usunąć tylko ten element i przenieść jego podrzędne w górę lub czy chcesz usunąć całą gałąź
