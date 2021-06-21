@@ -1,17 +1,17 @@
 ---
-id: contrib-translators
-title: Translators
+id: contrib-μεταφραστές
+title: Μεταφραστές
 ---
 
-We need help translating this extension, as well as its documentation. We have created a project on Crowdin to ease translations. Crowdin gives you a translation interface that's second to none. You can contribute how ever you want but we really recommend using Crowdin.
+Χρειαζόμαστε βοήθεια για τη μετάφραση αυτής της επέκτασης, καθώς και για την τεκμηρίωσή της. Έχουμε δημιουργήσει ένα έργο στο Crowdin για να διευκολύνουμε τις μεταφράσεις. Το Crowdin σας δίνει μια διεπαφή μετάφρασης που δεν είναι δεύτερη. Μπορείτε να συνεισφέρετε στο πόσο θέλετε αλλά σας συνιστούμε να χρησιμοποιήσετε το Crowdin.
 
-> Crowdin is a localization management platform that helps companies to translate their software. You can read more about Crowdin [here](https://support.crowdin.com/crowdin-intro/)
+> Το Crowdin είναι μια πλατφόρμα διαχείρισης τοπικοποίησης που βοηθά τις εταιρείες να μεταφράσουν το λογισμικό τους. Μπορείτε να διαβάσετε περισσότερα για το Crowdin [εδώ](https://support.crowdin.com/crowdin-intro/)
 
-If you are willing to contribute with translations, you will need:
+Αν είστε πρόθυμοι να συνεισφέρετε με μεταφράσεις, θα χρειαστείτε:
 
-* A [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) account.
-* Chose the target language if exist otherwise request to be enabled.
+* Ένας λογαριασμός [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker).
+* Επιλέξτε τη γλώσσα-στόχο εάν υπάρχει διαφορετικά αίτημα για ενεργοποίηση.
 
-If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
+Εάν η επιθυμητή γλώσσα σας δεν είναι καταχωρημένη, παρακαλώ [επικοινωνήστε μαζί μου](https://crowdin.com/profile/blitze) και θα την προσθέσω.
 
-[Start Translating](https://crowdin.com/project/phpbb-ext-sitemaker)
+[Έναρξη Μετάφρασης](https://crowdin.com/project/phpbb-ext-sitemaker)
