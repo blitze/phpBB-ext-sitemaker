@@ -1,177 +1,177 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: extensii-dezvoltatori
+title: Extindere fpBB SiteMaker
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+Puteți extinde/modifica phpBB SiteMaker folosind [înlocuirea serviciului](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [decor serviciu](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), și [sistemul de evenimente phpBB](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). Poți găsi o listă de evenimente acceptate [aici](./developer-events.md).
 
-## Creating a SiteMaker block
+## Crearea unui bloc SiteMaker
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+Un bloc phpBB SiteMaker este pur și simplu o clasă care extinde blitze\sitemaker\services\blocks\driver\block class și returnează un array din metoda "display" cu 'title' și 'content'. Orice altceva între tine depinde de tine. Pentru a face blocul tău să poată fi descoperit de către phpBB SiteMaker, va trebui să-i dai eticheta "sitemaker.block".
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+Spune că avem o extensie cu vânzător/extensie ca exemplu/exemplu. Pentru a crea un bloc numit "my_block" pentru phpBB SiteMaker:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- Creați un dosar "blocuri"
+- Creaza fisierul my_block.php in folderul blocurilor cu urmatorul continut
 
 ```php
-namespace my\example\blocks;
+namespace me\exemplu\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
+folosește blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+clasa my_block extinde blocul
 {
     /**
      * {@inheritdoc}
      */
-    public function display(array $settings, $edit_mode = false)
+    functie publica display(array $settings, $edit_mode = false)
     {
         return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
+            'title' => 'titlul blocului meu',
+            'conținut' => 'Conținutul meu de bloc',
         );
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+Apoi in fisierul config.yml, adauga urmatoarele:
 
 ```yml
-services:
+servicii:
 
-    ...
+...
 
     my.example.block.my_block:
         class: my\example\blocks\my_block
-        calls:
+        apeluri:
             - [set_name, [my.example.block.my_block]]
-        tags:
+        etichete:
             - { name: sitemaker.block }
 
-    ....
+....
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+La un nivel minim, asta e tot ce ai nevoie. Dacă mergeți în modul de editare, trebuie să vedeți blocul listat ca 'MY_EXAMPLE_BLOCK_MY_BLOCK' care poate fi mutat și scăpat pe orice poziție de bloc. Dar acest bloc nu face nimic captivant. Nu are setări și nu traduce numele blocului. Hai să-l facem mai interesant.
 
-### Block Settings
+### Setări Bloc
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Hai să ne modificăm blocurile/blocurile. hp fişier şi adaugă o metodă "get_config" la returnează un array cu tastele fiind setările blocului şi valorile fiind un array care descrie setările astfel:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    funcție publică get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
         return array(
-            'legend1'   => 'TAB1',
-            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
-            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
-            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
-            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
-            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
-            'legend2'   => 'TAB2',
-            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
-            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+            'legend1' => 'TAB1',
+            'casetă' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'implicit' => array(, 'explain' => false),
+            'yes_no' => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'radio' => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explică' => false, 'implicit' => 'subiect'),
+            'select' => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explică' => false),
+            'multi' => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'opțiuni' => $options, 'implicit' => array(), 'explicați' => false),
+            'legendă2' => 'TAB2',
+            'număr' => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'implicit' => 5),
+            'zona text' => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'implicit' => ''),
+            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'implicit' => '', 'append' => '<div id="toggle_key-1">Arată numai când opțiunea 1 este selectată</div>'),
         );
-    }
+}
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+Aceasta este construită în acelaşi mod în care phpBB construieşte configuraţia pentru setările de secţiune în ACP. Mai multe exemple [aici](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+Dacă doriţi un tip de câmp personalizat, puteţi vedea un exemplu [aici](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) (setarea ('content_type').
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+Observați 'legend1' și 'legend2': Acestea sunt folosite pentru a separa setările în file.
 
-### Naming Blocks
+### Blocuri de nume
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Convenţia pentru numele blocului este că numele serviciului (de ex. my.example.block. y*blocul de mai sus) va fi folosit ca tasta de limbă prin înlocuirea punctelor (.) cu underscore (*(ex. MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### Traducere
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+Observați de asemenea că avem mai multe chei lingvistice care trebuie traduse. Pentru a face acest lucru, creați un fișier numit "blocks_admin.php" în folderul de limbă. Acest fisier va fi incarcat automat la editarea blocurilor, si ar trebui sa aiba traduceri pentru setarile blocurilor si numele blocurilor.
 
     $lang = array_merge($lang, array(
-        'SOME_LANG_VAR'     => 'Option 1',
-        'OTHER_LANG_VAR'    => 'Option 2',
-        'SOME_LANG_VAR_1'   => 'Setting 1',
-        ....
-        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+        'SOME_LANG_VAR' => 'Opțiunea 1',
+        'OTHER_LANG_VAR' => 'Opțiunea 2',
+        'SOME_LANG_VAR_1' => 'Setting 1',
+    ....
+        'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'Blocul meu',
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+Deoarece 'blocks_admin.php' este încărcat doar când editezi blocuri, va trebui să adaugi alte traduceri (de ex. blochează titlul) prin încărcarea unui fișier de limbă în metoda afișată ca `$language->add_lang('my_lang_file', 'my/exemplu');`
 
-### Rendering the block
+### Redare bloc
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Noul bloc va fi afișat doar în cazul în care randează ceva. Blocul tău poate returna orice șir de caractere ca conținut, dar în majoritatea cazurilor, ai nevoie de un șablon pentru a reda conținutul tău. Pentru a reda blocul tău folosind șabloane, blocul trebuie să returneze un array care conține datele pe care doriți să le transmiteți la șablon și trebuie, de asemenea, să implementeze metoda `get_template` după cum se arată mai jos:
 
 ```php
     /**
      * @inheritdoc
      */
-    public function get_config(array $settings)
+    funcție publică get_config(array $settings)
     {
         $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
         return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend1' => 'TAB1',
+            'setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get_template()
+    funcție publică get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function display(array $data, $edit_mode = false)
+    display(array $data, $edit_mode = false)
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // face ceva numai în modul de editare
         }
 
         return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Apoi fişierul styles/all/my_block.html sau styles/prosilver/my_block.html ar putea arăta astfel:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Ai selectat: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+Pe scurt, blocul tău trebuie să returneze un array cu o cheie `titlu` (pentru titlul blocului) și o tastă `conținut` (dacă blocul doar afișează un șir de caractere și nu folosește un șablon) sau o cheie `de date` (dacă blocul folosește un șablon, caz în care va trebui de asemenea să implementați metoda `get_template`).
 
-### Block Assets
+### Blochează active
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+În cazul în care blocul dvs. trebuie să adauge active (css/js) la pagină, vă recomand să folosiți sitemaker [util clasa](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) pentru asta. Deoarece pot exista mai multe instanțe ale aceluiași bloc pe pagină, sau alte blocuri ar putea adăuga același activ, clasa util asigură că activul este adăugat doar unu.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@my_example/assets/unele. s',
+                100 => '@my_example/assets/other. s', // setează prioritatea
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => array(
+                '@my_example/assets/unele. ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+Clasa util va trebui, desigur, să fie adăugată la definițiile serviciului în config.yml astfel: `- '@blitze.sitemaker. til'` și definit în constructorul blocului `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Şi asta e tot. Am terminat!
