@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: modificatori-site
+title: Particularizare blocuri afişate
 ---
 
-Work in progress...
+Lucrări în desfășurare...
