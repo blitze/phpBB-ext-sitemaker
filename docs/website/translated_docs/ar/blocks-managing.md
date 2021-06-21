@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: إدارة الكتل
+title: إدارة الكتل البرمجية
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+لإدارة الكتل البرمجية في phpBB SiteMaker، يجب أن تكون في [وضع تحرير](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> عندما لا تعرض الكتلة أي محتوى، لن يتم عرضها، إلا في وضع التحرير. بهذه الطريقة، يمكنك إما إعطائها محتوى (في حالة الكتلة المخصصة) أو تغيير الإعدادات الخاصة بها.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> في وضع التعديل، الكتل الشفافة بعض الشيء هي كتل لن يتم عرضها لولا ذلك ولكن يتم عرضها فقط لأننا في وضع التحرير
 
-## Adding blocks
+## إضافة كتل
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+يمكنك إضافة كتل إلى أي صفحة أمامية, باستثناء صفحات لوحة تحكم المستخدم و لوحة تحكم المشرفين. لإضافة كتلة ، ستحتاج إلى: * انقر فوق **كتل** في شريط المدير. هذا سيعرض قائمة بالكتل المتاحة * اسحب و أسقط الكتلة المطلوبة إلى أي موقع كتلة
 
-## Editing blocks
+## تحرير الكتل البرمجية
 
-### Adding a block icon
+### إضافة أيقونة كتلة
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+إلى اليسار من عنوان الكتلة (prosilver)، هناك صندوق لأيقونة الكتل. انقر على هذا المربع للحصول على منتقي الأيقونة. يمكنك تحديد حجم الأيقونة ، الألوان ، العوامة ، الدوران ، إلخ.
 
-### Editing the Block Title
+### تحرير عنوان الكتلة
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+سيكون لكتل phpBB SiteMaker افتراضياً، العنوان المترجم ولكن إذا كان العنوان لا يلبي احتياجاتك، يمكنك تغييره. لتعديل عنوان الكتلة، * انقر على عنوان الكتلة للحصول على نموذج تحرير مضمن * تغيير العنوان إلى أي شيء تريده * إزالة التركيز من الحقل أو اضغط على إدخال لإرسال التغييرات
 
-> Your modified block title is not translated
+> عنوان الكتلة المعدل الخاص بك غير مترجمة
 > 
-> To revert to the default title, simple delete the title and hit enter
+> للعودة إلى العنوان الافتراضي، ببساطة قم بحذف العنوان واضغط على إدخال
 
-### Editing block settings
+### تعديل إعدادات الكتلة
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+عندما تضغط فوق كتلة، ستظهر أيقونة الكتلة إلى يمين الكتلة التي يمكن استخدامها لتحرير الكتلة. في مربع حوار كتلة التحرير، يمكنك : - تمكين / تعطيل كتلة [Status] - اختر متى يجب / لا يجب عرض الكتلة [Display]. ينطبق هذا فقط في الحالات التي تكون فيها صفحات متداخلة (انظر [فهم إرث الكتلة](./blocks-inheritance.md)): - **دائمًا**: عرض الكتلة - **إخفاء على طرق الأطفال**: فقط إظهار هذه الكتلة على الطريق الأصل - **إظهار على طرق الأطفال فقط**: إظهار هذه الكتلة فقط على طريق الأطفال - اختر مجموعات المستخدمين الذين يمكنهم عرض الكتلة [من قبل]. استخدم CTRL + انقر لتحديد مجموعات متعددة. - تعيين فئات مخصصة لتعديل مظهر الكتلة أو العناصر (قوائم، صور، خلفية، إلخ) داخل الكتلة [صف CSS] - إظهار/إخفاء عنوان الكتلة [إخفاء عنوان الكتلة؟ - حدد عرض الكتلة [عرض الكتلة]. يمكنك تحديد عرض الكتلة الافتراضي عند إضافة كتل جديدة في ACP. - **الافتراضي / البسيط**: يستخدم فئة لوحة البروفتور لإغلاق الكتلة في حاوية مضافة - **أساسية**: الكتلة لا تحتوي على أي حاوية تغلفها - **مربع**: يستخدم فئة الفراغ الفضي لإغلاق الكتلة في مربع - تعيين / تحديث إعدادات محددة - إذا كان لديك نفس الكتلة بنفس الإعدادات عبر صفحات متعددة، يمكنك تحديث كل منهم مرة واحدة عن طريق التحقق من **كتل التحديث مع إعدادات مشابهة**
 
-## Deleting blocks
+## حذف الكتل البرمجية
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- فوق الكتلة التي ترغب في حذفها
+- انقر على أيقونة **x** وتأكد من رغبتك في حذف الكتلة
+- انتقل إلى شريط المشرف وانقر على `حفظ التغييرات`
