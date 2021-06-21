@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
+id: Blokk-styring
 title: Mananaging Blocks
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+For å behandle blokker i phpBB SiteMaker, må du være i [Redigeringsmodus](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Når en blokk ikke viser noe innhold, vises den ikke unntatt i redigeringsmodus. På den måten kan du enten gi det innhold (i tilfelle av "Tilpasset"-blokken) eller endre innstillingene.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> I redigeringsmodus, de litt gjennomsiktige blokkene er blokker som ellers ikke vil vises, men bare vises fordi vi er i redigeringsmodus
 
-## Adding blocks
+## Legger til blokker
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+Du kan legge til blokker til alle sider på siden, unntatt Brukerkontrollpanelet og Moderator kontrollpanelet. For å legge til en blokk må du * klikke på **Blokker** på Admin-feltet. Dette vil vise en liste over tilgjengelige blokker * Dra og slipp den ønskede blokken til enhver blokkplassering
 
-## Editing blocks
+## Redigerer blokker
 
-### Adding a block icon
+### Legge til et blokk-ikon
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+Til venstre for blokktittelen (prosilver) er det en boks for blokkens ikon. Klikk på denne boksen for å få ikonvelgeren. Du kan velge ikonstørrelsen, farge, gulv, rotasjon, osv.
 
-### Editing the Block Title
+### Redigering av tittel på blokken
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+phpBB SiteMaker blokker vil ha en standard, oversatt tittel, men hvis tittelen ikke oppfyller dine behov, kan du endre den. For å redigere blokktittelen, * Klikk på blokktittelen for å få et skjema for redigering * Endre tittelen til hva du vil * Fjern fokus fra feltet eller trykk på enter for å sende inn endringer
 
-> Your modified block title is not translated
+> Din modifisert blokk tittel er ikke oversatt
 > 
-> To revert to the default title, simple delete the title and hit enter
+> For å gå tilbake til standardtittelen, enkelt slett tittelen og treff angi
 
-### Editing block settings
+### Redigerer blokkinnstillinger
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Når du holder musepekeren over en blokk, vil det se ut et cog-ikon til høyre for blokken som kan brukes til å redigere blokken. I dialogboksen for redigering kan du: - Aktiver/deaktivere en blokk [Status] – Velg når blokken bør/ikke vises [Display]. Dette gjelder bare i tilfeller der du har nestede sider (se [Understanding Block Inheritance](./blocks-inheritance.md)): - **Alltid**: Vis alltid blokk - **Skjul på underveger**: Bare vis denne blokken på overordnet rute - **Vis kun underordnede ruter**: Bare vis denne blokken på en underordnet rute - Velg hvilke brukergrupper som kan vise blokken [Synlig av]. Bruk CTRL + klikk for å velge flere grupper. - Angi egendefinerte klasser for å endre utseendet til blokken eller elementer (lister, bilder, bakgrunn, etc) i blokken [CSS Class] - Vis/skjul blokktittelen [Skjul blokktittel? - Velg blokkvisning [Block view]. Du kan velge en standard blokkvisning når nye blokker er lagt til i ACP. - **Standard / Simple**: bruker prosilver panelklassen til å pakke inn blokken i en polert beholder - **Vanlig**: blokken har ingen beholder innpakning - **i boks**: bruker antakerens glemmelighet til å pakke blokken i en boks - Sett / Oppdater blokk spesifikke innstillinger - Hvis du har samme blokk med samme innstillinger på tvers av flere sider, du kan oppdatere alle blokkene på en gang ved å sjekke oppdateringsblokkene **med lignende innstillinger**
 
-## Deleting blocks
+## Sletter blokker
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Hold over blokken du ønsker å slette
+- Klikk på **x** -ikonet og bekreft at du ønsker å slette blokken
+- Gå opp til admin-baren og klikk på `Lagre endringer`
