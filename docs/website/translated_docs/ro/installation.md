@@ -1,18 +1,18 @@
 ---
-id: installation
-title: Installing / Upgrading
+id: instalare
+title: Instalare / Actualizare
 ---
 
-Download the extension from [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
+Descarcă extensia de la [aici](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/)
 
 ## Installing phpBB SiteMaker
 
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Extrage și încarcă în dosarul tău phpBB/ext/ pentru a avea phpBB/ext/blitze/sitemaker
+* Mergeți la "ACP" > "Personalizare" > "Extensii" și activați extensia "phpBB Sitemaker".
 
-## Upgrading phpBB SiteMaker
+## Actualizând fpBB SiteMaker
 
-* Create a backup of your database just in case something goes wrong
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
-* Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
-* Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
+* Creați o copie de rezervă a bazei de date doar în cazul în care ceva nu merge bine
+* Mergeți la "ACP" > "Personalizare" > "Extensii" și dezactivați (nu purificați) "phpBB Sitemaker"
+* Descărcați și extrageți cea mai recentă versiune de siteMaker phpBB și încărcați-o în folderul phpBB/ext/ (suprascriere)
+* Mergeți la "ACP" > "Personalizare" > "Extensii" și activați extensia "phpBB Sitemaker".
