@@ -113,8 +113,8 @@ Umíte změnit chování phpBB SiteMaker pomocí phpBB event systém.
 - Od: 3.1.2
 - Cíl: Událost umožňující jiným rozšířením něco dělat, je-li rozložení aktualizováno
 
-# blitze_sitemaker_tinymce_options
+# Blitze_sitemaker_tinymce_možnosti
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- Umístění: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- Od: 3.3.0
+- Účel: Událost pro další rozšíření pro změnu možností tinymce
