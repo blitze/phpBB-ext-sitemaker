@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: menus-administrerende elementer
+title: Administrere menyelementer
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+Menyen er ubrukelig med mindre den har menyelementer. Du kan legge til menyelementer som peker til lokale eller eksterne filer.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> URL-adressen for eksterne nettsteder må begynne med http(s)://, ftp://, //, osv.
 > 
-> You can create a divider by entering '-' as the item title
+> Du kan lage en skilder ved å skrive inn ' ' som artikkeltittel
 
-## Adding Menu items
+## Legger til menypunkter
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+Du kan legge til et element om gangen eller du kan legge til flere menypunkter på et menypunkt.
 
-### Adding single menu items
+### Legger til et menypunkt
 
 To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
 
-### Adding multiple items
+### Legger til flere elementer
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+For å legge til flere menyelementer samtidig. * Klikk på ikonet ved siden av `Legg til menyelement` * Du kan legge til produkter manuelt ved å plassere hvert element på en ny linje, og ved å bruke fanetegnsett elementer eller * Du kan klikke på en av de angitte alternativene nederst i tekstskuffen for å automatisk fylle ut menyelementene
 
-## Reorder the menu items
+## Omorganiser menyelementer
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+Du kan dra og slippe menyelementene opp/ned for å angi visningsrekkefølgen, eller dra dem til venstre/høyre for å angi ønsket hierarki.
 
-## Rebuilding the menu items
+## Gjenopprette menyelementer
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+Hvis du finner at menyelementene ikke vises riktig, klikk på `Gjenoppbygg tre` -knappen for å gjenoppbygge menyelementene.
