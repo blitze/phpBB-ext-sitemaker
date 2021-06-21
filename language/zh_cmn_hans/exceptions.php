@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> '缺少必填字段',
-	'EXCEPTION_INVALID_ACTION'		=> '该操作不存在',
-	'EXCEPTION_INVALID_ARGUMENT'	=> '为`%1$s`指定的参数无效。原因： %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> '提供的值是意外的数据类型',
-	'EXCEPTION_INVALID_ENTITY'		=> '提供的实体是意外的实体类',
-	'EXCEPTION_INVALID_PROPERTY'	=> '请求的属性不存在',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> '请求的%1$s不存在',
-	'EXCEPTION_SERVICE_NOT_FOUND'	=> '找不到请求的服务',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> '请求的操作%1$s无法执行。原因： %2$s',
+	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
+	'EXCEPTION_INVALID_ACTION'		=> 'The action does not exist',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
+	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'The requested property does not exist',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The requested `%1$s` does not exist',
+	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'The requested service was not found',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
 ));
