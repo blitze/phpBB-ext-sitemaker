@@ -37,6 +37,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'IMAGE_DIRECTORY_NOT_WRITABLE'	=> 'The phpBB Image directory is not writable. Please change the permissions to writable by all (777 or -rwxrwxrwx within your FTP Client)',
-	'PHPBB_VERSION_UNMET'			=> 'This extension requires at least phpBB %s',
+	'IMAGE_DIRECTORY_NOT_WRITABLE'	=> 'دليل صورة phpBB غير قابل للكتابة. الرجاء تغيير الأذونات إلى قابلة للكتابة من قبل الجميع (777 أو -rwxrwx داخل عميل FTP الخاص بك)',
+	'PHPBB_VERSION_UNMET'			=> 'هذا الملحق يتطلب على الأقل phpBB %s',
 ));
