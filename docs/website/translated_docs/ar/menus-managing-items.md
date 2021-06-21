@@ -1,30 +1,30 @@
 ---
-id: menus-managing-items
-title: Managing Menu Items
+id: عناصر إدارة القوائم
+title: إدارة عناصر القائمة
 ---
 
-Your menu is useless unless it has menu items. You can add menu items that point to local or external files.
+القائمة الخاصة بك غير مفيدة ما لم تكن تحتوي على عناصر قائمة. يمكنك إضافة عناصر القائمة التي تشير إلى الملفات المحلية أو الخارجية.
 
-> The URL for external sites must begin with http(s)://, ftp://, //, etc.
+> عنوان URL للمواقع الخارجية يجب أن يبدأ بـ http(s)://، ftp://، /، إلخ.
 > 
-> You can create a divider by entering '-' as the item title
+> يمكنك إنشاء موفر عن طريق إدخال '-' كعنوان العنصر
 
-## Adding Menu items
+## إضافة عناصر القائمة
 
-You can add menu items one item at a time, or you can add multiple menu items at ones.
+يمكنك إضافة عناصر قائمة عنصر واحد في كل مرة، أو يمكنك إضافة عناصر قائمة متعددة في عناصر أخرى.
 
-### Adding single menu items
+### إضافة عناصر قائمة واحدة
 
-To add a single menu item, * click on the `Add Menu Item` button * Fill in the required information and hit `Save`
+لإضافة عنصر قائمة واحدة، * انقر فوق `زر إضافة عنصر القائمة` * تعبئة المعلومات المطلوبة واضغط `حفظ`
 
-### Adding multiple items
+### إضافة عناصر متعددة
 
-To add multiple menu items at once, * Click on the ▼ icon next to `Add Menu Item` * You can manually add items by placing each item on a new line and using the tab character nest items or * You can click on one of the provided options at the bottom of the textarea to automatically fill in the menu items
+لإضافة عناصر قائمة متعددة في وقت واحد، * انقر على الأيقونة بجوار `إضافة عنصر القائمة` * يمكنك إضافة العناصر يدوياً عن طريق وضع كل عنصر على سطر جديد واستخدام عناصر العش الحرف علامة التبويب أو * يمكنك النقر على أحد الخيارات المقدمة في أسفل النص لملء عناصر القائمة تلقائياً
 
-## Reorder the menu items
+## إعادة ترتيب عناصر القائمة
 
-You can drag and drop the menu items up/down to set their display order, or drag them left/right to set the desired hierarchy.
+يمكنك سحب وإسقاط عناصر القائمة لأعلى/لأسفل لتعيين ترتيب العرض، أو سحبها يسار/يمين لتعيين التسلسل الهرمي المطلوب.
 
-## Rebuilding the menu items
+## إعادة بناء عناصر القائمة
 
-If you find that the menu items are not displaying correctly, click on the `Rebuild Tree` button to rebuild the menu items.
+إذا وجدت أن عناصر القائمة لا تظهر بشكل صحيح، انقر على زر `إعادة بناء شجرة` لإعادة بناء عناصر القائمة.
