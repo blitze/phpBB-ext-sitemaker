@@ -1,6 +1,6 @@
 ---
-id: blocks-views
-title: Block Views
+id: ブロックビュー
+title: ブロックビュー
 ---
 
-Work in progress...
+作業中...
