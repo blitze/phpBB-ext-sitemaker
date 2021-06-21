@@ -41,9 +41,9 @@ $lang = array_merge($lang, array(
 	'EXCEPTION_INVALID_ACTION'		=> 'Akcja nie istnieje',
 	'EXCEPTION_INVALID_ARGUMENT'	=> 'Nieprawidłowy argument dla `%1$s`. Powód: %2$s',
 	'EXCEPTION_INVALID_DATA_TYPE'	=> 'Podana wartość jest nieoczekiwanym typem danych',
-	'EXCEPTION_INVALID_ENTITY'		=> 'Podana jednostka jest nieoczekiwaną klasą jednostki',
-	'EXCEPTION_INVALID_PROPERTY'	=> 'Żądana własność nie istnieje',
+	'EXCEPTION_INVALID_ENTITY'		=> 'Dostarczony podmiot jest nieoczekiwaną klasą podmiotów',
+	'EXCEPTION_INVALID_PROPERTY'	=> 'Żądana właściwość nie istnieje',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Żądany `%1$s` nie istnieje',
 	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Nie znaleziono żądanej usługi',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Żądana akcja `%1$s` nie została wykonana. Powód: %2$s',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Żądana akcja `%1$s` nie mogła zostać wykonana. Powód: %2$s',
 ));
