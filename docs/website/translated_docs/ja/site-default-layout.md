@@ -1,10 +1,10 @@
 ---
 id: site-default-layout
-title: Setting a Default Layout
+title: デフォルトレイアウトの設定
 ---
 
-When you add a block, it is added to that specific page. It would, therefore, be a tedious task to set blocks for all the pages on your site. You can set all the desired blocks for a particular page, then set that page as the default layout. In others words, any page that does not have its own blocks, will inherit blocks from this page.
+ブロックを追加すると、その特定のページに追加されます。 従って、あなたの場所のすべてのページのためのブロックをセットすることは退屈な仕事である。 特定のページに必要なすべてのブロックを設定し、そのページをデフォルトのレイアウトとして設定できます。 つまり、独自のブロックを持たないページは、このページからブロックを継承します。
 
-To set a default layout * Go to the page that you'd like to set as default layout * Click on `Settings` in the admin bar * Click the `Set as default layout` button
+デフォルトのレイアウトを設定するには * デフォルトのレイアウトとして設定したいページに移動します。 * 管理バーの `設定` をクリックします。 * `既定のレイアウトに設定する` ボタンをクリックします。
 
-Say we add blocks to a page (phpBB/index.php) with blocks in the sidebar and top positions, for example, and set it as our default layout. This has the following effects for other pages: * Any page that does not have its own blocks, will inherit the blocks from the default layout. See [Understanding Block Inheritance](./blocks-inheritance.md) for exceptions. * You may still inherit blocks from a default layout (index.php) but choose to not display blocks on some block positions or not display any blocks at all. To do this, * Go to the page that you don't want all/some blocks to display * Click on `Settings` in the admin bar * Select `Do not show blocks on this page` if you don't want to inherit/display any blocks on this page OR * Use CTRL + click to select the block positions (on the right) that you do not want to display blocks on * In `edit mode`, a page that inherits blocks from the default layout, will not show any blocks, giving you the opportunity to add blocks to the page if you want to * Any page that has its own blocks will not inherit from the default layout
+たとえば、サイドバーと最上位の位置にブロックを含むページ(phpBB/index.php)にブロックを追加し、デフォルトのレイアウトとして設定します。 他のページには以下のような効果があります: * ブロックがないページ。 は、デフォルトレイアウトからブロックを継承します。 例外については、 [ブロック継承の理解](./blocks-inheritance.md) を参照してください。 * デフォルトのレイアウト（インデックス）からブロックを継承することができます。 hp) しかし、一部のブロック位置にブロックを表示しないように選択するか、まったくブロックを表示しません。 To do this, * Go to the page that you don't want all/some blocks to display * Click on `Settings` in the admin bar * Select `Do not show blocks on this page` if you don't want to inherit/display any blocks on this page OR * Use CTRL + click to select the block positions (on the right) that you do not want to display blocks on * In `edit mode`, a page that inherits blocks from the default layout, will not show any blocks, giving you the opportunity to add blocks to the page if you want to * Any page that has its own blocks will not inherit from the default layout
