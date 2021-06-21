@@ -1,20 +1,20 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: 模块自定义
+title: 自定义块
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+如果可用的方块不能给予您所需的自由。 有 `个自定义块` 允许您自由使用BBcode 或 HTML显示自己的内容。 The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
 
-## The editor
+## 编辑器
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
+- 您可以使用编辑器创建 HTML 内容
+- 如果你需要通过点击编辑器中的 `源代码` 图标(`<>`)，你可以编辑源代码。
 - The editor allows you to upload and modify images 
     - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
     - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- 编辑器过滤任何潜在的危险脚本，例如 javascript 等。 如果您需要添加像Google广告这样的内容，Javascript将被过滤，但你可以通过以下方式绕过这一点： 
+    - 添加自定义块
+    - 编辑自定义方块，点击 `HTML` 标签页并粘贴您的 Javascript
 
 ## The Scripts Manager
 
