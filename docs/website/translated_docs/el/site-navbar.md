@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: Γραμμή Πλοήγησης
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+Δείτε [Εμφάνιση Μενού](./menus-display#navigation-bar)
