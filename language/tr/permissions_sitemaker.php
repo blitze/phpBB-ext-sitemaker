@@ -39,7 +39,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// Admin Permissions
-	'ACL_A_SM_SETTINGS'			=> '[ SiteMaker ] Ayarları Yönetebilir',
-	'ACL_A_SM_MANAGE_BLOCKS'	=> '[ SiteMaker ] Blokları Yönetebilir',
-	'ACL_A_SM_MANAGE_MENUS'		=> '[ SiteMaker ] Menüleri Yönetebilir',
+	'ACL_A_SM_SETTINGS'			=> '[ SiteMaker ] Can manage settings',
+	'ACL_A_SM_MANAGE_BLOCKS'	=> '[ SiteMaker ] Can manage blocks',
+	'ACL_A_SM_MANAGE_MENUS'		=> '[ SiteMaker ] Can manage menus',
 ));
