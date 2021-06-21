@@ -73,7 +73,7 @@ $lang = array_merge($lang, array(
 	'RECENT_MEMBERS'				=> '最近成员',
 
 	'SESSION_HIDE_ME'				=> '隐藏我',
-	'SM_NAVIGATION'					=> '导航栏',
+	'SM_NAVIGATION'					=> 'Navigation',
 	'SM_TOGGLE_DROPDOWN'			=> '切换下拉列表',
 	'STYLE_SWITCHER'				=> '样式切换器',
 
