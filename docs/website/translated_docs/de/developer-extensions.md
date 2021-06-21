@@ -1,25 +1,25 @@
 ---
-id: developer-extensions
-title: Extending phpBB SiteMaker
+id: Entwicklererweiterungen
+title: phpBB SiteMaker erweitern
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./developer-events.md).
+Sie können phpBB SiteMaker erweitern/ändern, indem Sie [Service Replace](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [Service Dekoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration)und [phpBB's Event System](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html) verwenden. Eine Liste unterstützter Veranstaltungen findest du hier [](./developer-events.md).
 
-## Creating a SiteMaker block
+## Einen SiteMaker-Block erstellen
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+Ein phpBB SiteMaker Block ist einfach eine Klasse, die die Blitze\sitemaker\services\blocks\driver\block Klasse erweitert und ein Array aus der "display"-Methode mit einem 'title' und 'content' zurückgibt. Alles andere in inbetween liegt bei Ihnen. Damit Ihr Block von phpBB SiteMaker entdeckt werden kann, müssen Sie ihm den Tag "sitemaker.block" geben.
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+Sagen Sie, wir haben eine Erweiterung mit dem Hersteller/der Erweiterung als mein/Beispiel. Um einen Block namens "my_block" für phpBB SiteMaker zu erstellen:
 
-- Create a "blocks" folder
-- Create my_block.php file in the blocks folder with the following content
+- Erstelle einen "Blöcke"-Ordner
+- Meine_block.php-Datei im Block-Ordner mit dem folgenden Inhalt erstellen
 
 ```php
-namespace my\example\blocks;
+namespace mein\beispiel\blocks;
 
-use blitze\sitemaker\services\blocks\driver\block;
+nutze blitze\sitemaker\services\blocks\driver\block;
 
-class my_block extends block
+Klasse my_block extends block
 {
     /**
      * {@inheritdoc}
@@ -27,14 +27,14 @@ class my_block extends block
     public function display(array $settings, $edit_mode = false)
     {
         return array(
-            'title'     => 'my block title',
-            'content'   => 'my block content',
+            'title' => 'my block title',
+            'content' => 'my block content',
         );
     }
 }
 ```
 
-Then in your config.yml file, add the following:
+Dann fügen Sie in Ihrer Datei config.yml folgendes hinzu:
 
 ```yml
 services:
@@ -52,11 +52,11 @@ services:
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+Das ist alles, was Sie brauchen. Wenn Sie in den Bearbeitungsmodus gehen, sollten Sie den Block als 'MY_EXAMPLE_BLOCK_MY_BLOCK' sehen, der an jeder Blockposition gezogen und gelöscht werden kann. Aber dieser Block macht nichts Aufregendes. Es hat keine Einstellungen und übersetzt nicht den Blocknamen. Lass uns es interessanter machen.
 
-### Block Settings
+### Blockeinstellungen
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+Lass uns unsere Blöcke/meinen Block ändern. hp-Datei und fügen Sie eine "get_config"-Methode bei der Rückgabe eines Arrays hinzu, wobei die Schlüssel die Blockeinstellungen sind und die Werte ein Array sind, das die Einstellungen wie folgt beschreibt:
 
 ```php
     /**
@@ -80,19 +80,19 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+Dies ist genau so konstruiert, wie phpBB die Konfiguration für Board-Einstellungen in AKP erstellt. Weitere Beispiele [finden Sie hier](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+Wenn Sie einen benutzerdefinierten Feldtyp möchten, können Sie ein Beispiel [hier sehen](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' Einstellung).
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+Hinweis 'legend1' und 'legend2': Diese werden verwendet, um die Einstellungen in Tabs zu trennen.
 
-### Naming Blocks
+### Benennen von Blöcken
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Die Konvention für Blocknamen ist, dass der Service-Name (z. B. my.example.block. y*-Block oben) wird als Sprachschlüssel verwendet, indem die Punkte (.) durch Unterstriche (*) ersetzt werden (z.B. MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### Übersetzung
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+Beachten Sie auch, dass wir mehrere Sprachschlüssel haben, die übersetzt werden müssen. Erstellen Sie dazu eine Datei mit dem Namen "blocks_admin.php" in Ihrem Sprachordner. Diese Datei wird beim Bearbeiten von Blöcken automatisch geladen und sollte Übersetzungen für die Blockeinstellungen und Blocknamen haben.
 
     $lang = array_merge($lang, array(
         'SOME_LANG_VAR'     => 'Option 1',
@@ -103,11 +103,11 @@ Also notice that we have several language keys that need to be translated. To do
     );
     
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+Da 'blocks_admin.php' nur beim Bearbeiten von Blöcken geladen wird, müssen Sie andere Übersetzungen (z.B. Blocktitel) hinzufügen, indem Sie eine Sprachdatei in Ihrer Anzeigemethode laden `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### Den Block rendern
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+Der neue Block wird nur angezeigt, wenn er etwas rendert. Ihr Block kann jede Zeichenfolge als Inhalt zurückgeben, aber in den meisten Fällen benötigen Sie eine Vorlage, um Ihren Inhalt zu rendern. Um deinen Block mit Vorlagen zu rendern der Block muss ein Array zurückgeben, das die Daten enthält, die Sie an die Vorlage übergeben möchten, und die `get_template` Methode wie unten gezeigt implementieren:
 
 ```php
     /**
@@ -115,10 +115,10 @@ The new block will only be displayed if it is rendering something. Your block ca
      */
     public function get_config(array $settings)
     {
-        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
+        $options = array(1 => 'SOME_LANG_VAR', 2 => 'ANDERER_LANG_VAR');
         return array(
-            'legend1'   => 'TAB1',
-            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend1' => 'TAB1',
+            'some_setting' => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
         );
     }
 
@@ -127,7 +127,7 @@ The new block will only be displayed if it is rendering something. Your block ca
      */
     public function get_template()
     {
-        return '@my_example/my_block.html';
+        return '@my_example/my_block. tml';
     }
 
     /**
@@ -137,41 +137,41 @@ The new block will only be displayed if it is rendering something. Your block ca
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // nur im Bearbeitungsmodus
         }
 
         return array(
-            'title'     => 'MY_BLOCK_TITLE',
-            'data'      => array(
-                'some_var'  => $data['settings']['some_setting'],
+            'title' => 'MY_BLOCK_TITLE',
+            'data' => array(
+                'some_var' => $data['settings']['some_setting'],
             ),
         );
-    }
+}
 ```
 
-Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+Dann könnte deine styles/all/my_block.html oder styles/prosilver/my_block.html Datei so aussehen:
 
-    <p>You selected: {{ some_var }}</p>
+    <p>Sie haben ausgewählt: {{ some_var }}</p>
     
 
-In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+Zusammenfassend Ihr Block muss ein Array mit einer `-Titel-Taste` (für den Block-Titel) und einer `Inhalts-Taste` (wenn der Block nur einen String anzeigt und keine Vorlage verwendet) oder einer `Daten-Taste` (wenn der Block eine Vorlage verwendet, in diesem Fall müssen Sie auch die Methode `get_template` implementieren).
 
-### Block Assets
+### Assets blockieren
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+Wenn Ihr Block Assets (css/js) zur Seite hinzufügen muss, empfehle ich dafür den Sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) zu verwenden. Da es mehr als eine Instanz desselben Blocks auf der Seite geben kann oder andere Blöcke das gleiche Asset hinzufügen, stellt die Util-Klasse sicher, dass das Asset nur hinzugefügt wird.
 
 ```php
         $this->util->add_assets(array(
-            'js'    => array(
-                '@my_example/assets/some.js',
-                100 => '@my_example/assets/other.js',  // set priority
+            'js' => array(
+                '@my_example/assets/einige. s',
+                100 => '@my_example/assets/others. s', // Priorität setzen
             ),
-            'css'   => array(
-                '@my_example/assets/some.css',
+            'css' => array(
+                '@my_example/assets/some ss',
             )
-        ));
+));
 ```
 
-The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+Die Util-Klasse muss natürlich zu Ihren Service-Definitionen in config.yml hinzugefügt werden, wie so: `- '@blitze.sitemaker. bis` und definiert im Konstruktor Ihres Blocks `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Und das war's. Wir sind fertig!
