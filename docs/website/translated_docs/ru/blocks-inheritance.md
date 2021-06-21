@@ -1,31 +1,31 @@
 ---
-id: blocks-inheritance
-title: Understanding Block Inheritance
+id: наследование блоков
+title: Понимание наследства блока
 ---
 
-We have already seen that by setting a default layout, other pages that do not have blocks of their own will inherit the blocks from the default layout. There is, however, another type of block inheritance.
+Мы уже видели, что, установив макет по умолчанию, другие страницы, у которых нет собственных блоков, унаследуют блоки из макета по умолчанию. Однако существует еще один тип наследования блоков.
 
-## Parent/Child Routes
+## Родительские/дочерние маршруты
 
-In phpBB SiteMaker, we speak of nested routes in terms of real nested (sub) directories or virtually nested paths/routes. Please stay with me :). * Real Parent/Child routes: For example, the path /some_directory/sub_directory/index.php is a child of /some_directory/index.php * Virtual Parent/Child routes: For example, viewtopic.php is treated as a child of viewforum.php.
+В phpBB SiteMaker мы говорим о вложенных маршрутах с точки зрения реальных вложенных (вложенных) каталогов или фактически вложенных путей/маршрутов. Пожалуйста, оставайтесь со мной :). * Real Parent/Child маршруты: Например, путь /some_directory/sub_directory/index.php является ребенком /some_directory/index.php * Virtual Parent/Child маршруты: Например, viewtopic.php рассматривается как потомок viewforum.php.
 
-Here are some examples of parent/child routes:
+Вот некоторые примеры родительских/дочерних маршрутов:
 
-| Parent             | Child                          |
+| Родитель           | Дочерний                       |
 | ------------------ | ------------------------------ |
 | /index.php         | /viewforum.php, /dir/index.php |
 | /viewforum.php?f=2 | /viewtopic.php?f=2&t=1         |
 | /app.php/articles  | /app.php/articles/my-article   |
 
-## Parent/Child Block Inheritance
+## Наследование родительского/детского блока
 
-For parent/child routes, the child route inherits the blocks of the parent route (if the parent has its own blocks) or from the default layout (if one has been set). In other words, even if there is a default layout, the child route will inherit blocks from its parent route if the parent route has its own blocks. But not all blocks from the parent route must be inherited.
+Для родительских/дочерних маршрутов дочерний маршрут наследует блоки родительского маршрута (если родитель имеет свои собственные блоки) или из макета по умолчанию (если он был установлен). Другими словами, даже если есть макет по умолчанию, дочерний маршрут унаследует блоки из родительского маршрута, если родительский маршрут имеет свои блоки. Но не все блоки родительского маршрута должны быть унаследованы.
 
-## Controlling Block Inheritance
+## Управление наследием блока
 
-At a block level, you can control when a block can be inherited by child routes. We touched on this earlier in the [Editing Block Settings](./blocks-managing#editing-block-settings).
+На уровне блоков можно контролировать, когда блок может быть унаследован дочерними маршрутами. Мы коснулись этого ранее в [Редактирование настроек блока](./blocks-managing#editing-block-settings).
 
-Consider the following real directory structure:
+Рассмотрим следующую реальную структуру каталогов:
 
 ```text
 phpBB
@@ -37,8 +37,8 @@ phpBB
         └── index.php
 ```
 
-For the purposes of inheriting blocks, we say: * The parent route of /phpBB/Movies/Comedy/index.php is /phpBB/Movies/index.php and not /phpBB/Movies/page.php * All pages in a sub directory relative to /phpBB/index.php is a child route of /phpBB/index.php. So /phpBB/Movies/index.php and /phpBB/Movies/page.php are all children of /phpBB/index.php and will therefore inherit its blocks if they do not have blocks of their own. In this case: * When a block on /phpBB/index.php is set to display on **Hide on child routes**, the block will show on /phpBB/index.php (parent route) but not on its child routes * When a block on /phpBB/index.php is set to display on **Show on child routes only**, it will display on /phpBB/Movies/index.php and /phpBB/Movies/page.php (child routes) but not on /phpBB/index.php (parent), nor /phpBB/Movies/Comedy/index.php (we only go one level deep) * When a block on /phpBB/index.php is set to display **always** (default), it will display on /phpBB/index.php (parent), /phpBB/Movies/index.php and /phpBB/page.php (child routes) but not on /phpBB/Movies/Comedy/index.php (we only go one level deep). In this case, /phpBB/Movies/Comedy/index.php will inherit from the default route (if it exists)
+Для целей наследования блоков мы говорим: * Родительский маршрут /phpBB/Movies/Comedy/index.php является /phpBB/Movies/index.php и не /phpBB/Movies/page.php * Все страницы в подкаталоге относительно /phpBB/index.php является дочерним маршрутом /phpBB/index.php. Так /phpBB/Movies/index.php и /phpBB/Movies/page.php - все дети /phpBB/index.php и поэтому наследуют блоки, если у них нет собственных блоков. В этом случае: * Когда блок на /phpBB/index. hp будет отображаться на **Скрыть на дочерних маршрутах**, блок будет отображаться на /phpBB/index. hp (parent route), но не на дочерних маршрутах * Когда блок на /phpBB/index. hp для отображения на **Показать только на детских маршрутах**, он будет отображаться на /phpBB/Movies/index.php и /phpBB/Movies/page. hp (дочерние маршруты), но не на /phpBB/index.php (parent), ни /phpBB/Movies/Comedy/index. hp (мы выходим только на один уровень) * Когда блок на /phpBB/index. hp используется для отображения **всегда** (по умолчанию), он будет отображаться на /phpBB/index.php (parent), /phpBB/Movies/index. hp и /phpBB/page.php (дочерние маршруты), но не на /phpBB/Movies/Comedy/index.php (мы идем только на один уровень). В этом случае /phpBB/Movies/Comedy/index.php будет наследовать маршрут по умолчанию (если он существует)
 
-## Posible Future State
+## Возможное будущее состояние
 
-I'm really interested in your feedback in this area. Most phpBB users will not have real directories as outlined above. So I'm thinking of using the structure that is defined in a menu block as a virtual directory structure and apply this parent/child inheritance to it. I'm also considering going beyond one level deep. Please let me know if this will be useful to you.
+Я очень заинтересован в ваших отзывах в этой области. Большинство пользователей phpBB не будут иметь реальных каталогов, как описано выше. Поэтому я задумываюсь использовать структуру, которая определена в блоке меню в качестве структуры виртуального каталога, и применить к ней это родительское/детское наследование. Я также рассматриваю возможность перехода за пределы одного уровня в глубину. Пожалуйста, дайте мне знать, будет ли это вам полезно.
