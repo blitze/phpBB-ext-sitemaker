@@ -1,8 +1,8 @@
 ---
-id: site-startpage
-title: Setting a Start Page
+id: 网站-startpage
+title: 设置起始页
 ---
 
-phpBB SiteMaker allows you to choose any front controller (pages accessed via app.php/...) as your default start page (the page that will be shown when someone visits your site) instead of the board index.
+phpBB SiteMaker允许您选择任何前面的控制器 (通过app.php/...) 作为默认的开始页面 (当有人访问您的网站时将显示的页面) 而不是棋盘索引。
 
-To do this: * Go to the page that you want to set as default start page * Click on `Settings` in the admin bar. If it is an eligible page, you will see a `Set as start page` button * Click on the `Set as start page` button
+要做到这一点： * 转到您想设置为默认起始页的页面 * 点击 `设置` 如果是符合条件的页面，您将看到 `设置为开始页面` 按钮 * 点击 `设置为开始页面` 按钮
