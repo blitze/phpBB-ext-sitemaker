@@ -1,120 +1,120 @@
 ---
 id: developer-events
-title: phpBB SiteMaker Events
+title: phpBBサイトメーカーのイベント
 ---
 
-You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+phpBBのイベントシステムを使ってphpBB SiteMakerの動作を変更できます。
 
-## PHP Events
+## PHPイベント
 
 # blitze.sitemaker.acp_add_bulk_menu_options
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
-- Since: 3.1.0
-- Purpose: Add bulk menu options in acp menu
+- 場所: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+- 以降: 3.1.0
+- 目的: 一括メニューオプションを acp メニューに追加
 
 # blitze.sitemaker.acp_display_settings_form
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: display acp (sitemaker) settings form
+- 場所: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- 以降: 3.1.0
+- 目的: acp (sitemaker) 設定フォームの表示
 
 # blitze.sitemaker.acp_save_settings
 
-- Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
-- Since: 3.1.0
-- Purpose: Save acp (sitemaker) settings
+- 場所: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+- 以降: 3.1.0
+- 目的: acp (sitemaker) 設定を保存
 
 # blitze.sitemaker.admin_bar.set_assets
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
-- Since: 3.0.1-RC1
-- Purpose: Add assets for available blocks in edit mode
+- 場所: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
+- 以降: 3.0.1-RC1
+- 目的: 編集モードで利用可能なブロックにアセットを追加
 
 # blitze.sitemaker.modify_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify block positions
+- 場所: /phpBB/ext/blitze/sitemaker/services/blocks.php
+- 以降: 3.0.1-RC1
+- 目的: ブロック位置の変更
 
 # blitze.sitemaker.modify_rendered_block
 
-- Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
-- Since: 3.0.1-RC1
-- Purpose: Modify a rendered block
+- 場所: /phpBB/ext/blitze/sitemaker/services/blocks.php
+- 以降: 3.0.1-RC1
+- 目的: レンダリングされたブロックを変更
 
-## Template Events
+## テンプレートイベント
 
 # blitze_sitemaker_acp_settings
 
-- Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
-- Since: 3.1.0
-- Purpose: Add form fields for sitemaker settings
+- 場所: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
+- 以降: 3.1.0
+- 目的: サイトマッカー設定用のフォームフィールドを追加
 
 # blitze_sitemaker_admin_bar_append
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add menu items to admin bar
+- 場所: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- 以降: 3.1.0
+- 目的: 管理バーにメニュー項目を追加
 
 # blitze_sitemaker_admin_bar_templates
 
-- Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
-- Since: 3.1.0
-- Purpose: Add template files to be used in JS for block views, etc
+- 場所: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+- 以降: 3.1.0
+- 目的: ブロックビューなどの JS で使用するテンプレートファイルを追加
 
-## Javascript Events
+## Javascriptイベント
 
 # blitze_sitemaker_layout_saved
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout changes are saved
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+- 以降: 3.1.2
+- 目的: レイアウトの変更が保存されたときに他の拡張機能が何かを行うことを許可するイベント
 
 # blitze_sitemaker_render_block_before
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- 以降: 3.1.2
+- 目的: ブロックがレンダリングされる前に他の拡張機能が何かを行えるようにするイベント、または再レンダリングされないようにするイベント
 
 # blitze_sitemaker_render_block_after
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something after block is rendered
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+- 以降: 3.1.2
+- 目的: ブロックがレンダリングされた後に他の拡張機能が何かを行えるようにするイベント
 
 # blitze_sitemaker_save_block_before
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to modify block data before it is saved
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
+- 以降: 3.1.2
+- 目的: 他の拡張機能がブロックデータを保存する前に変更できるイベント
 
 # blitze_sitemaker_show_all_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when all block positions are shown
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- 以降: 3.1.2
+- 目的: すべてのブロック位置が表示されているときに他の拡張機能が何かを行うことを許可するイベント
 
 # blitze_sitemaker_hide_empty_block_positions
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when empty positions are hidden
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- 以降: 3.1.2
+- 目的: 空の位置が非表示の場合、他の拡張機能が何かを行えるようにするイベント
 
-# blitze_sitemaker_layout_cleared
+# blitze_sitemaker_layout_clear
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is cleared
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- 以降: 3.1.2
+- 目的: レイアウトがクリアされたときに他の拡張機能が何かを行えるようにするイベント
 
 # blitze_sitemaker_layout_updated
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
-- Since: 3.1.2
-- Purpose: Event to allow other extensions to do something when layout is updated
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/Positions.js
+- 以降: 3.1.2
+- 目的: レイアウトが更新されたときに他の拡張機能が何かを行うことを許可するイベント
 
 # blitze_sitemaker_tinymce_options
 
-- Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
-- Since: 3.3.0
-- Purpose: Event to allow other extensions to modify tinymce options
+- 場所: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+- 以降: 3.3.0
+- 目的: 他のエクステンションがtinymceオプションを変更できるようにするイベント
