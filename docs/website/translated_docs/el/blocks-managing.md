@@ -1,38 +1,38 @@
 ---
-id: blocks-managing
-title: Managing Blocks
+id: blocks-διαχείριση
+title: Διαχείριση Κύβων
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./blocks-overview#edit-mode).
+Για να διαχειριστείτε τα μπλοκ σε phpBB SiteMaker, πρέπει να είστε σε [Λειτουργία Επεξεργασίας](./blocks-overview#edit-mode).
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Όταν ένα μπλοκ δεν εμφανίζει οποιοδήποτε περιεχόμενο, δεν θα εμφανίζεται, εκτός από τη λειτουργία επεξεργασίας. Με αυτόν τον τρόπο, μπορείτε είτε να του δώσετε περιεχόμενο (στην περίπτωση του Προσαρμοσμένου μπλοκ) είτε να αλλάξετε τις ρυθμίσεις του.
 > 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> Σε λειτουργία επεξεργασίας, τα κάπως διαφανή μπλοκ είναι μπλοκ που διαφορετικά δεν θα εμφανίζονται, αλλά εμφανίζονται μόνο επειδή είμαστε σε λειτουργία επεξεργασίας
 
-## Adding blocks
+## Προσθήκη μπλοκ
 
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to: * click on **Blocks** in the Admin bar. This will display a list of available blocks * Drag and drop the desired block to any block position
+Μπορείτε να προσθέσετε μπλοκ σε οποιαδήποτε σελίδα με μέτωπο εκτός από τον Πίνακα Ελέγχου Χρήστη και τον Πίνακα Ελέγχου Συντονιστή. Για να προσθέσετε ένα μπλοκ, θα πρέπει να: * κάντε κλικ στο **μπλοκ** στη γραμμή διαχειριστή. Αυτό θα εμφανίσει μια λίστα με τα διαθέσιμα μπλοκ * Σύρετε και αφήστε το επιθυμητό μπλοκ σε οποιαδήποτε θέση μπλοκ
 
-## Editing blocks
+## Επεξεργασία μπλοκ
 
-### Adding a block icon
+### Προσθήκη εικονιδίου μπλοκ
 
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+Στα αριστερά του τίτλου μπλοκ (prosilver), υπάρχει ένα πλαίσιο για το εικονίδιο μπλοκ. Κάντε κλικ σε αυτό το πλαίσιο για να πάρετε τον επιλογέα εικονιδίων. Μπορείτε να επιλέξετε το μέγεθος του εικονιδίου, χρώμα, πλωτήρα, περιστροφή, κλπ.
 
-### Editing the Block Title
+### Επεξεργασία τίτλου μπλοκ
 
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title, * Click on the block title to get an inline edit form * Change the title to whatever you want * Remove focus from the field or hit enter to submit changes
+Τα μπλοκ phpBB SiteMaker θα έχουν προεπιλεγμένο, μεταφρασμένο τίτλο, αλλά αν ο τίτλος δεν ικανοποιεί τις ανάγκες σας, μπορείτε να τα αλλάξετε. Για να επεξεργαστείτε τον τίτλο του ταμπλό, * Κάντε κλικ στον τίτλο του ταμπλό για να πάρετε μια ενσωματωμένη φόρμα επεξεργασίας * Αλλάξτε τον τίτλο σε ό, τι θέλετε * Αφαιρέστε την εστίαση από το πεδίο ή πατήστε enter για να υποβάλετε αλλαγές
 
-> Your modified block title is not translated
+> Ο τροποποιημένος τίτλος δεν έχει μεταφραστεί
 > 
-> To revert to the default title, simple delete the title and hit enter
+> Για να επιστρέψετε στον προεπιλεγμένο τίτλο, απλά διαγράψτε τον τίτλο και πατήστε enter
 
-### Editing block settings
+### Επεξεργασία ρυθμίσεων ταμπλό
 
-When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can: - Enable/disable a block [Status] - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](./blocks-inheritance.md)): - **Always**: Always display the block - **Hide on child routes**: Only show this block on the parent route - **Show on child routes only**: Only show this block on a child route - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups. - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class] - Show/hide the block title [Hide block title?] - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP. - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container - **Basic**: block does not have any container wrapping it - **Boxed**: uses the prosilver forabg class to wrap the block in a box - Set / Update block specific settings - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
+Όταν τοποθετείτε το ποντίκι πάνω από ένα μπλοκ, θα εμφανιστεί ένα εικονίδιο γραναζιού στα δεξιά του μπλοκ που μπορεί να χρησιμοποιηθεί για την επεξεργασία του μπλοκ. Στο διάλογο επεξεργασίας μπλοκ, μπορείτε: - Ενεργοποίηση/απενεργοποίηση μπλοκ [Status] - Επιλέξτε πότε το μπλοκ θα πρέπει/δεν θα εμφανίζεται [Display]. Αυτό ισχύει μόνο σε περιπτώσεις όπου έχετε ένθετες σελίδες (βλ. [Κατανόηση Κληρονομιάς Block](./blocks-inheritance.md)): - **Πάντα**: Να εμφανίζεται πάντα το μπλοκ - **Απόκρυψη σε θυγατρικές διαδρομές**: Να εμφανίζεται μόνο αυτό το μπλοκ στη γονική διαδρομή - **Εμφάνιση μόνο σε παιδικές διαδρομές**: Να εμφανίζεται αυτό το μπλοκ σε μια παιδική διαδρομή - Επιλέξτε ποιες ομάδες χρηστών μπορούν να δουν το μπλοκ [Προβολή από]. Χρησιμοποιήστε CTRL + κλικ για να επιλέξετε πολλαπλές ομάδες. - Ορίστε προσαρμοσμένες κλάσεις για να τροποποιήσετε την εμφάνιση του μπλοκ ή των αντικειμένων (λίστες, εικόνες, φόντο, κλπ) μέσα στο μπλοκ [CSS Class] - Εμφάνιση/απόκρυψη του τίτλου μπλοκ [Απόκρυψη τίτλου μπλοκ? - Επιλέξτε την προβολή μπλοκ [προβολή μπλοκ]. Μπορείτε να επιλέξετε μια προεπιλεγμένη προβολή μπλοκ όταν προστίθενται νέα μπλοκ σε ACP. - **Προεπιλογή / Απλό**: χρησιμοποιεί την κλάση πάνελ prosilver για να τυλίξει το μπλοκ σε ένα γεμισμένο δοχείο - **Basic**: το μπλοκ δεν περιέχει περιέκτη περιτυλίγματος - **Βαμμένο**: χρησιμοποιεί την κλάση prosilver forabg για να τυλίξει το μπλοκ σε ένα πλαίσιο - Ορισμός / Ενημέρωση συγκεκριμένων ρυθμίσεων - Εάν έχετε το ίδιο μπλοκ με τις ίδιες ρυθμίσεις σε πολλαπλές σελίδες, μπορείτε να ενημερώσετε όλα αυτά ταυτόχρονα ελέγχοντας τα **μπλοκ ενημέρωσης με παρόμοιες ρυθμίσεις**
 
-## Deleting blocks
+## Διαγραφή μπλοκ
 
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+- Τοποθετήστε πάνω από το μπλοκ που θα θέλατε να διαγράψετε
+- Κάντε κλικ στο εικονίδιο **x** και επιβεβαιώστε ότι θέλετε να διαγράψετε το μπλοκ
+- Πηγαίνετε στη γραμμή διαχείρισης και κάντε κλικ στο `Αποθήκευση αλλαγών`
