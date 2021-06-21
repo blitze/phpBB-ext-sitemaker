@@ -61,7 +61,7 @@ $lang = array_merge($lang, array(
 	'NO_NEW_TOPICS'					=> '没有要显示的新主题',
 
 	'POLL'							=> '投票',
-	'POPULAR_TOPICS'				=> 'Popular Topics',
+	'POPULAR_TOPICS'				=> '热门主题',
 	'POSTS_MEMBER'					=> '顶级海报',
 	'PROCESSING'					=> '正在处理...',
 
