@@ -35,7 +35,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'ACP_SITEMAKER'		=> '站点Maker',
+	'ACP_SITEMAKER'		=> 'SiteMaker',
 	'ACP_SM_SETTINGS'	=> '设置',
 
 	'BLOCKS_CLEANUP'			=> '方块清理',
