@@ -61,7 +61,7 @@ $lang = array_merge($lang, array(
 	'NO_NEW_TOPICS'					=> 'Brak nowych wątków do wyświetlenia',
 
 	'POLL'							=> 'Ankieta',
-	'POPULAR_TOPICS'				=> 'Popular Topics',
+	'POPULAR_TOPICS'				=> 'Popularne tematy',
 	'POSTS_MEMBER'					=> 'Najlepszy plakat',
 	'PROCESSING'					=> 'przetwarzanie...',
 
