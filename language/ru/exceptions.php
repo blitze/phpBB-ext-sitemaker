@@ -37,13 +37,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Отсутствует обязательное поле',
+	'EXCEPTION_FIELD_MISSING'		=> 'Обязательное поле отсутствует',
 	'EXCEPTION_INVALID_ACTION'		=> 'Действие не существует',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Указан неверный аргумент для `%1$s`. Причина: %2$s',
+	'EXCEPTION_INVALID_ARGUMENT'	=> 'Указан недопустимый аргумент для `%1$s. Причина: %2$s',
 	'EXCEPTION_INVALID_DATA_TYPE'	=> 'Предоставленное значение имеет неожиданный тип данных',
-	'EXCEPTION_INVALID_ENTITY'		=> 'Предоставленная сущность является неожиданным классом сущности',
+	'EXCEPTION_INVALID_ENTITY'		=> 'Предоставленная сущность имеет неожиданный класс сущности',
 	'EXCEPTION_INVALID_PROPERTY'	=> 'Запрошенное свойство не существует',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Запрошенный `%1$sне существует',
+	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Запрашиваемый `%1$s` не существует',
 	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'Запрошенная служба не найдена',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Запрашиваемое действие `%1$s` не может быть выполнено. Причина: %2$s',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Не удалось выполнить запрошенное действие `%1$s`. Причина: %2$s',
 ));
