@@ -1,24 +1,24 @@
 ---
-id: blocks-custom
-title: Custom Block
+id: block-benutzerdefiniert
+title: Eigener Block
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. The block comes with a WYSIWYG editor (TinyMCE) and a scripts manager:
+Wenn die verfügbaren Blöcke dir nicht die Freiheit geben die du brauchst gibt es den `benutzerdefinierten Block` der es dir erlaubt, deine eigenen Inhalte mit BBcode oder HTML anzuzeigen. Der Block kommt mit einem WYSIWYG-Editor (TinyMCE) und einem Skript-Manager:
 
-## The editor
+## Der Editor
 
-- You can use the editor to create HTML content
-- You can edit the source code if you need that level of control by clicking on the `Source code` icon (`<>`) in the editor
-- The editor allows you to upload and modify images 
-    - It creates a new folder in phpBB/images/sitemaker_uploads/ for every user who has access to it
-    - You can view/manage all user folders
-- The editor filters out any potentially dangerous scripts like javascript, etc. If you need to add content like google ads, the javascript will be filtered out, but you can get around that by doing the following: 
-    - Add the Custom Block to desired location
-    - Edit the Custom Block, click on the `HTML` tab and paste your Javascript
+- Sie können den Editor verwenden, um HTML-Inhalte zu erstellen
+- Sie können den Quellcode bearbeiten, wenn Sie diese Kontrollstufe benötigen, indem Sie auf das `Quellcode` Symbol (`<>`) im Editor klicken
+- Mit dem Editor können Sie Bilder hochladen und bearbeiten 
+    - Es erstellt einen neuen Ordner in phpBB/images/sitemaker_uploads/ für jeden Benutzer, der Zugriff darauf hat
+    - Sie können alle Benutzerordner ansehen/verwalten
+- Der Editor filtert potenziell gefährliche Skripte wie Javascript usw. Wenn Sie Inhalte wie Google-Anzeigen hinzufügen müssen, wird das Javascript gefiltert, aber Sie können das umgehen, indem Sie folgendes tun: 
+    - Füge den Custom Block zu dem gewünschten Ort hinzu
+    - Bearbeiten Sie den benutzerdefinierten Block, klicken Sie auf den `HTML` Tab und fügen Sie Ihr Javascript ein
 
-## The Scripts Manager
+## Skript-Verwaltung
 
-The Custom Block also allows you to add custom CSS and Javascript files to your page. To do this:
+Mit dem Custom Block können Sie auch benutzerdefinierte CSS- und Javascript-Dateien zu Ihrer Seite hinzufügen. Du kannst das folgendermaßen tun:
 
-- Add a `Custom Block` to any block position. The position does not matter unless you are also displaying content with the block
-- Edit the block, click on the `Scripts` tab and add your CSS or Javascript files > Word of caution though: Adding to many scripts on your page can affect load times
+- Fügen Sie einen `benutzerdefinierten Block` zu jeder Blockposition hinzu. Die Position spielt keine Rolle, es sei denn, Sie zeigen auch Inhalte mit dem Block
+- Den Block bearbeiten, klicken Sie auf den `Reiter` und fügen Sie Ihre CSS- oder Javascript-Dateien hinzu > Warnwort: Das Hinzufügen zu vielen Skripten auf Ihrer Seite kann die Ladezeiten beeinflussen
