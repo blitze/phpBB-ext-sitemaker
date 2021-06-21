@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: Navigationsbjælke
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+Se [Viser menuer](./menus-display#navigation-bar)
