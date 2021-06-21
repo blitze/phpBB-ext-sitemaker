@@ -29,12 +29,12 @@ Considera la seguente struttura directory reale:
 
 ```text
 phpBB
-├── index.php
-└── Movies/
-    ├── index.php
-    ├── page.php
-    └── Comedy/
-        └── index.php
+├<unk> <unk> <unk> index.php
+<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> film/
+    <unk> <unk> <unk> <unk> index.php
+    <unk> <unk> <unk> page.php
+    <unk> <unk> <unk> <unk> <unk> <unk> Comedy/
+        <unk> <unk> <unk> <unk> <unk> <unk> index.php
 ```
 
 Per ereditare i blocchi, diciamo: * Il percorso genitore di /phpBB/Movies/Comedy/index.php è /phpBB/Movies/index.php e non /phpBB/Movies/page.php * Tutte le pagine in una sotto directory relativa a /phpBB/index.php è un percorso figlio di /phpBB/index.php. Quindi /phpBB/Movies/index.php e /phpBB/Movies/page.php sono tutti figli di /phpBB/index.php e quindi erediteranno i suoi blocchi se non hanno blocchi propri. In questo caso: * quando un blocco su /phpBB/index. hp è impostato per essere visualizzato su **Nascondi sulle rotte bambini**, il blocco verrà mostrato su /phpBB/indice. hp (itinerario genitore) ma non sulle sue rotte figlie * quando un blocco su /phpBB/indice. hp è impostato su **Mostra solo su percorsi bambini**, sarà visualizzato sulla pagina /phpBB/Filvies/index.php e /phpBB/Movies/page. hp (percorsi figli) ma non su /phpBB/index.php (genit), né /phpBB/Filvies/Comedy/index. hp (è profondo un solo livello) * quando un blocco su /phpBB/indice. hp è impostato per visualizzare **always** (default), verrà visualizzato su /phpBB/index.php (genito), /phpBB/Filvies/index. hp e /phpBB/page.php (percorsi figli) ma non su /phpBB/Filvies/Comedy/index.php (si va solo a un livello profondo). In questo caso, /phpBB/Movies/Comedy/index.php erediterà dal percorso predefinito (se esiste)
