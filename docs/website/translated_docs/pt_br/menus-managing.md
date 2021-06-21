@@ -1,22 +1,22 @@
 ---
-id: menus-managing
-title: Managing Menus
+id: gerenciamento de menus-
+title: Gerenciando Menus
 ---
 
-You can create menus in ACP that you can then display using the Menus or the Links blocks or displayed as a horizontal navbar.
+Você pode criar menus nos ACP que você pode exibir usando os blocos Menus ou Links ou exibidos como uma barra de navegação horizontal.
 
-## Managing Menus
+## Gerenciando Menus
 
-To manage menus, go to ACP > Extensions > Sitemaker > Menu
+Para gerenciar menus, vá para ACP > Extensões > Sitemaker > Menu
 
-### Creating Menus
+### Criando menus
 
-To create a new menu (group), click on the `Add Menu` button. A new menu group will be created with a randomly generated name. The new menu will also be selected so you can begin adding menu items to it.
+Para criar um novo menu (grupo), clique no botão `Adicionar Menu`. Um novo grupo de menu será criado com um nome gerado aleatoriamente. O novo menu também será selecionado para que você possa começar a adicionar itens de menu a ele.
 
-### Editing Menus
+### Editando Menus
 
-If you want a more meaningful menu name, * hover over the menu name and click on the cog icon * enter the new menu name and hit enter to update it
+Se você quer um nome de menu mais significativo, * Passe o mouse sobre o nome do menu e clique no ícone da engrenagem * insira o novo nome do menu e aperte enter para atualizá-lo
 
-### Deleting Menus
+### Excluindo menus
 
-To delete a menu, and its items, * Hover over the menu name and click on the **x** icon * If the menu item has no child items, you will need to confirm your choice to delete the item * If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Para excluir um menu, e seus itens, * Passe o mouse sobre o nome do menu e clique no ícone **x** * Se o item de menu não tem itens filhos, você precisará confirmar sua escolha para excluir o item * Se o item de menu tiver itens filhos, você precisará indicar se você deseja excluir apenas o item e mover seus filhos para cima ou se você deseja excluir a branch inteira
