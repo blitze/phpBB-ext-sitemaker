@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: τροποποιητές site-block-
+title: Προσαρμογή Οθόνης Μπλοκ
 ---
 
-Work in progress...
+Εργασία σε εξέλιξη...
