@@ -1,6 +1,6 @@
 ---
-id: site-block-modifiers
-title: Customizing Blocks Display
+id: sted-block-modifikatorer
+title: Tilpasning Af Blokkevisning
 ---
 
-Work in progress...
+Arbejdet er i gang...
