@@ -1,18 +1,18 @@
 ---
-id: menus-display
-title: Displaying Menus
+id: menyvisning
+title: Visar menyer
 ---
 
-Now that you have create your menus, you can display them in several ways:
+Nu när du har skapat dina menyer kan du visa dem på flera sätt:
 
-## Links Block
+## Block för länkar
 
-You can use this block to display a flat or nested list of menu items. This block is not intended to be used for navigation i.e. it will not show a current page or anything like that. It is intended for a list of items, including external links.
+Du kan använda detta block för att visa en platt eller nästlad lista över menyobjekt. Detta block är inte avsett att användas för navigering dvs det kommer inte att visa en aktuell sida eller något liknande. Den är avsedd för en lista över objekt, inklusive externa länkar.
 
-## Menus Block
+## Menyer Block
 
-This block is intended for site navigation. It does some additional computations to determine current location and is not intended to be a very large list.
+Detta block är avsett för navigering. Det gör några ytterligare beräkningar för att bestämma aktuell plats och är inte avsedd att vara en mycket stor lista.
 
-## Navigation bar
+## Navigeringsfält
 
-Similar to the Menus block, the navigation bar will display menu items as a responsive dropdown menu intended for site navigation. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+I likhet med menyblocket kommer navigeringsfältet att visa menyalternativ som en responsiv rullgardinsmeny avsedd för navigering. Du kan aktivera detta i AVS > Tillägg > Webbplatskartor > Inställningar > Välj meny
