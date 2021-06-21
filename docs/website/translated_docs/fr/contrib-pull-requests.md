@@ -1,68 +1,68 @@
 ---
-id: contrib-pull-requests
-title: Submitting a Pull Request
-sidebar_label: Pull Requests
+id: Demandes contrib-pull
+title: Soumettre une demande de Pull
+sidebar_label: Demandes de Pull
 ---
 
-`Pull requests let you tell others about changes you've pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.` [Read more](https://help.github.com/articles/about-pull-requests/)
+`Les requêtes Pull vous permettent d'informer les autres des changements que vous avez poussés vers une branche dans un référentiel sur GitHub. Une fois qu'une pull request est ouverte, vous pouvez discuter et examiner les changements potentiels avec des collaborateurs et ajouter des commits de suivi avant que vos changements ne soient fusionnés dans la branche de base.` [Lire la suite](https://help.github.com/articles/about-pull-requests/)
 
-## Forking/Cloning
+## Forcer/Cloner
 
-* Create a github account if you don't already have one
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* Créer un compte github si vous n'en avez pas déjà un
+* Allez sur https://github.com/blitze/phpBB-ext-sitemaker.git et cliquez sur "Fork"
 
-Clone your fork of the repository:
+Cloner votre fork du dépôt :
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
     
 
-From command line go to sitemaker directory:
+De la ligne de commande, allez au répertoire sitemaker :
 
     cd phpBB/ext/blitze/sitemaker
     
 
-**Configure git:**
+**Configurer git :**
 
-Add your Username to Git on your system:
+Ajoutez votre nom d'utilisateur à Git sur votre système :
 
-    git config --global user.name "Your Name Here"
+    git config --global user.name "Votre nom ici"
     
 
-Add your E-mail address to Git on your system:
+Ajoutez votre adresse e-mail à Git sur votre système :
 
     git config --add user.email username@phpbb.com
     
 
-Add the upstream remote (you can change ‘upstream’ to whatever you like):
+Ajouter la télécommande amont (vous pouvez changer 'amont' à ce que vous voulez) :
 
-    git remote add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
+    git distant add upstream git://github.com/blitze/phpBB-ext-sitemaker.git
     
 
-**Install vendors**
+**Installer des vendeurs**
 
-    composer install
+    installation du compositeur
     
 
-**Install NPM packages**
+**Installer les paquets NPM**
 
-    npm install
+    installation npm
     
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+Vous pouvez également utiliser le fil [](https://yarnpkg.com):
 
     yarn install
     
 
-## Pull Requests
+## Demandes de Pull
 
-    # Create a new branch for your feature & switch to it
+    # Créez une nouvelle branche pour votre fonctionnalité & basculez vers lui
     git checkout -b feature/my-fancy-new-feature
     
-    # create a new branch for the issue you are working on * switch to it (ticket # is from github tracker)
+    # créez une nouvelle branche pour le problème sur lequel vous travaillez * basculez vers elle (ticket # est depuis github tracker)
     git checkout -b ticket/1234
     
 
-Make your changes
+Modifier
 
     # Stage the files
     git add <files> 
@@ -71,6 +71,6 @@ Make your changes
     git commit -m "my commit message"
     
 
-Push the branch back to GitHub git push origin feature/my-fancy-new-feature
+Retournez la branche vers GitHub fonctionnalité de push git/ma-fancy-new-feature
 
-Submit a [pull-request](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
+Soumettre une pull-request [](https://github.com/blitze/phpBB-ext-sitemaker/pulls)
