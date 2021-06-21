@@ -1,6 +1,6 @@
 ---
 id: site-navbar
-title: Navigation Bar
+title: Navigeringsfält
 ---
 
-See [Displaying Menus](./menus-display#navigation-bar)
+Se [Visningsmenyer](./menus-display#navigation-bar)
