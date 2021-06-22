@@ -1,6 +1,6 @@
 ---
 id: blocks-views
-title: Block Views
+title: Blok Görüntüsü
 ---
 
-Work in progress...
+Yapım aşamasında...
