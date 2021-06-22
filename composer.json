@@ -1,10 +1,10 @@
 {
 	"name": "blitze/sitemaker",
 	"type": "phpbb-extension",
-	"description": "A portal/CMS for phpBB 3.2x.",
+	"description": "A portal/CMS for phpBB",
 	"homepage": "https://github.com/blitze/phpBB-ext-sitemaker",
-	"version": "3.3.2",
-	"time": "2020-11-27",
+	"version": "3.4.0",
+	"time": "2021-06-22",
 	"keywords": [
 		"phpbb",
 		"extension",

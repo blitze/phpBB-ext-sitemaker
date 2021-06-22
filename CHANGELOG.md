@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.4.0 - 2021-06-22
+
+-   [feature] Navbar designer/manager
+-   [feature] Add Recent Topics block
+-   [feature] Add Popular Topics block
+-   [feature] Forum specific blocks
+-   [feature] Add legend to Whois block
+-   [feature] Ability to show blocks to only certain groups or exlude certain groups from viewing blocks
+-   Enable topic tracking by default on forum blocks
+-   Fix permission issues when adding/editing blocks/menus
+-   Improve sidebar width stepper for custom layout
+-   Correctly show uploaded images on route and non-route pages
+-   Minor bug fixes
+
 ## 3.3.2 - 2020-11-25
 
 -   Add support for headers and dividers to Links block
