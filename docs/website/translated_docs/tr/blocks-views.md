@@ -1,5 +1,5 @@
 ---
-id: blocks-views
+id: blok-görüntüsü
 title: Blok Görüntüsü
 ---
 
