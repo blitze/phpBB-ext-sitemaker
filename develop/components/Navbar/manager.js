@@ -27,7 +27,7 @@ export default function NavbarManager() {
 			Promise.all([
 				$.get(window.config.navbarCSS),
 				import(
-					/* webpackChunkName: "spectrum/colorpicker" */ 'spectrum-colorpicker2/src/spectrum.js'
+					/* webpackChunkName: "spectrum/colorpicker" */ 'spectrum-colorpicker2/src/spectrum'
 				),
 				import(
 					/* webpackChunkName: "spectrum/colorpicker" */ 'spectrum-colorpicker2/src/spectrum.css'
