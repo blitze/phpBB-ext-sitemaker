@@ -1,5 +1,5 @@
 ---
-id: blocks-custom
+id: blok-özel
 title: Özel Blok
 ---
 
