@@ -1,42 +1,52 @@
-project_identifier_env: CROWDIN_SITEMAKER_PROJECT_ID
-api_key_env: CROWDIN_SITEMAKER_API_KEY
+project_id: '345963'
+api_token: CROWDIN_PERSONAL_TOKEN
 base_path: ./
 preserve_hierarchy: true
 commit_message: "[ci skip]"
 files:
   -
-    source: '/docs/docs/*.md'
-    translation: '/docs/website/translated_docs/%two_letters_code%/%original_file_name%'
-    languages_mapping:
-      two_letters_code:
-        'bs-BA': 'bs_ba'
-        'pt-BR': 'pt_br'
-        'zh-CN': 'zh_cmn_hans'
-        'zh-TW': 'zh_cmn_hant'
-  -
-    source: '/docs/website/i18n/en.json'
-    translation: '/docs/website/i18n/%two_letters_code%.json'
-    languages_mapping:
-      two_letters_code:
-        'bs-BA': 'bs_ba'
-        'pt-BR': 'pt_br'
-        'zh-CN': 'zh_cmn_hans'
-        'zh-TW': 'zh_cmn_hant'
-  -
-    source: '/docs/website/versioned_docs/**/*.md'
-    translation: '/docs/website/translated_docs/%two_letters_code%/%original_file_name%'
-    languages_mapping:
-      two_letters_code:
-        'bs-BA': 'bs_ba'
-        'pt-BR': 'pt_br'
-        'zh-CN': 'zh_cmn_hans'
-        'zh-TW': 'zh_cmn_hant'
-  -
-    source: '/language/**/*.php'
+    source: '/language/en/**/*.php'
     translation: '/language/%two_letters_code%/%original_file_name%'
     languages_mapping:
       two_letters_code:
         'bs-BA': 'bs_ba'
         'pt-BR': 'pt_br'
-        'zh-CN': 'zh_cmn_hans'
-        'zh-TW': 'zh_cmn_hant'
+        'zh-CN': 'zh-cmn-hans'
+        'zh-TW': 'zh-cmn-hant'
+  -
+    source: '/website/i18n/en/**/*'
+    translation: '/website/i18n/%two_letters_code%/**/%original_file_name%'
+    languages_mapping:
+      two_letters_code:
+        'bs-BA': 'bs_ba'
+        'pt-BR': 'pt_br'
+        'zh-CN': 'zh-cmn-hans'
+        'zh-TW': 'zh-cmn-hant'
+  -
+    source: '/website/docs/**/*'
+    translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%'
+    languages_mapping:
+      two_letters_code:
+        'bs-BA': 'bs_ba'
+        'pt-BR': 'pt_br'
+        'zh-CN': 'zh-cmn-hans'
+        'zh-TW': 'zh-cmn-hant'
+  # -
+  #   source: '/website/src/pages/**/*'
+  #   translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-pages/**/%original_file_name%'
+  #   ignore: ['/**/*.js', '/**/*.jsx', '/**/*.ts', '/**/*.tsx', '/**/*.css']
+  #   languages_mapping:
+  #     two_letters_code:
+  #       'bs-BA': 'bs_ba'
+  #       'pt-BR': 'pt_br'
+  #       'zh-CN': 'zh-cmn-hans'
+  #       'zh-TW': 'zh-cmn-hant'
+  # -
+  #   source: '/website/versioned_docs/**/*'
+  #   translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%'
+  #   languages_mapping:
+  #     two_letters_code:
+  #       'bs-BA': 'bs_ba'
+  #       'pt-BR': 'pt_br'
+  #       'zh-CN': 'zh-cmn-hans'
+  #       'zh-TW': 'zh-cmn-hant'

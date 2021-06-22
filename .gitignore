@@ -4,9 +4,9 @@
 /styles/all/theme/
 
 # Doc Website
-docs/website/translated_docs
-docs/website/build/
-docs/website/i18n/*
-!docs/website/i18n/en.json
+website/translated_docs
+website/build/
+website/i18n/*
+!website/i18n/en/*
 .DS_Store
 .env
