@@ -1,0 +1,1 @@
+(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[580],{9048:function(e){"use strict";e.exports=JSON.parse('{"welcome":{"allTagsPath":"/phpBB-ext-sitemaker/nb/blog/tags","slug":"welcome","name":"welcome","count":1,"permalink":"/phpBB-ext-sitemaker/nb/blog/tags/welcome"}}')}}]);

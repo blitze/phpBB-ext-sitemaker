@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blitze.github.io/phpBB-ext-sitemaker/ru/blog</id>
+    <title>phpBB SiteMaker Blog</title>
+    <updated>2019-05-28T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blitze.github.io/phpBB-ext-sitemaker/ru/blog"/>
+    <subtitle>phpBB SiteMaker Blog</subtitle>
+    <icon>https://blitze.github.io/phpBB-ext-sitemaker/ru/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>welcome</id>
+        <link href="https://blitze.github.io/phpBB-ext-sitemaker/ru/blog/welcome"/>
+        <updated>2019-05-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet]]></summary>
+    </entry>
+</feed>
