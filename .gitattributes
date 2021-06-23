@@ -1,6 +1,6 @@
 * text=auto
 
-docs/				export-ignore
+website/			export-ignore
 tests/				export-ignore
 .github/ 			export-ignore
 .babelrc			export-ignore
