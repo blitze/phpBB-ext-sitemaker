@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SITEMAKER'		=> 'SiteMaker',
-	'ACP_SM_SETTINGS'	=> 'Settings',
+	'ACP_SM_SETTINGS'	=> 'Ayarlar',
 
 	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
 	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
@@ -48,27 +48,27 @@ $lang = array_merge($lang, [
 	'FORUM_INDEX_SETTINGS'			=> 'Forum Index Settings',
 	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
 
-	'HIDE'			=> 'Hide',
-	'HIDE_BIRTHDAY'	=> 'Hide Birthday section',
-	'HIDE_LOGIN'	=> 'Hide login box',
-	'HIDE_ONLINE'	=> 'Hide Whos online section',
+	'HIDE'			=> 'Gizle',
+	'HIDE_BIRTHDAY'	=> 'Doğumgünü alanını gizle',
+	'HIDE_LOGIN'	=> 'Giriş kutucuğunu gizle',
+	'HIDE_ONLINE'	=> 'Kimler çevirimiçi alanını gizle',
 
 	'LAYOUT_BLOG'		=> 'Blog',
-	'LAYOUT_CUSTOM'		=> 'Custom',
-	'LAYOUT_HOLYGRAIL'	=> 'Holy Grail',
+	'LAYOUT_CUSTOM'		=> 'Özel',
+	'LAYOUT_HOLYGRAIL'	=> 'Kutsal Kâse',
 	'LAYOUT_PORTAL'		=> 'Portal',
 	'LAYOUT_PORTAL_ALT'	=> 'Portal (alt)',
-	'LAYOUT_SETTINGS'	=> 'Layout Settings',
+	'LAYOUT_SETTINGS'	=> 'Şablon Ayarları',
 
 	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Sitemaker blocks deleted for missing style with id %s',
 	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
 	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
 
-	'NAVIGATION_SETTINGS'		=> 'Navigation Settings',
+	'NAVIGATION_SETTINGS'		=> 'Gezinme çubuğu Ayarları',
 
-	'SETTINGS_SAVED'			=> 'Your settings have been saved',
-	'SHOW'						=> 'Show',
+	'SETTINGS_SAVED'			=> 'Ayarlarınız kaydedildi',
+	'SHOW'						=> 'Göster',
 	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
 	'SHOW_FORUM_NAV_EXPLAIN'	=> 'When a page is set as startpage instead of the forum index, should we display ’Forum’ in navigation bar',
-	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Yes - with icon:',
+	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Evet - Simge ile:',
 ]);
