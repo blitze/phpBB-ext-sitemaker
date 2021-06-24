@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACTIVE_ELEMENT'			=> 'Active Element',
+	'ACTIVE_ELEMENT'			=> 'Aktif Eleman',
 	'BORDER'					=> 'Border',
 	'BORDER_COLOR'				=> 'Border Color',
 	'BORDER_RADIUS'				=> 'Border Radius',
