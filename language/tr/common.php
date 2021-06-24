@@ -22,46 +22,46 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ALL_TIME'						=> 'All Time',
+	'ALL_TIME'						=> 'Her Zaman',
 
-	'BLOCK_TITLE'					=> 'Block Title',
+	'BLOCK_TITLE'					=> 'Blok Başlığı',
 
-	'CHANGE_ME'						=> 'Change Me',
+	'CHANGE_ME'						=> 'Beni Değiştir',
 
-	'DAILY_MEMBER'					=> 'Member of the day',
+	'DAILY_MEMBER'					=> 'Günün Üyesi',
 
-	'FEATURED_MEMBER'				=> 'Featured Member',
-	'FEATURED_MEMBERLIST'			=> 'Featured members list',
-	'FEEDS'							=> 'Feeds',
-	'FORUM_ANNOUNCEMENTS'			=> 'Forum Announcements',
-	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Announcements',
-	'FORUM_RECENT_POSTS'			=> 'Recent Forum Posts',
-	'FORUM_RECENT_TOPICS'			=> 'Recent Forum Topics',
-	'FORUM_STICKY_POSTS'			=> 'Recent Sticky Posts',
+	'FEATURED_MEMBER'				=> 'Özellikli Üye',
+	'FEATURED_MEMBERLIST'			=> 'Özellikli Üye Listesi',
+	'FEEDS'							=> 'Beslemeler',
+	'FORUM_ANNOUNCEMENTS'			=> 'Forum Duyuruları',
+	'FORUM_GLOBAL_ANNOUNCEMENTS'	=> 'Global Forum Duyuruları',
+	'FORUM_RECENT_POSTS'			=> 'Son Forum Gönderileri',
+	'FORUM_RECENT_TOPICS'			=> 'Son Forum Konuları',
+	'FORUM_STICKY_POSTS'			=> 'Son Sabit Gönderiler',
 
-	'HELP'							=> 'Help',
-	'HOURLY_MEMBER'					=> 'Member of the hour',
+	'HELP'							=> 'Yardım',
+	'HOURLY_MEMBER'					=> 'Saatin Üyesi',
 
-	'GOOGLE_MAP'					=> 'Google Map',
+	'GOOGLE_MAP'					=> 'Google Haritalar',
 
-	'JOIN_DATE'						=> 'Join Date',
+	'JOIN_DATE'						=> 'Katılma Tarihi',
 
 	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
-	'LAST_VISITED'					=> 'Last Visited',
-	'LINKS'							=> 'Links',
+	'LAST_VISITED'					=> 'Son ziyaret',
+	'LINKS'							=> 'Bağlantılar',
 
-	'MCP_SITEMAKER_CONTENT'			=> 'Contents',
-	'MEMBERS_DATE'					=> 'Date',
-	'MENU'							=> 'Menu',
-	'MONTHLY_MEMBER'				=> 'Member of the month',
+	'MCP_SITEMAKER_CONTENT'			=> 'İçerikler',
+	'MEMBERS_DATE'					=> 'Tarih',
+	'MENU'							=> 'Menü',
+	'MONTHLY_MEMBER'				=> 'Ayın Üyesi',
 	'MOST_TENURED'					=> 'Most Tenured',
-	'MY_BOOKMARKS'					=> 'My Bookmarks',
+	'MY_BOOKMARKS'					=> 'Yer İmlerim',
 
-	'NO_BOOKMARKED_TOPICS'			=> 'You have not bookmarked any topics',
-	'NO_NEW_TOPICS'					=> 'There are no new topics to display',
+	'NO_BOOKMARKED_TOPICS'			=> 'Hiç bir konuyu yer imlerine eklemediniz',
+	'NO_NEW_TOPICS'					=> 'Görüntülenecek hiç yeni konu yok',
 
-	'POLL'							=> 'Poll',
-	'POPULAR_TOPICS'				=> 'Popular Topics',
+	'POLL'							=> 'Anket',
+	'POPULAR_TOPICS'				=> 'Popüler Konular',
 	'POSTS_MEMBER'					=> 'Top Poster',
 	'PROCESSING'					=> 'processing...',
 
