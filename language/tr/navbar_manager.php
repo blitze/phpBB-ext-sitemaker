@@ -39,9 +39,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACTIVE_ELEMENT'			=> 'Aktif Eleman',
-	'BORDER'					=> 'Border',
-	'BORDER_COLOR'				=> 'Border Color',
-	'BORDER_RADIUS'				=> 'Border Radius',
+	'BORDER'					=> 'Kenarlık',
+	'BORDER_COLOR'				=> 'Kenarlık Rengi',
+	'BORDER_RADIUS'				=> 'Kenarlık Yarıçapı',
 	'BORDER_WIDTH'				=> 'Border Width',
 	'BOTTOM'					=> 'Bottom',
 	'BOTTOM_LEFT'				=> 'Bottom Left',
