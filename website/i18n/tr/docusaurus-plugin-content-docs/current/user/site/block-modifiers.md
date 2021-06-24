@@ -1,5 +1,5 @@
 ---
-title: Customizing Blocks Display
+title: Blok Görüntüsünü Özelleştirme
 sidebar_position: 6
 ---
 
