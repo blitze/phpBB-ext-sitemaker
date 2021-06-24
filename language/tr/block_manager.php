@@ -88,36 +88,36 @@ $lang = array_merge($lang, array(
 	'LEAVE_CONFIRM'								=> 'You have some unsaved changes to this page. Please save your work before moving on',
 	'LISTS'										=> 'Listeler',
 
-	'MAKE_DEFAULT_LAYOUT'						=> 'Set As Default Layout',
+	'MAKE_DEFAULT_LAYOUT'						=> 'Varsayılan Şablon Olarak Ayarla',
 
-	'OR'										=> '<strong>OR</strong>',
+	'OR'										=> '<strong>VEYA</strong>',
 
-	'PARENT_ROUTE'								=> 'Parent',
+	'PARENT_ROUTE'								=> 'Üst',
 	'PARENT_ROUTE_EXPLAIN'						=> '/index.php<br />/viewforum.php?f=2<br />/articles',
-	'PREDEFINED_CLASSES'						=> 'Predefined classes',
+	'PREDEFINED_CLASSES'						=> 'Öntanımlı sınıflar',
 
-	'REDO'										=> 'Redo',
+	'REDO'										=> 'Yinele',
 	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
-	'REMOVE_STARTPAGE'							=> 'Remove Start Page',
-	'ROUTE_HIDDEN_BLOCKS'						=> 'Blocks are being hidden for this page',
+	'REMOVE_STARTPAGE'							=> 'Başlangıç Sayfasını Kaldır',
+	'ROUTE_HIDDEN_BLOCKS'						=> 'Bloklar bu sayfa için gizlendi',
 	'ROUTE_HIDDEN_POSITIONS'					=> 'Blocks are being hidden for the following positions',
-	'ROUTE_UPDATED'								=> 'Page settings successfully updated',
+	'ROUTE_UPDATED'								=> 'Sayfa ayarları başarıyla güncellendi',
 
-	'SAVE_CHANGES'								=> 'Save Changes',
-	'SAVE_SETTINGS'								=> 'Save Settings',
-	'SELECT_ICON'								=> 'Select an Icon',
-	'SETTINGS'									=> 'Settings',
+	'SAVE_CHANGES'								=> 'Değişiklikleri Kaydet',
+	'SAVE_SETTINGS'								=> 'Ayarları kaydet',
+	'SELECT_ICON'								=> 'Bir Simge Seçin',
+	'SETTINGS'									=> 'Ayarlar',
 	'SETTING_TOO_BIG'							=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
 	'SETTING_TOO_LONG'							=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
 	'SETTING_TOO_LOW'							=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
 	'SETTING_TOO_SHORT'							=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
-	'SET_STARTPAGE'								=> 'Set As Start Page',
+	'SET_STARTPAGE'								=> 'Başlangıç Sayfası Olarak Ayarla',
 
-	'TITLES'									=> 'Titles',
+	'TITLES'									=> 'Başlıklar',
 
-	'UPDATE_SIMILAR'							=> 'Update blocks with similar settings',
-	'UNDO'										=> 'Undo',
+	'UPDATE_SIMILAR'							=> 'Blokları benzer ayarlarla güncelle',
+	'UNDO'										=> 'Geri al',
 
-	'VIEW_DEFAULT_LAYOUT'						=> 'View/Edit Default Layout',
+	'VIEW_DEFAULT_LAYOUT'						=> 'Varsayılan Şablonu Görüntüle/Düzenle',
 	'VISIT_PAGE'								=> 'Sayfayı ziyaret et',
 ));
