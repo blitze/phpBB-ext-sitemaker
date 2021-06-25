@@ -1,5 +1,5 @@
 ---
-title: Translators
+title: Çevirmenler
 sidebar_position: 2
 ---
 
@@ -14,4 +14,4 @@ If you are willing to contribute with translations, you will need:
 
 If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
 
-[Start Translating](https://crowdin.com/project/phpbb-ext-sitemaker)
+[Çeviriye Başlayın](https://crowdin.com/project/phpbb-ext-sitemaker)
