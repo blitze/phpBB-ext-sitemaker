@@ -47,7 +47,7 @@ if (empty($lang) || !is_array($lang))
 * Translators: Feel free to not translate these language strings
 */
 $lang = array_merge($lang, array(
-	'AUTHOR'			=> 'author',
+	'AUTHOR'			=> 'yazar',
 	'AUTHORS'			=> 'authors (array)',
 	'BITRATE'			=> 'bitrate',
 	'CAPTIONS'			=> 'captions',
