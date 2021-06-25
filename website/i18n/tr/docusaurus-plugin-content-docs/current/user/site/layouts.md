@@ -1,5 +1,5 @@
 ---
-title: Layouts
+title: Görünümler
 sidebar_position: 1
 ---
 
