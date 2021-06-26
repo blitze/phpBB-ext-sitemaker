@@ -75,17 +75,17 @@ $lang = array_merge($lang, array(
 	'FIELD_INVALID'								=> '“%s” alanı için sağlanan değer geçersiz bir formata sahip',
 	'FIELD_REQUIRED'							=> '“%s” gerekli bir alandır',
 	'FIELD_TOO_LONG'							=> '“%1$s” alanı için sağlanan değer çok uzun. Kabul edilebilir maksimum değer: %2$d.',
-	'FIELD_TOO_SHORT'							=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
+	'FIELD_TOO_SHORT'							=> '“%1$s” alanı için sağlanan değer çok kısa. Kabul edilebilir minimum değer: %2$d.',
 
 	'HIDE_ALL_BLOCKS'							=> 'Blokları bu sayfada gösterme',
-	'HIDE_BLOCK_POSITIONS'						=> 'Do not show blocks for the following block positions:',
+	'HIDE_BLOCK_POSITIONS'						=> 'Aşağıdaki blok konumları için blokları gösterme:',
 
 	'IMAGES'									=> 'Görseller',
 
 	'LAYOUT'									=> 'Şablon',
 	'LAYOUT_SAVED'								=> 'Şablon başaryla kaydedildi!',
 	'LAYOUT_SETTINGS'							=> 'Şablon Ayarları',
-	'LEAVE_CONFIRM'								=> 'You have some unsaved changes to this page. Please save your work before moving on',
+	'LEAVE_CONFIRM'								=> 'Bu sayfada kaydedilmemiş bazı değişiklikleriniz var. Lütfen devam etmeden önce çalışmanızı kaydedin',
 	'LISTS'										=> 'Listeler',
 
 	'MAKE_DEFAULT_LAYOUT'						=> 'Varsayılan Şablon Olarak Ayarla',
@@ -97,20 +97,20 @@ $lang = array_merge($lang, array(
 	'PREDEFINED_CLASSES'						=> 'Öntanımlı sınıflar',
 
 	'REDO'										=> 'Yinele',
-	'REMOVE_DEFAULT_LAYOUT'						=> 'Remove As Default Layout',
+	'REMOVE_DEFAULT_LAYOUT'						=> 'Varsayılan Şablon Olarak Kaldır',
 	'REMOVE_STARTPAGE'							=> 'Başlangıç Sayfasını Kaldır',
 	'ROUTE_HIDDEN_BLOCKS'						=> 'Bloklar bu sayfa için gizlendi',
-	'ROUTE_HIDDEN_POSITIONS'					=> 'Blocks are being hidden for the following positions',
+	'ROUTE_HIDDEN_POSITIONS'					=> 'Aşağıdaki pozisyonlar için bloklar gizleniyor',
 	'ROUTE_UPDATED'								=> 'Sayfa ayarları başarıyla güncellendi',
 
 	'SAVE_CHANGES'								=> 'Değişiklikleri Kaydet',
 	'SAVE_SETTINGS'								=> 'Ayarları kaydet',
 	'SELECT_ICON'								=> 'Bir Simge Seçin',
 	'SETTINGS'									=> 'Ayarlar',
-	'SETTING_TOO_BIG'							=> 'The provided value for the setting “%1$s” is too high. The maximum acceptable value is %2$d.',
-	'SETTING_TOO_LONG'							=> 'The provided value for the setting “%1$s” is too long. The maximum acceptable length is %2$d.',
-	'SETTING_TOO_LOW'							=> 'The provided value for the setting “%1$s” is too low. The minimum acceptable value is %2$d.',
-	'SETTING_TOO_SHORT'							=> 'The provided value for the setting “%1$s” is too short. The minimum acceptable length is %2$d.',
+	'SETTING_TOO_BIG'							=> '“%1$s” ayarı için sağlanan değer çok yüksek. Kabul edilebilir maksimum değer: %2$d.',
+	'SETTING_TOO_LONG'							=> '“%1$s” ayarı için sağlanan değer çok uzun. Kabul edilebilir maksimum değer: %2$d.',
+	'SETTING_TOO_LOW'							=> '“%1$s” ayarı için sağlanan değer çok düşük. Kabul edilebilir minimum değer: %2$d.',
+	'SETTING_TOO_SHORT'							=> '“%1$s” ayarı için sağlanan değer çok kısa. Kabul edilebilir minimum değer: %2$d.',
 	'SET_STARTPAGE'								=> 'Başlangıç Sayfası Olarak Ayarla',
 
 	'TITLES'									=> 'Başlıklar',
