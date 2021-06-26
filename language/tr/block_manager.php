@@ -53,11 +53,11 @@ $lang = array_merge($lang, array(
 
 	'CANCEL'									=> 'İptal',
 	'CHILD_ROUTE'								=> 'Alt',
-	'CHILD_ROUTE_EXPLAIN'						=> '/viewforum.php, /dir/index.php<br />/viewtopic.php?f=2&t=1<br />/articles/my-article',
+	'CHILD_ROUTE_EXPLAIN'						=> '/viewforum.php, /dir/index.php<br />/viewtopic.php?f=2&t=1<br />/makaleler/benim-makalem',
 	'CLEAR'										=> 'Temizle',
 	'COPY'										=> 'Kopyala',
 	'COPY_BLOCKS'								=> 'Blokları kopyala?',
-	'COPY_BLOCKS_CONFIRM'						=> 'Are you sure that you’d like to copy blocks from another page?<br /><br />This will delete all existing blocks and their settings for this page and replace them with the blocks from the selected page.',
+	'COPY_BLOCKS_CONFIRM'						=> 'Blokları başka sayfadan kopyalamak istediğine emin misin?<br /><br />Bu tüm blokları ve onların ayarlarını bu sayfa için silecek ve onları seçili sayfa blokları ile değiştirecek.',
 
 	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right.',
 	'DELETE'									=> 'Sil',
