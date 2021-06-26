@@ -39,8 +39,8 @@ $lang = array_merge($lang, array(
 	'BLOCK_DISPLAY_TYPE'						=> 'Görünüm',
 	'BLOCK_HIDE_TITLE'							=> 'Blok başlığını gizle?',
 	'BLOCK_INACTIVE'							=> 'İnaktif',
-	'BLOCK_MISSING_TEMPLATE'					=> 'Missing required block template. Please contact developer',
-	'BLOCK_NOT_FOUND'							=> 'Oops! The requested block service was not found',
+	'BLOCK_MISSING_TEMPLATE'					=> 'Gerekli blok şablonu eksik. Lütfen geliştiriciyle iletişim kurun',
+	'BLOCK_NOT_FOUND'							=> 'Üzgünüm! İstenilen blok servisi bulunamadı',
 	'BLOCK_NO_DATA'								=> 'Gösterilecek veri yok',
 	'BLOCK_NO_ID'								=> 'Üzgünüm! Blok id eksik',
 	'BLOCK_PERMISSION'							=> 'İzin',
@@ -59,7 +59,7 @@ $lang = array_merge($lang, array(
 	'COPY_BLOCKS'								=> 'Blokları kopyala?',
 	'COPY_BLOCKS_CONFIRM'						=> 'Blokları başka sayfadan kopyalamak istediğine emin misin?<br /><br />Bu tüm blokları ve onların ayarlarını bu sayfa için silecek ve onları seçili sayfa blokları ile değiştirecek.',
 
-	'DEFAULT_LAYOUT_EXPLAIN'					=> 'If set, all site pages for which you have not specified blocks will inherit the blocks from the default layout. You may, however, override the default layout for particular pages using the options to the right.',
+	'DEFAULT_LAYOUT_EXPLAIN'					=> 'Ayarlanırsa, blok belirtmediğiniz tüm site sayfaları, blokları varsayılan düzenden devralır. Ancak, sağdaki seçenekleri kullanarak belirli sayfalar için varsayılan düzeni geçersiz kılabilirsiniz.',
 	'DELETE'									=> 'Sil',
 	'DELETE_ALL_BLOCKS'							=> 'Tüm Blokları Sil',
 	'DELETE_ALL_BLOCKS_CONFIRM'					=> 'Bu sayfa için tüm blokları silmek istediğine emin misin?',
@@ -72,9 +72,9 @@ $lang = array_merge($lang, array(
 
 	'FEED_PROBLEMS'								=> 'Sağlanan rss/atom besleme(leri) işlenirken bir sorun oluştu',
 	'FEED_URL_MISSING'							=> 'Başlamak için lütfen en az bir rss/atom beslemesi sağlayın',
-	'FIELD_INVALID'								=> 'The provided value for the field “%s” has an invalid format',
+	'FIELD_INVALID'								=> '“%s” alanı için sağlanan değer geçersiz bir formata sahip',
 	'FIELD_REQUIRED'							=> '“%s” gerekli bir alandır',
-	'FIELD_TOO_LONG'							=> 'The provided value for the field “%1$s” is too long. The maximum acceptable value is %2$d.',
+	'FIELD_TOO_LONG'							=> '“%1$s” alanı için sağlanan değer çok uzun. Kabul edilebilir maksimum değer: %2$d.',
 	'FIELD_TOO_SHORT'							=> 'The provided value for the field “%1$s” is too short. The minimum acceptable value is %2$d.',
 
 	'HIDE_ALL_BLOCKS'							=> 'Blokları bu sayfada gösterme',
