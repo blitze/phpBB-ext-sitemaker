@@ -46,7 +46,7 @@ $lang = array_merge($lang, array(
 
 	'JOIN_DATE'						=> 'Katılma Tarihi',
 
-	'LAST_POST_BY_AUTHOR'			=> 'Last post by',
+	'LAST_POST_BY_AUTHOR'			=> 'Son gönderi: ',
 	'LAST_VISITED'					=> 'Son ziyaret',
 	'LINKS'							=> 'Bağlantılar',
 
@@ -54,7 +54,7 @@ $lang = array_merge($lang, array(
 	'MEMBERS_DATE'					=> 'Tarih',
 	'MENU'							=> 'Menü',
 	'MONTHLY_MEMBER'				=> 'Ayın Üyesi',
-	'MOST_TENURED'					=> 'Most Tenured',
+	'MOST_TENURED'					=> 'En Kadrolu',
 	'MY_BOOKMARKS'					=> 'Yer İmlerim',
 
 	'NO_BOOKMARKED_TOPICS'			=> 'Hiç bir konuyu yer imlerine eklemediniz',
@@ -82,10 +82,10 @@ $lang = array_merge($lang, array(
 	'THIS_YEAR'						=> 'Bu Yıl',
 	'TODAY'							=> 'Bugün',
 	'TOPICS_LAST_READ'				=> 'Son Okunan Konular',
-	'TOPIC_LAST_READ'				=> 'Last read %s',
+	'TOPIC_LAST_READ'				=> 'Son okuma %s',
 	'TOP_POSTERS'					=> 'En çok gönderisi olanlar',
 
-	'UCP_SITEMAKER_CONTENT'			=> 'My Stuff',
+	'UCP_SITEMAKER_CONTENT'			=> 'Benimkiler',
 
 	'VIEW_DETAILS'					=> 'Ayrıntıları Görüntüle',
 	'VIEW_USER_PROFILE'				=> '%s hakkında her şey',
