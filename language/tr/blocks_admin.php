@@ -74,7 +74,7 @@ $lang = array_merge($lang, array(
 	'ENABLE_TOPIC_TRACKING_EXPLAIN'				=> 'If enabled, unread topics will be indicated but the block results will not be cached <strong>(Not recommended)</strong>',
 	'EXCLUDE_TOO_MANY_WORDS'					=> 'Hariç tutulacak çok sözcük girdiniz. Mümkün olan maksimum karakter sayısı 255\'tir, siz %s tane girdiniz.',
 	'EXCLUDE_WORDS'								=> 'Yok Sayılan Sözcükler',
-	'EXCLUDE_WORDS_EXPLAIN'						=> 'List the words you’d like to exclude from the wordgraph separated by a comma (,). Maximum 255 characters.',
+	'EXCLUDE_WORDS_EXPLAIN'						=> 'Kelime grafiğinden hariç tutmak istediğiniz kelimeleri virgülle (,) ayırarak listeleyin. Maksimum 255 karakter.',
 	'EXPANDED'									=> 'Genişletilmiş',
 	'EXTENSION_GROUP'							=> 'Eklenti Grubu',
 
