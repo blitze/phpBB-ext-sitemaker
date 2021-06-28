@@ -45,7 +45,7 @@ $lang = array_merge($lang, [
 	'BLOCKS_CLEANUP_STYLES'		=> 'Uninstalled Styles (ids):',
 	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
 
-	'FORUM_INDEX_SETTINGS'			=> 'Forum Index Settings',
+	'FORUM_INDEX_SETTINGS'			=> 'Forum Anasayfa Ayarları',
 	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
 
 	'HIDE'			=> 'Gizle',
