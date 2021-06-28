@@ -46,7 +46,7 @@ $lang = array_merge($lang, [
 	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
 
 	'FORUM_INDEX_SETTINGS'			=> 'Forum Anasayfa Ayarları',
-	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'These settings only apply when there is no startpage defined',
+	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'Bu ayarlar yalnızca tanımlanmış bir başlangıç sayfası olmadığında geçerlidir',
 
 	'HIDE'			=> 'Gizle',
 	'HIDE_BIRTHDAY'	=> 'Doğumgünü alanını gizle',
