@@ -1,5 +1,5 @@
 ---
-title: Block Views
+title: Blok Görüntüsü
 sidebar_position: 2
 ---
 
