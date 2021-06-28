@@ -18,7 +18,7 @@ If you want a more meaningful menu name,
 * enter the new menu name and hit enter to update it
 
 ### Menüleri Sil
-To delete a menu, and its items,
-* Hover over the menu name and click on the **x** icon
-* If the menu item has no child items, you will need to confirm your choice to delete the item
-* If the menu item has child items, you will need to indicate if you want to delete only the item and move its children up or if you want to delete the entire branch
+Bir menüyü ve öğelerini silmek için,
+* Menü adının üzerine gelin ve **x** simgesine tıklayın
+* Menü öğesinde alt öğe yoksa öğeyi silmek için seçiminizi onaylamanız gerekir
+* Menü öğesinin alt öğeleri varsa, yalnızca öğeyi silmek ve alt öğelerini yukarı taşımak mı yoksa tüm dalı silmek mi istediğinizi belirtmeniz gerekir
