@@ -3,7 +3,7 @@ title: Varsayılan Bir Düzen Ayarla
 sidebar_position: 4
 ---
 
-Bir blok eklediğinizde, o belirli sayfaya eklenir. It would, therefore, be a tedious task to set blocks for all the pages on your site. You can set all the desired blocks for a particular page, then set that page as the default layout. In others words, any page that does not have its own blocks, will inherit blocks from this page.
+Bir blok eklediğinizde, o belirli sayfaya eklenir. Bu nedenle, sitenizdeki tüm sayfalar için bloklar ayarlamak sıkıcı bir iş olacaktır. Belirli bir sayfa için istediğiniz tüm blokları ayarlayabilir, ardından o sayfayı varsayılan düzen olarak ayarlayabilirsiniz. Başka bir deyişle, kendi blokları olmayan herhangi bir sayfa, bu sayfadan blokları devralır.
 
 To set a default layout
 * Go to the page that you'd like to set as default layout
