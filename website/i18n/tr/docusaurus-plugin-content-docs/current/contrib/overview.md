@@ -1,9 +1,9 @@
 ---
-title: Get Involved
+title: Katkıda Bulun
 sidebar_position: 1
 ---
 
-phpBB SiteMaker is an open source project and welcomes your ideas and contributions. So feel free to get involved. You can contribute to this project by:
+phpBB SiteMaker açık kaynaklı bir projedir ve fikirlerinizi ve katkılarınızı memnuniyetle karşılar. Bu yüzden katılmaktan çekinmeyin. You can contribute to this project by:
 
 * [Providing Support/Feedback](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
 * [Reporting Bugs](https://github.com/blitze/phpBB-ext-sitemaker/issues)
