@@ -5,13 +5,13 @@ sidebar_position: 4
 
 Bir blok eklediğinizde, o belirli sayfaya eklenir. Bu nedenle, sitenizdeki tüm sayfalar için bloklar ayarlamak sıkıcı bir iş olacaktır. Belirli bir sayfa için istediğiniz tüm blokları ayarlayabilir, ardından o sayfayı varsayılan düzen olarak ayarlayabilirsiniz. Başka bir deyişle, kendi blokları olmayan herhangi bir sayfa, bu sayfadan blokları devralır.
 
-To set a default layout
-* Go to the page that you'd like to set as default layout
-* Click on `Settings` in the admin bar
-* Click the `Set as default layout` button
+Varsayılan bir düzen ayarlamak için
+* Varsayılan düzen olarak ayarlamak istediğiniz sayfaya gidin
+* Yönetici çubuğundaki `Ayarlar`'ı tıklayın
+* `Varsayılan düzen olarak ayarla` düğmesini tıklayın
 
-Say we add blocks to a page (phpBB/index.php) with blocks in the sidebar and top positions, for example, and set it as our default layout. This has the following effects for other pages:
-* Any page that does not have its own blocks, will inherit the blocks from the default layout. See [Understanding Block Inheritance](/docs/user/site/block-inheritance) for exceptions.
+Örneğin, kenar çubuğunda ve üst konumlarda bloklar bulunan bir sayfaya (phpBB/index.php) bloklar eklediğimizi ve bunu varsayılan düzenimiz olarak ayarladığımızı varsayalım. Bunun diğer sayfalar için aşağıdaki etkileri vardır:
+* Kendi blokları olmayan herhangi bir sayfa, blokları varsayılan düzenden devralır. See [Understanding Block Inheritance](/docs/user/site/block-inheritance) for exceptions.
 * You may still inherit blocks from a default layout (index.php) but choose to not display blocks on some block positions or not display any blocks at all. To do this,
     * Go to the page that you don't want all/some blocks to display
     * Click on `Settings` in the admin bar
