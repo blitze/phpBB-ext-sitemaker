@@ -3,9 +3,9 @@ title: Katkıda Bulun
 sidebar_position: 1
 ---
 
-phpBB SiteMaker açık kaynaklı bir projedir ve fikirlerinizi ve katkılarınızı memnuniyetle karşılar. Bu yüzden katılmaktan çekinmeyin. You can contribute to this project by:
+phpBB SiteMaker açık kaynaklı bir projedir ve fikirlerinizi ve katkılarınızı memnuniyetle karşılar. Bu yüzden katılmaktan çekinmeyin. Bu projeye şu yollarla katkıda bulunabilirsiniz:
 
-* [Providing Support/Feedback](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
-* [Reporting Bugs](https://github.com/blitze/phpBB-ext-sitemaker/issues)
-* [Helping with Translation](./translators.md)
-* [Fixing bugs or adding features](./pull-requests.md)
+* [Destek/Geri Bildirim Sağlamak](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2)
+* [Hata Bildirimi](https://github.com/blitze/phpBB-ext-sitemaker/issues)
+* [Çeviri konusunda yardımcı olmak](./translators.md)
+* [Hata giderilmesi veya özellik eklenmesi](./pull-requests.md)
