@@ -3,7 +3,7 @@ title: Setting a Default Layout
 sidebar_position: 4
 ---
 
-When you add a block, it is added to that specific page. It would, therefore, be a tedious task to set blocks for all the pages on your site. You can set all the desired blocks for a particular page, then set that page as the default layout. In others words, any page that does not have its own blocks, will inherit blocks from this page.
+Bir blok eklediğinizde, o belirli sayfaya eklenir. It would, therefore, be a tedious task to set blocks for all the pages on your site. You can set all the desired blocks for a particular page, then set that page as the default layout. In others words, any page that does not have its own blocks, will inherit blocks from this page.
 
 To set a default layout
 * Go to the page that you'd like to set as default layout
