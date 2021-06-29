@@ -3,9 +3,9 @@ title: Bir başlangıç Sayfası Ayarlamak
 sidebar_position: 3
 ---
 
-phpBB SiteMaker allows you to choose any front controller (pages accessed via app.php/...) as your default start page (the page that will be shown when someone visits your site) instead of the board index.
+phpBB SiteMaker, pano dizini yerine varsayılan başlangıç sayfanız (birisi sitenizi ziyaret ettiğinde gösterilecek sayfa) olarak herhangi bir ön denetleyiciyi (app.php/... aracılığıyla erişilen sayfalar) seçmenize olanak tanır.
 
 Bunu yapmak için:
 * Varsayılan başlangıç sayfası yapmak istediğiniz sayfaya gidin
-* Yönetici Çubuğundaki `Ayarlar` kısmına tıkayın. If it is an eligible page, you will see a `Set as start page` button
+* Yönetici Çubuğundaki `Ayarlar` kısmına tıkayın. Uygun bir sayfaysa, bir `Başlangıç sayfası olarak ayarla` düğmesi görürsünüz
 * `Başlangıç Sayfası olarak Ayarla` düğmesine tıklayın
