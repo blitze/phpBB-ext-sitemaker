@@ -1,5 +1,5 @@
 ---
-title: Setting a Default Layout
+title: Varsayılan Bir Düzen Ayarla
 sidebar_position: 4
 ---
 
