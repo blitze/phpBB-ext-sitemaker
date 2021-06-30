@@ -1,16 +1,16 @@
 ---
-title: phpBB SiteMaker Events
+title: phpBB SiteMaker Olayları
 sidebar_position: 2
 ---
 
-You can modify the behavior of phpBB SiteMaker using phpBB's event system.
+phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenleyebilirsiniz.
 
-## PHP Events
+## PHP Olayları
 
 ### blitze.sitemaker.acp_add_bulk_menu_options
 
--   Location: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
--   Since: 3.1.0
+-   Konum: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
+-   Şu sürümden beri: 3.1.0
 -   Purpose: Add bulk menu options in acp menu
 
 ### blitze.sitemaker.acp_display_settings_form
