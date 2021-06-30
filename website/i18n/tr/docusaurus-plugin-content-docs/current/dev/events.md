@@ -27,7 +27,7 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 ### blitze.sitemaker.admin_bar.set_assets
 
--   Location: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
+-   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
 -   Since: 3.0.1-RC1
 -   Purpose: Add assets for available blocks in edit mode
 
