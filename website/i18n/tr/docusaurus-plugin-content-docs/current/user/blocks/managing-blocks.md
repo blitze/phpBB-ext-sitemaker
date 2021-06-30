@@ -3,13 +3,13 @@ title: Mananaging Blocks
 sidebar_position: 3
 ---
 
-To manage blocks in phpBB SiteMaker, you must be in [Edit Mode](./overview#edit-mode).
+phpBB SiteMaker'da blokları yönetmek için [Düzenleme Modu](./overview#edit-mode)nda olmalısınız.
 
-> When a block does not display any content, it will not be displayed, except in edit mode. That way, you can either give it content (in the case of the Custom block) or change its settings.
+> Bir blok herhangi bir içerik göstermediğinde, düzenleme modu dışında görüntülenmez. Bu şekilde, ona içerik verebilir (Özel blok durumunda) veya ayarlarını değiştirebilirsiniz.
 
-> In edit mode, the somewhat transparent blocks are blocks that will otherwise not be displayed but are only being displayed because we are in edit mode
+> Düzenleme modunda, şeffaf bloklar yalnızca düzenleme modunda olduğumuz için görüntülenen bloklardır, aksi takdirde görüntülenmeyeceklerdir
 
-## Adding blocks
+## Blok Ekleme
 You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to:
 * click on **Blocks** in the Admin bar. This will display a list of available blocks
 * Drag and drop the desired block to any block position
