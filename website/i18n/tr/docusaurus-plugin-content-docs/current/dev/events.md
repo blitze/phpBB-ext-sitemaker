@@ -11,17 +11,17 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 -   Konum: /phpBB/ext/blitze/sitemaker/acp/menu_module.php
 -   Şu sürümden beri: 3.1.0
--   Purpose: Add bulk menu options in acp menu
+-   Amaç: ykp menüsüne toplu menü seçenekleri eklemek
 
 ### blitze.sitemaker.acp_display_settings_form
 
--   Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+-   Konum: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
 -   Since: 3.1.0
 -   Purpose: display acp (sitemaker) settings form
 
 ### blitze.sitemaker.acp_save_settings
 
--   Location: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
+-   Konum: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
 -   Since: 3.1.0
 -   Purpose: Save acp (sitemaker) settings
 
