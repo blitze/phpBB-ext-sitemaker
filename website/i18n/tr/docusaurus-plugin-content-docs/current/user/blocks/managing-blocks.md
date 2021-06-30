@@ -10,13 +10,13 @@ phpBB SiteMaker'da blokları yönetmek için [Düzenleme Modu](./overview#edit-m
 > Düzenleme modunda, şeffaf bloklar yalnızca düzenleme modunda olduğumuz için görüntülenen bloklardır, aksi takdirde görüntülenmeyeceklerdir
 
 ## Blok Ekleme
-You can add blocks to any front-facing page, except the User Control Panel and Moderator Control Panel pages. To add a block, you will need to:
-* click on **Blocks** in the Admin bar. This will display a list of available blocks
-* Drag and drop the desired block to any block position
+Kullanıcı Kontrol Paneli ve Moderatör Kontrol Paneli sayfaları dışında, ön yüz herhangi bir sayfaya blok ekleyebilirsiniz. Blok eklemek için şu gereklidir:
+* Yönetici Çubuğundaki **Blocklar** yazısına tıklayın. Bu, mevcut blokların bir listesini görüntüler
+* İstediğiniz bloğu herhangi bir blok konumuna sürükleyip bırakın
 
-## Editing blocks
-### Adding a block icon
-To the left of the block title (prosilver), there is a box for the block icon. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+## Blokları Düzenleme
+### Bir Blok Simgesi Ekleme
+Blok başlığının (prosilver) solunda blok simgesi için bir kutu vardır. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
 
 ### Editing the Block Title
 phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title,
@@ -45,7 +45,7 @@ When you hover over a block, a cog icon will appear to the right of the block th
 - Set / Update block specific settings
 - If you have the same block with same settings across multiple pages, you can update all of them at once by checking the **Update blocks with similar settings**
 
-## Deleting blocks
-- Hover over the block you'd like to delete
-- Click on the **x** icon and confirm that you wish to delete the block
-- Go up to the admin bar and click on `Save Changes`
+## Blokları Silme
+- Silmek istediğiniz bloğun üstüne gelin
+- **x** simgesine tıklayın ve bloğu silmek istediğinizi onaylayın
+- Yönetici çubuğuna gidin ve `Değişiklikleri Kaydet`'i tıklayın
