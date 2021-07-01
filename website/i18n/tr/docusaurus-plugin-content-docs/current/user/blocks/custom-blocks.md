@@ -5,9 +5,9 @@ sidebar_position: 4
 
 If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. Blok bir WYSIWYG editör (TİNYMCE) ve bir script yöneticisi ile birlikte gelir:
 
-## The editor
+## Düzenleyici
 
--   You can use the editor to create HTML content
+-   HTML içeriği oluşturmak için editörü kullanabilirsin
 -   Bu düzeyde bir kontrole ihtiyacınız varsa, düzenleyicideki `Kaynak kodu` simgesine (`<>`) tıklayarak kaynak kodunu düzenleyebilirsiniz
 -   Editör sizin görsel yüklemenize ve modifiye etmenize izin verir
     -   Ona erişimi olan her kullanıcı için phpBB/images/sitemaker_uploads/ içinde yeni bir klasör oluşturur
