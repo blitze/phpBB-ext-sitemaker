@@ -24,7 +24,7 @@ phpBB SiteMaker blocks will have a default, translated title but if the title do
 * Change the title to whatever you want
 * Remove focus from the field or hit enter to submit changes
 
-> Your modified block title is not translated
+> Değiştirilen blok başlığınız tercüme edilmedi
 
 > To revert to the default title, simple delete the title and hit enter
 
@@ -32,7 +32,7 @@ phpBB SiteMaker blocks will have a default, translated title but if the title do
 When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can:
 - Enable/disable a block [Status]
 - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](/docs/user/site/block-inheritance)):
-    - **Always**: Always display the block
+    - **Her zaman**: Bloğu her zaman göster
     - **Hide on child routes**: Only show this block on the parent route
     - **Show on child routes only**: Only show this block on a child route
 - Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups.
