@@ -33,13 +33,13 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 ### blitze.sitemaker.modify_block_positions
 
--   Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+-   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
 -   Şu sürümden beri: 3.0.1-RC1
 -   Purpose: Modify block positions
 
 ### blitze.sitemaker.modify_rendered_block
 
--   Location: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
+-   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
 -   Şu sürümden beri: 3.0.1-RC1
 -   Purpose: Modify a rendered block
 
@@ -47,13 +47,13 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 ### blitze_sitemaker_acp_settings
 
--   Location: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
+-   Konum: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
 -   Şu sürümden beri: 3.1.0
 -   Purpose: Add form fields for sitemaker settings
 
 ### blitze_sitemaker_admin_bar_append
 
--   Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+-   Konum: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
 -   Şu sürümden beri: 3.1.0
 -   Purpose: Add menu items to admin bar
 
@@ -67,54 +67,54 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 ### blitze_sitemaker_layout_saved
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
 -   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something when layout changes are saved
 
 ### blitze_sitemaker_render_block_before
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
 -   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
 
 ### blitze_sitemaker_render_block_after
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
 -   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something after block is rendered
 
 ### blitze_sitemaker_save_block_before
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
--   Since: 3.1.2
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
+-   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to modify block data before it is saved
 
 ### blitze_sitemaker_show_all_block_positions
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
--   Since: 3.1.2
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+-   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something when all block positions are shown
 
 ### blitze_sitemaker_hide_empty_block_positions
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
--   Since: 3.1.2
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+-   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something when empty positions are hidden
 
 ### blitze_sitemaker_layout_cleared
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something when layout is cleared
 
 ### blitze_sitemaker_layout_updated
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
 -   Purpose: Event to allow other extensions to do something when layout is updated
 
 ### blitze_sitemaker_tinymce_options
 
--   Location: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
+-   Konum: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
 -   Şu sürümden beri: 3.3.0
 -   Purpose: Event to allow other extensions to modify tinymce options
