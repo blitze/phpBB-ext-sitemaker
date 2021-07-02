@@ -17,33 +17,33 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 -   Konum: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
 -   Şu sürümden beri: 3.1.0
--   Purpose: display acp (sitemaker) settings form
+-   Amaç: ykp (sitemaker) ayarları formunu görüntüle
 
 ### blitze.sitemaker.acp_save_settings
 
 -   Konum: /phpBB/ext/blitze/sitemaker/acp/settings_module.php
 -   Şu sürümden beri: 3.1.0
--   Purpose: Save acp (sitemaker) settings
+-   Amaç: ykp (sitemaker) ayarlarını kaydet
 
 ### blitze.sitemaker.admin_bar.set_assets
 
 -   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/admin_bar.php
 -   Şu sürümden beri: 3.0.1-RC1
--   Purpose: Add assets for available blocks in edit mode
+-   Amaç: Düzenleme modunda mevcut bloklar için varlıklar ekleyin
 
 ### blitze.sitemaker.modify_block_positions
 
 -   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
 -   Şu sürümden beri: 3.0.1-RC1
--   Purpose: Modify block positions
+-   Amaç: Blok konumlarını düzenle
 
 ### blitze.sitemaker.modify_rendered_block
 
 -   Konum: /phpBB/ext/blitze/sitemaker/services/blocks/blocks.php
 -   Şu sürümden beri: 3.0.1-RC1
--   Purpose: Modify a rendered block
+-   Amaç: İşlenmiş bir bloğu değiştirin
 
-## Template Events
+## Şablon Olayları
 
 ### blitze_sitemaker_acp_settings
 
