@@ -63,7 +63,7 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 -   Şu sürümden beri: 3.1.0
 -   Purpose: Add template files to be used in JS for block views, etc
 
-## Javascript Events
+## Javascript Olayları
 
 ### blitze_sitemaker_layout_saved
 
