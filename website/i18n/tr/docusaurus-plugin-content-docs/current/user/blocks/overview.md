@@ -3,7 +3,7 @@ title: Bloklar Nedir?
 sidebar_position: 1
 ---
 
-phpBB SiteMaker'ın kalbinde blok kavramı vardır. Blocks are little pieces of content that you can place in different pre-defined areas (block positions) on your site. The blocks will typically have settings that you can set/change to fine-tune the content that you wish to display. Most blocks, but not all, will make database queries to get the desired content. O zaman fazla çıldırmayalım :). Blokları yönetmek için "düzenleme moduna" geçmeniz gerekir.
+phpBB SiteMaker'ın kalbinde blok kavramı vardır. Bloklar, sitenizde önceden tanımlanmış farklı alanlara (blok konumları) yerleştirebileceğiniz küçük içerik parçalarıdır. Bloklar tipik olarak, görüntülemek istediğiniz içeriğe ince ayar yapmak için ayarlayabileceğiniz/değiştirebileceğiniz ayarlara sahip olacaktır. Blokların çoğu, ancak tümü değil, istenen içeriği elde etmek için veritabanı sorguları yapacaktır. O zaman fazla çıldırmayalım :). Blokları yönetmek için "düzenleme moduna" geçmeniz gerekir.
 
 ## Düzenleme Modu
-Switch to edit mode by clicking on the pencil icon on the top right of your site. This will display the "Admin bar" with "Blocks" and "Settings" menu items. This is referred to as being in 'edit mode'.
+Sitenizin sağ üst köşesindeki kurşun kalem simgesine tıklayarak düzenleme moduna geçin. Bu, "Bloklar" ve "Ayarlar" menü öğeleriyle "Yönetici çubuğu"nu görüntüler. Buna 'düzenleme modu'nda denir.
