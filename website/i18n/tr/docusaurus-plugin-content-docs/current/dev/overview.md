@@ -75,12 +75,12 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
             'legend2'   => 'TAB2',
             'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
             'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
-            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Only show when option 1 is selected</div>'),
+            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Yalnızca seçenek 1 seçildiğinde göster</div>'),
         );
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. You can see more examples [here](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php).
+This is constructed the same way that phpBB builds the configuration for board settings in ACP. Daha fazla örneği [burada](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) görebilirsiniz.
 
 If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
 
@@ -92,13 +92,13 @@ The convention for block names is that the service name (e.g my.example.block.my
 
 ### Tercüme
 
-Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
+Also notice that we have several language keys that need to be translated. Bunu yapmak için dil klasörünüzde "blocks_admin.php" adlı bir dosya oluşturun. Bu dosya, blokları düzenlerken otomatik olarak yüklenecektir ve blok ayarlarınız ve blok adlarınız için çevirileri olmalıdır.
 
 ```
 $lang = array_merge($lang, array(
-    'SOME_LANG_VAR'     => 'Option 1',
-    'OTHER_LANG_VAR'    => 'Option 2',
-    'SOME_LANG_VAR_1'   => 'Setting 1',
+    'SOME_LANG_VAR'     => 'Seçenek 1',
+    'OTHER_LANG_VAR'    => 'Seçenek 2',
+    'SOME_LANG_VAR_1'   => 'Ayar 1',
     ....
     'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
 );
@@ -108,7 +108,7 @@ Because 'blocks_admin.php' is only loaded when editing blocks, you will need to 
 
 ### Rendering the block
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. To render your block using templates, the block must return an array that holds the data that you want to pass to the template and must also implement the `get_template` method as demonstrated below:
+The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. Şablonları kullanarak bloğunuzu oluşturmak için, bloğun şablona iletmek istediğiniz verileri tutan bir dizi döndürmesi ve ayrıca aşağıda gösterildiği gibi `get_template` yöntemini uygulaması gerekir:
 
 ```php
     /**
@@ -138,7 +138,7 @@ The new block will only be displayed if it is rendering something. Your block ca
     {
         if ($edit_mode)
         {
-            // do something only in edit mode
+            // sadece düzenleme modunda bir şeyler yap
         }
 
         return array(
