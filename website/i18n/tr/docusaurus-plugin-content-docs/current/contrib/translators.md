@@ -10,8 +10,8 @@ Bu uzantıyı ve belgelerini tercüme için yardıma ihtiyacımız var. Çeviril
 Çevirilerle katkıda bulunmak istiyorsanız, şuna ihtiyacınız olacak:
 
 * Bir [crowdin](https://crowdin.com/project/phpbb-ext-sitemaker) hesabı.
-* Chose the target language if exist otherwise request to be enabled.
+* Varsa hedef dili seçin, aksi takdirde etkinleştirilmesini isteyin.
 
-If your desired language is not listed, please [contact me](https://crowdin.com/profile/blitze) and I will add it.
+İstediğiniz dil listede yoksa, lütfen [bana ulaşın](https://crowdin.com/profile/blitze), ben de ekleyeyim.
 
 [Çeviriye Başlayın](https://crowdin.com/project/phpbb-ext-sitemaker)
