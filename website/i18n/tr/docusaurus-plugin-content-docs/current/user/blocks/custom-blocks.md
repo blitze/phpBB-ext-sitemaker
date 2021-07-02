@@ -3,7 +3,7 @@ title: Özel Blok
 sidebar_position: 4
 ---
 
-If the available blocks do not give you the freedom you need, there is the `Custom Block` which allows you the freedom to display your own content using BBcode or HTML. Blok bir WYSIWYG editör (TİNYMCE) ve bir script yöneticisi ile birlikte gelir:
+Mevcut bloklar size ihtiyacınız olan özgürlüğü vermiyorsa, BBcode veya HTML kullanarak kendi içeriğinizi görüntüleme özgürlüğünü sağlayan `Özel Blok` vardır. Blok bir WYSIWYG editör (TİNYMCE) ve bir script yöneticisi ile birlikte gelir:
 
 ## Düzenleyici
 
