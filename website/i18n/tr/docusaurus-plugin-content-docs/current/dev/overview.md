@@ -54,7 +54,7 @@ services:
 
 At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
 
-### Block Settings
+### Blok Ayarları
 
 Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
 
@@ -86,11 +86,11 @@ If you want a custom field type, you can see an example [here](https://github.co
 
 Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
 
-### Naming Blocks
+### Blokları İsimlendirmek
 
 The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
 
-### Translation
+### Tercüme
 
 Also notice that we have several language keys that need to be translated. To do this, create a file named "blocks_admin.php" in your language folder. This file will be automatically loaded when editing blocks, and should have translations for your blocks settings and block names.
 
