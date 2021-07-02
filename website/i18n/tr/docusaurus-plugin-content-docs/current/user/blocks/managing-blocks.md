@@ -33,9 +33,9 @@ When you hover over a block, a cog icon will appear to the right of the block th
 - Enable/disable a block [Status]
 - Choose when the block should/should not be displayed [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](/docs/user/site/block-inheritance)):
     - **Her zaman**: Bloğu her zaman göster
-    - **Hide on child routes**: Only show this block on the parent route
-    - **Show on child routes only**: Only show this block on a child route
-- Choose which groups of users can view the block [Viewable by]. Use CTRL + click to select multiple groups.
+    - **Alt rotalarda gizle**: Bu bloğu yalnızca üst rotada göster
+    - **Yalnızca alt rotalarda göster**: Bu bloğu yalnızca bir alt rotada göster
+- Bloğunu hangi kullanıcı gruplarının görüntüleyebileceğini seçin [Görüntülenebilir]. Birden çok grup seçmek için CTRL + tıklama tuşlarını kullanın.
 - Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class]
 - Show/hide the block title [Hide block title?]
 - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP.
