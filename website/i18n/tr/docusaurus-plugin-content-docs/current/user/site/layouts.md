@@ -5,7 +5,7 @@ sidebar_position: 1
 
 "Layouts" determine the available block positions and how they are displayed.
 
-## Block Positions
+## Blok Konumları
 Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions:
 * panel: full width across the top
 * sidebar: left/right depending on layout below
