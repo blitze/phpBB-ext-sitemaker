@@ -16,9 +16,9 @@ Kullanıcı Kontrol Paneli ve Moderatör Kontrol Paneli sayfaları dışında, �
 
 ## Blokları Düzenleme
 ### Bir Blok Simgesi Ekleme
-Blok başlığının (prosilver) solunda blok simgesi için bir kutu vardır. Click on this box to get the icon picker. You can select the icon size, color, float, rotation, etc.
+Blok başlığının (prosilver) solunda blok simgesi için bir kutu vardır. Simge seçiciyi almak için bu kutuya tıklayın. Simge boyutunu, rengini, kayan noktayı, dönüşü vb. seçebilirsiniz.
 
-### Editing the Block Title
+### Blok Başlığını Düzenleme
 phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title,
 * Click on the block title to get an inline edit form
 * Change the title to whatever you want
