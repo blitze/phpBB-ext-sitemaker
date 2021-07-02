@@ -57,6 +57,6 @@ For the below commands you can use npm or [yarn](https://yarnpkg.com)
 
 You can now copy the generated files from phpBB/ext/blitze/sitemaker/styles/my-style and uploaded them to your production server.
 
-> This extension uses jQuery UI for tabs, dialogs and buttons. The default jQuery theme is 'smoothness.' You can use a different jQuery UI theme that best fits your theme. You can specify the jQuery UI theme using the flag --jq_ui_theme. For example:
+> This extension uses jQuery UI for tabs, dialogs and buttons. The default jQuery theme is 'smoothness.' You can use a different jQuery UI theme that best fits your theme. You can specify the jQuery UI theme using the flag --jq_ui_theme. Örneğin:
 
     yarn build --theme my-style --jq_ui_theme ui-lightness
