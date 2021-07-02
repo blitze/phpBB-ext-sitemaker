@@ -36,7 +36,7 @@ When you hover over a block, a cog icon will appear to the right of the block th
     - **Alt rotalarda gizle**: Bu bloğu yalnızca üst rotada göster
     - **Yalnızca alt rotalarda göster**: Bu bloğu yalnızca bir alt rotada göster
 - Bloğunu hangi kullanıcı gruplarının görüntüleyebileceğini seçin [Görüntülenebilir]. Birden çok grup seçmek için CTRL + tıklama tuşlarını kullanın.
-- Set custom classes to modify the appearance of the block or items (lists, images, background, etc) within the block [CSS Class]
+- Blok veya blok içindeki öğelerin (listeler, resimler, arka plan, vb.) görünümünü değiştirmek için özel sınıflar ayarlayın [CSS Sınıfı]
 - Show/hide the block title [Hide block title?]
 - Select the block view [Block view]. You can select a default block view when new blocks are added in ACP.
     - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container
