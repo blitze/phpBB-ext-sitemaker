@@ -19,14 +19,14 @@ Kullanıcı Kontrol Paneli ve Moderatör Kontrol Paneli sayfaları dışında, �
 Blok başlığının (prosilver) solunda blok simgesi için bir kutu vardır. Simge seçiciyi almak için bu kutuya tıklayın. Simge boyutunu, rengini, kayan noktayı, dönüşü vb. seçebilirsiniz.
 
 ### Blok Başlığını Düzenleme
-phpBB SiteMaker blocks will have a default, translated title but if the title does not meet your needs, you can change it. To edit the block title,
-* Click on the block title to get an inline edit form
-* Change the title to whatever you want
-* Remove focus from the field or hit enter to submit changes
+phpBB SiteMaker bloklarının varsayılan, çevrilmiş bir başlığı olacaktır, ancak başlık ihtiyaçlarınızı karşılamıyorsa değiştirebilirsiniz. Blok başlığını düzenlemek için,
+* Satır içi düzenleme formu almak için blok başlığına tıklayın
+* Başlığı istediğiniz gibi değiştirin
+* Odağı alandan kaldırın veya değişiklikleri göndermek için enter tuşuna basın
 
 > Değiştirilen blok başlığınız tercüme edilmedi
 
-> To revert to the default title, simple delete the title and hit enter
+> Varsayılan başlığa dönmek için başlığı silin ve enter tuşuna basın
 
 ### Editing block settings
 When you hover over a block, a cog icon will appear to the right of the block that can be used to edit the block. In the edit block dialog, you can:
