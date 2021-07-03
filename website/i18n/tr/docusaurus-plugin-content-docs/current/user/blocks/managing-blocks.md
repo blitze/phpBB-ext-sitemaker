@@ -42,7 +42,7 @@ Bir bloğun üzerine geldiğinizde, bloğu düzenlemek için kullanılabilecek b
     - **Varsayılan / Basit**: bloğu dolgulu bir kapta sarmak için prosilver panel sınıfını kullanır
     - **Temel**: bloğu saran herhangi bir kapsayıcı yok
     - **Kutulu**: bloğu bir kutuya sarmak için prosilver forabg sınıfını kullanır
-- Set / Update block specific settings
+- Bloka özel ayarları Ayarla / Güncelle
 - Birden fazla sayfada aynı ayarlara sahip aynı bloğa sahipseniz, **Blokları benzer ayarlarla güncelle** seçeneğini işaretleyerek hepsini bir kerede güncelleyebilirsiniz
 
 ## Blokları Silme
