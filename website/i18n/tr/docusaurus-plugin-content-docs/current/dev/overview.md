@@ -1,11 +1,11 @@
 ---
-title: Extending phpBB SiteMaker
+title: phpBB SiteMaker'ı genişletme
 sidebar_position: 1
 ---
 
-You can extend/modify phpBB SiteMaker using [service replacement](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [service decoration](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration), and [phpBB's event system](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html). You can find a list of supported events [here](./events.md).
+phpBB SiteMaker'ı [servis değiştirme](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [servis dekorasyonu](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration) ve [phpBB'nin etkinlik sistemi](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html)ni kullanarak genişletebilir/değiştirebilirsiniz. Desteklenen etkinliklerin listesini [burada](./events.md) bulabilirsiniz.
 
-## Creating a SiteMaker block
+## Bir SiteMaker bloğu oluşturmak
 
 A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
 
@@ -37,7 +37,7 @@ class my_block extends block
 Then in your config.yml file, add the following:
 
 ```yml
-services:
+servisler:
 
     ...
 
