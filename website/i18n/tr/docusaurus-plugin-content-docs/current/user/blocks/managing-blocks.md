@@ -29,9 +29,9 @@ phpBB SiteMaker bloklarının varsayılan, çevrilmiş bir başlığı olacaktı
 > Varsayılan başlığa dönmek için başlığı silin ve enter tuşuna basın
 
 ### Blok ayarlarını düzenlemek
-Bir bloğun üzerine geldiğinizde, bloğu düzenlemek için kullanılabilecek bloğun sağında bir dişli simgesi görünecektir. In the edit block dialog, you can:
+Bir bloğun üzerine geldiğinizde, bloğu düzenlemek için kullanılabilecek bloğun sağında bir dişli simgesi görünecektir. Blok düzenleme iletişim kutusunda şunları yapabilirsiniz:
 - Bir bloğu etkinleştir/devre dışı bırak [Status]
-- Bloğun ne zaman görüntüleneceğini/gösterilmeyeceğini seçin [Display]. This only applies in cases where you have nested pages (see [Understanding Block Inheritance](/docs/user/site/block-inheritance)):
+- Bloğun ne zaman görüntüleneceğini/gösterilmeyeceğini seçin [Display]. Bu, yalnızca iç içe sayfalarınız olduğunda geçerlidir (bkz. [Blok Devralmasını Anlama](/docs/user/site/block-inheritance)):
     - **Her zaman**: Bloğu her zaman göster
     - **Alt rotalarda gizle**: Bu bloğu yalnızca üst rotada göster
     - **Yalnızca alt rotalarda göster**: Bu bloğu yalnızca bir alt rotada göster
@@ -39,9 +39,9 @@ Bir bloğun üzerine geldiğinizde, bloğu düzenlemek için kullanılabilecek b
 - Blok veya blok içindeki öğelerin (listeler, resimler, arka plan, vb.) görünümünü değiştirmek için özel sınıflar ayarlayın [CSS Sınıfı]
 - Blok başlığını göster/gizle [Blok başlığını gizle?]
 - Blok görünümünü seçin [Blok görünümü]. YKP'de yeni bloklar eklendiğinde varsayılan bir blok görünümü seçebilirsiniz.
-    - **Default / Simple**: uses the prosilver panel class to wrap the block in a padded container
-    - **Basic**: block does not have any container wrapping it
-    - **Boxed**: uses the prosilver forabg class to wrap the block in a box
+    - **Varsayılan / Basit**: bloğu dolgulu bir kapta sarmak için prosilver panel sınıfını kullanır
+    - **Temel**: bloğu saran herhangi bir kapsayıcı yok
+    - **Kutulu**: bloğu bir kutuya sarmak için prosilver forabg sınıfını kullanır
 - Set / Update block specific settings
 - Birden fazla sayfada aynı ayarlara sahip aynı bloğa sahipseniz, **Blokları benzer ayarlarla güncelle** seçeneğini işaretleyerek hepsini bir kerede güncelleyebilirsiniz
 
