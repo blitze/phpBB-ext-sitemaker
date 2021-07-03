@@ -49,19 +49,19 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 -   Konum: /phpBB/ext/blitze/sitemaker/adm/style/acp_settings.html
 -   Şu sürümden beri: 3.1.0
--   Purpose: Add form fields for sitemaker settings
+-   Amaç: Site oluşturucu ayarları için form alanları ekleyin
 
 ### blitze_sitemaker_admin_bar_append
 
 -   Konum: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
 -   Şu sürümden beri: 3.1.0
--   Purpose: Add menu items to admin bar
+-   Amaç: Yönetici çubuğuna menü öğeleri eklemek
 
 ### blitze_sitemaker_admin_bar_templates
 
--   Location: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
+-   Konum: /phpBB/ext/blitze/sitemaker/styles/all/template/admin_bar.html
 -   Şu sürümden beri: 3.1.0
--   Purpose: Add template files to be used in JS for block views, etc
+-   Amaç: JS'de blok görünümler vb. için kullanılacak şablon dosyaları ekleyin
 
 ## Javascript Olayları
 
@@ -69,52 +69,52 @@ phpBB'nin olay sistemini kullanarak phpBB SiteMaker'ın davranışını düzenle
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/AdminBar/SaveLayout/index.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something when layout changes are saved
+-   Amaç: Düzen değişiklikleri kaydedildiğinde diğer uzantıların bir şeyler yapmasına izin veren olay
 
 ### blitze_sitemaker_render_block_before
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something before block is rendered or prevent it from being re-rendered
+-   Amaç: Blok oluşturulmadan önce diğer uzantıların bir şeyler yapmasına izin veren veya yeniden oluşturulmasını engelleyen olay
 
 ### blitze_sitemaker_render_block_after
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlockRenderer/index.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something after block is rendered
+-   Amaç: Blok oluşturulduktan sonra diğer uzantıların bir şeyler yapmasına izin verme olayı
 
 ### blitze_sitemaker_save_block_before
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/BlocksManager/Edit/index.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to modify block data before it is saved
+-   Amaç: Diğer uzantıların kaydedilmeden önce blok verilerini değiştirmesine izin veren olay
 
 ### blitze_sitemaker_show_all_block_positions
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something when all block positions are shown
+-   Amaç: Tüm blok pozisyonları gösterildiğinde diğer uzantıların bir şeyler yapmasına izin veren olay
 
 ### blitze_sitemaker_hide_empty_block_positions
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something when empty positions are hidden
+-   Amaç: Boş pozisyonlar gizlendiğinde diğer uzantıların bir şeyler yapmasına izin veren olay
 
 ### blitze_sitemaker_layout_cleared
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something when layout is cleared
+-   Amaç: Düzen temizlendiğinde diğer uzantıların bir şeyler yapmasına izin veren olay
 
 ### blitze_sitemaker_layout_updated
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/Positions/Positions.js
 -   Şu sürümden beri: 3.1.2
--   Purpose: Event to allow other extensions to do something when layout is updated
+-   Amaç: Düzen güncellendiğinde diğer uzantıların bir şeyler yapmasına izin veren olay
 
 ### blitze_sitemaker_tinymce_options
 
 -   Konum: /phpBB/ext/blitze/sitemaker/develop/components/CustomBlock/index.js
 -   Şu sürümden beri: 3.3.0
--   Purpose: Event to allow other extensions to modify tinymce options
+-   Amaç: Diğer uzantıların tinymce seçeneklerini değiştirmesine izin vermek için olay
