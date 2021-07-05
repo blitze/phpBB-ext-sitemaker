@@ -7,9 +7,9 @@ phpBB SiteMaker'ı [servis değiştirme](https://area51.phpbb.com/docs/dev/3.2.x
 
 ## Bir SiteMaker bloğu oluşturmak
 
-A phpBB SiteMaker block is simply a class that extends the blitze\sitemaker\services\blocks\driver\block class and returns an array from the "display" method with a 'title' and 'content'. Everything else inbetween is up to you. To make your block discoverable by phpBB SiteMaker, you'll need to give it the "sitemaker.block" tag.
+Bir phpBB SiteMaker bloğu, basitçe, blitze\sitemaker\services\blocks\driver\block sınıfını genişleten ve "görüntüleme" yönteminden bir "başlık" ve "içerik" içeren bir dizi döndüren bir sınıftır. Aradaki diğer her şey size kalmış. Bloğunuzu phpBB SiteMaker tarafından keşfedilebilir kılmak için, ona "sitemaker.block" etiketini vermeniz gerekir.
 
-Say we have an extension with vendor/extension as my/example. To create a block called "my_block" for phpBB SiteMaker:
+Benim/ornek olarak vendor/extension ile bir uzantımız olduğunu varsayalım. phpBB SiteMaker için "my_block" adlı bir blok oluşturmak için:
 
 -   Create a "blocks" folder
 -   Create my_block.php file in the blocks folder with the following content
