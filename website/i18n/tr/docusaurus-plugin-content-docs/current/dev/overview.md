@@ -11,7 +11,7 @@ Bir phpBB SiteMaker bloğu, basitçe, blitze\sitemaker\services\blocks\driver\bl
 
 Benim/ornek olarak vendor/extension ile bir uzantımız olduğunu varsayalım. phpBB SiteMaker için "my_block" adlı bir blok oluşturmak için:
 
--   Create a "blocks" folder
+-   Bir "bloklar" klasörü oluşturun
 -   Create my_block.php file in the blocks folder with the following content
 
 ```php
@@ -34,7 +34,7 @@ class my_block extends block
 }
 ```
 
-Then in your config.yml file, add the following:
+Ardından config.yml dosyanıza aşağıdakileri ekleyin:
 
 ```yml
 servisler:
@@ -52,7 +52,7 @@ servisler:
 
 ```
 
-At a bare minimum, that's all you need. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. But this block doesn't do anything exciting. It has no settings and does not translate the block name. Let's make it more interesting.
+En azından, ihtiyacınız olan tek şey bu. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. Ama bu blok heyecan verici bir şey yapmıyor. Hiçbir ayarı yoktur ve blok adını tercüme etmez. Daha ilginç hale getirelim.
 
 ### Blok Ayarları
 
@@ -80,7 +80,7 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
     }
 ```
 
-This is constructed the same way that phpBB builds the configuration for board settings in ACP. Daha fazla örneği [burada](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) görebilirsiniz.
+Bu, phpBB'nin YKP'ndeki pano ayarları için yapılandırmayı oluşturmasıyla aynı şekilde oluşturulmuştur. Daha fazla örneği [burada](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) görebilirsiniz.
 
 If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
 
@@ -92,7 +92,7 @@ The convention for block names is that the service name (e.g my.example.block.my
 
 ### Tercüme
 
-Also notice that we have several language keys that need to be translated. Bunu yapmak için dil klasörünüzde "blocks_admin.php" adlı bir dosya oluşturun. Bu dosya, blokları düzenlerken otomatik olarak yüklenecektir ve blok ayarlarınız ve blok adlarınız için çevirileri olmalıdır.
+Ayrıca çevrilmesi gereken birkaç dil anahtarımız olduğuna dikkat edin. Bunu yapmak için dil klasörünüzde "blocks_admin.php" adlı bir dosya oluşturun. Bu dosya, blokları düzenlerken otomatik olarak yüklenecektir ve blok ayarlarınız ve blok adlarınız için çevirileri olmalıdır.
 
 ```
 $lang = array_merge($lang, array(
@@ -160,7 +160,7 @@ In summary, your block must return an array with a `title` key (for the block ti
 
 ### Block Assets
 
-If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Since there can be more than one instance of the same block on the page, or other blocks might be adding the same asset, the util class ensures that the asset is only added ones.
+If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Sayfada aynı bloğun birden fazla örneği olabileceğinden veya başka bloklar aynı yapıyı ekliyor olabileceğinden util sınıfı, varlığın yalnızca eklenenler olmasını sağlar.
 
 ```php
         $this->util->add_assets(array(
