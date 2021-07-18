@@ -104,7 +104,7 @@ $lang = array_merge($lang, array(
 );
 ```
 
-Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
+'blocks_admin.php' yalnızca blokları düzenlerken yüklendiğinden, görüntüleme yönteminize bir dil dosyası yükleyerek başka çeviriler (ör. blok başlığı) eklemeniz gerekecek `$language->add_lang('my_lang_file', 'my/example');`
 
 ### Blok oluşturma
 
@@ -153,12 +153,12 @@ Yeni blok yalnızca bir şey oluşturuyorsa görüntülenecektir. Bloğunuz herh
 Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
 
 ```
-<p>You selected: {{ some_var }}</p>
+<p>Şunu seçtiniz: {{ some_var }}</p>
 ```
 
 In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
 
-### Block Assets
+### Blok Varlıkları
 
 If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Sayfada aynı bloğun birden fazla örneği olabileceğinden veya başka bloklar aynı yapıyı ekliyor olabileceğinden util sınıfı, varlığın yalnızca eklenenler olmasını sağlar.
 
@@ -176,4 +176,4 @@ If your block needs to add assets (css/js) to the page, I recommend using the si
 
 The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
 
-And that's it. We're done!
+Ve bu kadar. Yaptık!
