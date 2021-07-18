@@ -88,7 +88,7 @@ Not 'legend1' ve 'legend2': Bunlar ayarları sekmelere ayırmak için kullanıl�
 
 ### Blokları İsimlendirmek
 
-The convention for block names is that the service name (e.g my.example.block.my*block above) will be used as the language key by replacing the dots (.) with underscore (*) (e.g MY_EXAMPLE_BLOCK_MY_BLOCK).
+Blok adları için kural, hizmet adının (örn. my.example.block.my*yukarıdaki blok), noktaların (.) alt çizgi (*) ile değiştirilmesiyle dil anahtarı olarak kullanılmasıdır. (örn. MY_EXAMPLE_BLOCK_MY_BLOCK).
 
 ### Tercüme
 
@@ -106,9 +106,9 @@ $lang = array_merge($lang, array(
 
 Because 'blocks_admin.php' is only loaded when editing blocks, you will need to add other translations (e.g. block title) by loading a language file in your display method like so `$language->add_lang('my_lang_file', 'my/example');`
 
-### Rendering the block
+### Blok oluşturma
 
-The new block will only be displayed if it is rendering something. Your block can return any string as content but in most cases, you need a template to render your content. Şablonları kullanarak bloğunuzu oluşturmak için, bloğun şablona iletmek istediğiniz verileri tutan bir dizi döndürmesi ve ayrıca aşağıda gösterildiği gibi `get_template` yöntemini uygulaması gerekir:
+Yeni blok yalnızca bir şey oluşturuyorsa görüntülenecektir. Bloğunuz herhangi bir dizeyi içerik olarak döndürebilir, ancak çoğu durumda içeriğinizi oluşturmak için bir şablona ihtiyacınız vardır. Şablonları kullanarak bloğunuzu oluşturmak için, bloğun şablona iletmek istediğiniz verileri tutan bir dizi döndürmesi ve ayrıca aşağıda gösterildiği gibi `get_template` yöntemini uygulaması gerekir:
 
 ```php
     /**
