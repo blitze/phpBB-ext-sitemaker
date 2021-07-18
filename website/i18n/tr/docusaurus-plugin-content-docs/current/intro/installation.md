@@ -9,8 +9,8 @@ Eklentiyi [buradan](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker
 * Onu çıkarın ve phpBB/ext/ klasörünüze yükleyin, böylece phpBB/ext/blitze/sitemaker'a sahip olursunuz
 * "YKP"ye git > "Düzenle" > "Uzantılar" ve "phpBB Sitemaker" uzantısını etkinleştir.
 
-## Upgrading phpBB SiteMaker
-* Create a backup of your database just in case something goes wrong
+## phpBB SiteMaker'ı yükseltmek
+* Bir şeyler ters giderse diye veritabanınızın yedeğini oluşturun
 * Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
 * Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
 * Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
