@@ -11,6 +11,6 @@ Eklentiyi [buradan](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker
 
 ## phpBB SiteMaker'ı yükseltmek
 * Bir şeyler ters giderse diye veritabanınızın yedeğini oluşturun
-* Go to "ACP" > "Customise" > "Extensions" and disable (do not purge) "phpBB Sitemaker"
+* "YKP"ye git > "Düzenle" > "Uzantılar" ve "phpBB Sitemaker"ı devre dışı bırak (temizleme)
 * Download and extract the latest version of phpBB SiteMaker and upload it to your phpBB/ext/ folder (overwrite)
 * Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
