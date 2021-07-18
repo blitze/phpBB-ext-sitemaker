@@ -12,7 +12,7 @@ Bir phpBB SiteMaker bloğu, basitçe, blitze\sitemaker\services\blocks\driver\bl
 Benim/ornek olarak vendor/extension ile bir uzantımız olduğunu varsayalım. phpBB SiteMaker için "my_block" adlı bir blok oluşturmak için:
 
 -   Bir "bloklar" klasörü oluşturun
--   Create my_block.php file in the blocks folder with the following content
+-   Aşağıdaki içerikle bloklar klasöründe my_block.php dosyasını oluşturun
 
 ```php
 namespace my\example\blocks;
