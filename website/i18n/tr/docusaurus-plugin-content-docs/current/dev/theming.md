@@ -3,9 +3,9 @@ title: Theming
 sidebar_position: 3
 ---
 
-We understand that the template files and the JS/CSS files will not work for every style, so below are some ways you can use your own templates and create JS/CSS files for your particular style.
+Şablon dosyalarının ve JS/CSS dosyalarının her stil için çalışmayacağını anlıyoruz, bu nedenle aşağıda kendi şablonlarınızı kullanmanın ve kendi stiliniz için JS/CSS dosyaları oluşturmanın bazı yolları verilmiştir.
 
-## Using your own template
+## Kendi şablonunuzu kullanmak
 
 If the default templates that come with phpBB Sitemaker don't work well for your particular style, you can easily overwrite it to use your own template file by creating the corresponding file in your styles's folder.
 
