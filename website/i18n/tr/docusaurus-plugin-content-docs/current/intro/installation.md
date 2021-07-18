@@ -1,12 +1,12 @@
 ---
-title: "Installing / Upgrading"
+title: "Yükleme / Yükseltme"
 sidebar_position: 2
 ---
 
 Eklentiyi [buradan](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/) indirin
 
 ## phpBB SiteMaker'ı yüklemek
-* Extract and upload it to your phpBB/ext/ folder so you have phpBB/ext/blitze/sitemaker
+* Onu çıkarın ve phpBB/ext/ klasörünüze yükleyin, böylece phpBB/ext/blitze/sitemaker'a sahip olursunuz
 * Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Sitemaker" extension.
 
 ## Upgrading phpBB SiteMaker
