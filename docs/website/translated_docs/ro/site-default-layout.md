@@ -1,0 +1,10 @@
+---
+id: site-default-layout
+title: Setarea unui Layout implicit
+---
+
+Atunci când adăugați un bloc, acesta este adăugat la acea pagină specifică. Prin urmare, ar fi o sarcină obositoare să setezi blocuri pentru toate paginile de pe site-ul tău. Puteți seta toate blocurile dorite pentru o anumită pagină, apoi setați acea pagină ca aspect implicit. În alte cuvinte, orice pagină care nu are propriile blocuri, va moșteni blocuri de pe această pagină.
+
+Pentru a seta un aspect implicit * Mergeți la pagina pe care doriți să o setați ca aspect implicit * Faceți clic pe `Setări` în bara de administrare * Faceți clic pe butonul `Set ca aspect implicit`
+
+Spune că am adăugat blocuri unei pagini (phpBB/index.php) cu blocuri în bara laterală și pozițiile de sus, de exemplu, și am setat-o ca aspect implicit. Acesta are următoarele efecte pentru alte pagini: * Orice pagină care nu are propriile blocuri, va moșteni blocurile din layout-ul implicit. Vezi [Înțelegerea moștenirii blocului](./blocks-inheritance.md) pentru excepții. * Încă puteți moșteni blocuri de la un aspect implicit (index). hp) dar alege să nu afișeze blocuri pe unele poziții din bloc sau să nu afișeze niciun bloc. În acest scop, * Mergeți la pagina pe care nu doriți să o afișați toate/unele blocuri * Faceți clic pe `Setări` în bara de administrare * Selectați `Nu afișați blocuri pe această pagină` dacă nu doriți să moșteniți/afișați niciun bloc pe această pagină SAU * Utilizați CTRL + faceți clic pentru a selecta pozițiile blocului (pe dreapta) pe care nu doriți să le afișați pe * În modul de editare ``, o pagină care moștenește blocuri din aspectul implicit, nu va afișa nici un bloc, dând posibilitatea de a adăuga blocuri la pagină dacă doriţi să * Orice pagină care are propriile blocuri nu va moşteni de la aspectul implicit

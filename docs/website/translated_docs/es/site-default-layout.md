@@ -1,0 +1,10 @@
+---
+id: sitio por defecto
+title: Establecer un diseño por defecto
+---
+
+Cuando añades un bloque, se añade a esa página específica. Por lo tanto, sería una tarea tediosa establecer bloques para todas las páginas de su sitio. Puede establecer todos los bloques deseados para una página en particular, y luego establecer esa página como el diseño predeterminado. En otras palabras, cualquier página que no tenga sus propios bloques, heredará bloques de esta página.
+
+Para establecer una disposición predeterminada * Ir a la página que te gustaría establecer como disposición predeterminada * Haga clic en `Configuración` en la barra de administración * Haga clic en el botón `Establecer como disposición predeterminada`
+
+Digamos que añadimos bloques a una página (phpBB/index.php) con bloques en la barra lateral y posiciones superiores, por ejemplo, y lo configuramos como nuestro diseño por defecto. Esto tiene los siguientes efectos para otras páginas: * Cualquier página que no tenga sus propios bloques, heredará los bloques del diseño predeterminado. Vea [Entendiendo Herencia de Bloques](./blocks-inheritance.md) para excepciones. * Aún puedes heredar bloques de un diseño por defecto (index.php) pero elegir no mostrar bloques en algunas posiciones de bloque o no mostrar ningún bloque en absoluto. Para hacer esto, * Ve a la página que no quieres que se muestren todos/algunos bloques * Haz clic en `Configuración` en la barra de administración * Selecciona `No mostrar bloques en esta página` si no quieres heredar/mostrar ningún bloque en esta página o * Usa CTRL + haz clic para seleccionar las posiciones del bloque (a la derecha) que no quieras mostrar en * En `modo de edición`, una página que hereda bloques del diseño por defecto, no mostrará ningún bloque, dándote la oportunidad de añadir bloques a la página si quieres * Cualquier página que tenga sus propios bloques no heredará del diseño predeterminado
