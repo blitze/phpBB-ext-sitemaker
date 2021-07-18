@@ -52,11 +52,11 @@ servisler:
 
 ```
 
-En azından, ihtiyacınız olan tek şey bu. If you go into edit mode, you should see the block listed as 'MY_EXAMPLE_BLOCK_MY_BLOCK' that can be dragged and dropped on any block position. Ama bu blok heyecan verici bir şey yapmıyor. Hiçbir ayarı yoktur ve blok adını tercüme etmez. Daha ilginç hale getirelim.
+En azından, ihtiyacınız olan tek şey bu. Düzenleme moduna girerseniz, herhangi bir blok pozisyonunda sürüklenip bırakılabilen 'MY_EXAMPLE_BLOCK_MY_BLOCK' olarak listelenen bloğu görmelisiniz. Ama bu blok heyecan verici bir şey yapmıyor. Hiçbir ayarı yoktur ve blok adını tercüme etmez. Daha ilginç hale getirelim.
 
 ### Blok Ayarları
 
-Let's modify our blocks/my_block.php file and add a "get_config" method th at returns an array with the keys being the block settings and the values being an array describing the settings like so:
+blocks/my_block.php dosyamızı değiştirelim ve bir dizi döndüren bir "get_config" yöntemi ekleyelim, anahtarlar blok ayarları ve değerler aşağıdaki gibi ayarları tanımlayan bir dizidir:
 
 ```php
     /**
@@ -82,9 +82,9 @@ Let's modify our blocks/my_block.php file and add a "get_config" method th at re
 
 Bu, phpBB'nin YKP'ndeki pano ayarları için yapılandırmayı oluşturmasıyla aynı şekilde oluşturulmuştur. Daha fazla örneği [burada](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) görebilirsiniz.
 
-If you want a custom field type, you can see an example [here](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) ('content_type' setting).
+Özel bir alan türü istiyorsanız, [burada](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) bir örnek görebilirsiniz. ('content_type' setting).
 
-Notice 'legend1' and 'legend2': These are used to separate the settings into tabs.
+Not 'legend1' ve 'legend2': Bunlar ayarları sekmelere ayırmak için kullanılır.
 
 ### Blokları İsimlendirmek
 
