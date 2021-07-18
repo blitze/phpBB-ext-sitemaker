@@ -118,9 +118,9 @@ $lang = array_merge($lang, array(
 	'LIMIT_POST_TIME'							=> 'Limit by Post time',
 	'LIMIT_POST_TIME_EXPLAIN'					=> 'If set, only topics posted within the specified period will be retrieved',
 
-	'MAX_DEPTH'									=> 'Maximum depth',
-	'MAX_ITEMS'									=> 'Maximum number of items',
-	'MAX_MEMBERS'								=> 'Max. Members',
+	'MAX_DEPTH'									=> 'En fazla derinlik',
+	'MAX_ITEMS'									=> 'En fazla öge sayısı',
+	'MAX_MEMBERS'								=> 'Maks. Üye',
 	'MAX_POSTS'									=> 'En fazla gönderi sayısı',
 	'MAX_TOPICS'								=> 'En fazla konu sayısı',
 	'MAX_WORDS'									=> 'En fazla sözcük sayısı',
