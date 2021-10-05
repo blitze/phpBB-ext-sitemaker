@@ -12,4 +12,4 @@ Mit diesem Block können Sie eine flache oder verschachtelte Liste von Menüeint
 Dieser Block ist für die Seitennavigation bestimmt. Es führt einige zusätzliche Berechnungen durch, um den aktuellen Standort zu bestimmen, und ist nicht als eine sehr große Liste gedacht.
 
 ## Navigationsleiste
-Ähnlich wie der Menü-Block zeigt die Navigationsleiste Menüeinträge als reaktives Dropdown-Menü für die Navigation der Site. You can enable this in ACP > Extensions > Sitemaker > Settings > Select menu
+Ähnlich wie der Menü-Block zeigt die Navigationsleiste Menüeinträge als reaktives Dropdown-Menü für die Navigation der Site. Aktivieren kannst du das in ACP > Erweiterungen > Sitemaker > Settings
