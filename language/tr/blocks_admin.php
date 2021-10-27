@@ -80,8 +80,8 @@ $lang = array_merge($lang, array(
 
 	'FEATURED_MEMBER_IDS'						=> 'Kullanıcı Kimlikleri (IDleri)',
 	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
-	'FEED_DATA_PREVIEW'							=> 'Feed Data',
-	'FEED_ITEM_TEMPLATE'						=> 'Item Template',
+	'FEED_DATA_PREVIEW'							=> 'Besleme Verisi',
+	'FEED_ITEM_TEMPLATE'						=> 'Öğe Şablonu',
 	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />
 		<ul class="sm-list">
 			<li>Access feed data in <strong>item</strong> variable e.g. item.title</li>
@@ -96,8 +96,8 @@ $lang = array_merge($lang, array(
 	'FIRST_POST_ONLY'							=> 'Sadece İlk Gönderi',
 	'FIRST_POST_TIME'							=> 'İlk Gönderi Zamanı',
 	'FORUMS_GET_TYPE'							=> 'Get type',
-	'FORUMS_MAX_TOPICS'							=> 'Maximum topics/posts',
-	'FORUMS_TITLE_MAX_CHARS'					=> 'Maximum characters per title',
+	'FORUMS_MAX_TOPICS'							=> 'En fazla konu/gönderi',
+	'FORUMS_TITLE_MAX_CHARS'					=> 'Her başlıktaki en fazla karakter',
 	'FREQUENCY'									=> 'Sıklık',
 	'FULL'										=> 'Tam',
 	'FULLSCREEN'								=> 'Tam Ekran',
@@ -113,9 +113,9 @@ $lang = array_merge($lang, array(
 	'LAST_POST_TIME'							=> 'Son Gönderi Zamanı',
 	'LAST_READ_TIME'							=> 'Son Okuma Zamanı',
 	'LIMIT'										=> 'Sınır',
-	'LIMIT_FORUMS'								=> 'Forum Ids (optional)',
+	'LIMIT_FORUMS'								=> 'Forum ID\'leri (opsiyonel)',
 	'LIMIT_FORUMS_EXPLAIN'						=> 'Enter each forum id separated by a comma (,). If set, only topics from specified forums will be displayed.',
-	'LIMIT_POST_TIME'							=> 'Limit by Post time',
+	'LIMIT_POST_TIME'							=> 'Gönderi zamanına göre sınırla',
 	'LIMIT_POST_TIME_EXPLAIN'					=> 'If set, only topics posted within the specified period will be retrieved',
 
 	'MAX_DEPTH'									=> 'En fazla derinlik',
@@ -181,7 +181,7 @@ $lang = array_merge($lang, array(
 	'TOPIC_TYPE'								=> 'Konu Türü',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Select the topic types you’d like to display. Leave the boxes unchecked to select from all topic types',
 	'TOPICS_LOOK_BACK'							=> 'Look back',
-	'TOPICS_ONLY'								=> 'Topics only?',
+	'TOPICS_ONLY'								=> 'Sadece Konular?',
 	'TOPICS_PER_PAGE'							=> 'Sayfa başına',
 
 	'WORD_MAX_SIZE'								=> 'En fazla yazı boyutu',
