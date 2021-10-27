@@ -7,7 +7,7 @@ sidebar_label: Pull Requests
 
 ## Forking/Cloning
 
-* Create a github account if you don't already have one
+* Henüz bir tane yoksa bir github hesabı oluşturun
 * Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
 
 Clone your fork of the repository:
