@@ -46,12 +46,12 @@
 		"core-js": "^3.0.1",
 		"gridlex": "^2.7.1",
 		"jquery-deserialize": "^2.0.0-rc1",
-		"jquery-ui": "^1.12.1",
+		"jquery-ui": "^1.13.0",
 		"jquery-ui-themes": "^1.12.0",
 		"jquery-ui-touch-punch": "^0.2.3",
 		"nestedSortable": "^1.3.4",
 		"spectrum-colorpicker2": "^2.0.5",
-		"tinymce": "^5.1.6",
+		"tinymce": "^5.9.0",
 		"twig": "^1.12.0"
 	},
 	"browserslist": [
