@@ -40,8 +40,8 @@ $lang = array_merge($lang, array(
 	'ACP_MENU'					=> 'Menü',
 	'ACP_MENU_MANAGE'			=> 'Menü Yönetimi',
 	'ACP_MENU_MANAGE_EXPLAIN'	=> 'Buradan siten için menüler oluşturabilir ve yönetebilirsin',
-	'ADD_BULK_MENU'				=> 'Bulk Add Menu Items',
-	'ADD_BULK_MENU_EXPLAIN'		=> 'Add multiple menu items at once.<br /> - Place each item on a separate line<br /> - Use the <strong>Tab</strong> key to indent items to represent parent-child relationships<br /> - Enter item and URL like so: Home|index.php',
+	'ADD_BULK_MENU'				=> 'Menü Öğelerini Toplu Ekle',
+	'ADD_BULK_MENU_EXPLAIN'		=> 'Bir kerede birden çok menü öğesi ekleyin.<br /> - Her öğeyi ayrı bir satıra yerleştirin<br /> - Üst-alt ilişkisini temsil edecek öğeleri girintilemek için <strong>Tab</strong> tuşunu kullanın<br /> - Girin öğe ve URL şöyle: Ana Sayfa|index.php',
 	'ADD_MENU'					=> 'Menü Ekle',
 	'ADD_MENU_ITEM'				=> 'Menü öğesi ekle',
 	'ADD_ITEM'					=> 'Yeni Öğe Ekle',
@@ -63,14 +63,14 @@ $lang = array_merge($lang, array(
 	'ITEM_INACTIVE'				=> 'İnaktif',
 	'ITEM_PARENT'				=> 'Üst',
 	'ITEM_TITLE'				=> 'Öğe Başlığı',
-	'ITEM_TITLE_EXPLAIN'		=> 'Set as ’-’ for divider',
+	'ITEM_TITLE_EXPLAIN'		=> 'Ayırıcı için \'-\' olarak ayarla',
 	'ITEM_TARGET'				=> 'Öğe Hedefi',
 	'ITEM_URL'					=> 'Öğe URL\'si',
-	'ITEM_URL_EXPLAIN'			=> '- Leave empty for headings<br />- External sites must begin with http(s)://, ftp://, //, etc',
+	'ITEM_URL_EXPLAIN'			=> '- Başlıklar için boş bırakın<br />- Harici siteler http(s)://, ftp://, // vb. ile başlamalıdır',
 
 	'MENU_ITEMS'				=> 'Menü Öğeleri',
 
-	'NO_MENU_ITEMS'				=> 'No menu items have been created',
+	'NO_MENU_ITEMS'				=> 'Hiçbir menü öğesi oluşturulmadı',
 	'NO_PARENT'					=> 'Üst yok',
 
 	'PROCESSING_ERROR'			=> 'İşleme hatası',
