@@ -39,11 +39,11 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'EXCEPTION_FIELD_MISSING'		=> 'Gerekli alan eksik',
 	'EXCEPTION_INVALID_ACTION'		=> 'Faliyet mevcut değil',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_INVALID_DATA_TYPE'	=> 'The provided value is of an unexpected data type',
-	'EXCEPTION_INVALID_ENTITY'		=> 'The provided entity is of an unexpected entity class',
+	'EXCEPTION_INVALID_ARGUMENT'	=> '"%1$s" için geçersiz bağımsız değişken belirtildi. Neden: %2$s',
+	'EXCEPTION_INVALID_DATA_TYPE'	=> 'Sağlanan değer, beklenmeyen bir veri türünde',
+	'EXCEPTION_INVALID_ENTITY'		=> 'Sağlanan varlık, beklenmeyen bir varlık sınıfına ait',
 	'EXCEPTION_INVALID_PROPERTY'	=> 'İstenilen özellik mevcut değil',
 	'EXCEPTION_OUT_OF_BOUNDS'		=> 'İstenilen `%1$s` mevcut değil',
 	'EXCEPTION_SERVICE_NOT_FOUND'	=> 'İstenilen servis mevcut değil',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The requested action `%1$s` could not be performed. Reason: %2$s',
+	'EXCEPTION_UNEXPECTED_VALUE'	=> 'İstenen `%1$s` eylemi gerçekleştirilemedi. Neden: %2$s',
 ));
