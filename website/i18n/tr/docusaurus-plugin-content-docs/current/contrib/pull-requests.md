@@ -8,13 +8,13 @@ sidebar_label: Pull Requests
 ## Forking/Cloning
 
 * Henüz bir tane yoksa bir github hesabı oluşturun
-* Go to https://github.com/blitze/phpBB-ext-sitemaker.git and click on "Fork"
+* https://github.com/blitze/phpBB-ext-sitemaker.git adresine gidin ve "Fork"a tıklayın
 
 Clone your fork of the repository:
 
     git clone git://github.com/<my_github_name>/phpBB-ext-sitemaker.git phpBB/ext/blitze/sitemaker
 
-From command line go to sitemaker directory:
+Komut satırından sitemaker dizinine gidin:
 
     cd phpBB/ext/blitze/sitemaker
 
