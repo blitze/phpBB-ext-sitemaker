@@ -39,11 +39,11 @@ $lang = array_merge($lang, [
 	'ACP_SM_SETTINGS'	=> 'Ayarlar',
 
 	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
-	'BLOCKS_CLEANUP_EXPLAIN'	=> 'The following items were found to no longer exist or unreachable, and you can therefore delete all blocks associated to them. Please keep in mind that some of these may be false positives',
-	'BLOCKS_CLEANUP_BLOCKS'		=> 'Invalid Blocks (e.g. from uninstalled extensions):',
-	'BLOCKS_CLEANUP_ROUTES'		=> 'Unreachable/broken Pages:',
-	'BLOCKS_CLEANUP_STYLES'		=> 'Uninstalled Styles (ids):',
-	'BLOCKS_CLEANUP_SUCCESS'	=> 'Blocks purged sucessfully',
+	'BLOCKS_CLEANUP_EXPLAIN'	=> 'Aşağıdaki öğelerin artık mevcut olmadığı veya erişilemediği bulundu ve bu nedenle bunlarla ilişkili tüm blokları silebilirsiniz. Lütfen bunlardan bazılarının yanlış pozitif olabileceğini unutmayın',
+	'BLOCKS_CLEANUP_BLOCKS'		=> 'Geçersiz Bloklar (ör. kaldırılan uzantılardan):',
+	'BLOCKS_CLEANUP_ROUTES'		=> 'Ulaşılamayan/bozuk Sayfalar:',
+	'BLOCKS_CLEANUP_STYLES'		=> 'Kaldırılan Stiller (id\'ler):',
+	'BLOCKS_CLEANUP_SUCCESS'	=> 'Bloklar başarıyla budandı',
 
 	'FORUM_INDEX_SETTINGS'			=> 'Forum Anasayfa Ayarları',
 	'FORUM_INDEX_SETTINGS_EXPLAIN'	=> 'Bu ayarlar yalnızca tanımlanmış bir başlangıç sayfası olmadığında geçerlidir',
