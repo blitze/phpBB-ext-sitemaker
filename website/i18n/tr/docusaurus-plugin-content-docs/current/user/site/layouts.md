@@ -3,17 +3,17 @@ title: Görünümler
 sidebar_position: 1
 ---
 
-"Layouts" determine the available block positions and how they are displayed.
+"Görünümler" mevcut blok konumlarını ve bunların nasıl görüntüleneceğini belirler.
 
 ## Blok Konumları
-Block positions are predefined areas on your site where blocks can exist. The available block positions are determined by the template style that you are using. For prosilver, phpBB SiteMaker comes with the following block positions:
-* panel: full width across the top
-* sidebar: left/right depending on layout below
+Blok konumları, sitenizde blokların bulunabileceği önceden tanımlanmış alanlardır. Kullanılabilir blok konumları, kullandığınız şablon stiline göre belirlenir. Prosilver için phpBB SiteMaker aşağıdaki blok konumlarıyla birlikte gelir:
+* panel: üst kısımda tam genişlik
+* kenar çubuğu: aşağıdaki düzene bağlı olarak sol/sağ
 * subcontent: similar to sidebar just larger
 * top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout
 * top: above main content
 * box: equal width, horizontal blocks below main content
-* bottom: below main content
+* alt: ana içeriğin altında
 * bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout
 * footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
 
