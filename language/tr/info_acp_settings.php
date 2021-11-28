@@ -38,7 +38,7 @@ $lang = array_merge($lang, [
 	'ACP_SITEMAKER'		=> 'SiteMaker',
 	'ACP_SM_SETTINGS'	=> 'Ayarlar',
 
-	'BLOCKS_CLEANUP'			=> 'Blocks Cleanup',
+	'BLOCKS_CLEANUP'			=> 'Blok Temizliği',
 	'BLOCKS_CLEANUP_EXPLAIN'	=> 'Aşağıdaki öğelerin artık mevcut olmadığı veya erişilemediği bulundu ve bu nedenle bunlarla ilişkili tüm blokları silebilirsiniz. Lütfen bunlardan bazılarının yanlış pozitif olabileceğini unutmayın',
 	'BLOCKS_CLEANUP_BLOCKS'		=> 'Geçersiz Bloklar (ör. kaldırılan uzantılardan):',
 	'BLOCKS_CLEANUP_ROUTES'		=> 'Ulaşılamayan/bozuk Sayfalar:',
@@ -60,15 +60,15 @@ $lang = array_merge($lang, [
 	'LAYOUT_PORTAL_ALT'	=> 'Portal (alt)',
 	'LAYOUT_SETTINGS'	=> 'Şablon Ayarları',
 
-	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> 'Sitemaker blocks deleted for missing style with id %s',
-	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Sitemaker blocks deleted for broken pages:<br />%s',
-	'LOG_DELETED_BLOCKS'			=> 'Invalid Sitemaker blocks deleted:<br />%s',
+	'LOG_DELETED_BLOCKS_FOR_STYLE'	=> '%s kimliğine sahip eksik stil nedeniyle Sitemaker blokları silindi',
+	'LOG_DELETED_BLOCKS_FOR_ROUTE'	=> 'Bozuk sayfalar için Sitemaker blokları silindi:<br />%s',
+	'LOG_DELETED_BLOCKS'			=> 'Geçersiz Sitemaker blokları silindi:<br />%s',
 
 	'NAVIGATION_SETTINGS'		=> 'Gezinme çubuğu Ayarları',
 
 	'SETTINGS_SAVED'			=> 'Ayarlarınız kaydedildi',
 	'SHOW'						=> 'Göster',
-	'SHOW_FORUM_NAV'			=> 'Show ’Forum’ in navigation bar?',
-	'SHOW_FORUM_NAV_EXPLAIN'	=> 'When a page is set as startpage instead of the forum index, should we display ’Forum’ in navigation bar',
+	'SHOW_FORUM_NAV'			=> 'Gezinme çubuğunda \'Forum\' gösterilsin mi?',
+	'SHOW_FORUM_NAV_EXPLAIN'	=> 'Bir sayfa forum dizini yerine başlangıç sayfası olarak ayarlandığında, gezinme çubuğunda \'Forum\'u görüntülemeli miyiz',
 	'SHOW_FORUM_NAV_WITH_ICON'	=> 'Evet - Simge ile:',
 ]);
