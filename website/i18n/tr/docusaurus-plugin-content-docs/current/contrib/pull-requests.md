@@ -36,7 +36,7 @@ Add the upstream remote (you can change ‘upstream’ to whatever you like):
 
     composer install
 
-**Install NPM packages**
+**NPM paketlerini kurun**
 
     npm install
 
