@@ -9,16 +9,16 @@ sidebar_position: 1
 Blok konumları, sitenizde blokların bulunabileceği önceden tanımlanmış alanlardır. Kullanılabilir blok konumları, kullandığınız şablon stiline göre belirlenir. Prosilver için phpBB SiteMaker aşağıdaki blok konumlarıyla birlikte gelir:
 * panel: üst kısımda tam genişlik
 * kenar çubuğu: aşağıdaki düzene bağlı olarak sol/sağ
-* subcontent: similar to sidebar just larger
-* top_hor: horizontal blocks across the top, flanking above sidebar/subcontent depending on layout
-* top: above main content
-* box: equal width, horizontal blocks below main content
-* alt: ana içeriğin altında
-* bottom_hor: horizontal blocks across the bottom, flanking the sidebar/subcontent depending on layout
-* footer: horizontal blocks in the footer You can add more block positions in your own style templates by copying and modifying the corresponding phpBB SiteMaker templates
+* subcontent: kenar çubuğuna benzer sadece daha büyük
+* top_hor: üstte yatay bloklar, yerleşime bağlı olarak kenar çubuğunun/alt içeriğin üzerinde yan yana
+* top: ana içeriğin üstünde
+* box: eşit genişlikte, ana içeriğin altında yatay bloklar
+* bottom: ana içeriğin altında
+* bottom_hor: düzene bağlı olarak kenar çubuğunu/alt içeriği çevreleyen alt kısımdaki yatay bloklar
+* footer: altbilgideki yatay bloklar İlgili phpBB SiteMaker şablonlarını kopyalayıp değiştirerek kendi stil şablonlarınıza daha fazla blok konumu ekleyebilirsiniz
 
 ## Site Düzeni
-You can choose the layout for your site in ACP (Extensions > Sitemaker > Settings):
+YKP'de sitenizin düzenini seçebilirsiniz (Uzantılar > Sitemaker > Ayarlar):
 * **Blog**: subcontent and sidebar next to each other, pushed to the right, top_hor/botom_hor flank subcontent
 * **Holy Grail**: equal width sidebar and subcontent on opposite sides, top_hor/botom_hor flank subcontent
 * **Portal**: sidebar on left, subcontent on the right, top_hor/botom_hor flank subcontent
