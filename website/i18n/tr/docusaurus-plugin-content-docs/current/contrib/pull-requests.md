@@ -40,7 +40,7 @@ Add the upstream remote (you can change ‘upstream’ to whatever you like):
 
     npm install
 
-Alternatively you may use [yarn](https://yarnpkg.com):
+Alternatif olarak [yarn](https://yarnpkg.com) kullanabilirsiniz:
 
     yarn install
 
