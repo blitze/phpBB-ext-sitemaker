@@ -1,0 +1,10 @@
+---
+id: mise en page par défaut
+title: Définir une mise en page par défaut
+---
+
+Lorsque vous ajoutez un bloc, il est ajouté à cette page spécifique. Il serait donc fastidieux de définir des blocs pour toutes les pages de votre site. Vous pouvez définir tous les blocs désirés pour une page particulière, puis définir cette page comme mise en page par défaut. En d'autres termes, toute page qui n'a pas ses propres blocs, héritera des blocs de cette page.
+
+Pour définir une mise en page par défaut * Aller à la page que vous souhaitez définir comme mise en page par défaut * Cliquez sur `Réglages` dans la barre d'administration * Cliquez sur le bouton `Définir comme mise en page par défaut`
+
+Say we add blocks to a page (phpBB/index.php) with blocks in the sidebar and top positions, par exemple, and set it as our default layout. Ceci a les effets suivants pour les autres pages : * Toute page qui n'a pas ses propres blocs, héritera des blocs de la disposition par défaut. Voir [Understanding Block Inheritance](./blocks-inheritance.md) pour les exceptions. * Vous pouvez toujours hériter des blocs d'une mise en page par défaut (index.php) mais choisissez de ne pas afficher de blocs sur certaines positions de blocs ou de ne pas afficher de blocs du tout. Pour ce faire, * Allez à la page que vous ne voulez pas que tous les blocs affichent * Cliquez sur `Paramètres` dans la barre d'administration * Sélectionnez `Ne pas afficher les blocs sur cette page` si vous ne voulez pas hériter/afficher de blocs sur cette page OU * Utilisez CTRL + cliquez pour sélectionner les positions de bloc (à droite) que vous ne voulez pas afficher de blocs sur * En `mode d'édition`, une page qui hérite des blocs de la disposition par défaut, ne montrera aucun bloc, vous donnant la possibilité d'ajouter des blocs à la page si vous voulez * Toute page qui a ses propres blocs n'héritera pas de la disposition par défaut

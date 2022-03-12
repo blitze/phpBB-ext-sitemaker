@@ -1,0 +1,101 @@
+{
+  "_comment": "Denne filen er automatisk generert av skrive-oversettelser.js",
+  "localized-strings": {
+    "next": "Neste",
+    "previous": "Forrige",
+    "tagline": "En portal/CMS for phpBB 3.2x",
+    "docs": {
+      "blocks-custom": {
+        "title": "Egendefinert blokk"
+      },
+      "blocks-inheritance": {
+        "title": "Forstå blokkarving"
+      },
+      "blocks-managing": {
+        "title": "Mananaging Blocks"
+      },
+      "blocks-overview": {
+        "title": "Hva er blokker?"
+      },
+      "blocks-views": {
+        "title": "Blokker Visninger"
+      },
+      "contrib-overview": {
+        "title": "Engasjer deg"
+      },
+      "contrib-pull-requests": {
+        "title": "Sender en trekkforespørsel",
+        "sidebar_label": "Rull Requests"
+      },
+      "contrib-translators": {
+        "title": "Oversettere"
+      },
+      "developer-events": {
+        "title": "phpBB SiteMaker Hendelser"
+      },
+      "developer-extensions": {
+        "title": "Utvide phpBB SiteMaker"
+      },
+      "developer-theming": {
+        "title": "Utseende"
+      },
+      "installation": {
+        "title": "Installerer / oppgradering"
+      },
+      "introduction": {
+        "title": "Introduksjon"
+      },
+      "menus-display": {
+        "title": "Viser menyer"
+      },
+      "menus-managing-items": {
+        "title": "Administrere menyelementer"
+      },
+      "menus-managing": {
+        "title": "Administrere menyer"
+      },
+      "site-block-modifiers": {
+        "title": "Tilpasse visning av blokker"
+      },
+      "site-default-layout": {
+        "title": "Angi en standard oppsett"
+      },
+      "site-layouts": {
+        "title": "Oppsett"
+      },
+      "site-navbar": {
+        "title": "Navigasjonsfelt (Automatic Translation)"
+      },
+      "site-startpage": {
+        "title": "Angi en startside"
+      }
+    },
+    "links": {
+      "Docs": "Dokumenter",
+      "Help": "Hjelp",
+      "Blog": "Blogg",
+      "Github": "Github"
+    },
+    "categories": {
+      "User Guide": "Bruker Guide",
+      "Developer Guide": "Utvikler Guide",
+      "Contribute": "Bidra"
+    }
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/docs/en/introduction.html)|no description given": "Lær mer ved hjelp av [dokumentasjon på dette nettstedet.](/docs/en/introduction.html)",
+    "Browse Docs|no description given": "Bla gjennom dokumenter",
+    "Ask questions about the documentation and project [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)|no description given": "Spør om dokumentasjonen og prosjektet [here](https://www.phpbbb.com/customise/db/extension/phpbb_sitemaker_2/support)",
+    "Join the community|no description given": "Bli med i samfunnet",
+    "Find out what's new with this project on our [blog](./blog)|no description given": "Finn ut hva som er nytt med dette prosjektet på vårt [blog](./blog)",
+    "Stay up to date|no description given": "Hold deg oppdatert",
+    "Need help?|no description given": "Trenger du hjelp?",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "Dette prosjektet vedlikeholdes av en dedikert gruppe med personer.",
+    "Try It Out|no description given": "Prøv det ut",
+    "Download It|no description given": "Last ned den",
+    "Docs|no description given": "Dokumenter",
+    "Help Translate|recruit community translators for your project": "Hjelp med oversetting",
+    "Edit this Doc|recruitment message asking to edit the doc source": "Rediger",
+    "Translate this Doc|recruitment message asking to translate the docs": "Oversett"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "_comment": "此文件被写入翻译自动生成.js",
+  "localized-strings": {
+    "next": "下一步",
+    "previous": "上一个",
+    "tagline": "用于 phpBB 3.2x 的门户/CMS",
+    "docs": {
+      "blocks-custom": {
+        "title": "自定义块"
+      },
+      "blocks-inheritance": {
+        "title": "理解方块继承"
+      },
+      "blocks-managing": {
+        "title": "管理块"
+      },
+      "blocks-overview": {
+        "title": "什么是模块？"
+      },
+      "blocks-views": {
+        "title": "阻止视图"
+      },
+      "contrib-overview": {
+        "title": "参与"
+      },
+      "contrib-pull-requests": {
+        "title": "提交拉取请求",
+        "sidebar_label": "拉取请求"
+      },
+      "contrib-translators": {
+        "title": "翻译者"
+      },
+      "developer-events": {
+        "title": "phpBB SiteMaker 事件"
+      },
+      "developer-extensions": {
+        "title": "扩展 phpBB 站点Maker"
+      },
+      "developer-theming": {
+        "title": "主题"
+      },
+      "installation": {
+        "title": "安装/升级"
+      },
+      "introduction": {
+        "title": "一. 导言"
+      },
+      "menus-display": {
+        "title": "显示菜单"
+      },
+      "menus-managing-items": {
+        "title": "管理菜单项"
+      },
+      "menus-managing": {
+        "title": "管理菜单"
+      },
+      "site-block-modifiers": {
+        "title": "自定义区块显示"
+      },
+      "site-default-layout": {
+        "title": "设置默认布局"
+      },
+      "site-layouts": {
+        "title": "布局"
+      },
+      "site-navbar": {
+        "title": "导航栏"
+      },
+      "site-startpage": {
+        "title": "设置起始页"
+      }
+    },
+    "links": {
+      "Docs": "文档",
+      "Help": "帮助",
+      "Blog": "博客",
+      "Github": "Github"
+    },
+    "categories": {
+      "User Guide": "用户指南",
+      "Developer Guide": "开发者指南",
+      "Contribute": "贡献"
+    }
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/docs/en/introduction.html)|no description given": "了解更多使用 [这个网站的文档.](/docs/en/introduction.html)",
+    "Browse Docs|no description given": "浏览文档",
+    "Ask questions about the documentation and project [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)|no description given": "询问有关文档和项目的问题 [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)",
+    "Join the community|no description given": "加入社区",
+    "Find out what's new with this project on our [blog](./blog)|no description given": "在我们的 [blog](./博客) 上找到这个项目的新内容",
+    "Stay up to date|no description given": "保持更新",
+    "Need help?|no description given": "需要帮助吗？",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "这个项目由一个专门的人群维持。",
+    "Try It Out|no description given": "试试看",
+    "Download It|no description given": "下载",
+    "Docs|no description given": "文档",
+    "Help Translate|recruit community translators for your project": "帮助翻译",
+    "Edit this Doc|recruitment message asking to edit the doc source": "编辑",
+    "Translate this Doc|recruitment message asking to translate the docs": "翻译"
+  }
+}

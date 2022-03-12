@@ -1,0 +1,101 @@
+{
+  "_comment": "Denna fil genereras automatiskt av write-translations.js",
+  "localized-strings": {
+    "next": "Nästa",
+    "previous": "Föregående",
+    "tagline": "En portal/CMS för phpBB 3,2x",
+    "docs": {
+      "blocks-custom": {
+        "title": "Anpassat block"
+      },
+      "blocks-inheritance": {
+        "title": "Förstå Block Arv"
+      },
+      "blocks-managing": {
+        "title": "Mananaging Blocks"
+      },
+      "blocks-overview": {
+        "title": "Vad är block?"
+      },
+      "blocks-views": {
+        "title": "Blockera visningar"
+      },
+      "contrib-overview": {
+        "title": "Engagera dig"
+      },
+      "contrib-pull-requests": {
+        "title": "Skicka in en Pull-förfrågan",
+        "sidebar_label": "Pull förfrågningar"
+      },
+      "contrib-translators": {
+        "title": "Översättare"
+      },
+      "developer-events": {
+        "title": "SiteMaker Evenemang för phpBB"
+      },
+      "developer-extensions": {
+        "title": "Utöka phpBB SiteMaker"
+      },
+      "developer-theming": {
+        "title": "Tema"
+      },
+      "installation": {
+        "title": "Installerar / uppgraderar"
+      },
+      "introduction": {
+        "title": "Introduktion"
+      },
+      "menus-display": {
+        "title": "Visar menyer"
+      },
+      "menus-managing-items": {
+        "title": "Hantera menyobjekt"
+      },
+      "menus-managing": {
+        "title": "Hantera menyer"
+      },
+      "site-block-modifiers": {
+        "title": "Anpassa Blocks Display"
+      },
+      "site-default-layout": {
+        "title": "Ställa in en standardlayout"
+      },
+      "site-layouts": {
+        "title": "Layouter"
+      },
+      "site-navbar": {
+        "title": "Navigeringsfält"
+      },
+      "site-startpage": {
+        "title": "Ställer in en startsida"
+      }
+    },
+    "links": {
+      "Docs": "Dokument",
+      "Help": "Hjälp",
+      "Blog": "Blogg",
+      "Github": "Github"
+    },
+    "categories": {
+      "User Guide": "Användarhandbok",
+      "Developer Guide": "Guide för utvecklare",
+      "Contribute": "Bidra"
+    }
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/docs/en/introduction.html)|no description given": "Läs mer genom att använda [dokumentationen på denna webbplats.](/docs/en/introduction.html)",
+    "Browse Docs|no description given": "Bläddra bland Dokument",
+    "Ask questions about the documentation and project [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)|no description given": "Ställ frågor om dokumentationen och projektet [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)",
+    "Join the community|no description given": "Gå med i communityn",
+    "Find out what's new with this project on our [blog](./blog)|no description given": "Ta reda på vad som är nytt med detta projekt på vår [blog](./blog)",
+    "Stay up to date|no description given": "Håll dig uppdaterad",
+    "Need help?|no description given": "Behöver du hjälp?",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "Detta projekt upprätthålls av en hängiven grupp människor.",
+    "Try It Out|no description given": "Prova det ut",
+    "Download It|no description given": "Ladda ner den",
+    "Docs|no description given": "Dokument",
+    "Help Translate|recruit community translators for your project": "Hjälp att översätta",
+    "Edit this Doc|recruitment message asking to edit the doc source": "Redigera",
+    "Translate this Doc|recruitment message asking to translate the docs": "Översätt"
+  }
+}

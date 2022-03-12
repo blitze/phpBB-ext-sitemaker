@@ -1,0 +1,10 @@
+---
+id: site-default-layout
+title: Standardlayout festlegen
+---
+
+Wenn Sie einen Block hinzufügen, wird er zu dieser speziellen Seite hinzugefügt. Es wäre daher eine mühsame Aufgabe, für alle Seiten auf Ihrer Website Blöcke zu setzen. Sie können alle gewünschten Blöcke für eine bestimmte Seite festlegen und diese Seite dann als Standardlayout festlegen. Mit anderen Worten, jede Seite, die keine eigenen Blöcke hat, wird Blöcke von dieser Seite erben.
+
+Um ein Standard-Layout zu setzen * Gehe zu der Seite, die du als Standard-Layout festlegen möchtest * Klicke auf `Einstellungen` in der Admin-Leiste * Klicke auf das `Set als Standard-Layout`
+
+Sag, wir fügen Blöcke zu einer Seite (phpBB/index.php) mit Blöcken in der Seitenleiste und Top-Positionen, zum Beispiel, und setzen Sie es als unser Standard-Layout. Dies hat die folgenden Effekte für andere Seiten: * Jede Seite, die keine eigenen Blöcke hat, erbt die Blöcke aus dem Standardlayout. Siehe [Verständnis der Blockvererbung](./blocks-inheritance.md) für Ausnahmen. * Sie können immer noch Blöcke von einem Standardlayout (index.php) erben, aber wählen Sie nicht Blöcke auf einigen Blockpositionen anzeigen oder gar keine Blöcke anzeigen. Dazu * Gehe zu der Seite, auf der du nicht möchtest, dass alle oder einige Blöcke angezeigt werden * Klicke auf `Einstellungen` in der Adminbar * Wähle `Blöcke auf dieser Seite nicht anzeigen` , wenn du keine Blöcke auf dieser Seite vererben/anzeigen möchtest oder * STRG verwenden + klicke um die Block-Positionen auszuwählen, die du nicht auf * Im `Bearbeiten-Modus`anzeigen möchtest eine Seite, die Blöcke vom Standardlayout ererbt, zeigt keine Blöcke an, gibt Ihnen die Möglichkeit, Blöcke zur Seite hinzuzufügen, wenn Sie möchten * Jede Seite, die eigene Blöcke hat, wird nicht vom Standardlayout erben

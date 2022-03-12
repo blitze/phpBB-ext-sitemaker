@@ -1,0 +1,101 @@
+{
+  "_comment": "Ce fichier est généré automatiquement par write-translations.js",
+  "localized-strings": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "tagline": "Un portail/CMS pour phpBB 3.2x",
+    "docs": {
+      "blocks-custom": {
+        "title": "Bloc personnalisé"
+      },
+      "blocks-inheritance": {
+        "title": "Comprendre l'héritage des blocs"
+      },
+      "blocks-managing": {
+        "title": "Gestion des Blocs"
+      },
+      "blocks-overview": {
+        "title": "Que sont les blocs ?"
+      },
+      "blocks-views": {
+        "title": "Vue de bloc"
+      },
+      "contrib-overview": {
+        "title": "Impliquez-vous"
+      },
+      "contrib-pull-requests": {
+        "title": "Soumettre une demande de Pull",
+        "sidebar_label": "Demandes de Pull"
+      },
+      "contrib-translators": {
+        "title": "Traducteurs"
+      },
+      "developer-events": {
+        "title": "Événements phpBB SiteMaker"
+      },
+      "developer-extensions": {
+        "title": "Extension du siteMaker phpBB"
+      },
+      "developer-theming": {
+        "title": "Thème"
+      },
+      "installation": {
+        "title": "Installation / Mise à jour"
+      },
+      "introduction": {
+        "title": "Introduction"
+      },
+      "menus-display": {
+        "title": "Affichage des menus"
+      },
+      "menus-managing-items": {
+        "title": "Gérer les éléments du menu"
+      },
+      "menus-managing": {
+        "title": "Gérer les menus"
+      },
+      "site-block-modifiers": {
+        "title": "Affichage des blocs personnalisés"
+      },
+      "site-default-layout": {
+        "title": "Définir une mise en page par défaut"
+      },
+      "site-layouts": {
+        "title": "Dispositions"
+      },
+      "site-navbar": {
+        "title": "Barre de navigation"
+      },
+      "site-startpage": {
+        "title": "Définir une page de début"
+      }
+    },
+    "links": {
+      "Docs": "Docs",
+      "Help": "Aide",
+      "Blog": "Blog",
+      "Github": "Github"
+    },
+    "categories": {
+      "User Guide": "Guide utilisateur",
+      "Developer Guide": "Guide développeur",
+      "Contribute": "Contribuer"
+    }
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/docs/en/introduction.html)|no description given": "En savoir plus en utilisant la [documentation sur ce site.](/docs/fr/introduction.html)",
+    "Browse Docs|no description given": "Parcourir les documents",
+    "Ask questions about the documentation and project [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)|no description given": "Posez des questions sur la documentation et le projet [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)",
+    "Join the community|no description given": "Rejoindre la communauté",
+    "Find out what's new with this project on our [blog](./blog)|no description given": "Découvrez les nouveautés de ce projet sur notre [blog](./blog)",
+    "Stay up to date|no description given": "Restez à jour",
+    "Need help?|no description given": "Besoin d'aide ?",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "Ce projet est maintenu par un groupe de personnes dévouées.",
+    "Try It Out|no description given": "Essayez-le",
+    "Download It|no description given": "Télécharger",
+    "Docs|no description given": "Docs",
+    "Help Translate|recruit community translators for your project": "Aider à traduire",
+    "Edit this Doc|recruitment message asking to edit the doc source": "Editer",
+    "Translate this Doc|recruitment message asking to translate the docs": "Traduire"
+  }
+}

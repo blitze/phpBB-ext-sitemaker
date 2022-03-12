@@ -1,0 +1,179 @@
+---
+title: phpBB SiteMaker'ı genişletme
+sidebar_position: 1
+---
+
+phpBB SiteMaker'ı [servis değiştirme](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-replacement), [servis dekorasyonu](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_advanced.html#using-service-decoration) ve [phpBB'nin etkinlik sistemi](https://area51.phpbb.com/docs/dev/3.2.x/extensions/tutorial_events.html)ni kullanarak genişletebilir/değiştirebilirsiniz. Desteklenen etkinliklerin listesini [burada](./events.md) bulabilirsiniz.
+
+## Bir SiteMaker bloğu oluşturmak
+
+Bir phpBB SiteMaker bloğu, basitçe, blitze\sitemaker\services\blocks\driver\block sınıfını genişleten ve "görüntüleme" yönteminden bir "başlık" ve "içerik" içeren bir dizi döndüren bir sınıftır. Aradaki diğer her şey size kalmış. Bloğunuzu phpBB SiteMaker tarafından keşfedilebilir kılmak için, ona "sitemaker.block" etiketini vermeniz gerekir.
+
+Benim/ornek olarak vendor/extension ile bir uzantımız olduğunu varsayalım. phpBB SiteMaker için "my_block" adlı bir blok oluşturmak için:
+
+-   Bir "bloklar" klasörü oluşturun
+-   Aşağıdaki içerikle bloklar klasöründe my_block.php dosyasını oluşturun
+
+```php
+namespace my\example\blocks;
+
+use blitze\sitemaker\services\blocks\driver\block;
+
+class my_block extends block
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function display(array $settings, $edit_mode = false)
+    {
+        return array(
+            'title'     => 'my block title',
+            'content'   => 'my block content',
+        );
+    }
+}
+```
+
+Ardından config.yml dosyanıza aşağıdakileri ekleyin:
+
+```yml
+servisler:
+
+    ...
+
+    my.example.block.my_block:
+        class: my\example\blocks\my_block
+        calls:
+            - [set_name, [my.example.block.my_block]]
+        tags:
+            - { name: sitemaker.block }
+
+    ....
+
+```
+
+En azından, ihtiyacınız olan tek şey bu. Düzenleme moduna girerseniz, herhangi bir blok pozisyonunda sürüklenip bırakılabilen 'MY_EXAMPLE_BLOCK_MY_BLOCK' olarak listelenen bloğu görmelisiniz. Ama bu blok heyecan verici bir şey yapmıyor. Hiçbir ayarı yoktur ve blok adını tercüme etmez. Daha ilginç hale getirelim.
+
+### Blok Ayarları
+
+blocks/my_block.php dosyamızı değiştirelim ve bir dizi döndüren bir "get_config" yöntemi ekleyelim, anahtarlar blok ayarları ve değerler aşağıdaki gibi ayarları tanımlayan bir dizidir:
+
+```php
+    /**
+     * @inheritdoc
+     */
+    public function get_config(array $settings)
+    {
+        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
+        return array(
+            'legend1'   => 'TAB1',
+            'checkbox'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+            'yes_no'    => array('lang' => 'SOME_LANG_VAR_2', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'radio'     => array('lang' => 'SOME_LANG_VAR_3', 'validate' => 'bool', 'type' => 'radio', 'options' => $options, 'explain' => false, 'default' => 'topic'),
+            'select'    => array('lang' => 'SOME_LANG_VAR_4', 'validate' => 'string', 'type' => 'select', 'options' => $options, 'default' => '', 'explain' => false),
+            'multi'     => array('lang' => 'SOME_LANG_VAR_5', 'validate' => 'string', 'type' => 'multi_select', 'options' => $options, 'default' => array(), 'explain' => false),
+            'legend2'   => 'TAB2',
+            'number'    => array('lang' => 'SOME_LANG_VAR_6', 'validate' => 'int:0:20', 'type' => 'number:0:20', 'maxlength' => 2, 'explain' => false, 'default' => 5),
+            'textarea'  => array('lang' => 'SOME_LANG_VAR_7', 'validate' => 'string', 'type' => 'textarea:3:40', 'maxlength' => 2, 'explain' => true, 'default' => ''),
+            'togglable' => array('lang' => 'SOME_TOGGLABLE_VAR', 'validate' => 'string', 'type' => 'select:1:0:toggle_key', 'options' => $options, 'default' => '', 'append' => '<div id="toggle_key-1">Yalnızca seçenek 1 seçildiğinde göster</div>'),
+        );
+    }
+```
+
+Bu, phpBB'nin YKP'ndeki pano ayarları için yapılandırmayı oluşturmasıyla aynı şekilde oluşturulmuştur. Daha fazla örneği [burada](https://github.com/phpbb/phpbb/blob/master/phpBB/includes/acp/acp_board.php) görebilirsiniz.
+
+Özel bir alan türü istiyorsanız, [burada](https://github.com/blitze/phpBB-ext-sitemaker_content/blob/develop/blocks/recent.php) bir örnek görebilirsiniz. ('content_type' setting).
+
+Not 'legend1' ve 'legend2': Bunlar ayarları sekmelere ayırmak için kullanılır.
+
+### Blokları İsimlendirmek
+
+Blok adları için kural, hizmet adının (örn. my.example.block.my*yukarıdaki blok), noktaların (.) alt çizgi (*) ile değiştirilmesiyle dil anahtarı olarak kullanılmasıdır. (örn. MY_EXAMPLE_BLOCK_MY_BLOCK).
+
+### Tercüme
+
+Ayrıca çevrilmesi gereken birkaç dil anahtarımız olduğuna dikkat edin. Bunu yapmak için dil klasörünüzde "blocks_admin.php" adlı bir dosya oluşturun. Bu dosya, blokları düzenlerken otomatik olarak yüklenecektir ve blok ayarlarınız ve blok adlarınız için çevirileri olmalıdır.
+
+```
+$lang = array_merge($lang, array(
+    'SOME_LANG_VAR'     => 'Seçenek 1',
+    'OTHER_LANG_VAR'    => 'Seçenek 2',
+    'SOME_LANG_VAR_1'   => 'Ayar 1',
+    ....
+    'MY_EXAMPLE_BLOCK_MY_BLOCK' => 'My Block',
+);
+```
+
+'blocks_admin.php' yalnızca blokları düzenlerken yüklendiğinden, görüntüleme yönteminize bir dil dosyası yükleyerek başka çeviriler (ör. blok başlığı) eklemeniz gerekecek `$language->add_lang('my_lang_file', 'my/example');`
+
+### Blok oluşturma
+
+Yeni blok yalnızca bir şey oluşturuyorsa görüntülenecektir. Bloğunuz herhangi bir dizeyi içerik olarak döndürebilir, ancak çoğu durumda içeriğinizi oluşturmak için bir şablona ihtiyacınız vardır. Şablonları kullanarak bloğunuzu oluşturmak için, bloğun şablona iletmek istediğiniz verileri tutan bir dizi döndürmesi ve ayrıca aşağıda gösterildiği gibi `get_template` yöntemini uygulaması gerekir:
+
+```php
+    /**
+     * @inheritdoc
+     */
+    public function get_config(array $settings)
+    {
+        $options = array(1 => 'SOME_LANG_VAR', 2 => 'OTHER_LANG_VAR');
+        return array(
+            'legend1'   => 'TAB1',
+            'some_setting'  => array('lang' => 'SOME_LANG_VAR_1', 'validate' => 'string', 'type' => 'checkbox', 'options' => $options, 'default' => array(), 'explain' => false),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get_template()
+    {
+        return '@my_example/my_block.html';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function display(array $data, $edit_mode = false)
+    {
+        if ($edit_mode)
+        {
+            // sadece düzenleme modunda bir şeyler yap
+        }
+
+        return array(
+            'title'     => 'MY_BLOCK_TITLE',
+            'data'      => array(
+                'some_var'  => $data['settings']['some_setting'],
+            ),
+        );
+    }
+```
+
+Then your styles/all/my_block.html or styles/prosilver/my_block.html file might look something like this:
+
+```
+<p>Şunu seçtiniz: {{ some_var }}</p>
+```
+
+In summary, your block must return an array with a `title` key (for the block title) and a `content` key (if the block just displays a string and does not use a template) or a `data` key (if the block uses a template, in which case, you will also need to implement the `get_template` method).
+
+### Blok Varlıkları
+
+If your block needs to add assets (css/js) to the page, I recommend using the sitemaker [util class](https://github.com/blitze/phpBB-ext-sitemaker/blob/develop/services/util.php) for that. Sayfada aynı bloğun birden fazla örneği olabileceğinden veya başka bloklar aynı yapıyı ekliyor olabileceğinden util sınıfı, varlığın yalnızca eklenenler olmasını sağlar.
+
+```php
+        $this->util->add_assets(array(
+            'js'    => array(
+                '@my_example/assets/some.js',
+                100 => '@my_example/assets/other.js',  // set priority
+            ),
+            'css'   => array(
+                '@my_example/assets/some.css',
+            )
+        ));
+```
+
+The util class will, of course, need to be added to your service definitions in config.yml like so: `- '@blitze.sitemaker.util'` and defined in your block's constructor `\blitze\sitemaker\services\util $util`.
+
+Ve bu kadar. Yaptık!

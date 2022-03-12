@@ -1,0 +1,10 @@
+---
+id: layout-predefinito-sito
+title: Impostazione Layout Predefinito
+---
+
+Quando aggiungi un blocco, viene aggiunto a quella pagina specifica. Sarebbe quindi noioso fissare blocchi per tutte le pagine del tuo sito. Puoi impostare tutti i blocchi desiderati per una pagina particolare, quindi impostare quella pagina come layout predefinito. In altre parole, qualsiasi pagina che non ha i propri blocchi, erediterà blocchi da questa pagina.
+
+Per impostare un layout predefinito * Vai alla pagina che vorresti impostare come layout predefinito * Clicca su `Impostazioni` nella barra di amministrazione * Clicca sul `impostato come layout predefinito`
+
+Dici che aggiungiamo blocchi a una pagina (phpBB/index.php) con blocchi nella barra laterale e posizioni top, ad esempio, e impostalo come nostro layout predefinito. Questo ha i seguenti effetti per altre pagine: * Qualsiasi pagina che non ha i propri blocchi, erediterà i blocchi dal layout predefinito. Vedi [Understanding Block Inheritance](./blocks-inheritance.md) per eccezioni. * Puoi ancora ereditare blocchi da un layout predefinito (index.php) ma scegliere di non visualizzare blocchi su alcune posizioni di blocco o di non visualizzare alcun blocco. Per fare questo, * Vai alla pagina che non vuoi che vengano visualizzati tutti/alcuni blocchi * Clicca su `Impostazioni` nella barra di amministrazione * Seleziona `Non mostrare blocchi in questa pagina` se non vuoi ereditare/visualizzare nessun blocco in questa pagina O * Usa CTRL + clicca per selezionare le posizioni del blocco (a destra) che non vuoi visualizzare blocchi su * In `modalità di modifica`, una pagina che eredita blocchi dal layout predefinito, non mostrerà alcun blocco, dandoti la possibilità di aggiungere blocchi alla pagina se vuoi * Qualsiasi pagina che ha i suoi blocchi non erediterà dal layout predefinito

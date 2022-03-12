@@ -1,0 +1,101 @@
+{
+  "_comment": "このファイルはwrite-translations.jsによって自動生成されます",
+  "localized-strings": {
+    "next": "次へ",
+    "previous": "前",
+    "tagline": "phpBB 3.2x用のポータル/CMS",
+    "docs": {
+      "blocks-custom": {
+        "title": "カスタムブロック"
+      },
+      "blocks-inheritance": {
+        "title": "ブロック継承を理解する"
+      },
+      "blocks-managing": {
+        "title": "ブロックの管理"
+      },
+      "blocks-overview": {
+        "title": "ブロックとは？"
+      },
+      "blocks-views": {
+        "title": "ブロックビュー"
+      },
+      "contrib-overview": {
+        "title": "参加する"
+      },
+      "contrib-pull-requests": {
+        "title": "プルリクエストを送信中",
+        "sidebar_label": "取得リクエスト"
+      },
+      "contrib-translators": {
+        "title": "翻訳"
+      },
+      "developer-events": {
+        "title": "phpBBサイトメーカーのイベント"
+      },
+      "developer-extensions": {
+        "title": "phpBBサイトメーカーを拡張"
+      },
+      "developer-theming": {
+        "title": "テーマ"
+      },
+      "installation": {
+        "title": "インストール/アップグレード"
+      },
+      "introduction": {
+        "title": "はじめに"
+      },
+      "menus-display": {
+        "title": "メニューを表示"
+      },
+      "menus-managing-items": {
+        "title": "メニューアイテムの管理"
+      },
+      "menus-managing": {
+        "title": "メニューの管理"
+      },
+      "site-block-modifiers": {
+        "title": "ブロックの表示をカスタマイズ"
+      },
+      "site-default-layout": {
+        "title": "デフォルトレイアウトの設定"
+      },
+      "site-layouts": {
+        "title": "レイアウト"
+      },
+      "site-navbar": {
+        "title": "ナビゲーションバー"
+      },
+      "site-startpage": {
+        "title": "スタートページの設定"
+      }
+    },
+    "links": {
+      "Docs": "ドキュメント",
+      "Help": "ヘルプ",
+      "Blog": "ブログ",
+      "Github": "Github"
+    },
+    "categories": {
+      "User Guide": "ユーザーガイド",
+      "Developer Guide": "開発者ガイド",
+      "Contribute": "貢献"
+    }
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/docs/en/introduction.html)|no description given": "format@@0(/docs/en/introduction.html) を使って詳細を見る",
+    "Browse Docs|no description given": "ドキュメントを参照",
+    "Ask questions about the documentation and project [here](https://www.phpbb.com/customise/db/extension/phpbb_sitemaker_2/support)|no description given": "ドキュメントとプロジェクトについて質問する [here](https://www.phpbb.com/customise/db/extension/phpb_sitemaker_2/support)",
+    "Join the community|no description given": "コミュニティに参加する",
+    "Find out what's new with this project on our [blog](./blog)|no description given": "このプロジェクトの最新情報は [blog](./blog) でご確認ください。",
+    "Stay up to date|no description given": "最新の状態にする",
+    "Need help?|no description given": "ヘルプが必要ですか？",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "このプロジェクトは、専用のグループによって維持されています。",
+    "Try It Out|no description given": "お試しください",
+    "Download It|no description given": "ダウンロードする",
+    "Docs|no description given": "ドキュメント",
+    "Help Translate|recruit community translators for your project": "翻訳に協力する",
+    "Edit this Doc|recruitment message asking to edit the doc source": "編集",
+    "Translate this Doc|recruitment message asking to translate the docs": "翻訳する"
+  }
+}
