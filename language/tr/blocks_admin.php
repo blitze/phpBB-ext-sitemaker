@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ME'									=> 'Lütfen beni düzenle',
 	'ENABLE_TOPIC_TRACKING'						=> 'Konu izlemeyi etkinleştir?',
-	'ENABLE_TOPIC_TRACKING_EXPLAIN'				=> 'If enabled, unread topics will be indicated but the block results will not be cached <strong>(Not recommended)</strong>',
+	'ENABLE_TOPIC_TRACKING_EXPLAIN'				=> 'Etkinleştirilirse, okunmamış konular belirtilir ancak engelleme sonuçları önbelleğe alınmaz <strong>(Önerilmez)</strong>',
 	'EXCLUDE_TOO_MANY_WORDS'					=> 'Hariç tutulacak çok sözcük girdiniz. Mümkün olan maksimum karakter sayısı 255\'tir, siz %s tane girdiniz.',
 	'EXCLUDE_WORDS'								=> 'Yok Sayılan Sözcükler',
 	'EXCLUDE_WORDS_EXPLAIN'						=> 'Kelime grafiğinden hariç tutmak istediğiniz kelimeleri virgülle (,) ayırarak listeleyin. Maksimum 255 karakter.',
@@ -79,7 +79,7 @@ $lang = array_merge($lang, array(
 	'EXTENSION_GROUP'							=> 'Eklenti Grubu',
 
 	'FEATURED_MEMBER_IDS'						=> 'Kullanıcı Kimlikleri (IDleri)',
-	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Comma separated list of users to feature (Only applies to Featured Member display mode)',
+	'FEATURED_MEMBER_IDS_EXPLAIN'				=> 'Öne çıkarılacak kullanıcıların virgülle ayrılmış listesi (Yalnızca Öne Çıkan Üye görüntüleme modu için geçerlidir)',
 	'FEED_DATA_PREVIEW'							=> 'Besleme Verisi',
 	'FEED_ITEM_TEMPLATE'						=> 'Öğe Şablonu',
 	'FEED_ITEM_TEMPLATE_EXPLAIN'				=> '<strong>TIPS:</strong><br />
@@ -102,10 +102,10 @@ $lang = array_merge($lang, array(
 	'FULL'										=> 'Tam',
 	'FULLSCREEN'								=> 'Tam Ekran',
 
-	'GET_TYPE'									=> 'Display Topic/Post?',
+	'GET_TYPE'									=> 'Konu/Gönderi Görüntülensin mi?',
 
 	'HTML'										=> 'HTML',
-	'HTML_EXPLAIN'								=> '<strong>Use this textarea to enter raw HTML content.</strong><br />Please note that any content posted here will override the custom block content and the visual block editor will not be available.',
+	'HTML_EXPLAIN'								=> '<strong>Ham HTML içeriği girmek için bu metin alanını kullanın.</strong><br />Burada yayınlanan herhangi bir içeriğin özel blok içeriğini geçersiz kılacağını ve görsel blok düzenleyicinin kullanılamayacağını lütfen unutmayın.',
 	'HOURS_SHORT'								=> 'sa',
 
 	'JS_SCRIPTS'								=> 'JS Scriptleri',
@@ -114,9 +114,9 @@ $lang = array_merge($lang, array(
 	'LAST_READ_TIME'							=> 'Son Okuma Zamanı',
 	'LIMIT'										=> 'Sınır',
 	'LIMIT_FORUMS'								=> 'Forum ID\'leri (opsiyonel)',
-	'LIMIT_FORUMS_EXPLAIN'						=> 'Enter each forum id separated by a comma (,). If set, only topics from specified forums will be displayed.',
+	'LIMIT_FORUMS_EXPLAIN'						=> 'Her forum kimliğini virgülle (,) ayırarak girin. Ayarlanırsa, yalnızca belirtilen forumlardaki konular görüntülenecektir.',
 	'LIMIT_POST_TIME'							=> 'Gönderi zamanına göre sınırla',
-	'LIMIT_POST_TIME_EXPLAIN'					=> 'If set, only topics posted within the specified period will be retrieved',
+	'LIMIT_POST_TIME_EXPLAIN'					=> 'Ayarlanırsa, yalnızca belirtilen süre içinde gönderilen konular alınacaktır',
 
 	'MAX_DEPTH'									=> 'En fazla derinlik',
 	'MAX_ITEMS'									=> 'En fazla öge sayısı',
@@ -126,7 +126,7 @@ $lang = array_merge($lang, array(
 	'MAX_WORDS'									=> 'En fazla sözcük sayısı',
 	'MANAGE_MENUS'								=> 'Menüleri Yönet',
 	'MAP_COORDINATES'							=> 'Koordinatlar',
-	'MAP_COORDINATES_EXPLAIN'					=> 'Enter coordinates in the form latitude,longitude',
+	'MAP_COORDINATES_EXPLAIN'					=> 'Enlem,boylam biçiminde koordinatları girin',
 	'MAP_HEIGHT'								=> 'Yükseklik',
 	'MAP_LOCATION'								=> 'Konum',
 	'MAP_TITLE'									=> 'Başlık',
@@ -180,7 +180,7 @@ $lang = array_merge($lang, array(
 	'TOPIC_TITLE_LIMIT'							=> 'Maximum # of characters for topic title',
 	'TOPIC_TYPE'								=> 'Konu Türü',
 	'TOPIC_TYPE_EXPLAIN'						=> 'Select the topic types you’d like to display. Leave the boxes unchecked to select from all topic types',
-	'TOPICS_LOOK_BACK'							=> 'Look back',
+	'TOPICS_LOOK_BACK'							=> 'Arkaya bak',
 	'TOPICS_ONLY'								=> 'Sadece Konular?',
 	'TOPICS_PER_PAGE'							=> 'Sayfa başına',
 
