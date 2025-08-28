@@ -42,7 +42,7 @@
 		"yamljs": "^0.3.0"
 	},
 	"dependencies": {
-		"codemirror": "^5.51.0",
+		"codemirror": "^6.0.0",
 		"core-js": "^3.0.1",
 		"gridlex": "^2.7.1",
 		"jquery-deserialize": "^2.0.0-rc1",
